@@ -20,6 +20,7 @@ export default function BrandingPage({
 }) {
   const [branding, setBranding] = useState<Branding | null>(null);
   const [name, setName] = useState("");
+  const [paymentLink, setPaymentLink] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [saved, setSaved] = useState(false);
@@ -30,8 +31,11 @@ export default function BrandingPage({
       .then((b) => {
         setBranding(b);
         setName(b.workspaceName ?? "");
+        setPaymentLink(b.paymentLink ?? "");
       })
-      .catch(() => setBranding({ workspaceName: null, logoDataUrl: null, paid: false }));
+      .catch(() =>
+        setBranding({ workspaceName: null, logoDataUrl: null, paymentLink: null, paid: false })
+      );
   }, [account]);
 
   if (!account) {
@@ -125,6 +129,28 @@ export default function BrandingPage({
     }
   }
 
+  async function savePaymentLink(e: React.FormEvent) {
+    e.preventDefault();
+    if (!isPaid) return;
+    setBusy(true);
+    setError(null);
+    setSaved(false);
+    try {
+      const next = await updateBranding({
+        paymentLink: paymentLink.trim(),
+        removePaymentLink: paymentLink.trim().length === 0,
+      });
+      setBranding(next);
+      setPaymentLink(next.paymentLink ?? "");
+      setSaved(true);
+      await refresh();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Save failed");
+    } finally {
+      setBusy(false);
+    }
+  }
+
   return (
     <div className="branding-page">
       <p className="crumb">
@@ -132,8 +158,8 @@ export default function BrandingPage({
       </p>
       <h1>Branding</h1>
       <p className="page-sub">
-        Replace the Chasa logo with your own in the app, and set a short workspace name shown next to
-        it.
+        Replace the Chasa logo with your own in the app, set a short workspace name, and optionally a
+        default payment link for chase drafts.
       </p>
 
       {!isPaid && (
@@ -211,6 +237,28 @@ export default function BrandingPage({
           )}
         </form>
         {saved && <p className="branding-saved">Saved.</p>}
+      </section>
+
+      <section className="branding-card">
+        <h2>Default payment link</h2>
+        <p className="branding-help">
+          Stripe Payment Link, PayPal.me, Wise, or any pay URL. Included in AI chase drafts when set
+          (you can still override per session in the Tool).
+        </p>
+        <form className="branding-name-row" onSubmit={savePaymentLink}>
+          <input
+            type="url"
+            value={paymentLink}
+            onChange={(e) => setPaymentLink(e.target.value)}
+            placeholder="https://buy.stripe.com/…"
+            disabled={!isPaid || busy}
+          />
+          {isPaid && (
+            <button type="submit" className="btn-primary" disabled={busy}>
+              {busy ? "Saving…" : "Save"}
+            </button>
+          )}
+        </form>
       </section>
 
       {error && <div className="error-msg">{error}</div>}

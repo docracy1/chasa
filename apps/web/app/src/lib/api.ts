@@ -8,11 +8,13 @@ export interface Account {
   plan: "free" | "solo" | "pro" | "enterprise";
   workspaceName?: string | null;
   logoDataUrl?: string | null;
+  paymentLink?: string | null;
 }
 
 export type Branding = {
   workspaceName: string | null;
   logoDataUrl: string | null;
+  paymentLink: string | null;
   paid: boolean;
 };
 
@@ -23,8 +25,10 @@ export function getBranding() {
 export function updateBranding(input: {
   workspaceName?: string;
   logoDataUrl?: string;
+  paymentLink?: string;
   removeLogo?: boolean;
   removeName?: boolean;
+  removePaymentLink?: boolean;
 }) {
   return jsonFetch<Branding>("/account/branding", {
     method: "PUT",
@@ -45,7 +49,18 @@ async function jsonFetch<T>(path: string, init?: RequestInit): Promise<T> {
   return data as T;
 }
 
-export function generateEmail(input: { client_name: string; invoice_amount: number; days_overdue: number }) {
+export function generateEmail(input: {
+  client_name: string;
+  invoice_amount: number;
+  days_overdue: number;
+  payment_link?: string;
+  invoices?: Array<{
+    client_name?: string;
+    invoice_amount: number;
+    days_overdue: number;
+    due_date?: string;
+  }>;
+}) {
   return jsonFetch<GeneratedEmail>("/generate-email", { method: "POST", body: JSON.stringify(input) });
 }
 
@@ -223,4 +238,90 @@ export function startCheckout(plan: "solo" | "pro" | "enterprise") {
 
 export function openBillingPortal() {
   return jsonFetch<{ url: string }>("/billing/portal", { method: "POST" });
+}
+
+export type ClientRecord = {
+  id: string;
+  name: string;
+  email: string | null;
+  notes: string | null;
+  lastContactNote: string | null;
+  lastContactAt: string | null;
+  createdAt: string;
+  updatedAt: string;
+  outstandingCount: number;
+  outstandingTotal: number;
+};
+
+export type AgingInvoiceRecord = {
+  id: string;
+  clientId: string | null;
+  clientName: string;
+  amount: number;
+  dueDate: string;
+  lastChaseStatus: string | null;
+  lastChaseAt: string | null;
+  createdAt?: string;
+  updatedAt?: string;
+};
+
+export function listClients() {
+  return jsonFetch<{ clients: ClientRecord[] }>("/clients");
+}
+
+export function getClient(id: string) {
+  return jsonFetch<{ client: ClientRecord; invoices: AgingInvoiceRecord[] }>(`/clients/${id}`);
+}
+
+export function createClient(input: { name: string; email?: string; notes?: string }) {
+  return jsonFetch<ClientRecord>("/clients", { method: "POST", body: JSON.stringify(input) });
+}
+
+export function updateClient(
+  id: string,
+  input: {
+    name?: string;
+    email?: string;
+    notes?: string;
+    lastContactNote?: string;
+    clearLastContact?: boolean;
+  }
+) {
+  return jsonFetch<ClientRecord>(`/clients/${id}`, { method: "PUT", body: JSON.stringify(input) });
+}
+
+export function deleteClient(id: string) {
+  return jsonFetch<{ ok: true }>(`/clients/${id}`, { method: "DELETE" });
+}
+
+export function listAging() {
+  return jsonFetch<{ invoices: AgingInvoiceRecord[] }>("/aging");
+}
+
+export function syncAging(
+  invoices: Array<{
+    id: string;
+    clientName: string;
+    amount: number;
+    dueDate: string;
+    lastChaseStatus?: string | null;
+    lastChaseAt?: string | null;
+  }>,
+  replace = false
+) {
+  return jsonFetch<{ invoices: AgingInvoiceRecord[]; synced: number }>("/aging/sync", {
+    method: "PUT",
+    body: JSON.stringify({ invoices, replace }),
+  });
+}
+
+export function markAgingChase(id: string, status: string) {
+  return jsonFetch<{ ok: true; lastChaseStatus: string; lastChaseAt: string }>(
+    `/aging/${id}/chase`,
+    { method: "PATCH", body: JSON.stringify({ status }) }
+  );
+}
+
+export function deleteAgingInvoice(id: string) {
+  return jsonFetch<{ ok: true }>(`/aging/${id}`, { method: "DELETE" });
 }

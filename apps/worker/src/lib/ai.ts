@@ -36,29 +36,91 @@ export interface GeneratedEmail {
   body: string;
 }
 
+export type FollowUpInvoiceLine = {
+  clientName?: string;
+  amount: number;
+  daysOverdue: number;
+  dueDate?: string;
+};
+
+export type FollowUpEmailInput = {
+  clientName: string;
+  invoiceAmount: number;
+  daysOverdue: number;
+  /** When length > 1, draft lists every invoice (multi-invoice chase). */
+  invoices?: FollowUpInvoiceLine[];
+  /** Optional Stripe/PayPal/Wise/etc. URL to include in the body. */
+  paymentLink?: string;
+};
+
+function appendPaymentLink(draft: GeneratedEmail, paymentLink?: string): GeneratedEmail {
+  const link = paymentLink?.trim();
+  if (!link) return draft;
+  if (draft.body.includes(link)) return draft;
+  return {
+    ...draft,
+    body: `${draft.body.trim()}\n\nPay here: ${link}`,
+  };
+}
+
 export async function generateFollowUpEmail(
   env: Env,
-  input: { clientName: string; invoiceAmount: number; daysOverdue: number }
+  input: FollowUpEmailInput
 ): Promise<GeneratedEmail> {
-  const band = getToneBand(input.daysOverdue);
+  const lines =
+    input.invoices && input.invoices.length > 0
+      ? input.invoices
+      : [{ amount: input.invoiceAmount, daysOverdue: input.daysOverdue }];
+
+  const maxDays = Math.max(...lines.map((l) => l.daysOverdue), input.daysOverdue);
+  const band = getToneBand(maxDays);
+  const multi = lines.length > 1;
+  const paymentLink = input.paymentLink?.trim();
+
+  const invoiceBlock = lines
+    .map((l, i) => {
+      const who = l.clientName?.trim() || input.clientName;
+      const due = l.dueDate ? `, due ${l.dueDate}` : "";
+      return `- invoice ${i + 1}: client=${who}, amount=$${l.amount.toFixed(2)}, days_overdue=${l.daysOverdue}${due}`;
+    })
+    .join("\n");
+
+  const multiHint = multi
+    ? `This is a MULTI-INVOICE chase. Address the primary client name, list every invoice with amount and due/overdue context in the body, and ask for payment on all open items (or a payment plan covering the total).`
+    : "";
+
+  const payHint = paymentLink
+    ? `Include this payment link once near the end of the body (do not invent other URLs): ${paymentLink}`
+    : "Do not invent a payment link.";
+
   const userMessage = `${BAND_INSTRUCTIONS[band]}
+${multiHint}
 
 client_name: ${input.clientName}
-invoice_amount: $${input.invoiceAmount.toFixed(2)}
-days_overdue: ${input.daysOverdue}
-tone_band: ${band}`;
+invoice_count: ${lines.length}
+total_amount: $${lines.reduce((s, l) => s + l.amount, 0).toFixed(2)}
+max_days_overdue: ${maxDays}
+tone_band: ${band}
+invoices:
+${invoiceBlock}
+${payHint}`;
 
   const result = await env.AI.run((env.WORKERS_AI_MODEL || DEFAULT_MODEL) as keyof AiModels, {
     temperature: 0.4,
-    max_tokens: 400,
+    max_tokens: multi ? 550 : 400,
     messages: [
-      { role: "system", content: SYSTEM_PROMPT },
+      {
+        role: "system",
+        content: multi
+          ? SYSTEM_PROMPT.replace("Keep the body under 100 words.", "Keep the body under 160 words.")
+          : SYSTEM_PROMPT,
+      },
       { role: "user", content: userMessage },
     ],
   });
 
   const text = (result as { response?: string }).response ?? "";
-  return parseEmail(text);
+  return appendPaymentLink(parseEmail(text), paymentLink);
 }
 
 export type RewriteAction = "softer" | "firmer" | "shorter";

@@ -10,8 +10,10 @@ import {
   importCloudConnectorFile,
   listCloudConnectorFiles,
   listCloudConnectors,
+  markAgingChase,
   notifyWebhook,
   rewriteEmail,
+  syncAging,
   type Account,
   type ChaseSequence,
   type CloudFile,
@@ -33,7 +35,10 @@ const CLOUD_LABELS: Record<CloudProvider, string> = {
   box: "Box",
 };
 
-type AiBusy = RewriteAction | "thankyou" | "reply" | "sequence" | null;
+const TOOL_STORAGE_KEY = "chasa.tool.invoices";
+const PAYMENT_LINK_STORAGE_KEY = "chasa.tool.paymentLink";
+
+type AiBusy = RewriteAction | "thankyou" | "reply" | "sequence" | "multi" | null;
 
 interface Invoice {
   id: string;
@@ -45,7 +50,53 @@ interface Invoice {
   rewriting: AiBusy;
   clientReply?: string;
   sequence?: ChaseSequence | null;
+  lastChaseStatus?: string | null;
+  lastChaseAt?: string | null;
   error?: string;
+}
+
+type StoredInvoice = {
+  id: string;
+  clientName: string;
+  amount: number;
+  dueDate: string;
+  lastChaseStatus?: string | null;
+  lastChaseAt?: string | null;
+};
+
+function loadStoredInvoices(): Invoice[] {
+  try {
+    const raw = localStorage.getItem(TOOL_STORAGE_KEY);
+    if (!raw) return [];
+    const parsed = JSON.parse(raw) as StoredInvoice[];
+    if (!Array.isArray(parsed)) return [];
+    return parsed
+      .filter((r) => r?.clientName && Number.isFinite(r.amount) && r.dueDate)
+      .map((r) => ({
+        id: r.id || crypto.randomUUID(),
+        clientName: r.clientName,
+        amount: r.amount,
+        dueDate: r.dueDate,
+        lastChaseStatus: r.lastChaseStatus ?? null,
+        lastChaseAt: r.lastChaseAt ?? null,
+        generating: false,
+        rewriting: null,
+      }));
+  } catch {
+    return [];
+  }
+}
+
+function persistInvoices(invoices: Invoice[]) {
+  const slim: StoredInvoice[] = invoices.map((inv) => ({
+    id: inv.id,
+    clientName: inv.clientName,
+    amount: inv.amount,
+    dueDate: inv.dueDate,
+    lastChaseStatus: inv.lastChaseStatus ?? null,
+    lastChaseAt: inv.lastChaseAt ?? null,
+  }));
+  localStorage.setItem(TOOL_STORAGE_KEY, JSON.stringify(slim));
 }
 
 function daysOverdue(dueDate: string): number {
@@ -217,10 +268,21 @@ function chaseTip(days: number): string {
 }
 
 export default function Tool({ account }: { account: Account | null }) {
-  const [invoices, setInvoices] = useState<Invoice[]>([]);
+  const [invoices, setInvoices] = useState<Invoice[]>(() => loadStoredInvoices());
   const [clientName, setClientName] = useState("");
   const [amount, setAmount] = useState("");
   const [dueDate, setDueDate] = useState("");
+  const [paymentLink, setPaymentLink] = useState(() => {
+    try {
+      return localStorage.getItem(PAYMENT_LINK_STORAGE_KEY) || account?.paymentLink || "";
+    } catch {
+      return account?.paymentLink || "";
+    }
+  });
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
+  const [multiDraft, setMultiDraft] = useState<{ subject: string; body: string } | null>(null);
+  const [multiBusy, setMultiBusy] = useState(false);
+  const [multiError, setMultiError] = useState<string | null>(null);
   const [usedCount, setUsedCount] = useState(getUsedCount());
   const [pendingImport, setPendingImport] = useState<PendingCloudImport | null>(null);
   const [importClient, setImportClient] = useState("");
@@ -234,6 +296,51 @@ export default function Tool({ account }: { account: Account | null }) {
   const [pdfError, setPdfError] = useState<string | null>(null);
   const isPaid = account?.plan !== "free" && account?.plan != null;
   const isPro = account?.plan === "pro" || account?.plan === "enterprise";
+
+  useEffect(() => {
+    persistInvoices(invoices);
+  }, [invoices]);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem(PAYMENT_LINK_STORAGE_KEY, paymentLink);
+    } catch {
+      /* ignore */
+    }
+  }, [paymentLink]);
+
+  useEffect(() => {
+    if (account?.paymentLink && !paymentLink) {
+      setPaymentLink(account.paymentLink);
+    }
+  }, [account?.paymentLink]);
+
+  // Solo+: sync aging snapshot to D1 (also creates clients by name)
+  const agingSnapshot = invoices
+    .map(
+      (inv) =>
+        `${inv.id}|${inv.clientName}|${inv.amount}|${inv.dueDate}|${inv.lastChaseStatus ?? ""}|${inv.lastChaseAt ?? ""}`
+    )
+    .join(";");
+
+  useEffect(() => {
+    if (!isPaid || invoices.length === 0) return;
+    const timer = window.setTimeout(() => {
+      void syncAging(
+        invoices.map((inv) => ({
+          id: inv.id,
+          clientName: inv.clientName,
+          amount: inv.amount,
+          dueDate: inv.dueDate,
+          lastChaseStatus: inv.lastChaseStatus ?? null,
+          lastChaseAt: inv.lastChaseAt ?? null,
+        })),
+        true
+      ).catch(() => {});
+    }, 800);
+    return () => window.clearTimeout(timer);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- sync only when aging fields change
+  }, [isPaid, agingSnapshot]);
 
   useEffect(() => {
     try {
@@ -441,13 +548,33 @@ export default function Tool({ account }: { account: Account | null }) {
         client_name: invoice.clientName,
         invoice_amount: invoice.amount,
         days_overdue: daysOverdue(invoice.dueDate),
+        payment_link: paymentLink.trim() || undefined,
+        invoices: [
+          {
+            client_name: invoice.clientName,
+            invoice_amount: invoice.amount,
+            days_overdue: daysOverdue(invoice.dueDate),
+            due_date: invoice.dueDate,
+          },
+        ],
       });
       if (!isPaid) setUsedCount(incrementUsedCount());
+      const now = new Date().toISOString();
       setInvoices((prev) =>
         prev.map((inv) =>
-          inv.id === invoiceId ? { ...inv, draft, generating: false } : inv
+          inv.id === invoiceId
+            ? {
+                ...inv,
+                draft,
+                generating: false,
+                lastChaseStatus: "drafted",
+                lastChaseAt: now,
+              }
+            : inv
         )
       );
+      if (isPaid) void markAgingChase(invoiceId, "drafted").catch(() => {});
+      track("chase_drafted", { source: "single" });
     } catch (err) {
       track("send_failed", { source: "generate" });
       setInvoices((prev) =>
@@ -462,6 +589,80 @@ export default function Tool({ account }: { account: Account | null }) {
         )
       );
     }
+  }
+
+  function toggleSelect(id: string) {
+    setSelectedIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  }
+
+  function selectAllOverdue() {
+    setSelectedIds(new Set(invoices.map((inv) => inv.id)));
+  }
+
+  function clearSelection() {
+    setSelectedIds(new Set());
+    setMultiDraft(null);
+    setMultiError(null);
+  }
+
+  async function handleMultiDraft() {
+    const selected = invoices.filter((inv) => selectedIds.has(inv.id));
+    if (selected.length < 2) {
+      setMultiError("Select at least two invoices.");
+      return;
+    }
+    if (!isPaid && isAtLimit()) return;
+
+    setMultiBusy(true);
+    setMultiError(null);
+    try {
+      const names = [...new Set(selected.map((s) => s.clientName))];
+      const clientLabel =
+        names.length === 1 ? names[0] : names.length <= 3 ? names.join(" / ") : "your team";
+      const draft = await generateEmail({
+        client_name: clientLabel,
+        invoice_amount: selected.reduce((s, i) => s + i.amount, 0),
+        days_overdue: Math.max(...selected.map((i) => daysOverdue(i.dueDate))),
+        payment_link: paymentLink.trim() || undefined,
+        invoices: selected.map((i) => ({
+          client_name: i.clientName,
+          invoice_amount: i.amount,
+          days_overdue: daysOverdue(i.dueDate),
+          due_date: i.dueDate,
+        })),
+      });
+      if (!isPaid) setUsedCount(incrementUsedCount());
+      const now = new Date().toISOString();
+      setMultiDraft(draft);
+      setInvoices((prev) =>
+        prev.map((inv) =>
+          selectedIds.has(inv.id)
+            ? { ...inv, lastChaseStatus: "multi-drafted", lastChaseAt: now }
+            : inv
+        )
+      );
+      if (isPaid) {
+        for (const id of selectedIds) {
+          void markAgingChase(id, "multi-drafted").catch(() => {});
+        }
+      }
+      track("chase_drafted", { source: "multi", count: selected.length });
+    } catch (err) {
+      track("send_failed", { source: "multi" });
+      setMultiError(err instanceof Error ? err.message : "Something went wrong.");
+    } finally {
+      setMultiBusy(false);
+    }
+  }
+
+  function scrollToInvoice(id: string) {
+    const el = document.getElementById(`invoice-${id}`);
+    el?.scrollIntoView({ behavior: "smooth", block: "start" });
   }
 
   async function handleRewrite(invoiceId: string, action: RewriteAction) {
@@ -640,7 +841,16 @@ export default function Tool({ account }: { account: Account | null }) {
     if (!invoice.draft) return;
     navigator.clipboard.writeText(`Subject: ${invoice.draft.subject}\n\n${invoice.draft.body}`);
     track("chase_sent", { method: "copy" });
+    const now = new Date().toISOString();
+    setInvoices((prev) =>
+      prev.map((inv) =>
+        inv.id === invoice.id
+          ? { ...inv, lastChaseStatus: "copied", lastChaseAt: now }
+          : inv
+      )
+    );
     if (isPaid) {
+      void markAgingChase(invoice.id, "copied").catch(() => {});
       void notifyWebhook("chase.sent", {
         method: "copy",
         client_name: invoice.clientName,
@@ -658,6 +868,17 @@ export default function Tool({ account }: { account: Account | null }) {
 
   function handleMailtoClick(invoice?: Invoice) {
     track("chase_sent", { method: "mailto" });
+    if (invoice) {
+      const now = new Date().toISOString();
+      setInvoices((prev) =>
+        prev.map((inv) =>
+          inv.id === invoice.id
+            ? { ...inv, lastChaseStatus: "mailto", lastChaseAt: now }
+            : inv
+        )
+      );
+      if (isPaid) void markAgingChase(invoice.id, "mailto").catch(() => {});
+    }
     if (isPaid && invoice) {
       void notifyWebhook("chase.sent", {
         method: "mailto",
@@ -691,6 +912,14 @@ export default function Tool({ account }: { account: Account | null }) {
   }
 
   const atLimit = !isPaid && isAtLimit();
+  const selectedCount = selectedIds.size;
+
+  function sequenceSendDate(daysFromNow: number): string {
+    const d = new Date();
+    d.setHours(0, 0, 0, 0);
+    d.setDate(d.getDate() + daysFromNow);
+    return d.toLocaleDateString(undefined, { weekday: "short", month: "short", day: "numeric" });
+  }
 
   return (
     <div>
@@ -698,7 +927,13 @@ export default function Tool({ account }: { account: Account | null }) {
       <p className="page-sub">
         Add them manually, upload a CSV (QuickBooks, FreshBooks, Xero, Wave, Zoho, sevDesk, or Chasa
         format), or import a PDF from Dropbox / OneDrive / Box (Solo+). Chasa writes the follow-up
-        email for each one.
+        email for each one — draft only, never auto-sent.{" "}
+        {isPaid ? (
+          <Link to="/clients">Manage clients</Link>
+        ) : (
+          <Link to="/account">Clients on Solo+</Link>
+        )}
+        .
       </p>
 
       {!isPaid && (
@@ -712,6 +947,140 @@ export default function Tool({ account }: { account: Account | null }) {
           You've used your 5 free drafts this month.{" "}
           <a href="/app/account">Upgrade to Chasa Paid</a> for unlimited invoices.
         </div>
+      )}
+
+      {invoices.length > 0 && (
+        <section className="panel aging-panel">
+          <div className="aging-head">
+            <div>
+              <h2 className="aging-title">Aging overview</h2>
+              <p className="branding-help">
+                Client · amount · days overdue · last chase. Rows stay in this browser
+                {isPaid ? " and sync to your Solo+ workspace" : " (re-upload CSV anytime)"}.
+              </p>
+            </div>
+            <div className="aging-actions">
+              <button type="button" className="btn-secondary" onClick={selectAllOverdue}>
+                Select all
+              </button>
+              {selectedCount > 0 && (
+                <button type="button" className="btn-secondary" onClick={clearSelection}>
+                  Clear ({selectedCount})
+                </button>
+              )}
+              <button
+                type="button"
+                className="btn-primary"
+                disabled={selectedCount < 2 || multiBusy || atLimit}
+                onClick={() => void handleMultiDraft()}
+              >
+                {multiBusy ? "Writing…" : "Draft one email"}
+              </button>
+            </div>
+          </div>
+          <div className="aging-table-wrap">
+            <table className="aging-table">
+              <thead>
+                <tr>
+                  <th className="aging-check" />
+                  <th>Client</th>
+                  <th>Amount</th>
+                  <th>Days overdue</th>
+                  <th>Last chase</th>
+                  <th />
+                </tr>
+              </thead>
+              <tbody>
+                {invoices.map((inv) => {
+                  const days = daysOverdue(inv.dueDate);
+                  return (
+                    <tr key={inv.id} className={`aging-row ${toneClass(days)}`}>
+                      <td className="aging-check">
+                        <input
+                          type="checkbox"
+                          checked={selectedIds.has(inv.id)}
+                          onChange={() => toggleSelect(inv.id)}
+                          aria-label={`Select ${inv.clientName}`}
+                        />
+                      </td>
+                      <td>{inv.clientName}</td>
+                      <td>${inv.amount.toFixed(2)}</td>
+                      <td>
+                        <span className={`days-badge ${toneClass(days)}`}>
+                          {days}d · {toneLabel(days)}
+                        </span>
+                      </td>
+                      <td className="aging-status">
+                        {inv.lastChaseStatus ? (
+                          <>
+                            {inv.lastChaseStatus}
+                            {inv.lastChaseAt && (
+                              <span className="aging-status-time">
+                                {new Date(inv.lastChaseAt).toLocaleDateString()}
+                              </span>
+                            )}
+                          </>
+                        ) : (
+                          "—"
+                        )}
+                      </td>
+                      <td>
+                        <button
+                          type="button"
+                          className="btn-secondary"
+                          onClick={() => {
+                            scrollToInvoice(inv.id);
+                            if (!inv.draft && !atLimit) void handleGenerate(inv.id);
+                          }}
+                        >
+                          {inv.draft ? "View draft" : "Generate chase"}
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+          {multiError && <div className="error-msg">{multiError}</div>}
+          {multiDraft && (
+            <div className="multi-draft-box">
+              <div className="ai-tools-label">Multi-invoice draft ({selectedCount} invoices)</div>
+              <input
+                type="text"
+                className="draft-subject"
+                value={multiDraft.subject}
+                onChange={(e) => setMultiDraft({ ...multiDraft, subject: e.target.value })}
+              />
+              <textarea
+                rows={8}
+                value={multiDraft.body}
+                onChange={(e) => setMultiDraft({ ...multiDraft, body: e.target.value })}
+              />
+              <div className="draft-actions">
+                <button
+                  type="button"
+                  className="btn-secondary"
+                  onClick={() => {
+                    navigator.clipboard.writeText(
+                      `Subject: ${multiDraft.subject}\n\n${multiDraft.body}`
+                    );
+                    track("chase_sent", { method: "copy", source: "multi" });
+                  }}
+                >
+                  Copy
+                </button>
+                <a
+                  className="btn-secondary"
+                  href={`mailto:?subject=${encodeURIComponent(multiDraft.subject)}&body=${encodeURIComponent(multiDraft.body)}`}
+                  onClick={() => track("chase_sent", { method: "mailto", source: "multi" })}
+                >
+                  Open in email client
+                </a>
+              </div>
+            </div>
+          )}
+        </section>
       )}
 
       {pendingImport && (
@@ -789,6 +1158,25 @@ export default function Tool({ account }: { account: Account | null }) {
             </button>
           </div>
         </form>
+        <div className="payment-link-row">
+          <label htmlFor="payment-link">
+            Payment link <span className="optional-tag">(optional)</span>
+          </label>
+          <input
+            id="payment-link"
+            type="url"
+            placeholder="https://buy.stripe.com/… or PayPal.me / Wise"
+            value={paymentLink}
+            onChange={(e) => setPaymentLink(e.target.value)}
+          />
+          {isPaid ? (
+            <Link className="branding-help" to="/branding">
+              Set account default
+            </Link>
+          ) : (
+            <span className="branding-help">Saved in this browser · Solo+ for account default</span>
+          )}
+        </div>
         <label className="btn-secondary" style={{ cursor: "pointer" }}>
           Upload CSV
           <input type="file" accept=".csv" onChange={handleCsvUpload} style={{ display: "none" }} />
@@ -810,6 +1198,23 @@ export default function Tool({ account }: { account: Account | null }) {
         {isPaid && invoices.some((inv) => inv.draft) && (
           <button className="btn-secondary" style={{ marginLeft: 8 }} onClick={downloadCsv}>
             Download all as CSV
+          </button>
+        )}
+        {invoices.length > 0 && (
+          <button
+            type="button"
+            className="btn-secondary"
+            style={{ marginLeft: 8 }}
+            onClick={() => {
+              if (confirm("Clear all invoices from this session?")) {
+                setInvoices([]);
+                setSelectedIds(new Set());
+                setMultiDraft(null);
+                track("aging_cleared");
+              }
+            }}
+          >
+            Clear list
           </button>
         )}
       </div>
@@ -880,12 +1285,20 @@ export default function Tool({ account }: { account: Account | null }) {
         const tone = toneClass(days);
         const busy = invoice.generating || invoice.rewriting !== null;
         return (
-          <div key={invoice.id} className={`invoice-card ${tone}`}>
+          <div key={invoice.id} id={`invoice-${invoice.id}`} className={`invoice-card ${tone}`}>
             <div className="invoice-top">
-              <div>
-                <div className="invoice-client">{invoice.clientName}</div>
+              <div className="invoice-top-left">
+                <label className="invoice-select">
+                  <input
+                    type="checkbox"
+                    checked={selectedIds.has(invoice.id)}
+                    onChange={() => toggleSelect(invoice.id)}
+                  />
+                  <span className="invoice-client">{invoice.clientName}</span>
+                </label>
                 <div className="invoice-meta">
                   ${invoice.amount.toFixed(2)} · due {invoice.dueDate}
+                  {invoice.lastChaseStatus ? ` · last chase: ${invoice.lastChaseStatus}` : ""}
                 </div>
               </div>
               <span className="days-badge">
@@ -1077,7 +1490,7 @@ export default function Tool({ account }: { account: Account | null }) {
 
                 {invoice.sequence && (
                   <div className="sequence-box">
-                    <div className="ai-tools-label">Chase plan</div>
+                    <div className="ai-tools-label">Chase plan calendar</div>
                     <p className="chase-tip">{invoice.sequence.tip}</p>
                     <div className="sequence-steps">
                       {invoice.sequence.steps.map((step, idx) => (
@@ -1089,9 +1502,16 @@ export default function Tool({ account }: { account: Account | null }) {
                         >
                           <strong>
                             Step {step.step}
-                            {step.daysFromNow === 0 ? " · send now" : ` · in ${step.daysFromNow}d`}
+                            {step.daysFromNow === 0
+                              ? " · send today"
+                              : ` · ${sequenceSendDate(step.daysFromNow)}`}
                           </strong>
                           <span>{step.label}</span>
+                          <span className="sequence-step-date">
+                            {step.daysFromNow === 0
+                              ? "Today"
+                              : `In ${step.daysFromNow} day${step.daysFromNow === 1 ? "" : "s"}`}
+                          </span>
                         </button>
                       ))}
                     </div>

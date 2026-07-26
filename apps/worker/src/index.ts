@@ -12,6 +12,8 @@ import mcp from "./routes/mcp";
 import webhooks from "./routes/webhooks";
 import connector from "./routes/connector";
 import v1 from "./routes/v1";
+import clients from "./routes/clients";
+import aging from "./routes/aging";
 
 const app = new Hono<AuthEnv>();
 
@@ -32,6 +34,8 @@ app.use(
 
 app.route("/api/auth", auth);
 app.route("/api/account", account);
+app.route("/api/clients", clients);
+app.route("/api/aging", aging);
 app.route("/api/billing", billing);
 app.route("/api/analytics", analytics);
 app.route("/api/admin", admin);

@@ -20,7 +20,14 @@ export const ACTIVATION_FUNNEL = [
   "template_opened",
   "template_used",
   "fields_added",
+  "chase_drafted",
   "chase_sent",
+  "aging_cleared",
+  "client_created",
+  "client_updated",
+  "client_deleted",
+  "client_contact_note",
+  "client_chase_drafted",
 ] as const;
 
 /** 2. Completion — KPI: chase_completed (stub until paid/open tracking) */

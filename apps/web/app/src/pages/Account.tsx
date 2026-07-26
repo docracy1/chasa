@@ -78,6 +78,9 @@ export default function Account({
           <a className="btn-secondary" href="/app/branding">
             Branding
           </a>
+          <a className="btn-secondary" href="/app/clients">
+            Clients
+          </a>
           <a className="btn-secondary" href="/app/webhooks">
             Webhooks
           </a>
@@ -92,6 +95,9 @@ export default function Account({
           </button>
           <a className="btn-secondary" href="/app/branding">
             Branding
+          </a>
+          <a className="btn-secondary" href="/app/clients">
+            Clients
           </a>
           <a className="btn-secondary" href="/app/webhooks">
             Webhooks

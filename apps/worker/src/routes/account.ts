@@ -9,30 +9,40 @@ account.route("/connectors", cloudConnectors);
 account.get("/me", requireAccount, async (c) => {
   const acc = c.get("account")!;
   const row = await c.env.CHASA_DB.prepare(
-    `SELECT workspace_name, logo_data FROM accounts WHERE id = ?`
+    `SELECT workspace_name, logo_data, payment_link FROM accounts WHERE id = ?`
   )
     .bind(acc.id)
-    .first<{ workspace_name: string | null; logo_data: string | null }>();
+    .first<{
+      workspace_name: string | null;
+      logo_data: string | null;
+      payment_link: string | null;
+    }>();
 
   return c.json({
     email: acc.email,
     plan: acc.plan,
     workspaceName: row?.workspace_name ?? null,
     logoDataUrl: row?.logo_data ?? null,
+    paymentLink: row?.payment_link ?? null,
   });
 });
 
 account.get("/branding", requireAccount, async (c) => {
   const acc = c.get("account")!;
   const row = await c.env.CHASA_DB.prepare(
-    `SELECT workspace_name, logo_data FROM accounts WHERE id = ?`
+    `SELECT workspace_name, logo_data, payment_link FROM accounts WHERE id = ?`
   )
     .bind(acc.id)
-    .first<{ workspace_name: string | null; logo_data: string | null }>();
+    .first<{
+      workspace_name: string | null;
+      logo_data: string | null;
+      payment_link: string | null;
+    }>();
 
   return c.json({
     workspaceName: row?.workspace_name ?? null,
     logoDataUrl: row?.logo_data ?? null,
+    paymentLink: row?.payment_link ?? null,
     paid: acc.isPaid,
   });
 });
@@ -45,18 +55,25 @@ account.put("/branding", requirePaidAccount, async (c) => {
   const body = (await c.req.json().catch(() => ({}))) as {
     workspaceName?: unknown;
     logoDataUrl?: unknown;
+    paymentLink?: unknown;
     removeLogo?: unknown;
     removeName?: unknown;
+    removePaymentLink?: unknown;
   };
 
   const current = await c.env.CHASA_DB.prepare(
-    `SELECT workspace_name, logo_data FROM accounts WHERE id = ?`
+    `SELECT workspace_name, logo_data, payment_link FROM accounts WHERE id = ?`
   )
     .bind(acc.id)
-    .first<{ workspace_name: string | null; logo_data: string | null }>();
+    .first<{
+      workspace_name: string | null;
+      logo_data: string | null;
+      payment_link: string | null;
+    }>();
 
   let workspaceName = current?.workspace_name ?? null;
   let logoData = current?.logo_data ?? null;
+  let paymentLink = current?.payment_link ?? null;
 
   if (body.removeName === true) {
     workspaceName = null;
@@ -90,15 +107,32 @@ account.put("/branding", requirePaidAccount, async (c) => {
     logoData = dataUrl;
   }
 
+  if (body.removePaymentLink === true) {
+    paymentLink = null;
+  } else if (typeof body.paymentLink === "string") {
+    const link = body.paymentLink.trim();
+    if (link.length === 0) {
+      paymentLink = null;
+    } else if (!/^https?:\/\//i.test(link) || link.length > 500) {
+      return c.json(
+        { error: "Payment link must be an http(s) URL under 500 characters." },
+        400
+      );
+    } else {
+      paymentLink = link;
+    }
+  }
+
   await c.env.CHASA_DB.prepare(
-    `UPDATE accounts SET workspace_name = ?, logo_data = ? WHERE id = ?`
+    `UPDATE accounts SET workspace_name = ?, logo_data = ?, payment_link = ? WHERE id = ?`
   )
-    .bind(workspaceName, logoData, acc.id)
+    .bind(workspaceName, logoData, paymentLink, acc.id)
     .run();
 
   return c.json({
     workspaceName,
     logoDataUrl: logoData,
+    paymentLink,
     paid: true,
   });
 });

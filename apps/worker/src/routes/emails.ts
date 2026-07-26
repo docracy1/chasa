@@ -20,17 +20,76 @@ const emails = new Hono<AuthEnv>();
 // Public — no auth needed. The free tier's 5/month cap is enforced client-side (localStorage),
 // matching the product spec's v1 scope. Logged-in paid accounts just don't hit that cap client-side.
 emails.post("/generate-email", optionalAccount, async (c) => {
-  const body = await c.req.json<{ client_name?: string; invoice_amount?: number; days_overdue?: number }>();
-  const clientName = (body.client_name ?? "").trim();
-  const invoiceAmount = Number(body.invoice_amount);
-  const daysOverdue = Number(body.days_overdue);
+  const body = await c.req.json<{
+    client_name?: string;
+    invoice_amount?: number;
+    days_overdue?: number;
+    payment_link?: string;
+    invoices?: Array<{
+      client_name?: string;
+      invoice_amount?: number;
+      amount?: number;
+      days_overdue?: number;
+      due_date?: string;
+    }>;
+  }>();
+
+  const lineItems = Array.isArray(body.invoices)
+    ? body.invoices
+        .map((row) => {
+          const amount = Number(row.invoice_amount ?? row.amount);
+          const daysOverdue = Number(row.days_overdue);
+          if (!Number.isFinite(amount) || !Number.isFinite(daysOverdue)) return null;
+          return {
+            clientName: typeof row.client_name === "string" ? row.client_name.trim() : undefined,
+            amount,
+            daysOverdue: Math.max(0, daysOverdue),
+            dueDate: typeof row.due_date === "string" ? row.due_date.trim() : undefined,
+          };
+        })
+        .filter((x): x is NonNullable<typeof x> => x != null)
+    : [];
+
+  const clientName =
+    (body.client_name ?? "").trim() ||
+    (lineItems.length === 1 ? lineItems[0].clientName ?? "" : "") ||
+    (lineItems.length > 1 ? "your team" : "");
+
+  const invoiceAmount =
+    lineItems.length > 0
+      ? lineItems.reduce((s, l) => s + l.amount, 0)
+      : Number(body.invoice_amount);
+  const daysOverdue =
+    lineItems.length > 0
+      ? Math.max(...lineItems.map((l) => l.daysOverdue))
+      : Number(body.days_overdue);
+  const paymentLink =
+    typeof body.payment_link === "string" && body.payment_link.trim()
+      ? body.payment_link.trim().slice(0, 500)
+      : undefined;
 
   if (!clientName || !Number.isFinite(invoiceAmount) || !Number.isFinite(daysOverdue)) {
-    return c.json({ error: "client_name, invoice_amount, and days_overdue are required." }, 400);
+    return c.json(
+      {
+        error:
+          "client_name, invoice_amount, and days_overdue are required (or a non-empty invoices array).",
+      },
+      400
+    );
+  }
+
+  if (paymentLink && !/^https?:\/\//i.test(paymentLink)) {
+    return c.json({ error: "payment_link must be an http(s) URL." }, 400);
   }
 
   try {
-    const draft = await generateFollowUpEmail(c.env, { clientName, invoiceAmount, daysOverdue });
+    const draft = await generateFollowUpEmail(c.env, {
+      clientName,
+      invoiceAmount,
+      daysOverdue: Math.max(0, daysOverdue),
+      invoices: lineItems.length > 0 ? lineItems : undefined,
+      paymentLink,
+    });
     const acc = c.get("account");
     if (acc?.isPaid) {
       c.executionCtx.waitUntil(
@@ -38,6 +97,7 @@ emails.post("/generate-email", optionalAccount, async (c) => {
           client_name: clientName,
           invoice_amount: invoiceAmount,
           days_overdue: daysOverdue,
+          invoice_count: lineItems.length || 1,
           subject: draft.subject,
         }).catch(() => {})
       );

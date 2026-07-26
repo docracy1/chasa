@@ -7,6 +7,7 @@ import Admin from "./pages/Admin";
 import Branding from "./pages/Branding";
 import Webhooks from "./pages/Webhooks";
 import Connector from "./pages/Connector";
+import Clients from "./pages/Clients";
 import { useAccount } from "./lib/useAccount";
 import { track } from "./lib/analytics";
 
@@ -42,6 +43,7 @@ export default function App() {
             <span className={`plan-badge ${account.plan}`}>{account.plan}</span>
           )}
           {account && <Link to="/branding">Branding</Link>}
+          {account && <Link to="/clients">Clients</Link>}
           {account && <Link to="/webhooks">Webhooks</Link>}
           {account && <Link to="/connector">Connector</Link>}
           <Link to="/account">{account ? "Account" : "Sign in"}</Link>
@@ -54,6 +56,7 @@ export default function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/account" element={<Account account={account} refresh={refresh} />} />
         <Route path="/branding" element={<Branding account={account} refresh={refresh} />} />
+        <Route path="/clients" element={<Clients account={account} />} />
         <Route path="/webhooks" element={<Webhooks account={account} />} />
         <Route path="/connector" element={<Connector account={account} />} />
       </Routes>
