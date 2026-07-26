@@ -198,7 +198,19 @@ export default function ConnectorPage({ account }: { account: Account | null }) 
     setCopied(true);
   }
 
+  const statusLoaded = cloud.length > 0;
   const anyConfigured = cloud.some((c) => c.configured);
+  const placeholderCloud: CloudConnectorStatus[] = (
+    ["dropbox", "onedrive", "box"] as CloudProvider[]
+  ).map((provider) => ({
+    provider,
+    connected: false,
+    externalEmail: null,
+    externalUserId: null,
+    connectedAt: null,
+    // Unknown until GET /account/connectors returns — never pretend "not configured".
+    configured: true,
+  }));
 
   return (
     <div className="webhooks-page">
@@ -221,7 +233,7 @@ export default function ConnectorPage({ account }: { account: Account | null }) 
           </div>
         )}
 
-        {isPaid && !loading && !anyConfigured && (
+        {isPaid && !loading && statusLoaded && !anyConfigured && (
           <div className="upgrade-nudge">
             Cloud OAuth apps are not configured on this server yet. An operator must register
             redirect URIs and set secrets (see README —{" "}
@@ -237,17 +249,7 @@ export default function ConnectorPage({ account }: { account: Account | null }) 
           <p className="page-sub">Loading…</p>
         ) : (
           <ul className="cloud-connector-list">
-            {(cloud.length
-              ? cloud
-              : (["dropbox", "onedrive", "box"] as CloudProvider[]).map((provider) => ({
-                  provider,
-                  connected: false,
-                  externalEmail: null,
-                  externalUserId: null,
-                  connectedAt: null,
-                  configured: false,
-                }))
-            ).map((c) => (
+            {(statusLoaded ? cloud : placeholderCloud).map((c) => (
               <li key={c.provider} className="cloud-connector-row">
                 <div className="cloud-connector-meta">
                   <strong>{CLOUD_LABELS[c.provider]}</strong>
@@ -261,7 +263,7 @@ export default function ConnectorPage({ account }: { account: Account | null }) 
                     </span>
                   ) : (
                     <span className="connector-key-detail">
-                      {isPaid && !c.configured
+                      {isPaid && statusLoaded && !c.configured
                         ? "Not configured on this server yet"
                         : "Not connected"}
                     </span>
@@ -290,12 +292,12 @@ export default function ConnectorPage({ account }: { account: Account | null }) 
                       </button>
                     </>
                   )}
-                  {isPaid && !c.connected && c.configured && (
+                  {isPaid && !c.connected && statusLoaded && c.configured && (
                     <a className="btn-primary" href={cloudConnectorConnectUrl(c.provider)}>
                       Connect
                     </a>
                   )}
-                  {isPaid && !c.connected && !c.configured && (
+                  {isPaid && !c.connected && statusLoaded && !c.configured && (
                     <span className="btn-secondary cloud-connector-disabled" aria-disabled>
                       Connect
                     </span>

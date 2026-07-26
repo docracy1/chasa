@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
 import {
   adminBlogCreate,
   adminBlogDelete,
@@ -105,6 +104,104 @@ function DayChart({ rows }: { rows: { day: string; human: number; bot: number }[
 function initials(email: string): string {
   const local = email.split("@")[0] || "A";
   return local.slice(0, 2).toUpperCase();
+}
+
+function DashAccountMenu({
+  email,
+  onAdmin,
+  onLogout,
+}: {
+  email: string;
+  onAdmin: () => void;
+  onLogout: () => void;
+}) {
+  const [open, setOpen] = useState(false);
+  const rootRef = useRef<HTMLDivElement>(null);
+  const leaveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  function clearLeaveTimer() {
+    if (leaveTimer.current != null) {
+      clearTimeout(leaveTimer.current);
+      leaveTimer.current = null;
+    }
+  }
+
+  function openMenu() {
+    clearLeaveTimer();
+    setOpen(true);
+  }
+
+  function scheduleClose(delayMs = 160) {
+    clearLeaveTimer();
+    leaveTimer.current = setTimeout(() => setOpen(false), delayMs);
+  }
+
+  useEffect(() => {
+    function onPointerDown(e: PointerEvent) {
+      if (!rootRef.current?.contains(e.target as Node)) setOpen(false);
+    }
+    function onKeyDown(e: KeyboardEvent) {
+      if (e.key === "Escape") setOpen(false);
+    }
+    document.addEventListener("pointerdown", onPointerDown);
+    document.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.removeEventListener("pointerdown", onPointerDown);
+      document.removeEventListener("keydown", onKeyDown);
+      clearLeaveTimer();
+    };
+  }, []);
+
+  return (
+    <div
+      ref={rootRef}
+      className={`dash-account-menu${open ? " is-open" : ""}`}
+      onMouseEnter={openMenu}
+      onMouseLeave={() => scheduleClose()}
+      onFocusCapture={openMenu}
+      onBlurCapture={(e) => {
+        if (!e.currentTarget.contains(e.relatedTarget as Node)) scheduleClose(0);
+      }}
+    >
+      <div className="dash-account-popover" role="menu" hidden={!open}>
+        <a href="/app/account" role="menuitem">
+          Subscription
+        </a>
+        <a href="/app/connector" role="menuitem">
+          Connectors
+        </a>
+        <button type="button" role="menuitem" className="is-active-soft" onClick={onAdmin}>
+          Admin
+        </button>
+        <a href="mailto:founder@chasa.io" role="menuitem">
+          Support
+        </a>
+        <button type="button" role="menuitem" className="dash-logout" onClick={onLogout}>
+          ← Log out
+        </button>
+      </div>
+      <button
+        type="button"
+        className="dash-user-chip"
+        aria-haspopup="menu"
+        aria-expanded={open}
+        onClick={() => {
+          clearLeaveTimer();
+          const fineHover = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+          if (fineHover) {
+            setOpen(true);
+            return;
+          }
+          setOpen((v) => !v);
+        }}
+      >
+        <span className="dash-avatar" aria-hidden="true">
+          {initials(email)}
+        </span>
+        <span>{email}</span>
+      </button>
+    </div>
+  );
 }
 
 function fmtDate(iso: string): string {
@@ -308,6 +405,7 @@ export default function Admin() {
           <a href="/free-templates/">Free templates</a>
           <a href="/blog/">Blog</a>
           <a href="/app/">App</a>
+          <a href="/app/connector">Connectors</a>
           <button type="button" className="dash-topnav-strong" onClick={() => setNav("analytics")}>
             Admin
           </button>
@@ -319,9 +417,9 @@ export default function Admin() {
 
       <div className="dash-body">
         <aside className="dash-sidebar">
-          <Link to="/" className="dash-new-btn">
+          <a href="/app/" className="dash-new-btn">
             + New chase
-          </Link>
+          </a>
           <nav className="dash-side-nav">
             {(
               [
@@ -345,20 +443,16 @@ export default function Admin() {
                 {label}
               </button>
             ))}
+            <a href="/app/connector" className="dash-side-link">
+              Connectors
+            </a>
           </nav>
           <div className="dash-side-footer">
-            <a href="/app/account">Subscription</a>
-            <button type="button" className="is-active-soft" onClick={() => setNav("analytics")}>
-              Admin
-            </button>
-            <a href="mailto:founder@chasa.io">Support</a>
-            <button type="button" className="dash-logout" onClick={handleLogout}>
-              ← Log out
-            </button>
-            <div className="dash-user-chip">
-              <span className="dash-avatar">{initials(authedEmail)}</span>
-              <span>{authedEmail}</span>
-            </div>
+            <DashAccountMenu
+              email={authedEmail}
+              onAdmin={() => setNav("analytics")}
+              onLogout={handleLogout}
+            />
           </div>
         </aside>
 

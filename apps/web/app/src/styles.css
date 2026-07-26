@@ -665,8 +665,9 @@ textarea {
   gap: 2px;
 }
 .dash-side-nav button,
-.dash-side-footer a,
-.dash-side-footer button {
+.dash-side-nav a,
+.dash-account-popover a,
+.dash-account-popover button {
   display: block;
   width: 100%;
   text-align: left;
@@ -681,8 +682,9 @@ textarea {
   text-decoration: none;
 }
 .dash-side-nav button:hover,
-.dash-side-footer a:hover,
-.dash-side-footer button:hover {
+.dash-side-nav a:hover,
+.dash-account-popover a:hover,
+.dash-account-popover button:hover {
   background: var(--paper);
 }
 .dash-side-nav button.is-active {
@@ -694,11 +696,25 @@ textarea {
   margin-top: auto;
   padding-top: 16px;
   border-top: 1px solid var(--line);
-  display: flex;
+}
+.dash-account-menu {
+  position: relative;
+}
+.dash-account-popover {
+  display: none;
   flex-direction: column;
   gap: 2px;
+  margin-bottom: 8px;
+  padding: 6px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--white);
+  box-shadow: 0 10px 28px color-mix(in srgb, var(--ink) 10%, transparent);
 }
-.dash-side-footer .is-active-soft {
+.dash-account-menu.is-open .dash-account-popover {
+  display: flex;
+}
+.dash-account-popover .is-active-soft {
   background: var(--paper);
   font-weight: 600;
 }
@@ -707,13 +723,23 @@ textarea {
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-top: 12px;
+  width: 100%;
+  margin: 0;
   padding: 8px 10px;
   border: 1px solid var(--line);
   border-radius: 10px;
+  background: var(--white);
+  font: inherit;
   font-size: 12.5px;
   color: var(--ink-soft);
+  text-align: left;
+  cursor: pointer;
   overflow: hidden;
+}
+.dash-user-chip:hover,
+.dash-account-menu.is-open .dash-user-chip {
+  border-color: color-mix(in srgb, var(--ink) 22%, var(--line));
+  background: color-mix(in srgb, var(--paper) 55%, var(--white));
 }
 .dash-avatar {
   flex-shrink: 0;
