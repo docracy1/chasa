@@ -22,6 +22,13 @@ type StripeErrorBody = {
   };
 };
 
+type StripePrice = {
+  id?: string;
+  type?: "one_time" | "recurring";
+  active?: boolean;
+  error?: { message?: string };
+};
+
 function stripeClientMessage(status: number, body: StripeErrorBody, fallback: string): string {
   const msg = body.error?.message?.trim();
   const code = body.error?.code;
@@ -33,11 +40,31 @@ function stripeClientMessage(status: number, body: StripeErrorBody, fallback: st
       ? `Stripe price not found (${msg}). Check STRIPE_PRICE_* in wrangler.toml matches live mode.`
       : "Stripe price not found. Check STRIPE_PRICE_* IDs match your live Stripe account.";
   }
-  if (/one_time.*subscription|subscription.*one_time/i.test(msg ?? "")) {
-    return "That Stripe price is one-time, but checkout needs a recurring subscription price.";
+  if (/one_time.*subscription|subscription.*one_time|recurring price in `subscription`/i.test(msg ?? "")) {
+    return "That Stripe price is one-time, but checkout was started in subscription mode.";
   }
   if (msg) return `Stripe: ${msg}`;
   return fallback;
+}
+
+async function fetchStripePrice(
+  secretKey: string,
+  priceId: string
+): Promise<{ ok: true; price: StripePrice } | { ok: false; status: number; body: StripeErrorBody; raw: string }> {
+  const res = await fetch(`https://api.stripe.com/v1/prices/${priceId}`, {
+    headers: { Authorization: `Bearer ${secretKey}` },
+  });
+  const raw = await res.text();
+  let parsed: StripePrice & StripeErrorBody = {};
+  try {
+    parsed = JSON.parse(raw) as StripePrice & StripeErrorBody;
+  } catch {
+    /* ignore */
+  }
+  if (!res.ok) {
+    return { ok: false, status: res.status, body: parsed, raw };
+  }
+  return { ok: true, price: parsed };
 }
 
 billing.post("/checkout", requireAccount, async (c) => {
@@ -60,18 +87,41 @@ billing.post("/checkout", requireAccount, async (c) => {
     return c.json({ error: "PUBLIC_APP_URL is not configured on the Worker." }, 501);
   }
 
+  const priceLookup = await fetchStripePrice(c.env.STRIPE_SECRET_KEY, priceId);
+  if (!priceLookup.ok) {
+    console.error(`Stripe price lookup failed (${priceLookup.status}) price=${priceId}: ${priceLookup.raw}`);
+    return c.json(
+      {
+        error: stripeClientMessage(
+          priceLookup.status,
+          priceLookup.body,
+          "Could not load that Stripe price. Please try again."
+        ),
+        plan,
+        priceId,
+      },
+      502
+    );
+  }
+
+  // Solo/Pro are recurring subscriptions; Enterprise is a one-time price ($500) → payment mode.
+  const mode = priceLookup.price.type === "recurring" ? "subscription" : "payment";
+
   const account = c.get("account")!;
 
   const params = new URLSearchParams({
-    mode: "subscription",
+    mode,
     "line_items[0][price]": priceId,
     "line_items[0][quantity]": "1",
     success_url: `${c.env.PUBLIC_APP_URL}/app/account?checkout=success`,
     cancel_url: `${c.env.PUBLIC_APP_URL}/app/account?checkout=cancelled`,
     client_reference_id: account.id,
     "metadata[plan]": plan,
-    "subscription_data[metadata][plan]": plan,
   });
+
+  if (mode === "subscription") {
+    params.set("subscription_data[metadata][plan]", plan);
+  }
 
   // Prefer existing Stripe customer so upgrades don't fail when email already has a customer.
   const existingCustomerId = await getStripeCustomerId(c.env, account.id);
@@ -99,13 +149,14 @@ billing.post("/checkout", requireAccount, async (c) => {
       /* ignore */
     }
     console.error(
-      `Stripe checkout session creation failed (${res.status}) plan=${plan} price=${priceId} app=${c.env.PUBLIC_APP_URL}: ${raw}`
+      `Stripe checkout session creation failed (${res.status}) plan=${plan} price=${priceId} mode=${mode} app=${c.env.PUBLIC_APP_URL}: ${raw}`
     );
     return c.json(
       {
         error: stripeClientMessage(res.status, parsed, "Could not start checkout. Please try again."),
         plan,
         priceId,
+        mode,
       },
       502
     );
@@ -228,6 +279,7 @@ billing.get("/status", requireAccount, async (c) => {
       unitAmount: data.unit_amount ?? null,
       currency: data.currency ?? null,
       interval: data.recurring?.interval ?? null,
+      checkoutMode: data.type === "recurring" ? "subscription" : "payment",
       error: data.error?.message ?? null,
     };
   }
