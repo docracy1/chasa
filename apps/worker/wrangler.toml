@@ -37,7 +37,7 @@ STRIPE_PRICE_SOLO = "price_1TxMxKQu2Ibd9xnHtDozkRT5"
 STRIPE_PRICE_PRO = "price_1TxMyFQu2Ibd9xnHPDe4L9q4"
 STRIPE_PRICE_ENTERPRISE = "price_1TxMzNQu2Ibd9xnHUnRjRDQv"
 # Cloudflare Turnstile site key (public). Create a widget in the CF dashboard, then paste here.
-# TURNSTILE_SITE_KEY = "0x4AAAAAAA..."
+TURNSTILE_SITE_KEY = "0x4AAAAAAD-e9VZ4OPi8EPWM"
 # Local/dev without a real widget: use Cloudflare's always-pass test site key:
 #   TURNSTILE_SITE_KEY = "1x00000000000000000000AA"
 #   and in .dev.vars: TURNSTILE_SECRET_KEY=1x0000000000000000000000000000000AA
