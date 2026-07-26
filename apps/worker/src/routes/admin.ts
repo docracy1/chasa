@@ -12,13 +12,21 @@ import {
 } from "../lib/adminAuth";
 import { getFunnelStats, getTrafficStats } from "../lib/analytics";
 import { createPost, deletePost, listPosts, updatePost } from "../lib/blog";
+import { clientIp, verifyTurnstile } from "../lib/turnstile";
 
 const admin = new Hono<AdminEnv>();
 
 admin.post("/login", async (c) => {
-  const body = (await c.req.json().catch(() => ({}))) as { email?: unknown; password?: unknown };
+  const body = (await c.req.json().catch(() => ({}))) as {
+    email?: unknown;
+    password?: unknown;
+    turnstileToken?: unknown;
+  };
   const email = typeof body.email === "string" ? body.email : "";
   const password = typeof body.password === "string" ? body.password : "";
+  const turnstileToken = typeof body.turnstileToken === "string" ? body.turnstileToken : undefined;
+  const check = await verifyTurnstile(c.env, turnstileToken, clientIp(c));
+  if (!check.ok) return c.json({ error: check.error }, 400);
   const result = await loginAdmin(c.env, email, password);
   if (!result.ok) return c.json({ error: result.error }, 401);
   setAdminCookie(c, c.env, result.token);

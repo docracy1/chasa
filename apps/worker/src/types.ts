@@ -7,6 +7,8 @@ export interface Env {
   RESEND_API_KEY?: string;
   STRIPE_SECRET_KEY?: string;
   STRIPE_WEBHOOK_SECRET?: string;
+  /** Cloudflare Turnstile secret — required in production when bot protection is enabled */
+  TURNSTILE_SECRET_KEY?: string;
   // Cloud storage OAuth (Dropbox / OneDrive / Box) — see routes/cloudConnectors.ts
   DROPBOX_CLIENT_ID?: string;
   DROPBOX_CLIENT_SECRET?: string;
@@ -19,6 +21,8 @@ export interface Env {
   WORKERS_AI_MODEL?: string;
   PUBLIC_APP_URL: string;
   PUBLIC_WORKER_URL: string;
+  /** Cloudflare Turnstile site key (public) — exposed to the login UI via /api/auth/config */
+  TURNSTILE_SITE_KEY?: string;
   /** @deprecated Use STRIPE_PRICE_SOLO / PRO / ENTERPRISE */
   STRIPE_PRICE_ID?: string;
   STRIPE_PRICE_SOLO?: string;

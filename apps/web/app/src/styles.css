@@ -101,6 +101,11 @@ h1 {
   margin-bottom: 20px;
 }
 
+.turnstile-wrap {
+  margin: 12px 0 4px;
+  min-height: 0;
+}
+
 .field-row {
   display: grid;
   grid-template-columns: 1.4fr 1fr 1fr auto;

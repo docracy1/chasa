@@ -62,15 +62,28 @@ async function findOrCreateAccount(
   return { id, plan: "free", isPaid: false, isNew: true };
 }
 
+/** Soft cooldown between magic-link emails for the same address (Turnstile is the main bot gate). */
+const MAGIC_LINK_COOLDOWN_SECONDS = 60;
+
 export async function requestMagicLink(env: Env, email: string): Promise<{ ok: true } | { ok: false; error: string }> {
   const normalized = email.trim().toLowerCase();
   if (!normalized || !normalized.includes("@")) {
     return { ok: false, error: "Enter a valid email address." };
   }
 
+  const now = new Date();
+  const cooldownSince = new Date(now.getTime() - MAGIC_LINK_COOLDOWN_SECONDS * 1000).toISOString();
+  const recent = await env.CHASA_DB.prepare(
+    `SELECT 1 as hit FROM magic_links WHERE email = ? AND created_at > ? LIMIT 1`
+  )
+    .bind(normalized, cooldownSince)
+    .first<{ hit: number }>();
+  if (recent) {
+    return { ok: false, error: "Please wait a minute before requesting another link." };
+  }
+
   const token = generateOpaqueToken();
   const tokenHash = await hashOpaqueToken(token, env.TOKEN_SECRET);
-  const now = new Date();
   const expiresAt = new Date(now.getTime() + MAGIC_LINK_TTL_SECONDS * 1000);
 
   await env.CHASA_DB.prepare(

@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import { requestMagicLink } from "../lib/api";
 import { track } from "../lib/analytics";
+import TurnstileWidget, { resetTurnstile } from "../components/TurnstileWidget";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [sent, setSent] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
 
   useEffect(() => {
     track("signup_started");
@@ -17,10 +19,12 @@ export default function Login() {
     setSubmitting(true);
     setError(null);
     try {
-      await requestMagicLink(email);
+      await requestMagicLink(email, turnstileToken);
       setSent(true);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong.");
+      setTurnstileToken(null);
+      resetTurnstile();
     } finally {
       setSubmitting(false);
     }
@@ -54,6 +58,7 @@ export default function Login() {
             {submitting ? "Sending…" : "Send link"}
           </button>
         </div>
+        <TurnstileWidget onToken={setTurnstileToken} />
       </form>
       {error && <div className="error-msg">{error}</div>}
     </div>

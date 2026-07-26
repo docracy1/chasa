@@ -10,11 +10,23 @@ import {
   SESSION_COOKIE_NAME,
 } from "../lib/auth";
 import { trackEvent } from "../lib/analytics";
+import { clientIp, turnstileSiteKey, verifyTurnstile } from "../lib/turnstile";
 
 const auth = new Hono<AuthEnv>();
 
+/** Public config for the login UI (site key is not secret). */
+auth.get("/config", (c) => {
+  return c.json({
+    turnstileSiteKey: turnstileSiteKey(c.env),
+    turnstileRequired: Boolean(c.env.TURNSTILE_SECRET_KEY?.trim()),
+  });
+});
+
 auth.post("/request", async (c) => {
-  const body = await c.req.json<{ email?: string }>();
+  const body = await c.req.json<{ email?: string; turnstileToken?: string }>();
+  const check = await verifyTurnstile(c.env, body.turnstileToken, clientIp(c));
+  if (!check.ok) return c.json({ error: check.error }, 400);
+
   const result = await requestMagicLink(c.env, body.email ?? "");
   if (!result.ok) return c.json({ error: result.error }, 400);
   return c.json({ ok: true });

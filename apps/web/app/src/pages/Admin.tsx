@@ -19,6 +19,7 @@ import {
   type SignupLists,
   type TrafficStats,
 } from "../lib/adminApi";
+import TurnstileWidget, { resetTurnstile } from "../components/TurnstileWidget";
 
 type NavId =
   | "dashboard"
@@ -117,6 +118,7 @@ function fmtDate(iso: string): string {
 export default function Admin() {
   const [email, setEmail] = useState("rl@relacon.at");
   const [password, setPassword] = useState("");
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
   const [authedEmail, setAuthedEmail] = useState<string | null>(null);
   const [stats, setStats] = useState<FunnelStats | null>(null);
   const [traffic, setTraffic] = useState<TrafficStats | null>(null);
@@ -166,11 +168,13 @@ export default function Admin() {
     setBusy(true);
     setError(null);
     try {
-      const res = await adminLogin(email, password);
+      const res = await adminLogin(email, password, turnstileToken);
       setAuthedEmail(res.email);
       await loadAll(days);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Login failed");
+      setTurnstileToken(null);
+      resetTurnstile();
     } finally {
       setBusy(false);
     }
@@ -278,6 +282,7 @@ export default function Admin() {
                   required
                 />
               </label>
+              <TurnstileWidget onToken={setTurnstileToken} />
               <button type="submit" className="btn-primary" disabled={busy}>
                 {busy ? "Signing in…" : "Sign in"}
               </button>

@@ -35,11 +35,18 @@ ADMIN_EMAIL = "rl@relacon.at"
 STRIPE_PRICE_SOLO = "price_1TxMxKQu2Ibd9xnHtDozkRT5"
 STRIPE_PRICE_PRO = "price_1TxMyFQu2Ibd9xnHPDe4L9q4"
 STRIPE_PRICE_ENTERPRISE = "price_1TxMzNQu2Ibd9xnHUnRjRDQv"
+# Cloudflare Turnstile site key (public). Create a widget in the CF dashboard, then paste here.
+# TURNSTILE_SITE_KEY = "0x4AAAAAAA..."
+# Local/dev without a real widget: use Cloudflare's always-pass test site key:
+#   TURNSTILE_SITE_KEY = "1x00000000000000000000AA"
+#   and in .dev.vars: TURNSTILE_SECRET_KEY=1x0000000000000000000000000000000AA
+# Or leave both unset — verification is bypassed with a console warning.
 
 # --- Secrets (never stored in this file) ---
 # Set with: wrangler secret put TOKEN_SECRET            (generate: openssl rand -hex 32)
 # Set with: wrangler secret put RESEND_API_KEY
 # Set with: wrangler secret put ADMIN_PASSWORD           (admin dashboard at /app/admin)
+# Set with: wrangler secret put TURNSTILE_SECRET_KEY     (Turnstile widget secret from CF dashboard)
 # Set with: wrangler secret put STRIPE_SECRET_KEY
 # Set with: wrangler secret put STRIPE_WEBHOOK_SECRET
 # Cloud storage OAuth (optional — Connect buttons return 503 until set):

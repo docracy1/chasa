@@ -213,8 +213,11 @@ export function notifyWebhook(
   }).catch(() => ({ ok: true as const }));
 }
 
-export function requestMagicLink(email: string) {
-  return jsonFetch<{ ok: true }>("/auth/request", { method: "POST", body: JSON.stringify({ email }) });
+export function requestMagicLink(email: string, turnstileToken?: string | null) {
+  return jsonFetch<{ ok: true }>("/auth/request", {
+    method: "POST",
+    body: JSON.stringify({ email, turnstileToken: turnstileToken || undefined }),
+  });
 }
 
 export function logout() {

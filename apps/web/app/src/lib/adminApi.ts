@@ -64,10 +64,10 @@ async function adminFetch<T>(path: string, init?: RequestInit): Promise<T> {
   return data as T;
 }
 
-export function adminLogin(email: string, password: string) {
+export function adminLogin(email: string, password: string, turnstileToken?: string | null) {
   return adminFetch<{ ok: true; email: string }>("/login", {
     method: "POST",
-    body: JSON.stringify({ email, password }),
+    body: JSON.stringify({ email, password, turnstileToken: turnstileToken || undefined }),
   });
 }
 
