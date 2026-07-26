@@ -93,7 +93,8 @@ export async function requestMagicLink(env: Env, email: string): Promise<{ ok: t
     .run();
 
   // Go through the app origin (Pages /api proxy), not api.chasa.io directly — otherwise the
-  // session cookie is set on the API host and never sent with same-origin /api calls from chasa.io.
+  // session cookie is set on the API host and never sent with same-origin /api calls from the app.
+  // Cookie options omit Domain= so the browser scopes the cookie to the app host (pages.dev or chasa.io).
   const verifyUrl = `${env.PUBLIC_APP_URL}/api/auth/verify?token=${encodeURIComponent(token)}`;
   await sendMagicLinkEmail(env, normalized, verifyUrl);
 

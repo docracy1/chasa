@@ -165,7 +165,7 @@ async function callTool(
   name: string,
   args: Record<string, unknown>
 ): Promise<ReturnType<typeof textResult>> {
-  const appUrl = env.PUBLIC_APP_URL || "https://chasa.io";
+  const appUrl = env.PUBLIC_APP_URL || "https://chasa-71s.pages.dev";
 
   if (name === "get_chase_tip") {
     const days = Number(args.days_overdue);

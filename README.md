@@ -2,6 +2,19 @@
 
 Paste your unpaid invoices. Get the follow-up email already written, in the right tone for how late it is.
 
+## Live testing URLs (bookmark these)
+
+`chasa.io` DNS is not live yet. Until it is, use the Cloudflare Pages preview as the app origin:
+
+| | URL |
+|---|---|
+| **App** | https://chasa-71s.pages.dev/app/ |
+| **Login** | https://chasa-71s.pages.dev/app/login |
+| **Connector** | https://chasa-71s.pages.dev/app/connector |
+| API | https://api.chasa.io (also `https://chasa-worker.rl-d77.workers.dev`) |
+
+Worker `PUBLIC_APP_URL` is set to `https://chasa-71s.pages.dev` so magic links, OAuth post-callback redirects, Stripe return URLs, and session cookies all stay on pages.dev. **When `chasa.io` DNS is ready**, set `PUBLIC_APP_URL` back to `https://chasa.io` in `apps/worker/wrangler.toml` `[vars]`, redeploy the worker, and attach the custom domain on Pages.
+
 ## Structure
 
 - `apps/web` — React (Vite) app deployed to Cloudflare Pages. `public/index.html` is the static marketing landing page; `app/` is the actual tool (`/app/*`).
@@ -22,7 +35,7 @@ Without `RESEND_API_KEY` set, magic links are logged to the worker's console ins
 Protects `/api/auth/request` (and admin login) so bots can't burn Resend quota requesting hundreds of magic links. Customer login stays magic-link only — no passwords.
 
 1. In the [Cloudflare Dashboard](https://dash.cloudflare.com/) → **Turnstile** → **Add widget**.
-2. Set hostname(s) to `chasa.io` (and `localhost` if you want to test the real widget locally).
+2. Set hostname(s) to `chasa-71s.pages.dev` (and `chasa.io` / `localhost` when those are in use).
 3. Copy the **site key** into `apps/worker/wrangler.toml` `[vars]`:
 
    ```toml
