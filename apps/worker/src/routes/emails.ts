@@ -1,21 +1,30 @@
 import { Hono } from "hono";
-import {
-  optionalAccount,
-  requirePaidAccount,
-  requireProAccount,
-  type AuthEnv,
-} from "../lib/auth";
+import { optionalAccount, requirePaidAccount, type AuthEnv } from "../lib/auth";
 import {
   generateChaseSequence,
   generateFollowUpEmail,
   generateReplyEmail,
+  generateSmsWhatsAppDraft,
   generateThankYouEmail,
   rewriteFollowUpEmail,
   type RewriteAction,
 } from "../lib/ai";
+import type { Env } from "../types";
 import { dispatchWebhooks } from "../lib/webhooks";
+import { replaceSequenceReminders } from "../lib/chaseReminders";
 
 const emails = new Hono<AuthEnv>();
+
+async function loadLateFeeHint(env: Env, accountId: string | undefined): Promise<string | undefined> {
+  if (!accountId) return undefined;
+  const row = await env.CHASA_DB.prepare(
+    `SELECT late_fee_enabled, late_fee_hint FROM accounts WHERE id = ?`
+  )
+    .bind(accountId)
+    .first<{ late_fee_enabled: number; late_fee_hint: string | null }>();
+  if (!row?.late_fee_enabled || !row.late_fee_hint?.trim()) return undefined;
+  return row.late_fee_hint.trim().slice(0, 200);
+}
 
 // Public — no auth needed. The free tier's 5/month cap is enforced client-side (localStorage),
 // matching the product spec's v1 scope. Logged-in paid accounts just don't hit that cap client-side.
@@ -83,17 +92,19 @@ emails.post("/generate-email", optionalAccount, async (c) => {
   }
 
   try {
+    const lateFeeHint = await loadLateFeeHint(c.env, c.get("account")?.workspaceId);
     const draft = await generateFollowUpEmail(c.env, {
       clientName,
       invoiceAmount,
       daysOverdue: Math.max(0, daysOverdue),
       invoices: lineItems.length > 0 ? lineItems : undefined,
       paymentLink,
+      lateFeeHint,
     });
     const acc = c.get("account");
     if (acc?.isPaid) {
       c.executionCtx.waitUntil(
-        dispatchWebhooks(c.env, acc.id, "chase.drafted", {
+        dispatchWebhooks(c.env, acc.workspaceId, "chase.drafted", {
           client_name: clientName,
           invoice_amount: invoiceAmount,
           days_overdue: daysOverdue,
@@ -143,7 +154,7 @@ emails.post("/generate-thank-you", requirePaidAccount, async (c) => {
   try {
     const draft = await generateThankYouEmail(c.env, { clientName, invoiceAmount });
     c.executionCtx.waitUntil(
-      dispatchWebhooks(c.env, acc.id, "chase.thank_you", {
+      dispatchWebhooks(c.env, acc.workspaceId, "chase.thank_you", {
         client_name: clientName,
         invoice_amount: invoiceAmount,
         subject: draft.subject,
@@ -183,7 +194,7 @@ emails.post("/generate-reply", requirePaidAccount, async (c) => {
       clientMessage,
     });
     c.executionCtx.waitUntil(
-      dispatchWebhooks(c.env, acc.id, "chase.reply_drafted", {
+      dispatchWebhooks(c.env, acc.workspaceId, "chase.reply_drafted", {
         client_name: clientName,
         invoice_amount: invoiceAmount,
         days_overdue: daysOverdue,
@@ -197,10 +208,15 @@ emails.post("/generate-reply", requirePaidAccount, async (c) => {
   }
 });
 
-// 3-step chase sequence — Pro / Enterprise
-emails.post("/generate-sequence", requireProAccount, async (c) => {
+// 3-step chase sequence — Solo+ (reminder calendar; never auto-sent)
+emails.post("/generate-sequence", requirePaidAccount, async (c) => {
   const acc = c.get("account")!;
-  const body = await c.req.json<{ client_name?: string; invoice_amount?: number; days_overdue?: number }>();
+  const body = await c.req.json<{
+    client_name?: string;
+    invoice_amount?: number;
+    days_overdue?: number;
+    aging_invoice_id?: string;
+  }>();
   const clientName = (body.client_name ?? "").trim();
   const invoiceAmount = Number(body.invoice_amount);
   const daysOverdue = Number(body.days_overdue);
@@ -208,19 +224,57 @@ emails.post("/generate-sequence", requireProAccount, async (c) => {
     return c.json({ error: "client_name, invoice_amount, and days_overdue are required." }, 400);
   }
   try {
+    const lateFeeHint = await loadLateFeeHint(c.env, acc.workspaceId);
     const sequence = await generateChaseSequence(c.env, { clientName, invoiceAmount, daysOverdue });
+    // Persist planned dates for the reminder calendar
+    const reminders = await replaceSequenceReminders(c.env, acc.workspaceId, {
+      agingInvoiceId: body.aging_invoice_id ?? null,
+      clientName,
+      steps: sequence.steps,
+    });
     c.executionCtx.waitUntil(
-      dispatchWebhooks(c.env, acc.id, "chase.sequence_planned", {
+      dispatchWebhooks(c.env, acc.workspaceId, "chase.sequence_planned", {
         client_name: clientName,
         invoice_amount: invoiceAmount,
         days_overdue: daysOverdue,
         steps: sequence.steps.length,
       }).catch(() => {})
     );
-    return c.json(sequence);
+    return c.json({ ...sequence, reminders, lateFeeHint: lateFeeHint ?? null });
   } catch (err) {
     console.error("generateChaseSequence failed", err);
     return c.json({ error: "Could not generate a chase sequence right now." }, 502);
+  }
+});
+
+// SMS + WhatsApp drafts — Solo+. User copies / opens sms: or wa.me — Chasa never sends.
+emails.post("/generate-sms", requirePaidAccount, async (c) => {
+  const acc = c.get("account")!;
+  const body = await c.req.json<{
+    client_name?: string;
+    invoice_amount?: number;
+    days_overdue?: number;
+    phone?: string;
+  }>();
+  const clientName = (body.client_name ?? "").trim();
+  const invoiceAmount = Number(body.invoice_amount);
+  const daysOverdue = Number(body.days_overdue);
+  if (!clientName || !Number.isFinite(invoiceAmount) || !Number.isFinite(daysOverdue)) {
+    return c.json({ error: "client_name, invoice_amount, and days_overdue are required." }, 400);
+  }
+  try {
+    const lateFeeHint = await loadLateFeeHint(c.env, acc.workspaceId);
+    const draft = await generateSmsWhatsAppDraft(c.env, {
+      clientName,
+      invoiceAmount,
+      daysOverdue: Math.max(0, daysOverdue),
+      phone: typeof body.phone === "string" ? body.phone : undefined,
+      lateFeeHint,
+    });
+    return c.json(draft);
+  } catch (err) {
+    console.error("generateSmsWhatsAppDraft failed", err);
+    return c.json({ error: "Could not generate SMS / WhatsApp drafts right now." }, 502);
   }
 });
 

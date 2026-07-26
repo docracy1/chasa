@@ -51,6 +51,8 @@ export type FollowUpEmailInput = {
   invoices?: FollowUpInvoiceLine[];
   /** Optional Stripe/PayPal/Wise/etc. URL to include in the body. */
   paymentLink?: string;
+  /** Optional late fee / interest hint when user enabled it. */
+  lateFeeHint?: string;
 };
 
 function appendPaymentLink(draft: GeneratedEmail, paymentLink?: string): GeneratedEmail {
@@ -93,6 +95,11 @@ export async function generateFollowUpEmail(
     ? `Include this payment link once near the end of the body (do not invent other URLs): ${paymentLink}`
     : "Do not invent a payment link.";
 
+  const lateFee = input.lateFeeHint?.trim();
+  const lateHint = lateFee
+    ? `The user opted in to mention late fees / interest. Include one short factual line about: ${lateFee}. Do not invent amounts beyond what they provided.`
+    : "Do not invent late fees or interest charges.";
+
   const userMessage = `${BAND_INSTRUCTIONS[band]}
 ${multiHint}
 
@@ -103,7 +110,8 @@ max_days_overdue: ${maxDays}
 tone_band: ${band}
 invoices:
 ${invoiceBlock}
-${payHint}`;
+${payHint}
+${lateHint}`;
 
   const result = await env.AI.run((env.WORKERS_AI_MODEL || DEFAULT_MODEL) as keyof AiModels, {
     temperature: 0.4,
@@ -351,4 +359,78 @@ function parseSequence(
   }
 
   return { tip, steps: steps.slice(0, 3) };
+}
+
+export type SmsWhatsAppDraft = {
+  sms: string;
+  whatsapp: string;
+  smsUri: string;
+  whatsappUri: string;
+};
+
+/** Short SMS + WhatsApp copy — user copies or opens sms:/wa.me links. Chasa never sends. */
+export async function generateSmsWhatsAppDraft(
+  env: Env,
+  input: {
+    clientName: string;
+    invoiceAmount: number;
+    daysOverdue: number;
+    phone?: string;
+    lateFeeHint?: string;
+  }
+): Promise<SmsWhatsAppDraft> {
+  const band = getToneBand(input.daysOverdue);
+  const late = input.lateFeeHint?.trim()
+    ? `Optional late-fee hint to weave in briefly if natural: ${input.lateFeeHint.trim()}`
+    : "No late fee line.";
+
+  const userMessage = `Write two short payment reminders for the same overdue invoice.
+Tone band: ${band}
+client_name: ${input.clientName}
+invoice_amount: $${input.invoiceAmount.toFixed(2)}
+days_overdue: ${input.daysOverdue}
+${late}
+
+Return exactly:
+SMS:
+<under 160 characters, plain text, no emoji spam>
+---
+WhatsApp:
+<under 280 characters, friendly but clear, plain text>`;
+
+  const result = await env.AI.run((env.WORKERS_AI_MODEL || DEFAULT_MODEL) as keyof AiModels, {
+    temperature: 0.35,
+    max_tokens: 350,
+    messages: [
+      {
+        role: "system",
+        content: `You write short SMS and WhatsApp payment reminders for freelancers.
+Never threaten illegally. No corporate filler. User will send manually — you only draft.`,
+      },
+      { role: "user", content: userMessage },
+    ],
+  });
+
+  const text = (result as { response?: string }).response ?? "";
+  const smsMatch = text.match(/SMS:\s*([\s\S]+?)(?:\n---|\nWhatsApp:|$)/i);
+  const waMatch = text.match(/WhatsApp:\s*([\s\S]+)$/i);
+  let sms = (smsMatch?.[1] ?? "").trim().replace(/\s+/g, " ").slice(0, 160);
+  let whatsapp = (waMatch?.[1] ?? "").trim().slice(0, 280);
+  if (!sms) {
+    sms = `Hi ${input.clientName}, gentle reminder: $${input.invoiceAmount.toFixed(2)} is ${input.daysOverdue}d overdue. Can you confirm a payment date?`;
+  }
+  if (!whatsapp) {
+    whatsapp = `Hi ${input.clientName} — following up on the $${input.invoiceAmount.toFixed(2)} invoice (${input.daysOverdue} days overdue). Could you share a payment date? Thanks!`;
+  }
+
+  const phone = (input.phone ?? "").replace(/[^\d+]/g, "");
+  const smsUri = phone
+    ? `sms:${phone}?&body=${encodeURIComponent(sms)}`
+    : `sms:?&body=${encodeURIComponent(sms)}`;
+  const waPhone = phone.replace(/^\+/, "");
+  const whatsappUri = waPhone
+    ? `https://wa.me/${waPhone}?text=${encodeURIComponent(whatsapp)}`
+    : `https://wa.me/?text=${encodeURIComponent(whatsapp)}`;
+
+  return { sms, whatsapp, smsUri, whatsappUri };
 }

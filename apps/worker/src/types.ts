@@ -16,6 +16,11 @@ export interface Env {
   ONEDRIVE_CLIENT_SECRET?: string;
   BOX_CLIENT_ID?: string;
   BOX_CLIENT_SECRET?: string;
+  // Native accounting OAuth (QuickBooks Online / Xero) — see routes/accountingConnectors.ts
+  QBO_CLIENT_ID?: string;
+  QBO_CLIENT_SECRET?: string;
+  XERO_CLIENT_ID?: string;
+  XERO_CLIENT_SECRET?: string;
 
   // Non-secret config ([vars] in wrangler.toml)
   WORKERS_AI_MODEL?: string;

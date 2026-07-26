@@ -10,10 +10,18 @@ const SESSION_TTL_SECONDS = 30 * 24 * 60 * 60;
 export const SESSION_COOKIE_NAME = "chasa_session";
 
 export interface AccountContext {
+  /** Session account id (the signed-in user). */
   id: string;
   email: string;
   plan: Plan;
   isPaid: boolean;
+  /**
+   * Workspace data scope — owner account id when this user is a team member,
+   * otherwise same as `id`. Use for aging/clients/connectors/etc.
+   */
+  workspaceId: string;
+  /** Role in the workspace; owners are always admin. */
+  role: "admin" | "member";
 }
 
 function normalizePlan(raw: string | null | undefined, isPaid: boolean): Plan {
@@ -157,12 +165,19 @@ export async function resolveAccount(env: Env, sessionToken: string): Promise<Ac
   const now = new Date().toISOString();
 
   const row = await env.CHASA_DB.prepare(
-    `SELECT a.id as id, a.email as email, a.is_paid as is_paid, a.plan as plan
+    `SELECT a.id as id, a.email as email, a.is_paid as is_paid, a.plan as plan,
+            a.workspace_owner_id as workspace_owner_id
      FROM sessions s JOIN accounts a ON a.id = s.account_id
      WHERE s.token_hash = ? AND s.expires_at > ?`
   )
     .bind(tokenHash, now)
-    .first<{ id: string; email: string; is_paid: number; plan: string | null }>();
+    .first<{
+      id: string;
+      email: string;
+      is_paid: number;
+      plan: string | null;
+      workspace_owner_id: string | null;
+    }>();
 
   if (!row) return null;
 
@@ -172,8 +187,41 @@ export async function resolveAccount(env: Env, sessionToken: string): Promise<Ac
     .run()
     .catch((err) => console.error("session last_seen_at update failed", err));
 
-  const plan = normalizePlan(row.plan, row.is_paid === 1);
-  return { id: row.id, email: row.email, plan, isPaid: isPaidPlan(plan) };
+  let workspaceId = row.id;
+  let role: "admin" | "member" = "admin";
+  let plan = normalizePlan(row.plan, row.is_paid === 1);
+
+  if (row.workspace_owner_id) {
+    const owner = await env.CHASA_DB.prepare(
+      `SELECT id, is_paid, plan FROM accounts WHERE id = ?`
+    )
+      .bind(row.workspace_owner_id)
+      .first<{ id: string; is_paid: number; plan: string | null }>();
+    if (owner) {
+      workspaceId = owner.id;
+      plan = normalizePlan(owner.plan, owner.is_paid === 1);
+      const membership = await env.CHASA_DB.prepare(
+        `SELECT role FROM workspace_members
+         WHERE account_id = ? AND email = ? AND status = 'active'`
+      )
+        .bind(owner.id, row.email)
+        .first<{ role: string }>();
+      if (membership?.role === "member" || membership?.role === "admin") {
+        role = membership.role;
+      } else {
+        role = "member";
+      }
+    }
+  }
+
+  return {
+    id: row.id,
+    email: row.email,
+    plan,
+    isPaid: isPaidPlan(plan),
+    workspaceId,
+    role,
+  };
 }
 
 export async function destroySession(env: Env, sessionToken: string): Promise<void> {
@@ -201,8 +249,8 @@ export const requireAccount: MiddlewareHandler<AuthEnv> = async (c, next) => {
 
 /**
  * Solo ($7) / Pro ($17) / Enterprise — any paid plan.
- * Use for connectors (Zapier API keys, Dropbox/OneDrive/Box), webhooks, branding.
- * Do NOT gate those to Enterprise-only or requireProAccount.
+ * Use for connectors, webhooks, branding, chase plans, tracking, team, QBO/Xero, SMS drafts.
+ * Do NOT gate those to requireProAccount — parity features are Solo+.
  */
 export const requirePaidAccount: MiddlewareHandler<AuthEnv> = async (c, next) => {
   const sessionToken = getCookie(c, SESSION_COOKIE_NAME);
@@ -213,7 +261,7 @@ export const requirePaidAccount: MiddlewareHandler<AuthEnv> = async (c, next) =>
   await next();
 };
 
-/** Pro ($17) or Enterprise only — advanced AI (3-step sequences). Not for connectors. */
+/** @deprecated Prefer requirePaidAccount — parity features are Solo+. Kept for rare Pro-only gates. */
 export const requireProAccount: MiddlewareHandler<AuthEnv> = async (c, next) => {
   const sessionToken = getCookie(c, SESSION_COOKIE_NAME);
   const account = sessionToken ? await resolveAccount(c.env, sessionToken) : null;
@@ -221,6 +269,17 @@ export const requireProAccount: MiddlewareHandler<AuthEnv> = async (c, next) => 
   if (account.plan !== "pro" && account.plan !== "enterprise") {
     return c.json({ error: "This requires Pro or Enterprise" }, 402);
   }
+  c.set("account", account);
+  await next();
+};
+
+/** Workspace admin only (owner or invited admin). */
+export const requireWorkspaceAdmin: MiddlewareHandler<AuthEnv> = async (c, next) => {
+  const sessionToken = getCookie(c, SESSION_COOKIE_NAME);
+  const account = sessionToken ? await resolveAccount(c.env, sessionToken) : null;
+  if (!account) return c.json({ error: "Sign in required" }, 401);
+  if (!account.isPaid) return c.json({ error: "This requires a paid account (Solo, Pro, or Enterprise)" }, 402);
+  if (account.role !== "admin") return c.json({ error: "Admin role required" }, 403);
   c.set("account", account);
   await next();
 };

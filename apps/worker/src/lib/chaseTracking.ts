@@ -1,0 +1,204 @@
+import type { Env } from "../types";
+
+export type TrackingSummary = {
+  id: string;
+  agingInvoiceId: string | null;
+  clientName: string | null;
+  subject: string | null;
+  createdAt: string;
+  openCount: number;
+  clickCount: number;
+  lastOpenAt: string | null;
+  lastClickAt: string | null;
+};
+
+const TRANSPARENT_GIF = Uint8Array.from(
+  atob("R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"),
+  (c) => c.charCodeAt(0)
+);
+
+export function trackingPixelBytes(): Uint8Array {
+  return TRANSPARENT_GIF;
+}
+
+export function trackingBaseUrl(env: Env): string {
+  return env.PUBLIC_WORKER_URL.replace(/\/$/, "");
+}
+
+export async function createTrackedChase(
+  env: Env,
+  accountId: string,
+  input: {
+    agingInvoiceId?: string | null;
+    clientName?: string | null;
+    subject?: string | null;
+    body: string;
+    wrapLinks?: boolean;
+  }
+): Promise<{
+  chaseId: string;
+  html: string;
+  plainBody: string;
+  pixelUrl: string;
+  note: string;
+}> {
+  const chaseId = crypto.randomUUID().replace(/-/g, "").slice(0, 22);
+  const now = new Date().toISOString();
+  await env.CHASA_DB.prepare(
+    `INSERT INTO chase_tracking
+       (id, account_id, aging_invoice_id, client_name, subject, created_at, open_count, click_count)
+     VALUES (?, ?, ?, ?, ?, ?, 0, 0)`
+  )
+    .bind(
+      chaseId,
+      accountId,
+      input.agingInvoiceId ?? null,
+      input.clientName ?? null,
+      input.subject ?? null,
+      now
+    )
+    .run();
+
+  const base = trackingBaseUrl(env);
+  const pixelUrl = `${base}/api/t/o/${chaseId}.gif`;
+  let bodyHtml = escapeHtml(input.body).replace(/\n/g, "<br>\n");
+
+  if (input.wrapLinks !== false) {
+    bodyHtml = wrapHttpLinks(bodyHtml, base, chaseId);
+  }
+
+  const html = `<!DOCTYPE html><html><body style="font-family:system-ui,sans-serif;font-size:15px;line-height:1.5;color:#1a1a1a">
+${bodyHtml}
+<p style="margin-top:24px;font-size:11px;color:#999">Sent via your inbox · tracked open pixel (Chasa)</p>
+<img src="${pixelUrl}" width="1" height="1" alt="" style="display:block;width:1px;height:1px;border:0" />
+</body></html>`;
+
+  return {
+    chaseId,
+    html,
+    plainBody: input.body,
+    pixelUrl,
+    note: "Open tracking only works if the recipient’s email client loads images and you paste this HTML (or send via a client that supports HTML). Plain mailto text will not track opens.",
+  };
+}
+
+function escapeHtml(s: string): string {
+  return s
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
+function wrapHttpLinks(html: string, base: string, chaseId: string): string {
+  return html.replace(/https?:\/\/[^\s<]+/gi, (url) => {
+    const clean = url.replace(/[.,;:!?)]+$/, "");
+    const trailing = url.slice(clean.length);
+    const wrapped = `${base}/api/t/c/${chaseId}?u=${encodeURIComponent(clean)}`;
+    return `<a href="${wrapped}">${clean}</a>${trailing}`;
+  });
+}
+
+export async function recordOpen(env: Env, chaseId: string): Promise<boolean> {
+  const now = new Date().toISOString();
+  const result = await env.CHASA_DB.prepare(
+    `UPDATE chase_tracking SET open_count = open_count + 1, last_open_at = ? WHERE id = ?`
+  )
+    .bind(now, chaseId)
+    .run();
+  if (!result.meta.changes) return false;
+  await env.CHASA_DB.prepare(
+    `INSERT INTO chase_tracking_events (id, chase_id, event_type, meta, created_at) VALUES (?, ?, 'open', NULL, ?)`
+  )
+    .bind(crypto.randomUUID(), chaseId, now)
+    .run();
+  return true;
+}
+
+export async function recordClick(env: Env, chaseId: string, url: string): Promise<string | null> {
+  const row = await env.CHASA_DB.prepare(`SELECT id FROM chase_tracking WHERE id = ?`)
+    .bind(chaseId)
+    .first<{ id: string }>();
+  if (!row) return null;
+  const now = new Date().toISOString();
+  await env.CHASA_DB.prepare(
+    `UPDATE chase_tracking SET click_count = click_count + 1, last_click_at = ? WHERE id = ?`
+  )
+    .bind(now, chaseId)
+    .run();
+  await env.CHASA_DB.prepare(
+    `INSERT INTO chase_tracking_events (id, chase_id, event_type, meta, created_at) VALUES (?, ?, 'click', ?, ?)`
+  )
+    .bind(crypto.randomUUID(), chaseId, url.slice(0, 500), now)
+    .run();
+  return url;
+}
+
+export async function listTrackingForAccount(
+  env: Env,
+  accountId: string,
+  limit = 50
+): Promise<TrackingSummary[]> {
+  const { results } = await env.CHASA_DB.prepare(
+    `SELECT id, aging_invoice_id, client_name, subject, created_at, open_count, click_count, last_open_at, last_click_at
+     FROM chase_tracking WHERE account_id = ?
+     ORDER BY created_at DESC LIMIT ?`
+  )
+    .bind(accountId, Math.min(100, Math.max(1, limit)))
+    .all<{
+      id: string;
+      aging_invoice_id: string | null;
+      client_name: string | null;
+      subject: string | null;
+      created_at: string;
+      open_count: number;
+      click_count: number;
+      last_open_at: string | null;
+      last_click_at: string | null;
+    }>();
+
+  return (results ?? []).map((r) => ({
+    id: r.id,
+    agingInvoiceId: r.aging_invoice_id,
+    clientName: r.client_name,
+    subject: r.subject,
+    createdAt: r.created_at,
+    openCount: r.open_count,
+    clickCount: r.click_count,
+    lastOpenAt: r.last_open_at,
+    lastClickAt: r.last_click_at,
+  }));
+}
+
+export async function trackingStatsForInvoices(
+  env: Env,
+  accountId: string,
+  invoiceIds: string[]
+): Promise<Record<string, { openCount: number; clickCount: number; lastOpenAt: string | null }>> {
+  const out: Record<string, { openCount: number; clickCount: number; lastOpenAt: string | null }> = {};
+  if (invoiceIds.length === 0) return out;
+  // D1 has no great IN binder for dynamic lists — query recent and filter.
+  const { results } = await env.CHASA_DB.prepare(
+    `SELECT aging_invoice_id, open_count, click_count, last_open_at
+     FROM chase_tracking WHERE account_id = ? AND aging_invoice_id IS NOT NULL
+     ORDER BY created_at DESC LIMIT 200`
+  )
+    .bind(accountId)
+    .all<{
+      aging_invoice_id: string;
+      open_count: number;
+      click_count: number;
+      last_open_at: string | null;
+    }>();
+
+  const want = new Set(invoiceIds);
+  for (const r of results ?? []) {
+    if (!want.has(r.aging_invoice_id) || out[r.aging_invoice_id]) continue;
+    out[r.aging_invoice_id] = {
+      openCount: r.open_count,
+      clickCount: r.click_count,
+      lastOpenAt: r.last_open_at,
+    };
+  }
+  return out;
+}

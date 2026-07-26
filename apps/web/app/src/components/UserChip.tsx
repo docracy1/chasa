@@ -67,6 +67,9 @@ export default function UserChip({
         <Link to="/account" role="menuitem" onClick={() => setOpen(false)}>
           Account
         </Link>
+        <Link to="/team" role="menuitem" onClick={() => setOpen(false)}>
+          Team
+        </Link>
         <Link to="/connector" role="menuitem" onClick={() => setOpen(false)}>
           Test connectors
         </Link>

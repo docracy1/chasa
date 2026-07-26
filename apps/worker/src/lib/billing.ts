@@ -6,6 +6,20 @@ export function isPaidPlan(plan: Plan): boolean {
   return plan !== "free";
 }
 
+/** Team seat caps (owner counts as 1). Solo+ can invite; Free has no team. */
+export function seatLimitForPlan(plan: Plan): number {
+  switch (plan) {
+    case "solo":
+      return 3;
+    case "pro":
+      return 5;
+    case "enterprise":
+      return 25;
+    default:
+      return 1;
+  }
+}
+
 export function planFromPriceId(env: Env, priceId: string | null | undefined): Plan | null {
   if (!priceId) return null;
   if (priceId === env.STRIPE_PRICE_SOLO) return "solo";

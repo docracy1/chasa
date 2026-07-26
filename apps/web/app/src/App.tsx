@@ -8,6 +8,7 @@ import Branding from "./pages/Branding";
 import Webhooks from "./pages/Webhooks";
 import Connector from "./pages/Connector";
 import Clients from "./pages/Clients";
+import Team from "./pages/Team";
 import AppShell from "./components/AppShell";
 import { useAccount } from "./lib/useAccount";
 import { track } from "./lib/analytics";
@@ -49,6 +50,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Tool account={account} />} />
         <Route path="/account" element={<Account account={account} refresh={refresh} />} />
+        <Route path="/team" element={<Team account={account} refresh={refresh} />} />
         <Route path="/branding" element={<Branding account={account} refresh={refresh} />} />
         <Route path="/clients" element={<Clients account={account} />} />
         <Route path="/webhooks" element={<Webhooks account={account} />} />

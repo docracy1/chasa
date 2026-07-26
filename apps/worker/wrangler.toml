@@ -61,6 +61,13 @@ TURNSTILE_SITE_KEY = "0x4AAAAAAD-e9VZ4OPi8EPWM"
 # Set with: wrangler secret put ONEDRIVE_CLIENT_SECRET
 # Set with: wrangler secret put BOX_CLIENT_ID
 # Set with: wrangler secret put BOX_CLIENT_SECRET
+# Native accounting OAuth (optional):
+#   https://api.chasa.io/api/account/connectors/quickbooks/callback
+#   https://api.chasa.io/api/account/connectors/xero/callback
+# Set with: wrangler secret put QBO_CLIENT_ID
+# Set with: wrangler secret put QBO_CLIENT_SECRET
+# Set with: wrangler secret put XERO_CLIENT_ID
+# Set with: wrangler secret put XERO_CLIENT_SECRET
 # Price IDs are non-secret — set above as STRIPE_PRICE_SOLO / PRO / ENTERPRISE.
 
 # --- Staging: isolated D1 so testing never touches production data ---

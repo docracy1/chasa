@@ -44,7 +44,7 @@ clients.get("/", requirePaidAccount, async (c) => {
      GROUP BY c.id
      ORDER BY c.name COLLATE NOCASE ASC`
   )
-    .bind(acc.id)
+    .bind(acc.workspaceId)
     .all<ClientRow>();
 
   return c.json({ clients: (results ?? []).map(mapClient) });
@@ -60,7 +60,7 @@ clients.get("/:id", requirePaidAccount, async (c) => {
             COALESCE((SELECT COUNT(*) FROM aging_invoices WHERE client_id = c.id), 0) as outstanding_count
      FROM clients c WHERE c.id = ? AND c.account_id = ?`
   )
-    .bind(id, acc.id)
+    .bind(id, acc.workspaceId)
     .first<ClientRow>();
 
   if (!row) return c.json({ error: "Client not found" }, 404);
@@ -70,7 +70,7 @@ clients.get("/:id", requirePaidAccount, async (c) => {
      FROM aging_invoices WHERE account_id = ? AND client_id = ?
      ORDER BY due_date ASC`
   )
-    .bind(acc.id, id)
+    .bind(acc.workspaceId, id)
     .all<{
       id: string;
       client_name: string;
@@ -115,7 +115,7 @@ clients.post("/", requirePaidAccount, async (c) => {
     `INSERT INTO clients (id, account_id, name, email, notes, created_at, updated_at)
      VALUES (?, ?, ?, ?, ?, ?, ?)`
   )
-    .bind(id, acc.id, name, email, notes, now, now)
+    .bind(id, acc.workspaceId, name, email, notes, now, now)
     .run();
 
   return c.json(
@@ -142,7 +142,7 @@ clients.put("/:id", requirePaidAccount, async (c) => {
     `SELECT id, name, email, notes, last_contact_note, last_contact_at, created_at, updated_at
      FROM clients WHERE id = ? AND account_id = ?`
   )
-    .bind(id, acc.id)
+    .bind(id, acc.workspaceId)
     .first<{
       id: string;
       name: string;
@@ -196,7 +196,7 @@ clients.put("/:id", requirePaidAccount, async (c) => {
     `UPDATE clients SET name = ?, email = ?, notes = ?, last_contact_note = ?, last_contact_at = ?, updated_at = ?
      WHERE id = ? AND account_id = ?`
   )
-    .bind(name, email, notes, lastContactNote, lastContactAt, now, id, acc.id)
+    .bind(name, email, notes, lastContactNote, lastContactAt, now, id, acc.workspaceId)
     .run();
 
   // Keep aging rows' display name in sync when renamed
@@ -204,7 +204,7 @@ clients.put("/:id", requirePaidAccount, async (c) => {
     await c.env.CHASA_DB.prepare(
       `UPDATE aging_invoices SET client_name = ?, updated_at = ? WHERE client_id = ? AND account_id = ?`
     )
-      .bind(name, now, id, acc.id)
+      .bind(name, now, id, acc.workspaceId)
       .run();
   }
 
@@ -237,7 +237,7 @@ clients.delete("/:id", requirePaidAccount, async (c) => {
   const result = await c.env.CHASA_DB.prepare(
     `DELETE FROM clients WHERE id = ? AND account_id = ?`
   )
-    .bind(id, acc.id)
+    .bind(id, acc.workspaceId)
     .run();
   if (!result.meta.changes) return c.json({ error: "Client not found" }, 404);
   return c.json({ ok: true });

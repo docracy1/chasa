@@ -61,7 +61,7 @@ aging.get("/", requirePaidAccount, async (c) => {
      FROM aging_invoices WHERE account_id = ?
      ORDER BY due_date ASC`
   )
-    .bind(acc.id)
+    .bind(acc.workspaceId)
     .all<AgingRow>();
 
   return c.json({ invoices: (results ?? []).map(mapRow) });
@@ -90,7 +90,7 @@ aging.put("/sync", requirePaidAccount, async (c) => {
   const now = new Date().toISOString();
   if (body.replace === true) {
     await c.env.CHASA_DB.prepare(`DELETE FROM aging_invoices WHERE account_id = ?`)
-      .bind(acc.id)
+      .bind(acc.workspaceId)
       .run();
   }
 
@@ -104,7 +104,7 @@ aging.put("/sync", requirePaidAccount, async (c) => {
       continue;
     }
 
-    const clientId = await findOrCreateClientId(c.env.CHASA_DB, acc.id, clientName);
+    const clientId = await findOrCreateClientId(c.env.CHASA_DB, acc.workspaceId, clientName);
     const id =
       typeof item.id === "string" && item.id.trim() ? item.id.trim() : crypto.randomUUID();
     const status =
@@ -130,7 +130,7 @@ aging.put("/sync", requirePaidAccount, async (c) => {
          updated_at = excluded.updated_at
        WHERE aging_invoices.account_id = excluded.account_id`
     )
-      .bind(id, acc.id, clientId, clientName, amount, dueDate, status, chaseAt, now, now)
+      .bind(id, acc.workspaceId, clientId, clientName, amount, dueDate, status, chaseAt, now, now)
       .run();
 
     saved.push(
@@ -165,7 +165,7 @@ aging.patch("/:id/chase", requirePaidAccount, async (c) => {
     `UPDATE aging_invoices SET last_chase_status = ?, last_chase_at = ?, updated_at = ?
      WHERE id = ? AND account_id = ?`
   )
-    .bind(status, now, now, id, acc.id)
+    .bind(status, now, now, id, acc.workspaceId)
     .run();
 
   if (!result.meta.changes) return c.json({ error: "Invoice not found" }, 404);
@@ -177,7 +177,7 @@ aging.delete("/:id", requirePaidAccount, async (c) => {
   const result = await c.env.CHASA_DB.prepare(
     `DELETE FROM aging_invoices WHERE id = ? AND account_id = ?`
   )
-    .bind(c.req.param("id"), acc.id)
+    .bind(c.req.param("id"), acc.workspaceId)
     .run();
   if (!result.meta.changes) return c.json({ error: "Invoice not found" }, 404);
   return c.json({ ok: true });

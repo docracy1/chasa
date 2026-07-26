@@ -14,6 +14,9 @@ import connector from "./routes/connector";
 import v1 from "./routes/v1";
 import clients from "./routes/clients";
 import aging from "./routes/aging";
+import reminders from "./routes/reminders";
+import tracking from "./routes/tracking";
+import team from "./routes/team";
 
 const app = new Hono<AuthEnv>();
 
@@ -36,6 +39,10 @@ app.route("/api/auth", auth);
 app.route("/api/account", account);
 app.route("/api/clients", clients);
 app.route("/api/aging", aging);
+app.route("/api/reminders", reminders);
+app.route("/api/t", tracking);
+app.route("/api/tracking", tracking);
+app.route("/api/team", team);
 app.route("/api/billing", billing);
 app.route("/api/analytics", analytics);
 app.route("/api/admin", admin);

@@ -76,7 +76,14 @@ async function resolveAccountFromApiKey(env: Env, bearer: string): Promise<Accou
     .run();
 
   const plan = normalizePlan(row.plan, row.is_paid === 1);
-  return { id: row.id, email: row.email, plan, isPaid: isPaidPlan(plan) };
+  return {
+    id: row.id,
+    email: row.email,
+    plan,
+    isPaid: isPaidPlan(plan),
+    workspaceId: row.id,
+    role: "admin",
+  };
 }
 
 /** Accept session cookie OR Bearer API key (paid). */

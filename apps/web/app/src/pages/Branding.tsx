@@ -21,6 +21,8 @@ export default function BrandingPage({
   const [branding, setBranding] = useState<Branding | null>(null);
   const [name, setName] = useState("");
   const [paymentLink, setPaymentLink] = useState("");
+  const [lateFeeEnabled, setLateFeeEnabled] = useState(false);
+  const [lateFeeHint, setLateFeeHint] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [saved, setSaved] = useState(false);
@@ -32,9 +34,18 @@ export default function BrandingPage({
         setBranding(b);
         setName(b.workspaceName ?? "");
         setPaymentLink(b.paymentLink ?? "");
+        setLateFeeEnabled(!!b.lateFeeEnabled);
+        setLateFeeHint(b.lateFeeHint ?? "");
       })
       .catch(() =>
-        setBranding({ workspaceName: null, logoDataUrl: null, paymentLink: null, paid: false })
+        setBranding({
+          workspaceName: null,
+          logoDataUrl: null,
+          paymentLink: null,
+          lateFeeEnabled: false,
+          lateFeeHint: null,
+          paid: false,
+        })
       );
   }, [account]);
 
@@ -151,6 +162,29 @@ export default function BrandingPage({
     }
   }
 
+  async function saveLateFee(e: React.FormEvent) {
+    e.preventDefault();
+    if (!isPaid) return;
+    setBusy(true);
+    setError(null);
+    setSaved(false);
+    try {
+      const next = await updateBranding({
+        lateFeeEnabled,
+        lateFeeHint: lateFeeHint.trim(),
+      });
+      setBranding(next);
+      setLateFeeEnabled(!!next.lateFeeEnabled);
+      setLateFeeHint(next.lateFeeHint ?? "");
+      setSaved(true);
+      await refresh();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Save failed");
+    } finally {
+      setBusy(false);
+    }
+  }
+
   return (
     <div className="branding-page">
       <p className="crumb">
@@ -258,6 +292,40 @@ export default function BrandingPage({
               {busy ? "Saving…" : "Save"}
             </button>
           )}
+        </form>
+      </section>
+
+      <section className="branding-card">
+        <h2>Late-fee hint</h2>
+        <p className="branding-help">
+          Optional. When enabled, AI drafts can include one factual late-fee / interest line (amount,
+          %, or free text). Chasa never charges clients — wording only.
+        </p>
+        <form onSubmit={saveLateFee}>
+          <label style={{ display: "flex", gap: 8, alignItems: "center", marginBottom: 12 }}>
+            <input
+              type="checkbox"
+              checked={lateFeeEnabled}
+              onChange={(e) => setLateFeeEnabled(e.target.checked)}
+              disabled={!isPaid || busy}
+            />
+            Include late-fee line in drafts
+          </label>
+          <div className="branding-name-row">
+            <input
+              type="text"
+              value={lateFeeHint}
+              onChange={(e) => setLateFeeHint(e.target.value)}
+              placeholder="e.g. 1.5% per month or $25 late fee after 30 days"
+              maxLength={200}
+              disabled={!isPaid || busy}
+            />
+            {isPaid && (
+              <button type="submit" className="btn-primary" disabled={busy}>
+                {busy ? "Saving…" : "Save"}
+              </button>
+            )}
+          </div>
         </form>
       </section>
 

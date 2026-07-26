@@ -59,7 +59,7 @@ v1.post("/chase/draft", requirePaidApiOrSession, async (c) => {
       daysOverdue: Math.max(0, daysOverdue),
     });
     c.executionCtx.waitUntil(
-      dispatchWebhooks(c.env, acc.id, "chase.drafted", {
+      dispatchWebhooks(c.env, acc.workspaceId, "chase.drafted", {
         source: "api",
         client_name: clientName,
         invoice_amount: invoiceAmount,

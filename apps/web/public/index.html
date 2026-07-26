@@ -894,7 +894,49 @@
           <tr>
             <td>AI 3-step chase plans</td>
             <td><span class="cross">✗</span></td>
+            <td><span class="check">✓</span></td>
+            <td class="col-pro"><span class="check">✓</span></td>
+            <td><span class="check">✓</span></td>
+          </tr>
+          <tr>
+            <td>Reminder calendar (copy next / mark done)</td>
             <td><span class="cross">✗</span></td>
+            <td><span class="check">✓</span></td>
+            <td class="col-pro"><span class="check">✓</span></td>
+            <td><span class="check">✓</span></td>
+          </tr>
+          <tr>
+            <td>Email open / click tracking (tracked HTML)</td>
+            <td><span class="cross">✗</span></td>
+            <td><span class="check">✓</span></td>
+            <td class="col-pro"><span class="check">✓</span></td>
+            <td><span class="check">✓</span></td>
+          </tr>
+          <tr>
+            <td>SMS / WhatsApp drafts (copy / open link)</td>
+            <td><span class="cross">✗</span></td>
+            <td><span class="check">✓</span></td>
+            <td class="col-pro"><span class="check">✓</span></td>
+            <td><span class="check">✓</span></td>
+          </tr>
+          <tr>
+            <td>Native QuickBooks Online + Xero OAuth</td>
+            <td><span class="cross">✗</span></td>
+            <td><span class="check">✓</span></td>
+            <td class="col-pro"><span class="check">✓</span></td>
+            <td><span class="check">✓</span></td>
+          </tr>
+          <tr>
+            <td>Team seats / roles</td>
+            <td><span class="cross">✗</span></td>
+            <td>3 seats</td>
+            <td class="col-pro">5 seats</td>
+            <td>25 seats</td>
+          </tr>
+          <tr>
+            <td>Late-fee hint in drafts</td>
+            <td><span class="cross">✗</span></td>
+            <td><span class="check">✓</span></td>
             <td class="col-pro"><span class="check">✓</span></td>
             <td><span class="check">✓</span></td>
           </tr>
@@ -1165,12 +1207,21 @@
           </tr>
           <tr>
             <td>Chase sequences</td>
-            <td class="col-chasa"><span class="check">✓</span> Pro AI plans</td>
+            <td class="col-chasa"><span class="check">✓</span> Solo+ AI plans</td>
             <td><span class="check">✓</span></td>
             <td><span class="check">✓</span></td>
             <td><span class="check">✓</span></td>
             <td><span class="check">✓</span></td>
             <td><span class="check">✓</span></td>
+          </tr>
+          <tr>
+            <td>Open / click tracking</td>
+            <td class="col-chasa"><span class="check">✓</span> Solo+ tracked HTML</td>
+            <td><span class="check">✓</span></td>
+            <td><span class="check">✓</span></td>
+            <td class="muted">—</td>
+            <td class="muted">—</td>
+            <td class="muted">—</td>
           </tr>
           <tr>
             <td>Aging overview</td>
@@ -1210,7 +1261,7 @@
           </tr>
           <tr>
             <td>Native QuickBooks / Xero sync</td>
-            <td class="col-chasa"><span class="cross">✗</span> Zapier / CSV</td>
+            <td class="col-chasa"><span class="check">✓</span> Solo+ OAuth</td>
             <td><span class="check">✓</span></td>
             <td><span class="check">✓</span></td>
             <td class="muted">Integrations on paid</td>
@@ -1228,12 +1279,21 @@
           </tr>
           <tr>
             <td>SMS reminders</td>
-            <td class="col-chasa"><span class="cross">✗</span></td>
+            <td class="col-chasa"><span class="check">✓</span> Solo+ drafts only</td>
             <td><span class="check">✓</span></td>
             <td><span class="check">✓</span></td>
             <td class="muted">Pro+</td>
             <td class="muted">Premium+</td>
             <td><span class="cross">✗</span></td>
+          </tr>
+          <tr>
+            <td>Team seats / roles</td>
+            <td class="col-chasa"><span class="check">✓</span> Solo+ (3–25)</td>
+            <td class="muted">User caps</td>
+            <td class="muted">Seat caps</td>
+            <td class="muted">Team +$/seat</td>
+            <td class="muted">Plan tiers</td>
+            <td class="muted">Workspace</td>
           </tr>
           <tr>
             <td>Client payment portal</td>
@@ -1276,7 +1336,7 @@
       </details>
       <details class="faq-item">
         <summary>Does Chasa connect to QuickBooks, FreshBooks, Xero, Wave, Zoho, or sevDesk?</summary>
-        <p>Not with a native login. On Solo and up, create an API key in <a href="/app/connector">Connector</a> and use Zapier or Make (webhook → Chasa draft API) with those apps or others. Or export open invoices as CSV and upload them in the Tool — common headers from QBO, FreshBooks, Xero, Wave, Zoho, and sevDesk are mapped automatically (Free too). Cloud storage (Dropbox, OneDrive, Box) with PDF import into the Tool is also on Solo and up.</p>
+        <p>Yes for <strong>QuickBooks Online</strong> and <strong>Xero</strong> on Solo and up — native OAuth in <a href="/app/connector">Connector</a> imports overdue invoices into aging. FreshBooks and others: create an API key and use Zapier/Make, or export CSV and upload in the Tool (headers mapped automatically, Free too). Cloud storage (Dropbox, OneDrive, Box) PDF import is also Solo+.</p>
       </details>
       <details class="faq-item">
         <summary>How does the tone work?</summary>

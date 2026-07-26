@@ -95,10 +95,26 @@ When the secret **is** set (production), a valid Turnstile token is required. Th
    OAuth tokens are AES-GCM encrypted at rest with `TOKEN_SECRET`. After connect, paid users can
    list recent PDFs and **Import to Tool** — the worker downloads the file, scrapes text hints
    (client / amount / due), and never returns raw tokens or PDF bytes to the browser.
-10. Create the Cloudflare Pages project (`wrangler pages deploy dist --project-name=chasa` from `apps/web` after building) and attach `chasa.io` as its custom domain; attach `api.chasa.io` as the Worker's custom domain — both via the Cloudflare dashboard.
-11. Only switch to Stripe **live mode** keys/price/webhook once you've smoke-tested the whole flow in test mode.
 
-AI email drafting uses **Cloudflare Workers AI** (free tier: 10,000 neurons/day) — no Anthropic or OpenAI key needed.
+10. (Optional) Native QuickBooks Online + Xero OAuth (Solo+) — overdue invoice import into aging.
+
+   | Provider | Console | Redirect URI |
+   |---|---|---|
+   | QuickBooks Online | [Intuit Developer](https://developer.intuit.com/) | `https://api.chasa.io/api/account/connectors/quickbooks/callback` |
+   | Xero | [Xero Developer](https://developer.xero.com/) | `https://api.chasa.io/api/account/connectors/xero/callback` |
+
+   ```bash
+   wrangler secret put QBO_CLIENT_ID
+   wrangler secret put QBO_CLIENT_SECRET
+   wrangler secret put XERO_CLIENT_ID
+   wrangler secret put XERO_CLIENT_SECRET
+   ```
+
+   Scope notes: QBO needs `com.intuit.quickbooks.accounting`; Xero needs accounting transactions/contacts read + `offline_access`. Connect from `/app/connector`, then **Import overdue**.
+
+
+11. Create the Cloudflare Pages project (`wrangler pages deploy dist --project-name=chasa` from `apps/web` after building) and attach `chasa.io` as its custom domain; attach `api.chasa.io` as the Worker's custom domain — both via the Cloudflare dashboard.
+12. Only switch to Stripe **live mode** keys/price/webhook once you've smoke-tested the whole flow in test mode.
 
 ### Local secrets for `wrangler dev`
 

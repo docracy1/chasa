@@ -175,7 +175,7 @@ export default function WebhooksPage({ account }: { account: Account | null }) {
               <code>chase.reply_drafted</code> — reply to client message
             </li>
             <li>
-              <code>chase.sequence_planned</code> — 3-step chase plan (Pro)
+              <code>chase.sequence_planned</code> — 3-step chase plan (Solo+)
             </li>
             <li>
               <code>chase.downloaded</code> — CSV export of drafts

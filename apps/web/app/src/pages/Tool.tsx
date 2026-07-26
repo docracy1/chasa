@@ -3,9 +3,11 @@ import { Link } from "react-router-dom";
 import Papa from "papaparse";
 import {
   CLOUD_IMPORT_STORAGE_KEY,
+  createTrackedCopy,
   generateEmail,
   generateReply,
   generateSequence,
+  generateSms,
   generateThankYou,
   importCloudConnectorFile,
   listCloudConnectorFiles,
@@ -14,12 +16,15 @@ import {
   notifyWebhook,
   rewriteEmail,
   syncAging,
+  updateReminderStatus,
   type Account,
+  type ChaseReminder,
   type ChaseSequence,
   type CloudFile,
   type CloudFileImport,
   type CloudProvider,
   type RewriteAction,
+  type SmsWhatsAppDraft,
 } from "../lib/api";
 import { getUsedCount, incrementUsedCount, isAtLimit, FREE_LIMIT } from "../lib/usage";
 import { track } from "../lib/analytics";
@@ -38,7 +43,7 @@ const CLOUD_LABELS: Record<CloudProvider, string> = {
 const TOOL_STORAGE_KEY = "chasa.tool.invoices";
 const PAYMENT_LINK_STORAGE_KEY = "chasa.tool.paymentLink";
 
-type AiBusy = RewriteAction | "thankyou" | "reply" | "sequence" | "multi" | null;
+type AiBusy = RewriteAction | "thankyou" | "reply" | "sequence" | "multi" | "sms" | null;
 
 interface Invoice {
   id: string;
@@ -50,8 +55,11 @@ interface Invoice {
   rewriting: AiBusy;
   clientReply?: string;
   sequence?: ChaseSequence | null;
+  reminders?: ChaseReminder[];
+  smsDraft?: SmsWhatsAppDraft | null;
   lastChaseStatus?: string | null;
   lastChaseAt?: string | null;
+  trackingNote?: string | null;
   error?: string;
 }
 
@@ -295,7 +303,6 @@ export default function Tool({ account }: { account: Account | null }) {
   const [pdfBusy, setPdfBusy] = useState(false);
   const [pdfError, setPdfError] = useState<string | null>(null);
   const isPaid = account?.plan !== "free" && account?.plan != null;
-  const isPro = account?.plan === "pro" || account?.plan === "enterprise";
 
   useEffect(() => {
     persistInvoices(invoices);
@@ -776,7 +783,7 @@ export default function Tool({ account }: { account: Account | null }) {
   }
 
   async function handleSequence(invoiceId: string) {
-    if (!isPro) return;
+    if (!isPaid) return;
     const invoice = invoices.find((inv) => inv.id === invoiceId);
     if (!invoice) return;
     setInvoices((prev) =>
@@ -789,6 +796,7 @@ export default function Tool({ account }: { account: Account | null }) {
         client_name: invoice.clientName,
         invoice_amount: invoice.amount,
         days_overdue: daysOverdue(invoice.dueDate),
+        aging_invoice_id: invoice.id,
       });
       const first = sequence.steps[0];
       setInvoices((prev) =>
@@ -797,6 +805,7 @@ export default function Tool({ account }: { account: Account | null }) {
             ? {
                 ...inv,
                 sequence,
+                reminders: (sequence as ChaseSequence & { reminders?: ChaseReminder[] }).reminders,
                 draft: first ? { subject: first.subject, body: first.body } : inv.draft,
                 rewriting: null,
               }
@@ -817,6 +826,106 @@ export default function Tool({ account }: { account: Account | null }) {
         )
       );
     }
+  }
+
+  async function handleSms(invoiceId: string) {
+    if (!isPaid) return;
+    const invoice = invoices.find((inv) => inv.id === invoiceId);
+    if (!invoice) return;
+    setInvoices((prev) =>
+      prev.map((inv) =>
+        inv.id === invoiceId ? { ...inv, rewriting: "sms", error: undefined } : inv
+      )
+    );
+    try {
+      const smsDraft = await generateSms({
+        client_name: invoice.clientName,
+        invoice_amount: invoice.amount,
+        days_overdue: daysOverdue(invoice.dueDate),
+      });
+      setInvoices((prev) =>
+        prev.map((inv) => (inv.id === invoiceId ? { ...inv, smsDraft, rewriting: null } : inv))
+      );
+    } catch (err) {
+      setInvoices((prev) =>
+        prev.map((inv) =>
+          inv.id === invoiceId
+            ? {
+                ...inv,
+                rewriting: null,
+                error: err instanceof Error ? err.message : "Something went wrong.",
+              }
+            : inv
+        )
+      );
+    }
+  }
+
+  async function handleTrackedCopy(invoice: Invoice) {
+    if (!isPaid || !invoice.draft) return;
+    try {
+      const tracked = await createTrackedCopy({
+        subject: invoice.draft.subject,
+        body: invoice.draft.body,
+        clientName: invoice.clientName,
+        agingInvoiceId: invoice.id,
+      });
+      await navigator.clipboard.writeText(tracked.html);
+      setInvoices((prev) =>
+        prev.map((inv) =>
+          inv.id === invoice.id
+            ? {
+                ...inv,
+                trackingNote: tracked.note,
+                lastChaseStatus: "tracked_copy",
+                lastChaseAt: new Date().toISOString(),
+              }
+            : inv
+        )
+      );
+      void markAgingChase(invoice.id, "tracked_copy").catch(() => {});
+      track("chase_sent", { method: "tracked_html" });
+    } catch (err) {
+      setInvoices((prev) =>
+        prev.map((inv) =>
+          inv.id === invoice.id
+            ? { ...inv, error: err instanceof Error ? err.message : "Tracked copy failed." }
+            : inv
+        )
+      );
+    }
+  }
+
+  async function markReminderDone(invoiceId: string, reminderId: string) {
+    try {
+      await updateReminderStatus(reminderId, "done");
+      setInvoices((prev) =>
+        prev.map((inv) => {
+          if (inv.id !== invoiceId || !inv.reminders) return inv;
+          return {
+            ...inv,
+            reminders: inv.reminders.map((r) =>
+              r.id === reminderId ? { ...r, status: "done" as const } : r
+            ),
+          };
+        })
+      );
+    } catch {
+      /* ignore */
+    }
+  }
+
+  function copyNextReminder(invoice: Invoice) {
+    const next = invoice.reminders?.find((r) => r.status === "planned");
+    if (!next?.body) return;
+    void navigator.clipboard.writeText(`Subject: ${next.subject ?? ""}\n\n${next.body}`);
+    setInvoices((prev) =>
+      prev.map((inv) =>
+        inv.id === invoice.id
+          ? { ...inv, draft: { subject: next.subject ?? "", body: next.body ?? "" } }
+          : inv
+      )
+    );
   }
 
   function applySequenceStep(invoiceId: string, stepIndex: number) {
@@ -1501,7 +1610,7 @@ export default function Tool({ account }: { account: Account | null }) {
                           <span>After they paid</span>
                         </span>
                       </button>
-                      {isPro ? (
+                      {isPaid ? (
                         <button
                           type="button"
                           className="ai-tool-btn"
@@ -1515,13 +1624,31 @@ export default function Tool({ account }: { account: Account | null }) {
                             <strong>
                               {invoice.rewriting === "sequence" ? "Planning…" : "3-step chase plan"}
                             </strong>
-                            <span>Pro · recommended cadence</span>
+                            <span>Solo+ · calendar dates</span>
                           </span>
                         </button>
                       ) : (
                         <a className="ai-unlock-link" href="/app/account">
-                          Unlock chase plans on Pro ($17/mo) →
+                          Unlock chase plans on Solo ($7/mo) →
                         </a>
+                      )}
+                      {isPaid && (
+                        <button
+                          type="button"
+                          className="ai-tool-btn"
+                          disabled={busy}
+                          onClick={() => handleSms(invoice.id)}
+                        >
+                          <span className="ai-tool-icon" aria-hidden="true">
+                            ✉
+                          </span>
+                          <span>
+                            <strong>
+                              {invoice.rewriting === "sms" ? "Writing…" : "SMS / WhatsApp draft"}
+                            </strong>
+                            <span>Copy or open — never auto-sent</span>
+                          </span>
+                        </button>
                       )}
                     </>
                   ) : (
@@ -1613,6 +1740,67 @@ export default function Tool({ account }: { account: Account | null }) {
                         </button>
                       ))}
                     </div>
+                    {invoice.reminders && invoice.reminders.length > 0 && (
+                      <div style={{ marginTop: 12, display: "flex", gap: 8, flexWrap: "wrap" }}>
+                        <button
+                          type="button"
+                          className="btn-secondary"
+                          onClick={() => copyNextReminder(invoice)}
+                        >
+                          Copy next
+                        </button>
+                        {invoice.reminders
+                          .filter((r) => r.status === "planned")
+                          .slice(0, 1)
+                          .map((r) => (
+                            <button
+                              key={r.id}
+                              type="button"
+                              className="btn-secondary"
+                              onClick={() => markReminderDone(invoice.id, r.id)}
+                            >
+                              Mark step done
+                            </button>
+                          ))}
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                {invoice.smsDraft && (
+                  <div className="sequence-box">
+                    <div className="ai-tools-label">SMS / WhatsApp (you send)</div>
+                    <p className="chase-tip">{invoice.smsDraft.sms}</p>
+                    <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 8 }}>
+                      <button
+                        type="button"
+                        className="btn-secondary"
+                        onClick={() => navigator.clipboard.writeText(invoice.smsDraft!.sms)}
+                      >
+                        Copy SMS
+                      </button>
+                      <a className="btn-secondary" href={invoice.smsDraft.smsUri}>
+                        Open SMS
+                      </a>
+                    </div>
+                    <p className="chase-tip">{invoice.smsDraft.whatsapp}</p>
+                    <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                      <button
+                        type="button"
+                        className="btn-secondary"
+                        onClick={() => navigator.clipboard.writeText(invoice.smsDraft!.whatsapp)}
+                      >
+                        Copy WhatsApp
+                      </button>
+                      <a
+                        className="btn-secondary"
+                        href={invoice.smsDraft.whatsappUri}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        Open WhatsApp
+                      </a>
+                    </div>
                   </div>
                 )}
 
@@ -1620,6 +1808,11 @@ export default function Tool({ account }: { account: Account | null }) {
                   <button className="btn-secondary" onClick={() => copyDraft(invoice)}>
                     Copy
                   </button>
+                  {isPaid && (
+                    <button className="btn-secondary" onClick={() => handleTrackedCopy(invoice)}>
+                      Copy tracked HTML
+                    </button>
+                  )}
                   <a
                     className="btn-secondary"
                     href={mailtoLink(invoice)}
@@ -1635,6 +1828,11 @@ export default function Tool({ account }: { account: Account | null }) {
                     {invoice.generating ? "Writing…" : "Regenerate"}
                   </button>
                 </div>
+                {invoice.trackingNote && (
+                  <p className="chase-tip" style={{ marginTop: 8 }}>
+                    {invoice.trackingNote}
+                  </p>
+                )}
               </>
             )}
           </div>

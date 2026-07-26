@@ -6,6 +6,7 @@ import {
   generateEmail,
   getClient,
   listClients,
+  trackingStats,
   updateClient,
   type Account,
   type AgingInvoiceRecord,
@@ -42,6 +43,9 @@ export default function ClientsPage({ account }: { account: Account | null }) {
   const [draftBusy, setDraftBusy] = useState(false);
   const [draft, setDraft] = useState<{ subject: string; body: string } | null>(null);
   const [usedCount, setUsedCount] = useState(getUsedCount());
+  const [openStats, setOpenStats] = useState<
+    Record<string, { openCount: number; clickCount: number; lastOpenAt: string | null }>
+  >({});
 
   async function refreshList() {
     const res = await listClients();
@@ -64,7 +68,7 @@ export default function ClientsPage({ account }: { account: Account | null }) {
     }
     setBusy(true);
     getClient(selectedId)
-      .then((res) => {
+      .then(async (res) => {
         setDetail(res.client);
         setInvoices(res.invoices);
         setName(res.client.name);
@@ -72,6 +76,12 @@ export default function ClientsPage({ account }: { account: Account | null }) {
         setNotes(res.client.notes ?? "");
         setContactNote(res.client.lastContactNote ?? "");
         setDraft(null);
+        try {
+          const stats = await trackingStats(res.invoices.map((i) => i.id));
+          setOpenStats(stats.stats);
+        } catch {
+          setOpenStats({});
+        }
       })
       .catch((err) => setError(err instanceof Error ? err.message : "Could not load client"))
       .finally(() => setBusy(false));
@@ -370,6 +380,7 @@ export default function ClientsPage({ account }: { account: Account | null }) {
                   sync clients automatically.
                 </p>
               ) : (
+                <>
                 <table className="aging-table">
                   <thead>
                     <tr>
@@ -377,6 +388,7 @@ export default function ClientsPage({ account }: { account: Account | null }) {
                       <th>Due</th>
                       <th>Days</th>
                       <th>Last chase</th>
+                      <th>Opens</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -386,10 +398,24 @@ export default function ClientsPage({ account }: { account: Account | null }) {
                         <td>{inv.dueDate}</td>
                         <td>{daysOverdue(inv.dueDate)}</td>
                         <td>{inv.lastChaseStatus || "—"}</td>
+                        <td>
+                          {openStats[inv.id]
+                            ? `${openStats[inv.id].openCount}${
+                                openStats[inv.id].clickCount
+                                  ? ` · ${openStats[inv.id].clickCount} clicks`
+                                  : ""
+                              }`
+                            : "—"}
+                        </td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
+                <p className="branding-help" style={{ marginTop: 8 }}>
+                  Opens only count when you used Copy tracked HTML (image pixel). Plain mailto does
+                  not track.
+                </p>
+                </>
               )}
 
               {invoices.length > 0 && (

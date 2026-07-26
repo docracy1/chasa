@@ -7,6 +7,7 @@ const NAV = [
   { to: "/", label: "Dashboard", end: true },
   { to: "/clients", label: "Clients" },
   { to: "/connector", label: "Test connectors" },
+  { to: "/team", label: "Team" },
   { to: "/branding", label: "Branding" },
   { to: "/webhooks", label: "Webhooks" },
   { to: "/account", label: "Account" },

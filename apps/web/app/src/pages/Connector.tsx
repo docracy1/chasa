@@ -1,13 +1,17 @@
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import {
+  ACCOUNTING_REDIRECT_URIS,
   CLOUD_IMPORT_STORAGE_KEY,
   CLOUD_REDIRECT_URIS,
   CLOUD_SECRET_NAMES,
+  accountingConnectUrl,
   cloudConnectorConnectUrl,
   createConnectorKey,
+  disconnectAccountingConnector,
   disconnectCloudConnector,
   explainCloudConnectorError,
+  importAccountingInvoices,
   importCloudConnectorFile,
   listCloudConnectorFiles,
   listCloudConnectors,
@@ -15,6 +19,8 @@ import {
   revokeConnectorKey,
   testCloudConnector,
   type Account,
+  type AccountingConnectorStatus,
+  type AccountingProvider,
   type CloudConnectorStatus,
   type CloudConnectorTestResult,
   type CloudFile,
@@ -24,12 +30,18 @@ import {
 
 const DRAFT_URL = "https://api.chasa.io/api/v1/chase/draft";
 const PROVIDERS: CloudProvider[] = ["dropbox", "onedrive", "box"];
+const ACCOUNTING_PROVIDERS: AccountingProvider[] = ["quickbooks", "xero"];
 const TEST_OK_STORAGE_KEY = "chasa.connectorTestOk";
 
 const CLOUD_LABELS: Record<CloudProvider, string> = {
   dropbox: "Dropbox",
   onedrive: "OneDrive",
   box: "Box",
+};
+
+const ACCOUNTING_LABELS: Record<AccountingProvider, string> = {
+  quickbooks: "QuickBooks Online",
+  xero: "Xero",
 };
 
 type ProviderTestState = {
@@ -103,6 +115,8 @@ export default function ConnectorPage({ account }: { account: Account | null }) 
   const [searchParams, setSearchParams] = useSearchParams();
   const [keys, setKeys] = useState<ConnectorKey[]>([]);
   const [cloud, setCloud] = useState<CloudConnectorStatus[]>([]);
+  const [accounting, setAccounting] = useState<AccountingConnectorStatus[]>([]);
+  const [accountingBusy, setAccountingBusy] = useState<AccountingProvider | null>(null);
   const [name, setName] = useState("");
   const [busy, setBusy] = useState(false);
   const [adding, setAdding] = useState(false);
@@ -140,6 +154,7 @@ export default function ConnectorPage({ account }: { account: Account | null }) 
       const [keysRes, cloudRes] = await Promise.all([listConnectorKeys(), listCloudConnectors()]);
       setKeys(keysRes.keys);
       setCloud(cloudRes.connectors);
+      setAccounting(cloudRes.accounting ?? []);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Could not load connectors");
     } finally {
@@ -188,14 +203,21 @@ export default function ConnectorPage({ account }: { account: Account | null }) 
 
     if (
       connectedParam &&
-      (connectedParam === "1" || PROVIDERS.includes(connectedParam as CloudProvider))
+      (connectedParam === "1" ||
+        PROVIDERS.includes(connectedParam as CloudProvider) ||
+        ACCOUNTING_PROVIDERS.includes(connectedParam as AccountingProvider))
     ) {
-      const provider =
-        (PROVIDERS.includes(connectedParam as CloudProvider)
-          ? connectedParam
-          : cloudProvider) as CloudProvider | null;
-      const label = provider ? CLOUD_LABELS[provider] : "cloud storage";
-      setCloudMsg(`Connected ${label}. Run Test to verify file access.`);
+      const isAccounting = ACCOUNTING_PROVIDERS.includes(connectedParam as AccountingProvider);
+      const label = isAccounting
+        ? ACCOUNTING_LABELS[connectedParam as AccountingProvider]
+        : PROVIDERS.includes(connectedParam as CloudProvider)
+          ? CLOUD_LABELS[connectedParam as CloudProvider]
+          : "provider";
+      setCloudMsg(
+        isAccounting
+          ? `Connected ${label}. Import overdue invoices below.`
+          : `Connected ${label}. Run Test to verify file access.`
+      );
       setSearchParams({}, { replace: true });
       if (isPaid) refresh();
     }
@@ -698,6 +720,102 @@ wrangler secret put ${CLOUD_SECRET_NAMES[c.provider][1]}`}</pre>
         )}
       </section>
 
+      <section className="branding-card" style={{ marginTop: 20 }}>
+        <h2 className="webhooks-title" style={{ fontSize: "1.25rem" }}>
+          QuickBooks Online &amp; Xero
+        </h2>
+        <p className="branding-help">
+          Native OAuth (Solo+). Connect, then import overdue invoices into aging / Tool. Chasa never
+          auto-sends. Set <code>QBO_*</code> / <code>XERO_*</code> secrets first.
+        </p>
+        {!isPaid && (
+          <div className="upgrade-nudge">
+            Native QBO / Xero is on Solo and up. <Link to="/account">Upgrade</Link>
+          </div>
+        )}
+        <ul className="connector-card-list" style={{ listStyle: "none", padding: 0 }}>
+          {ACCOUNTING_PROVIDERS.map((p) => {
+            const st =
+              accounting.find((a) => a.provider === p) ??
+              ({
+                provider: p,
+                connected: false,
+                externalEmail: null,
+                realmId: null,
+                connectedAt: null,
+                configured: true,
+              } as AccountingConnectorStatus);
+            return (
+              <li
+                key={p}
+                style={{
+                  display: "flex",
+                  flexWrap: "wrap",
+                  gap: 10,
+                  alignItems: "center",
+                  padding: "12px 0",
+                  borderBottom: "1px solid var(--line, #e5e5e5)",
+                }}
+              >
+                <strong style={{ minWidth: 140 }}>{ACCOUNTING_LABELS[p]}</strong>
+                <StatusPill kind={st.connected ? "ok" : "muted"}>
+                  {st.connected ? "Connected" : "Not connected"}
+                </StatusPill>
+                {!st.configured && (
+                  <StatusPill kind="warn">Secrets missing</StatusPill>
+                )}
+                {isPaid && !st.connected && st.configured && (
+                  <a className="btn-primary" href={accountingConnectUrl(p)}>
+                    Connect
+                  </a>
+                )}
+                {isPaid && st.connected && (
+                  <>
+                    <button
+                      type="button"
+                      className="btn-primary"
+                      disabled={accountingBusy !== null}
+                      onClick={async () => {
+                        setAccountingBusy(p);
+                        setError(null);
+                        try {
+                          const res = await importAccountingInvoices(p);
+                          setCloudMsg(
+                            `Imported ${res.imported} overdue invoice${res.imported === 1 ? "" : "s"} from ${ACCOUNTING_LABELS[p]} into aging.`
+                          );
+                          navigate("/");
+                        } catch (err) {
+                          setError(err instanceof Error ? err.message : "Import failed");
+                        } finally {
+                          setAccountingBusy(null);
+                        }
+                      }}
+                    >
+                      {accountingBusy === p ? "Importing…" : "Import overdue"}
+                    </button>
+                    <button
+                      type="button"
+                      className="btn-secondary"
+                      disabled={accountingBusy !== null}
+                      onClick={async () => {
+                        try {
+                          await disconnectAccountingConnector(p);
+                          await refresh();
+                        } catch (err) {
+                          setError(err instanceof Error ? err.message : "Disconnect failed");
+                        }
+                      }}
+                    >
+                      Disconnect
+                    </button>
+                  </>
+                )}
+              </li>
+            );
+          })}
+        </ul>
+      </section>
+
       {/* Operator notes — always expanded until all cloud tests pass; no <details> while incomplete */}
       {isPaid && (keepSetupOpen || !notesCollapsed) && (
         <section className="branding-card connector-operator-notes" style={{ marginTop: 20 }}>
@@ -733,6 +851,33 @@ wrangler secret put ${CLOUD_SECRET_NAMES[c.provider][1]}`}</pre>
                         </span>
                       ) : statusLoaded ? (
                         <span className="connector-pill connector-pill-ok">Set</span>
+                      ) : (
+                        <span className="connector-pill connector-pill-muted">…</span>
+                      )}
+                    </td>
+                  </tr>
+                );
+              })}
+              {ACCOUNTING_PROVIDERS.map((p) => {
+                const st = accounting.find((a) => a.provider === p);
+                const missing = st && !st.configured;
+                const secrets =
+                  p === "quickbooks"
+                    ? "QBO_CLIENT_ID + QBO_CLIENT_SECRET"
+                    : "XERO_CLIENT_ID + XERO_CLIENT_SECRET";
+                return (
+                  <tr key={p}>
+                    <td>{ACCOUNTING_LABELS[p]}</td>
+                    <td>
+                      <code>{ACCOUNTING_REDIRECT_URIS[p]}</code>
+                    </td>
+                    <td>
+                      {missing ? (
+                        <span className="connector-pill connector-pill-warn">Missing {secrets}</span>
+                      ) : st ? (
+                        <span className="connector-pill connector-pill-ok">
+                          {st.configured ? "Set" : "Missing"}
+                        </span>
                       ) : (
                         <span className="connector-pill connector-pill-muted">…</span>
                       )}
