@@ -725,8 +725,9 @@ export default function Admin() {
               <section className="dash-card">
                 <h2 className="dash-card-title">Enterprise accounts</h2>
                 <p className="dash-muted">
-                  Self-serve customers subscribe via the Dashboard. For bank transfers or custom
-                  deals, grant Enterprise manually here once payment is confirmed.
+                  Self-serve customers checkout via Stripe (Solo / Pro / Enterprise). For bank
+                  transfers or offline deals, grant Enterprise manually here once payment is
+                  confirmed.
                 </p>
                 <form className="dash-ent-form" onSubmit={grantEnterprise}>
                   <input

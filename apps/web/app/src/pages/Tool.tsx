@@ -921,20 +921,118 @@ export default function Tool({ account }: { account: Account | null }) {
     return d.toLocaleDateString(undefined, { weekday: "short", month: "short", day: "numeric" });
   }
 
+  const overdueCount = invoices.filter((inv) => daysOverdue(inv.dueDate) > 0).length;
+  const draftedCount = invoices.filter((inv) => inv.draft).length;
+  const firstName = account?.email?.split("@")[0]?.split(/[._-]/)[0] || null;
+  const welcomeName = firstName
+    ? firstName.charAt(0).toUpperCase() + firstName.slice(1)
+    : null;
+
   return (
     <div>
-      <h1>Paste your unpaid invoices</h1>
-      <p className="page-sub">
-        Add them manually, upload a CSV (QuickBooks, FreshBooks, Xero, Wave, Zoho, sevDesk, or Chasa
-        format), or import a PDF from Dropbox / OneDrive / Box (Solo+). Chasa writes the follow-up
-        email for each one — draft only, never auto-sent.{" "}
-        {isPaid ? (
-          <Link to="/clients">Manage clients</Link>
+      <section className="welcome-block">
+        <h1>{welcomeName ? `Welcome, ${welcomeName}` : "Welcome"}</h1>
+        <p className="page-sub" style={{ marginBottom: 0 }}>
+          Here&apos;s what needs your attention today.
+        </p>
+
+        <div className="welcome-attention">
+          <div className={`welcome-stat${overdueCount > 0 ? " is-accent" : ""}`}>
+            <span className="welcome-stat-label">Overdue invoices</span>
+            <strong>{overdueCount}</strong>
+            <em>{invoices.length === 0 ? "Add invoices to begin" : "In this workspace"}</em>
+          </div>
+          <div className="welcome-stat">
+            <span className="welcome-stat-label">Drafts ready</span>
+            <strong>{draftedCount}</strong>
+            <em>Never auto-sent</em>
+          </div>
+          <div className="welcome-stat">
+            <span className="welcome-stat-label">{isPaid ? "Plan" : "Free drafts"}</span>
+            <strong>{isPaid ? account?.plan ?? "paid" : `${Math.max(0, FREE_LIMIT - usedCount)}`}</strong>
+            <em>{isPaid ? "All features unlocked" : `of ${FREE_LIMIT} left this month`}</em>
+          </div>
+        </div>
+
+        <h2 className="welcome-section-title">Start something new</h2>
+        <div className="welcome-actions">
+          <a className="welcome-action" href="#chase-workspace">
+            <span className="welcome-action-icon" aria-hidden="true">
+              +
+            </span>
+            <span>
+              <strong>New chase</strong>
+              <span>Paste invoices or add a row, write drafts</span>
+            </span>
+          </a>
+          <a className="welcome-action" href="#chase-workspace">
+            <span className="welcome-action-icon" aria-hidden="true">
+              ↗
+            </span>
+            <span>
+              <strong>Import CSV</strong>
+              <span>QuickBooks, Xero, Wave, Zoho, sevDesk…</span>
+            </span>
+          </a>
+          <Link className="welcome-action" to="/connector">
+            <span className="welcome-action-icon" aria-hidden="true">
+              ≡
+            </span>
+            <span>
+              <strong>Connectors</strong>
+              <span>Dropbox, OneDrive, Box, or API keys</span>
+            </span>
+          </Link>
+          <Link className="welcome-action" to={isPaid ? "/clients" : "/account"}>
+            <span className="welcome-action-icon" aria-hidden="true">
+              ▤
+            </span>
+            <span>
+              <strong>Aging &amp; clients</strong>
+              <span>{isPaid ? "Track outstanding balances" : "Unlock on Solo+"}</span>
+            </span>
+          </Link>
+        </div>
+
+        <h2 className="welcome-section-title">Needs attention</h2>
+        {overdueCount === 0 ? (
+          <div className="welcome-quiet">
+            <span className="welcome-quiet-check" aria-hidden="true">
+              ✓
+            </span>
+            <span>
+              <strong>You&apos;re all caught up. Smooth.</strong>
+              <span>
+                {invoices.length === 0
+                  ? "Nothing overdue yet — import a CSV or add an invoice below."
+                  : "No overdue invoices waiting on a chase right now."}
+              </span>
+            </span>
+          </div>
         ) : (
-          <Link to="/account">Clients on Solo+</Link>
+          <div className="welcome-quiet">
+            <span className="welcome-quiet-check" aria-hidden="true" style={{ background: "var(--accent-soft)", color: "var(--accent)" }}>
+              !
+            </span>
+            <span>
+              <strong>
+                {overdueCount} overdue invoice{overdueCount === 1 ? "" : "s"}
+              </strong>
+              <span>Scroll to the aging table or draft follow-ups below.</span>
+            </span>
+          </div>
         )}
-        .
-      </p>
+      </section>
+
+      <div id="chase-workspace">
+        <h2 className="welcome-section-title" style={{ marginTop: 8 }}>
+          Chase workspace
+        </h2>
+        <p className="page-sub">
+          Add invoices manually, upload a CSV, or import a PDF from Dropbox / OneDrive / Box (Solo+).
+          Chasa writes the follow-up — draft only, never auto-sent.
+        </p>
+      </div>
 
       {!isPaid && (
         <div className="usage-bar">
@@ -945,7 +1043,7 @@ export default function Tool({ account }: { account: Account | null }) {
       {atLimit && (
         <div className="upgrade-nudge">
           You've used your 5 free drafts this month.{" "}
-          <a href="/app/account">Upgrade to Chasa Paid</a> for unlimited invoices.
+          <Link to="/account">Upgrade to Chasa Paid</Link> for unlimited invoices.
         </div>
       )}
 

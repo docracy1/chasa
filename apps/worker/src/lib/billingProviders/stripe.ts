@@ -84,8 +84,16 @@ export async function verifyAndExtract(
     const customer = obj?.customer;
     const subscription = obj?.subscription;
     const metadata = obj?.metadata as { plan?: unknown } | undefined;
+    // Prefer session metadata (set at Checkout Session create). Fall back to line-item price id
+    // when Stripe expands line_items, then legacy obj.price, then Solo.
+    const lineItems = (obj?.line_items as { data?: Array<{ price?: string | { id?: string } }> } | undefined)
+      ?.data;
+    const firstPrice = lineItems?.[0]?.price;
+    const lineItemPriceId =
+      typeof firstPrice === "string" ? firstPrice : typeof firstPrice?.id === "string" ? firstPrice.id : null;
     const plan =
       parseCheckoutPlan(metadata?.plan) ??
+      planFromPriceId(env, lineItemPriceId) ??
       planFromPriceId(env, typeof obj?.price === "string" ? obj.price : null) ??
       "solo";
     return {

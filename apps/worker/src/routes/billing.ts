@@ -13,6 +13,33 @@ import { verifyAndExtract } from "../lib/billingProviders/stripe";
 
 const billing = new Hono<AuthEnv>();
 
+type StripeErrorBody = {
+  error?: {
+    type?: string;
+    code?: string;
+    message?: string;
+    param?: string;
+  };
+};
+
+function stripeClientMessage(status: number, body: StripeErrorBody, fallback: string): string {
+  const msg = body.error?.message?.trim();
+  const code = body.error?.code;
+  if (status === 401 || code === "api_key_expired" || /invalid api key/i.test(msg ?? "")) {
+    return "Stripe API key is invalid or was rotated. Re-set STRIPE_SECRET_KEY on the Worker.";
+  }
+  if (code === "resource_missing" || /no such price/i.test(msg ?? "")) {
+    return msg
+      ? `Stripe price not found (${msg}). Check STRIPE_PRICE_* in wrangler.toml matches live mode.`
+      : "Stripe price not found. Check STRIPE_PRICE_* IDs match your live Stripe account.";
+  }
+  if (/one_time.*subscription|subscription.*one_time/i.test(msg ?? "")) {
+    return "That Stripe price is one-time, but checkout needs a recurring subscription price.";
+  }
+  if (msg) return `Stripe: ${msg}`;
+  return fallback;
+}
+
 billing.post("/checkout", requireAccount, async (c) => {
   if (!c.env.STRIPE_SECRET_KEY) {
     return c.json({ error: "Billing isn't set up on this deployment yet." }, 501);
@@ -26,7 +53,11 @@ billing.post("/checkout", requireAccount, async (c) => {
 
   const priceId = priceIdForPlan(c.env, plan);
   if (!priceId) {
-    return c.json({ error: "That plan isn't configured yet." }, 501);
+    return c.json({ error: `That plan isn't configured yet (${plan}).` }, 501);
+  }
+
+  if (!c.env.PUBLIC_APP_URL) {
+    return c.json({ error: "PUBLIC_APP_URL is not configured on the Worker." }, 501);
   }
 
   const account = c.get("account")!;
@@ -38,10 +69,17 @@ billing.post("/checkout", requireAccount, async (c) => {
     success_url: `${c.env.PUBLIC_APP_URL}/app/account?checkout=success`,
     cancel_url: `${c.env.PUBLIC_APP_URL}/app/account?checkout=cancelled`,
     client_reference_id: account.id,
-    customer_email: account.email,
     "metadata[plan]": plan,
     "subscription_data[metadata][plan]": plan,
   });
+
+  // Prefer existing Stripe customer so upgrades don't fail when email already has a customer.
+  const existingCustomerId = await getStripeCustomerId(c.env, account.id);
+  if (existingCustomerId) {
+    params.set("customer", existingCustomerId);
+  } else {
+    params.set("customer_email", account.email);
+  }
 
   const res = await fetch("https://api.stripe.com/v1/checkout/sessions", {
     method: "POST",
@@ -53,13 +91,29 @@ billing.post("/checkout", requireAccount, async (c) => {
   });
 
   if (!res.ok) {
-    console.error(`Stripe checkout session creation failed (${res.status}): ${await res.text()}`);
-    return c.json({ error: "Could not start checkout. Please try again." }, 502);
+    const raw = await res.text();
+    let parsed: StripeErrorBody = {};
+    try {
+      parsed = JSON.parse(raw) as StripeErrorBody;
+    } catch {
+      /* ignore */
+    }
+    console.error(
+      `Stripe checkout session creation failed (${res.status}) plan=${plan} price=${priceId} app=${c.env.PUBLIC_APP_URL}: ${raw}`
+    );
+    return c.json(
+      {
+        error: stripeClientMessage(res.status, parsed, "Could not start checkout. Please try again."),
+        plan,
+        priceId,
+      },
+      502
+    );
   }
 
   const session = (await res.json()) as { url: string | null };
   if (!session.url) {
-    return c.json({ error: "Could not start checkout. Please try again." }, 502);
+    return c.json({ error: "Stripe returned a checkout session without a URL." }, 502);
   }
   return c.json({ url: session.url });
 });
@@ -115,15 +169,75 @@ billing.post("/portal", requirePaidAccount, async (c) => {
   });
 
   if (!res.ok) {
-    console.error(`Stripe portal session creation failed (${res.status}): ${await res.text()}`);
-    return c.json({ error: "Could not open the billing portal. Please try again." }, 502);
+    const raw = await res.text();
+    let parsed: StripeErrorBody = {};
+    try {
+      parsed = JSON.parse(raw) as StripeErrorBody;
+    } catch {
+      /* ignore */
+    }
+    console.error(`Stripe portal session creation failed (${res.status}): ${raw}`);
+    return c.json(
+      {
+        error: stripeClientMessage(res.status, parsed, "Could not open the billing portal. Please try again."),
+      },
+      502
+    );
   }
 
   const session = (await res.json()) as { url: string | null };
   if (!session.url) {
-    return c.json({ error: "Could not open the billing portal. Please try again." }, 502);
+    return c.json({ error: "Stripe returned a portal session without a URL." }, 502);
   }
   return c.json({ url: session.url });
+});
+
+/** Signed-in diagnostic — confirms price IDs resolve in the Stripe account behind STRIPE_SECRET_KEY. */
+billing.get("/status", requireAccount, async (c) => {
+  const key = c.env.STRIPE_SECRET_KEY;
+  if (!key) {
+    return c.json({ ok: false, error: "STRIPE_SECRET_KEY missing" }, 501);
+  }
+
+  const plans = ["solo", "pro", "enterprise"] as const;
+  const prices: Record<string, unknown> = {};
+  for (const plan of plans) {
+    const priceId = priceIdForPlan(c.env, plan);
+    if (!priceId) {
+      prices[plan] = { configured: false };
+      continue;
+    }
+    const res = await fetch(`https://api.stripe.com/v1/prices/${priceId}`, {
+      headers: { Authorization: `Bearer ${key}` },
+    });
+    const data = (await res.json()) as {
+      id?: string;
+      active?: boolean;
+      type?: string;
+      unit_amount?: number;
+      currency?: string;
+      recurring?: { interval?: string } | null;
+      error?: { message?: string; type?: string };
+    };
+    prices[plan] = {
+      configured: true,
+      priceId,
+      httpStatus: res.status,
+      active: data.active ?? null,
+      type: data.type ?? null,
+      unitAmount: data.unit_amount ?? null,
+      currency: data.currency ?? null,
+      interval: data.recurring?.interval ?? null,
+      error: data.error?.message ?? null,
+    };
+  }
+
+  return c.json({
+    ok: true,
+    publicAppUrl: c.env.PUBLIC_APP_URL,
+    keyMode: key.startsWith("sk_live_") ? "live" : key.startsWith("sk_test_") ? "test" : "unknown",
+    prices,
+  });
 });
 
 export default billing;
