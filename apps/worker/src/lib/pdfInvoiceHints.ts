@@ -12,43 +12,108 @@ export type InvoiceHints = {
   confidence: "none" | "low" | "medium" | "high";
 };
 
+/** True when bytes look like a PDF (%PDF header, allowing a short BOM/prefix). */
+export function isPdfMagic(bytes: ArrayBuffer): boolean {
+  if (bytes.byteLength < 5) return false;
+  const u8 = new Uint8Array(bytes, 0, Math.min(bytes.byteLength, 1024));
+  // Allow a few leading bytes (some exporters prepend junk / UTF-8 BOM)
+  for (let i = 0; i <= Math.min(64, u8.length - 5); i++) {
+    if (
+      u8[i] === 0x25 && // %
+      u8[i + 1] === 0x50 && // P
+      u8[i + 2] === 0x44 && // D
+      u8[i + 3] === 0x46 // F
+    ) {
+      return true;
+    }
+  }
+  return false;
+}
+
+function decodePdfLiteral(inner: string): string {
+  return inner
+    .replace(/\\n/g, "\n")
+    .replace(/\\r/g, "\r")
+    .replace(/\\t/g, "\t")
+    .replace(/\\\(/g, "(")
+    .replace(/\\\)/g, ")")
+    .replace(/\\\\/g, "\\")
+    .replace(/\\\d{1,3}/g, "");
+}
+
+function decodePdfHex(hexRaw: string): string {
+  const hex = hexRaw.replace(/\s+/g, "");
+  if (hex.length < 4) return "";
+
+  // UTF-16BE (optional BOM FEFF) — common for Tj strings in modern invoices
+  if (hex.length % 4 === 0 && (hex.startsWith("FEFF") || hex.startsWith("fffe") || /^(00[2-7][0-9A-Fa-f]){2,}/.test(hex))) {
+    let s = "";
+    const start = hex.toUpperCase().startsWith("FEFF") || hex.toLowerCase().startsWith("fffe") ? 4 : 0;
+    for (let i = start; i + 3 < hex.length; i += 4) {
+      const code = parseInt(hex.slice(i, i + 4), 16);
+      if (code === 0) continue;
+      if (code >= 32 && code < 0xfffe) s += String.fromCharCode(code);
+      else if (code === 10 || code === 13 || code === 9) s += " ";
+    }
+    if (s.trim().length >= 2) return s;
+  }
+
+  if (hex.length % 2 !== 0) return "";
+  let s = "";
+  for (let i = 0; i < hex.length; i += 2) {
+    const code = parseInt(hex.slice(i, i + 2), 16);
+    if (code >= 32 && code < 127) s += String.fromCharCode(code);
+    else if (code === 10 || code === 13) s += " ";
+  }
+  return s;
+}
+
 /** Pull printable strings from PDF bytes (literal strings + readable runs). */
 export function extractPdfText(bytes: ArrayBuffer): string {
+  if (!isPdfMagic(bytes)) return "";
   // Cap work — invoice text is almost always in the first few MB
   const u8 = new Uint8Array(bytes, 0, Math.min(bytes.byteLength, 2_000_000));
   const raw = new TextDecoder("latin1").decode(u8);
 
   const parts: string[] = [];
+  const push = (s: string) => {
+    const t = s.replace(/\s+/g, " ").trim();
+    if (t.replace(/\s+/g, "").length >= 2) parts.push(t);
+  };
 
   // PDF literal strings: (....) with basic escape handling
   const literalRe = /\((?:\\.|[^\\)])*\)/g;
   let m: RegExpExecArray | null;
   while ((m = literalRe.exec(raw)) !== null) {
-    const inner = m[0].slice(1, -1);
-    const decoded = inner
-      .replace(/\\n/g, "\n")
-      .replace(/\\r/g, "\r")
-      .replace(/\\t/g, "\t")
-      .replace(/\\\(/g, "(")
-      .replace(/\\\)/g, ")")
-      .replace(/\\\\/g, "\\")
-      .replace(/\\\d{1,3}/g, "");
-    if (decoded.replace(/\s+/g, "").length >= 2) parts.push(decoded);
+    push(decodePdfLiteral(m[0].slice(1, -1)));
     if (parts.join(" ").length > MAX_EXTRACT_CHARS) break;
   }
 
-  // Hex strings <...> that decode to printable ASCII
+  // Hex strings <...> that decode to printable ASCII / UTF-16BE
   const hexRe = /<([0-9A-Fa-f\s]+)>/g;
   while ((m = hexRe.exec(raw)) !== null) {
-    const hex = m[1].replace(/\s+/g, "");
-    if (hex.length < 4 || hex.length % 2 !== 0) continue;
-    let s = "";
-    for (let i = 0; i < hex.length; i += 2) {
-      const code = parseInt(hex.slice(i, i + 2), 16);
-      if (code >= 32 && code < 127) s += String.fromCharCode(code);
-      else if (code === 10 || code === 13) s += " ";
+    const s = decodePdfHex(m[1]);
+    if (s.trim().length >= 2) push(s);
+    if (parts.join(" ").length > MAX_EXTRACT_CHARS) break;
+  }
+
+  // Explicit text-showing operators: (Hello) Tj  /  [(Hel) -10 (lo)] TJ
+  const tjRe = /\(((?:\\.|[^\\)])*)\)\s*Tj/g;
+  while ((m = tjRe.exec(raw)) !== null) {
+    push(decodePdfLiteral(m[1]));
+    if (parts.join(" ").length > MAX_EXTRACT_CHARS) break;
+  }
+  const TJRe = /\[((?:[^\[\]]|\[[^\]]*\])*)\]\s*TJ/g;
+  while ((m = TJRe.exec(raw)) !== null) {
+    const inner = m[1];
+    const pieceRe = /\(((?:\\.|[^\\)])*)\)|<([0-9A-Fa-f\s]+)>/g;
+    let p: RegExpExecArray | null;
+    const chunks: string[] = [];
+    while ((p = pieceRe.exec(inner)) !== null) {
+      if (p[1] != null) chunks.push(decodePdfLiteral(p[1]));
+      else if (p[2] != null) chunks.push(decodePdfHex(p[2]));
     }
-    if (s.trim().length >= 3) parts.push(s);
+    if (chunks.length) push(chunks.join(""));
     if (parts.join(" ").length > MAX_EXTRACT_CHARS) break;
   }
 
@@ -57,7 +122,9 @@ export function extractPdfText(bytes: ArrayBuffer): string {
     const runRe = /[\x20-\x7E]{6,}/g;
     while ((m = runRe.exec(raw)) !== null) {
       const s = m[0].trim();
-      if (/[A-Za-z]/.test(s) && !/^\/[A-Za-z]+$/.test(s)) parts.push(s);
+      if (/[A-Za-z]/.test(s) && !/^\/[A-Za-z]+$/.test(s) && !/^obj$|^endobj$|^stream$|^endstream$/i.test(s)) {
+        push(s);
+      }
       if (parts.join(" ").length > MAX_EXTRACT_CHARS) break;
     }
   }
@@ -85,6 +152,11 @@ function toIsoDate(y: number, mo: number, d: number): string | null {
   return dt.toISOString().slice(0, 10);
 }
 
+function expandTwoDigitYear(yy: number): number {
+  // Window: 2000–2099 for 00–99 (invoice PDFs are almost always current-century)
+  return 2000 + yy;
+}
+
 function parseLooseDate(raw: string): string | null {
   const s = raw.trim();
   // YYYY-MM-DD
@@ -97,6 +169,16 @@ function parseLooseDate(raw: string): string | null {
     const b = +m[2];
     const y = +m[3];
     // Prefer D/M/Y when first > 12, else assume D/M/Y (EU-leaning for Chasa)
+    if (a > 12) return toIsoDate(y, b, a);
+    if (b > 12) return toIsoDate(y, a, b);
+    return toIsoDate(y, b, a);
+  }
+  // DD.MM.YY / DD/MM/YY
+  m = s.match(/^(\d{1,2})[./-](\d{1,2})[./-](\d{2})$/);
+  if (m) {
+    const a = +m[1];
+    const b = +m[2];
+    const y = expandTwoDigitYear(+m[3]);
     if (a > 12) return toIsoDate(y, b, a);
     if (b > 12) return toIsoDate(y, a, b);
     return toIsoDate(y, b, a);

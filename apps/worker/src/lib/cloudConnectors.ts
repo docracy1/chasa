@@ -1,7 +1,12 @@
 import type { Env } from "../types";
 import { generateOpaqueToken, hashOpaqueToken } from "./token";
 import { decryptSecret, encryptSecret } from "./secretCrypto";
-import { extractPdfText, parseInvoiceHints, type InvoiceHints } from "./pdfInvoiceHints";
+import {
+  extractPdfText,
+  isPdfMagic,
+  parseInvoiceHints,
+  type InvoiceHints,
+} from "./pdfInvoiceHints";
 
 export type { InvoiceHints };
 
@@ -762,6 +767,12 @@ export async function importCloudPdf(
   const { bytes, meta } = await downloadFileBytes(env, accountId, provider, fileId.trim(), path);
   if (!looksLikeInvoicePdf(meta.name)) {
     throw new Error("Only PDF files can be imported");
+  }
+  if (bytes.byteLength === 0) {
+    throw new Error("Downloaded file was empty");
+  }
+  if (!isPdfMagic(bytes)) {
+    throw new Error("File does not look like a PDF (corrupt or wrong type)");
   }
   const text = extractPdfText(bytes);
   const hints = parseInvoiceHints(meta.name, text);

@@ -249,7 +249,8 @@ export default function Tool({ account }: { account: Account | null }) {
           ? String(parsed.hints.amount)
           : ""
       );
-      setImportDue(parsed.hints.dueDate ?? "");
+      // Default due date to today when the PDF/filename didn't yield one — form requires a date
+      setImportDue(parsed.hints.dueDate ?? new Date().toISOString().slice(0, 10));
       track("fields_added", { source: "cloud_pdf_pending" });
     } catch {
       sessionStorage.removeItem(CLOUD_IMPORT_STORAGE_KEY);
@@ -362,7 +363,7 @@ export default function Tool({ account }: { account: Account | null }) {
           ? String(result.hints.amount)
           : ""
       );
-      setImportDue(result.hints.dueDate ?? "");
+      setImportDue(result.hints.dueDate ?? new Date().toISOString().slice(0, 10));
       setShowPdfPicker(false);
       track("fields_added", { source: "cloud_pdf_pending" });
     } catch (err) {
