@@ -82,6 +82,17 @@ export default function UserChip({
         <a href="/" role="menuitem">
           Marketing site
         </a>
+        <a
+          href="https://www.linkedin.com/company/chasa-io"
+          role="menuitem"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          LinkedIn
+        </a>
+        <a href="https://x.com/chasaHQ" role="menuitem" target="_blank" rel="noopener noreferrer">
+          X
+        </a>
         <button type="button" role="menuitem" className="dash-logout" onClick={onLogout}>
           ← Log out
         </button>
