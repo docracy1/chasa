@@ -15,4 +15,18 @@
   });
 })();
 
-(function(){var s=document.createElement("script");s.src="/assistant.js";s.defer=true;document.body.appendChild(s);})();
+(function () {
+  if (window.__chasaAssistant || document.querySelector('script[src="/assistant.js"]')) return;
+  function inject() {
+    if (!document.body) return;
+    var s = document.createElement("script");
+    s.src = "/assistant.js";
+    s.defer = true;
+    document.body.appendChild(s);
+  }
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", inject);
+  } else {
+    inject();
+  }
+})();
