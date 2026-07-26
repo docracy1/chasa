@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blog — Chasa</title>
+<meta name="description" content="Notes from Odo on invoice chase, freelancing cash flow, and Chasa.">
+<link rel="canonical" href="https://chasa.io/blog/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/site.css">
+<link rel="icon" href="/favicon.png" type="image/png" />
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap site-header-inner">
+    <a href="/" class="logo" aria-label="Chasa home"><img class="logo-mark" src="/brand/chasa-icon.png" alt="" width="28" height="28" /><span class="logo-word">chasa</span></a>
+    <div class="header-nav-right">
+      <a href="/#pricing" class="header-nav-link header-nav-collapse">Pricing</a>
+      <a href="/free-templates/" class="header-nav-link header-nav-collapse">Free templates</a>
+      <a href="/blog/" class="header-nav-link header-nav-strong">Blog</a>
+      <a href="/app/login" class="header-nav-link">Sign in</a>
+      <a href="/app/" class="nav-cta">Try free</a>
+      <button class="header-menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" data-menu-toggle>
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="header-mobile-menu" data-mobile-menu>
+      <a href="/#pricing">Pricing</a>
+      <a href="/free-templates/">Free templates</a>
+      <a href="/blog/">Blog</a>
+      <a href="/app/login">Sign in</a>
+      <a href="/app/">Try free</a>
+    </div>
+  </div>
+</header>
+
+<main class="wrap legal-page">
+  <h1>Blog</h1>
+  <p class="lede" style="margin-bottom:28px">Notes on chasing invoices without the awkwardness.</p>
+  <div id="posts"><p style="color:var(--ink-soft)">Loading…</p></div>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap site-footer-inner">
+    <div class="site-footer-brand">
+      <a href="/" class="logo" aria-label="Chasa home"><img class="logo-mark" src="/brand/chasa-icon.png" alt="" width="24" height="24" /><span class="logo-word">chasa</span></a>
+      <p>Free AI invoice follow-ups — paste unpaid invoices, get the reminder email already written.</p>
+    </div>
+    <div class="site-footer-col">
+      <h4>Product</h4>
+      <a href="/app/">Try free</a>
+      <a href="/#pricing">Pricing</a>
+      <a href="/free-templates/">Free templates</a>
+      <a href="/blog/">Blog</a>
+    </div>
+    <div class="site-footer-col">
+      <h4>Company</h4>
+      <a href="/about">About</a>
+      <a href="/imprint">Imprint</a>
+      <a href="mailto:founder@chasa.io">Contact</a>
+    </div>
+    <div class="site-footer-col">
+      <h4>Legal</h4>
+      <a href="/privacy">Privacy</a>
+      <a href="/terms">Terms</a>
+    </div>
+  </div>
+  <div class="site-footer-bottom">© 2026 Chasa — a product of RELACON GmbH</div>
+</footer>
+<script src="/site-nav.js"></script>
+<script src="/analytics.js"></script>
+<script>
+fetch("/api/blog/posts").then(function(r){return r.json()}).then(function(data){
+  var el = document.getElementById("posts");
+  var posts = data.posts || [];
+  if (!posts.length) {
+    el.innerHTML = "<p style=\"color:var(--ink-soft)\">No posts yet.</p>";
+    return;
+  }
+  el.innerHTML = posts.map(function(p){
+    return "<article style=\"margin-bottom:28px;padding-bottom:20px;border-bottom:1px solid var(--line)\">" +
+      "<h2 style=\"font-family:Fraunces,serif;font-size:24px;margin:0 0 8px\"><a href=\"/blog/" + encodeURIComponent(p.slug) + "\">" + p.title.replace(/</g,"&lt;") + "</a></h2>" +
+      "<p style=\"color:var(--ink-soft);margin:0\">" + (p.description || "").replace(/</g,"&lt;") + "</p>" +
+      "</article>";
+  }).join("");
+}).catch(function(){
+  document.getElementById("posts").innerHTML = "<p>Could not load posts.</p>";
+});
+</script>
+</body>
+</html>

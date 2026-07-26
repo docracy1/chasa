@@ -1,0 +1,15 @@
+User-agent: *
+Allow: /$
+Allow: /app/$
+Allow: /app/login$
+Allow: /free-templates/$
+Allow: /free-templates/
+Allow: /ai$
+Allow: /about$
+Allow: /imprint$
+Allow: /privacy$
+Allow: /terms$
+Allow: /llms.txt$
+Disallow: /app/account
+
+Sitemap: https://chasa.io/sitemap.xml

@@ -1,0 +1,19 @@
+{
+  "name": "chasa",
+  "private": true,
+  "workspaces": ["apps/*"],
+  "overrides": {
+    "react": "18.3.1",
+    "react-dom": "18.3.1"
+  },
+  "scripts": {
+    "dev:worker": "npm run dev --workspace apps/worker",
+    "dev:web": "npm run dev --workspace apps/web",
+    "build:web": "npm run build --workspace apps/web",
+    "deploy:worker": "npm run deploy --workspace apps/worker",
+    "deploy:web": "npm run build --workspace apps/web && npm run deploy --workspace apps/web",
+    "typecheck:worker": "npm run typecheck --workspace apps/worker",
+    "typecheck:web": "npm run build --workspace apps/web",
+    "typecheck": "npm run typecheck:worker && npm run typecheck:web"
+  }
+}

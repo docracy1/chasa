@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blog — Chasa</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/site.css">
+<link rel="icon" href="/favicon.png" type="image/png" />
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap site-header-inner">
+    <a href="/" class="logo" aria-label="Chasa home"><img class="logo-mark" src="/brand/chasa-icon.png" alt="" width="28" height="28" /><span class="logo-word">chasa</span></a>
+    <div class="header-nav-right">
+      <a href="/blog/" class="header-nav-link">Blog</a>
+      <a href="/app/" class="nav-cta">Try free</a>
+    </div>
+  </div>
+</header>
+<main class="wrap legal-page" id="post"><p style="color:var(--ink-soft)">Loading…</p></main>
+<footer class="site-footer">
+  <div class="site-footer-bottom">© 2026 Chasa — a product of RELACON GmbH</div>
+</footer>
+<script src="/site-nav.js"></script>
+<script src="/analytics.js"></script>
+<script>
+(function(){
+  var parts = location.pathname.replace(/\/+$/,"").split("/");
+  var slug = parts[parts.length - 1];
+  if (!slug || slug === "blog" || slug === "post") {
+    document.getElementById("post").innerHTML = "<p>Post not found. <a href=\"/blog/\">Back</a></p>";
+    return;
+  }
+  fetch("/api/blog/posts/" + encodeURIComponent(slug)).then(function(r){
+    if (!r.ok) throw new Error("nf");
+    return r.json();
+  }).then(function(data){
+    var p = data.post;
+    document.title = p.title + " — Chasa";
+    var paras = (p.body || "").split(/\n\s*\n/).map(function(t){
+      return "<p>" + t.replace(/</g,"&lt;").replace(/\n/g,"<br>") + "</p>";
+    }).join("");
+    document.getElementById("post").innerHTML =
+      "<p><a href=\"/blog/\">← Blog</a></p>" +
+      "<h1>" + p.title.replace(/</g,"&lt;") + "</h1>" +
+      (p.description ? "<p class=\"lede\">" + p.description.replace(/</g,"&lt;") + "</p>" : "") +
+      paras;
+  }).catch(function(){
+    document.getElementById("post").innerHTML = "<p>Post not found. <a href=\"/blog/\">Back</a></p>";
+  });
+})();
+</script>
+</body>
+</html>

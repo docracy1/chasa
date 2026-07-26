@@ -1,0 +1,77 @@
+name = "chasa-worker"
+main = "src/index.ts"
+compatibility_date = "2024-12-01"
+compatibility_flags = ["nodejs_compat"]
+# Keep workers.dev up until api.chasa.io is attached (a --domains deploy with no zone
+# can otherwise disable the workers.dev route and take the API offline).
+workers_dev = true
+preview_urls = true
+
+# Custom API host (Cloudflare zone must be Active for this to resolve publicly).
+[[routes]]
+pattern = "api.chasa.io"
+custom_domain = true
+
+# Create with: wrangler d1 create chasa-db, then paste the returned database_id below, then run:
+# wrangler d1 migrations apply chasa-db --local (dev) / --remote (prod)
+[[d1_databases]]
+binding = "CHASA_DB"
+database_name = "chasa-db"
+database_id = "1f5d8f25-0406-476e-abda-ac8f62c861aa"
+
+# Free (10k neurons/day, resets daily) — no account or API key needed.
+[ai]
+binding = "AI"
+
+# --- Non-secret config ---
+# This is the deployed (production) value. Local `wrangler dev` overrides it via
+# apps/worker/.dev.vars, which takes precedence over [vars] when running locally.
+[vars]
+PUBLIC_APP_URL = "https://chasa.io"
+PUBLIC_WORKER_URL = "https://api.chasa.io"
+WORKERS_AI_MODEL = "@cf/meta/llama-3.1-8b-instruct-fp8"
+FEEDBACK_EMAIL = "founder@chasa.io"
+ADMIN_EMAIL = "rl@relacon.at"
+STRIPE_PRICE_SOLO = "price_1TxMxKQu2Ibd9xnHtDozkRT5"
+STRIPE_PRICE_PRO = "price_1TxMyFQu2Ibd9xnHPDe4L9q4"
+STRIPE_PRICE_ENTERPRISE = "price_1TxMzNQu2Ibd9xnHUnRjRDQv"
+
+# --- Secrets (never stored in this file) ---
+# Set with: wrangler secret put TOKEN_SECRET            (generate: openssl rand -hex 32)
+# Set with: wrangler secret put RESEND_API_KEY
+# Set with: wrangler secret put ADMIN_PASSWORD           (admin dashboard at /app/admin)
+# Set with: wrangler secret put STRIPE_SECRET_KEY
+# Set with: wrangler secret put STRIPE_WEBHOOK_SECRET
+# Cloud storage OAuth (optional — Connect buttons return 503 until set):
+#   Redirect URIs (register in each provider console):
+#     https://api.chasa.io/api/account/connectors/dropbox/callback
+#     https://api.chasa.io/api/account/connectors/onedrive/callback
+#     https://api.chasa.io/api/account/connectors/box/callback
+# Set with: wrangler secret put DROPBOX_CLIENT_ID
+# Set with: wrangler secret put DROPBOX_CLIENT_SECRET
+# Set with: wrangler secret put ONEDRIVE_CLIENT_ID
+# Set with: wrangler secret put ONEDRIVE_CLIENT_SECRET
+# Set with: wrangler secret put BOX_CLIENT_ID
+# Set with: wrangler secret put BOX_CLIENT_SECRET
+# Price IDs are non-secret — set above as STRIPE_PRICE_SOLO / PRO / ENTERPRISE.
+
+# --- Staging: isolated D1 so testing never touches production data ---
+# Deploy with: wrangler deploy --env staging
+# Secrets: wrangler secret put TOKEN_SECRET --env staging (RESEND_API_KEY intentionally left
+# unset here — emails just log to the console instead of actually sending during testing)
+[env.staging]
+name = "chasa-worker-staging"
+
+[[env.staging.d1_databases]]
+binding = "CHASA_DB"
+database_name = "chasa-db-staging"
+database_id = "REPLACE_WITH_STAGING_D1_DATABASE_ID"
+
+[env.staging.ai]
+binding = "AI"
+
+[env.staging.vars]
+PUBLIC_APP_URL = "http://localhost:5173"
+PUBLIC_WORKER_URL = "https://chasa-worker-staging.workers.dev"
+WORKERS_AI_MODEL = "@cf/meta/llama-3.1-8b-instruct-fp8"
+FEEDBACK_EMAIL = "founder@chasa.io"
