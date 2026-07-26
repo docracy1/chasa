@@ -167,6 +167,18 @@ export type CloudFileImport = {
   extractedChars: number;
 };
 
+export type CloudConnectorTestResult = {
+  ok: boolean;
+  provider: CloudProvider;
+  configured: boolean;
+  connected: boolean;
+  message: string;
+  externalEmail: string | null;
+  filesFound: number | null;
+  hint: string | null;
+  explanation?: string;
+};
+
 /** sessionStorage key — Connector writes, Tool reads + clears */
 export const CLOUD_IMPORT_STORAGE_KEY = "chasa.cloudImport";
 
@@ -182,6 +194,12 @@ export function listCloudConnectorFiles(provider: CloudProvider) {
   return jsonFetch<{ files: CloudFile[] }>(`/account/connectors/${provider}/files`);
 }
 
+export function testCloudConnector(provider: CloudProvider) {
+  return jsonFetch<CloudConnectorTestResult>(`/account/connectors/${provider}/test`, {
+    method: "POST",
+  });
+}
+
 export function importCloudConnectorFile(
   provider: CloudProvider,
   file: { id: string; path?: string | null }
@@ -195,6 +213,47 @@ export function importCloudConnectorFile(
 /** Start OAuth — full-page navigate so the session cookie is sent. */
 export function cloudConnectorConnectUrl(provider: CloudProvider) {
   return `/api/account/connectors/${provider}/connect`;
+}
+
+/** Exact redirect URIs to register in each provider console. */
+export const CLOUD_REDIRECT_URIS: Record<CloudProvider, string> = {
+  dropbox: "https://api.chasa.io/api/account/connectors/dropbox/callback",
+  onedrive: "https://api.chasa.io/api/account/connectors/onedrive/callback",
+  box: "https://api.chasa.io/api/account/connectors/box/callback",
+};
+
+export const CLOUD_SECRET_NAMES: Record<CloudProvider, [string, string]> = {
+  dropbox: ["DROPBOX_CLIENT_ID", "DROPBOX_CLIENT_SECRET"],
+  onedrive: ["ONEDRIVE_CLIENT_ID", "ONEDRIVE_CLIENT_SECRET"],
+  box: ["BOX_CLIENT_ID", "BOX_CLIENT_SECRET"],
+};
+
+/** Map OAuth / connect query error codes to founder-friendly copy. */
+export function explainCloudConnectorError(code: string, description?: string | null): string {
+  const c = code.toLowerCase();
+  if (description && description.trim()) return description.trim().slice(0, 200);
+  if (c === "access_denied" || c === "user_denied") {
+    return "You denied access in the provider consent screen. Click Connect and approve again.";
+  }
+  if (c.includes("redirect") || c === "redirect_uri_mismatch") {
+    return "Redirect URI mismatch — register the exact callback URIs under Operator notes.";
+  }
+  if (c.includes("scope") || c === "invalid_scope" || c === "consent_required") {
+    return "Required scopes were not granted. Reconnect and accept file read + offline access.";
+  }
+  if (c === "token_exchange") {
+    return "Token exchange failed — check client ID/secret and that the redirect URI matches exactly.";
+  }
+  if (c === "missing_code") {
+    return "Provider returned no authorization code. Try Connect again.";
+  }
+  if (c === "invalid_state") {
+    return "OAuth state expired or invalid (15 min). Click Connect again from this tab.";
+  }
+  if (c === "not_configured" || c === "not_configured_yet") {
+    return "OAuth secrets are not set on the worker yet. Expand Operator notes for wrangler secret put …";
+  }
+  return code.slice(0, 160);
 }
 
 export function notifyWebhook(

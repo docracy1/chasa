@@ -78,6 +78,123 @@ export function appConnectorUrl(env: Env, query: Record<string, string>): string
   return u.toString();
 }
 
+/** Human-readable OAuth / connect failure hints for the connector test dashboard. */
+export function explainConnectorError(code: string): string {
+  const c = code.toLowerCase();
+  if (c === "access_denied" || c === "user_denied") {
+    return "You denied access in the provider consent screen. Click Connect and approve again.";
+  }
+  if (c.includes("redirect") || c === "redirect_uri_mismatch") {
+    return "Redirect URI mismatch — register the exact callback URIs shown under Operator notes.";
+  }
+  if (c.includes("scope") || c === "invalid_scope" || c === "consent_required") {
+    return "Required scopes were not granted. Reconnect and accept Files.Read / offline_access (OneDrive) or equivalent.";
+  }
+  if (c === "token_exchange") {
+    return "Token exchange failed — check client ID/secret and that the redirect URI matches exactly.";
+  }
+  if (c === "missing_code") {
+    return "Provider returned no authorization code. Try Connect again.";
+  }
+  if (c === "invalid_state") {
+    return "OAuth state expired or invalid (15 min). Click Connect again from this tab.";
+  }
+  if (c === "not_configured" || c === "not_configured_yet") {
+    return "OAuth secrets are not set on the worker yet. Expand Operator notes for wrangler secret put …";
+  }
+  if (c === "not_connected") {
+    return "Not connected — click Connect first, then Test.";
+  }
+  return code.slice(0, 160);
+}
+
+export type CloudConnectorTestResult = {
+  ok: boolean;
+  provider: CloudProvider;
+  configured: boolean;
+  connected: boolean;
+  message: string;
+  externalEmail: string | null;
+  filesFound: number | null;
+  hint: string | null;
+};
+
+/**
+ * Lightweight connectivity check: refresh token if needed, list recent PDFs.
+ * Does not download file contents.
+ */
+export async function testCloudConnector(
+  env: Env,
+  accountId: string,
+  provider: CloudProvider
+): Promise<CloudConnectorTestResult> {
+  const configured = providerConfigured(env, provider);
+  if (!configured) {
+    return {
+      ok: false,
+      provider,
+      configured: false,
+      connected: false,
+      message: `${provider} OAuth secrets are missing on this worker.`,
+      externalEmail: null,
+      filesFound: null,
+      hint: `Set ${provider.toUpperCase()}_CLIENT_ID and ${provider.toUpperCase()}_CLIENT_SECRET, then redeploy.`,
+    };
+  }
+
+  const statuses = await listConnectorStatuses(env, accountId);
+  const status = statuses.find((s) => s.provider === provider);
+  if (!status?.connected) {
+    return {
+      ok: false,
+      provider,
+      configured: true,
+      connected: false,
+      message: "Not connected yet.",
+      externalEmail: null,
+      filesFound: null,
+      hint: "Click Connect, approve access, then run Test again.",
+    };
+  }
+
+  try {
+    const files = await listRecentFiles(env, accountId, provider);
+    return {
+      ok: true,
+      provider,
+      configured: true,
+      connected: true,
+      message:
+        files.length > 0
+          ? `OK — listed ${files.length} recent PDF${files.length === 1 ? "" : "s"}.`
+          : "OK — connection works (no PDFs found in the usual locations).",
+      externalEmail: status.externalEmail,
+      filesFound: files.length,
+      hint: null,
+    };
+  } catch (err) {
+    const raw = err instanceof Error ? err.message : "Could not reach provider";
+    let hint: string | null = null;
+    if (/401|403|unauthorized|invalid_token|expired/i.test(raw)) {
+      hint = "Token rejected — Disconnect, then Connect again (scopes or refresh may have been revoked).";
+    } else if (/scope|insufficient/i.test(raw)) {
+      hint = "Missing file scopes — reconnect and grant file read access.";
+    } else if (/redirect/i.test(raw)) {
+      hint = "Redirect URI mismatch on the OAuth app — see Operator notes.";
+    }
+    return {
+      ok: false,
+      provider,
+      configured: true,
+      connected: true,
+      message: raw,
+      externalEmail: status.externalEmail,
+      filesFound: null,
+      hint,
+    };
+  }
+}
+
 /** Signed OAuth state: accountId.expiry.nonce.sig */
 export async function createOAuthState(env: Env, accountId: string): Promise<string> {
   const expiry = String(Math.floor(Date.now() / 1000) + 15 * 60);

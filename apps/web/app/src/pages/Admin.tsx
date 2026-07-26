@@ -168,7 +168,7 @@ function DashAccountMenu({
           Subscription
         </a>
         <a href="/app/connector" role="menuitem">
-          Connectors
+          Test connectors
         </a>
         <button type="button" role="menuitem" className="is-active-soft" onClick={onAdmin}>
           Admin
@@ -405,7 +405,7 @@ export default function Admin() {
           <a href="/free-templates/">Free templates</a>
           <a href="/blog/">Blog</a>
           <a href="/app/">App</a>
-          <a href="/app/connector">Connectors</a>
+          <a href="/app/connector">Test connectors</a>
           <button type="button" className="dash-topnav-strong" onClick={() => setNav("analytics")}>
             Admin
           </button>
@@ -444,7 +444,7 @@ export default function Admin() {
               </button>
             ))}
             <a href="/app/connector" className="dash-side-link">
-              Connectors
+              Test connectors
             </a>
           </nav>
           <div className="dash-side-footer">

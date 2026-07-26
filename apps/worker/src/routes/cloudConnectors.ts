@@ -5,11 +5,13 @@ import {
   buildAuthorizeUrl,
   createOAuthState,
   disconnectConnector,
+  explainConnectorError,
   importCloudPdf,
   isCloudProvider,
   listConnectorStatuses,
   listRecentFiles,
   parseOAuthState,
+  testCloudConnector,
   upsertConnectorFromCode,
   type CloudProvider,
 } from "../lib/cloudConnectors";
@@ -32,27 +34,42 @@ const cloudConnectors = new Hono<AuthEnv>();
 
 async function handleCallback(c: Context<AuthEnv>, provider: CloudProvider) {
   const err = c.req.query("error");
+  const errDesc = c.req.query("error_description");
   if (err) {
+    const code = err.slice(0, 80);
     return c.redirect(
-      appConnectorUrl(c.env, { cloud: provider, error: err.slice(0, 80) }),
+      appConnectorUrl(c.env, {
+        cloud: provider,
+        error: code,
+        ...(errDesc ? { error_description: errDesc.slice(0, 160) } : {}),
+      }),
       302
     );
   }
   const code = c.req.query("code");
   const state = c.req.query("state");
   if (!code || !state) {
-    return c.redirect(appConnectorUrl(c.env, { cloud: provider, error: "missing_code" }), 302);
+    return c.redirect(
+      appConnectorUrl(c.env, { cloud: provider, error: "missing_code" }),
+      302
+    );
   }
   const parsed = await parseOAuthState(c.env, state);
   if (!parsed) {
-    return c.redirect(appConnectorUrl(c.env, { cloud: provider, error: "invalid_state" }), 302);
+    return c.redirect(
+      appConnectorUrl(c.env, { cloud: provider, error: "invalid_state" }),
+      302
+    );
   }
   try {
     await upsertConnectorFromCode(c.env, parsed.accountId, provider, code);
   } catch {
-    return c.redirect(appConnectorUrl(c.env, { cloud: provider, error: "token_exchange" }), 302);
+    return c.redirect(
+      appConnectorUrl(c.env, { cloud: provider, error: "token_exchange" }),
+      302
+    );
   }
-  return c.redirect(appConnectorUrl(c.env, { cloud: provider, connected: "1" }), 302);
+  return c.redirect(appConnectorUrl(c.env, { connected: provider }), 302);
 }
 
 cloudConnectors.get("/", requirePaidAccount, async (c) => {
@@ -75,14 +92,42 @@ cloudConnectors.get("/:provider/connect", requirePaidAccount, async (c) => {
   const acc = c.get("account")!;
   const authorizeUrl = buildAuthorizeUrl(c.env, provider, await createOAuthState(c.env, acc.id));
   if (!authorizeUrl) {
-    return c.json(
-      {
-        error: `${provider} is not configured yet. Set the client ID/secret secrets on the worker.`,
-      },
-      503
+    // Browser navigates here — redirect back to the dashboard instead of raw JSON 503.
+    const wantsJson = (c.req.header("Accept") || "").includes("application/json");
+    const message = `${provider} OAuth is not configured yet. Set ${provider.toUpperCase()}_CLIENT_ID and ${provider.toUpperCase()}_CLIENT_SECRET on the worker (see Operator notes on /app/connector).`;
+    if (wantsJson) {
+      return c.json(
+        {
+          error: message,
+          code: "not_configured",
+          configured: false,
+          redirectUri: `${c.env.PUBLIC_WORKER_URL.replace(/\/$/, "")}/api/account/connectors/${provider}/callback`,
+        },
+        503
+      );
+    }
+    return c.redirect(
+      appConnectorUrl(c.env, { cloud: provider, error: "not_configured" }),
+      302
     );
   }
   return c.redirect(authorizeUrl, 302);
+});
+
+/** Lightweight Test button — list files / confirm tokens without importing. */
+cloudConnectors.post("/:provider/test", requirePaidAccount, async (c) => {
+  const providerParam = c.req.param("provider");
+  if (!isCloudProvider(providerParam)) {
+    return c.json({ error: "Unknown provider" }, 404);
+  }
+  const result = await testCloudConnector(c.env, c.get("account")!.id, providerParam);
+  let explanation: string | null = null;
+  if (!result.ok) {
+    if (!result.configured) explanation = explainConnectorError("not_configured");
+    else if (!result.connected) explanation = explainConnectorError("not_connected");
+    else explanation = result.hint;
+  }
+  return c.json({ ...result, explanation });
 });
 
 cloudConnectors.delete("/:provider", requirePaidAccount, async (c) => {

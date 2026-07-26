@@ -68,7 +68,7 @@ export default function UserChip({
           Account
         </Link>
         <Link to="/connector" role="menuitem" onClick={() => setOpen(false)}>
-          Connectors
+          Test connectors
         </Link>
         <a href="/app/admin" role="menuitem">
           Admin

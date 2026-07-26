@@ -6,7 +6,7 @@ import UserChip from "./UserChip";
 const NAV = [
   { to: "/", label: "Dashboard", end: true },
   { to: "/clients", label: "Clients" },
-  { to: "/connector", label: "Connector" },
+  { to: "/connector", label: "Test connectors" },
   { to: "/branding", label: "Branding" },
   { to: "/webhooks", label: "Webhooks" },
   { to: "/account", label: "Account" },
