@@ -1753,6 +1753,43 @@ textarea {
 .connector-secret-help li {
   margin-bottom: 6px;
 }
+.connector-setup-steps {
+  margin: 0;
+  padding-left: 18px;
+  font-size: 13px;
+  color: var(--ink-soft);
+}
+.connector-setup-steps li {
+  margin-bottom: 10px;
+}
+.connector-setup-steps .connector-pre {
+  margin-top: 8px;
+}
+.connector-curl-warn {
+  margin: 0 0 12px !important;
+  padding: 10px 12px;
+  background: rgba(180, 110, 20, 0.12);
+  border-radius: 6px;
+  font-size: 13.5px !important;
+  color: #8a4b00;
+}
+.connector-pre-curl {
+  margin-bottom: 12px;
+}
+.connector-key-only {
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid var(--rule, rgba(0, 0, 0, 0.08));
+  font-size: 13.5px;
+}
+.connector-key-only summary {
+  cursor: pointer;
+  color: var(--ink-soft);
+  margin-bottom: 8px;
+}
+.connector-key-only .connector-token {
+  margin: 8px 0;
+}
 .connector-ops-table {
   width: 100%;
   border-collapse: collapse;

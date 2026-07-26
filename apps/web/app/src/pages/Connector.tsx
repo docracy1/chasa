@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState, type ReactNode } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import {
   ACCOUNTING_REDIRECT_URIS,
+  ACCOUNTING_SECRET_NAMES,
   CLOUD_IMPORT_STORAGE_KEY,
   CLOUD_REDIRECT_URIS,
   CLOUD_SECRET_NAMES,
@@ -32,6 +33,7 @@ const DRAFT_URL = "https://api.chasa.io/api/v1/chase/draft";
 const PROVIDERS: CloudProvider[] = ["dropbox", "onedrive", "box"];
 const ACCOUNTING_PROVIDERS: AccountingProvider[] = ["quickbooks", "xero"];
 const TEST_OK_STORAGE_KEY = "chasa.connectorTestOk";
+const ONEDRIVE_REDIRECT = CLOUD_REDIRECT_URIS.onedrive;
 
 const CLOUD_LABELS: Record<CloudProvider, string> = {
   dropbox: "Dropbox",
@@ -42,6 +44,17 @@ const CLOUD_LABELS: Record<CloudProvider, string> = {
 const ACCOUNTING_LABELS: Record<AccountingProvider, string> = {
   quickbooks: "QuickBooks Online",
   xero: "Xero",
+};
+
+const ACCOUNTING_CONSOLE: Record<AccountingProvider, { label: string; href: string }> = {
+  quickbooks: {
+    label: "Intuit Developer",
+    href: "https://developer.intuit.com/",
+  },
+  xero: {
+    label: "Xero Developer",
+    href: "https://developer.xero.com/",
+  },
 };
 
 type ProviderTestState = {
@@ -94,6 +107,11 @@ function persistTests(tests: Record<CloudProvider, ProviderTestState>) {
 }
 
 function sampleCurl(token: string): string {
+  // Single pasteable line — avoids users running the bare key as a shell command.
+  return `curl -sS -X POST '${DRAFT_URL}' -H 'Authorization: Bearer ${token}' -H 'Content-Type: application/json' -d '{"client_name":"Acme LLC","invoice_amount":1250,"days_overdue":14}'`;
+}
+
+function sampleCurlDisplay(token: string): string {
   return `curl -sS -X POST '${DRAFT_URL}' \\
   -H 'Authorization: Bearer ${token}' \\
   -H 'Content-Type: application/json' \\
@@ -519,7 +537,7 @@ export default function ConnectorPage({ account }: { account: Account | null }) 
                     {keys.length > 0 || newToken ? "Key created" : "No key yet"}
                   </StatusPill>
                   <StatusPill kind={apiKeyTested ? "ok" : "muted"}>
-                    {apiKeyTested ? "Curl copied" : "Copy curl to verify"}
+                    {apiKeyTested ? "Curl verified" : "Copy full curl"}
                   </StatusPill>
                 </span>
               </li>
@@ -660,25 +678,116 @@ export default function ConnectorPage({ account }: { account: Account | null }) 
                     )}
                   </div>
 
-                  {/* Secret instructions — always visible (not collapsed) while that provider isn't tested OK */}
-                  {isPaid && statusLoaded && !configured && t.status !== "ok" && (
+                  {/* Secret / setup help — OneDrive stays expanded until Test OK */}
+                  {isPaid &&
+                    statusLoaded &&
+                    ((c.provider === "onedrive" && t.status !== "ok") ||
+                      (c.provider !== "onedrive" && !configured && t.status !== "ok")) && (
                     <div className="connector-secret-help">
-                      <p>
-                        <strong>Set secrets</strong> for {CLOUD_LABELS[c.provider]} — not broken,
-                        just not wired on this worker yet.
-                      </p>
-                      <ol>
-                        <li>
-                          Register redirect URI:{" "}
-                          <code>{CLOUD_REDIRECT_URIS[c.provider]}</code>
-                        </li>
-                        <li>
-                          From <code>apps/worker</code>:
-                          <pre className="connector-pre">{`wrangler secret put ${CLOUD_SECRET_NAMES[c.provider][0]}
+                      {c.provider === "onedrive" ? (
+                        <>
+                          <p>
+                            <strong>OneDrive / Microsoft Entra setup</strong> — stays open until
+                            Test OK. You create the Entra app (we cannot do this for you), then put
+                            the client id/secret on the worker.
+                          </p>
+                          {!configured ? (
+                            <ol className="connector-setup-steps">
+                              <li>
+                                Open{" "}
+                                <a
+                                  href="https://entra.microsoft.com/"
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                >
+                                  entra.microsoft.com
+                                </a>{" "}
+                                → <strong>Identity</strong> → <strong>Applications</strong> →{" "}
+                                <strong>App registrations</strong> → <strong>New registration</strong>.
+                              </li>
+                              <li>
+                                Name: <code>Chasa OneDrive</code> (any name is fine). Supported
+                                account types:{" "}
+                                <em>
+                                  Accounts in any organizational directory and personal Microsoft
+                                  accounts
+                                </em>
+                                .
+                              </li>
+                              <li>
+                                Redirect URI — platform <strong>Web</strong>, exact value:
+                                <pre className="connector-pre">{ONEDRIVE_REDIRECT}</pre>
+                              </li>
+                              <li>
+                                Click <strong>Register</strong>. On Overview, copy{" "}
+                                <strong>Application (client) ID</strong>.
+                              </li>
+                              <li>
+                                <strong>Certificates &amp; secrets</strong> →{" "}
+                                <strong>New client secret</strong> → copy the <strong>Value</strong>{" "}
+                                immediately (shown once).
+                              </li>
+                              <li>
+                                <strong>API permissions</strong> → <strong>Add a permission</strong>{" "}
+                                → <strong>Microsoft Graph</strong> → <strong>Delegated</strong> →
+                                add <code>User.Read</code> and <code>Files.Read</code>.{" "}
+                                <code>offline_access</code> is requested at connect time (no admin
+                                consent needed for personal/delegated).
+                              </li>
+                              <li>
+                                From <code>apps/worker</code>, set secrets (paste when prompted —
+                                do not invent values):
+                                <pre className="connector-pre">{`wrangler secret put ONEDRIVE_CLIENT_ID
+wrangler secret put ONEDRIVE_CLIENT_SECRET`}</pre>
+                              </li>
+                              <li>
+                                Redeploy the worker, refresh this page, then{" "}
+                                <strong>Connect</strong> → approve → <strong>Test</strong>.
+                              </li>
+                            </ol>
+                          ) : !c.connected ? (
+                            <ol className="connector-setup-steps">
+                              <li>
+                                Secrets are set. Redirect URI must still be exactly:
+                                <pre className="connector-pre">{ONEDRIVE_REDIRECT}</pre>
+                              </li>
+                              <li>
+                                Click <strong>Connect</strong>, sign in with Microsoft, and approve{" "}
+                                <code>User.Read</code>, <code>Files.Read</code>, and{" "}
+                                <code>offline_access</code>.
+                              </li>
+                              <li>
+                                Back here, click <strong>Test</strong> — this panel collapses only
+                                after Test OK.
+                              </li>
+                            </ol>
+                          ) : (
+                            <p>
+                              Connected — click <strong>Test</strong> to verify OneDrive file
+                              access. This panel stays open until Test OK.
+                            </p>
+                          )}
+                        </>
+                      ) : (
+                        <>
+                          <p>
+                            <strong>Set secrets</strong> for {CLOUD_LABELS[c.provider]} — not
+                            broken, just not wired on this worker yet.
+                          </p>
+                          <ol>
+                            <li>
+                              Register redirect URI:{" "}
+                              <code>{CLOUD_REDIRECT_URIS[c.provider]}</code>
+                            </li>
+                            <li>
+                              From <code>apps/worker</code>:
+                              <pre className="connector-pre">{`wrangler secret put ${CLOUD_SECRET_NAMES[c.provider][0]}
 wrangler secret put ${CLOUD_SECRET_NAMES[c.provider][1]}`}</pre>
-                        </li>
-                        <li>Redeploy the worker, refresh this page, then Connect → Test.</li>
-                      </ol>
+                            </li>
+                            <li>Redeploy the worker, refresh this page, then Connect → Test.</li>
+                          </ol>
+                        </>
+                      )}
                     </div>
                   )}
                 </li>
@@ -733,7 +842,7 @@ wrangler secret put ${CLOUD_SECRET_NAMES[c.provider][1]}`}</pre>
             Native QBO / Xero is on Solo and up. <Link to="/account">Upgrade</Link>
           </div>
         )}
-        <ul className="connector-card-list" style={{ listStyle: "none", padding: 0 }}>
+        <ul className="cloud-connector-list connector-cards">
           {ACCOUNTING_PROVIDERS.map((p) => {
             const st =
               accounting.find((a) => a.provider === p) ??
@@ -745,70 +854,109 @@ wrangler secret put ${CLOUD_SECRET_NAMES[c.provider][1]}`}</pre>
                 connectedAt: null,
                 configured: true,
               } as AccountingConnectorStatus);
+            const secretsMissing = statusLoaded && !st.configured;
+            const consoleInfo = ACCOUNTING_CONSOLE[p];
             return (
-              <li
-                key={p}
-                style={{
-                  display: "flex",
-                  flexWrap: "wrap",
-                  gap: 10,
-                  alignItems: "center",
-                  padding: "12px 0",
-                  borderBottom: "1px solid var(--line, #e5e5e5)",
-                }}
-              >
-                <strong style={{ minWidth: 140 }}>{ACCOUNTING_LABELS[p]}</strong>
-                <StatusPill kind={st.connected ? "ok" : "muted"}>
-                  {st.connected ? "Connected" : "Not connected"}
-                </StatusPill>
-                {!st.configured && (
-                  <StatusPill kind="warn">Secrets missing</StatusPill>
-                )}
-                {isPaid && !st.connected && st.configured && (
-                  <a className="btn-primary" href={accountingConnectUrl(p)}>
-                    Connect
-                  </a>
-                )}
-                {isPaid && st.connected && (
-                  <>
-                    <button
-                      type="button"
-                      className="btn-primary"
-                      disabled={accountingBusy !== null}
-                      onClick={async () => {
-                        setAccountingBusy(p);
-                        setError(null);
-                        try {
-                          const res = await importAccountingInvoices(p);
-                          setCloudMsg(
-                            `Imported ${res.imported} overdue invoice${res.imported === 1 ? "" : "s"} from ${ACCOUNTING_LABELS[p]} into aging.`
-                          );
-                          navigate("/");
-                        } catch (err) {
-                          setError(err instanceof Error ? err.message : "Import failed");
-                        } finally {
-                          setAccountingBusy(null);
-                        }
-                      }}
-                    >
-                      {accountingBusy === p ? "Importing…" : "Import overdue"}
-                    </button>
-                    <button
-                      type="button"
-                      className="btn-secondary"
-                      disabled={accountingBusy !== null}
-                      onClick={async () => {
-                        try {
-                          await disconnectAccountingConnector(p);
-                          await refresh();
-                        } catch (err) {
-                          setError(err instanceof Error ? err.message : "Disconnect failed");
-                        }
-                      }}
-                    >
-                      Disconnect
-                    </button>
-                  </>
+              <li key={p} className="cloud-connector-row connector-card">
+                <div className="cloud-connector-meta">
+                  <strong>{ACCOUNTING_LABELS[p]}</strong>
+                  <div className="connector-checklist-marks">
+                    <StatusPill kind={secretsMissing ? "warn" : "ok"}>
+                      {secretsMissing ? "Secrets missing" : statusLoaded ? "Configured" : "…"}
+                    </StatusPill>
+                    <StatusPill kind={st.connected ? "ok" : "muted"}>
+                      {st.connected ? "Connected" : "Not connected"}
+                    </StatusPill>
+                  </div>
+                </div>
+                <div className="cloud-connector-actions">
+                  {isPaid && !st.connected && st.configured && (
+                    <a className="btn-primary" href={accountingConnectUrl(p)}>
+                      Connect
+                    </a>
+                  )}
+                  {isPaid && !st.connected && secretsMissing && (
+                    <span className="btn-secondary cloud-connector-disabled" aria-disabled>
+                      Connect unavailable
+                    </span>
+                  )}
+                  {isPaid && st.connected && (
+                    <>
+                      <button
+                        type="button"
+                        className="btn-primary"
+                        disabled={accountingBusy !== null}
+                        onClick={async () => {
+                          setAccountingBusy(p);
+                          setError(null);
+                          try {
+                            const res = await importAccountingInvoices(p);
+                            setCloudMsg(
+                              `Imported ${res.imported} overdue invoice${res.imported === 1 ? "" : "s"} from ${ACCOUNTING_LABELS[p]} into aging.`
+                            );
+                            navigate("/");
+                          } catch (err) {
+                            setError(err instanceof Error ? err.message : "Import failed");
+                          } finally {
+                            setAccountingBusy(null);
+                          }
+                        }}
+                      >
+                        {accountingBusy === p ? "Importing…" : "Import overdue"}
+                      </button>
+                      <button
+                        type="button"
+                        className="btn-secondary"
+                        disabled={accountingBusy !== null}
+                        onClick={async () => {
+                          try {
+                            await disconnectAccountingConnector(p);
+                            await refresh();
+                          } catch (err) {
+                            setError(err instanceof Error ? err.message : "Disconnect failed");
+                          }
+                        }}
+                      >
+                        Disconnect
+                      </button>
+                    </>
+                  )}
+                </div>
+                {isPaid && secretsMissing && (
+                  <div className="connector-secret-help">
+                    <p>
+                      <strong>Set secrets</strong> for {ACCOUNTING_LABELS[p]} — same pattern as
+                      cloud connectors. Create the app yourself; we cannot invent client secrets.
+                    </p>
+                    <ol>
+                      <li>
+                        In{" "}
+                        <a href={consoleInfo.href} target="_blank" rel="noopener noreferrer">
+                          {consoleInfo.label}
+                        </a>
+                        , create an app and register redirect URI:
+                        <pre className="connector-pre">{ACCOUNTING_REDIRECT_URIS[p]}</pre>
+                      </li>
+                      <li>
+                        {p === "quickbooks" ? (
+                          <>
+                            Scope: <code>com.intuit.quickbooks.accounting</code>
+                          </>
+                        ) : (
+                          <>
+                            Scopes: accounting transactions/contacts read +{" "}
+                            <code>offline_access</code>
+                          </>
+                        )}
+                      </li>
+                      <li>
+                        From <code>apps/worker</code>:
+                        <pre className="connector-pre">{`wrangler secret put ${ACCOUNTING_SECRET_NAMES[p][0]}
+wrangler secret put ${ACCOUNTING_SECRET_NAMES[p][1]}`}</pre>
+                      </li>
+                      <li>Redeploy the worker, refresh, then Connect → Import overdue.</li>
+                    </ol>
+                  </div>
                 )}
               </li>
             );
@@ -860,11 +1008,8 @@ wrangler secret put ${CLOUD_SECRET_NAMES[c.provider][1]}`}</pre>
               })}
               {ACCOUNTING_PROVIDERS.map((p) => {
                 const st = accounting.find((a) => a.provider === p);
-                const missing = st && !st.configured;
-                const secrets =
-                  p === "quickbooks"
-                    ? "QBO_CLIENT_ID + QBO_CLIENT_SECRET"
-                    : "XERO_CLIENT_ID + XERO_CLIENT_SECRET";
+                const missing = statusLoaded && st && !st.configured;
+                const secrets = ACCOUNTING_SECRET_NAMES[p].join(" + ");
                 return (
                   <tr key={p}>
                     <td>{ACCOUNTING_LABELS[p]}</td>
@@ -902,6 +1047,27 @@ wrangler secret put ${CLOUD_SECRET_NAMES[c.provider][1]}`}</pre>
               </pre>
             </div>
           )}
+          {statusLoaded &&
+            accounting.some((a) => !a.configured) && (
+              <div className="connector-secret-help" style={{ marginTop: 14 }}>
+                <p>
+                  <strong>Accounting secrets still missing</strong> (
+                  {accounting
+                    .filter((a) => !a.configured)
+                    .map((a) => ACCOUNTING_LABELS[a.provider])
+                    .join(", ")}
+                  ):
+                </p>
+                <pre className="connector-pre">
+                  {accounting
+                    .filter((a) => !a.configured)
+                    .flatMap((a) =>
+                      ACCOUNTING_SECRET_NAMES[a.provider].map((n) => `wrangler secret put ${n}`)
+                    )
+                    .join("\n")}
+                </pre>
+              </div>
+            )}
           {missingSecrets.length === 0 && statusLoaded && (
             <p className="branding-help">All three OAuth secret pairs look configured on this worker.</p>
           )}
@@ -934,8 +1100,9 @@ wrangler secret put ${CLOUD_SECRET_NAMES[c.provider][1]}`}</pre>
           Zapier / API key
         </h1>
         <p className="branding-help">
-          Create a test key and copy a curl one-liner for{" "}
-          <code>POST /api/v1/chase/draft</code>. Draft only — Chasa never emails your client.
+          Create a test key, then copy the <strong>full curl command</strong> (not the key alone)
+          to call <code>POST /api/v1/chase/draft</code>. Draft only — Chasa never emails your
+          client.
         </p>
 
         {!isPaid && (
@@ -960,25 +1127,39 @@ wrangler secret put ${CLOUD_SECRET_NAMES[c.provider][1]}`}</pre>
 
         {newToken && (
           <div className="connector-token-once">
-            <p>
-              <strong>Copy your API key now</strong> — it won’t be shown again.
+            <p className="connector-curl-warn">
+              <strong>Run the entire curl line in Terminal</strong> — do{" "}
+              <em>not</em> paste the API key by itself. A bare key is not a shell command (that
+              often prints <code>command not found: chasa_…</code>).
             </p>
-            <code className="connector-token">{newToken}</code>
+            <p>
+              <strong>1. Preferred — copy full curl</strong> (includes the key safely inside{" "}
+              <code>Authorization: Bearer …</code>):
+            </p>
+            <pre className="connector-pre connector-pre-curl">{sampleCurlDisplay(newToken)}</pre>
             <div className="connector-token-actions">
-              <button type="button" className="btn-primary" onClick={copyToken}>
-                {copied ? "Copied key" : "Copy key"}
-              </button>
               <button type="button" className="btn-primary" onClick={copyCurl}>
-                {copiedCurl ? "Copied curl" : "Copy curl one-liner"}
+                {copiedCurl ? "Copied full curl ✓" : "Copy full curl command"}
               </button>
               <button type="button" className="btn-secondary" onClick={() => setNewToken(null)}>
                 Done
               </button>
             </div>
-            <p className="branding-help" style={{ marginTop: 12 }}>
-              Sample request:
-            </p>
-            <pre className="connector-pre">{sampleCurl(newToken)}</pre>
+            {copiedCurl && (
+              <p className="connector-test-ok-line" style={{ marginTop: 10 }}>
+                Paste into Terminal and press Return — run that entire line.
+              </p>
+            )}
+            <details className="connector-key-only">
+              <summary>Need the raw key for Zapier’s password / token field?</summary>
+              <p className="branding-help">
+                Use this only in Zapier/Make auth fields — never as a Terminal command.
+              </p>
+              <code className="connector-token">{newToken}</code>
+              <button type="button" className="btn-secondary" onClick={copyToken}>
+                {copied ? "Copied key only" : "Copy key only"}
+              </button>
+            </details>
           </div>
         )}
 

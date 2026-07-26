@@ -108,7 +108,7 @@
         {
           label: "I want to talk to sales",
           fn: function () {
-            bubble("Happy to help. Email Odo for Solo, Pro, or Enterprise:");
+            bubble("Happy to help. Email us for Solo, Pro, or Enterprise:");
             linkBtn("Email founder@chasa.io", "mailto:founder@chasa.io?subject=Chasa%20sales");
             chips([{ label: "Back to menu", fn: showHome }]);
           },
@@ -141,7 +141,7 @@
           fn: function () {
             bubble("Tell us what you need — or jump into the product:");
             linkBtn("Try Chasa free", "/app/");
-            linkBtn("Email Odo", "mailto:founder@chasa.io?subject=Chasa%20question");
+            linkBtn("Email founder@chasa.io", "mailto:founder@chasa.io?subject=Chasa%20question");
             chips([{ label: "Back to menu", fn: showHome }]);
           },
         },

@@ -364,7 +364,7 @@ export default function Admin() {
         <div className="dash-login-wrap">
           <div className="dash-login-card">
             <h1>Admin</h1>
-            <p>Sign in as Odo / admin to manage Chasa.</p>
+            <p>Sign in as admin to manage Chasa.</p>
             <form onSubmit={handleLogin}>
               <label>
                 Email

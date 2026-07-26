@@ -228,6 +228,11 @@ export const ACCOUNTING_REDIRECT_URIS: Record<AccountingProvider, string> = {
   xero: "https://api.chasa.io/api/account/connectors/xero/callback",
 };
 
+export const ACCOUNTING_SECRET_NAMES: Record<AccountingProvider, [string, string]> = {
+  quickbooks: ["QBO_CLIENT_ID", "QBO_CLIENT_SECRET"],
+  xero: ["XERO_CLIENT_ID", "XERO_CLIENT_SECRET"],
+};
+
 export type TeamInfo = {
   ownerEmail: string;
   members: Array<{
