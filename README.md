@@ -158,7 +158,7 @@ apps/worker/
 - **Session rotation:** prior sessions invalidated on magic-link login; admin sessions cleared on admin login
 - **Session cleanup:** daily cron purges expired sessions, magic links, rate-limit buckets
 - **RBAC:** workspace admin for branding, webhooks, connector OAuth, API keys, team invites
-- **Input validation:** Zod schemas on auth, emails, aging sync, analytics, v1 API
+- **Input validation:** Zod schemas on all JSON API routes (auth, emails, clients, team, webhooks, billing, admin, MCP draft args)
 - **Stripe webhooks:** event-id deduplication (`stripe_events`)
 - **Outbound webhooks:** `X-Chasa-Signature: sha256=…` HMAC
 - **Click tracking:** redirects only to URLs stored when the tracked email was created

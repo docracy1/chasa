@@ -25,15 +25,27 @@ function bodyToHtml(body) {
     .join("");
 }
 
+function readFallbackPosts() {
+  return JSON.parse(readFileSync(fallbackPath, "utf8"));
+}
+
 async function fetchPosts() {
   try {
     const res = await fetch(`${API_BASE}/api/blog/posts`);
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const data = await res.json();
-    return data.posts ?? [];
+    const posts = data.posts ?? [];
+    if (posts.length === 0) {
+      const fallback = readFallbackPosts();
+      if (fallback.length > 0) {
+        console.warn(`API returned no posts, using ${fallbackPath}`);
+        return fallback;
+      }
+    }
+    return posts;
   } catch (e) {
     console.warn(`API fetch failed (${e.message}), using ${fallbackPath}`);
-    return JSON.parse(readFileSync(fallbackPath, "utf8"));
+    return readFallbackPosts();
   }
 }
 
