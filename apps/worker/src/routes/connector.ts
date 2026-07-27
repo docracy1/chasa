@@ -1,6 +1,7 @@
 import { Hono } from "hono";
 import { requireWorkspaceAdmin, type AuthEnv } from "../lib/auth";
 import { createApiKey, listApiKeys, revokeApiKey } from "../lib/apiKeys";
+import { connectorKeySchema, parseJsonBody } from "../lib/schemas";
 
 const connector = new Hono<AuthEnv>();
 
@@ -12,8 +13,9 @@ connector.get("/keys", requireWorkspaceAdmin, async (c) => {
 
 connector.post("/keys", requireWorkspaceAdmin, async (c) => {
   const acc = c.get("account")!;
-  const body = (await c.req.json().catch(() => ({}))) as { name?: unknown };
-  const name = typeof body.name === "string" && body.name.trim() ? body.name.trim() : "Default";
+  const parsed = await parseJsonBody(c.req, connectorKeySchema);
+  if (!parsed.ok) return c.json({ error: parsed.error }, 400);
+  const name = parsed.data.name?.trim() ? parsed.data.name.trim() : "Default";
   const existing = await listApiKeys(c.env, acc.workspaceId);
   if (existing.length >= 5) {
     return c.json({ error: "Maximum 5 API keys per account." }, 400);

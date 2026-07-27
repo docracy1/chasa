@@ -6,8 +6,8 @@ import {
   dispatchWebhooks,
   isValidWebhookUrl,
   listWebhooks,
-  type WebhookEvent,
 } from "../lib/webhooks";
+import { parseJsonBody, webhookCreateSchema, webhookNotifySchema } from "../lib/schemas";
 
 const webhooks = new Hono<AuthEnv>();
 
@@ -21,9 +21,10 @@ webhooks.get("/", requirePaidAccount, async (c) => {
 
 webhooks.post("/", requireWorkspaceAdmin, async (c) => {
   const acc = c.get("account")!;
-  const body = (await c.req.json().catch(() => ({}))) as { url?: unknown };
-  const url = typeof body.url === "string" ? body.url.trim() : "";
-  if (!url || !isValidWebhookUrl(url)) {
+  const parsed = await parseJsonBody(c.req, webhookCreateSchema);
+  if (!parsed.ok) return c.json({ error: parsed.error }, 400);
+  const url = parsed.data.url;
+  if (!isValidWebhookUrl(url)) {
     return c.json({ error: "Enter a valid http(s) URL you control." }, 400);
   }
   const existing = await listWebhooks(c.env, acc.workspaceId);
@@ -46,25 +47,12 @@ webhooks.post("/notify", requireAccount, async (c) => {
   const acc = c.get("account")!;
   if (!acc.isPaid) return c.json({ ok: true, skipped: true });
 
-  const body = (await c.req.json().catch(() => ({}))) as {
-    event?: unknown;
-    data?: Record<string, unknown>;
-  };
-  const allowed: WebhookEvent[] = [
-    "chase.sent",
-    "chase.downloaded",
-    "chase.drafted",
-    "chase.thank_you",
-    "chase.reply_drafted",
-    "chase.sequence_planned",
-  ];
-  const event = typeof body.event === "string" ? (body.event as WebhookEvent) : null;
-  if (!event || !allowed.includes(event)) {
-    return c.json({ error: "Invalid event" }, 400);
-  }
+  const parsed = await parseJsonBody(c.req, webhookNotifySchema);
+  if (!parsed.ok) return c.json({ error: parsed.error }, 400);
+  const { event, data } = parsed.data;
 
   c.executionCtx.waitUntil(
-    dispatchWebhooks(c.env, acc.workspaceId, event, body.data ?? {}).catch(() => {})
+    dispatchWebhooks(c.env, acc.workspaceId, event, data ?? {}).catch(() => {})
   );
   return c.json({ ok: true });
 });

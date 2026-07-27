@@ -15,6 +15,12 @@ import {
   updateMemberRole,
   type MemberRole,
 } from "../lib/team";
+import {
+  parseJsonBody,
+  teamAcceptSchema,
+  teamInviteSchema,
+  teamRoleSchema,
+} from "../lib/schemas";
 
 const team = new Hono<AuthEnv>();
 
@@ -38,9 +44,10 @@ team.get("/", requirePaidAccount, async (c) => {
 
 team.post("/invite", requireWorkspaceAdmin, async (c) => {
   const acc = c.get("account")!;
-  const body = (await c.req.json().catch(() => ({}))) as { email?: string; role?: string };
-  const email = (body.email ?? "").trim();
-  const role: MemberRole = body.role === "admin" ? "admin" : "member";
+  const parsed = await parseJsonBody(c.req, teamInviteSchema);
+  if (!parsed.ok) return c.json({ error: parsed.error }, 400);
+  const email = parsed.data.email;
+  const role: MemberRole = parsed.data.role === "admin" ? "admin" : "member";
   const result = await inviteMember(c.env, acc.workspaceId, email, role, acc.plan);
   if ("error" in result) return c.json({ error: result.error }, result.status as 400);
 
@@ -52,9 +59,9 @@ team.post("/invite", requireWorkspaceAdmin, async (c) => {
 
 team.post("/accept", requirePaidAccount, async (c) => {
   const acc = c.get("account")!;
-  const body = (await c.req.json().catch(() => ({}))) as { token?: string };
-  const token = (body.token ?? "").trim();
-  if (!token) return c.json({ error: "token is required." }, 400);
+  const parsed = await parseJsonBody(c.req, teamAcceptSchema);
+  if (!parsed.ok) return c.json({ error: parsed.error }, 400);
+  const token = parsed.data.token;
   const result = await acceptInvite(c.env, token, acc.email, acc.id);
   if ("error" in result) return c.json({ error: result.error }, result.status as 400);
   return c.json({ ok: true, workspaceId: result.workspaceId });
@@ -62,9 +69,9 @@ team.post("/accept", requirePaidAccount, async (c) => {
 
 team.patch("/:id", requireWorkspaceAdmin, async (c) => {
   const acc = c.get("account")!;
-  const body = (await c.req.json().catch(() => ({}))) as { role?: string };
-  const role: MemberRole | null = body.role === "admin" || body.role === "member" ? body.role : null;
-  if (!role) return c.json({ error: "role must be admin or member." }, 400);
+  const parsed = await parseJsonBody(c.req, teamRoleSchema);
+  if (!parsed.ok) return c.json({ error: parsed.error }, 400);
+  const role: MemberRole = parsed.data.role;
   const ok = await updateMemberRole(c.env, acc.workspaceId, c.req.param("id"), role);
   if (!ok) return c.json({ error: "Member not found" }, 404);
   return c.json({ ok: true });

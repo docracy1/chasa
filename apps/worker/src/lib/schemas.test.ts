@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { z } from "zod";
-import { agingSyncSchema, parseJsonBody } from "./schemas";
+import { agingSyncSchema, clientCreateSchema, parseJsonBody, webhookNotifySchema } from "./schemas";
 
 describe("schemas", () => {
   it("parses aging sync batch", async () => {
@@ -43,5 +43,41 @@ describe("schemas", () => {
         .optional(),
     });
     expect(schema.safeParse(big).success).toBe(false);
+  });
+
+  it("parses client create schema", async () => {
+    const result = await parseJsonBody(
+      { json: async () => ({ name: "Acme Corp", email: "a@acme.io" }) },
+      clientCreateSchema
+    );
+    expect(result.ok).toBe(true);
+    if (result.ok) {
+      expect(result.data.name).toBe("Acme Corp");
+      expect(result.data.email).toBe("a@acme.io");
+    }
+  });
+
+  it("rejects client create without name", async () => {
+    const result = await parseJsonBody({ json: async () => ({ email: "a@acme.io" }) }, clientCreateSchema);
+    expect(result.ok).toBe(false);
+  });
+
+  it("parses webhook notify event", async () => {
+    const result = await parseJsonBody(
+      { json: async () => ({ event: "chase.sent", data: { client: "Acme" } }) },
+      webhookNotifySchema
+    );
+    expect(result.ok).toBe(true);
+    if (result.ok) {
+      expect(result.data.event).toBe("chase.sent");
+    }
+  });
+
+  it("rejects invalid webhook event", async () => {
+    const result = await parseJsonBody(
+      { json: async () => ({ event: "invalid.event" }) },
+      webhookNotifySchema
+    );
+    expect(result.ok).toBe(false);
   });
 });

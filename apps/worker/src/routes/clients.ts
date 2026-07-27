@@ -1,5 +1,6 @@
 import { Hono } from "hono";
 import { requirePaidAccount, type AuthEnv } from "../lib/auth";
+import { clientCreateSchema, clientUpdateSchema, parseJsonBody } from "../lib/schemas";
 
 const clients = new Hono<AuthEnv>();
 
@@ -95,19 +96,11 @@ clients.get("/:id", requirePaidAccount, async (c) => {
 
 clients.post("/", requirePaidAccount, async (c) => {
   const acc = c.get("account")!;
-  const body = (await c.req.json().catch(() => ({}))) as {
-    name?: unknown;
-    email?: unknown;
-    notes?: unknown;
-  };
-  const name = typeof body.name === "string" ? body.name.trim() : "";
-  if (!name || name.length > 120) {
-    return c.json({ error: "Client name is required (max 120 characters)." }, 400);
-  }
-  const email =
-    typeof body.email === "string" && body.email.trim() ? body.email.trim().slice(0, 200) : null;
-  const notes =
-    typeof body.notes === "string" && body.notes.trim() ? body.notes.trim().slice(0, 2000) : null;
+  const parsed = await parseJsonBody(c.req, clientCreateSchema);
+  if (!parsed.ok) return c.json({ error: parsed.error }, 400);
+  const { name, email, notes } = parsed.data;
+  const emailVal = email?.trim() ? email.trim().slice(0, 200) : null;
+  const notesVal = notes?.trim() ? notes.trim().slice(0, 2000) : null;
 
   const id = crypto.randomUUID();
   const now = new Date().toISOString();
@@ -115,15 +108,15 @@ clients.post("/", requirePaidAccount, async (c) => {
     `INSERT INTO clients (id, account_id, name, email, notes, created_at, updated_at)
      VALUES (?, ?, ?, ?, ?, ?, ?)`
   )
-    .bind(id, acc.workspaceId, name, email, notes, now, now)
+    .bind(id, acc.workspaceId, name, emailVal, notesVal, now, now)
     .run();
 
   return c.json(
     mapClient({
       id,
       name,
-      email,
-      notes,
+      email: emailVal,
+      notes: notesVal,
       last_contact_note: null,
       last_contact_at: null,
       created_at: now,
@@ -155,13 +148,9 @@ clients.put("/:id", requirePaidAccount, async (c) => {
     }>();
   if (!existing) return c.json({ error: "Client not found" }, 404);
 
-  const body = (await c.req.json().catch(() => ({}))) as {
-    name?: unknown;
-    email?: unknown;
-    notes?: unknown;
-    lastContactNote?: unknown;
-    clearLastContact?: unknown;
-  };
+  const parsed = await parseJsonBody(c.req, clientUpdateSchema);
+  if (!parsed.ok) return c.json({ error: parsed.error }, 400);
+  const body = parsed.data;
 
   let name = existing.name;
   let email = existing.email;
@@ -170,11 +159,7 @@ clients.put("/:id", requirePaidAccount, async (c) => {
   let lastContactAt = existing.last_contact_at;
 
   if (typeof body.name === "string") {
-    const next = body.name.trim();
-    if (!next || next.length > 120) {
-      return c.json({ error: "Client name is required (max 120 characters)." }, 400);
-    }
-    name = next;
+    name = body.name;
   }
   if (typeof body.email === "string") {
     email = body.email.trim() ? body.email.trim().slice(0, 200) : null;

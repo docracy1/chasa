@@ -13,18 +13,20 @@ import {
 import { getFunnelStats, getTrafficStats } from "../lib/analytics";
 import { createPost, deletePost, listPosts, updatePost } from "../lib/blog";
 import { clientIp, verifyTurnstile } from "../lib/turnstile";
+import {
+  adminBlogPatchSchema,
+  adminBlogPostSchema,
+  adminGrantEnterpriseSchema,
+  adminLoginSchema,
+  parseJsonBody,
+} from "../lib/schemas";
 
 const admin = new Hono<AdminEnv>();
 
 admin.post("/login", async (c) => {
-  const body = (await c.req.json().catch(() => ({}))) as {
-    email?: unknown;
-    password?: unknown;
-    turnstileToken?: unknown;
-  };
-  const email = typeof body.email === "string" ? body.email : "";
-  const password = typeof body.password === "string" ? body.password : "";
-  const turnstileToken = typeof body.turnstileToken === "string" ? body.turnstileToken : undefined;
+  const parsed = await parseJsonBody(c.req, adminLoginSchema);
+  if (!parsed.ok) return c.json({ error: parsed.error }, 400);
+  const { email, password, turnstileToken } = parsed.data;
   const check = await verifyTurnstile(c.env, turnstileToken, clientIp(c));
   if (!check.ok) return c.json({ error: check.error }, 400);
   const result = await loginAdmin(c.env, email, password, clientIp(c) || "unknown");
@@ -96,9 +98,9 @@ admin.get("/signups", requireAdmin, async (c) => {
 });
 
 admin.post("/grant-enterprise", requireAdmin, async (c) => {
-  const body = (await c.req.json().catch(() => ({}))) as { email?: unknown };
-  const email = typeof body.email === "string" ? body.email.trim().toLowerCase() : "";
-  if (!email || !email.includes("@")) return c.json({ error: "Enter a valid email." }, 400);
+  const parsed = await parseJsonBody(c.req, adminGrantEnterpriseSchema);
+  if (!parsed.ok) return c.json({ error: parsed.error }, 400);
+  const email = parsed.data.email.trim().toLowerCase();
 
   const existing = await c.env.CHASA_DB.prepare(`SELECT id FROM accounts WHERE email = ?`)
     .bind(email)
@@ -128,18 +130,14 @@ admin.get("/blog", requireAdmin, async (c) => {
 });
 
 admin.post("/blog", requireAdmin, async (c) => {
-  const body = (await c.req.json().catch(() => ({}))) as {
-    title?: string;
-    slug?: string;
-    description?: string;
-    body?: string;
-    published?: boolean;
-  };
+  const parsed = await parseJsonBody(c.req, adminBlogPostSchema);
+  if (!parsed.ok) return c.json({ error: parsed.error }, 400);
+  const body = parsed.data;
   const result = await createPost(c.env, {
-    title: body.title ?? "",
+    title: body.title,
     slug: body.slug,
     description: body.description,
-    body: body.body ?? "",
+    body: body.body,
     published: Boolean(body.published),
   });
   if ("error" in result) return c.json({ error: result.error }, 400);
@@ -147,14 +145,9 @@ admin.post("/blog", requireAdmin, async (c) => {
 });
 
 admin.patch("/blog/:id", requireAdmin, async (c) => {
-  const body = (await c.req.json().catch(() => ({}))) as {
-    title?: string;
-    slug?: string;
-    description?: string;
-    body?: string;
-    published?: boolean;
-  };
-  const result = await updatePost(c.env, c.req.param("id"), body);
+  const parsed = await parseJsonBody(c.req, adminBlogPatchSchema);
+  if (!parsed.ok) return c.json({ error: parsed.error }, 400);
+  const result = await updatePost(c.env, c.req.param("id"), parsed.data);
   if ("error" in result) return c.json({ error: result.error }, 400);
   return c.json({ post: result });
 });

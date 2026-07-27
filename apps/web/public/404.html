@@ -5,23 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Page not found — Chasa</title>
 <meta name="description" content="That page isn’t on Chasa. Head home or open the free invoice follow-up tool.">
-<meta name="robots" content="noindex">
 <link rel="canonical" href="https://chasa.io/404">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Page not found — Chasa">
 <meta property="og:description" content="That page isn’t on Chasa. Head home or open the free invoice follow-up tool.">
 <meta property="og:url" content="https://chasa.io/404">
 <meta property="og:image" content="https://chasa.io/brand/og/chasa-og-1200x630.png">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Page not found — Chasa">
 <meta name="twitter:description" content="That page isn’t on Chasa. Head home or open the free invoice follow-up tool.">
 <meta name="twitter:image" content="https://chasa.io/brand/og/chasa-og-1200x630.png">
-<link rel="icon" href="/favicon.png" type="image/png">
-<link rel="icon" href="/favicon.svg" type="image/svg+xml">
-<link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<link rel="stylesheet" href="/site.css">
 <style>
   .nf { padding: 80px 0 100px; text-align: center; }
   .nf h1 { font-family: Fraunces, Georgia, serif; font-size: clamp(40px, 6vw, 64px); margin: 12px 0 16px; }
@@ -35,20 +28,39 @@
   }
   .nf-code { font-family: Inter, sans-serif; font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); font-weight: 700; }
 </style>
+
+<link rel="icon" href="/favicon.png" type="image/png">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="stylesheet" href="/site.css">
 </head>
 <body>
 <header class="site-header">
   <div class="wrap site-header-inner">
-    <a href="/" class="logo" aria-label="Chasa home"><img class="logo-mark" src="/brand/chasa-icon.png" alt="Chasa" width="28" height="28" loading="lazy" /><span class="logo-word">chasa</span></a>
+    <a href="/" class="logo" aria-label="Chasa home"><img class="logo-mark" src="/brand/chasa-icon.png" alt="" width="28" height="28" /><span class="logo-word">chasa</span></a>
     <div class="header-nav-right">
+      <a href="/#pricing" class="header-nav-link header-nav-collapse">Pricing</a>
       <a href="/free-templates/" class="header-nav-link header-nav-collapse">Free templates</a>
-      <a href="/app/login" class="header-nav-link">Sign in</a>
+      <a href="/ai" class="header-nav-link header-nav-collapse">AI</a>
+      <a href="/about" class="header-nav-link header-nav-collapse">About</a>
+      <a href="/app/login" class="header-nav-link header-nav-strong">Sign in</a>
+      <a href="/app/" class="nav-cta">Try free</a>
+      <button class="header-menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" data-menu-toggle>
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="header-mobile-menu" data-mobile-menu>
+      <a href="/#pricing">Pricing</a>
+      <a href="/free-templates/">Free templates</a>
+      <a href="/ai">AI</a>
+      <a href="/about">About</a>
+      <a href="/app/login">Sign in</a>
       <a href="/app/" class="nav-cta">Try free</a>
     </div>
   </div>
 </header>
-<main class="wrap nf">
-  <p class="nf-code">404</p>
+<main class="wrap page-main">
+<p class="nf-code">404</p>
   <h1>Page not found</h1>
   <p>That URL isn’t on Chasa. The invoice follow-up tool and free templates are still here.</p>
   <div class="nf-actions">
@@ -59,29 +71,31 @@
 <footer class="site-footer">
   <div class="wrap site-footer-inner">
     <div class="site-footer-brand">
-      <a href="/" class="logo" aria-label="Chasa home"><img class="logo-mark" src="/brand/chasa-icon.png" alt="Chasa" width="24" height="24" loading="lazy" /><span class="logo-word">chasa</span></a>
+      <a href="/" class="logo" aria-label="Chasa home"><img class="logo-mark" src="/brand/chasa-icon.png" alt="" width="24" height="24" /><span class="logo-word">chasa</span></a>
       <p>Free AI invoice follow-ups — paste unpaid invoices, get the reminder email already written.</p>
     </div>
     <div class="site-footer-col">
       <h4>Product</h4>
       <a href="/app/">Try free</a>
+      <a href="/#pricing">Pricing</a>
       <a href="/free-templates/">Free templates</a>
       <a href="/docs/">Docs</a>
+      <a href="/blog/">Blog</a>
     </div>
     <div class="site-footer-col">
       <h4>Company</h4>
       <a href="/about">About</a>
-      <a href="mailto:founder@chasa.io">Contact</a>
-    </div>
-    <div class="site-footer-col">
-      <h4>Legal</h4>
       <a href="/privacy">Privacy</a>
-      <a href="/sitemap.xml">Sitemap</a>
+      <a href="/terms">Terms</a>
+      <a href="/imprint">Imprint</a>
     </div>
   </div>
-  <div class="site-footer-bottom">© 2026 Chasa — a product of RELACON GmbH</div>
+  <div class="wrap footer-bottom">
+    <p>© 2026 RELACON GmbH</p>
+  </div>
 </footer>
-<script src="/site-nav.js"></script>
-<script src="/cookie-consent.js"></script>
+<script src="/site-nav.js" defer></script>
+<script src="/cookie-consent.js" defer></script>
+<script src="/analytics.js" defer></script>
 </body>
 </html>

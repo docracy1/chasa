@@ -101,6 +101,139 @@ export const v1ChaseDraftSchema = z.object({
   dueDate: z.string().max(20).optional(),
 });
 
+export const clientCreateSchema = z.object({
+  name: z.string().trim().min(1).max(120),
+  email: z.string().trim().max(200).optional(),
+  notes: z.string().trim().max(2000).optional(),
+});
+
+export const clientUpdateSchema = z.object({
+  name: z.string().trim().min(1).max(120).optional(),
+  email: z.string().trim().max(200).optional(),
+  notes: z.string().trim().max(2000).optional(),
+  lastContactNote: z.string().max(500).optional(),
+  clearLastContact: z.boolean().optional(),
+});
+
+export const teamInviteSchema = z.object({
+  email: z.string().trim().email().max(254),
+  role: z.enum(["admin", "member"]).optional(),
+});
+
+export const teamAcceptSchema = z.object({
+  token: z.string().trim().min(1).max(200),
+});
+
+export const teamRoleSchema = z.object({
+  role: z.enum(["admin", "member"]),
+});
+
+export const webhookCreateSchema = z.object({
+  url: z.string().trim().min(1).max(500),
+});
+
+const webhookEventEnum = z.enum([
+  "chase.sent",
+  "chase.downloaded",
+  "chase.drafted",
+  "chase.thank_you",
+  "chase.reply_drafted",
+  "chase.sequence_planned",
+]);
+
+export const webhookNotifySchema = z.object({
+  event: webhookEventEnum,
+  data: z.record(z.string(), z.unknown()).optional(),
+});
+
+export const trackingCreateSchema = z.object({
+  subject: z.string().max(200).optional(),
+  body: z.string().trim().min(1).max(8000),
+  clientName: z.string().max(120).optional(),
+  agingInvoiceId: z.string().max(64).optional(),
+  wrapLinks: z.boolean().optional(),
+});
+
+export const trackingStatsSchema = z.object({
+  invoiceIds: z.array(z.string().max(64)).max(100).optional(),
+});
+
+export const reminderSequenceStepSchema = z.object({
+  step: z.coerce.number().optional(),
+  daysFromNow: z.coerce.number().optional(),
+  label: z.string().max(80).optional(),
+  subject: z.string().max(200).optional(),
+  body: z.string().max(4000).optional(),
+});
+
+export const reminderSequenceSchema = z.object({
+  agingInvoiceId: z.string().max(64).optional(),
+  clientName: z.string().trim().min(1).max(120),
+  steps: z.array(reminderSequenceStepSchema).min(1).max(20),
+});
+
+export const reminderStatusSchema = z.object({
+  status: z.enum(["planned", "done", "skipped"]),
+});
+
+export const connectorKeySchema = z.object({
+  name: z.string().trim().max(40).optional(),
+});
+
+const workspaceNameRe = /^[a-zA-Z0-9][a-zA-Z0-9 _-]{1,28}[a-zA-Z0-9]$|^[a-zA-Z0-9]{3,30}$/;
+
+export const brandingUpdateSchema = z.object({
+  workspaceName: z.string().trim().optional(),
+  logoDataUrl: z.string().optional(),
+  paymentLink: z.string().optional(),
+  lateFeeEnabled: z.boolean().optional(),
+  lateFeeHint: z.string().max(200).optional(),
+  removeLogo: z.boolean().optional(),
+  removeName: z.boolean().optional(),
+  removePaymentLink: z.boolean().optional(),
+});
+
+export function validateWorkspaceName(name: string): boolean {
+  if (name.length === 0) return true;
+  return name.length >= 3 && name.length <= 30 && workspaceNameRe.test(name);
+}
+
+export const billingCheckoutSchema = z.object({
+  plan: z.enum(["solo", "pro", "enterprise"]),
+});
+
+export const adminLoginSchema = z.object({
+  email: z.string().trim().email().max(254),
+  password: z.string().min(1).max(200),
+  turnstileToken: z.string().optional(),
+});
+
+export const adminGrantEnterpriseSchema = z.object({
+  email: z.string().trim().email().max(254),
+});
+
+export const adminBlogPostSchema = z.object({
+  title: z.string().trim().min(1).max(200),
+  slug: z.string().trim().max(100).optional(),
+  description: z.string().max(500).optional(),
+  body: z.string().max(100_000),
+  published: z.boolean().optional(),
+});
+
+export const adminBlogPatchSchema = z.object({
+  title: z.string().trim().min(1).max(200).optional(),
+  slug: z.string().trim().max(100).optional(),
+  description: z.string().max(500).optional(),
+  body: z.string().max(100_000).optional(),
+  published: z.boolean().optional(),
+});
+
+export const mcpDraftSchema = z.object({
+  client_name: z.string().trim().min(1).max(120),
+  invoice_amount: z.coerce.number().finite().min(0).max(999_999_999),
+  days_overdue: z.coerce.number().finite().min(0).max(3650),
+});
+
 export type ParseResult<T> = { ok: true; data: T } | { ok: false; error: string };
 
 export async function parseJsonBody<T>(

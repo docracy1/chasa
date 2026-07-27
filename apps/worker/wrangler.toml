@@ -1,6 +1,9 @@
 name = "chasa-worker"
 main = "src/index.ts"
 compatibility_date = "2024-12-01"
+
+[triggers]
+crons = ["0 3 * * *"]
 compatibility_flags = ["nodejs_compat"]
 # Keep workers.dev up until api.chasa.io is attached (a --domains deploy with no zone
 # can otherwise disable the workers.dev route and take the API offline).

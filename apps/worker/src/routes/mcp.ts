@@ -1,9 +1,12 @@
 import { Hono } from "hono";
+import type { Context } from "hono";
 import type { Env } from "../types";
 import { generateFollowUpEmail, getToneBand } from "../lib/ai";
 import { checkDraftQuota, incrementDraftUsage, usageScopeKey } from "../lib/usageQuota";
 import { checkRateLimit, clientIpFromHeaders } from "../lib/rateLimit";
-import { clampNumber, clampString } from "../lib/validate";
+import { mcpDraftSchema } from "../lib/schemas";
+import { resolveMcpAccount } from "../lib/mcpAuth";
+import type { AccountContext } from "../lib/auth";
 
 type JsonRpcId = string | number | null;
 
@@ -166,6 +169,7 @@ const TOOLS = [
 async function callTool(
   env: Env,
   ip: string,
+  account: AccountContext | null,
   name: string,
   args: Record<string, unknown>
 ): Promise<ReturnType<typeof textResult>> {
@@ -223,24 +227,29 @@ async function callTool(
   }
 
   if (name === "draft_chase_email") {
+    if (!account) {
+      throw new Error("Sign in or provide Bearer API key for draft_chase_email");
+    }
+
     const rl = await checkRateLimit(env, `mcp_draft:${ip}`, 30, 3600);
     if (!rl.ok) throw new Error("Rate limit exceeded. Try again later.");
 
-    const quota = await checkDraftQuota(env, null, ip, null);
-    if (!quota.allowed) throw new Error(quota.error);
-
-    const clientName = clampString(args.client_name, 120);
-    const invoiceAmount = clampNumber(args.invoice_amount, 0, 999_999_999);
-    const daysOverdue = clampNumber(args.days_overdue, 0, 3650);
-    if (!clientName || invoiceAmount === null || daysOverdue === null) {
+    const draftParsed = mcpDraftSchema.safeParse(args);
+    if (!draftParsed.success) {
       throw new Error("client_name, invoice_amount, and days_overdue are required");
     }
+    const { client_name: clientName, invoice_amount: invoiceAmount, days_overdue: daysOverdue } =
+      draftParsed.data;
+
+    const quota = await checkDraftQuota(env, account, ip, null);
+    if (!quota.allowed) throw new Error(quota.error);
+
     const draft = await generateFollowUpEmail(env, {
       clientName,
       invoiceAmount,
       daysOverdue: Math.max(0, daysOverdue),
     });
-    await incrementDraftUsage(env, usageScopeKey(null, ip, null));
+    await incrementDraftUsage(env, usageScopeKey(account, ip, null));
     return textResult(
       JSON.stringify(
         {
@@ -258,7 +267,12 @@ async function callTool(
   throw new Error(`Unknown tool: ${name}`);
 }
 
-async function handleRpc(env: Env, ip: string, req: JsonRpcRequest): Promise<unknown> {
+async function handleRpc(
+  env: Env,
+  ip: string,
+  req: JsonRpcRequest,
+  account: AccountContext | null
+): Promise<unknown> {
   const { id, method, params } = req;
 
   if (!method) return err(id, -32600, "Invalid Request");
@@ -289,8 +303,11 @@ async function handleRpc(env: Env, ip: string, req: JsonRpcRequest): Promise<unk
     const name = String((params as { name?: string })?.name ?? "");
     const args = ((params as { arguments?: Record<string, unknown> })?.arguments ??
       {}) as Record<string, unknown>;
+    if (name === "draft_chase_email" && !account) {
+      return err(id, -32001, "Sign in or provide Bearer API key for draft_chase_email");
+    }
     try {
-      const result = await callTool(env, ip, name, args);
+      const result = await callTool(env, ip, account, name, args);
       return ok(id, result);
     } catch (e) {
       return ok(id, {
@@ -340,7 +357,7 @@ mcp.all("/", async (c) => {
       {
         name: "Chasa MCP",
         endpoint: "/mcp",
-        auth: "none",
+        auth: "session_or_api_key for draft_chase_email",
         note: "This is a server address for AI assistants (Claude, ChatGPT, Grok, Perplexity) — not a page to browse. POST JSON-RPC to call tools.",
         tools: TOOLS.map((t) => t.name),
         docs: `${c.env.PUBLIC_APP_URL}/ai#mcp`,
@@ -359,6 +376,7 @@ mcp.all("/", async (c) => {
   }
 
   const ip = clientIpFromHeaders({ get: (n) => c.req.header(n) ?? null });
+  const mcpAccount = await resolveMcpAccount(c as Context<{ Bindings: Env }>);
   const mcpRl = await checkRateLimit(c.env, `mcp:${ip}`, 120, 3600);
   if (!mcpRl.ok) {
     return c.json(err(null, -32000, "Rate limit exceeded"), 429, corsHeaders);
@@ -379,10 +397,10 @@ mcp.all("/", async (c) => {
     const req = raw as JsonRpcRequest;
     // Notifications (no id) — process but may return null
     if (req.method?.startsWith("notifications/") || req.id === undefined) {
-      await handleRpc(c.env, ip, req);
+      await handleRpc(c.env, ip, req, mcpAccount);
       continue;
     }
-    results.push(await handleRpc(c.env, ip, req));
+    results.push(await handleRpc(c.env, ip, req, mcpAccount));
   }
 
   // If only notifications, empty 202

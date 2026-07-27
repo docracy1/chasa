@@ -2,7 +2,8 @@ import type { Context, MiddlewareHandler } from "hono";
 import { getCookie, setCookie, deleteCookie } from "hono/cookie";
 import type { Env } from "../types";
 import { isPaidPlan, type Plan } from "./billing";
-import { generateOpaqueToken, hashOpaqueToken } from "./token";
+import { generateOpaqueToken, hashOpaqueToken, hashOpaqueTokenLookup } from "./token";
+import { purgeExpiredSessions } from "./sessionCleanup";
 import { sendMagicLinkEmail } from "./email";
 import { normalizePlan } from "./plan";
 
@@ -87,7 +88,7 @@ export async function requestMagicLink(env: Env, email: string): Promise<{ ok: t
   }
 
   const token = generateOpaqueToken();
-  const tokenHash = await hashOpaqueToken(token, env.TOKEN_SECRET);
+  const tokenHash = await hashOpaqueToken(token, env.TOKEN_SECRET, "magic-link");
   const expiresAt = new Date(now.getTime() + MAGIC_LINK_TTL_SECONDS * 1000);
 
   await env.CHASA_DB.prepare(
@@ -112,7 +113,7 @@ export async function consumeMagicLink(
   | { ok: true; sessionToken: string; isPaid: boolean; plan: Plan; accountId: string; isNew: boolean }
   | { ok: false; error: string }
 > {
-  const tokenHash = await hashOpaqueToken(token, env.TOKEN_SECRET);
+  const tokenHash = await hashOpaqueToken(token, env.TOKEN_SECRET, "magic-link");
   const now = new Date().toISOString();
 
   const consumed = await env.CHASA_DB.prepare(
@@ -122,18 +123,33 @@ export async function consumeMagicLink(
     .run();
 
   if (!consumed.meta.changes) {
-    return { ok: false, error: "That link is invalid or has expired. Request a new one." };
+    const [, legacyHash] = await hashOpaqueTokenLookup(token, env.TOKEN_SECRET, "magic-link");
+    const legacyConsumed = await env.CHASA_DB.prepare(
+      `UPDATE magic_links SET consumed_at = ? WHERE token_hash = ? AND expires_at > ? AND consumed_at IS NULL`
+    )
+      .bind(now, legacyHash, now)
+      .run();
+    if (!legacyConsumed.meta.changes) {
+      return { ok: false, error: "That link is invalid or has expired. Request a new one." };
+    }
   }
 
-  const row = await env.CHASA_DB.prepare(`SELECT email FROM magic_links WHERE token_hash = ?`)
-    .bind(tokenHash)
+  const [primaryHash, legacyHash] = await hashOpaqueTokenLookup(token, env.TOKEN_SECRET, "magic-link");
+  let row = await env.CHASA_DB.prepare(`SELECT email FROM magic_links WHERE token_hash = ?`)
+    .bind(primaryHash)
     .first<{ email: string }>();
+  if (!row) {
+    row = await env.CHASA_DB.prepare(`SELECT email FROM magic_links WHERE token_hash = ?`)
+      .bind(legacyHash)
+      .first<{ email: string }>();
+  }
 
   if (!row) {
     return { ok: false, error: "That link is invalid or has expired. Request a new one." };
   }
 
   const account = await findOrCreateAccount(env, row.email);
+  await purgeExpiredSessions(env);
   await env.CHASA_DB.prepare(`DELETE FROM sessions WHERE account_id = ?`).bind(account.id).run();
   const sessionToken = await createSession(env, account.id);
   return {
@@ -148,7 +164,7 @@ export async function consumeMagicLink(
 
 export async function createSession(env: Env, accountId: string): Promise<string> {
   const token = generateOpaqueToken();
-  const tokenHash = await hashOpaqueToken(token, env.TOKEN_SECRET);
+  const tokenHash = await hashOpaqueToken(token, env.TOKEN_SECRET, "session");
   const now = new Date();
   const expiresAt = new Date(now.getTime() + SESSION_TTL_SECONDS * 1000);
 
@@ -161,30 +177,32 @@ export async function createSession(env: Env, accountId: string): Promise<string
   return token;
 }
 
-export async function resolveAccount(env: Env, sessionToken: string): Promise<AccountContext | null> {
-  const tokenHash = await hashOpaqueToken(sessionToken, env.TOKEN_SECRET);
-  const now = new Date().toISOString();
-
-  const row = await env.CHASA_DB.prepare(
-    `SELECT a.id as id, a.email as email, a.is_paid as is_paid, a.plan as plan,
-            a.workspace_owner_id as workspace_owner_id
+async function findSessionRow(env: Env, sessionToken: string, now: string) {
+  const [primaryHash, legacyHash] = await hashOpaqueTokenLookup(sessionToken, env.TOKEN_SECRET, "session");
+  type Row = {
+    id: string;
+    email: string;
+    is_paid: number;
+    plan: string | null;
+    workspace_owner_id: string | null;
+    token_hash: string;
+  };
+  const sql = `SELECT a.id as id, a.email as email, a.is_paid as is_paid, a.plan as plan,
+            a.workspace_owner_id as workspace_owner_id, s.token_hash as token_hash
      FROM sessions s JOIN accounts a ON a.id = s.account_id
-     WHERE s.token_hash = ? AND s.expires_at > ?`
-  )
-    .bind(tokenHash, now)
-    .first<{
-      id: string;
-      email: string;
-      is_paid: number;
-      plan: string | null;
-      workspace_owner_id: string | null;
-    }>();
+     WHERE s.token_hash = ? AND s.expires_at > ?`;
+  let row = await env.CHASA_DB.prepare(sql).bind(primaryHash, now).first<Row>();
+  if (!row) row = await env.CHASA_DB.prepare(sql).bind(legacyHash, now).first<Row>();
+  return row;
+}
 
+export async function resolveAccount(env: Env, sessionToken: string): Promise<AccountContext | null> {
+  const now = new Date().toISOString();
+  const row = await findSessionRow(env, sessionToken, now);
   if (!row) return null;
 
-  // Fire-and-forget last-seen bump; never blocks or fails the request.
   env.CHASA_DB.prepare(`UPDATE sessions SET last_seen_at = ? WHERE token_hash = ?`)
-    .bind(now, tokenHash)
+    .bind(now, row.token_hash)
     .run()
     .catch((err) => console.error("session last_seen_at update failed", err));
 
@@ -226,8 +244,10 @@ export async function resolveAccount(env: Env, sessionToken: string): Promise<Ac
 }
 
 export async function destroySession(env: Env, sessionToken: string): Promise<void> {
-  const tokenHash = await hashOpaqueToken(sessionToken, env.TOKEN_SECRET);
-  await env.CHASA_DB.prepare(`DELETE FROM sessions WHERE token_hash = ?`).bind(tokenHash).run();
+  const [primaryHash, legacyHash] = await hashOpaqueTokenLookup(sessionToken, env.TOKEN_SECRET, "session");
+  await env.CHASA_DB.prepare(`DELETE FROM sessions WHERE token_hash IN (?, ?)`)
+    .bind(primaryHash, legacyHash)
+    .run();
 }
 
 type AuthVariables = { account: AccountContext | null };

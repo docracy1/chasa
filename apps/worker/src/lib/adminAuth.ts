@@ -1,7 +1,7 @@
 import type { Context, MiddlewareHandler } from "hono";
 import { getCookie, setCookie, deleteCookie } from "hono/cookie";
 import type { Env } from "../types";
-import { generateOpaqueToken, hashOpaqueToken } from "./token";
+import { generateOpaqueToken, hashOpaqueToken, hashOpaqueTokenLookup } from "./token";
 import { timingSafeEqual } from "./cryptoUtils";
 import { checkRateLimit } from "./rateLimit";
 
@@ -55,7 +55,7 @@ export async function loginAdmin(
   await env.CHASA_DB.prepare(`DELETE FROM admin_sessions WHERE email = ?`).bind(normalized).run();
 
   const token = generateOpaqueToken();
-  const tokenHash = await hashOpaqueToken(token, env.TOKEN_SECRET);
+  const tokenHash = await hashOpaqueToken(token, env.TOKEN_SECRET, "admin-session");
   const now = new Date();
   const expiresAt = new Date(now.getTime() + ADMIN_SESSION_TTL_SECONDS * 1000);
 
@@ -69,17 +69,24 @@ export async function loginAdmin(
 }
 
 export async function resolveAdmin(env: Env, token: string): Promise<AdminContext | null> {
-  const tokenHash = await hashOpaqueToken(token, env.TOKEN_SECRET);
+  const [primaryHash, legacyHash] = await hashOpaqueTokenLookup(token, env.TOKEN_SECRET, "admin-session");
   const now = new Date().toISOString();
-  const row = await env.CHASA_DB.prepare(
-    `SELECT email FROM admin_sessions WHERE token_hash = ? AND expires_at > ?`
+  let row = await env.CHASA_DB.prepare(
+    `SELECT email, token_hash FROM admin_sessions WHERE token_hash = ? AND expires_at > ?`
   )
-    .bind(tokenHash, now)
-    .first<{ email: string }>();
+    .bind(primaryHash, now)
+    .first<{ email: string; token_hash: string }>();
+  if (!row) {
+    row = await env.CHASA_DB.prepare(
+      `SELECT email, token_hash FROM admin_sessions WHERE token_hash = ? AND expires_at > ?`
+    )
+      .bind(legacyHash, now)
+      .first<{ email: string; token_hash: string }>();
+  }
   if (!row) return null;
 
   env.CHASA_DB.prepare(`UPDATE admin_sessions SET last_seen_at = ? WHERE token_hash = ?`)
-    .bind(now, tokenHash)
+    .bind(now, row.token_hash)
     .run()
     .catch(() => {});
 
@@ -87,8 +94,10 @@ export async function resolveAdmin(env: Env, token: string): Promise<AdminContex
 }
 
 export async function destroyAdminSession(env: Env, token: string): Promise<void> {
-  const tokenHash = await hashOpaqueToken(token, env.TOKEN_SECRET);
-  await env.CHASA_DB.prepare(`DELETE FROM admin_sessions WHERE token_hash = ?`).bind(tokenHash).run();
+  const [primaryHash, legacyHash] = await hashOpaqueTokenLookup(token, env.TOKEN_SECRET, "admin-session");
+  await env.CHASA_DB.prepare(`DELETE FROM admin_sessions WHERE token_hash IN (?, ?)`)
+    .bind(primaryHash, legacyHash)
+    .run();
 }
 
 export function setAdminCookie(c: Context, env: Env, token: string) {

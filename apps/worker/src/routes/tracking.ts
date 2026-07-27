@@ -9,6 +9,7 @@ import {
   trackingStatsForInvoices,
   isAllowedTrackingUrl,
 } from "../lib/chaseTracking";
+import { parseJsonBody, trackingCreateSchema, trackingStatsSchema } from "../lib/schemas";
 
 const tracking = new Hono<AuthEnv>();
 
@@ -49,19 +50,13 @@ tracking.get("/c/:chaseId", async (c) => {
 
 tracking.post("/create", requirePaidAccount, async (c) => {
   const acc = c.get("account")!;
-  const body = (await c.req.json().catch(() => ({}))) as {
-    subject?: string;
-    body?: string;
-    clientName?: string;
-    agingInvoiceId?: string;
-    wrapLinks?: boolean;
-  };
-  const emailBody = (body.body ?? "").trim();
-  if (!emailBody) return c.json({ error: "body is required." }, 400);
+  const parsed = await parseJsonBody(c.req, trackingCreateSchema);
+  if (!parsed.ok) return c.json({ error: parsed.error }, 400);
+  const body = parsed.data;
 
   const tracked = await createTrackedChase(c.env, acc.workspaceId, {
     subject: body.subject ?? null,
-    body: emailBody,
+    body: body.body,
     clientName: body.clientName ?? null,
     agingInvoiceId: body.agingInvoiceId ?? null,
     wrapLinks: body.wrapLinks !== false,
@@ -80,8 +75,9 @@ tracking.get("/", requirePaidAccount, async (c) => {
 
 tracking.post("/stats", requirePaidAccount, async (c) => {
   const acc = c.get("account")!;
-  const body = (await c.req.json().catch(() => ({}))) as { invoiceIds?: string[] };
-  const ids = Array.isArray(body.invoiceIds) ? body.invoiceIds.slice(0, 100) : [];
+  const parsed = await parseJsonBody(c.req, trackingStatsSchema);
+  if (!parsed.ok) return c.json({ error: parsed.error }, 400);
+  const ids = parsed.data.invoiceIds ?? [];
   const stats = await trackingStatsForInvoices(c.env, acc.workspaceId, ids);
   return c.json({ stats });
 });

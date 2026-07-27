@@ -1,6 +1,6 @@
 import type { Env } from "../types";
 import { seatLimitForPlan, type Plan } from "./billing";
-import { generateOpaqueToken, hashOpaqueToken } from "./token";
+import { generateOpaqueToken, hashOpaqueToken, hashOpaqueTokenLookup } from "./token";
 
 export type MemberRole = "admin" | "member";
 export type MemberStatus = "pending" | "active";
@@ -81,7 +81,7 @@ export async function inviteMember(
   const maxMemberRows = Math.max(0, seatCap - 1);
 
   const inviteToken = generateOpaqueToken();
-  const inviteTokenHash = await hashOpaqueToken(inviteToken, env.TOKEN_SECRET);
+  const inviteTokenHash = await hashOpaqueToken(inviteToken, env.TOKEN_SECRET, "invite");
   const id = crypto.randomUUID();
   const now = new Date().toISOString();
 
@@ -120,12 +120,19 @@ export async function acceptInvite(
   signedInEmail: string,
   signedInAccountId: string
 ): Promise<{ ok: true; workspaceId: string } | { error: string; status: number }> {
-  const tokenHash = await hashOpaqueToken(inviteToken, env.TOKEN_SECRET);
-  const row = await env.CHASA_DB.prepare(
+  const [primaryHash, legacyHash] = await hashOpaqueTokenLookup(inviteToken, env.TOKEN_SECRET, "invite");
+  let row = await env.CHASA_DB.prepare(
     `SELECT id, account_id, email, status FROM workspace_members WHERE invite_token_hash = ?`
   )
-    .bind(tokenHash)
+    .bind(primaryHash)
     .first<{ id: string; account_id: string; email: string; status: string }>();
+  if (!row) {
+    row = await env.CHASA_DB.prepare(
+      `SELECT id, account_id, email, status FROM workspace_members WHERE invite_token_hash = ?`
+    )
+      .bind(legacyHash)
+      .first<{ id: string; account_id: string; email: string; status: string }>();
+  }
 
   if (!row) return { error: "Invite is invalid or expired.", status: 404 };
   if (row.email.toLowerCase() !== signedInEmail.trim().toLowerCase()) {

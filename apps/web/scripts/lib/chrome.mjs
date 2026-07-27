@@ -8,7 +8,7 @@ export function escapeHtml(s) {
     .replaceAll('"', "&quot;");
 }
 
-export function chrome({ title, description, canonical, activeNav = "", mainHtml, jsonLd, depth = 0 }) {
+export function chrome({ title, description, canonical, activeNav = "", mainHtml, jsonLd, depth = 0, extraHead = "" }) {
   const prefix = depth > 0 ? "../".repeat(depth) : "";
   const root = depth > 0 ? "../".repeat(depth).slice(0, -1) || "." : "";
   const base = depth === 0 ? "" : "../".repeat(depth).replace(/\/$/, "") || ".";
@@ -34,6 +34,7 @@ export function chrome({ title, description, canonical, activeNav = "", mainHtml
 <meta name="twitter:title" content="${escapeHtml(title)}">
 <meta name="twitter:description" content="${escapeHtml(description)}">
 <meta name="twitter:image" content="https://chasa.io/brand/og/chasa-og-1200x630.png">
+${extraHead}
 ${jsonLd ? `<script type="application/ld+json">\n${jsonLd}\n</script>` : ""}
 <link rel="icon" href="${link("/favicon.png")}" type="image/png">
 <link rel="icon" href="${link("/favicon.svg")}" type="image/svg+xml">
@@ -70,18 +71,25 @@ ${mainHtml}
 </main>
 <footer class="site-footer">
   <div class="wrap site-footer-inner">
-    <div class="footer-brand">
+    <div class="site-footer-brand">
       <a href="${link("/")}" class="logo" aria-label="Chasa home"><img class="logo-mark" src="${link("/brand/chasa-icon.png")}" alt="" width="24" height="24" /><span class="logo-word">chasa</span></a>
-      <p class="footer-tagline">Invoice follow-ups for freelancers.</p>
+      <p>Free AI invoice follow-ups — paste unpaid invoices, get the reminder email already written.</p>
     </div>
-    <nav class="footer-nav" aria-label="Footer">
-      <a href="${link("/features/")}">Features</a>
+    <div class="site-footer-col">
+      <h4>Product</h4>
+      <a href="${link("/app/")}">Try free</a>
+      <a href="${link("/#pricing")}">Pricing</a>
+      <a href="${link("/free-templates/")}">Free templates</a>
       <a href="${link("/docs/")}">Docs</a>
       <a href="${link("/blog/")}">Blog</a>
+    </div>
+    <div class="site-footer-col">
+      <h4>Company</h4>
+      <a href="${link("/about")}">About</a>
       <a href="${link("/privacy")}">Privacy</a>
       <a href="${link("/terms")}">Terms</a>
       <a href="${link("/imprint")}">Imprint</a>
-    </nav>
+    </div>
   </div>
   <div class="wrap footer-bottom">
     <p>© ${new Date().getFullYear()} RELACON GmbH</p>

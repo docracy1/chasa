@@ -1,6 +1,7 @@
 import { Hono } from "hono";
 import { cors } from "hono/cors";
 import type { AuthEnv } from "./lib/auth";
+import type { Env } from "./types";
 import auth from "./routes/auth";
 import account from "./routes/account";
 import billing from "./routes/billing";
@@ -18,6 +19,7 @@ import reminders from "./routes/reminders";
 import tracking from "./routes/tracking";
 import team from "./routes/team";
 import cspReport from "./routes/cspReport";
+import { purgeExpiredSessions } from "./lib/sessionCleanup";
 
 const app = new Hono<AuthEnv>();
 
@@ -59,4 +61,9 @@ app.route("/mcp", mcp);
 
 app.get("/", (c) => c.text("chasa-worker ok"));
 
-export default app;
+export default {
+  fetch: app.fetch.bind(app),
+  scheduled: async (_event: ScheduledEvent, env: Env, ctx: ExecutionContext) => {
+    ctx.waitUntil(purgeExpiredSessions(env));
+  },
+};

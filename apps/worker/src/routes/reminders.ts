@@ -5,8 +5,8 @@ import {
   nextPlannedReminder,
   replaceSequenceReminders,
   updateReminderStatus,
-  type ReminderStatus,
 } from "../lib/chaseReminders";
+import { parseJsonBody, reminderSequenceSchema, reminderStatusSchema } from "../lib/schemas";
 
 const reminders = new Hono<AuthEnv>();
 
@@ -28,23 +28,10 @@ reminders.get("/next", requirePaidAccount, async (c) => {
 
 reminders.post("/sequence", requirePaidAccount, async (c) => {
   const acc = c.get("account")!;
-  const body = (await c.req.json().catch(() => ({}))) as {
-    agingInvoiceId?: string;
-    clientName?: string;
-    steps?: Array<{
-      step?: number;
-      daysFromNow?: number;
-      label?: string;
-      subject?: string;
-      body?: string;
-    }>;
-  };
-  const clientName = (body.clientName ?? "").trim();
-  const steps = Array.isArray(body.steps) ? body.steps : [];
-  if (!clientName || steps.length === 0) {
-    return c.json({ error: "clientName and steps are required." }, 400);
-  }
-  const normalized = steps
+  const parsed = await parseJsonBody(c.req, reminderSequenceSchema);
+  if (!parsed.ok) return c.json({ error: parsed.error }, 400);
+  const body = parsed.data;
+  const normalized = body.steps
     .map((s, i) => ({
       step: Number(s.step) || i + 1,
       daysFromNow: Number(s.daysFromNow) || 0,
@@ -55,7 +42,7 @@ reminders.post("/sequence", requirePaidAccount, async (c) => {
     .filter((s) => s.body);
   const saved = await replaceSequenceReminders(c.env, acc.workspaceId, {
     agingInvoiceId: body.agingInvoiceId ?? null,
-    clientName,
+    clientName: body.clientName,
     steps: normalized,
   });
   return c.json({ reminders: saved });
@@ -63,11 +50,9 @@ reminders.post("/sequence", requirePaidAccount, async (c) => {
 
 reminders.patch("/:id", requirePaidAccount, async (c) => {
   const acc = c.get("account")!;
-  const body = (await c.req.json().catch(() => ({}))) as { status?: string };
-  const status = body.status as ReminderStatus | undefined;
-  if (status !== "planned" && status !== "done" && status !== "skipped") {
-    return c.json({ error: "status must be planned, done, or skipped." }, 400);
-  }
+  const parsed = await parseJsonBody(c.req, reminderStatusSchema);
+  if (!parsed.ok) return c.json({ error: parsed.error }, 400);
+  const status = parsed.data.status;
   const updated = await updateReminderStatus(c.env, acc.workspaceId, c.req.param("id"), status);
   if (!updated) return c.json({ error: "Reminder not found" }, 404);
   return c.json({ reminder: updated });

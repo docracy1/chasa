@@ -1,6 +1,6 @@
 import type { Env } from "../types";
 import { timingSafeEqual } from "./cryptoUtils";
-import { generateOpaqueToken, hashOpaqueToken } from "./token";
+import { generateOpaqueToken, hashOpaqueToken, hashOpaqueTokenLegacy } from "./token";
 import { decryptSecret, encryptSecret } from "./secretCrypto";
 import {
   extractPdfText,
@@ -201,7 +201,7 @@ export async function createOAuthState(env: Env, accountId: string): Promise<str
   const expiry = String(Math.floor(Date.now() / 1000) + 15 * 60);
   const nonce = generateOpaqueToken().slice(0, 16);
   const payload = `${accountId}.${expiry}.${nonce}`;
-  const sig = await hashOpaqueToken(payload, env.TOKEN_SECRET);
+  const sig = await hashOpaqueToken(payload, env.TOKEN_SECRET, "oauth-state");
   return `${payload}.${sig}`;
 }
 
@@ -214,8 +214,9 @@ export async function parseOAuthState(
   const [accountId, expiry, nonce, sig] = parts;
   if (!accountId || !expiry || !nonce || !sig) return null;
   const payload = `${accountId}.${expiry}.${nonce}`;
-  const expected = await hashOpaqueToken(payload, env.TOKEN_SECRET);
-  if (!timingSafeEqual(expected, sig)) return null;
+  const expected = await hashOpaqueToken(payload, env.TOKEN_SECRET, "oauth-state");
+  const legacyExpected = await hashOpaqueTokenLegacy(payload, env.TOKEN_SECRET);
+  if (!timingSafeEqual(expected, sig) && !timingSafeEqual(legacyExpected, sig)) return null;
   if (Number(expiry) < Math.floor(Date.now() / 1000)) return null;
   return { accountId };
 }

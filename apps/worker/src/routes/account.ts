@@ -1,6 +1,7 @@
 import { Hono } from "hono";
 import { requireAccount, requireWorkspaceAdmin, type AuthEnv } from "../lib/auth";
 import cloudConnectors from "./cloudConnectors";
+import { brandingUpdateSchema, parseJsonBody, validateWorkspaceName } from "../lib/schemas";
 
 const account = new Hono<AuthEnv>();
 
@@ -57,21 +58,13 @@ account.get("/branding", requireAccount, async (c) => {
   });
 });
 
-const NAME_RE = /^[a-zA-Z0-9][a-zA-Z0-9 _-]{1,28}[a-zA-Z0-9]$|^[a-zA-Z0-9]{3,30}$/;
 const MAX_LOGO_CHARS = 140_000; // ~100KB binary as data URL
 
 account.put("/branding", requireWorkspaceAdmin, async (c) => {
   const acc = c.get("account")!;
-  const body = (await c.req.json().catch(() => ({}))) as {
-    workspaceName?: unknown;
-    logoDataUrl?: unknown;
-    paymentLink?: unknown;
-    lateFeeEnabled?: unknown;
-    lateFeeHint?: unknown;
-    removeLogo?: unknown;
-    removeName?: unknown;
-    removePaymentLink?: unknown;
-  };
+  const parsed = await parseJsonBody(c.req, brandingUpdateSchema);
+  if (!parsed.ok) return c.json({ error: parsed.error }, 400);
+  const body = parsed.data;
 
   const current = await c.env.CHASA_DB.prepare(
     `SELECT workspace_name, logo_data, payment_link, late_fee_enabled, late_fee_hint FROM accounts WHERE id = ?`
@@ -97,7 +90,7 @@ account.put("/branding", requireWorkspaceAdmin, async (c) => {
     const name = body.workspaceName.trim();
     if (name.length === 0) {
       workspaceName = null;
-    } else if (name.length < 3 || name.length > 30 || !NAME_RE.test(name)) {
+    } else if (name.length < 3 || name.length > 30 || !validateWorkspaceName(name)) {
       return c.json(
         { error: "Workspace name: 3–30 characters, letters and numbers only (spaces/_/- ok in the middle)." },
         400

@@ -3,7 +3,6 @@ import { requireAccount, requirePaidAccount, type AuthEnv } from "../lib/auth";
 import {
   findAccountIdByStripeCustomerId,
   getStripeCustomerId,
-  parseCheckoutPlan,
   priceIdForPlan,
   setAccountPlan,
   setStripeCustomerId,
@@ -11,6 +10,7 @@ import {
 } from "../lib/billing";
 import { verifyAndExtract } from "../lib/billingProviders/stripe";
 import { claimStripeEvent, parseStripeEventId } from "../lib/stripeEvents";
+import { billingCheckoutSchema, parseJsonBody } from "../lib/schemas";
 
 const billing = new Hono<AuthEnv>();
 
@@ -73,11 +73,9 @@ billing.post("/checkout", requireAccount, async (c) => {
     return c.json({ error: "Billing isn't set up on this deployment yet." }, 501);
   }
 
-  const body = (await c.req.json().catch(() => ({}))) as { plan?: unknown };
-  const plan = parseCheckoutPlan(body.plan);
-  if (!plan) {
-    return c.json({ error: "Choose a plan: solo, pro, or enterprise." }, 400);
-  }
+  const parsed = await parseJsonBody(c.req, billingCheckoutSchema);
+  if (!parsed.ok) return c.json({ error: parsed.error }, 400);
+  const plan = parsed.data.plan;
 
   const priceId = priceIdForPlan(c.env, plan);
   if (!priceId) {

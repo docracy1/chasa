@@ -122,6 +122,26 @@ Best,
 <li><a href="/free-templates/payment-plan-offer-overdue-invoice">Payment plan offer — 14 days overdue</a></li>
   </ul>
 </main>
+<script>
+if (window.chasaTrack) {
+  window.chasaTrack("template_opened");
+  window.chasaTrack("template_used");
+}
+document.querySelectorAll(".btn-copy").forEach(function (btn) {
+  btn.addEventListener("click", function () {
+    var text = decodeURIComponent(btn.getAttribute("data-copy"));
+    navigator.clipboard.writeText(text).then(function () {
+      btn.textContent = "Copied";
+      setTimeout(function () { btn.textContent = "Copy subject + body"; }, 1500);
+      if (window.chasaTrack) {
+        window.chasaTrack("template_started");
+        window.chasaTrack("template_completed");
+        window.chasaTrack("document_sent", { method: "copy" });
+      }
+    });
+  });
+});
+</script>
 <footer class="site-footer">
   <div class="wrap site-footer-inner">
     <div class="site-footer-brand">
@@ -141,8 +161,6 @@ Best,
       <a href="/about">About</a>
       <a href="/imprint">Imprint</a>
       <a href="mailto:founder@chasa.io">Contact</a>
-      <a href="https://www.linkedin.com/company/chasa-io" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-      <a href="https://x.com/chasaHQ" target="_blank" rel="noopener noreferrer">X</a>
     </div>
     <div class="site-footer-col">
       <h4>Legal</h4>
@@ -153,6 +171,6 @@ Best,
   <div class="site-footer-bottom">© 2026 Chasa — a product of RELACON GmbH</div>
 </footer>
 <script src="/site-nav.js"></script>
-<script src="/cookie-consent.js"></script>
+<script src="/analytics.js"></script>
 </body>
 </html>
