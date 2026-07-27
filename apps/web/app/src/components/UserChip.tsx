@@ -73,9 +73,6 @@ export default function UserChip({
         <Link to="/connector" role="menuitem" onClick={() => setOpen(false)}>
           Test connectors
         </Link>
-        <a href="/app/admin" role="menuitem">
-          Admin
-        </a>
         <a href="mailto:founder@chasa.io" role="menuitem">
           Support
         </a>

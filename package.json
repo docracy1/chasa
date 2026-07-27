@@ -1,7 +1,9 @@
 {
   "name": "chasa",
   "private": true,
-  "workspaces": ["apps/*"],
+  "workspaces": [
+    "apps/*"
+  ],
   "overrides": {
     "react": "18.3.1",
     "react-dom": "18.3.1"
@@ -14,6 +16,14 @@
     "deploy:web": "npm run build --workspace apps/web && npm run deploy --workspace apps/web",
     "typecheck:worker": "npm run typecheck --workspace apps/worker",
     "typecheck:web": "npm run build --workspace apps/web",
-    "typecheck": "npm run typecheck:worker && npm run typecheck:web"
+    "typecheck": "npm run typecheck:worker && npm run typecheck:web",
+    "test": "vitest run",
+    "lint": "eslint apps/web/app/src apps/worker/src"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.8.0",
+    "typescript-eslint": "^8.65.0",
+    "vitest": "^4.1.10"
   }
 }

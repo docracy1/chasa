@@ -160,7 +160,7 @@ export default function ConnectorPage({ account }: { account: Account | null }) 
   });
 
   const isPaid = !!account && account.plan !== "free";
-  const isAdmin = account?.email?.toLowerCase() === "rl@relacon.at";
+  const isOperator = account?.role === "admin" && account?.plan === "enterprise";
 
   async function refresh() {
     if (!account || !isPaid) {
@@ -478,7 +478,7 @@ export default function ConnectorPage({ account }: { account: Account | null }) 
     <div className="webhooks-page connector-test-page">
       <p className="crumb">
         <Link to="/account">Account</Link> / Connector
-        {isAdmin ? <span className="connector-admin-tag"> · Test connectors</span> : null}
+        {isOperator ? <span className="connector-admin-tag"> · Enterprise admin</span> : null}
       </p>
 
       <section className="branding-card connector-test-hero">

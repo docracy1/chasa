@@ -27,8 +27,8 @@ admin.post("/login", async (c) => {
   const turnstileToken = typeof body.turnstileToken === "string" ? body.turnstileToken : undefined;
   const check = await verifyTurnstile(c.env, turnstileToken, clientIp(c));
   if (!check.ok) return c.json({ error: check.error }, 400);
-  const result = await loginAdmin(c.env, email, password);
-  if (!result.ok) return c.json({ error: result.error }, 401);
+  const result = await loginAdmin(c.env, email, password, clientIp(c) || "unknown");
+  if (!result.ok) return c.json({ error: result.error }, (result.status ?? 401) as 401 | 429);
   setAdminCookie(c, c.env, result.token);
   return c.json({ ok: true, email: email.trim().toLowerCase() });
 });
@@ -62,9 +62,18 @@ admin.get("/traffic", requireAdmin, async (c) => {
 });
 
 admin.get("/signups", requireAdmin, async (c) => {
+  const limitRaw = Number(c.req.query("limit") || "100");
+  const offsetRaw = Number(c.req.query("offset") || "0");
+  const limit = Number.isFinite(limitRaw) ? Math.min(Math.max(limitRaw, 1), 200) : 100;
+  const offset = Number.isFinite(offsetRaw) ? Math.max(offsetRaw, 0) : 0;
+
   const rows = await c.env.CHASA_DB.prepare(
-    `SELECT email, plan, created_at, is_paid FROM accounts ORDER BY created_at DESC`
-  ).all<{ email: string; plan: string | null; created_at: string; is_paid: number }>();
+    `SELECT email, plan, created_at, is_paid FROM accounts ORDER BY created_at DESC LIMIT ? OFFSET ?`
+  )
+    .bind(limit, offset)
+    .all<{ email: string; plan: string | null; created_at: string; is_paid: number }>();
+
+  const totalRow = await c.env.CHASA_DB.prepare(`SELECT COUNT(*) as n FROM accounts`).first<{ n: number }>();
 
   const accounts = (rows.results ?? []).map((r) => ({
     email: r.email,
@@ -77,7 +86,9 @@ admin.get("/signups", requireAdmin, async (c) => {
   const enterprise = accounts.filter((a) => a.plan === "enterprise");
 
   return c.json({
-    total: accounts.length,
+    total: totalRow?.n ?? accounts.length,
+    limit,
+    offset,
     free,
     paid,
     enterprise,

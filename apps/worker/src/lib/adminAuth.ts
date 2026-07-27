@@ -2,6 +2,8 @@ import type { Context, MiddlewareHandler } from "hono";
 import { getCookie, setCookie, deleteCookie } from "hono/cookie";
 import type { Env } from "../types";
 import { generateOpaqueToken, hashOpaqueToken } from "./token";
+import { timingSafeEqual } from "./cryptoUtils";
+import { checkRateLimit } from "./rateLimit";
 
 const ADMIN_SESSION_TTL_SECONDS = 12 * 60 * 60;
 export const ADMIN_COOKIE_NAME = "chasa_admin";
@@ -32,13 +34,21 @@ function cookieOptions(env: Env) {
 export async function loginAdmin(
   env: Env,
   email: string,
-  password: string
-): Promise<{ ok: true; token: string } | { ok: false; error: string }> {
+  password: string,
+  ip: string
+): Promise<{ ok: true; token: string } | { ok: false; error: string; status?: number }> {
+  const rl = await checkRateLimit(env, `admin_login:${ip}`, 10, 900);
+  if (!rl.ok) {
+    return { ok: false, error: "Too many login attempts. Try again later.", status: 429 };
+  }
+
   if (!env.ADMIN_PASSWORD) {
     return { ok: false, error: "Admin login isn't configured yet." };
   }
   const normalized = email.trim().toLowerCase();
-  if (normalized !== adminEmail(env) || password !== env.ADMIN_PASSWORD) {
+  const emailOk = timingSafeEqual(normalized, adminEmail(env));
+  const passOk = timingSafeEqual(password, env.ADMIN_PASSWORD);
+  if (!emailOk || !passOk) {
     return { ok: false, error: "Invalid email or password." };
   }
 

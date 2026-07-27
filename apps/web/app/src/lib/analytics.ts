@@ -1,3 +1,5 @@
+import { hasAnalyticsConsent } from "./consent";
+
 const VISITOR_KEY = "chasa_vid";
 const EXCLUDE_KEY = "chasa_exclude_self";
 
@@ -62,6 +64,7 @@ export type AnalyticsEvent =
   | "blog_article_loaded"
   | "blog_cta_clicked"
   | "page_viewed"
+  | "scroll_depth_reached"
   | "email_sent"
   | "email_opened"
   | "email_clicked"
@@ -71,6 +74,7 @@ export type AnalyticsEvent =
   | "send_failed";
 
 export function track(name: AnalyticsEvent, properties?: Record<string, unknown>): void {
+  if (!hasAnalyticsConsent()) return;
   if (isExcludeSelf()) return;
 
   const body = JSON.stringify({

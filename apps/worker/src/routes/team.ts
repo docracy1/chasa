@@ -47,7 +47,7 @@ team.post("/invite", requireWorkspaceAdmin, async (c) => {
   const inviteUrl = `${c.env.PUBLIC_APP_URL.replace(/\/$/, "")}/app/team?invite=${encodeURIComponent(result.inviteToken)}`;
   await sendInviteEmail(c.env, result.member.email, inviteUrl, acc.email);
 
-  return c.json({ member: result.member, inviteUrl });
+  return c.json({ member: result.member, ok: true });
 });
 
 team.post("/accept", requirePaidAccount, async (c) => {

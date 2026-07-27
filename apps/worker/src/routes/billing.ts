@@ -10,6 +10,7 @@ import {
   setStripeSubscriptionId,
 } from "../lib/billing";
 import { verifyAndExtract } from "../lib/billingProviders/stripe";
+import { claimStripeEvent, parseStripeEventId } from "../lib/stripeEvents";
 
 const billing = new Hono<AuthEnv>();
 
@@ -175,6 +176,12 @@ billing.post("/webhook", async (c) => {
   const rawBody = await c.req.text();
   const signature = c.req.header("Stripe-Signature") ?? null;
   const result = await verifyAndExtract(rawBody, signature, c.env);
+  const eventId = parseStripeEventId(rawBody);
+
+  if (result && eventId) {
+    const isNew = await claimStripeEvent(c.env, eventId);
+    if (!isNew) return c.json({ ok: true, duplicate: true });
+  }
 
   if (result?.type === "checkout_completed") {
     await setAccountPlan(c.env, result.accountId, result.plan);
@@ -287,7 +294,6 @@ billing.get("/status", requireAccount, async (c) => {
   return c.json({
     ok: true,
     publicAppUrl: c.env.PUBLIC_APP_URL,
-    keyMode: key.startsWith("sk_live_") ? "live" : key.startsWith("sk_test_") ? "test" : "unknown",
     prices,
   });
 });

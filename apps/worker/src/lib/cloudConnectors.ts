@@ -1,4 +1,5 @@
 import type { Env } from "../types";
+import { timingSafeEqual } from "./cryptoUtils";
 import { generateOpaqueToken, hashOpaqueToken } from "./token";
 import { decryptSecret, encryptSecret } from "./secretCrypto";
 import {
@@ -214,7 +215,7 @@ export async function parseOAuthState(
   if (!accountId || !expiry || !nonce || !sig) return null;
   const payload = `${accountId}.${expiry}.${nonce}`;
   const expected = await hashOpaqueToken(payload, env.TOKEN_SECRET);
-  if (expected !== sig) return null;
+  if (!timingSafeEqual(expected, sig)) return null;
   if (Number(expiry) < Math.floor(Date.now() / 1000)) return null;
   return { accountId };
 }

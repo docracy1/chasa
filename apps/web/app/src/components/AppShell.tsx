@@ -17,11 +17,13 @@ export default function AppShell({
   account,
   loading,
   refresh,
+  onLogout,
   children,
 }: {
   account: Account | null;
   loading: boolean;
   refresh: () => Promise<void>;
+  onLogout?: () => void | Promise<void>;
   children: ReactNode;
 }) {
   const navigate = useNavigate();
@@ -29,6 +31,10 @@ export default function AppShell({
   const wordmark = account?.workspaceName || "chasa";
 
   async function handleLogout() {
+    if (onLogout) {
+      await onLogout();
+      return;
+    }
     await logout();
     await refresh();
     navigate("/login");

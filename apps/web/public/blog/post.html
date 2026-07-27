@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Blog — Chasa</title>
 <meta name="description" content="Chasa blog article">
+<link rel="canonical" id="post-canonical" href="https://chasa.io/blog/">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -74,6 +75,12 @@
   }).then(function(data){
     var p = data.post;
     document.title = p.title + " — Chasa";
+    var canonical = document.getElementById("post-canonical");
+    if (canonical) canonical.href = "https://chasa.io/blog/" + slug + "/";
+    if (p.description) {
+      var desc = document.querySelector('meta[name="description"]');
+      if (desc) desc.setAttribute("content", p.description);
+    }
     var paras = (p.body || "").split(/\n\s*\n/).map(function(t){
       return "<p>" + t.replace(/</g,"&lt;").replace(/\n/g,"<br>") + "</p>";
     }).join("");

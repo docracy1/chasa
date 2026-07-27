@@ -70,14 +70,6 @@ export async function inviteMember(
     return { error: "That email is already the workspace owner.", status: 400 };
   }
 
-  const used = await countSeatsUsed(env, workspaceId);
-  if (used >= seatLimitForPlan(plan)) {
-    return {
-      error: `Seat limit reached for this plan (${seatLimitForPlan(plan)} seats). Upgrade for more.`,
-      status: 402,
-    };
-  }
-
   const existing = await env.CHASA_DB.prepare(
     `SELECT id FROM workspace_members WHERE account_id = ? AND email = ?`
   )
@@ -85,18 +77,29 @@ export async function inviteMember(
     .first<{ id: string }>();
   if (existing) return { error: "That email is already invited.", status: 409 };
 
+  const seatCap = seatLimitForPlan(plan);
+  const maxMemberRows = Math.max(0, seatCap - 1);
+
   const inviteToken = generateOpaqueToken();
   const inviteTokenHash = await hashOpaqueToken(inviteToken, env.TOKEN_SECRET);
   const id = crypto.randomUUID();
   const now = new Date().toISOString();
 
-  await env.CHASA_DB.prepare(
+  const inserted = await env.CHASA_DB.prepare(
     `INSERT INTO workspace_members
        (id, account_id, email, role, status, invite_token_hash, invited_at, joined_at)
-     VALUES (?, ?, ?, ?, 'pending', ?, ?, NULL)`
+     SELECT ?, ?, ?, ?, 'pending', ?, ?, NULL
+     WHERE (SELECT COUNT(*) FROM workspace_members WHERE account_id = ?) < ?`
   )
-    .bind(id, workspaceId, normalized, role, inviteTokenHash, now)
+    .bind(id, workspaceId, normalized, role, inviteTokenHash, now, workspaceId, maxMemberRows)
     .run();
+
+  if (!inserted.meta.changes) {
+    return {
+      error: `Seat limit reached for this plan (${seatCap} seats). Upgrade for more.`,
+      status: 402,
+    };
+  }
 
   return {
     member: {
@@ -189,7 +192,7 @@ export async function sendInviteEmail(
   inviterEmail: string
 ): Promise<void> {
   if (!env.RESEND_API_KEY) {
-    console.log(`[dev] team invite for ${to}: ${inviteUrl}`);
+    console.log(`[dev] team invite email queued for ${to} (link not logged)`);
     return;
   }
   const res = await fetch("https://api.resend.com/emails", {

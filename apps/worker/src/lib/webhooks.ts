@@ -1,4 +1,5 @@
 import type { Env } from "../types";
+import { hashOpaqueToken } from "./token";
 
 export type WebhookEvent =
   | "chase.drafted"
@@ -42,6 +43,26 @@ export async function deleteWebhook(env: Env, accountId: string, id: string): Pr
   return (res.meta?.changes ?? 0) > 0;
 }
 
+async function webhookSigningHex(env: Env, webhookId: string): Promise<string> {
+  return hashOpaqueToken(`webhook:${webhookId}`, env.TOKEN_SECRET);
+}
+
+export async function signWebhookPayload(
+  env: Env,
+  webhookId: string,
+  payload: string
+): Promise<string> {
+  const key = await crypto.subtle.importKey(
+    "raw",
+    new TextEncoder().encode(await webhookSigningHex(env, webhookId)),
+    { name: "HMAC", hash: "SHA-256" },
+    false,
+    ["sign"]
+  );
+  const sig = await crypto.subtle.sign("HMAC", key, new TextEncoder().encode(payload));
+  return [...new Uint8Array(sig)].map((b) => b.toString(16).padStart(2, "0")).join("");
+}
+
 export async function dispatchWebhooks(
   env: Env,
   accountId: string,
@@ -59,6 +80,7 @@ export async function dispatchWebhooks(
 
   await Promise.allSettled(
     hooks.map(async (hook) => {
+      const signature = await signWebhookPayload(env, hook.id, payload);
       const controller = new AbortController();
       const timer = setTimeout(() => controller.abort(), 8000);
       try {
@@ -68,6 +90,7 @@ export async function dispatchWebhooks(
             "Content-Type": "application/json",
             "User-Agent": "Chasa-Webhooks/1.0",
             "X-Chasa-Event": event,
+            "X-Chasa-Signature": `sha256=${signature}`,
           },
           body: payload,
           signal: controller.signal,
@@ -83,10 +106,12 @@ export function isValidWebhookUrl(url: string): boolean {
   try {
     const u = new URL(url);
     if (u.protocol !== "https:" && u.protocol !== "http:") return false;
-    // Block obvious local/metadata targets in production-ish fashion
     const host = u.hostname.toLowerCase();
     if (host === "localhost" || host === "127.0.0.1" || host === "0.0.0.0") return false;
     if (host.endsWith(".local") || host === "::1") return false;
+    if (/^10\./.test(host) || /^192\.168\./.test(host)) return false;
+    if (/^172\.(1[6-9]|2\d|3[01])\./.test(host)) return false;
+    if (host === "169.254.169.254") return false;
     return true;
   } catch {
     return false;

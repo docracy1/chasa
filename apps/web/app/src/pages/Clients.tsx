@@ -15,13 +15,7 @@ import {
 import { track } from "../lib/analytics";
 import { getUsedCount, incrementUsedCount, isAtLimit, FREE_LIMIT } from "../lib/usage";
 
-function daysOverdue(dueDate: string): number {
-  const due = new Date(dueDate);
-  const now = new Date();
-  const ms = now.setHours(0, 0, 0, 0) - due.setHours(0, 0, 0, 0);
-  return Math.max(0, Math.round(ms / (1000 * 60 * 60 * 24)));
-}
-
+import { daysOverdue } from "../lib/dates";
 export default function ClientsPage({ account }: { account: Account | null }) {
   const [searchParams, setSearchParams] = useSearchParams();
   const selectedId = searchParams.get("id");

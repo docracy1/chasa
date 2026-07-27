@@ -5,7 +5,7 @@ import { trackEvent } from "./analytics";
 // (and any deployment before Resend is wired up) never blocks on a missing secret.
 export async function sendMagicLinkEmail(env: Env, email: string, verifyUrl: string): Promise<void> {
   if (!env.RESEND_API_KEY) {
-    console.log(`[dev] magic link for ${email}: ${verifyUrl}`);
+    console.log(`[dev] magic link email queued for ${email} (token not logged)`);
     await trackEvent(env, {
       name: "email_sent",
       properties: { type: "onboarding", channel: "dev" },

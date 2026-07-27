@@ -1,4 +1,5 @@
 import type { Env } from "../types";
+import { isProductionHttps, isLocalDev } from "./env";
 
 const SITEVERIFY_URL = "https://challenges.cloudflare.com/turnstile/v0/siteverify";
 
@@ -6,8 +7,8 @@ export type TurnstileResult = { ok: true } | { ok: false; error: string };
 
 /**
  * Verify a Cloudflare Turnstile token.
- * - If TURNSTILE_SECRET_KEY is unset: bypass with a clear log (local/dev).
- * - If secret is set: require a successful siteverify response.
+ * - Production HTTPS: fail closed if secret unset.
+ * - Local dev: bypass with warning when secret unset.
  */
 export async function verifyTurnstile(
   env: Env,
@@ -16,9 +17,15 @@ export async function verifyTurnstile(
 ): Promise<TurnstileResult> {
   const secret = env.TURNSTILE_SECRET_KEY?.trim();
   if (!secret) {
-    console.warn(
-      "[turnstile] TURNSTILE_SECRET_KEY unset — bypassing verification (ok for local/dev; set secret in production)"
-    );
+    if (isProductionHttps(env)) {
+      console.error("[turnstile] TURNSTILE_SECRET_KEY unset in production — blocking request");
+      return { ok: false, error: "Security check unavailable. Contact support." };
+    }
+    if (!isLocalDev(env)) {
+      console.error("[turnstile] TURNSTILE_SECRET_KEY unset — blocking non-local request");
+      return { ok: false, error: "Security check unavailable." };
+    }
+    console.warn("[turnstile] bypassing verification (local dev only)");
     return { ok: true };
   }
 

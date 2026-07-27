@@ -7,6 +7,7 @@ import {
   recordOpen,
   trackingPixelBytes,
   trackingStatsForInvoices,
+  isAllowedTrackingUrl,
 } from "../lib/chaseTracking";
 
 const tracking = new Hono<AuthEnv>();
@@ -40,6 +41,8 @@ tracking.get("/c/:chaseId", async (c) => {
   } catch {
     return c.text("Invalid link", 400);
   }
+  const allowed = await isAllowedTrackingUrl(c.env, chaseId, target);
+  if (!allowed) return c.text("Link not found for this tracked email", 404);
   await recordClick(c.env, chaseId, target).catch(() => null);
   return c.redirect(target, 302);
 });

@@ -1,7 +1,17 @@
 import { useEffect, useState } from "react";
-import { requestMagicLink } from "../lib/api";
+import { requestMagicLink, type AuthConfig } from "../lib/api";
 import { track } from "../lib/analytics";
 import TurnstileWidget, { resetTurnstile } from "../components/TurnstileWidget";
+
+async function loadAuthConfig(): Promise<AuthConfig | null> {
+  try {
+    const res = await fetch("/api/auth/config", { credentials: "include" });
+    if (!res.ok) return null;
+    return (await res.json()) as AuthConfig;
+  } catch {
+    return null;
+  }
+}
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -9,13 +19,19 @@ export default function Login() {
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+  const [turnstileRequired, setTurnstileRequired] = useState(false);
 
   useEffect(() => {
     track("signup_started");
+    void loadAuthConfig().then((cfg) => setTurnstileRequired(Boolean(cfg?.turnstileRequired)));
   }, []);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    if (turnstileRequired && !turnstileToken) {
+      setError("Complete the security check and try again.");
+      return;
+    }
     setSubmitting(true);
     setError(null);
     try {
@@ -54,7 +70,11 @@ export default function Login() {
             onChange={(e) => setEmail(e.target.value)}
             required
           />
-          <button type="submit" className="btn-primary" disabled={submitting}>
+          <button
+            type="submit"
+            className="btn-primary"
+            disabled={submitting || (turnstileRequired && !turnstileToken)}
+          >
             {submitting ? "Sending…" : "Send link"}
           </button>
         </div>

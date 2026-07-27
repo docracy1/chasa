@@ -1,5 +1,5 @@
 import { Hono, type Context } from "hono";
-import { requirePaidAccount, type AuthEnv } from "../lib/auth";
+import { requirePaidAccount, requireWorkspaceAdmin, type AuthEnv } from "../lib/auth";
 import {
   appConnectorUrl,
   buildAuthorizeUrl,
@@ -109,7 +109,7 @@ cloudConnectors.get("/box/callback", (c) => handleCallback(c, "box"));
 cloudConnectors.get("/quickbooks/callback", (c) => handleAccountingCallback(c, "quickbooks"));
 cloudConnectors.get("/xero/callback", (c) => handleAccountingCallback(c, "xero"));
 
-cloudConnectors.get("/:provider/connect", requirePaidAccount, async (c) => {
+cloudConnectors.get("/:provider/connect", requireWorkspaceAdmin, async (c) => {
   const providerParam = c.req.param("provider");
   const acc = c.get("account")!;
 
@@ -171,7 +171,7 @@ cloudConnectors.get("/:provider/connect", requirePaidAccount, async (c) => {
   return c.redirect(authorizeUrl, 302);
 });
 
-cloudConnectors.post("/:provider/test", requirePaidAccount, async (c) => {
+cloudConnectors.post("/:provider/test", requireWorkspaceAdmin, async (c) => {
   const providerParam = c.req.param("provider");
   if (!isCloudProvider(providerParam)) {
     return c.json({ error: "Unknown provider" }, 404);
@@ -186,7 +186,7 @@ cloudConnectors.post("/:provider/test", requirePaidAccount, async (c) => {
   return c.json({ ...result, explanation });
 });
 
-cloudConnectors.delete("/:provider", requirePaidAccount, async (c) => {
+cloudConnectors.delete("/:provider", requireWorkspaceAdmin, async (c) => {
   const providerParam = c.req.param("provider");
   const acc = c.get("account")!;
   if (isAccountingProvider(providerParam)) {
@@ -219,7 +219,7 @@ cloudConnectors.get("/:provider/invoices", requirePaidAccount, async (c) => {
   }
 });
 
-cloudConnectors.post("/:provider/import-invoices", requirePaidAccount, async (c) => {
+cloudConnectors.post("/:provider/import-invoices", requireWorkspaceAdmin, async (c) => {
   const providerParam = c.req.param("provider");
   if (!isAccountingProvider(providerParam)) {
     return c.json({ error: "Not an accounting provider" }, 404);
@@ -274,7 +274,7 @@ cloudConnectors.get("/:provider/files", requirePaidAccount, async (c) => {
   }
 });
 
-cloudConnectors.post("/:provider/files/import", requirePaidAccount, async (c) => {
+cloudConnectors.post("/:provider/files/import", requireWorkspaceAdmin, async (c) => {
   const providerParam = c.req.param("provider");
   if (!isCloudProvider(providerParam)) {
     return c.json({ error: "Unknown provider" }, 404);

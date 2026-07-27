@@ -213,7 +213,7 @@ function fmtDate(iso: string): string {
 }
 
 export default function Admin() {
-  const [email, setEmail] = useState("rl@relacon.at");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
   const [authedEmail, setAuthedEmail] = useState<string | null>(null);

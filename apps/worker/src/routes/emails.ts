@@ -1,4 +1,5 @@
 import { Hono } from "hono";
+import type { Context } from "hono";
 import { optionalAccount, requirePaidAccount, type AuthEnv } from "../lib/auth";
 import {
   generateChaseSequence,
@@ -12,8 +13,36 @@ import {
 import type { Env } from "../types";
 import { dispatchWebhooks } from "../lib/webhooks";
 import { replaceSequenceReminders } from "../lib/chaseReminders";
+import { checkDraftQuota, incrementDraftUsage, usageScopeKey } from "../lib/usageQuota";
+import { checkRateLimit, clientIpFromHeaders } from "../lib/rateLimit";
+import { clampNumber, clampOptionalString, clampString } from "../lib/validate";
+import { clientIp } from "../lib/turnstile";
 
 const emails = new Hono<AuthEnv>();
+
+async function enforceDraftAccess(
+  c: Context<AuthEnv>,
+  body: { visitorId?: unknown }
+): Promise<Response | null> {
+  const ip = clientIp(c) || clientIpFromHeaders({ get: (n) => c.req.header(n) ?? null });
+  const rl = await checkRateLimit(c.env, `ai_draft:${ip}`, 60, 3600);
+  if (!rl.ok) {
+    return new Response(JSON.stringify({ error: "Too many requests. Try again later." }), {
+      status: 429,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+
+  const visitorId = typeof body.visitorId === "string" ? body.visitorId : undefined;
+  const quota = await checkDraftQuota(c.env, c.get("account") ?? null, ip, visitorId);
+  if (!quota.allowed) {
+    return new Response(JSON.stringify({ error: quota.error, remaining: 0 }), {
+      status: 402,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+  return null;
+}
 
 async function loadLateFeeHint(env: Env, accountId: string | undefined): Promise<string | undefined> {
   if (!accountId) return undefined;
@@ -26,14 +55,14 @@ async function loadLateFeeHint(env: Env, accountId: string | undefined): Promise
   return row.late_fee_hint.trim().slice(0, 200);
 }
 
-// Public — no auth needed. The free tier's 5/month cap is enforced client-side (localStorage),
-// matching the product spec's v1 scope. Logged-in paid accounts just don't hit that cap client-side.
+// Free tier: server-enforced monthly cap. Paid accounts unlimited.
 emails.post("/generate-email", optionalAccount, async (c) => {
   const body = await c.req.json<{
     client_name?: string;
     invoice_amount?: number;
     days_overdue?: number;
     payment_link?: string;
+    visitorId?: string;
     invoices?: Array<{
       client_name?: string;
       invoice_amount?: number;
@@ -43,39 +72,37 @@ emails.post("/generate-email", optionalAccount, async (c) => {
     }>;
   }>();
 
+  const blocked = await enforceDraftAccess(c, body);
+  if (blocked) return blocked;
+
   const lineItems = Array.isArray(body.invoices)
-    ? body.invoices
-        .map((row) => {
-          const amount = Number(row.invoice_amount ?? row.amount);
-          const daysOverdue = Number(row.days_overdue);
-          if (!Number.isFinite(amount) || !Number.isFinite(daysOverdue)) return null;
-          return {
-            clientName: typeof row.client_name === "string" ? row.client_name.trim() : undefined,
-            amount,
-            daysOverdue: Math.max(0, daysOverdue),
-            dueDate: typeof row.due_date === "string" ? row.due_date.trim() : undefined,
-          };
-        })
-        .filter((x): x is NonNullable<typeof x> => x != null)
+    ? body.invoices.slice(0, 50).map((row) => {
+        const amount = Number(row.invoice_amount ?? row.amount);
+        const daysOverdue = Number(row.days_overdue);
+        if (!Number.isFinite(amount) || !Number.isFinite(daysOverdue)) return null;
+        return {
+          clientName: clampOptionalString(row.client_name, 120),
+          amount,
+          daysOverdue: Math.max(0, Math.min(3650, daysOverdue)),
+          dueDate: clampOptionalString(row.due_date, 20),
+        };
+      }).filter((x): x is NonNullable<typeof x> => x != null)
     : [];
 
   const clientName =
-    (body.client_name ?? "").trim() ||
+    clampString(body.client_name, 120) ||
     (lineItems.length === 1 ? lineItems[0].clientName ?? "" : "") ||
     (lineItems.length > 1 ? "your team" : "");
 
   const invoiceAmount =
     lineItems.length > 0
       ? lineItems.reduce((s, l) => s + l.amount, 0)
-      : Number(body.invoice_amount);
+      : clampNumber(body.invoice_amount, 0, 999_999_999) ?? NaN;
   const daysOverdue =
     lineItems.length > 0
       ? Math.max(...lineItems.map((l) => l.daysOverdue))
-      : Number(body.days_overdue);
-  const paymentLink =
-    typeof body.payment_link === "string" && body.payment_link.trim()
-      ? body.payment_link.trim().slice(0, 500)
-      : undefined;
+      : clampNumber(body.days_overdue, 0, 3650) ?? NaN;
+  const paymentLink = clampOptionalString(body.payment_link, 500);
 
   if (!clientName || !Number.isFinite(invoiceAmount) || !Number.isFinite(daysOverdue)) {
     return c.json(
@@ -102,6 +129,9 @@ emails.post("/generate-email", optionalAccount, async (c) => {
       lateFeeHint,
     });
     const acc = c.get("account");
+    const ip = clientIp(c) || "unknown";
+    const scope = usageScopeKey(acc ?? null, ip, body.visitorId);
+    const remaining = await incrementDraftUsage(c.env, scope);
     if (acc?.isPaid) {
       c.executionCtx.waitUntil(
         dispatchWebhooks(c.env, acc.workspaceId, "chase.drafted", {
@@ -113,7 +143,7 @@ emails.post("/generate-email", optionalAccount, async (c) => {
         }).catch(() => {})
       );
     }
-    return c.json(draft);
+    return c.json({ ...draft, remaining: acc?.isPaid ? null : Math.max(0, 5 - remaining) });
   } catch (err) {
     console.error("generateFollowUpEmail failed", err);
     return c.json({ error: "Could not generate a draft right now. Please try again." }, 502);

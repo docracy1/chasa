@@ -62,10 +62,15 @@ export async function createTrackedChase(
   const base = trackingBaseUrl(env);
   const pixelUrl = `${base}/api/t/o/${chaseId}.gif`;
   let bodyHtml = escapeHtml(input.body).replace(/\n/g, "<br>\n");
+  let wrappedUrls: string[] = [];
 
   if (input.wrapLinks !== false) {
-    bodyHtml = wrapHttpLinks(bodyHtml, base, chaseId);
+    const wrapped = wrapHttpLinks(bodyHtml, base, chaseId);
+    bodyHtml = wrapped.html;
+    wrappedUrls = wrapped.urls;
   }
+
+  await storeTrackingLinks(env, chaseId, wrappedUrls);
 
   const html = `<!DOCTYPE html><html><body style="font-family:system-ui,sans-serif;font-size:15px;line-height:1.5;color:#1a1a1a">
 ${bodyHtml}
@@ -90,13 +95,37 @@ function escapeHtml(s: string): string {
     .replace(/"/g, "&quot;");
 }
 
-function wrapHttpLinks(html: string, base: string, chaseId: string): string {
-  return html.replace(/https?:\/\/[^\s<]+/gi, (url) => {
+function wrapHttpLinks(html: string, base: string, chaseId: string): { html: string; urls: string[] } {
+  const urls: string[] = [];
+  const out = html.replace(/https?:\/\/[^\s<]+/gi, (url) => {
     const clean = url.replace(/[.,;:!?)]+$/, "");
     const trailing = url.slice(clean.length);
+    urls.push(clean);
     const wrapped = `${base}/api/t/c/${chaseId}?u=${encodeURIComponent(clean)}`;
     return `<a href="${wrapped}">${clean}</a>${trailing}`;
   });
+  return { html: out, urls };
+}
+
+async function storeTrackingLinks(env: Env, chaseId: string, urls: string[]): Promise<void> {
+  const now = new Date().toISOString();
+  const unique = [...new Set(urls.map((u) => u.slice(0, 2000)))].slice(0, 50);
+  for (const url of unique) {
+    await env.CHASA_DB.prepare(
+      `INSERT INTO chase_tracking_links (id, chase_id, url, created_at) VALUES (?, ?, ?, ?)`
+    )
+      .bind(crypto.randomUUID(), chaseId, url, now)
+      .run();
+  }
+}
+
+export async function isAllowedTrackingUrl(env: Env, chaseId: string, url: string): Promise<boolean> {
+  const row = await env.CHASA_DB.prepare(
+    `SELECT 1 as hit FROM chase_tracking_links WHERE chase_id = ? AND url = ? LIMIT 1`
+  )
+    .bind(chaseId, url.slice(0, 2000))
+    .first<{ hit: number }>();
+  return !!row;
 }
 
 export async function recordOpen(env: Env, chaseId: string): Promise<boolean> {

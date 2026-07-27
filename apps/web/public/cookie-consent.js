@@ -47,7 +47,7 @@
     var banner = document.createElement("div");
     banner.className = "chasa-cookie-banner";
     banner.setAttribute("role", "dialog");
-    banner.setAttribute("aria-label", "Cookie consent");
+    banner.setAttribute("aria-modal", "true");
     banner.innerHTML =
       '<div class="chasa-cookie-inner">' +
       '<p>We use cookies for anonymous analytics to improve Chasa. See our <a href="/privacy">Privacy policy</a>.</p>' +
@@ -56,6 +56,14 @@
       '<button type="button" class="chasa-cookie-btn chasa-cookie-accept">Accept</button>' +
       "</div></div>";
     document.body.appendChild(banner);
+    var acceptBtn = banner.querySelector(".chasa-cookie-accept");
+    if (acceptBtn && acceptBtn.focus) acceptBtn.focus();
+    banner.addEventListener("keydown", function (e) {
+      if (e.key === "Escape") {
+        setConsent("declined");
+        banner.remove();
+      }
+    });
 
     banner.querySelector(".chasa-cookie-accept").addEventListener("click", function () {
       setConsent("accepted");

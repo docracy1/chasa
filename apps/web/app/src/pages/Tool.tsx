@@ -28,6 +28,7 @@ import {
 } from "../lib/api";
 import { getUsedCount, incrementUsedCount, isAtLimit, FREE_LIMIT } from "../lib/usage";
 import { track } from "../lib/analytics";
+import { daysOverdue } from "../lib/dates";
 
 type PendingCloudImport = CloudFileImport & {
   provider: CloudProvider;
@@ -105,13 +106,6 @@ function persistInvoices(invoices: Invoice[]) {
     lastChaseAt: inv.lastChaseAt ?? null,
   }));
   localStorage.setItem(TOOL_STORAGE_KEY, JSON.stringify(slim));
-}
-
-function daysOverdue(dueDate: string): number {
-  const due = new Date(dueDate);
-  const now = new Date();
-  const ms = now.setHours(0, 0, 0, 0) - due.setHours(0, 0, 0, 0);
-  return Math.max(0, Math.round(ms / (1000 * 60 * 60 * 24)));
 }
 
 // Unified aliases for QBO / FreshBooks / Xero / Wave / Zoho / sevDesk (+ Chasa). Exact match after normalize.
@@ -541,13 +535,13 @@ export default function Tool({ account }: { account: Account | null }) {
   async function handleGenerate(invoiceId: string) {
     if (!isPaid && isAtLimit()) return;
 
-    setInvoices((prev) =>
-      prev.map((inv) =>
+    let invoice: (typeof invoices)[number] | undefined;
+    setInvoices((prev) => {
+      invoice = prev.find((inv) => inv.id === invoiceId);
+      return prev.map((inv) =>
         inv.id === invoiceId ? { ...inv, generating: true, error: undefined } : inv
-      )
-    );
-
-    const invoice = invoices.find((inv) => inv.id === invoiceId);
+      );
+    });
     if (!invoice) return;
 
     try {
@@ -565,7 +559,10 @@ export default function Tool({ account }: { account: Account | null }) {
           },
         ],
       });
-      if (!isPaid) setUsedCount(incrementUsedCount());
+      if (!isPaid) {
+        if (typeof draft.remaining === "number") setUsedCount(5 - draft.remaining);
+        else setUsedCount(incrementUsedCount());
+      }
       const now = new Date().toISOString();
       setInvoices((prev) =>
         prev.map((inv) =>

@@ -4,6 +4,7 @@ import type { Env } from "../types";
 import { isPaidPlan, type Plan } from "./billing";
 import { generateOpaqueToken, hashOpaqueToken } from "./token";
 import { sendMagicLinkEmail } from "./email";
+import { normalizePlan } from "./plan";
 
 const MAGIC_LINK_TTL_SECONDS = 15 * 60;
 const SESSION_TTL_SECONDS = 30 * 24 * 60 * 60;
@@ -22,11 +23,6 @@ export interface AccountContext {
   workspaceId: string;
   /** Role in the workspace; owners are always admin. */
   role: "admin" | "member";
-}
-
-function normalizePlan(raw: string | null | undefined, isPaid: boolean): Plan {
-  if (raw === "solo" || raw === "pro" || raw === "enterprise" || raw === "free") return raw;
-  return isPaid ? "solo" : "free";
 }
 
 function isHttps(url: string): boolean {
@@ -119,19 +115,23 @@ export async function consumeMagicLink(
   const tokenHash = await hashOpaqueToken(token, env.TOKEN_SECRET);
   const now = new Date().toISOString();
 
-  const row = await env.CHASA_DB.prepare(
-    `SELECT email FROM magic_links WHERE token_hash = ? AND expires_at > ? AND consumed_at IS NULL`
+  const consumed = await env.CHASA_DB.prepare(
+    `UPDATE magic_links SET consumed_at = ? WHERE token_hash = ? AND expires_at > ? AND consumed_at IS NULL`
   )
-    .bind(tokenHash, now)
+    .bind(now, tokenHash, now)
+    .run();
+
+  if (!consumed.meta.changes) {
+    return { ok: false, error: "That link is invalid or has expired. Request a new one." };
+  }
+
+  const row = await env.CHASA_DB.prepare(`SELECT email FROM magic_links WHERE token_hash = ?`)
+    .bind(tokenHash)
     .first<{ email: string }>();
 
   if (!row) {
     return { ok: false, error: "That link is invalid or has expired. Request a new one." };
   }
-
-  await env.CHASA_DB.prepare(`UPDATE magic_links SET consumed_at = ? WHERE token_hash = ?`)
-    .bind(now, tokenHash)
-    .run();
 
   const account = await findOrCreateAccount(env, row.email);
   const sessionToken = await createSession(env, account.id);

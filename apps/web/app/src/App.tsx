@@ -1,33 +1,45 @@
-import { useEffect } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
-import Tool from "./pages/Tool";
-import Login from "./pages/Login";
-import Account from "./pages/Account";
-import Admin from "./pages/Admin";
-import Branding from "./pages/Branding";
-import Webhooks from "./pages/Webhooks";
-import Connector from "./pages/Connector";
-import Clients from "./pages/Clients";
-import Team from "./pages/Team";
 import AppShell from "./components/AppShell";
-import { useAccount } from "./lib/useAccount";
+import ProtectedRoute from "./components/ProtectedRoute";
+import AppConsentBanner from "./components/AppConsentBanner";
+import { AccountProvider, useAccountContext } from "./lib/AccountContext";
+import { setUnauthorizedHandler } from "./lib/api";
 import { track } from "./lib/analytics";
 
-export default function App() {
-  const { account, loading, refresh } = useAccount();
+const Tool = lazy(() => import("./pages/Tool"));
+const Login = lazy(() => import("./pages/Login"));
+const Account = lazy(() => import("./pages/Account"));
+const Admin = lazy(() => import("./pages/Admin"));
+const Branding = lazy(() => import("./pages/Branding"));
+const Webhooks = lazy(() => import("./pages/Webhooks"));
+const Connector = lazy(() => import("./pages/Connector"));
+const Clients = lazy(() => import("./pages/Clients"));
+const Team = lazy(() => import("./pages/Team"));
+
+function AppRoutes() {
+  const { account, loading, refresh, signOut } = useAccountContext();
   const location = useLocation();
   const isAdmin = location.pathname.startsWith("/admin");
   const isLogin = location.pathname === "/login";
 
   useEffect(() => {
-    if (!isAdmin) track("dashboard_loaded");
-  }, [isAdmin]);
+    setUnauthorizedHandler(() => {
+      window.location.href = "/app/login";
+    });
+  }, []);
+
+  useEffect(() => {
+    if (!isAdmin && account) track("dashboard_loaded");
+  }, [isAdmin, account]);
 
   if (isAdmin) {
     return (
-      <Routes>
-        <Route path="/admin" element={<Admin />} />
-      </Routes>
+      <Suspense fallback={<p className="page-sub">Loading…</p>}>
+        <Routes>
+          <Route path="/admin" element={<Admin />} />
+        </Routes>
+      </Suspense>
     );
   }
 
@@ -38,24 +50,88 @@ export default function App() {
           <img src="/brand/chasa-icon.png" alt="" width="28" height="28" />
           <span>chasa</span>
         </a>
-        <Routes>
-          <Route path="/login" element={<Login />} />
-        </Routes>
+        <Suspense fallback={<p className="page-sub">Loading…</p>}>
+          <Routes>
+            <Route path="/login" element={<Login />} />
+          </Routes>
+        </Suspense>
       </div>
     );
   }
 
   return (
-    <AppShell account={account} loading={loading} refresh={refresh}>
-      <Routes>
-        <Route path="/" element={<Tool account={account} />} />
-        <Route path="/account" element={<Account account={account} refresh={refresh} />} />
-        <Route path="/team" element={<Team account={account} refresh={refresh} />} />
-        <Route path="/branding" element={<Branding account={account} refresh={refresh} />} />
-        <Route path="/clients" element={<Clients account={account} />} />
-        <Route path="/webhooks" element={<Webhooks account={account} />} />
-        <Route path="/connector" element={<Connector account={account} />} />
-      </Routes>
-    </AppShell>
+    <>
+      <AppShell account={account} loading={loading} refresh={refresh} onLogout={() => void signOut()}>
+        <Suspense fallback={<p className="page-sub">Loading…</p>}>
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <ProtectedRoute>
+                  <Tool account={account} />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/account"
+              element={
+                <ProtectedRoute>
+                  <Account account={account} refresh={refresh} />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/team"
+              element={
+                <ProtectedRoute>
+                  <Team account={account} refresh={refresh} />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/branding"
+              element={
+                <ProtectedRoute>
+                  <Branding account={account} refresh={refresh} />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/clients"
+              element={
+                <ProtectedRoute>
+                  <Clients account={account} />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/webhooks"
+              element={
+                <ProtectedRoute>
+                  <Webhooks account={account} />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/connector"
+              element={
+                <ProtectedRoute>
+                  <Connector account={account} />
+                </ProtectedRoute>
+              }
+            />
+          </Routes>
+        </Suspense>
+      </AppShell>
+      <AppConsentBanner />
+    </>
+  );
+}
+
+export default function App() {
+  return (
+    <AccountProvider>
+      <AppRoutes />
+    </AccountProvider>
   );
 }

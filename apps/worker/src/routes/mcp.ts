@@ -1,6 +1,9 @@
 import { Hono } from "hono";
 import type { Env } from "../types";
 import { generateFollowUpEmail, getToneBand } from "../lib/ai";
+import { checkDraftQuota, incrementDraftUsage, usageScopeKey } from "../lib/usageQuota";
+import { checkRateLimit, clientIpFromHeaders } from "../lib/rateLimit";
+import { clampNumber, clampString } from "../lib/validate";
 
 type JsonRpcId = string | number | null;
 
@@ -162,6 +165,7 @@ const TOOLS = [
 
 async function callTool(
   env: Env,
+  ip: string,
   name: string,
   args: Record<string, unknown>
 ): Promise<ReturnType<typeof textResult>> {
@@ -219,10 +223,16 @@ async function callTool(
   }
 
   if (name === "draft_chase_email") {
-    const clientName = String(args.client_name ?? "").trim();
-    const invoiceAmount = Number(args.invoice_amount);
-    const daysOverdue = Number(args.days_overdue);
-    if (!clientName || !Number.isFinite(invoiceAmount) || !Number.isFinite(daysOverdue)) {
+    const rl = await checkRateLimit(env, `mcp_draft:${ip}`, 30, 3600);
+    if (!rl.ok) throw new Error("Rate limit exceeded. Try again later.");
+
+    const quota = await checkDraftQuota(env, null, ip, null);
+    if (!quota.allowed) throw new Error(quota.error);
+
+    const clientName = clampString(args.client_name, 120);
+    const invoiceAmount = clampNumber(args.invoice_amount, 0, 999_999_999);
+    const daysOverdue = clampNumber(args.days_overdue, 0, 3650);
+    if (!clientName || invoiceAmount === null || daysOverdue === null) {
       throw new Error("client_name, invoice_amount, and days_overdue are required");
     }
     const draft = await generateFollowUpEmail(env, {
@@ -230,6 +240,7 @@ async function callTool(
       invoiceAmount,
       daysOverdue: Math.max(0, daysOverdue),
     });
+    await incrementDraftUsage(env, usageScopeKey(null, ip, null));
     return textResult(
       JSON.stringify(
         {
@@ -247,7 +258,7 @@ async function callTool(
   throw new Error(`Unknown tool: ${name}`);
 }
 
-async function handleRpc(env: Env, req: JsonRpcRequest): Promise<unknown> {
+async function handleRpc(env: Env, ip: string, req: JsonRpcRequest): Promise<unknown> {
   const { id, method, params } = req;
 
   if (!method) return err(id, -32600, "Invalid Request");
@@ -279,7 +290,7 @@ async function handleRpc(env: Env, req: JsonRpcRequest): Promise<unknown> {
     const args = ((params as { arguments?: Record<string, unknown> })?.arguments ??
       {}) as Record<string, unknown>;
     try {
-      const result = await callTool(env, name, args);
+      const result = await callTool(env, ip, name, args);
       return ok(id, result);
     } catch (e) {
       return ok(id, {
@@ -347,6 +358,12 @@ mcp.all("/", async (c) => {
     return c.json({ error: "Method not allowed" }, 405, corsHeaders);
   }
 
+  const ip = clientIpFromHeaders({ get: (n) => c.req.header(n) ?? null });
+  const mcpRl = await checkRateLimit(c.env, `mcp:${ip}`, 120, 3600);
+  if (!mcpRl.ok) {
+    return c.json(err(null, -32000, "Rate limit exceeded"), 429, corsHeaders);
+  }
+
   let body: unknown;
   try {
     body = await c.req.json();
@@ -362,10 +379,10 @@ mcp.all("/", async (c) => {
     const req = raw as JsonRpcRequest;
     // Notifications (no id) — process but may return null
     if (req.method?.startsWith("notifications/") || req.id === undefined) {
-      await handleRpc(c.env, req);
+      await handleRpc(c.env, ip, req);
       continue;
     }
-    results.push(await handleRpc(c.env, req));
+    results.push(await handleRpc(c.env, ip, req));
   }
 
   // If only notifications, empty 202

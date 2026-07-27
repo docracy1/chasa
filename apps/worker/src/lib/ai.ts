@@ -1,4 +1,6 @@
+import type { AiModels } from "@cloudflare/workers-types";
 import type { Env } from "../types";
+import { sanitizeForPrompt, wrapUserContent } from "./validate";
 
 export type ToneBand = "1-7" | "8-30" | "30+";
 
@@ -103,13 +105,12 @@ export async function generateFollowUpEmail(
   const userMessage = `${BAND_INSTRUCTIONS[band]}
 ${multiHint}
 
-client_name: ${input.clientName}
+${wrapUserContent("client_name", sanitizeForPrompt(input.clientName.slice(0, 120)))}
 invoice_count: ${lines.length}
 total_amount: $${lines.reduce((s, l) => s + l.amount, 0).toFixed(2)}
 max_days_overdue: ${maxDays}
 tone_band: ${band}
-invoices:
-${invoiceBlock}
+${wrapUserContent("invoices", invoiceBlock.slice(0, 4000))}
 ${payHint}
 ${lateHint}`;
 

@@ -1,5 +1,5 @@
 import { Hono } from "hono";
-import { requireAccount, requirePaidAccount, type AuthEnv } from "../lib/auth";
+import { requireAccount, requirePaidAccount, requireWorkspaceAdmin, type AuthEnv } from "../lib/auth";
 import {
   createWebhook,
   deleteWebhook,
@@ -19,7 +19,7 @@ webhooks.get("/", requirePaidAccount, async (c) => {
   });
 });
 
-webhooks.post("/", requirePaidAccount, async (c) => {
+webhooks.post("/", requireWorkspaceAdmin, async (c) => {
   const acc = c.get("account")!;
   const body = (await c.req.json().catch(() => ({}))) as { url?: unknown };
   const url = typeof body.url === "string" ? body.url.trim() : "";
@@ -34,7 +34,7 @@ webhooks.post("/", requirePaidAccount, async (c) => {
   return c.json({ id: row.id, url: row.url, createdAt: row.created_at }, 201);
 });
 
-webhooks.delete("/:id", requirePaidAccount, async (c) => {
+webhooks.delete("/:id", requireWorkspaceAdmin, async (c) => {
   const acc = c.get("account")!;
   const ok = await deleteWebhook(c.env, acc.workspaceId, c.req.param("id"));
   if (!ok) return c.json({ error: "Webhook not found" }, 404);

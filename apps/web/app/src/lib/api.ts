@@ -1,6 +1,29 @@
 export interface GeneratedEmail {
   subject: string;
   body: string;
+  remaining?: number | null;
+}
+
+export class ApiError extends Error {
+  status: number;
+  constructor(message: string, status: number) {
+    super(message);
+    this.status = status;
+  }
+}
+
+let unauthorizedHandler: (() => void) | null = null;
+
+export function setUnauthorizedHandler(handler: () => void): void {
+  unauthorizedHandler = handler;
+}
+
+function visitorId(): string | undefined {
+  try {
+    return localStorage.getItem("chasa_vid") || undefined;
+  } catch {
+    return undefined;
+  }
 }
 
 export interface Account {
@@ -52,7 +75,8 @@ async function jsonFetch<T>(path: string, init?: RequestInit): Promise<T> {
   });
   const data = await res.json().catch(() => ({}));
   if (!res.ok) {
-    throw new Error((data as { error?: string }).error || `Request failed (${res.status})`);
+    if (res.status === 401 && unauthorizedHandler) unauthorizedHandler();
+    throw new ApiError((data as { error?: string }).error || `Request failed (${res.status})`, res.status);
   }
   return data as T;
 }
@@ -62,6 +86,7 @@ export function generateEmail(input: {
   invoice_amount: number;
   days_overdue: number;
   payment_link?: string;
+  visitorId?: string;
   invoices?: Array<{
     client_name?: string;
     invoice_amount: number;
@@ -69,7 +94,10 @@ export function generateEmail(input: {
     due_date?: string;
   }>;
 }) {
-  return jsonFetch<GeneratedEmail>("/generate-email", { method: "POST", body: JSON.stringify(input) });
+  return jsonFetch<GeneratedEmail>("/generate-email", {
+    method: "POST",
+    body: JSON.stringify({ ...input, visitorId: input.visitorId ?? visitorId() }),
+  });
 }
 
 export type RewriteAction = "softer" | "firmer" | "shorter";
@@ -459,6 +487,11 @@ export function requestMagicLink(email: string, turnstileToken?: string | null) 
   });
 }
 
+export type AuthConfig = {
+  turnstileSiteKey: string | null;
+  turnstileRequired: boolean;
+};
+
 export function logout() {
   return jsonFetch<{ ok: true }>("/auth/logout", { method: "POST" });
 }
@@ -466,7 +499,8 @@ export function logout() {
 export async function getMe(): Promise<Account | null> {
   try {
     return await jsonFetch<Account>("/account/me");
-  } catch {
+  } catch (err) {
+    if (err instanceof ApiError && err.status === 401) return null;
     return null;
   }
 }

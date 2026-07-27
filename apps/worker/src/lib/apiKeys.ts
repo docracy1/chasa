@@ -3,17 +3,13 @@ import type { MiddlewareHandler } from "hono";
 import type { Env } from "../types";
 import { hashOpaqueToken } from "./token";
 import { isPaidPlan, type Plan } from "./billing";
+import { normalizePlan } from "./plan";
 import {
   resolveAccount,
   SESSION_COOKIE_NAME,
   type AccountContext,
   type AuthEnv,
 } from "./auth";
-
-function normalizePlan(raw: string | null | undefined, isPaid: boolean): Plan {
-  if (raw === "solo" || raw === "pro" || raw === "enterprise" || raw === "free") return raw;
-  return isPaid ? "solo" : "free";
-}
 
 export async function createApiKey(
   env: Env,
@@ -57,17 +53,46 @@ export async function revokeApiKey(env: Env, accountId: string, id: string): Pro
   return (res.meta?.changes ?? 0) > 0;
 }
 
+async function resolveRoleForEmail(
+  env: Env,
+  workspaceId: string,
+  email: string
+): Promise<"admin" | "member"> {
+  if (email.trim().toLowerCase() === "") return "member";
+  const owner = await env.CHASA_DB.prepare(`SELECT email FROM accounts WHERE id = ?`)
+    .bind(workspaceId)
+    .first<{ email: string }>();
+  if (owner && owner.email.toLowerCase() === email.trim().toLowerCase()) return "admin";
+
+  const membership = await env.CHASA_DB.prepare(
+    `SELECT role FROM workspace_members WHERE account_id = ? AND email = ? AND status = 'active'`
+  )
+    .bind(workspaceId, email.trim().toLowerCase())
+    .first<{ role: string }>();
+
+  if (membership?.role === "admin") return "admin";
+  return "member";
+}
+
 async function resolveAccountFromApiKey(env: Env, bearer: string): Promise<AccountContext | null> {
   if (!bearer.startsWith("chasa_")) return null;
   const token_hash = await hashOpaqueToken(bearer, env.TOKEN_SECRET);
   const row = await env.CHASA_DB.prepare(
-    `SELECT k.id as key_id, a.id as id, a.email as email, a.is_paid as is_paid, a.plan as plan
+    `SELECT k.id as key_id, a.id as id, a.email as email, a.is_paid as is_paid, a.plan as plan,
+            a.workspace_owner_id as workspace_owner_id
      FROM api_keys k
      JOIN accounts a ON a.id = k.account_id
      WHERE k.token_hash = ?`
   )
     .bind(token_hash)
-    .first<{ key_id: string; id: string; email: string; is_paid: number; plan: string | null }>();
+    .first<{
+      key_id: string;
+      id: string;
+      email: string;
+      is_paid: number;
+      plan: string | null;
+      workspace_owner_id: string | null;
+    }>();
 
   if (!row) return null;
 
@@ -75,14 +100,28 @@ async function resolveAccountFromApiKey(env: Env, bearer: string): Promise<Accou
     .bind(new Date().toISOString(), row.key_id)
     .run();
 
-  const plan = normalizePlan(row.plan, row.is_paid === 1);
+  let workspaceId = row.id;
+  let plan = normalizePlan(row.plan, row.is_paid === 1);
+  let role: "admin" | "member" = "admin";
+
+  if (row.workspace_owner_id) {
+    const owner = await env.CHASA_DB.prepare(`SELECT id, is_paid, plan FROM accounts WHERE id = ?`)
+      .bind(row.workspace_owner_id)
+      .first<{ id: string; is_paid: number; plan: string | null }>();
+    if (owner) {
+      workspaceId = owner.id;
+      plan = normalizePlan(owner.plan, owner.is_paid === 1);
+      role = await resolveRoleForEmail(env, owner.id, row.email);
+    }
+  }
+
   return {
     id: row.id,
     email: row.email,
     plan,
     isPaid: isPaidPlan(plan),
-    workspaceId: row.id,
-    role: "admin",
+    workspaceId,
+    role,
   };
 }
 
@@ -106,6 +145,31 @@ export const requirePaidApiOrSession: MiddlewareHandler<AuthEnv> = async (c, nex
   if (!account) return c.json({ error: "Sign in or provide Bearer API key" }, 401);
   if (!account.isPaid) {
     return c.json({ error: "This requires Solo, Pro ($17), or Enterprise" }, 402);
+  }
+  c.set("account", account);
+  await next();
+};
+
+/** API keys and session must be workspace admin for key management. */
+export const requirePaidApiOrSessionAdmin: MiddlewareHandler<AuthEnv> = async (c, next) => {
+  const auth = c.req.header("Authorization") || "";
+  let account: AccountContext | null = null;
+
+  if (auth.toLowerCase().startsWith("bearer ")) {
+    const token = auth.slice(7).trim();
+    account = await resolveAccountFromApiKey(c.env, token);
+    if (!account) return c.json({ error: "Invalid API key" }, 401);
+  } else {
+    const sessionToken = getCookie(c, SESSION_COOKIE_NAME);
+    account = sessionToken ? await resolveAccount(c.env, sessionToken) : null;
+    if (!account) return c.json({ error: "Sign in or provide Bearer API key" }, 401);
+  }
+
+  if (!account.isPaid) {
+    return c.json({ error: "This requires Solo, Pro ($17), or Enterprise" }, 402);
+  }
+  if (account.role !== "admin") {
+    return c.json({ error: "Admin role required for API keys" }, 403);
   }
   c.set("account", account);
   await next();

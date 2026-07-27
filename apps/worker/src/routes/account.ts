@@ -1,5 +1,5 @@
 import { Hono } from "hono";
-import { requireAccount, requirePaidAccount, type AuthEnv } from "../lib/auth";
+import { requireAccount, requireWorkspaceAdmin, type AuthEnv } from "../lib/auth";
 import cloudConnectors from "./cloudConnectors";
 
 const account = new Hono<AuthEnv>();
@@ -60,7 +60,7 @@ account.get("/branding", requireAccount, async (c) => {
 const NAME_RE = /^[a-zA-Z0-9][a-zA-Z0-9 _-]{1,28}[a-zA-Z0-9]$|^[a-zA-Z0-9]{3,30}$/;
 const MAX_LOGO_CHARS = 140_000; // ~100KB binary as data URL
 
-account.put("/branding", requirePaidAccount, async (c) => {
+account.put("/branding", requireWorkspaceAdmin, async (c) => {
   const acc = c.get("account")!;
   const body = (await c.req.json().catch(() => ({}))) as {
     workspaceName?: unknown;
