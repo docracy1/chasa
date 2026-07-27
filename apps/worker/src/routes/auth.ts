@@ -11,6 +11,7 @@ import {
 } from "../lib/auth";
 import { trackEvent } from "../lib/analytics";
 import { clientIp, turnstileSiteKey, verifyTurnstile } from "../lib/turnstile";
+import { magicLinkRequestSchema, parseJsonBody } from "../lib/schemas";
 
 const auth = new Hono<AuthEnv>();
 
@@ -23,11 +24,13 @@ auth.get("/config", (c) => {
 });
 
 auth.post("/request", async (c) => {
-  const body = await c.req.json<{ email?: string; turnstileToken?: string }>();
-  const check = await verifyTurnstile(c.env, body.turnstileToken, clientIp(c));
+  const parsed = await parseJsonBody(c.req, magicLinkRequestSchema);
+  if (!parsed.ok) return c.json({ error: parsed.error }, 400);
+
+  const check = await verifyTurnstile(c.env, parsed.data.turnstileToken, clientIp(c));
   if (!check.ok) return c.json({ error: check.error }, 400);
 
-  const result = await requestMagicLink(c.env, body.email ?? "");
+  const result = await requestMagicLink(c.env, parsed.data.email);
   if (!result.ok) return c.json({ error: result.error }, 400);
   return c.json({ ok: true });
 });
@@ -42,6 +45,9 @@ auth.get("/verify", async (c) => {
   if (!result.ok) {
     return c.redirect(`${c.env.PUBLIC_APP_URL}/app/login?error=invalid_token`);
   }
+
+  const existing = getCookie(c, SESSION_COOKIE_NAME);
+  if (existing) await destroySession(c.env, existing);
 
   setSessionCookie(c, c.env, result.sessionToken);
   if (result.isNew) {

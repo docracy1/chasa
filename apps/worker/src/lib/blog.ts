@@ -145,7 +145,7 @@ export async function updatePost(
   const title = input.title?.trim() ?? current.title;
   const body = input.body?.trim() ?? current.body;
   const description = input.description !== undefined ? input.description.trim() : current.description;
-  let slug = input.slug !== undefined ? slugify(input.slug || title) : current.slug;
+  const slug = input.slug !== undefined ? slugify(input.slug || title) : current.slug;
   if (slug !== current.slug) {
     const clash = await getPostBySlug(env, slug);
     if (clash && clash.id !== id) return { error: "Slug already in use." };

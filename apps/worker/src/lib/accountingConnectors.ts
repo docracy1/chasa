@@ -172,7 +172,7 @@ export async function upsertAccountingFromCode(
   };
 
   let tenantId: string | null = null;
-  let externalEmail: string | null = null;
+  const externalEmail: string | null = null;
   try {
     const connRes = await fetch("https://api.xero.com/connections", {
       headers: { Authorization: `Bearer ${tokens.access_token}` },

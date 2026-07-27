@@ -17,6 +17,8 @@ jobs:
       - run: npm ci
       - run: npm run lint
       - run: npm run test
+      - run: node scripts/validate-static-html.mjs
+        working-directory: apps/web
       - run: npm run typecheck
 
   # Only runs after `test` passes, and only for pushes to main. Requires a CLOUDFLARE_API_TOKEN

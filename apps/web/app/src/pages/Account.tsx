@@ -44,7 +44,6 @@ export default function Account({
     autoCheckoutStarted.current = true;
     setSearchParams({}, { replace: true });
     void handleUpgrade(plan);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [account, searchParams, setSearchParams]);
 
   if (!account) {

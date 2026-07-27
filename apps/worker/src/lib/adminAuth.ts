@@ -52,6 +52,8 @@ export async function loginAdmin(
     return { ok: false, error: "Invalid email or password." };
   }
 
+  await env.CHASA_DB.prepare(`DELETE FROM admin_sessions WHERE email = ?`).bind(normalized).run();
+
   const token = generateOpaqueToken();
   const tokenHash = await hashOpaqueToken(token, env.TOKEN_SECRET);
   const now = new Date();

@@ -17,6 +17,7 @@ import aging from "./routes/aging";
 import reminders from "./routes/reminders";
 import tracking from "./routes/tracking";
 import team from "./routes/team";
+import cspReport from "./routes/cspReport";
 
 const app = new Hono<AuthEnv>();
 
@@ -45,6 +46,7 @@ app.route("/api/tracking", tracking);
 app.route("/api/team", team);
 app.route("/api/billing", billing);
 app.route("/api/analytics", analytics);
+app.route("/api/csp-report", cspReport);
 app.route("/api/admin", admin);
 app.route("/api/blog", blog);
 app.route("/api/webhooks", webhooks);

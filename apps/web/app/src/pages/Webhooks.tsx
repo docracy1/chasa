@@ -36,7 +36,6 @@ export default function WebhooksPage({ account }: { account: Account | null }) {
 
   useEffect(() => {
     refresh();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [account?.email, isPaid]);
 
   if (!account) {

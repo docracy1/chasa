@@ -228,7 +228,7 @@ function hintsFromFilename(name: string): Partial<InvoiceHints> {
     if (d) out.dueDate = d;
   }
 
-  let client = base
+  const client = base
     .replace(/\b(invoice|rechnung|inv|bill|statement|quote|angebot)\b/gi, " ")
     .replace(/(?:\$|€|£)\s*\d[\d.,]*/g, " ")
     .replace(/\d{4}-\d{2}-\d{2}/g, " ")

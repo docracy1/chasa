@@ -118,16 +118,18 @@ export async function trackEvent(
 export type FunnelStep = { name: string; count: number };
 
 async function countsFor(env: Env, names: readonly string[], sinceIso: string): Promise<FunnelStep[]> {
-  const out: FunnelStep[] = [];
-  for (const name of names) {
-    const row = await env.CHASA_DB.prepare(
-      `SELECT COUNT(*) as c FROM analytics_events WHERE name = ? AND created_at >= ?`
-    )
-      .bind(name, sinceIso)
-      .first<{ c: number }>();
-    out.push({ name, count: Number(row?.c ?? 0) });
-  }
-  return out;
+  if (names.length === 0) return [];
+  const placeholders = names.map(() => "?").join(", ");
+  const { results } = await env.CHASA_DB.prepare(
+    `SELECT name, COUNT(*) as c FROM analytics_events
+     WHERE created_at >= ? AND name IN (${placeholders})
+     GROUP BY name`
+  )
+    .bind(sinceIso, ...names)
+    .all<{ name: string; c: number }>();
+
+  const byName = new Map((results ?? []).map((r) => [r.name, Number(r.c)]));
+  return names.map((name) => ({ name, count: byName.get(name) ?? 0 }));
 }
 
 export async function getFunnelStats(env: Env, days = 30) {

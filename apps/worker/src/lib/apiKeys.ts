@@ -2,7 +2,7 @@ import { getCookie } from "hono/cookie";
 import type { MiddlewareHandler } from "hono";
 import type { Env } from "../types";
 import { hashOpaqueToken } from "./token";
-import { isPaidPlan, type Plan } from "./billing";
+import { isPaidPlan } from "./billing";
 import { normalizePlan } from "./plan";
 import {
   resolveAccount,

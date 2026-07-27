@@ -15,8 +15,17 @@ import { dispatchWebhooks } from "../lib/webhooks";
 import { replaceSequenceReminders } from "../lib/chaseReminders";
 import { checkDraftQuota, incrementDraftUsage, usageScopeKey } from "../lib/usageQuota";
 import { checkRateLimit, clientIpFromHeaders } from "../lib/rateLimit";
-import { clampNumber, clampOptionalString, clampString } from "../lib/validate";
+import { clampOptionalString, clampString } from "../lib/validate";
 import { clientIp } from "../lib/turnstile";
+import {
+  generateEmailSchema,
+  parseJsonBody,
+  replyEmailSchema,
+  rewriteEmailSchema,
+  sequenceEmailSchema,
+  smsEmailSchema,
+  thankYouSchema,
+} from "../lib/schemas";
 
 const emails = new Hono<AuthEnv>();
 
@@ -57,36 +66,29 @@ async function loadLateFeeHint(env: Env, accountId: string | undefined): Promise
 
 // Free tier: server-enforced monthly cap. Paid accounts unlimited.
 emails.post("/generate-email", optionalAccount, async (c) => {
-  const body = await c.req.json<{
-    client_name?: string;
-    invoice_amount?: number;
-    days_overdue?: number;
-    payment_link?: string;
-    visitorId?: string;
-    invoices?: Array<{
-      client_name?: string;
-      invoice_amount?: number;
-      amount?: number;
-      days_overdue?: number;
-      due_date?: string;
-    }>;
-  }>();
+  const parsed = await parseJsonBody(c.req, generateEmailSchema);
+  if (!parsed.ok) return c.json({ error: parsed.error }, 400);
+  const body = parsed.data;
 
   const blocked = await enforceDraftAccess(c, body);
   if (blocked) return blocked;
 
-  const lineItems = Array.isArray(body.invoices)
-    ? body.invoices.slice(0, 50).map((row) => {
-        const amount = Number(row.invoice_amount ?? row.amount);
-        const daysOverdue = Number(row.days_overdue);
-        if (!Number.isFinite(amount) || !Number.isFinite(daysOverdue)) return null;
-        return {
-          clientName: clampOptionalString(row.client_name, 120),
-          amount,
-          daysOverdue: Math.max(0, Math.min(3650, daysOverdue)),
-          dueDate: clampOptionalString(row.due_date, 20),
-        };
-      }).filter((x): x is NonNullable<typeof x> => x != null)
+  const lineItems = body.invoices
+    ? body.invoices
+        .map((row) => {
+          const amount = row.invoice_amount ?? row.amount;
+          const daysOverdueVal = row.days_overdue;
+          if (amount == null || !Number.isFinite(amount) || daysOverdueVal == null || !Number.isFinite(daysOverdueVal)) {
+            return null;
+          }
+          return {
+            clientName: clampOptionalString(row.client_name, 120),
+            amount,
+            daysOverdue: Math.max(0, Math.min(3650, daysOverdueVal)),
+            dueDate: clampOptionalString(row.due_date, 20),
+          };
+        })
+        .filter((x): x is NonNullable<typeof x> => x != null)
     : [];
 
   const clientName =
@@ -97,11 +99,11 @@ emails.post("/generate-email", optionalAccount, async (c) => {
   const invoiceAmount =
     lineItems.length > 0
       ? lineItems.reduce((s, l) => s + l.amount, 0)
-      : clampNumber(body.invoice_amount, 0, 999_999_999) ?? NaN;
+      : body.invoice_amount ?? NaN;
   const daysOverdue =
     lineItems.length > 0
       ? Math.max(...lineItems.map((l) => l.daysOverdue))
-      : clampNumber(body.days_overdue, 0, 3650) ?? NaN;
+      : body.days_overdue ?? NaN;
   const paymentLink = clampOptionalString(body.payment_link, 500);
 
   if (!clientName || !Number.isFinite(invoiceAmount) || !Number.isFinite(daysOverdue)) {
@@ -152,14 +154,12 @@ emails.post("/generate-email", optionalAccount, async (c) => {
 
 const REWRITE_ACTIONS = new Set<RewriteAction>(["softer", "firmer", "shorter"]);
 
-// Soften / firm up / shorten — paid only (enforced server-side).
 emails.post("/rewrite-email", requirePaidAccount, async (c) => {
-  const body = await c.req.json<{ subject?: string; body?: string; action?: string }>();
-  const subject = (body.subject ?? "").trim();
-  const emailBody = (body.body ?? "").trim();
-  const action = body.action as RewriteAction | undefined;
+  const parsed = await parseJsonBody(c.req, rewriteEmailSchema);
+  if (!parsed.ok) return c.json({ error: parsed.error }, 400);
+  const { subject, body: emailBody, action } = parsed.data;
 
-  if (!subject || !emailBody || !action || !REWRITE_ACTIONS.has(action)) {
+  if (!REWRITE_ACTIONS.has(action)) {
     return c.json({ error: "subject, body, and action (softer|firmer|shorter) are required." }, 400);
   }
 
@@ -172,15 +172,11 @@ emails.post("/rewrite-email", requirePaidAccount, async (c) => {
   }
 });
 
-// Thank-you after payment — Solo+
 emails.post("/generate-thank-you", requirePaidAccount, async (c) => {
   const acc = c.get("account")!;
-  const body = await c.req.json<{ client_name?: string; invoice_amount?: number }>();
-  const clientName = (body.client_name ?? "").trim();
-  const invoiceAmount = Number(body.invoice_amount);
-  if (!clientName || !Number.isFinite(invoiceAmount)) {
-    return c.json({ error: "client_name and invoice_amount are required." }, 400);
-  }
+  const parsed = await parseJsonBody(c.req, thankYouSchema);
+  if (!parsed.ok) return c.json({ error: parsed.error }, 400);
+  const { client_name: clientName, invoice_amount: invoiceAmount } = parsed.data;
   try {
     const draft = await generateThankYouEmail(c.env, { clientName, invoiceAmount });
     c.executionCtx.waitUntil(
@@ -197,25 +193,16 @@ emails.post("/generate-thank-you", requirePaidAccount, async (c) => {
   }
 });
 
-// Reply to a client message — Solo+
 emails.post("/generate-reply", requirePaidAccount, async (c) => {
   const acc = c.get("account")!;
-  const body = await c.req.json<{
-    client_name?: string;
-    invoice_amount?: number;
-    days_overdue?: number;
-    client_message?: string;
-  }>();
-  const clientName = (body.client_name ?? "").trim();
-  const invoiceAmount = Number(body.invoice_amount);
-  const daysOverdue = Number(body.days_overdue);
-  const clientMessage = (body.client_message ?? "").trim();
-  if (!clientName || !Number.isFinite(invoiceAmount) || !Number.isFinite(daysOverdue) || !clientMessage) {
-    return c.json(
-      { error: "client_name, invoice_amount, days_overdue, and client_message are required." },
-      400
-    );
-  }
+  const parsed = await parseJsonBody(c.req, replyEmailSchema);
+  if (!parsed.ok) return c.json({ error: parsed.error }, 400);
+  const {
+    client_name: clientName,
+    invoice_amount: invoiceAmount,
+    days_overdue: daysOverdue,
+    client_message: clientMessage,
+  } = parsed.data;
   try {
     const draft = await generateReplyEmail(c.env, {
       clientName,
@@ -238,27 +225,21 @@ emails.post("/generate-reply", requirePaidAccount, async (c) => {
   }
 });
 
-// 3-step chase sequence — Solo+ (reminder calendar; never auto-sent)
 emails.post("/generate-sequence", requirePaidAccount, async (c) => {
   const acc = c.get("account")!;
-  const body = await c.req.json<{
-    client_name?: string;
-    invoice_amount?: number;
-    days_overdue?: number;
-    aging_invoice_id?: string;
-  }>();
-  const clientName = (body.client_name ?? "").trim();
-  const invoiceAmount = Number(body.invoice_amount);
-  const daysOverdue = Number(body.days_overdue);
-  if (!clientName || !Number.isFinite(invoiceAmount) || !Number.isFinite(daysOverdue)) {
-    return c.json({ error: "client_name, invoice_amount, and days_overdue are required." }, 400);
-  }
+  const parsed = await parseJsonBody(c.req, sequenceEmailSchema);
+  if (!parsed.ok) return c.json({ error: parsed.error }, 400);
+  const {
+    client_name: clientName,
+    invoice_amount: invoiceAmount,
+    days_overdue: daysOverdue,
+    aging_invoice_id,
+  } = parsed.data;
   try {
     const lateFeeHint = await loadLateFeeHint(c.env, acc.workspaceId);
     const sequence = await generateChaseSequence(c.env, { clientName, invoiceAmount, daysOverdue });
-    // Persist planned dates for the reminder calendar
     const reminders = await replaceSequenceReminders(c.env, acc.workspaceId, {
-      agingInvoiceId: body.aging_invoice_id ?? null,
+      agingInvoiceId: aging_invoice_id ?? null,
       clientName,
       steps: sequence.steps,
     });
@@ -277,28 +258,23 @@ emails.post("/generate-sequence", requirePaidAccount, async (c) => {
   }
 });
 
-// SMS + WhatsApp drafts — Solo+. User copies / opens sms: or wa.me — Chasa never sends.
 emails.post("/generate-sms", requirePaidAccount, async (c) => {
   const acc = c.get("account")!;
-  const body = await c.req.json<{
-    client_name?: string;
-    invoice_amount?: number;
-    days_overdue?: number;
-    phone?: string;
-  }>();
-  const clientName = (body.client_name ?? "").trim();
-  const invoiceAmount = Number(body.invoice_amount);
-  const daysOverdue = Number(body.days_overdue);
-  if (!clientName || !Number.isFinite(invoiceAmount) || !Number.isFinite(daysOverdue)) {
-    return c.json({ error: "client_name, invoice_amount, and days_overdue are required." }, 400);
-  }
+  const parsed = await parseJsonBody(c.req, smsEmailSchema);
+  if (!parsed.ok) return c.json({ error: parsed.error }, 400);
+  const {
+    client_name: clientName,
+    invoice_amount: invoiceAmount,
+    days_overdue: daysOverdue,
+    phone,
+  } = parsed.data;
   try {
     const lateFeeHint = await loadLateFeeHint(c.env, acc.workspaceId);
     const draft = await generateSmsWhatsAppDraft(c.env, {
       clientName,
       invoiceAmount,
       daysOverdue: Math.max(0, daysOverdue),
-      phone: typeof body.phone === "string" ? body.phone : undefined,
+      phone,
       lateFeeHint,
     });
     return c.json(draft);

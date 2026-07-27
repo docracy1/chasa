@@ -1,5 +1,6 @@
 import type { Env } from "../types";
 import { hashOpaqueToken } from "./token";
+import { isBlockedWebhookHost } from "./validate";
 
 export type WebhookEvent =
   | "chase.drafted"
@@ -106,13 +107,7 @@ export function isValidWebhookUrl(url: string): boolean {
   try {
     const u = new URL(url);
     if (u.protocol !== "https:" && u.protocol !== "http:") return false;
-    const host = u.hostname.toLowerCase();
-    if (host === "localhost" || host === "127.0.0.1" || host === "0.0.0.0") return false;
-    if (host.endsWith(".local") || host === "::1") return false;
-    if (/^10\./.test(host) || /^192\.168\./.test(host)) return false;
-    if (/^172\.(1[6-9]|2\d|3[01])\./.test(host)) return false;
-    if (host === "169.254.169.254") return false;
-    return true;
+    return !isBlockedWebhookHost(u.hostname);
   } catch {
     return false;
   }

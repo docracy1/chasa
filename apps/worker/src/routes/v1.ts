@@ -3,6 +3,7 @@ import type { AuthEnv } from "../lib/auth";
 import { requirePaidApiOrSession } from "../lib/apiKeys";
 import { generateFollowUpEmail, getToneBand } from "../lib/ai";
 import { dispatchWebhooks } from "../lib/webhooks";
+import { parseJsonBody, v1ChaseDraftSchema } from "../lib/schemas";
 
 /**
  * Public HTTP API for Zapier / Make / US accounting automation.
@@ -23,26 +24,20 @@ function daysFromDueDate(dueDate: string): number | null {
 
 v1.post("/chase/draft", requirePaidApiOrSession, async (c) => {
   const acc = c.get("account")!;
-  const body = (await c.req.json().catch(() => ({}))) as {
-    client_name?: unknown;
-    customer?: unknown;
-    invoice_amount?: unknown;
-    amount?: unknown;
-    days_overdue?: unknown;
-    due_date?: unknown;
-    dueDate?: unknown;
-  };
+  const parsed = await parseJsonBody(c.req, v1ChaseDraftSchema);
+  if (!parsed.ok) return c.json({ error: parsed.error }, 400);
 
-  const clientName = String(body.client_name ?? body.customer ?? "").trim();
-  const invoiceAmount = Number(body.invoice_amount ?? body.amount);
-  let daysOverdue = Number(body.days_overdue);
-  if (!Number.isFinite(daysOverdue)) {
-    const due = String(body.due_date ?? body.dueDate ?? "").trim();
+  const body = parsed.data;
+  const clientName = (body.client_name ?? body.customer ?? "").trim();
+  const invoiceAmount = body.invoice_amount ?? body.amount;
+  let daysOverdue = body.days_overdue;
+  if (daysOverdue == null || !Number.isFinite(daysOverdue)) {
+    const due = (body.due_date ?? body.dueDate ?? "").trim();
     const computed = due ? daysFromDueDate(due) : null;
     daysOverdue = computed ?? NaN;
   }
 
-  if (!clientName || !Number.isFinite(invoiceAmount) || !Number.isFinite(daysOverdue)) {
+  if (!clientName || invoiceAmount == null || !Number.isFinite(invoiceAmount) || !Number.isFinite(daysOverdue)) {
     return c.json(
       {
         error:
@@ -79,7 +74,5 @@ v1.post("/chase/draft", requirePaidApiOrSession, async (c) => {
     return c.json({ error: "Could not generate draft" }, 502);
   }
 });
-
-v1.get("/health", (c) => c.json({ ok: true, product: "chasa", version: "1" }));
 
 export default v1;

@@ -134,6 +134,7 @@ export async function consumeMagicLink(
   }
 
   const account = await findOrCreateAccount(env, row.email);
+  await env.CHASA_DB.prepare(`DELETE FROM sessions WHERE account_id = ?`).bind(account.id).run();
   const sessionToken = await createSession(env, account.id);
   return {
     ok: true,
