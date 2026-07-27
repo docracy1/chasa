@@ -26,7 +26,7 @@ jobs:
   # Cloudflare Pages:Edit permissions.
   deploy:
     needs: test
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push' && secrets.CLOUDFLARE_API_TOKEN != ''
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     runs-on: ubuntu-latest
     env:
       CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
@@ -38,11 +38,17 @@ jobs:
           cache: npm
       - run: npm ci
       - name: Deploy worker
+        if: env.CLOUDFLARE_API_TOKEN != ''
         run: npx wrangler deploy
         working-directory: apps/worker
       - name: Build web
+        if: env.CLOUDFLARE_API_TOKEN != ''
         run: npm run build
         working-directory: apps/web
       - name: Deploy web (Cloudflare Pages)
+        if: env.CLOUDFLARE_API_TOKEN != ''
         run: npx wrangler pages deploy dist --project-name=chasa
         working-directory: apps/web
+      - name: Skip deploy (no Cloudflare token)
+        if: env.CLOUDFLARE_API_TOKEN == ''
+        run: echo "CLOUDFLARE_API_TOKEN not set — skipping deploy."
