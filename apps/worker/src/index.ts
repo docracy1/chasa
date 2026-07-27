@@ -20,6 +20,7 @@ import reminders from "./routes/reminders";
 import tracking from "./routes/tracking";
 import team from "./routes/team";
 import cspReport from "./routes/cspReport";
+import { configuredAppOrigin, isAllowedAppOrigin } from "./lib/appUrl";
 import { purgeExpiredSessions } from "./lib/sessionCleanup";
 import { sendDailyChaseDigests } from "./lib/chaseDigest";
 
@@ -29,12 +30,9 @@ app.use(
   "/api/*",
   cors({
     origin: (origin, c) => {
-      const primary = c.env.PUBLIC_APP_URL;
+      const primary = configuredAppOrigin(c.env);
       if (!origin) return primary;
-      if (origin === primary) return origin;
-      if (/^https:\/\/chasa(-[\w-]+)?\.pages\.dev$/.test(origin)) return origin;
-      if (origin.startsWith("http://localhost:")) return origin;
-      return primary;
+      return isAllowedAppOrigin(origin, c.env) ? origin : primary;
     },
     credentials: true,
   })

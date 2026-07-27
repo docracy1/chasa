@@ -21,9 +21,16 @@ Worker `PUBLIC_APP_URL` is `https://chasa.io` (magic links, OAuth callbacks, Str
 **Go-live checklist**
 
 1. Attach `chasa.io` on Cloudflare Pages project `chasa` and wait for **Active**.
-2. Push to `main` — CI deploys the worker (`PUBLIC_APP_URL=https://chasa.io`) and Pages. Do this only after step 1, or magic links and OAuth callbacks will point at a domain that does not resolve.
-3. Redirect `www` → apex. Pages `_redirects` cannot match hostnames, so use **Bulk Redirects**: source `www.chasa.io` → target `https://chasa.io`, `301`, with *preserve query string*, *subpath matching* and *preserve path suffix*. Needs a proxied `www` DNS record (`A` → `192.0.2.1`).
-4. Run `./scripts/go-live-verify.sh`.
+2. Redirect `www` → apex. Pages `_redirects` cannot match hostnames, so use **Bulk Redirects**: source `www.chasa.io` → target `https://chasa.io`, `301`, with *preserve query string*, *subpath matching* and *preserve path suffix*. Needs a proxied `www` DNS record (`A` → `192.0.2.1`).
+3. Run `./scripts/go-live-verify.sh`.
+
+The order does not matter: browser-facing links are built from the origin the request came in on (see “App origin resolution” below), so pages.dev and chasa.io both keep working whichever is deployed first.
+
+### App origin resolution
+
+Magic links, post-login redirects, Stripe return URLs and team invites use the origin the user is actually on, not `PUBLIC_APP_URL`. The Pages `/api` proxy forwards it as `X-Chasa-App-Origin`, and the worker honours it only if it matches `lib/appUrl.ts`'s allowlist (`PUBLIC_APP_URL`, `chasa.io`, `www.chasa.io`, `*.pages.dev` project/preview hosts, localhost). This keeps preview deploys self-contained and makes the domain cutover zero-downtime.
+
+Requests that arrive without a trusted origin — provider OAuth callbacks hitting `api.chasa.io` directly, and the digest cron — still fall back to `PUBLIC_APP_URL`, so those links only work once `chasa.io` resolves.
 
 ---
 

@@ -70,7 +70,11 @@ async function findOrCreateAccount(
 /** Soft cooldown between magic-link emails for the same address (Turnstile is the main bot gate). */
 const MAGIC_LINK_COOLDOWN_SECONDS = 60;
 
-export async function requestMagicLink(env: Env, email: string): Promise<{ ok: true } | { ok: false; error: string }> {
+export async function requestMagicLink(
+  env: Env,
+  email: string,
+  appOrigin: string
+): Promise<{ ok: true } | { ok: false; error: string }> {
   const normalized = email.trim().toLowerCase();
   if (!normalized || !normalized.includes("@")) {
     return { ok: false, error: "Enter a valid email address." };
@@ -100,7 +104,7 @@ export async function requestMagicLink(env: Env, email: string): Promise<{ ok: t
   // Go through the app origin (Pages /api proxy), not api.chasa.io directly — otherwise the
   // session cookie is set on the API host and never sent with same-origin /api calls from the app.
   // Cookie options omit Domain= so the browser scopes the cookie to the app host (pages.dev or chasa.io).
-  const verifyUrl = `${env.PUBLIC_APP_URL}/api/auth/verify?token=${encodeURIComponent(token)}`;
+  const verifyUrl = `${appOrigin}/api/auth/verify?token=${encodeURIComponent(token)}`;
   await sendMagicLinkEmail(env, normalized, verifyUrl);
 
   return { ok: true };

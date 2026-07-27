@@ -11,6 +11,7 @@ import {
 import { verifyAndExtract } from "../lib/billingProviders/stripe";
 import { claimStripeEvent, parseStripeEventId } from "../lib/stripeEvents";
 import { billingCheckoutSchema, parseJsonBody } from "../lib/schemas";
+import { requestAppOrigin } from "../lib/appUrl";
 
 const billing = new Hono<AuthEnv>();
 
@@ -112,8 +113,8 @@ billing.post("/checkout", requireAccount, async (c) => {
     mode,
     "line_items[0][price]": priceId,
     "line_items[0][quantity]": "1",
-    success_url: `${c.env.PUBLIC_APP_URL}/app/account?checkout=success`,
-    cancel_url: `${c.env.PUBLIC_APP_URL}/app/account?checkout=cancelled`,
+    success_url: `${requestAppOrigin(c)}/app/account?checkout=success`,
+    cancel_url: `${requestAppOrigin(c)}/app/account?checkout=cancelled`,
     client_reference_id: account.id,
     "metadata[plan]": plan,
   });
@@ -212,7 +213,7 @@ billing.post("/portal", requirePaidAccount, async (c) => {
 
   const params = new URLSearchParams({
     customer: customerId,
-    return_url: `${c.env.PUBLIC_APP_URL}/app/account`,
+    return_url: `${requestAppOrigin(c)}/app/account`,
   });
 
   const res = await fetch("https://api.stripe.com/v1/billing_portal/sessions", {

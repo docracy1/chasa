@@ -21,6 +21,7 @@ import {
   teamInviteSchema,
   teamRoleSchema,
 } from "../lib/schemas";
+import { requestAppOrigin } from "../lib/appUrl";
 
 const team = new Hono<AuthEnv>();
 
@@ -51,7 +52,7 @@ team.post("/invite", requireWorkspaceAdmin, async (c) => {
   const result = await inviteMember(c.env, acc.workspaceId, email, role, acc.plan);
   if ("error" in result) return c.json({ error: result.error }, result.status as 400);
 
-  const inviteUrl = `${c.env.PUBLIC_APP_URL.replace(/\/$/, "")}/app/team?invite=${encodeURIComponent(result.inviteToken)}`;
+  const inviteUrl = `${requestAppOrigin(c)}/app/team?invite=${encodeURIComponent(result.inviteToken)}`;
   await sendInviteEmail(c.env, result.member.email, inviteUrl, acc.email);
 
   return c.json({ member: result.member, ok: true });

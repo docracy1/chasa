@@ -12,6 +12,7 @@ import {
 import { trackEvent } from "../lib/analytics";
 import { clientIp, turnstileSiteKey, verifyTurnstile } from "../lib/turnstile";
 import { magicLinkRequestSchema, parseJsonBody } from "../lib/schemas";
+import { requestAppOrigin } from "../lib/appUrl";
 
 const auth = new Hono<AuthEnv>();
 
@@ -30,7 +31,7 @@ auth.post("/request", async (c) => {
   const check = await verifyTurnstile(c.env, parsed.data.turnstileToken, clientIp(c));
   if (!check.ok) return c.json({ error: check.error }, 400);
 
-  const result = await requestMagicLink(c.env, parsed.data.email);
+  const result = await requestMagicLink(c.env, parsed.data.email, requestAppOrigin(c));
   if (!result.ok) return c.json({ error: result.error }, 400);
   return c.json({ ok: true });
 });
@@ -38,12 +39,13 @@ auth.post("/request", async (c) => {
 // The link the user clicks from their inbox. Verifies, sets the session cookie, and redirects
 // straight into the app rather than round-tripping through a frontend callback page.
 auth.get("/verify", async (c) => {
+  const appOrigin = requestAppOrigin(c);
   const token = c.req.query("token");
-  if (!token) return c.redirect(`${c.env.PUBLIC_APP_URL}/app/login?error=missing_token`);
+  if (!token) return c.redirect(`${appOrigin}/app/login?error=missing_token`);
 
   const result = await consumeMagicLink(c.env, token);
   if (!result.ok) {
-    return c.redirect(`${c.env.PUBLIC_APP_URL}/app/login?error=invalid_token`);
+    return c.redirect(`${appOrigin}/app/login?error=invalid_token`);
   }
 
   const existing = getCookie(c, SESSION_COOKIE_NAME);
@@ -59,7 +61,7 @@ auth.get("/verify", async (c) => {
       }).catch(() => {})
     );
   }
-  return c.redirect(`${c.env.PUBLIC_APP_URL}/app/account`);
+  return c.redirect(`${appOrigin}/app/account`);
 });
 
 auth.post("/logout", async (c) => {
