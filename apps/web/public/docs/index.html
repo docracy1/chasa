@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Docs — Getting Started with Chasa</title>
+<meta name="description" content="Chasa documentation: getting started, accounting connectors, Zapier API setup, and how to chase unpaid invoices with AI drafts.">
+<link rel="canonical" href="https://chasa.io/docs/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Docs — Getting Started with Chasa">
+<meta property="og:description" content="Getting started, connectors overview, and Zapier API key setup for Chasa.">
+<meta property="og:url" content="https://chasa.io/docs/">
+<meta property="og:image" content="https://chasa.io/brand/og/chasa-og-1200x630.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://chasa.io/brand/og/chasa-og-1200x630.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://chasa.io/" },
+    { "@type": "ListItem", "position": 2, "name": "Docs", "item": "https://chasa.io/docs/" }
+  ]
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/site.css">
+<link rel="icon" href="/favicon.png" type="image/png" />
+<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap site-header-inner">
+    <a href="/" class="logo" aria-label="Chasa home"><img class="logo-mark" src="/brand/chasa-icon.png" alt="Chasa" width="28" height="28" /><span class="logo-word">chasa</span></a>
+    <div class="header-nav-right">
+      <a href="/#pricing" class="header-nav-link header-nav-collapse">Pricing</a>
+      <a href="/free-templates/" class="header-nav-link header-nav-collapse">Free templates</a>
+      <a href="/ai" class="header-nav-link header-nav-collapse">AI</a>
+      <a href="/about" class="header-nav-link header-nav-collapse">About</a>
+      <a href="/app/login" class="header-nav-link header-nav-strong">Sign in</a>
+      <a href="/app/" class="nav-cta">Try free</a>
+      <button class="header-menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" data-menu-toggle>
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="header-mobile-menu" data-mobile-menu>
+      <a href="/#pricing">Pricing</a>
+      <a href="/free-templates/">Free templates</a>
+      <a href="/ai">AI</a>
+      <a href="/about">About</a>
+      <a href="/app/login">Sign in</a>
+      <a href="/app/">Try free</a>
+    </div>
+  </div>
+</header>
+
+<main class="wrap legal-page">
+  <p class="crumb"><a href="/">Home</a> / Docs</p>
+  <h1>Chasa documentation</h1>
+  <p class="lede">Quick reference for getting started, connecting your accounting tools, and using the Zapier API.</p>
+
+  <h3>Getting started</h3>
+  <ol>
+    <li>Open <a href="/app/">the Chasa tool</a> — no signup required for the free tier.</li>
+    <li>Add invoices manually (client, amount, due date) or upload a CSV export from your accounting software.</li>
+    <li>Click <strong>Draft chase</strong> to generate a tone-matched follow-up email.</li>
+    <li>Copy the draft into your email client or open the mailto link. Chasa never sends on your behalf.</li>
+    <li>Mark the invoice done when paid, or schedule your next reminder.</li>
+  </ol>
+  <p>Free tier includes 5 AI drafts per month. Sign in to upgrade to Solo ($7/mo) or Pro ($17/mo) for unlimited drafts, tone tweaks, and connectors.</p>
+
+  <h3>Connectors overview</h3>
+  <p>Chasa supports several ways to get overdue invoices into the tool:</p>
+  <ul>
+    <li><strong>CSV upload</strong> (Free) — export from QuickBooks, Xero, FreshBooks, Wave, Zoho, sevDesk, or any spreadsheet. Chasa maps common column headers automatically.</li>
+    <li><strong>QuickBooks Online</strong> (Solo+) — native OAuth in <a href="/app/connector">Connector</a>. Imports overdue invoices into your aging board.</li>
+    <li><strong>Xero</strong> (Solo+) — same OAuth flow as QuickBooks.</li>
+    <li><strong>Cloud storage</strong> (Solo+) — Dropbox, OneDrive, or Box PDF import. The worker extracts client, amount, and due date hints from invoice PDFs.</li>
+    <li><strong>Zapier / Make</strong> (Solo+) — push invoices via API key (see below).</li>
+  </ul>
+
+  <h3>Zapier API key</h3>
+  <p>On Solo or Pro, create an API key in <a href="/app/webhooks">Webhooks &amp; API</a> under your account settings. Use it to send invoice data from Zapier, Make, or custom scripts.</p>
+  <p><strong>Endpoint:</strong> <code>POST https://api.chasa.io/api/invoices/import</code></p>
+  <p><strong>Headers:</strong></p>
+  <ul>
+    <li><code>Authorization: Bearer YOUR_API_KEY</code></li>
+    <li><code>Content-Type: application/json</code></li>
+  </ul>
+  <p><strong>Body example:</strong></p>
+  <pre style="background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:14px;font-family:'IBM Plex Mono',monospace;font-size:13px;overflow-x:auto">{
+  "invoices": [
+    {
+      "client": "Acme Corp",
+      "amount": 2400.00,
+      "currency": "USD",
+      "dueDate": "2026-06-15",
+      "invoiceNumber": "INV-1042"
+    }
+  ]
+}</pre>
+  <p>Imported invoices appear in your aging board. Draft chases from there as usual. Rate limits apply per plan — see account settings for details.</p>
+
+  <h3>Need help?</h3>
+  <p>Email <a href="mailto:founder@chasa.io">founder@chasa.io</a> or read the <a href="/#faq">FAQ</a> on the homepage.</p>
+
+  <p style="margin-top:28px"><a href="/app/" class="nav-cta">Open the tool</a></p>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap site-footer-inner">
+    <div class="site-footer-brand">
+      <a href="/" class="logo" aria-label="Chasa home"><img class="logo-mark" src="/brand/chasa-icon.png" alt="Chasa" width="24" height="24" /><span class="logo-word">chasa</span></a>
+      <p>Free AI invoice follow-ups — paste unpaid invoices, get the reminder email already written.</p>
+    </div>
+    <div class="site-footer-col">
+      <h4>Product</h4>
+      <a href="/app/">Try free</a>
+      <a href="/#pricing">Pricing</a>
+      <a href="/free-templates/">Free templates</a>
+      <a href="/features/">Features</a>
+      <a href="/docs/">Docs</a>
+      <a href="/ai">AI</a>
+    </div>
+    <div class="site-footer-col">
+      <h4>Company</h4>
+      <a href="/about">About</a>
+      <a href="/imprint">Imprint</a>
+      <a href="mailto:founder@chasa.io">Contact</a>
+      <a href="https://www.linkedin.com/company/chasa-io" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      <a href="https://x.com/chasaHQ" target="_blank" rel="noopener noreferrer">X</a>
+    </div>
+    <div class="site-footer-col">
+      <h4>Legal</h4>
+      <a href="/privacy">Privacy</a>
+      <a href="/terms">Terms</a>
+      <a href="/sitemap.xml">Sitemap</a>
+    </div>
+  </div>
+  <div class="site-footer-bottom">© 2026 Chasa — a product of RELACON GmbH</div>
+</footer>
+<script src="/site-nav.js"></script>
+<script src="/cookie-consent.js"></script>
+</body>
+</html>

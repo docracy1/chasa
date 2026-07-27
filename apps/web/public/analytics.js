@@ -1,7 +1,18 @@
 (function () {
+  var CONSENT_KEY = "chasa_cookie_consent";
   var VISITOR_KEY = "chasa_vid";
   var REFERRAL_KEY = "chasa_ref_tracked";
   var EXCLUDE_KEY = "chasa_exclude_self";
+
+  function hasConsent() {
+    try {
+      return localStorage.getItem(CONSENT_KEY) === "accepted";
+    } catch (e) {
+      return false;
+    }
+  }
+
+  if (!hasConsent()) return;
 
   function excludeSelf() {
     try {
@@ -72,6 +83,7 @@
   var slug = path.split("/").pop() || "";
 
   pageview();
+  track("page_viewed", { path: path });
 
   function detectReferral() {
     try {
@@ -106,6 +118,24 @@
   } else if (path.indexOf("/blog") === 0) {
     track("blog_article_loaded", { slug: slug });
   }
+
+  var scrollMarks = { 25: false, 50: false, 75: false, 100: false };
+
+  function scrollDepth() {
+    var doc = document.documentElement;
+    var scrollTop = window.pageYOffset || doc.scrollTop || 0;
+    var height = Math.max(doc.scrollHeight - window.innerHeight, 1);
+    var pct = Math.min(100, Math.round((scrollTop / height) * 100));
+    [25, 50, 75, 100].forEach(function (mark) {
+      if (!scrollMarks[mark] && pct >= mark) {
+        scrollMarks[mark] = true;
+        track("scroll_depth_reached", { depth: mark, path: path });
+      }
+    });
+  }
+
+  window.addEventListener("scroll", scrollDepth, { passive: true });
+  scrollDepth();
 
   document.addEventListener("click", function (e) {
     var el = e.target && e.target.closest ? e.target.closest("a, button") : null;

@@ -56,6 +56,7 @@ export const TRAFFIC_FUNNEL = [
   "blog_article_loaded",
   "blog_cta_clicked",
   "page_viewed",
+  "scroll_depth_reached",
 ] as const;
 
 /** 5. Email — KPI: email_clicked */

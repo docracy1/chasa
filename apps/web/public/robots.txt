@@ -10,6 +10,22 @@ Allow: /imprint$
 Allow: /privacy$
 Allow: /terms$
 Allow: /llms.txt$
+Allow: /blog
+Allow: /blog/
+Allow: /invoice-follow-up$
+Allow: /payment-reminder$
+Allow: /overdue-invoice$
+Allow: /chase-invoices$
+Allow: /freelancer-invoice-follow-up$
+Allow: /features$
+Allow: /features/
+Allow: /docs$
+Allow: /docs/
 Disallow: /app/account
+Disallow: /app/admin
+Disallow: /app/team
+Disallow: /app/connector
+Disallow: /app/branding
+Disallow: /app/webhooks
 
 Sitemap: https://chasa.io/sitemap.xml

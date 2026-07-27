@@ -134,3 +134,25 @@ To test the Stripe flow locally, forward webhooks with the Stripe CLI:
 ```bash
 stripe listen --forward-to localhost:8787/api/billing/webhook
 ```
+
+## SEO launch checklist
+
+### Google Search Console setup
+
+1. Go to [Google Search Console](https://search.google.com/search-console) and add the property `https://chasa.io`.
+2. Verify ownership via DNS TXT record (recommended) or HTML file upload in Cloudflare Pages `public/`.
+3. Submit the sitemap: `https://chasa.io/sitemap.xml` under **Sitemaps**.
+4. Use **URL Inspection** on the homepage, `/app/`, and key landing pages (`/invoice-follow-up`, `/payment-reminder`, `/features/`) to request indexing after deploy.
+5. Monitor **Pages** and **Core Web Vitals** for crawl errors once DNS is live.
+6. Set up email alerts for coverage issues and manual actions.
+
+### Backlink checklist (manual — founder)
+
+- [ ] Add `https://chasa.io` to LinkedIn company page ([chasa-io](https://www.linkedin.com/company/chasa-io)) — website field and first post linking to homepage.
+- [ ] Pin a launch post on [X @chasaHQ](https://x.com/chasaHQ) with link to homepage or `/app/`.
+- [ ] List Chasa on relevant directories (Product Hunt, Indie Hackers, BetaList) when ready to launch publicly.
+- [ ] Add Chasa link to RELACON GmbH website / imprint cross-link.
+- [ ] Reach out to 3–5 freelancer communities (Reddit r/freelance, Facebook groups, Slack communities) with genuine value posts — link to a blog article, not just the homepage.
+- [ ] Guest comment or contribute to invoicing / freelancing articles with a contextual link to a template or blog post.
+- [ ] Ensure email signature and invoice footer include `chasa.io` where appropriate.
+- [ ] Monitor referring domains in Search Console monthly; disavow only obvious spam.
