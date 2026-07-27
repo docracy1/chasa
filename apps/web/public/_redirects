@@ -1,6 +1,7 @@
 /app/*  /app/index.html  200
 /app  /app/  301
 /about  /about.html  200
+/press  /press.html  200
 /imprint  /imprint.html  200
 /privacy  /privacy.html  200
 /terms  /terms.html  200
