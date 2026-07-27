@@ -18,12 +18,13 @@ const BAND_INSTRUCTIONS: Record<ToneBand, string> = {
   "8-30":
     "Tone band 8-30 days overdue: professional, clear ask. State the amount and due date plainly, ask for a specific payment date. Still courteous, but no longer casual.",
   "30+":
-    "Tone band 30+ days overdue: direct, sets a consequence. Mention a late fee or a concrete next step (e.g. pausing further work) if it fits. Do not apologize for asking to be paid.",
+    "Tone band 30+ days overdue: direct, professional. State amount and due date, set a clear deadline (e.g. 7 business days). Mention late fees per contract if provided, pausing work, or referral to collections as a next step — common US freelancer escalation. Do not apologize for asking to be paid.",
 };
 
-const SYSTEM_PROMPT = `You write short, direct payment follow-up emails for freelancers and small businesses.
-Match the tone to the days-overdue band provided. Never grovel, never threaten unless the band says to.
-No corporate filler language. Keep the body under 100 words.
+const SYSTEM_PROMPT = `You write short, direct payment follow-up emails for US freelancers and small businesses.
+Use American business English (USD, clear dates). Match the tone to the days-overdue band provided.
+Never grovel. Do not threaten illegal action, wage garnishment, or credit reporting unless the band says to mention collections as a next step.
+No corporate filler. Keep the body under 100 words.
 
 Respond in exactly this format, nothing else:
 Subject: <subject line>
@@ -435,3 +436,202 @@ Never threaten illegally. No corporate filler. User will send manually — you o
 
   return { sms, whatsapp, smsUri, whatsappUri };
 }
+
+export type ReplyClassification =
+  | "payment_promise"
+  | "dispute"
+  | "partial_payment"
+  | "delay_excuse"
+  | "paid_claim"
+  | "unclear";
+
+export type ClassifiedReply = {
+  classification: ReplyClassification;
+  summary: string;
+  suggestedAction: string;
+  subject: string;
+  body: string;
+  promisedPayDate: string | null;
+};
+
+const CLASSIFICATION_LABELS: Record<ReplyClassification, string> = {
+  payment_promise: "Payment promise",
+  dispute: "Dispute or question",
+  partial_payment: "Partial payment",
+  delay_excuse: "Delay / excuse",
+  paid_claim: "Claims already paid",
+  unclear: "Unclear — needs review",
+};
+
+export async function classifyAndReplyEmail(
+  env: Env,
+  input: {
+    clientName: string;
+    invoiceAmount: number;
+    daysOverdue: number;
+    clientMessage: string;
+    paymentLink?: string;
+  }
+): Promise<ClassifiedReply> {
+  const band = getToneBand(input.daysOverdue);
+  const payLine = input.paymentLink?.trim()
+    ? `Include payment link if appropriate: ${input.paymentLink.trim()}`
+    : "";
+
+  const userMessage = `${BAND_INSTRUCTIONS[band]}
+
+Analyze the client reply and draft a response.
+
+client_name: ${input.clientName}
+invoice_amount: $${input.invoiceAmount.toFixed(2)}
+days_overdue: ${input.daysOverdue}
+client_message:
+"""
+${input.clientMessage.slice(0, 2000)}
+"""
+
+${payLine}
+
+Return exactly this format:
+Classification: payment_promise | dispute | partial_payment | delay_excuse | paid_claim | unclear
+PromisedPayDate: YYYY-MM-DD or none
+Summary: <one sentence on what the client said>
+SuggestedAction: <one sentence on what the freelancer should do next>
+Subject: <subject line>
+Body:
+<email body under 120 words>`;
+
+  const result = await env.AI.run((env.WORKERS_AI_MODEL || DEFAULT_MODEL) as keyof AiModels, {
+    temperature: 0.3,
+    max_tokens: 550,
+    messages: [
+      {
+        role: "system",
+        content: `You classify US freelancer invoice chase replies and draft responses in American business English.
+Be factual. Do not invent payment dates the client did not give.
+Classification must be exactly one of: payment_promise, dispute, partial_payment, delay_excuse, paid_claim, unclear.`,
+      },
+      { role: "user", content: userMessage },
+    ],
+  });
+
+  const text = (result as { response?: string }).response ?? "";
+  const classMatch = text.match(
+    /Classification:\s*(payment_promise|dispute|partial_payment|delay_excuse|paid_claim|unclear)/i
+  );
+  const classification = (classMatch?.[1]?.toLowerCase() ?? "unclear") as ReplyClassification;
+  const dateMatch = text.match(/PromisedPayDate:\s*(\d{4}-\d{2}-\d{2}|none)/i);
+  const promisedPayDate =
+    dateMatch?.[1] && dateMatch[1].toLowerCase() !== "none" ? dateMatch[1] : null;
+  const summaryMatch = text.match(/Summary:\s*(.+)/i);
+  const actionMatch = text.match(/SuggestedAction:\s*(.+)/i);
+  const email = parseEmail(text);
+
+  return {
+    classification,
+    summary: summaryMatch?.[1]?.trim() ?? CLASSIFICATION_LABELS[classification],
+    suggestedAction: actionMatch?.[1]?.trim() ?? "Review and send a clear payment ask.",
+    subject: email.subject,
+    body: input.paymentLink?.trim()
+      ? appendPaymentLink(email, input.paymentLink.trim()).body
+      : email.body,
+    promisedPayDate,
+  };
+}
+
+export async function generateDemandLetterHtml(
+  env: Env,
+  input: {
+    clientName: string;
+    clientAddress?: string;
+    invoiceNumber?: string;
+    invoiceAmount: number;
+    dueDate: string;
+    daysOverdue: number;
+    letterLevel?: number;
+    senderName?: string;
+    senderAddress?: string;
+    paymentLink?: string;
+  }
+): Promise<{ level: number; title: string; html: string }> {
+  const level = Math.min(
+    3,
+    Math.max(
+      1,
+      input.letterLevel ??
+        (input.daysOverdue >= 60 ? 3 : input.daysOverdue >= 30 ? 2 : 1)
+    )
+  );
+  const titles = [
+    "Formal Overdue Notice",
+    "Second Notice — Payment Required",
+    "Final Notice Before Collections",
+  ];
+  const title = titles[level - 1] ?? titles[0];
+  const letterDate = new Date().toLocaleDateString("en-US", {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  });
+
+  const userMessage = `Write a formal US business letter (${title}, escalation level ${level}) for an overdue invoice.
+Keep it legally cautious — no illegal threats, no wage garnishment claims, no false credit-reporting threats.
+Professional American English for a freelancer or small business chasing payment.
+
+client_name: ${input.clientName}
+client_address: ${input.clientAddress ?? ""}
+invoice_number: ${input.invoiceNumber ?? "—"}
+invoice_amount: $${input.invoiceAmount.toFixed(2)} USD
+due_date: ${input.dueDate}
+days_overdue: ${input.daysOverdue}
+sender_name: ${input.senderName ?? "Business owner"}
+sender_address: ${input.senderAddress ?? ""}
+payment_link: ${input.paymentLink ?? ""}
+letter_date: ${letterDate}
+
+Return HTML body only (no <html> wrapper): use <p>, <strong>, <br>. Include the letter date, invoice details, a clear payment deadline (e.g. 7 business days), and payment instructions (link or "reply for ACH/wire details"). Level 3 may mention referral to collections if unpaid by the deadline.`;
+
+  const result = await env.AI.run((env.WORKERS_AI_MODEL || DEFAULT_MODEL) as keyof AiModels, {
+    temperature: 0.25,
+    max_tokens: 900,
+    messages: [
+      {
+        role: "system",
+        content:
+          "You write formal US overdue-invoice and collection-notice letters for freelancers and small businesses. Output HTML fragment only. Not legal advice.",
+      },
+      { role: "user", content: userMessage },
+    ],
+  });
+
+  const bodyHtml = ((result as { response?: string }).response ?? "").trim();
+  const html = `<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="UTF-8">
+<title>${title} — ${input.clientName}</title>
+<style>
+  body { font-family: Georgia, serif; max-width: 680px; margin: 40px auto; line-height: 1.55; color: #1B3155; }
+  .header { margin-bottom: 32px; font-size: 14px; }
+  h1 { font-size: 20px; margin: 24px 0 16px; }
+  @media print { body { margin: 20px; } }
+</style>
+</head>
+<body>
+<div class="header">
+  ${input.senderName ? `<div>${input.senderName}</div>` : ""}
+  ${input.senderAddress ? `<div>${input.senderAddress.replace(/\n/g, "<br>")}</div>` : ""}
+  <div style="margin-top:24px">${input.clientName}<br>${(input.clientAddress ?? "").replace(/\n/g, "<br>")}</div>
+  <div style="margin-top:16px">${letterDate}</div>
+</div>
+<h1>${title}</h1>
+${bodyHtml}
+<p style="margin-top:32px;font-size:13px;color:#666">Draft generated by Chasa — review before sending. Not legal advice.</p>
+</body>
+</html>`;
+
+  return { level, title, html };
+}
+
+/** @deprecated Use generateDemandLetterHtml */
+export const generateMahnungHtml = generateDemandLetterHtml;

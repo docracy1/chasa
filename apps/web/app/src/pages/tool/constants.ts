@@ -5,7 +5,8 @@ export const PAYMENT_LINK_STORAGE_KEY = "chasa.tool.paymentLink";
 
 // Unified aliases for QBO / FreshBooks / Xero / Wave / Zoho / sevDesk (+ Chasa). Exact match after normalize.
 export const CLIENT_HEADERS = [
-  "customer name", // Zoho Books/Invoice, Wave Connect
+  "organization", // FreshBooks
+  "customer name", // FreshBooks
   "customer full name",
   "customer",
   "client name",

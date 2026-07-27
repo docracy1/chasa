@@ -2,10 +2,12 @@ import type { RewriteAction } from "../../../lib/api";
 import { daysOverdue } from "../../../lib/dates";
 import { chaseTip, toneClass, toneLabel } from "../chaseTone";
 import type { Invoice } from "../types";
+import { ChaseTimeline } from "./ChaseTimeline";
 
 interface InvoiceCardProps {
   invoice: Invoice;
   isPaid: boolean;
+  isPro: boolean;
   atLimit: boolean;
   selectedIds: Set<string>;
   onToggleSelect: (id: string) => void;
@@ -17,9 +19,17 @@ interface InvoiceCardProps {
   onSms: (invoiceId: string) => void;
   onClientReplyChange: (invoiceId: string, value: string) => void;
   onReply: (invoiceId: string) => void;
+  onReplySmart: (invoiceId: string) => void;
+  onDemandLetter: (invoiceId: string) => void;
+  onMarkSent: (invoice: Invoice) => void;
+  onMarkPaid: (invoice: Invoice) => void;
   onApplySequenceStep: (invoiceId: string, stepIndex: number) => void;
   onCopyNextReminder: (invoice: Invoice) => void;
   onMarkReminderDone: (invoiceId: string, reminderId: string) => void;
+  onSnoozeReminder: (invoiceId: string, reminderId: string, days: number) => void;
+  onScheduleReplyFollowUp: (invoiceId: string) => void;
+  onEvidencePack: (invoiceId: string) => void;
+  openStats?: { openCount: number; clickCount: number; lastOpenAt: string | null };
   onCopyDraft: (invoice: Invoice) => void;
   onTrackedCopy: (invoice: Invoice) => void;
   mailtoLink: (invoice: Invoice) => string;
@@ -30,6 +40,7 @@ interface InvoiceCardProps {
 export function InvoiceCard({
   invoice,
   isPaid,
+  isPro,
   atLimit,
   selectedIds,
   onToggleSelect,
@@ -41,9 +52,17 @@ export function InvoiceCard({
   onSms,
   onClientReplyChange,
   onReply,
+  onReplySmart,
+  onDemandLetter,
+  onMarkSent,
+  onMarkPaid,
   onApplySequenceStep,
   onCopyNextReminder,
   onMarkReminderDone,
+  onSnoozeReminder,
+  onScheduleReplyFollowUp,
+  onEvidencePack,
+  openStats,
   onCopyDraft,
   onTrackedCopy,
   mailtoLink,
@@ -53,9 +72,10 @@ export function InvoiceCard({
   const days = daysOverdue(invoice.dueDate);
   const tone = toneClass(days);
   const busy = invoice.generating || invoice.rewriting !== null;
+  const isPaidInvoice = invoice.status === "paid";
 
   return (
-    <div id={`invoice-${invoice.id}`} className={`invoice-card ${tone}`}>
+    <div id={`invoice-${invoice.id}`} className={`invoice-card ${tone} ${isPaidInvoice ? "invoice-paid" : ""}`}>
       <div className="invoice-top">
         <div className="invoice-top-left">
           <label className="invoice-select">
@@ -68,6 +88,7 @@ export function InvoiceCard({
           </label>
           <div className="invoice-meta">
             ${invoice.amount.toFixed(2)} · due {invoice.dueDate}
+            {isPaidInvoice ? " · paid" : ""}
             {invoice.lastChaseStatus ? ` · last chase: ${invoice.lastChaseStatus}` : ""}
           </div>
         </div>
@@ -263,6 +284,43 @@ export function InvoiceCard({
               >
                 {invoice.rewriting === "reply" ? "Writing reply…" : "Draft reply"}
               </button>
+              {isPro ? (
+                <button
+                  type="button"
+                  className="btn-secondary"
+                  disabled={busy || !invoice.clientReply?.trim()}
+                  onClick={() => onReplySmart(invoice.id)}
+                >
+                  {invoice.rewriting === "replySmart" ? "Analyzing…" : "Smart reply (Pro)"}
+                </button>
+              ) : (
+                <a className="ai-unlock-link" href="/app/account">
+                  Smart reply on Pro ($17/mo) →
+                </a>
+              )}
+              {invoice.replyInsight && (
+                <div className="reply-insight">
+                  <strong>{invoice.replyInsight.classification.replace(/_/g, " ")}</strong>
+                  <p>{invoice.replyInsight.summary}</p>
+                  <p className="chase-tip">{invoice.replyInsight.suggestedAction}</p>
+                  {invoice.replyInsight.promisedPayDate && (
+                    <p className="chase-tip">
+                      Promised pay date detected: {invoice.replyInsight.promisedPayDate}
+                    </p>
+                  )}
+                  {isPro &&
+                    invoice.replyInsight.classification === "payment_promise" && (
+                      <button
+                        type="button"
+                        className="btn-secondary"
+                        style={{ marginTop: 8 }}
+                        onClick={() => onScheduleReplyFollowUp(invoice.id)}
+                      >
+                        Schedule follow-up if unpaid
+                      </button>
+                    )}
+                </div>
+              )}
             </div>
           )}
 
@@ -306,14 +364,22 @@ export function InvoiceCard({
                     .filter((r) => r.status === "planned")
                     .slice(0, 1)
                     .map((r) => (
-                      <button
-                        key={r.id}
-                        type="button"
-                        className="btn-secondary"
-                        onClick={() => onMarkReminderDone(invoice.id, r.id)}
-                      >
-                        Mark step done
-                      </button>
+                      <span key={r.id} style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                        <button
+                          type="button"
+                          className="btn-secondary"
+                          onClick={() => onMarkReminderDone(invoice.id, r.id)}
+                        >
+                          Mark step done
+                        </button>
+                        <button
+                          type="button"
+                          className="btn-secondary"
+                          onClick={() => onSnoozeReminder(invoice.id, r.id, 7)}
+                        >
+                          Snooze 7 days
+                        </button>
+                      </span>
                     ))}
                 </div>
               )}
@@ -373,6 +439,28 @@ export function InvoiceCard({
             >
               Open in email client
             </a>
+            {isPaid && !isPaidInvoice && (
+              <button type="button" className="btn-secondary" onClick={() => onMarkSent(invoice)}>
+                Mark as sent
+              </button>
+            )}
+            {isPaid && !isPaidInvoice && (
+              <button type="button" className="btn-secondary" onClick={() => onMarkPaid(invoice)}>
+                Mark as paid
+              </button>
+            )}
+            {isPro && !isPaidInvoice && (
+              <button
+                type="button"
+                className="btn-secondary"
+                disabled={busy}
+                onClick={() => onDemandLetter(invoice.id)}
+              >
+                {invoice.rewriting === "demandLetter"
+                  ? "Generating…"
+                  : "Formal demand letter (Pro)"}
+              </button>
+            )}
             <button
               className="btn-secondary"
               disabled={busy || atLimit}
@@ -381,6 +469,28 @@ export function InvoiceCard({
               {invoice.generating ? "Writing…" : "Regenerate"}
             </button>
           </div>
+          {openStats && (openStats.openCount > 0 || openStats.clickCount > 0) && (
+            <p className="chase-tip" style={{ marginTop: 8 }}>
+              Tracked email: {openStats.openCount} open{openStats.openCount === 1 ? "" : "s"}
+              {openStats.clickCount > 0
+                ? ` · ${openStats.clickCount} click${openStats.clickCount === 1 ? "" : "s"}`
+                : ""}
+              {openStats.lastOpenAt
+                ? ` · last opened ${new Date(openStats.lastOpenAt).toLocaleDateString("en-US")}`
+                : ""}
+            </p>
+          )}
+          {isPro && !isPaidInvoice && (
+            <button
+              type="button"
+              className="btn-secondary"
+              style={{ marginTop: 8 }}
+              onClick={() => onEvidencePack(invoice.id)}
+            >
+              Export evidence pack (Pro)
+            </button>
+          )}
+          {isPaid && invoice.timeline && <ChaseTimeline events={invoice.timeline} />}
           {invoice.trackingNote && (
             <p className="chase-tip" style={{ marginTop: 8 }}>
               {invoice.trackingNote}

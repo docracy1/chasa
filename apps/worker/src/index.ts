@@ -15,11 +15,13 @@ import connector from "./routes/connector";
 import v1 from "./routes/v1";
 import clients from "./routes/clients";
 import aging from "./routes/aging";
+import chase from "./routes/chase";
 import reminders from "./routes/reminders";
 import tracking from "./routes/tracking";
 import team from "./routes/team";
 import cspReport from "./routes/cspReport";
 import { purgeExpiredSessions } from "./lib/sessionCleanup";
+import { sendDailyChaseDigests } from "./lib/chaseDigest";
 
 const app = new Hono<AuthEnv>();
 
@@ -42,6 +44,7 @@ app.route("/api/auth", auth);
 app.route("/api/account", account);
 app.route("/api/clients", clients);
 app.route("/api/aging", aging);
+app.route("/api/chase", chase);
 app.route("/api/reminders", reminders);
 app.route("/api/t", tracking);
 app.route("/api/tracking", tracking);
@@ -63,7 +66,11 @@ app.get("/", (c) => c.text("chasa-worker ok"));
 
 export default {
   fetch: app.fetch.bind(app),
-  scheduled: async (_event: ScheduledEvent, env: Env, ctx: ExecutionContext) => {
+  scheduled: async (event: ScheduledEvent, env: Env, ctx: ExecutionContext) => {
+    if (event.cron === "0 14 * * *") {
+      ctx.waitUntil(sendDailyChaseDigests(env));
+      return;
+    }
     ctx.waitUntil(purgeExpiredSessions(env));
   },
 };

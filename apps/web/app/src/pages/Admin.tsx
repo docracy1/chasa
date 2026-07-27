@@ -206,7 +206,7 @@ function DashAccountMenu({
 
 function fmtDate(iso: string): string {
   try {
-    return new Date(iso).toLocaleDateString("en-GB");
+    return new Date(iso).toLocaleDateString("en-US");
   } catch {
     return iso.slice(0, 10);
   }

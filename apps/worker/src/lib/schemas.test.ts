@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { z } from "zod";
-import { agingSyncSchema, clientCreateSchema, parseJsonBody, webhookNotifySchema } from "./schemas";
+import { agingSyncSchema, chaseEventSchema, clientCreateSchema, parseJsonBody, replyClassifySchema, webhookNotifySchema } from "./schemas";
 
 describe("schemas", () => {
   it("parses aging sync batch", async () => {
@@ -79,5 +79,36 @@ describe("schemas", () => {
       webhookNotifySchema
     );
     expect(result.ok).toBe(false);
+  });
+
+  it("parses chase event for mark sent", async () => {
+    const result = await parseJsonBody(
+      {
+        json: async () => ({
+          clientName: "Acme",
+          eventType: "sent",
+          channel: "email",
+          subject: "Invoice follow-up",
+        }),
+      },
+      chaseEventSchema
+    );
+    expect(result.ok).toBe(true);
+    if (result.ok) expect(result.data.eventType).toBe("sent");
+  });
+
+  it("parses reply classify payload", async () => {
+    const result = await parseJsonBody(
+      {
+        json: async () => ({
+          client_name: "Acme",
+          invoice_amount: 500,
+          days_overdue: 14,
+          client_message: "We will pay next week.",
+        }),
+      },
+      replyClassifySchema
+    );
+    expect(result.ok).toBe(true);
   });
 });

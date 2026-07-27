@@ -16,10 +16,20 @@ import { track } from "../lib/analytics";
 import { getUsedCount, incrementUsedCount, isAtLimit, FREE_LIMIT } from "../lib/usage";
 
 import { daysOverdue } from "../lib/dates";
+import { formatUsDateTime } from "../lib/locale";
+
+function riskLabel(score: number | null | undefined): { text: string; className: string } | null {
+  if (score == null) return null;
+  if (score >= 70) return { text: "High risk", className: "client-risk high" };
+  if (score >= 40) return { text: "Medium risk", className: "client-risk medium" };
+  return { text: "Low risk", className: "client-risk low" };
+}
+
 export default function ClientsPage({ account }: { account: Account | null }) {
   const [searchParams, setSearchParams] = useSearchParams();
   const selectedId = searchParams.get("id");
   const isPaid = account?.plan !== "free" && account?.plan != null;
+  const isPro = account?.plan === "pro" || account?.plan === "enterprise";
 
   const [clients, setClients] = useState<ClientRecord[]>([]);
   const [detail, setDetail] = useState<ClientRecord | null>(null);
@@ -262,6 +272,12 @@ export default function ClientsPage({ account }: { account: Account | null }) {
                         ? `$${c.outstandingTotal.toFixed(2)} open`
                         : "No open invoices"}
                     </span>
+                    {isPro && c.riskScore != null && (
+                      <span className={riskLabel(c.riskScore)?.className}>
+                        {riskLabel(c.riskScore)?.text}
+                        {c.avgDaysLate != null ? ` · avg ${Math.round(c.avgDaysLate)}d late` : ""}
+                      </span>
+                    )}
                     {c.lastContactNote && (
                       <em className="client-contact-preview">{c.lastContactNote}</em>
                     )}
@@ -307,6 +323,18 @@ export default function ClientsPage({ account }: { account: Account | null }) {
             <>
               <h2>{detail.name}</h2>
               <p className="branding-help">{outstandingLabel}</p>
+              {isPro && detail.riskScore != null && (
+                <p className={`client-risk-detail ${riskLabel(detail.riskScore)?.className ?? ""}`}>
+                  Payment risk: {detail.riskScore}/100
+                  {detail.avgDaysLate != null ? ` · pays ~${Math.round(detail.avgDaysLate)} days late on average` : ""}
+                  {detail.paidInvoiceCount != null && detail.paidInvoiceCount > 0
+                    ? ` · ${detail.paidInvoiceCount} paid, ${detail.lateInvoiceCount ?? 0} late`
+                    : ""}
+                </p>
+              )}
+              {isPro && detail.riskScore == null && (
+                <p className="branding-help">Risk score updates when you mark invoices paid.</p>
+              )}
               <form className="clients-form" onSubmit={handleSave}>
                 <label>
                   Name
@@ -362,7 +390,7 @@ export default function ClientsPage({ account }: { account: Account | null }) {
                 </button>
                 {detail.lastContactAt && (
                   <p className="branding-help">
-                    Last note {new Date(detail.lastContactAt).toLocaleString()}
+                    Last note {formatUsDateTime(detail.lastContactAt)}
                   </p>
                 )}
               </div>

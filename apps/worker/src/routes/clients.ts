@@ -11,6 +11,10 @@ type ClientRow = {
   notes: string | null;
   last_contact_note: string | null;
   last_contact_at: string | null;
+  avg_days_late: number | null;
+  risk_score: number | null;
+  paid_invoice_count: number;
+  late_invoice_count: number;
   created_at: string;
   updated_at: string;
   outstanding_count: number;
@@ -25,6 +29,10 @@ function mapClient(row: ClientRow) {
     notes: row.notes,
     lastContactNote: row.last_contact_note,
     lastContactAt: row.last_contact_at,
+    avgDaysLate: row.avg_days_late,
+    riskScore: row.risk_score,
+    paidInvoiceCount: row.paid_invoice_count ?? 0,
+    lateInvoiceCount: row.late_invoice_count ?? 0,
     createdAt: row.created_at,
     updatedAt: row.updated_at,
     outstandingCount: row.outstanding_count,
@@ -36,9 +44,10 @@ clients.get("/", requirePaidAccount, async (c) => {
   const acc = c.get("account")!;
   const { results } = await c.env.CHASA_DB.prepare(
     `SELECT c.id, c.name, c.email, c.notes, c.last_contact_note, c.last_contact_at,
+            c.avg_days_late, c.risk_score, c.paid_invoice_count, c.late_invoice_count,
             c.created_at, c.updated_at,
-            COALESCE(SUM(a.amount), 0) as outstanding_total,
-            COUNT(a.id) as outstanding_count
+            COALESCE(SUM(CASE WHEN a.status = 'open' OR a.status IS NULL THEN a.amount ELSE 0 END), 0) as outstanding_total,
+            COUNT(CASE WHEN a.status = 'open' OR a.status IS NULL THEN a.id END) as outstanding_count
      FROM clients c
      LEFT JOIN aging_invoices a ON a.client_id = c.id AND a.account_id = c.account_id
      WHERE c.account_id = ?
@@ -56,9 +65,10 @@ clients.get("/:id", requirePaidAccount, async (c) => {
   const id = c.req.param("id");
   const row = await c.env.CHASA_DB.prepare(
     `SELECT c.id, c.name, c.email, c.notes, c.last_contact_note, c.last_contact_at,
+            c.avg_days_late, c.risk_score, c.paid_invoice_count, c.late_invoice_count,
             c.created_at, c.updated_at,
-            COALESCE((SELECT SUM(amount) FROM aging_invoices WHERE client_id = c.id), 0) as outstanding_total,
-            COALESCE((SELECT COUNT(*) FROM aging_invoices WHERE client_id = c.id), 0) as outstanding_count
+            COALESCE((SELECT SUM(amount) FROM aging_invoices WHERE client_id = c.id AND (status = 'open' OR status IS NULL)), 0) as outstanding_total,
+            COALESCE((SELECT COUNT(*) FROM aging_invoices WHERE client_id = c.id AND (status = 'open' OR status IS NULL)), 0) as outstanding_count
      FROM clients c WHERE c.id = ? AND c.account_id = ?`
   )
     .bind(id, acc.workspaceId)
@@ -119,6 +129,10 @@ clients.post("/", requirePaidAccount, async (c) => {
       notes: notesVal,
       last_contact_note: null,
       last_contact_at: null,
+      avg_days_late: null,
+      risk_score: null,
+      paid_invoice_count: 0,
+      late_invoice_count: 0,
       created_at: now,
       updated_at: now,
       outstanding_count: 0,
@@ -132,7 +146,9 @@ clients.put("/:id", requirePaidAccount, async (c) => {
   const acc = c.get("account")!;
   const id = c.req.param("id");
   const existing = await c.env.CHASA_DB.prepare(
-    `SELECT id, name, email, notes, last_contact_note, last_contact_at, created_at, updated_at
+    `SELECT id, name, email, notes, last_contact_note, last_contact_at,
+            avg_days_late, risk_score, paid_invoice_count, late_invoice_count,
+            created_at, updated_at
      FROM clients WHERE id = ? AND account_id = ?`
   )
     .bind(id, acc.workspaceId)
@@ -143,6 +159,10 @@ clients.put("/:id", requirePaidAccount, async (c) => {
       notes: string | null;
       last_contact_note: string | null;
       last_contact_at: string | null;
+      avg_days_late: number | null;
+      risk_score: number | null;
+      paid_invoice_count: number;
+      late_invoice_count: number;
       created_at: string;
       updated_at: string;
     }>();
@@ -195,7 +215,7 @@ clients.put("/:id", requirePaidAccount, async (c) => {
 
   const totals = await c.env.CHASA_DB.prepare(
     `SELECT COALESCE(SUM(amount), 0) as outstanding_total, COUNT(*) as outstanding_count
-     FROM aging_invoices WHERE client_id = ?`
+     FROM aging_invoices WHERE client_id = ? AND (status = 'open' OR status IS NULL)`
   )
     .bind(id)
     .first<{ outstanding_total: number; outstanding_count: number }>();
@@ -208,6 +228,10 @@ clients.put("/:id", requirePaidAccount, async (c) => {
       notes,
       last_contact_note: lastContactNote,
       last_contact_at: lastContactAt,
+      avg_days_late: existing.avg_days_late,
+      risk_score: existing.risk_score,
+      paid_invoice_count: existing.paid_invoice_count ?? 0,
+      late_invoice_count: existing.late_invoice_count ?? 0,
       created_at: existing.created_at,
       updated_at: now,
       outstanding_count: totals?.outstanding_count ?? 0,

@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { getBranding, updateBranding, type Account, type Branding } from "../lib/api";
+import { detectPaymentProvider, paymentProviderLabel } from "../lib/paymentProvider";
 
 function fileToDataUrl(file: File): Promise<string> {
   return new Promise((resolve, reject) => {
@@ -26,6 +27,10 @@ export default function BrandingPage({
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [saved, setSaved] = useState(false);
+  const paymentProvider = useMemo(
+    () => (paymentLink.trim() ? detectPaymentProvider(paymentLink) : null),
+    [paymentLink]
+  );
 
   useEffect(() => {
     if (!account) return;
@@ -276,15 +281,15 @@ export default function BrandingPage({
       <section className="branding-card">
         <h2>Default payment link</h2>
         <p className="branding-help">
-          Stripe Payment Link, PayPal.me, Wise, or any pay URL. Included in AI chase drafts when set
-          (you can still override per session in the Tool).
+          Stripe Payment Link, PayPal.me, Venmo, Zelle, or any pay URL. Included in AI chase drafts
+          when set (you can still override per session in the Tool).
         </p>
         <form className="branding-name-row" onSubmit={savePaymentLink}>
           <input
             type="url"
             value={paymentLink}
             onChange={(e) => setPaymentLink(e.target.value)}
-            placeholder="https://buy.stripe.com/…"
+            placeholder="https://buy.stripe.com/… or paypal.me/…"
             disabled={!isPaid || busy}
           />
           {isPaid && (
@@ -293,13 +298,19 @@ export default function BrandingPage({
             </button>
           )}
         </form>
+        {paymentProvider && paymentLink.trim() && (
+          <p className="branding-help">
+            Detected: <strong>{paymentProviderLabel(paymentProvider)}</strong> — will be appended to
+            AI drafts as “Pay here: …”
+          </p>
+        )}
       </section>
 
       <section className="branding-card">
         <h2>Late-fee hint</h2>
         <p className="branding-help">
-          Optional. When enabled, AI drafts can include one factual late-fee / interest line (amount,
-          %, or free text). Chasa never charges clients — wording only.
+          Optional. When enabled, AI drafts can reference your contract terms (common in the US: Net
+          30, 1.5% monthly late fee). Chasa never charges clients — wording only.
         </p>
         <form onSubmit={saveLateFee}>
           <label style={{ display: "flex", gap: 8, alignItems: "center", marginBottom: 12 }}>

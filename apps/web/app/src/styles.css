@@ -470,6 +470,59 @@ textarea {
 .invoice-card.sage .days-badge { background: var(--sage-bg); color: var(--sage); }
 .invoice-card.amber .days-badge { background: var(--amber-bg); color: var(--amber); }
 .invoice-card.rust .days-badge { background: var(--rust-bg); color: var(--rust); }
+.invoice-card.invoice-paid { opacity: 0.72; }
+
+.chase-timeline { margin-top: 16px; padding-top: 12px; border-top: 1px solid var(--line); }
+.chase-timeline-list { list-style: none; margin: 8px 0 0; padding: 0; font-size: 13px; }
+.chase-timeline-list li { padding: 6px 0; border-bottom: 1px solid var(--line); }
+.chase-timeline-meta { display: block; color: var(--ink-soft); font-size: 12px; margin-top: 2px; }
+
+.reply-insight {
+  margin-top: 10px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  font-size: 13px;
+}
+.reply-insight p { margin: 4px 0 0; }
+
+.client-risk { font-size: 12px; font-weight: 600; display: block; margin-top: 4px; }
+.client-risk.high { color: var(--rust); }
+.client-risk.medium { color: var(--amber); }
+.client-risk.low { color: var(--sage); }
+.client-risk-detail { font-size: 13px; margin: 0 0 12px; padding: 10px 12px; border-radius: 8px; background: var(--paper); border: 1px solid var(--line); }
+.client-risk-detail.high { border-color: var(--rust); }
+.client-risk-detail.medium { border-color: var(--amber); }
+.client-risk-detail.low { border-color: var(--sage); }
+
+.plan-feature-list { margin: 8px 0 0; padding-left: 18px; font-size: 14px; color: var(--ink-soft); }
+.plan-feature-list li { margin-bottom: 6px; }
+
+.due-today-banner {
+  margin: 20px 0;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--paper);
+}
+.due-today-list { list-style: none; margin: 12px 0 0; padding: 0; }
+.due-today-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  width: 100%;
+  text-align: left;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  margin-bottom: 8px;
+  cursor: pointer;
+  font: inherit;
+}
+.due-today-row:hover { border-color: var(--ink-soft); }
+.due-today-row em { color: var(--ink-soft); font-style: normal; font-size: 12px; }
 
 .chase-tip {
   font-size: 13px;

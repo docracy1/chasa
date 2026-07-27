@@ -34,6 +34,7 @@ export interface Account {
   paymentLink?: string | null;
   lateFeeEnabled?: boolean;
   lateFeeHint?: string | null;
+  digestEnabled?: boolean;
   role?: "admin" | "member";
   workspaceId?: string;
 }
@@ -177,6 +178,31 @@ export function updateReminderStatus(id: string, status: "planned" | "done" | "s
     method: "PATCH",
     body: JSON.stringify({ status }),
   });
+}
+
+export function snoozeReminder(id: string, days: number) {
+  return jsonFetch<{ reminder: ChaseReminder }>(`/reminders/${id}/snooze`, {
+    method: "POST",
+    body: JSON.stringify({ days }),
+  });
+}
+
+export function scheduleFollowUpReminder(input: {
+  agingInvoiceId?: string;
+  clientName: string;
+  daysFromNow: number;
+  label?: string;
+  subject: string;
+  body: string;
+}) {
+  return jsonFetch<{ reminder: ChaseReminder }>("/reminders/follow-up", {
+    method: "POST",
+    body: JSON.stringify(input),
+  });
+}
+
+export function getEvidencePack(invoiceId: string) {
+  return jsonFetch<{ html: string; clientName: string }>(`/aging/${invoiceId}/evidence-pack`);
 }
 
 export type TrackedChase = {
@@ -523,6 +549,10 @@ export type ClientRecord = {
   notes: string | null;
   lastContactNote: string | null;
   lastContactAt: string | null;
+  avgDaysLate?: number | null;
+  riskScore?: number | null;
+  paidInvoiceCount?: number;
+  lateInvoiceCount?: number;
   createdAt: string;
   updatedAt: string;
   outstandingCount: number;
@@ -580,6 +610,8 @@ export function syncAging(
     clientName: string;
     amount: number;
     dueDate: string;
+    status?: "open" | "paid";
+    paidAt?: string | null;
     lastChaseStatus?: string | null;
     lastChaseAt?: string | null;
   }>,
@@ -601,3 +633,91 @@ export function markAgingChase(id: string, status: string) {
 export function deleteAgingInvoice(id: string) {
   return jsonFetch<{ ok: true }>(`/aging/${id}`, { method: "DELETE" });
 }
+
+export type ChaseEventRecord = {
+  id: string;
+  agingInvoiceId: string | null;
+  clientName: string;
+  eventType: string;
+  channel: string;
+  subject: string | null;
+  bodyPreview: string | null;
+  metadata: Record<string, unknown> | null;
+  createdAt: string;
+};
+
+export function recordChaseEvent(input: {
+  agingInvoiceId?: string;
+  clientName: string;
+  eventType: "drafted" | "sent" | "copied" | "mailto" | "marked_paid" | "reply_detected" | "note";
+  channel?: "email" | "sms" | "whatsapp" | "system";
+  subject?: string;
+  body?: string;
+}) {
+  return jsonFetch<{ event: ChaseEventRecord }>("/chase/events", {
+    method: "POST",
+    body: JSON.stringify(input),
+  });
+}
+
+export function getInvoiceTimeline(invoiceId: string) {
+  return jsonFetch<{ events: ChaseEventRecord[] }>(`/aging/${invoiceId}/timeline`);
+}
+
+export function markInvoicePaid(invoiceId: string, note?: string) {
+  return jsonFetch<{ ok: true; paidAt: string; daysLate: number }>(
+    `/aging/${invoiceId}/mark-paid`,
+    { method: "POST", body: JSON.stringify({ note }) }
+  );
+}
+
+export function updateDigestSettings(digestEnabled: boolean) {
+  return jsonFetch<{ digestEnabled: boolean }>("/account/digest", {
+    method: "PATCH",
+    body: JSON.stringify({ digestEnabled }),
+  });
+}
+
+export type ClassifiedReply = {
+  classification: string;
+  summary: string;
+  suggestedAction: string;
+  subject: string;
+  body: string;
+  promisedPayDate: string | null;
+};
+
+export function generateReplySmart(input: {
+  client_name: string;
+  invoice_amount: number;
+  days_overdue: number;
+  client_message: string;
+  payment_link?: string;
+  aging_invoice_id?: string;
+}) {
+  return jsonFetch<ClassifiedReply>("/generate-reply-smart", {
+    method: "POST",
+    body: JSON.stringify(input),
+  });
+}
+
+export function generateDemandLetter(input: {
+  client_name: string;
+  client_address?: string;
+  invoice_number?: string;
+  invoice_amount: number;
+  due_date: string;
+  days_overdue: number;
+  letter_level?: number;
+  sender_name?: string;
+  sender_address?: string;
+  payment_link?: string;
+}) {
+  return jsonFetch<{ level: number; title: string; html: string }>("/generate-demand-letter", {
+    method: "POST",
+    body: JSON.stringify(input),
+  });
+}
+
+/** @deprecated Use generateDemandLetter */
+export const generateMahnung = generateDemandLetter;

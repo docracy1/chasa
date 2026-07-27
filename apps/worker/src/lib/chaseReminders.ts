@@ -184,3 +184,84 @@ export async function nextPlannedReminder(
   const row = await env.CHASA_DB.prepare(sql).bind(...binds).first<ReminderRow>();
   return row ? mapRow(row) : null;
 }
+
+export async function snoozeReminder(
+  env: Env,
+  accountId: string,
+  id: string,
+  days: number
+): Promise<ChaseReminder | null> {
+  const row = await env.CHASA_DB.prepare(
+    `SELECT id, aging_invoice_id, client_name, step_number, planned_date, label, subject, body, status, created_at, updated_at
+     FROM chase_reminders WHERE id = ? AND account_id = ? AND status = 'planned'`
+  )
+    .bind(id, accountId)
+    .first<ReminderRow>();
+
+  if (!row) return null;
+
+  const d = new Date(row.planned_date + "T12:00:00");
+  d.setDate(d.getDate() + Math.max(1, days));
+  const newDate = d.toISOString().slice(0, 10);
+  const now = new Date().toISOString();
+
+  await env.CHASA_DB.prepare(
+    `UPDATE chase_reminders SET planned_date = ?, updated_at = ? WHERE id = ? AND account_id = ?`
+  )
+    .bind(newDate, now, id, accountId)
+    .run();
+
+  return mapRow({ ...row, planned_date: newDate, updated_at: now });
+}
+
+export async function scheduleFollowUpReminder(
+  env: Env,
+  accountId: string,
+  input: {
+    agingInvoiceId?: string | null;
+    clientName: string;
+    daysFromNow: number;
+    label: string;
+    subject: string;
+    body: string;
+  }
+): Promise<ChaseReminder> {
+  const now = new Date().toISOString();
+  const id = crypto.randomUUID();
+  const plannedDate = addDaysIso(input.daysFromNow);
+  const stepNumber = 99;
+
+  await env.CHASA_DB.prepare(
+    `INSERT INTO chase_reminders
+       (id, account_id, aging_invoice_id, client_name, step_number, planned_date, label, subject, body, status, created_at, updated_at)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'planned', ?, ?)`
+  )
+    .bind(
+      id,
+      accountId,
+      input.agingInvoiceId ?? null,
+      input.clientName,
+      stepNumber,
+      plannedDate,
+      input.label,
+      input.subject,
+      input.body,
+      now,
+      now
+    )
+    .run();
+
+  return {
+    id,
+    agingInvoiceId: input.agingInvoiceId ?? null,
+    clientName: input.clientName,
+    stepNumber,
+    plannedDate,
+    label: input.label,
+    subject: input.subject,
+    body: input.body,
+    status: "planned",
+    createdAt: now,
+    updatedAt: now,
+  };
+}

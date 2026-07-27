@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import Papa from "papaparse";
 import {
   CLOUD_IMPORT_STORAGE_KEY,
@@ -8,13 +9,23 @@ import {
   generateSequence,
   generateSms,
   generateThankYou,
+  getEvidencePack,
   importCloudConnectorFile,
   listCloudConnectorFiles,
   listCloudConnectors,
+  listReminders,
   markAgingChase,
+  markInvoicePaid,
   notifyWebhook,
+  recordChaseEvent,
+  generateDemandLetter,
+  generateReplySmart,
+  getInvoiceTimeline,
   rewriteEmail,
+  scheduleFollowUpReminder,
+  snoozeReminder,
   syncAging,
+  trackingStats,
   updateReminderStatus,
   type Account,
   type ChaseReminder,
@@ -26,6 +37,7 @@ import {
 import { getUsedCount, incrementUsedCount, isAtLimit } from "../../lib/usage";
 import { track } from "../../lib/analytics";
 import { daysOverdue } from "../../lib/dates";
+import { formatUsWeekday } from "../../lib/locale";
 import { CLOUD_LABELS, PAYMENT_LINK_STORAGE_KEY } from "./constants";
 import { parseCsvRows } from "./csvImport";
 import { loadStoredInvoices, persistInvoices } from "./storage";
@@ -37,8 +49,21 @@ import { CloudImportConfirm } from "./components/CloudImportConfirm";
 import { InvoiceIntakePanel } from "./components/InvoiceIntakePanel";
 import { PdfPickerPanel } from "./components/PdfPickerPanel";
 import { InvoiceCard } from "./components/InvoiceCard";
+import { DueTodayBanner } from "./components/DueTodayBanner";
+
+function todayIso(): string {
+  return new Date().toISOString().slice(0, 10);
+}
+
+function daysFromToday(isoDate: string): number {
+  const target = new Date(isoDate + "T12:00:00");
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  return Math.max(1, Math.ceil((target.getTime() - today.getTime()) / 86400000) + 1);
+}
 
 export default function Tool({ account }: { account: Account | null }) {
+  const [searchParams] = useSearchParams();
   const [invoices, setInvoices] = useState<Invoice[]>(() => loadStoredInvoices());
   const [clientName, setClientName] = useState("");
   const [amount, setAmount] = useState("");
@@ -65,7 +90,45 @@ export default function Tool({ account }: { account: Account | null }) {
   const [pdfFiles, setPdfFiles] = useState<CloudFile[]>([]);
   const [pdfBusy, setPdfBusy] = useState(false);
   const [pdfError, setPdfError] = useState<string | null>(null);
+  const [dueTodayReminders, setDueTodayReminders] = useState<ChaseReminder[]>([]);
+  const [openStatsMap, setOpenStatsMap] = useState<
+    Record<string, { openCount: number; clickCount: number; lastOpenAt: string | null }>
+  >({});
   const isPaid = account?.plan !== "free" && account?.plan != null;
+  const isPro = account?.plan === "pro" || account?.plan === "enterprise";
+
+  async function refreshTimeline(invoiceId: string) {
+    if (!isPaid) return;
+    try {
+      const { events } = await getInvoiceTimeline(invoiceId);
+      setInvoices((prev) =>
+        prev.map((inv) => (inv.id === invoiceId ? { ...inv, timeline: events } : inv))
+      );
+    } catch {
+      /* ignore */
+    }
+  }
+
+  async function logChaseEvent(
+    invoice: Invoice,
+    eventType: "sent" | "copied" | "mailto" | "drafted",
+    subject?: string,
+    body?: string
+  ) {
+    if (!isPaid) return;
+    try {
+      await recordChaseEvent({
+        agingInvoiceId: invoice.id,
+        clientName: invoice.clientName,
+        eventType,
+        subject,
+        body,
+      });
+      await refreshTimeline(invoice.id);
+    } catch {
+      /* ignore */
+    }
+  }
 
   useEffect(() => {
     persistInvoices(invoices);
@@ -85,6 +148,33 @@ export default function Tool({ account }: { account: Account | null }) {
     }
   }, [account?.paymentLink]);
 
+  useEffect(() => {
+    if (!isPaid) {
+      setDueTodayReminders([]);
+      setOpenStatsMap({});
+      return;
+    }
+    const today = todayIso();
+    listReminders({ from: today, to: today, status: "planned" })
+      .then((res) => setDueTodayReminders(res.reminders))
+      .catch(() => setDueTodayReminders([]));
+  }, [isPaid, invoices.length]);
+
+  useEffect(() => {
+    if (!isPaid || invoices.length === 0) return;
+    const ids = invoices.map((i) => i.id);
+    trackingStats(ids)
+      .then((res) => setOpenStatsMap(res.stats))
+      .catch(() => setOpenStatsMap({}));
+  }, [isPaid, invoices.length]);
+
+  useEffect(() => {
+    const focus = searchParams.get("focus");
+    if (!focus) return;
+    const el = document.getElementById(`invoice-${focus}`);
+    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+  }, [searchParams, invoices.length]);
+
   // Solo+: sync aging snapshot to D1 (also creates clients by name)
   const agingSnapshot = invoices
     .map(
@@ -102,6 +192,8 @@ export default function Tool({ account }: { account: Account | null }) {
           clientName: inv.clientName,
           amount: inv.amount,
           dueDate: inv.dueDate,
+          status: inv.status ?? "open",
+          paidAt: inv.paidAt ?? null,
           lastChaseStatus: inv.lastChaseStatus ?? null,
           lastChaseAt: inv.lastChaseAt ?? null,
         })),
@@ -529,6 +621,137 @@ export default function Tool({ account }: { account: Account | null }) {
     }
   }
 
+  async function handleReplySmart(invoiceId: string) {
+    if (!isPro) return;
+    const invoice = invoices.find((inv) => inv.id === invoiceId);
+    if (!invoice?.clientReply?.trim()) return;
+    setInvoices((prev) =>
+      prev.map((inv) =>
+        inv.id === invoiceId ? { ...inv, rewriting: "replySmart", error: undefined } : inv
+      )
+    );
+    try {
+      const result = await generateReplySmart({
+        client_name: invoice.clientName,
+        invoice_amount: invoice.amount,
+        days_overdue: daysOverdue(invoice.dueDate),
+        client_message: invoice.clientReply.trim(),
+        payment_link: paymentLink || account?.paymentLink || undefined,
+        aging_invoice_id: invoice.id,
+      });
+      setInvoices((prev) =>
+        prev.map((inv) =>
+          inv.id === invoiceId
+            ? {
+                ...inv,
+                draft: { subject: result.subject, body: result.body },
+                replyInsight: {
+                  classification: result.classification,
+                  summary: result.summary,
+                  suggestedAction: result.suggestedAction,
+                  promisedPayDate: result.promisedPayDate,
+                },
+                rewriting: null,
+              }
+            : inv
+        )
+      );
+      void refreshTimeline(invoiceId);
+    } catch (err) {
+      setInvoices((prev) =>
+        prev.map((inv) =>
+          inv.id === invoiceId
+            ? {
+                ...inv,
+                rewriting: null,
+                error: err instanceof Error ? err.message : "Something went wrong.",
+              }
+            : inv
+        )
+      );
+    }
+  }
+
+  async function handleDemandLetter(invoiceId: string) {
+    if (!isPro) return;
+    const invoice = invoices.find((inv) => inv.id === invoiceId);
+    if (!invoice) return;
+    setInvoices((prev) =>
+      prev.map((inv) =>
+        inv.id === invoiceId ? { ...inv, rewriting: "demandLetter", error: undefined } : inv
+      )
+    );
+    try {
+      const result = await generateDemandLetter({
+        client_name: invoice.clientName,
+        invoice_amount: invoice.amount,
+        due_date: invoice.dueDate,
+        days_overdue: daysOverdue(invoice.dueDate),
+        payment_link: paymentLink || account?.paymentLink || undefined,
+        sender_name: account?.workspaceName ?? undefined,
+      });
+      const blob = new Blob([result.html], { type: "text/html" });
+      const url = URL.createObjectURL(blob);
+      window.open(url, "_blank", "noopener,noreferrer");
+      setTimeout(() => URL.revokeObjectURL(url), 60_000);
+      setInvoices((prev) =>
+        prev.map((inv) => (inv.id === invoiceId ? { ...inv, rewriting: null } : inv))
+      );
+    } catch (err) {
+      setInvoices((prev) =>
+        prev.map((inv) =>
+          inv.id === invoiceId
+            ? {
+                ...inv,
+                rewriting: null,
+                error: err instanceof Error ? err.message : "Something went wrong.",
+              }
+            : inv
+        )
+      );
+    }
+  }
+
+  async function handleMarkSent(invoice: Invoice) {
+    const now = new Date().toISOString();
+    setInvoices((prev) =>
+      prev.map((inv) =>
+        inv.id === invoice.id
+          ? { ...inv, lastChaseStatus: "sent", lastChaseAt: now }
+          : inv
+      )
+    );
+    if (isPaid) {
+      await markAgingChase(invoice.id, "sent").catch(() => {});
+      await logChaseEvent(
+        invoice,
+        "sent",
+        invoice.draft?.subject,
+        invoice.draft?.body
+      );
+      void notifyWebhook("chase.sent", {
+        method: "manual",
+        client_name: invoice.clientName,
+        invoice_amount: invoice.amount,
+      });
+    }
+  }
+
+  async function handleMarkPaid(invoice: Invoice) {
+    const now = new Date().toISOString();
+    setInvoices((prev) =>
+      prev.map((inv) =>
+        inv.id === invoice.id
+          ? { ...inv, status: "paid", paidAt: now, lastChaseStatus: "paid", lastChaseAt: now }
+          : inv
+      )
+    );
+    if (isPaid) {
+      await markInvoicePaid(invoice.id).catch(() => {});
+      await refreshTimeline(invoice.id);
+    }
+  }
+
   async function handleSequence(invoiceId: string) {
     if (!isPaid) return;
     const invoice = invoices.find((inv) => inv.id === invoiceId);
@@ -657,8 +880,92 @@ export default function Tool({ account }: { account: Account | null }) {
           };
         })
       );
+      setDueTodayReminders((prev) => prev.filter((r) => r.id !== reminderId));
     } catch {
       /* ignore */
+    }
+  }
+
+  async function handleSnoozeReminder(invoiceId: string, reminderId: string, days: number) {
+    try {
+      const { reminder } = await snoozeReminder(reminderId, days);
+      setInvoices((prev) =>
+        prev.map((inv) => {
+          if (inv.id !== invoiceId || !inv.reminders) return inv;
+          return {
+            ...inv,
+            reminders: inv.reminders.map((r) => (r.id === reminderId ? reminder : r)),
+          };
+        })
+      );
+      setDueTodayReminders((prev) => prev.filter((r) => r.id !== reminderId));
+    } catch {
+      /* ignore */
+    }
+  }
+
+  async function handleScheduleReplyFollowUp(invoiceId: string) {
+    if (!isPro) return;
+    const invoice = invoices.find((inv) => inv.id === invoiceId);
+    if (!invoice?.draft) return;
+    const promised = invoice.replyInsight?.promisedPayDate;
+    const daysFromNow = promised ? daysFromToday(promised) : 4;
+    try {
+      const { reminder } = await scheduleFollowUpReminder({
+        agingInvoiceId: invoice.id,
+        clientName: invoice.clientName,
+        daysFromNow,
+        label: promised ? `If unpaid after ${promised}` : "Follow-up after payment promise",
+        subject: invoice.draft.subject,
+        body: invoice.draft.body,
+      });
+      setInvoices((prev) =>
+        prev.map((inv) =>
+          inv.id === invoiceId
+            ? { ...inv, reminders: [...(inv.reminders ?? []), reminder] }
+            : inv
+        )
+      );
+    } catch {
+      /* ignore */
+    }
+  }
+
+  async function handleEvidencePack(invoiceId: string) {
+    if (!isPro) return;
+    try {
+      const result = await getEvidencePack(invoiceId);
+      const blob = new Blob([result.html], { type: "text/html" });
+      const url = URL.createObjectURL(blob);
+      window.open(url, "_blank", "noopener,noreferrer");
+      setTimeout(() => URL.revokeObjectURL(url), 60_000);
+    } catch (err) {
+      setInvoices((prev) =>
+        prev.map((inv) =>
+          inv.id === invoiceId
+            ? {
+                ...inv,
+                error: err instanceof Error ? err.message : "Could not export evidence pack.",
+              }
+            : inv
+        )
+      );
+    }
+  }
+
+  function handleOpenDueReminder(reminder: ChaseReminder) {
+    if (reminder.agingInvoiceId) {
+      const el = document.getElementById(`invoice-${reminder.agingInvoiceId}`);
+      if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+      if (reminder.subject && reminder.body) {
+        setInvoices((prev) =>
+          prev.map((inv) =>
+            inv.id === reminder.agingInvoiceId
+              ? { ...inv, draft: { subject: reminder.subject!, body: reminder.body! } }
+              : inv
+          )
+        );
+      }
     }
   }
 
@@ -707,6 +1014,7 @@ export default function Tool({ account }: { account: Account | null }) {
     );
     if (isPaid) {
       void markAgingChase(invoice.id, "copied").catch(() => {});
+      void logChaseEvent(invoice, "copied", invoice.draft.subject, invoice.draft.body);
       void notifyWebhook("chase.sent", {
         method: "copy",
         client_name: invoice.clientName,
@@ -734,6 +1042,7 @@ export default function Tool({ account }: { account: Account | null }) {
         )
       );
       if (isPaid) void markAgingChase(invoice.id, "mailto").catch(() => {});
+      void logChaseEvent(invoice, "mailto", invoice.draft?.subject, invoice.draft?.body);
     }
     if (isPaid && invoice) {
       void notifyWebhook("chase.sent", {
@@ -786,7 +1095,7 @@ export default function Tool({ account }: { account: Account | null }) {
     const d = new Date();
     d.setHours(0, 0, 0, 0);
     d.setDate(d.getDate() + daysFromNow);
-    return d.toLocaleDateString(undefined, { weekday: "short", month: "short", day: "numeric" });
+    return formatUsWeekday(d);
   }
 
   const overdueCount = invoices.filter((inv) => daysOverdue(inv.dueDate) > 0).length;
@@ -885,11 +1194,18 @@ export default function Tool({ account }: { account: Account | null }) {
         />
       )}
 
-      {invoices.map((invoice) => (
+      {isPaid && (
+        <DueTodayBanner reminders={dueTodayReminders} onOpenReminder={handleOpenDueReminder} />
+      )}
+
+      {invoices
+        .filter((inv) => inv.status !== "paid")
+        .map((invoice) => (
         <InvoiceCard
           key={invoice.id}
           invoice={invoice}
           isPaid={isPaid}
+          isPro={isPro}
           atLimit={atLimit}
           selectedIds={selectedIds}
           onToggleSelect={toggleSelect}
@@ -901,9 +1217,17 @@ export default function Tool({ account }: { account: Account | null }) {
           onSms={handleSms}
           onClientReplyChange={handleClientReplyChange}
           onReply={handleReply}
+          onReplySmart={handleReplySmart}
+          onDemandLetter={handleDemandLetter}
+          onMarkSent={handleMarkSent}
+          onMarkPaid={handleMarkPaid}
           onApplySequenceStep={applySequenceStep}
           onCopyNextReminder={copyNextReminder}
           onMarkReminderDone={markReminderDone}
+          onSnoozeReminder={handleSnoozeReminder}
+          onScheduleReplyFollowUp={handleScheduleReplyFollowUp}
+          onEvidencePack={handleEvidencePack}
+          openStats={openStatsMap[invoice.id]}
           onCopyDraft={copyDraft}
           onTrackedCopy={handleTrackedCopy}
           mailtoLink={mailtoLink}

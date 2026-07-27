@@ -12,23 +12,41 @@ export type PendingCloudImport = CloudFileImport & {
   providerLabel: string;
 };
 
-export type AiBusy = RewriteAction | "thankyou" | "reply" | "sequence" | "multi" | "sms" | null;
+export type AiBusy =
+  | RewriteAction
+  | "thankyou"
+  | "reply"
+  | "replySmart"
+  | "sequence"
+  | "multi"
+  | "sms"
+  | "demandLetter"
+  | null;
 
 export interface Invoice {
   id: string;
   clientName: string;
   amount: number;
   dueDate: string;
+  status?: "open" | "paid";
+  paidAt?: string | null;
   draft?: { subject: string; body: string };
   generating: boolean;
   rewriting: AiBusy;
   clientReply?: string;
+  replyInsight?: {
+    classification: string;
+    summary: string;
+    suggestedAction: string;
+    promisedPayDate?: string | null;
+  } | null;
   sequence?: ChaseSequence | null;
   reminders?: ChaseReminder[];
   smsDraft?: SmsWhatsAppDraft | null;
   lastChaseStatus?: string | null;
   lastChaseAt?: string | null;
   trackingNote?: string | null;
+  timeline?: import("../../lib/api").ChaseEventRecord[];
   error?: string;
 }
 
@@ -37,6 +55,8 @@ export type StoredInvoice = {
   clientName: string;
   amount: number;
   dueDate: string;
+  status?: "open" | "paid";
+  paidAt?: string | null;
   lastChaseStatus?: string | null;
   lastChaseAt?: string | null;
 };

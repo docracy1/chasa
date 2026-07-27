@@ -1,8 +1,10 @@
 import { Hono } from "hono";
 import type { Context } from "hono";
-import { optionalAccount, requirePaidAccount, type AuthEnv } from "../lib/auth";
+import { optionalAccount, requirePaidAccount, requireProAccount, type AuthEnv } from "../lib/auth";
 import {
+  classifyAndReplyEmail,
   generateChaseSequence,
+  generateDemandLetterHtml,
   generateFollowUpEmail,
   generateReplyEmail,
   generateSmsWhatsAppDraft,
@@ -10,6 +12,7 @@ import {
   rewriteFollowUpEmail,
   type RewriteAction,
 } from "../lib/ai";
+import { recordChaseEvent } from "../lib/chaseEvents";
 import type { Env } from "../types";
 import { dispatchWebhooks } from "../lib/webhooks";
 import { replaceSequenceReminders } from "../lib/chaseReminders";
@@ -21,6 +24,8 @@ import {
   generateEmailSchema,
   parseJsonBody,
   replyEmailSchema,
+  replyClassifySchema,
+  demandLetterSchema,
   rewriteEmailSchema,
   sequenceEmailSchema,
   smsEmailSchema,
@@ -283,5 +288,83 @@ emails.post("/generate-sms", requirePaidAccount, async (c) => {
     return c.json({ error: "Could not generate SMS / WhatsApp drafts right now." }, 502);
   }
 });
+
+emails.post("/generate-reply-smart", requireProAccount, async (c) => {
+  const acc = c.get("account")!;
+  const parsed = await parseJsonBody(c.req, replyClassifySchema);
+  if (!parsed.ok) return c.json({ error: parsed.error }, 400);
+  const {
+    client_name: clientName,
+    invoice_amount: invoiceAmount,
+    days_overdue: daysOverdue,
+    client_message: clientMessage,
+    payment_link: paymentLink,
+    aging_invoice_id: agingInvoiceId,
+  } = parsed.data;
+  try {
+    const draft = await classifyAndReplyEmail(c.env, {
+      clientName,
+      invoiceAmount,
+      daysOverdue,
+      clientMessage,
+      paymentLink,
+    });
+    c.executionCtx.waitUntil(
+      recordChaseEvent(c.env, acc.workspaceId, {
+        agingInvoiceId: agingInvoiceId ?? null,
+        clientName,
+        eventType: "reply_detected",
+        channel: "email",
+        subject: draft.subject,
+        body: draft.body,
+        metadata: {
+          classification: draft.classification,
+          summary: draft.summary,
+          promisedPayDate: draft.promisedPayDate,
+        },
+      }).catch(() => {})
+    );
+    c.executionCtx.waitUntil(
+      dispatchWebhooks(c.env, acc.workspaceId, "chase.reply_drafted", {
+        client_name: clientName,
+        classification: draft.classification,
+        subject: draft.subject,
+        promised_pay_date: draft.promisedPayDate,
+      }).catch(() => {})
+    );
+    return c.json(draft);
+  } catch (err) {
+    console.error("classifyAndReplyEmail failed", err);
+    return c.json({ error: "Could not classify and draft a reply right now." }, 502);
+  }
+});
+
+async function handleDemandLetter(c: Context<AuthEnv>) {
+  const parsed = await parseJsonBody(c.req, demandLetterSchema);
+  if (!parsed.ok) return c.json({ error: parsed.error }, 400);
+  const body = parsed.data;
+  try {
+    const result = await generateDemandLetterHtml(c.env, {
+      clientName: body.client_name,
+      clientAddress: body.client_address,
+      invoiceNumber: body.invoice_number,
+      invoiceAmount: body.invoice_amount,
+      dueDate: body.due_date,
+      daysOverdue: body.days_overdue,
+      letterLevel: body.letter_level ?? body.mahnung_level,
+      senderName: body.sender_name,
+      senderAddress: body.sender_address,
+      paymentLink: body.payment_link,
+    });
+    return c.json(result);
+  } catch (err) {
+    console.error("generateDemandLetterHtml failed", err);
+    return c.json({ error: "Could not generate demand letter right now." }, 502);
+  }
+}
+
+emails.post("/generate-demand-letter", requireProAccount, handleDemandLetter);
+/** @deprecated Use /generate-demand-letter */
+emails.post("/generate-mahnung", requireProAccount, handleDemandLetter);
 
 export default emails;

@@ -50,6 +50,15 @@ Stripe price IDs live in `apps/worker/wrangler.toml` as `STRIPE_PRICE_SOLO`, `ST
 | Clients CRM + contact notes | — | ✓ |
 | Aging sync (Tool → server) | — | ✓ |
 | Reminder calendar (planned chase dates) | — | ✓ |
+| Chase timeline + mark sent/paid | — | ✓ |
+| Daily chase digest email (9 AM Eastern, approve-to-send) | — | ✓ |
+| Reminder snooze + stop when marked paid | — | ✓ |
+| Email open/click tracking on tracked HTML | — | ✓ |
+| Default payment link (Stripe, PayPal, Venmo, Zelle…) | — | ✓ |
+| Zapier templates (FreshBooks, Wave, Zoho Books) | — | ✓ |
+| Smart reply classifier + promised pay date detection | — | Pro plan |
+| Client payment risk score | — | Pro plan |
+| Formal demand letter + collections evidence pack | — | Pro plan |
 | Custom branding (logo, late-fee hint) | — | ✓ (admin role) |
 | Outbound webhooks (`chase.drafted`, `chase.sent`, …) + HMAC signatures | — | ✓ (admin) |
 | Click tracking (tracked copy HTML) | — | ✓ |

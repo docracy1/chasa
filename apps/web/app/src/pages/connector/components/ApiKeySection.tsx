@@ -71,6 +71,27 @@ export function ApiKeySection({
           >
             {busy ? "Creating…" : "Create test key"}
           </button>
+          <a
+            className="btn-secondary"
+            href="/docs/zapier-overdue-import.json"
+            download="chasa-freshbooks-zapier.json"
+          >
+            FreshBooks Zap
+          </a>
+          <a
+            className="btn-secondary"
+            href="/docs/zapier-wave-overdue-import.json"
+            download="chasa-wave-zapier.json"
+          >
+            Wave Zap
+          </a>
+          <a
+            className="btn-secondary"
+            href="/docs/zapier-zoho-overdue-import.json"
+            download="chasa-zoho-zapier.json"
+          >
+            Zoho Books Zap
+          </a>
         </div>
       )}
 

@@ -26,6 +26,8 @@ export const agingSyncItemSchema = z.object({
   clientName: z.string().trim().min(1).max(120),
   amount: z.coerce.number().finite().min(0).max(999_999_999),
   dueDate: isoDate,
+  status: z.enum(["open", "paid"]).optional(),
+  paidAt: z.string().trim().max(40).nullable().optional(),
   lastChaseStatus: z.string().trim().max(40).nullable().optional(),
   lastChaseAt: z.string().trim().max(40).nullable().optional(),
 });
@@ -38,6 +40,51 @@ export const agingSyncSchema = z.object({
 export const agingChaseSchema = z.object({
   status: z.string().trim().max(40).optional(),
 });
+
+export const chaseEventSchema = z.object({
+  agingInvoiceId: z.string().max(64).optional(),
+  clientName: z.string().trim().min(1).max(120),
+  eventType: z.enum(["drafted", "sent", "copied", "mailto", "marked_paid", "reply_detected", "note"]),
+  channel: z.enum(["email", "sms", "whatsapp", "system"]).optional(),
+  subject: z.string().max(200).optional(),
+  body: z.string().max(8000).optional(),
+  metadata: z.record(z.string(), z.unknown()).optional(),
+});
+
+export const agingMarkPaidSchema = z.object({
+  note: z.string().max(500).optional(),
+});
+
+export const digestSettingsSchema = z.object({
+  digestEnabled: z.boolean(),
+});
+
+export const replyClassifySchema = z.object({
+  client_name: z.string().trim().min(1).max(120),
+  invoice_amount: z.coerce.number().finite().min(0).max(999_999_999),
+  days_overdue: z.coerce.number().finite().min(0).max(3650),
+  client_message: z.string().trim().min(1).max(4000),
+  payment_link: z.string().max(500).optional(),
+  aging_invoice_id: z.string().max(64).optional(),
+});
+
+export const demandLetterSchema = z.object({
+  client_name: z.string().trim().min(1).max(120),
+  client_address: z.string().trim().max(500).optional(),
+  invoice_number: z.string().trim().max(80).optional(),
+  invoice_amount: z.coerce.number().finite().min(0).max(999_999_999),
+  due_date: isoDate,
+  days_overdue: z.coerce.number().finite().min(1).max(3650),
+  letter_level: z.coerce.number().int().min(1).max(3).optional(),
+  /** @deprecated use letter_level */
+  mahnung_level: z.coerce.number().int().min(1).max(3).optional(),
+  sender_name: z.string().trim().max(120).optional(),
+  sender_address: z.string().trim().max(500).optional(),
+  payment_link: z.string().max(500).optional(),
+});
+
+/** @deprecated Use demandLetterSchema */
+export const mahnungSchema = demandLetterSchema;
 
 export const generateEmailSchema = z.object({
   client_name: z.string().max(120).optional(),
@@ -174,6 +221,19 @@ export const reminderSequenceSchema = z.object({
 
 export const reminderStatusSchema = z.object({
   status: z.enum(["planned", "done", "skipped"]),
+});
+
+export const snoozeReminderSchema = z.object({
+  days: z.coerce.number().int().min(1).max(90),
+});
+
+export const followUpReminderSchema = z.object({
+  agingInvoiceId: z.string().max(64).optional(),
+  clientName: z.string().trim().min(1).max(120),
+  daysFromNow: z.coerce.number().int().min(0).max(365),
+  label: z.string().trim().max(80).optional(),
+  subject: z.string().trim().max(200),
+  body: z.string().trim().max(4000),
 });
 
 export const connectorKeySchema = z.object({

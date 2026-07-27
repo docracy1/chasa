@@ -1,0 +1,28 @@
+{
+  "name": "Chasa — Import overdue invoices from FreshBooks",
+  "description": "When a FreshBooks invoice becomes overdue, POST to Chasa API to draft a chase email.",
+  "steps": [
+    {
+      "app": "FreshBooks",
+      "event": "new_overdue_invoice",
+      "note": "Or use Schedule + FreshBooks API poll if your plan lacks triggers"
+    },
+    {
+      "app": "Webhooks by Zapier",
+      "action": "POST",
+      "url": "https://api.chasa.io/api/v1/chase/draft",
+      "headers": {
+        "Authorization": "Bearer YOUR_CHASA_API_KEY",
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "client_name": "{{customer_name}}",
+        "invoice_amount": "{{amount_due}}",
+        "days_overdue": "{{days_overdue}}",
+        "due_date": "{{due_date}}"
+      }
+    }
+  ],
+  "docs": "https://chasa.io/docs/",
+  "connector": "https://chasa.io/app/connector"
+}

@@ -63,7 +63,7 @@ export function WelcomeBlock({
           </span>
           <span>
             <strong>Import CSV</strong>
-            <span>QuickBooks, Xero, Wave, Zoho, sevDesk…</span>
+            <span>QuickBooks, FreshBooks, Xero, Wave…</span>
           </span>
         </a>
         <Link className="welcome-action" to="/connector">

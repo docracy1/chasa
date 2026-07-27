@@ -1,0 +1,28 @@
+{
+  "name": "Chasa — Import overdue invoices from Zoho Books",
+  "description": "When a Zoho Books invoice becomes overdue, POST to Chasa API to draft a chase email.",
+  "steps": [
+    {
+      "app": "Zoho Books",
+      "event": "invoice_overdue",
+      "note": "Zoho Books trigger or scheduled poll for overdue status"
+    },
+    {
+      "app": "Webhooks by Zapier",
+      "action": "POST",
+      "url": "https://api.chasa.io/api/v1/chase/draft",
+      "headers": {
+        "Authorization": "Bearer YOUR_CHASA_API_KEY",
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "client_name": "{{customer_name}}",
+        "invoice_amount": "{{balance_due}}",
+        "days_overdue": "{{days_overdue}}",
+        "due_date": "{{due_date}}"
+      }
+    }
+  ],
+  "docs": "https://chasa.io/docs/",
+  "connector": "https://chasa.io/app/connector"
+}

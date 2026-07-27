@@ -1,7 +1,7 @@
 import { Hono } from "hono";
 import { requireAccount, requireWorkspaceAdmin, type AuthEnv } from "../lib/auth";
 import cloudConnectors from "./cloudConnectors";
-import { brandingUpdateSchema, parseJsonBody, validateWorkspaceName } from "../lib/schemas";
+import { brandingUpdateSchema, digestSettingsSchema, parseJsonBody, validateWorkspaceName } from "../lib/schemas";
 
 const account = new Hono<AuthEnv>();
 
@@ -10,7 +10,7 @@ account.route("/connectors", cloudConnectors);
 account.get("/me", requireAccount, async (c) => {
   const acc = c.get("account")!;
   const row = await c.env.CHASA_DB.prepare(
-    `SELECT workspace_name, logo_data, payment_link, late_fee_enabled, late_fee_hint FROM accounts WHERE id = ?`
+    `SELECT workspace_name, logo_data, payment_link, late_fee_enabled, late_fee_hint, digest_enabled FROM accounts WHERE id = ?`
   )
     .bind(acc.workspaceId)
     .first<{
@@ -19,6 +19,7 @@ account.get("/me", requireAccount, async (c) => {
       payment_link: string | null;
       late_fee_enabled: number | null;
       late_fee_hint: string | null;
+      digest_enabled: number | null;
     }>();
 
   return c.json({
@@ -29,6 +30,7 @@ account.get("/me", requireAccount, async (c) => {
     paymentLink: row?.payment_link ?? null,
     lateFeeEnabled: !!(row?.late_fee_enabled),
     lateFeeHint: row?.late_fee_hint ?? null,
+    digestEnabled: row?.digest_enabled !== 0,
     role: acc.role,
     workspaceId: acc.workspaceId,
   });
@@ -164,6 +166,19 @@ account.put("/branding", requireWorkspaceAdmin, async (c) => {
     lateFeeHint,
     paid: true,
   });
+});
+
+account.patch("/digest", requireAccount, async (c) => {
+  const acc = c.get("account")!;
+  if (!acc.isPaid) {
+    return c.json({ error: "Daily chase digest requires a Solo or Pro plan." }, 403);
+  }
+  const parsed = await parseJsonBody(c.req, digestSettingsSchema);
+  if (!parsed.ok) return c.json({ error: parsed.error }, 400);
+  await c.env.CHASA_DB.prepare(`UPDATE accounts SET digest_enabled = ? WHERE id = ?`)
+    .bind(parsed.data.digestEnabled ? 1 : 0, acc.workspaceId)
+    .run();
+  return c.json({ digestEnabled: parsed.data.digestEnabled });
 });
 
 export default account;
