@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>Chasa Blog</title>
+    <link>https://chasa.io/blog/</link>
+    <description>Invoice follow-up, payment reminders, and freelancer cash flow.</description>
+    <language>en</language>
+    <lastBuildDate>Mon, 27 Jul 2026 11:08:41 GMT</lastBuildDate>
+    <item>
+      <title>How to follow up on overdue invoices (without burning bridges)</title>
+      <link>https://chasa.io/blog/how-to-follow-up-on-overdue-invoices/</link>
+      <guid isPermaLink="true">https://chasa.io/blog/how-to-follow-up-on-overdue-invoices/</guid>
+      <description>Timing, tone, and email structure for overdue invoice follow-ups — written for freelancers and small teams.</description>
+      <pubDate>Mon, 20 Jul 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>Invoice payment reminder email templates</title>
+      <link>https://chasa.io/blog/invoice-payment-reminder-email-templates/</link>
+      <guid isPermaLink="true">https://chasa.io/blog/invoice-payment-reminder-email-templates/</guid>
+      <description>Seven copy-paste payment reminder templates for every stage of invoice follow-up.</description>
+      <pubDate>Wed, 15 Jul 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>Freelancer late payment policy</title>
+      <link>https://chasa.io/blog/freelancer-late-payment-policy/</link>
+      <guid isPermaLink="true">https://chasa.io/blog/freelancer-late-payment-policy/</guid>
+      <description>What to include in your late payment policy and how to enforce it without scaring good clients away.</description>
+      <pubDate>Fri, 10 Jul 2026 00:00:00 GMT</pubDate>
+    </item>
+  </channel>
+</rss>

@@ -60,10 +60,20 @@ async function fetchPostBody(slug) {
   }
 }
 
+function extractBodyFromMain(mainHtml) {
+  let html = mainHtml;
+  html = html.replace(/^<p><a href="[^"]*">← Blog<\/a><\/p>\s*/i, "");
+  html = html.replace(/^<h1>[\s\S]*?<\/h1>\s*/i, "");
+  html = html.replace(/^<p class="lede">[\s\S]*?<\/p>\s*/i, "");
+  html = html.replace(/<section[\s\S]*$/i, "");
+  return html.trim();
+}
+
 function postMainFromExisting(slug) {
   const path = join(publicDir, "blog", slug, "index.html");
   if (!existsSync(path)) return null;
-  return extractMain(readFileSync(path, "utf8"));
+  const main = extractMain(readFileSync(path, "utf8"));
+  return main ? extractBodyFromMain(main) : null;
 }
 
 function buildIndexMain(posts) {
@@ -82,11 +92,29 @@ function buildIndexMain(posts) {
   </div>`;
 }
 
-function buildPostMain(post, body) {
-  return `<p><a href="/blog/">← Blog</a></p>
+function renderBody(body) {
+  if (!body) return "";
+  if (/<[a-z][\s\S]*>/i.test(body)) return body;
+  return bodyToHtml(body);
+}
+
+function buildPostMain(post, body, depth = 2) {
+  const prefix = "../".repeat(depth);
+  const href = (p) => `${prefix}${p.replace(/^\//, "")}`;
+  return `<p><a href="${href("/blog/")}">← Blog</a></p>
   <h1>${escapeHtml(post.title)}</h1>
   ${post.description ? `<p class="lede">${escapeHtml(post.description)}</p>` : ""}
-  ${bodyToHtml(body)}`;
+  ${renderBody(body)}
+  <section style="margin-top:40px;padding-top:24px;border-top:1px solid var(--line)">
+    <h2>Related resources</h2>
+    <ul>
+      <li><a href="${href("/free-templates/")}">Free payment reminder email templates</a></li>
+      <li><a href="${href("/app/")}">Try the AI invoice follow-up tool</a></li>
+      <li><a href="${href("/payment-reminder")}">Payment reminder emails guide</a></li>
+      <li><a href="${href("/overdue-invoice")}">Overdue invoice follow-up</a></li>
+      <li><a href="${href("/invoice-follow-up")}">Invoice follow-up best practices</a></li>
+    </ul>
+  </section>`;
 }
 
 const posts = await fetchPosts();
@@ -105,12 +133,7 @@ console.log("Generated blog/index.html");
 for (const post of posts) {
   let body = await fetchPostBody(post.slug);
   if (!body) {
-    const existing = postMainFromExisting(post.slug);
-    if (existing) {
-      console.log(`  ${post.slug}: kept existing main content`);
-      continue;
-    }
-    body = "";
+    body = postMainFromExisting(post.slug) ?? "";
   }
 
   const slugDir = join(publicDir, "blog", post.slug);

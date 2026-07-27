@@ -16,6 +16,7 @@ export const MARKETING_PAGES = [
   { file: "docs/index.html", depth: 1 },
   // About & legal
   { file: "about.html" },
+  { file: "press.html" },
   { file: "privacy.html" },
   { file: "terms.html" },
   { file: "imprint.html" },

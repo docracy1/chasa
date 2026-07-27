@@ -6,6 +6,7 @@ Allow: /free-templates/$
 Allow: /free-templates/
 Allow: /ai$
 Allow: /about$
+Allow: /press$
 Allow: /imprint$
 Allow: /privacy$
 Allow: /terms$

@@ -10,14 +10,22 @@
 - [Free templates](https://chasa.io/free-templates/): 15 copy-paste payment reminder email templates (pre-due through final notice, thank-yous, disputes, multi-invoice).
 - [AI tools](https://chasa.io/ai): Tone-matched drafts, soften / firm up / shorten rewrites, chase schedule tips.
 - [Landing page](https://chasa.io/): Product overview and how the tone bands work.
+- [SEO guides](https://chasa.io/invoice-follow-up): Invoice follow-up, payment reminders, overdue invoices, freelancer collections.
+- [Blog](https://chasa.io/blog/): Guides on overdue invoice follow-up, payment reminder templates, late payment policy.
+- [Press kit](https://chasa.io/press): Logos, boilerplate, and suggested links for articles and directories.
 - [About](https://chasa.io/about): Why Chasa exists and who's behind it.
-- [Sign in / Account](https://chasa.io/app/login): Magic-link login. Paid plan ($9/month) removes the free-tier draft cap.
+- [Sign in / Account](https://chasa.io/app/login): Magic-link login. Paid plan removes the free-tier draft cap.
+
+## Social
+
+- LinkedIn: https://www.linkedin.com/company/chasa-io
+- X: https://x.com/chasaHQ
 
 ## How the AI works
 
 - Tone bands: 1–7 days overdue → friendly reminder; 8–30 days → professional, clear ask; 30+ days → direct, mentions consequences.
 - Each draft includes a subject line and body, ready to copy or open in your mail client.
-- Free tier: 5 AI-generated drafts per month (tracked in browser localStorage). Paid accounts have unlimited drafts.
+- Free tier: 5 AI-generated drafts per month. Paid accounts have unlimited drafts.
 - Powered by Cloudflare Workers AI — runs entirely on Cloudflare's edge, no external AI API key required.
 
 ## Notes for AI agents
@@ -27,3 +35,5 @@ review and send every email themselves. Chasa does not send emails on the user's
 drafts are copied or opened via mailto.
 
 Contact: founder@chasa.io
+Sitemap: https://chasa.io/sitemap.xml
+RSS: https://chasa.io/blog/feed.xml

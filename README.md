@@ -303,24 +303,55 @@ Uses separate D1 (`chasa-db-staging`) — create and paste ID in `wrangler.toml`
 
 ## SEO launch checklist
 
-### Google Search Console
+### Automated (build)
+
+`generate-seo.mjs` runs on every `npm run build` and writes:
+
+- `sitemap.xml` — all public pages (marketing, templates, blog)
+- `robots.txt` — crawl rules + sitemap URL
+- `blog/feed.xml` — RSS for blog posts
+- `{indexnow-key}.txt` — IndexNow key file for Bing/Yandex
+- Verification meta on `index.html` / `ai.html` when env vars are set (see below)
+
+Press kit at [/press](https://chasa.io/press) — logos, boilerplate, suggested anchor text for backlinks.
+
+### Google Search Console (one-time)
 
 1. Add property `https://chasa.io` at [Search Console](https://search.google.com/search-console)
-2. Verify via DNS TXT (recommended) or HTML file in `public/`
-3. Submit sitemap: `https://chasa.io/sitemap.xml`
-4. URL Inspection on `/`, `/app/`, `/invoice-follow-up`, `/payment-reminder`, `/features/`
-5. Monitor Pages + Core Web Vitals after DNS is live
+2. Choose **HTML tag** verification → copy the `content="…"` value
+3. Rebuild with the token:
 
-### Backlink checklist (manual — founder)
+   ```bash
+   GOOGLE_SITE_VERIFICATION=your_token_here npm run build --workspace apps/web
+   npm run deploy:web
+   ```
 
-- [ ] LinkedIn company page ([chasa-io](https://www.linkedin.com/company/chasa-io)) — website field + launch post
+   Or use **DNS TXT** in Cloudflare (no rebuild needed).
+4. Submit sitemap: `https://chasa.io/sitemap.xml`
+5. URL Inspection on `/`, `/app/`, `/payment-reminder`, `/free-templates/`
+
+Optional Bing: `BING_SITE_VERIFICATION=…` same as Google.
+
+After deploy, ping IndexNow (Bing):
+
+```bash
+curl -X POST https://api.indexnow.org/indexnow \
+  -H 'Content-Type: application/json' \
+  -d '{"host":"chasa.io","key":"chasa-indexnow-20260727","keyLocation":"https://chasa.io/chasa-indexnow-20260727.txt","urlList":["https://chasa.io/sitemap.xml"]}'
+```
+
+### Backlinks (founder — use [/press](https://chasa.io/press))
+
+Site-side done: social links + `sameAs` schema on all pages, internal links from blog → landing pages, RSS + llms.txt.
+
+Still manual (copy from press kit):
+
+- [ ] LinkedIn company page — website field + launch post linking to `/app/` or a blog article
 - [ ] [X @chasaHQ](https://x.com/chasaHQ) — pin launch post
-- [ ] Product Hunt / Indie Hackers / BetaList when ready
-- [ ] RELACON GmbH website cross-link
-- [ ] 3–5 freelancer communities — link to blog articles, not just homepage
-- [ ] Guest comments on invoicing/freelancing articles
-- [ ] Email signature / invoice footer with `chasa.io`
-- [ ] Monitor referring domains in Search Console monthly
+- [ ] Product Hunt / Indie Hackers when ready
+- [ ] RELACON GmbH website cross-link to `chasa.io`
+- [ ] 3–5 freelancer communities — link to `/blog/` articles or `/free-templates/`, not just homepage
+- [ ] Email signature with `chasa.io`
 
 ---
 

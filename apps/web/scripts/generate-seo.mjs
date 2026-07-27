@@ -1,0 +1,206 @@
+#!/usr/bin/env node
+/**
+ * Generates sitemap.xml, robots.txt, blog RSS, IndexNow key file.
+ * Patches index.html + ai.html with verification meta when env vars are set.
+ */
+import { readFileSync, readdirSync, statSync, writeFileSync } from "node:fs";
+import { dirname, join, relative } from "node:path";
+import { fileURLToPath } from "node:url";
+import {
+  INDEXNOW_KEY,
+  SITE_URL,
+  SITEMAP_ROUTES,
+} from "./data/seo-config.mjs";
+import { renderSeoHead } from "./lib/seo-head.mjs";
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const publicDir = join(__dirname, "../public");
+const blogPostsPath = join(__dirname, "data/blog-posts.json");
+const today = new Date().toISOString().slice(0, 10);
+
+function walkHtml(dir, out = []) {
+  for (const name of readdirSync(dir)) {
+    const p = join(dir, name);
+    if (statSync(p).isDirectory()) walkHtml(p, out);
+    else if (name.endsWith(".html") && name !== "404.html") out.push(p);
+  }
+  return out;
+}
+
+function htmlPathToUrl(filePath) {
+  const rel = relative(publicDir, filePath).replace(/\\/g, "/");
+  if (rel === "index.html") return "/";
+  if (rel.endsWith("/index.html")) return `/${rel.slice(0, -"/index.html".length)}/`;
+  return `/${rel.replace(/\.html$/, "")}`;
+}
+
+function mtime(filePath) {
+  return statSync(filePath).mtime.toISOString().slice(0, 10);
+}
+
+function buildSitemapUrls() {
+  const byPath = new Map();
+
+  for (const route of SITEMAP_ROUTES) {
+    byPath.set(route.path, {
+      loc: `${SITE_URL}${route.path}`,
+      lastmod: today,
+      changefreq: route.changefreq,
+      priority: route.priority,
+    });
+  }
+
+  for (const file of walkHtml(publicDir)) {
+    const urlPath = htmlPathToUrl(file);
+    if (urlPath.startsWith("/app/") && urlPath !== "/app/" && urlPath !== "/app/login") continue;
+    if (urlPath === "/blog/post") continue;
+    if (byPath.has(urlPath)) {
+      byPath.get(urlPath).lastmod = mtime(file);
+      continue;
+    }
+    const isBlog = urlPath.startsWith("/blog/");
+    const isTemplate = urlPath.startsWith("/free-templates/");
+    byPath.set(urlPath, {
+      loc: `${SITE_URL}${urlPath}`,
+      lastmod: mtime(file),
+      changefreq: isBlog ? "yearly" : isTemplate ? "monthly" : "monthly",
+      priority: isBlog ? 0.7 : isTemplate ? 0.7 : 0.6,
+    });
+  }
+
+  return [...byPath.values()].sort((a, b) => a.loc.localeCompare(b.loc));
+}
+
+function writeSitemap(urls) {
+  const body = urls
+    .map(
+      (u) => `  <url>
+    <loc>${u.loc}</loc>
+    <lastmod>${u.lastmod}</lastmod>
+    <changefreq>${u.changefreq}</changefreq>
+    <priority>${u.priority.toFixed(2)}</priority>
+  </url>`
+    )
+    .join("\n");
+  const xml = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${body}
+</urlset>
+`;
+  writeFileSync(join(publicDir, "sitemap.xml"), xml, "utf8");
+  console.log(`Wrote sitemap.xml (${urls.length} URLs)`);
+}
+
+function writeRobots() {
+  const txt = `User-agent: *
+Allow: /$
+Allow: /app/$
+Allow: /app/login$
+Allow: /free-templates/$
+Allow: /free-templates/
+Allow: /ai$
+Allow: /about$
+Allow: /press$
+Allow: /imprint$
+Allow: /privacy$
+Allow: /terms$
+Allow: /llms.txt$
+Allow: /blog
+Allow: /blog/
+Allow: /invoice-follow-up$
+Allow: /payment-reminder$
+Allow: /overdue-invoice$
+Allow: /chase-invoices$
+Allow: /freelancer-invoice-follow-up$
+Allow: /features$
+Allow: /features/
+Allow: /docs$
+Allow: /docs/
+Disallow: /app/account
+Disallow: /app/admin
+Disallow: /app/team
+Disallow: /app/connector
+Disallow: /app/branding
+Disallow: /app/webhooks
+
+Sitemap: ${SITE_URL}/sitemap.xml
+`;
+  writeFileSync(join(publicDir, "robots.txt"), txt, "utf8");
+  console.log("Wrote robots.txt");
+}
+
+function escapeXml(s) {
+  return s
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;");
+}
+
+function writeBlogFeed() {
+  let posts = [];
+  try {
+    posts = JSON.parse(readFileSync(blogPostsPath, "utf8"));
+  } catch {
+    console.warn("No blog-posts.json — skipping RSS feed");
+    return;
+  }
+  const items = posts
+    .map(
+      (p) => `    <item>
+      <title>${escapeXml(p.title)}</title>
+      <link>${SITE_URL}/blog/${escapeXml(p.slug)}/</link>
+      <guid isPermaLink="true">${SITE_URL}/blog/${escapeXml(p.slug)}/</guid>
+      <description>${escapeXml(p.description || "")}</description>
+      ${p.publishedAt ? `<pubDate>${new Date(p.publishedAt).toUTCString()}</pubDate>` : ""}
+    </item>`
+    )
+    .join("\n");
+  const rss = `<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>Chasa Blog</title>
+    <link>${SITE_URL}/blog/</link>
+    <description>Invoice follow-up, payment reminders, and freelancer cash flow.</description>
+    <language>en</language>
+    <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>
+${items}
+  </channel>
+</rss>
+`;
+  writeFileSync(join(publicDir, "blog/feed.xml"), rss, "utf8");
+  console.log(`Wrote blog/feed.xml (${posts.length} items)`);
+}
+
+function writeIndexNowKey() {
+  writeFileSync(join(publicDir, `${INDEXNOW_KEY}.txt`), INDEXNOW_KEY, "utf8");
+  console.log(`Wrote ${INDEXNOW_KEY}.txt (IndexNow)`);
+}
+
+function patchSeoHead(fileName) {
+  const path = join(publicDir, fileName);
+  let html = readFileSync(path, "utf8");
+  const seoHead = renderSeoHead();
+  const marker = "<!-- seo-head -->";
+  if (html.includes(marker)) {
+    html = html.replace(marker, seoHead);
+  } else if (html.includes('name="viewport"')) {
+    html = html.replace(
+      /(<meta name="viewport"[^>]*>)/i,
+      `$1\n${seoHead}`
+    );
+  } else {
+    return;
+  }
+  writeFileSync(path, html, "utf8");
+  console.log(`Patched ${fileName} with SEO head`);
+}
+
+const urls = buildSitemapUrls();
+writeSitemap(urls);
+writeRobots();
+writeBlogFeed();
+writeIndexNowKey();
+for (const file of ["index.html", "ai.html"]) {
+  patchSeoHead(file);
+}

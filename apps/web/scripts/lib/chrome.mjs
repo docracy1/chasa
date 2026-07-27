@@ -1,5 +1,8 @@
 /** Shared HTML chrome for generated marketing pages. */
 
+import { ORG_JSON_LD, SOCIAL } from "../data/seo-config.mjs";
+import { renderSeoHead } from "./seo-head.mjs";
+
 export function escapeHtml(s) {
   return s
     .replaceAll("&", "&amp;")
@@ -16,6 +19,8 @@ export function chrome({ title, description, canonical, activeNav = "", mainHtml
   const pathPrefix = depth > 0 ? "../".repeat(depth) : "/";
   const link = (p) => (depth > 0 ? `${pathPrefix}${p.replace(/^\//, "")}` : p);
   const canonicalUrl = canonical.startsWith("http") ? canonical : `https://chasa.io${canonical}`;
+  const defaultJsonLd = JSON.stringify(ORG_JSON_LD, null, 2);
+  const seoHead = renderSeoHead({ link });
 
   return `<!DOCTYPE html>
 <html lang="en">
@@ -34,8 +39,9 @@ export function chrome({ title, description, canonical, activeNav = "", mainHtml
 <meta name="twitter:title" content="${escapeHtml(title)}">
 <meta name="twitter:description" content="${escapeHtml(description)}">
 <meta name="twitter:image" content="https://chasa.io/brand/og/chasa-og-1200x630.png">
+${seoHead}
 ${extraHead}
-${jsonLd ? `<script type="application/ld+json">\n${jsonLd}\n</script>` : ""}
+${jsonLd ? `<script type="application/ld+json">\n${jsonLd}\n</script>` : `<script type="application/ld+json">\n${defaultJsonLd}\n</script>`}
 <link rel="icon" href="${link("/favicon.png")}" type="image/png">
 <link rel="icon" href="${link("/favicon.svg")}" type="image/svg+xml">
 <link rel="apple-touch-icon" href="${link("/apple-touch-icon.png")}">
@@ -86,9 +92,17 @@ ${mainHtml}
     <div class="site-footer-col">
       <h4>Company</h4>
       <a href="${link("/about")}">About</a>
+      <a href="${link("/press")}">Press</a>
       <a href="${link("/privacy")}">Privacy</a>
       <a href="${link("/terms")}">Terms</a>
       <a href="${link("/imprint")}">Imprint</a>
+    </div>
+    <div class="site-footer-col">
+      <h4>Connect</h4>
+      <a href="${SOCIAL.linkedin}" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      <a href="${SOCIAL.x}" target="_blank" rel="noopener noreferrer">X</a>
+      <a href="${link("/sitemap.xml")}">Sitemap</a>
+      <a href="${link("/blog/feed.xml")}">RSS</a>
     </div>
   </div>
   <div class="wrap footer-bottom">
