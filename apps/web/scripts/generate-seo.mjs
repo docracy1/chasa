@@ -177,18 +177,23 @@ function writeIndexNowKey() {
   console.log(`Wrote ${INDEXNOW_KEY}.txt (IndexNow)`);
 }
 
+function stripInjectedSeoHead(html) {
+  return html
+    .replace(/\n?<link rel="alternate" type="application\/rss\+xml"[^>]*>/gi, "")
+    .replace(/\n?<link rel="me" href="https:\/\/(www\.linkedin\.com\/company\/chasa-io|x\.com\/chasaHQ)"[^>]*>/gi, "")
+    .replace(/\n?<meta name="google-site-verification"[^>]*>/gi, "")
+    .replace(/\n?<meta name="msvalidate\.01"[^>]*>/gi, "");
+}
+
 function patchSeoHead(fileName) {
   const path = join(publicDir, fileName);
-  let html = readFileSync(path, "utf8");
+  let html = stripInjectedSeoHead(readFileSync(path, "utf8"));
   const seoHead = renderSeoHead();
   const marker = "<!-- seo-head -->";
   if (html.includes(marker)) {
     html = html.replace(marker, seoHead);
   } else if (html.includes('name="viewport"')) {
-    html = html.replace(
-      /(<meta name="viewport"[^>]*>)/i,
-      `$1\n${seoHead}`
-    );
+    html = html.replace(/(<meta name="viewport"[^>]*>)/i, `$1\n${seoHead}`);
   } else {
     return;
   }
