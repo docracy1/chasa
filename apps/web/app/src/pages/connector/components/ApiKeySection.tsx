@@ -47,12 +47,28 @@ export function ApiKeySection({
   return (
     <section className="branding-card" style={{ marginTop: 20 }}>
       <h1 className="webhooks-title" style={{ fontSize: "1.25rem" }}>
-        Zapier / API key
+        Zapier / Make / API
       </h1>
       <p className="branding-help">
-        Create a test key, then copy the <strong>full curl command</strong> (not the key alone) to
-        call <code>POST /api/v1/chase/draft</code>. Draft only — Chasa never emails your client.
+        Use this when you invoice in FreshBooks, Wave, Zoho Books, or any tool Zapier/Make can
+        watch. When an invoice becomes overdue, Zapier calls Chasa and you get a chase{" "}
+        <strong>draft</strong> — Chasa never emails the client.
       </p>
+      <ol className="connector-how-list">
+        <li>
+          Create an API key below (or <strong>Create test key</strong>)
+        </li>
+        <li>
+          Download a Zap template (FreshBooks / Wave / Zoho) or build your own webhook
+        </li>
+        <li>
+          Point Zapier at <code>POST /api/v1/chase/draft</code> with{" "}
+          <code>Authorization: Bearer …</code>
+        </li>
+        <li>
+          Open drafted follow-ups in the <a href="/app/">Tool</a> and send from your inbox
+        </li>
+      </ol>
 
       {!isPaid && (
         <div className="upgrade-nudge">

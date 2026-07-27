@@ -7,6 +7,7 @@ import {
   type AccountingProvider,
 } from "../../../lib/api";
 import { ACCOUNTING_CONSOLE, ACCOUNTING_LABELS, ACCOUNTING_PROVIDERS } from "../constants";
+import { ACCOUNTING_DESCRIPTIONS } from "../descriptions";
 import { StatusPill } from "./StatusPill";
 
 type AccountingSectionProps = {
@@ -32,9 +33,20 @@ export function AccountingSection({
         QuickBooks Online &amp; Xero
       </h2>
       <p className="branding-help">
-        Native OAuth (Solo+). Connect, then import overdue invoices into aging / Tool. Chasa never
-        auto-sends. Set <code>QBO_*</code> / <code>XERO_*</code> secrets first.
+        Use this when you invoice in QuickBooks or Xero. Chasa imports <strong>overdue</strong>{" "}
+        invoices into your aging list so you can draft chase emails in the Tool — never auto-sent.
       </p>
+      <ol className="connector-how-list">
+        <li>
+          Click <strong>Connect</strong> and sign in to QuickBooks or Xero
+        </li>
+        <li>
+          Click <strong>Import overdue</strong> to pull open late invoices into Chasa
+        </li>
+        <li>
+          Open the <a href="/app/">Tool</a> (or Clients) and generate follow-ups
+        </li>
+      </ol>
       {!isPaid && (
         <div className="upgrade-nudge">
           Native QBO / Xero is on Solo and up. <Link to="/account">Upgrade</Link>
@@ -58,6 +70,7 @@ export function AccountingSection({
             <li key={p} className="cloud-connector-row connector-card">
               <div className="cloud-connector-meta">
                 <strong>{ACCOUNTING_LABELS[p]}</strong>
+                <p className="connector-card-desc">{ACCOUNTING_DESCRIPTIONS[p]}</p>
                 <div className="connector-checklist-marks">
                   <StatusPill kind={secretsMissing ? "warn" : "ok"}>
                     {secretsMissing ? "Secrets missing" : statusLoaded ? "Configured" : "…"}

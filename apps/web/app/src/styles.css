@@ -1611,6 +1611,26 @@ textarea {
   gap: 4px;
   min-width: 0;
 }
+.connector-card-desc {
+  margin: 4px 0 0;
+  font-size: 13px;
+  color: var(--ink-soft);
+  line-height: 1.45;
+  max-width: 42rem;
+}
+.connector-how-list {
+  margin: 12px 0 0;
+  padding-left: 1.25rem;
+  font-size: 14px;
+  color: var(--ink-soft);
+  line-height: 1.5;
+}
+.connector-how-list li {
+  margin-bottom: 6px;
+}
+.connector-how-list strong {
+  color: var(--ink);
+}
 .cloud-connector-actions {
   display: flex;
   flex-wrap: wrap;

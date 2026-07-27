@@ -41,12 +41,26 @@ export function CloudStorageSection({
   return (
     <section className="branding-card" style={{ marginTop: 20 }}>
       <h2 className="webhooks-title" style={{ fontSize: "1.25rem" }}>
-        Cloud storage
+        Cloud storage (PDF import)
       </h2>
       <p className="branding-help">
-        Connect Dropbox, OneDrive, or Box, run Test, then import an invoice PDF into the Tool.
-        Chasa never emails your client.
+        Use this when invoice PDFs live in Dropbox, OneDrive, or Box. Chasa reads the PDF, extracts
+        client / amount / due date hints, and adds a row in the Tool so you can draft a chase email.
       </p>
+      <ol className="connector-how-list">
+        <li>
+          Click <strong>Connect</strong> and approve access in the provider
+        </li>
+        <li>
+          Click <strong>Test</strong> once (optional) to confirm the link works
+        </li>
+        <li>
+          Click <strong>Recent PDFs</strong> → <strong>Import</strong> on the file you want
+        </li>
+        <li>
+          Finish the import in the <a href="/app/">Tool</a>, then generate the follow-up
+        </li>
+      </ol>
 
       {loading && isPaid ? (
         <p className="page-sub">Loading…</p>

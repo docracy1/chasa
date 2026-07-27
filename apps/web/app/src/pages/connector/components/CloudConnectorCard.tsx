@@ -6,6 +6,7 @@ import {
   type CloudProvider,
 } from "../../../lib/api";
 import { CLOUD_LABELS } from "../../../lib/cloudImport";
+import { CLOUD_DESCRIPTIONS } from "../descriptions";
 import { ONEDRIVE_REDIRECT } from "../constants";
 import type { ProviderTests } from "../types";
 import { StatusPill } from "./StatusPill";
@@ -49,6 +50,7 @@ export function CloudConnectorCard({
     <li className="cloud-connector-row connector-card">
       <div className="cloud-connector-meta">
         <strong>{CLOUD_LABELS[c.provider]}</strong>
+        <p className="connector-card-desc">{CLOUD_DESCRIPTIONS[c.provider]}</p>
         <div className="connector-checklist-marks">
           <StatusPill kind={configured ? "ok" : "warn"}>
             {configured ? "Configured" : "Secrets missing"}
@@ -124,86 +126,39 @@ export function CloudConnectorCard({
         )}
       </div>
 
-      {isPaid &&
-        statusLoaded &&
-        ((c.provider === "onedrive" && t.status !== "ok") ||
-          (c.provider !== "onedrive" && !configured && t.status !== "ok")) && (
+      {isPaid && statusLoaded && !configured && (
           <div className="connector-secret-help">
             {c.provider === "onedrive" ? (
               <>
                 <p>
-                  <strong>OneDrive / Microsoft Entra setup</strong> — stays open until Test OK. You
-                  create the Entra app (we cannot do this for you), then put the client id/secret on
-                  the worker.
+                  <strong>OneDrive / Microsoft Entra</strong> — create the Entra app, then put the
+                  client id/secret on the worker.
                 </p>
-                {!configured ? (
-                  <ol className="connector-setup-steps">
-                    <li>
-                      Open{" "}
-                      <a href="https://entra.microsoft.com/" target="_blank" rel="noopener noreferrer">
-                        entra.microsoft.com
-                      </a>{" "}
-                      → <strong>Identity</strong> → <strong>Applications</strong> →{" "}
-                      <strong>App registrations</strong> → <strong>New registration</strong>.
-                    </li>
-                    <li>
-                      Name: <code>Chasa OneDrive</code> (any name is fine). Supported account types:{" "}
-                      <em>
-                        Accounts in any organizational directory and personal Microsoft accounts
-                      </em>
-                      .
-                    </li>
-                    <li>
-                      Redirect URI — platform <strong>Web</strong>, exact value:
-                      <pre className="connector-pre">{ONEDRIVE_REDIRECT}</pre>
-                    </li>
-                    <li>
-                      Click <strong>Register</strong>. On Overview, copy{" "}
-                      <strong>Application (client) ID</strong>.
-                    </li>
-                    <li>
-                      <strong>Certificates &amp; secrets</strong> → <strong>New client secret</strong>{" "}
-                      → copy the <strong>Value</strong> immediately (shown once).
-                    </li>
-                    <li>
-                      <strong>API permissions</strong> → <strong>Add a permission</strong> →{" "}
-                      <strong>Microsoft Graph</strong> → <strong>Delegated</strong> → add{" "}
-                      <code>User.Read</code> and <code>Files.Read</code>. <code>offline_access</code>{" "}
-                      is requested at connect time (no admin consent needed for personal/delegated).
-                    </li>
-                    <li>
-                      From <code>apps/worker</code>, set secrets (paste when prompted — do not invent
-                      values):
-                      <pre className="connector-pre">{`wrangler secret put ONEDRIVE_CLIENT_ID
+                <ol className="connector-setup-steps">
+                  <li>
+                    Open{" "}
+                    <a href="https://entra.microsoft.com/" target="_blank" rel="noopener noreferrer">
+                      entra.microsoft.com
+                    </a>{" "}
+                    → <strong>App registrations</strong> → <strong>New registration</strong> (any org
+                    + personal Microsoft accounts).
+                  </li>
+                  <li>
+                    Redirect URI — platform <strong>Web</strong>:
+                    <pre className="connector-pre">{ONEDRIVE_REDIRECT}</pre>
+                  </li>
+                  <li>
+                    Graph delegated permissions: <code>User.Read</code>, <code>Files.Read</code>.
+                  </li>
+                  <li>
+                    From <code>apps/worker</code>:
+                    <pre className="connector-pre">{`wrangler secret put ONEDRIVE_CLIENT_ID
 wrangler secret put ONEDRIVE_CLIENT_SECRET`}</pre>
-                    </li>
-                    <li>
-                      Redeploy the worker, refresh this page, then <strong>Connect</strong> → approve
-                      → <strong>Test</strong>.
-                    </li>
-                  </ol>
-                ) : !c.connected ? (
-                  <ol className="connector-setup-steps">
-                    <li>
-                      Secrets are set. Redirect URI must still be exactly:
-                      <pre className="connector-pre">{ONEDRIVE_REDIRECT}</pre>
-                    </li>
-                    <li>
-                      Click <strong>Connect</strong>, sign in with Microsoft, and approve{" "}
-                      <code>User.Read</code>, <code>Files.Read</code>, and <code>offline_access</code>
-                      .
-                    </li>
-                    <li>
-                      Back here, click <strong>Test</strong> — this panel collapses only after Test
-                      OK.
-                    </li>
-                  </ol>
-                ) : (
-                  <p>
-                    Connected — click <strong>Test</strong> to verify OneDrive file access. This panel
-                    stays open until Test OK.
-                  </p>
-                )}
+                  </li>
+                  <li>
+                    Refresh this page, then <strong>Connect</strong>.
+                  </li>
+                </ol>
               </>
             ) : (
               <>

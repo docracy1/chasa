@@ -40,10 +40,26 @@ export function ConnectorHero({
 }: ConnectorHeroProps) {
   return (
     <section className="branding-card connector-test-hero">
-      <h1 className="webhooks-title">Connector test dashboard</h1>
+      <h1 className="webhooks-title">Connectors</h1>
       <p className="branding-help">
-        Verify Dropbox, OneDrive, Box, and a Zapier API key here — Connect, Test, then import a
-        PDF when green. Done when all three cloud providers show Connected + Test OK.
+        Bring unpaid invoices into Chasa from cloud storage, QuickBooks/Xero, or Zapier — then draft
+        follow-ups in the Tool. <strong>Chasa never emails your clients</strong>; you always send
+        from your own inbox.
+      </p>
+      <ol className="connector-how-list">
+        <li>
+          <strong>Cloud storage</strong> — connect Dropbox, OneDrive, or Box → import invoice PDFs
+        </li>
+        <li>
+          <strong>Accounting</strong> — connect QuickBooks Online or Xero → import overdue invoices
+        </li>
+        <li>
+          <strong>Zapier / API</strong> — push overdue invoices from FreshBooks, Wave, Zoho, and
+          more into a chase draft
+        </li>
+      </ol>
+      <p className="branding-help">
+        After import, open the <a href="/app/">Tool</a> to generate AI follow-ups.
       </p>
 
       {!isPaid && (
