@@ -39,13 +39,21 @@ function extractJsonLd(html) {
   return match ? match[1].trim() : null;
 }
 
+function decodeHtmlEntities(s) {
+  return s
+    .replace(/&amp;/g, "&")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&quot;/g, '"');
+}
+
 for (const page of MARKETING_PAGES) {
   const filePath = join(publicDir, page.file);
   const html = readFileSync(filePath, "utf8");
   const mainHtml = extractMain(html);
   const out = chrome({
-    title: extractTitle(html),
-    description: extractDescription(html),
+    title: decodeHtmlEntities(extractTitle(html)),
+    description: decodeHtmlEntities(extractDescription(html)),
     canonical: extractCanonical(html),
     activeNav: page.activeNav ?? "",
     mainHtml,

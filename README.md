@@ -16,7 +16,7 @@ Paste your unpaid invoices. Get the follow-up email already written, in the righ
 | **Connector** | https://chasa-71s.pages.dev/app/connector |
 | **Admin** | https://chasa-71s.pages.dev/app/admin |
 | **API** | https://api.chasa.io (also `https://chasa-worker.rl-d77.workers.dev`) |
-| **MCP** | https://api.chasa.io/mcp (JSON-RPC — Claude / ChatGPT / etc.) |
+| **MCP** | https://api.chasa.io/mcp — read-only tools public; `draft_chase_email` requires session or API key |
 
 Worker `PUBLIC_APP_URL` is set to `https://chasa-71s.pages.dev` so magic links, OAuth callbacks, Stripe return URLs, and session cookies stay on pages.dev.
 
@@ -154,7 +154,9 @@ apps/worker/
 - **Free-tier quota:** 5 AI drafts/month enforced in D1 (`ai_usage`), not client-side
 - **Rate limits:** AI drafts, MCP, analytics, admin login (D1 buckets)
 - **Turnstile:** fail-closed in production HTTPS when secret is set; 60s magic-link cooldown per email
+- **HKDF token purposes:** separate keys for session, magic-link, API key, admin, invite, OAuth state, webhook signing (legacy hash fallback on lookup)
 - **Session rotation:** prior sessions invalidated on magic-link login; admin sessions cleared on admin login
+- **Session cleanup:** daily cron purges expired sessions, magic links, rate-limit buckets
 - **RBAC:** workspace admin for branding, webhooks, connector OAuth, API keys, team invites
 - **Input validation:** Zod schemas on auth, emails, aging sync, analytics, v1 API
 - **Stripe webhooks:** event-id deduplication (`stripe_events`)
