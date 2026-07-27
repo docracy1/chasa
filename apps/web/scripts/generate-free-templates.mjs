@@ -6,7 +6,6 @@
 import { mkdirSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { trustStripHtml } from "./lib/chrome.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const outDir = join(__dirname, "../public/free-templates");
@@ -373,7 +372,6 @@ ${jsonLd ? `<script type="application/ld+json">\n${jsonLd}\n</script>` : ""}
   </div>
 </header>
 ${mainHtml}
-${trustStripHtml()}
 <footer class="site-footer">
   <div class="wrap site-footer-inner">
     <div class="site-footer-brand">
