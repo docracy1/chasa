@@ -234,7 +234,7 @@ Protects `/api/auth/request` and admin login.
    - `STRIPE_PRICE_SOLO`, `STRIPE_PRICE_PRO`, `STRIPE_PRICE_ENTERPRISE`
 4. `wrangler secret put TOKEN_SECRET` — `openssl rand -hex 32`
 5. `wrangler secret put STRIPE_SECRET_KEY` (test key first)
-6. Stripe webhook → `https://api.chasa.io/api/billing/webhook` — events: `checkout.session.completed`, `customer.subscription.deleted`, `customer.subscription.updated` → `wrangler secret put STRIPE_WEBHOOK_SECRET`
+6. Stripe webhook → `https://api.chasa.io/api/billing/webhook` — events: `checkout.session.completed`, `customer.subscription.deleted` → `wrangler secret put STRIPE_WEBHOOK_SECRET`
 7. `wrangler secret put RESEND_API_KEY` — verify sending domain in Resend
 8. Turnstile — see above
 9. `wrangler secret put ADMIN_PASSWORD` — for `/app/admin`
