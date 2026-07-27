@@ -30,8 +30,9 @@ binding = "AI"
 # This is the deployed (production) value. Local `wrangler dev` overrides it via
 # apps/worker/.dev.vars, which takes precedence over [vars] when running locally.
 [vars]
-# Temporary until chasa.io DNS is live — flip back to https://chasa.io when the custom domain works.
-PUBLIC_APP_URL = "https://chasa-71s.pages.dev"
+# Must match the Pages custom domain: magic links, OAuth callbacks, Stripe return URLs and
+# digest links are all built from this, and it is the primary CORS origin.
+PUBLIC_APP_URL = "https://chasa.io"
 PUBLIC_WORKER_URL = "https://api.chasa.io"
 WORKERS_AI_MODEL = "@cf/meta/llama-3.1-8b-instruct-fp8"
 FEEDBACK_EMAIL = "founder@chasa.io"

@@ -6,21 +6,24 @@ Paste your unpaid invoices. Get the follow-up email already written, in the righ
 
 ## Live URLs
 
-`chasa.io` DNS is not live yet. Until it is, use the Cloudflare Pages preview as the app origin:
-
 | | URL |
 |---|---|
-| **Marketing** | https://chasa-71s.pages.dev/ |
-| **App (Tool)** | https://chasa-71s.pages.dev/app/ |
-| **Login** | https://chasa-71s.pages.dev/app/login |
-| **Connector** | https://chasa-71s.pages.dev/app/connector |
-| **Admin** | https://chasa-71s.pages.dev/app/admin |
-| **API** | https://api.chasa.io (also `https://chasa-worker.rl-d77.workers.dev`) |
+| **Marketing** | https://chasa.io/ |
+| **App (Tool)** | https://chasa.io/app/ |
+| **Login** | https://chasa.io/app/login |
+| **Connector** | https://chasa.io/app/connector |
+| **Admin** | https://chasa.io/app/admin |
+| **API** | https://api.chasa.io |
 | **MCP** | https://api.chasa.io/mcp — read-only tools public; `draft_chase_email` requires session or API key |
 
-Worker `PUBLIC_APP_URL` is set to `https://chasa-71s.pages.dev` so magic links, OAuth callbacks, Stripe return URLs, and session cookies stay on pages.dev.
+Worker `PUBLIC_APP_URL` is `https://chasa.io` (magic links, OAuth callbacks, Stripe return URLs, digest links).
 
-**When `chasa.io` DNS is ready:** set `PUBLIC_APP_URL` to `https://chasa.io` in `apps/worker/wrangler.toml` `[vars]`, redeploy the worker, attach the custom domain on Cloudflare Pages, and update sitemap/canonical URLs if needed.
+**Go-live checklist**
+
+1. Attach `chasa.io` on Cloudflare Pages project `chasa` and wait for **Active**.
+2. Push to `main` — CI deploys the worker (`PUBLIC_APP_URL=https://chasa.io`) and Pages. Do this only after step 1, or magic links and OAuth callbacks will point at a domain that does not resolve.
+3. Redirect `www` → apex. Pages `_redirects` cannot match hostnames, so use **Bulk Redirects**: source `www.chasa.io` → target `https://chasa.io`, `301`, with *preserve query string*, *subpath matching* and *preserve path suffix*. Needs a proxied `www` DNS record (`A` → `192.0.2.1`).
+4. Run `./scripts/go-live-verify.sh`.
 
 ---
 
