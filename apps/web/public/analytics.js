@@ -14,6 +14,17 @@
 
   if (!hasConsent()) return;
 
+  // Microsoft Clarity (session heatmaps) — same consent gate as first-party analytics.
+  if (!document.querySelector('script[data-chasa-clarity-loader],script[data-chasa-clarity]')) {
+    var clarityLoader = document.createElement("script");
+    clarityLoader.src = "/clarity.js";
+    clarityLoader.async = true;
+    clarityLoader.setAttribute("data-chasa-clarity-loader", "1");
+    document.body.appendChild(clarityLoader);
+  } else if (typeof window.chasaLoadClarity === "function") {
+    window.chasaLoadClarity();
+  }
+
   function excludeSelf() {
     try {
       return localStorage.getItem(EXCLUDE_KEY) === "1";

@@ -1,8 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { consentPending, hasAnalyticsConsent, setAnalyticsConsent } from "../lib/consent";
+import { loadClarity } from "../lib/clarity";
 
 export default function AppConsentBanner() {
   const [hidden, setHidden] = useState(() => !consentPending() || hasAnalyticsConsent());
+
+  useEffect(() => {
+    if (hasAnalyticsConsent()) loadClarity();
+  }, []);
 
   if (hidden) return null;
 
@@ -48,6 +53,7 @@ export default function AppConsentBanner() {
             className="btn-primary"
             onClick={() => {
               setAnalyticsConsent("accepted");
+              loadClarity();
               setHidden(true);
             }}
           >

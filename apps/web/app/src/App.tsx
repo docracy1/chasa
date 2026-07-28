@@ -123,7 +123,6 @@ function AppRoutes() {
           </Routes>
         </Suspense>
       </AppShell>
-      <AppConsentBanner />
     </>
   );
 }
@@ -132,6 +131,7 @@ export default function App() {
   return (
     <AccountProvider>
       <AppRoutes />
+      <AppConsentBanner />
     </AccountProvider>
   );
 }
