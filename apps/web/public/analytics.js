@@ -164,7 +164,12 @@
     if (!el) return;
     var href = (el.getAttribute("href") || "").toLowerCase();
     var text = (el.textContent || "").trim().toLowerCase();
+    // data-cta / data-cta-source is an explicit opt-in, checked first: the keyword matching
+    // below silently misses any CTA that isn't worded like the ones that existed when it was
+    // written (the hero's templates link went untracked for exactly that reason), and renaming
+    // a button should never quietly delete a metric.
     var isCta =
+      (el.closest && el.closest("[data-cta], [data-cta-source]") !== null) ||
       el.classList.contains("nav-cta") ||
       href.indexOf("/app") === 0 ||
       text.indexOf("try free") !== -1 ||

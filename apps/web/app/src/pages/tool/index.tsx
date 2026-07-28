@@ -1127,7 +1127,7 @@ export default function Tool({ account }: { account: Account | null }) {
         </p>
       </div>
 
-      <UsageBar usedCount={usedCount} atLimit={atLimit} isPaid={isPaid} />
+      <UsageBar usedCount={usedCount} atLimit={atLimit} isPaid={isPaid} isSignedIn={!!account} />
 
       {invoices.length > 0 && (
         <AgingOverviewPanel

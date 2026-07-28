@@ -872,6 +872,8 @@ textarea {
   margin-bottom: 20px;
 }
 
+.usage-bar-last { color: var(--accent); }
+
 .upgrade-nudge {
   background: var(--accent-soft);
   border: 1px solid var(--accent);
@@ -881,6 +883,71 @@ textarea {
   font-size: 14.5px;
 }
 .upgrade-nudge a { font-weight: 700; color: var(--accent); }
+
+/* Hitting the free cap is the strongest buying signal the product ever gets, so it is given a
+   real panel rather than the one-line nudge it used to share with lesser prompts. */
+.quota-wall {
+  background: var(--accent-soft);
+  border: 1px solid var(--accent);
+  border-radius: 8px;
+  padding: 22px 24px;
+  margin-bottom: 20px;
+}
+.quota-wall-title {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0 0 8px;
+}
+.quota-wall-body {
+  font-size: 14.5px;
+  line-height: 1.6;
+  color: var(--ink-soft);
+  margin: 0 0 18px;
+  max-width: 60ch;
+}
+.quota-wall-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 18px;
+}
+.quota-wall-primary {
+  font-weight: 700;
+  font-size: 15px;
+  background: var(--accent);
+  color: var(--white);
+  padding: 12px 22px;
+  border-radius: 6px;
+  text-decoration: none;
+  display: inline-block;
+}
+.quota-wall-primary:hover { filter: brightness(0.95); }
+.quota-wall-secondary {
+  font-size: 14px;
+  color: var(--ink-soft);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.quota-wall-secondary:hover { color: var(--ink); }
+.quota-wall-note {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  color: var(--ink-soft);
+  margin: 16px 0 0;
+}
+
+@media (max-width: 560px) {
+  .quota-wall-actions {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 14px;
+  }
+  .quota-wall-primary,
+  .quota-wall-secondary {
+    text-align: center;
+  }
+}
 
 .error-msg {
   color: var(--accent);

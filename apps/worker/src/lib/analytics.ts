@@ -28,6 +28,12 @@ export const ACTIVATION_FUNNEL = [
   "client_deleted",
   "client_contact_note",
   "client_chase_drafted",
+  // The free-draft cap is the highest-intent moment in the product — someone has used the thing
+  // five times and wants a sixth. Measured separately from the generic CTA events so the wall's
+  // pull can be read on its own.
+  "quota_wall_shown",
+  "quota_wall_upgrade_clicked",
+  "quota_wall_signin_clicked",
 ] as const;
 
 /** 2. Completion — KPI: chase_completed (stub until paid/open tracking) */

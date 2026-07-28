@@ -175,9 +175,12 @@
     margin: 0 auto 28px;
     line-height: 1.6;
   }
+  /* One dominant primary; secondary demoted to a text link — same conversion pattern as
+     Docracy's in-hero CTA. Two equal-weight buttons split attention. */
   .hero-ctas {
     display: flex;
-    gap: 12px;
+    align-items: center;
+    gap: 18px;
     justify-content: center;
     flex-wrap: wrap;
     margin-bottom: 14px;
@@ -209,10 +212,34 @@
     display: inline-block;
   }
   .btn-secondary:hover { border-color: var(--ink-soft); }
+  .hero-ctas-secondary {
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--ink-soft);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .hero-ctas-secondary:hover { color: var(--ink); }
   .hero-note {
     font-family: 'IBM Plex Mono', monospace;
     font-size: 13px;
     color: var(--ink-soft);
+  }
+  @media (max-width: 700px) {
+    .hero-ctas {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 14px;
+    }
+    .hero-ctas .btn-primary {
+      width: 100%;
+      text-align: center;
+    }
+    .hero-ctas-secondary,
+    .hero-note {
+      text-align: center;
+    }
   }
 
   /* ---------- SHARED SECTION ---------- */
@@ -560,10 +587,10 @@
     <h1>Get unpaid invoices paid — without the awkward chase</h1>
     <p class="sub">Paste overdue invoices. Chasa writes the follow-up in the right tone for how late each one is. You copy, edit, and send from your inbox.</p>
     <div class="hero-ctas" data-cta-source="home_hero">
-      <a href="/app/" class="btn-primary">Try free</a>
-      <a href="/free-templates/" class="btn-secondary">Browse templates</a>
+      <a href="/app/" class="btn-primary" data-cta>Try free</a>
+      <a href="/free-templates/" class="hero-ctas-secondary" data-cta>or browse free templates</a>
     </div>
-    <div class="hero-note">5 free AI drafts · no signup required</div>
+    <div class="hero-note">No signup needed — 5 free AI drafts to start</div>
   </section>
 
   <!-- [How it works] -->
