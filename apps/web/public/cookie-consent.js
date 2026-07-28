@@ -16,7 +16,17 @@
     } catch (e) {}
   }
 
+  function loadClarity() {
+    if (document.querySelector("script[data-chasa-clarity],script[data-chasa-clarity-loader]")) return;
+    var s = document.createElement("script");
+    s.src = "/clarity.js";
+    s.async = true;
+    s.setAttribute("data-chasa-clarity-loader", "1");
+    document.body.appendChild(s);
+  }
+
   function loadAnalytics() {
+    loadClarity();
     if (document.querySelector('script[data-chasa-analytics]')) return;
     var s = document.createElement("script");
     s.src = "/analytics.js";
