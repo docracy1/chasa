@@ -1,0 +1,44 @@
+{
+  "serverInfo": {
+    "name": "chasa",
+    "version": "1.0.0",
+    "websiteUrl": "https://chasa.io"
+  },
+  "transport": {
+    "type": "streamable-http",
+    "url": "https://api.chasa.io/mcp"
+  },
+  "capabilities": {
+    "tools": true,
+    "resources": false,
+    "prompts": false
+  },
+  "authentication": {
+    "required": false,
+    "note": "Public tools do not require authentication. draft_chase_email requires either a signed-in session or a Bearer API key created from the Chasa Connector page.",
+    "schemes": ["none", "bearer"]
+  },
+  "tools": [
+    {
+      "name": "get_chase_tip",
+      "tier": "free",
+      "description": "Get a short chase-tone tip for how late an invoice is."
+    },
+    {
+      "name": "recommend_template",
+      "tier": "free",
+      "description": "Recommend a Chasa payment reminder template for the given days-overdue stage."
+    },
+    {
+      "name": "list_templates",
+      "tier": "free",
+      "description": "List Chasa free invoice follow-up templates with URLs."
+    },
+    {
+      "name": "draft_chase_email",
+      "tier": "paid",
+      "description": "Draft a payment follow-up email for an overdue invoice. Returns subject and body only."
+    }
+  ],
+  "documentationUrl": "https://chasa.io/ai"
+}
