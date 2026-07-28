@@ -148,6 +148,17 @@
   window.addEventListener("scroll", scrollDepth, { passive: true });
   scrollDepth();
 
+  /** Which placement a CTA click came from, so one spot's pull can be compared against another's
+   *  — the click events on their own only say that *something* on the page was clicked. Marketing
+   *  pages opt in with data-cta-source; the header and footer are shared chrome on every page. */
+  function ctaSource(el) {
+    var tagged = el.closest ? el.closest("[data-cta-source]") : null;
+    if (tagged) return tagged.getAttribute("data-cta-source") || "body";
+    if (el.closest && el.closest("header")) return "nav";
+    if (el.closest && el.closest("footer")) return "footer";
+    return "body";
+  }
+
   document.addEventListener("click", function (e) {
     var el = e.target && e.target.closest ? e.target.closest("a, button") : null;
     if (!el) return;
@@ -163,11 +174,11 @@
       text.indexOf("get enterprise") !== -1;
 
     if (path.indexOf("/blog") === 0 && isCta) {
-      track("blog_cta_clicked", { href: href || undefined, text: text.slice(0, 80) });
+      track("blog_cta_clicked", { href: href || undefined, text: text.slice(0, 80), source: ctaSource(el) });
       return;
     }
     if (isCta) {
-      track("landingpage_cta_clicked", { href: href || undefined, text: text.slice(0, 80) });
+      track("landingpage_cta_clicked", { href: href || undefined, text: text.slice(0, 80), source: ctaSource(el) });
     }
   });
 
