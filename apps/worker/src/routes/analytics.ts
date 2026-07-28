@@ -39,6 +39,7 @@ analytics.post("/track", async (c) => {
     visitorId: visitorId ?? null,
     accountId,
     path: path ?? null,
+    userAgent: c.req.header("User-Agent")?.slice(0, 300) || null,
   });
 
   return c.json({ ok: true });

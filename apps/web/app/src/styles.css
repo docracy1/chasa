@@ -1341,6 +1341,13 @@ textarea {
   font-size: 13.5px;
   margin: 8px 0 14px;
 }
+/* The humans-only filter carries its own explanation, so that checkbox and its note sit tighter
+   together than the standalone exclude-my-visits row underneath them. */
+.dash-exclude-tight { margin-bottom: 4px; }
+.dash-note-filter {
+  margin-top: 0;
+  max-width: 640px;
+}
 .dash-post-list {
   list-style: none;
   padding: 0;

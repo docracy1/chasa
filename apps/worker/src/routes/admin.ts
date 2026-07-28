@@ -52,7 +52,10 @@ admin.get("/me", async (c) => {
 admin.get("/funnels", requireAdmin, async (c) => {
   const daysRaw = Number(c.req.query("days") || "30");
   const days = Number.isFinite(daysRaw) ? Math.min(Math.max(daysRaw, 1), 90) : 30;
-  const stats = await getFunnelStats(c.env, days);
+  // Only the event funnels take this filter — /traffic reads page_views, which is where the
+  // dashboard gets its human-vs-bot breakdown from and so has to stay unfiltered.
+  const humansOnly = c.req.query("humansOnly") === "1";
+  const stats = await getFunnelStats(c.env, days, humansOnly);
   return c.json(stats);
 });
 

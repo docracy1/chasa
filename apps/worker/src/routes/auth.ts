@@ -58,6 +58,8 @@ auth.get("/verify", async (c) => {
         name: "signup_completed",
         accountId: result.accountId,
         path: "/api/auth/verify",
+        // Mail-scanning bots prefetch magic links, so this signup is not automatically a human one.
+        userAgent: c.req.header("User-Agent")?.slice(0, 300) || null,
       }).catch(() => {})
     );
   }

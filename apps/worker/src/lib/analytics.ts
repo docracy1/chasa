@@ -87,6 +87,9 @@ export function isAllowedEvent(name: string): boolean {
   return ALLOWED.has(name);
 }
 
+/** `userAgent` is classified on write (same detectBot patterns as page_views) so the admin funnels
+ *  can measure both halves of a load → click ratio against the same audience. Callers with no
+ *  request behind them (Resend sends, cron) pass nothing and are recorded as human. */
 export async function trackEvent(
   env: Env,
   input: {
@@ -95,13 +98,16 @@ export async function trackEvent(
     visitorId?: string | null;
     accountId?: string | null;
     path?: string | null;
+    userAgent?: string | null;
   }
 ): Promise<void> {
   if (!isAllowedEvent(input.name)) return;
 
+  const { isBot } = detectBot(input.userAgent ?? null);
+
   await env.CHASA_DB.prepare(
-    `INSERT INTO analytics_events (id, name, properties, visitor_id, account_id, path, created_at)
-     VALUES (?, ?, ?, ?, ?, ?, ?)`
+    `INSERT INTO analytics_events (id, name, properties, visitor_id, account_id, path, is_bot, created_at)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?)`
   )
     .bind(
       crypto.randomUUID(),
@@ -110,6 +116,7 @@ export async function trackEvent(
       input.visitorId ?? null,
       input.accountId ?? null,
       input.path ?? null,
+      isBot ? 1 : 0,
       new Date().toISOString()
     )
     .run();
@@ -117,12 +124,22 @@ export async function trackEvent(
 
 export type FunnelStep = { name: string; count: number };
 
-async function countsFor(env: Env, names: readonly string[], sinceIso: string): Promise<FunnelStep[]> {
+/** Rows predating migration 0013 have is_bot NULL, so COALESCE keeps them in the human count
+ *  rather than making every historical event disappear the moment the filter is switched on. */
+const HUMANS_ONLY_SQL = `AND COALESCE(is_bot, 0) = 0`;
+
+async function countsFor(
+  env: Env,
+  names: readonly string[],
+  sinceIso: string,
+  humansOnly = false
+): Promise<FunnelStep[]> {
   if (names.length === 0) return [];
   const placeholders = names.map(() => "?").join(", ");
+  const humanFilter = humansOnly ? ` ${HUMANS_ONLY_SQL}` : "";
   const { results } = await env.CHASA_DB.prepare(
     `SELECT name, COUNT(*) as c FROM analytics_events
-     WHERE created_at >= ? AND name IN (${placeholders})
+     WHERE created_at >= ? AND name IN (${placeholders})${humanFilter}
      GROUP BY name`
   )
     .bind(sinceIso, ...names)
@@ -132,22 +149,29 @@ async function countsFor(env: Env, names: readonly string[], sinceIso: string): 
   return names.map((name) => ({ name, count: byName.get(name) ?? 0 }));
 }
 
-export async function getFunnelStats(env: Env, days = 30) {
+/** `humansOnly` drops classified crawlers from every event count in one go. It applies to the KPI
+ *  totals as well as the step rows on purpose — a funnel whose steps and headline KPI came from
+ *  different audiences is worse than either reading alone.
+ *
+ *  getTrafficStats deliberately keeps its own unfiltered view: it reads page_views, whose whole
+ *  job on the dashboard is to show the human/bot split. */
+export async function getFunnelStats(env: Env, days = 30, humansOnly = false) {
   const since = new Date(Date.now() - days * 24 * 60 * 60 * 1000).toISOString();
+  const humanFilter = humansOnly ? ` ${HUMANS_ONLY_SQL}` : "";
   const [activation, completion, template, traffic, email, errors, totals] = await Promise.all([
-    countsFor(env, ACTIVATION_FUNNEL, since),
-    countsFor(env, COMPLETION_FUNNEL, since),
-    countsFor(env, TEMPLATE_FUNNEL, since),
-    countsFor(env, TRAFFIC_FUNNEL, since),
-    countsFor(env, EMAIL_FUNNEL, since),
-    countsFor(env, ERROR_EVENTS, since),
+    countsFor(env, ACTIVATION_FUNNEL, since, humansOnly),
+    countsFor(env, COMPLETION_FUNNEL, since, humansOnly),
+    countsFor(env, TEMPLATE_FUNNEL, since, humansOnly),
+    countsFor(env, TRAFFIC_FUNNEL, since, humansOnly),
+    countsFor(env, EMAIL_FUNNEL, since, humansOnly),
+    countsFor(env, ERROR_EVENTS, since, humansOnly),
     env.CHASA_DB.prepare(
       `SELECT
          (SELECT COUNT(*) FROM accounts) as accounts,
          (SELECT COUNT(*) FROM accounts WHERE plan != 'free') as paid_accounts,
-         (SELECT COUNT(*) FROM analytics_events WHERE created_at >= ?) as events,
-         (SELECT COUNT(*) FROM analytics_events WHERE name = 'chase_sent' AND created_at >= ?) as activation_kpi,
-         (SELECT COUNT(*) FROM analytics_events WHERE name = 'chase_completed' AND created_at >= ?) as completion_kpi
+         (SELECT COUNT(*) FROM analytics_events WHERE created_at >= ?${humanFilter}) as events,
+         (SELECT COUNT(*) FROM analytics_events WHERE name = 'chase_sent' AND created_at >= ?${humanFilter}) as activation_kpi,
+         (SELECT COUNT(*) FROM analytics_events WHERE name = 'chase_completed' AND created_at >= ?${humanFilter}) as completion_kpi
        `
     )
       .bind(since, since, since)
@@ -163,6 +187,7 @@ export async function getFunnelStats(env: Env, days = 30) {
   return {
     days,
     since,
+    humansOnly,
     totals: {
       accounts: Number(totals?.accounts ?? 0),
       paidAccounts: Number(totals?.paid_accounts ?? 0),

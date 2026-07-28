@@ -226,6 +226,9 @@ export default function Admin() {
   const [loading, setLoading] = useState(true);
   const [nav, setNav] = useState<NavId>("analytics");
   const [days, setDays] = useState(30);
+  // On by default: crawler hits belong in the page_views bot tiles, not in a funnel where the
+  // click half can only ever come from a real browser.
+  const [humansOnly, setHumansOnly] = useState(true);
   const [excludeSelf, setExcludeSelfState] = useState(isExcludeSelf());
   const [showAllFree, setShowAllFree] = useState(false);
   const [entEmail, setEntEmail] = useState("");
@@ -237,9 +240,9 @@ export default function Admin() {
     published: false,
   });
 
-  async function loadAll(d = days) {
+  async function loadAll(d = days, h = humansOnly) {
     const [f, t, s, b] = await Promise.all([
-      adminFunnels(d),
+      adminFunnels(d, h),
       adminTraffic(d),
       adminSignups(),
       adminBlogList(),
@@ -287,9 +290,20 @@ export default function Admin() {
     setDays(d);
     setBusy(true);
     try {
-      const [f, t] = await Promise.all([adminFunnels(d), adminTraffic(d)]);
+      const [f, t] = await Promise.all([adminFunnels(d, humansOnly), adminTraffic(d)]);
       setStats(f);
       setTraffic(t);
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  // Only the funnels refetch — /traffic ignores the flag, since its human/bot split is the point.
+  async function changeHumansOnly(on: boolean) {
+    setHumansOnly(on);
+    setBusy(true);
+    try {
+      setStats(await adminFunnels(days, on));
     } finally {
       setBusy(false);
     }
@@ -494,6 +508,19 @@ export default function Admin() {
                   </button>
                 ))}
               </div>
+              <label className="dash-exclude dash-exclude-tight">
+                <input
+                  type="checkbox"
+                  checked={humansOnly}
+                  onChange={(e) => changeHumansOnly(e.target.checked)}
+                />
+                Humans only (exclude classified crawlers from event counts)
+              </label>
+              <p className="dash-note dash-note-filter">
+                {humansOnly
+                  ? "Googlebot, GPTBot, ClaudeBot and friends are left out of every count below, so page loads and CTA clicks are measured against the same audience. Events recorded before this filter existed, and events with no user agent (emails, cron), count as human."
+                  : "Counts include crawler traffic. Anything written without a browser inflates load-style events relative to clicks, which need a real visitor."}
+              </p>
               <label className="dash-exclude">
                 <input
                   type="checkbox"

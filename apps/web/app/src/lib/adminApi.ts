@@ -3,6 +3,7 @@ import { isExcludeSelf, setExcludeSelf, track } from "./analytics";
 export type FunnelStats = {
   days: number;
   since: string;
+  humansOnly: boolean;
   totals: {
     accounts: number;
     paidAccounts: number;
@@ -79,8 +80,10 @@ export function adminMe() {
   return adminFetch<{ email: string }>("/me");
 }
 
-export function adminFunnels(days = 30) {
-  return adminFetch<FunnelStats>(`/funnels?days=${days}`);
+/** `humansOnly` drops classified crawlers from the event counts — see getFunnelStats in the worker
+ *  for why a funnel read across both audiences at once is misleading. */
+export function adminFunnels(days = 30, humansOnly = false) {
+  return adminFetch<FunnelStats>(`/funnels?days=${days}${humansOnly ? "&humansOnly=1" : ""}`);
 }
 
 export function adminTraffic(days = 30) {
