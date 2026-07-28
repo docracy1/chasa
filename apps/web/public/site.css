@@ -1161,3 +1161,120 @@ a { color: inherit; }
   font-size: 15px;
 }
 
+/* ---------- Integrations band (official brand SVGs — real connectors only) ---------- */
+
+.integrations-band {
+  background: var(--paper-deep);
+  border-bottom: 1px solid var(--line);
+  padding: 48px 0 52px;
+}
+
+.integrations-band-compact {
+  padding: 36px 0 40px;
+}
+
+.integrations-inner {
+  max-width: 880px;
+  margin: 0 auto;
+}
+
+.integrations-band h2 {
+  font-size: 26px;
+  margin-bottom: 8px;
+  text-align: center;
+  color: var(--ink);
+}
+
+.integrations-band-compact h2 {
+  font-size: 22px;
+}
+
+.integrations-lede {
+  text-align: center;
+  max-width: 560px;
+  margin: 0 auto 28px;
+  color: var(--ink-soft);
+  font-size: 15.5px;
+  line-height: 1.55;
+}
+
+.integrations-band-compact .integrations-lede {
+  font-size: 14px;
+}
+
+.integrations-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  max-width: 640px;
+  margin: 0 auto;
+  list-style: none;
+}
+
+@media (max-width: 640px) {
+  .integrations-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.integrations-tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 18px 12px 14px;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  box-shadow: 0 1px 3px color-mix(in srgb, var(--ink) 8%, transparent);
+  min-height: 96px;
+}
+
+.integrations-tile-logo {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  display: block;
+}
+
+.integrations-tile-name {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--ink);
+  text-align: center;
+  line-height: 1.2;
+}
+
+.integrations-footnote {
+  text-align: center;
+  font-size: 12.5px;
+  color: var(--ink-soft);
+  margin: 20px auto 0;
+  max-width: 520px;
+  line-height: 1.5;
+}
+
+.integrations-cta-wrap {
+  text-align: center;
+  margin-top: 24px;
+}
+
+.integrations-cta {
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  background: var(--accent);
+  color: var(--white);
+  padding: 14px 28px;
+  border-radius: 4px;
+  text-decoration: none;
+  border: 1.5px solid var(--accent);
+  transition: transform 0.12s ease;
+  display: inline-block;
+}
+
+.integrations-cta:hover {
+  transform: translateY(-1px);
+}
+
