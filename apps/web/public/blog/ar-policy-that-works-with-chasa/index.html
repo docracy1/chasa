@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Building an AR policy that works with Chasa — Chasa</title>
+<meta name="description" content="What a practical accounts receivable policy should cover — terms, credit limits, chase stages, disputes, and write-offs — and how each piece maps to Chasa’s aging board, AI drafts, and templates.">
+<link rel="canonical" href="https://chasa.io/blog/ar-policy-that-works-with-chasa/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Building an AR policy that works with Chasa — Chasa">
+<meta property="og:description" content="What a practical accounts receivable policy should cover — terms, credit limits, chase stages, disputes, and write-offs — and how each piece maps to Chasa’s aging board, AI drafts, and templates.">
+<meta property="og:url" content="https://chasa.io/blog/ar-policy-that-works-with-chasa/">
+<meta property="og:image" content="https://chasa.io/brand/og/chasa-og-1200x630.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Building an AR policy that works with Chasa — Chasa">
+<meta name="twitter:description" content="What a practical accounts receivable policy should cover — terms, credit limits, chase stages, disputes, and write-offs — and how each piece maps to Chasa’s aging board, AI drafts, and templates.">
+<meta name="twitter:image" content="https://chasa.io/brand/og/chasa-og-1200x630.png">
+<link rel="alternate" type="application/rss+xml" title="Chasa Blog" href="../../blog/feed.xml">
+<link rel="me" href="https://www.linkedin.com/company/chasa-io">
+<link rel="me" href="https://x.com/chasaHQ">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Article",
+      "headline": "Building an AR policy that works with Chasa",
+      "description": "What a practical accounts receivable policy should cover — terms, credit limits, chase stages, disputes, and write-offs — and how each piece maps to Chasa’s aging board, AI drafts, and templates.",
+      "url": "https://chasa.io/blog/ar-policy-that-works-with-chasa/",
+      "datePublished": "2026-07-31",
+      "dateModified": "2026-07-31",
+      "author": {
+        "@type": "Organization",
+        "name": "Chasa"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "RELACON GmbH",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://chasa.io/brand/chasa-icon.png"
+        }
+      },
+      "mainEntityOfPage": "https://chasa.io/blog/ar-policy-that-works-with-chasa/"
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What should an accounts receivable policy include?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "At minimum: standard payment terms and exception approval, invoice validation rules, a simple credit-limit approach, client segmentation notes, a staged collections workflow with owners, a dispute pause procedure, and write-off approval thresholds."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is a soft credit threshold?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The maximum open balance you allow without a formal credit review, as long as the client is verified, has no bad-debt history with you, and stays on short terms (typically Net 30 or less)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "When should I pause chasing for a dispute?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "As soon as the client raises a legitimate issue. Log it the same day, set a resolution window, and stop escalating tone until it is fixed or credited."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Who should approve a write-off?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Use amount tiers. Small balances can be your call; larger ones should need a second person. Keep chase history and a short memo on why recovery stopped."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
+<link rel="icon" href="../../favicon.png" type="image/png">
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../../apple-touch-icon.png">
+<link rel="stylesheet" href="../../site.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap site-header-inner">
+    <a href="../../" class="logo" aria-label="Chasa home"><img class="logo-mark" src="../../brand/chasa-icon.png" alt="" width="28" height="28" /><span class="logo-word">chasa</span></a>
+    <div class="header-nav-right">
+      <a href="../../#pricing" class="header-nav-link header-nav-collapse">Pricing</a>
+      <a href="../../free-templates/" class="header-nav-link header-nav-collapse">Free templates</a>
+      <a href="../../tools/" class="header-nav-link header-nav-collapse">Tools</a>
+      <a href="../../ai" class="header-nav-link header-nav-collapse">AI</a>
+      <a href="../../about" class="header-nav-link header-nav-collapse">About</a>
+      <a href="../../app/login" class="header-nav-link header-nav-strong">Sign in</a>
+      <a href="../../app/" class="nav-cta">Try free</a>
+      <button class="header-menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" data-menu-toggle>
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="header-mobile-menu" data-mobile-menu>
+      <a href="../../#pricing">Pricing</a>
+      <a href="../../free-templates/">Free templates</a>
+      <a href="../../tools/">Tools</a>
+      <a href="../../ai">AI</a>
+      <a href="../../about">About</a>
+      <a href="../../app/login">Sign in</a>
+      <a href="../../app/" class="nav-cta">Try free</a>
+    </div>
+  </div>
+</header>
+<main class="wrap page-main">
+<p><a href="../../blog/">← Blog</a></p>
+  <h1>Building an AR policy that works with Chasa</h1>
+  <p class="lede">What a practical accounts receivable policy should cover — terms, credit limits, chase stages, disputes, and write-offs — and how each piece maps to Chasa’s aging board, AI drafts, and templates.</p>
+  <p>You have invoices in the aging board, tone-matched drafts ready to copy, and a chase plan mapped to how late each balance is. The tooling is humming. So why does getting paid still feel reactive?</p>
+<p>Usually it is not the product. It is the <strong>accounts receivable policy</strong> underneath it. Chasa drafts the follow-up you send from your own inbox — but <em>who</em> gets credit, on what terms, when tone should escalate, and what happens when reminders fail still has to live in a short written policy your team (or you, solo) can follow.</p>
+<p>This guide covers what a practical AR policy needs, where freelancers and small teams leave gaps, and how each piece maps to Chasa — aging, AI drafts, chase plans, and free templates.</p>
+
+<figure class="blog-figure">
+  <img src="/blog/ar-policy-that-works-with-chasa/fig1-aging-overview.png" alt="Chasa aging overview showing open invoices by days overdue with tone bands" width="1280" height="820" loading="eager" />
+  <figcaption>Fig. 1. Aging overview: days overdue and last chase status mirror the stages in your written policy.</figcaption>
+</figure>
+
+<h2 id="automation-vs-policy">The gap between drafts and policy</h2>
+<p>Tools like Chasa replace the blank page. They suggest the right tone at 1 week, 30 days, or 60+ days overdue, keep a payment link handy, and help you track which invoices you already chased. Every day past due is cash you cannot use — which is why slow receivables quietly squeeze freelancers and growing SMBs alike.</p>
+<p>What a draft tool cannot decide for you:</p>
+<ul>
+  <li>Whether a client should have been on open account at all</li>
+  <li>What to do when someone goes silent after your third follow-up</li>
+  <li>Whether a dispute should pause chasing or continue while you investigate</li>
+</ul>
+<p>Those decisions belong in a policy — even a one-page one. Without it, you improvise under stress, outcomes get inconsistent, and write-offs are hard to defend later.</p>
+
+<h2 id="terms-and-invoices">Payment terms and invoice standards</h2>
+<p>Start with your standard terms. For most freelancers and small agencies that is <strong>Net 14</strong> or <strong>Net 30</strong> from invoice date. Write it explicitly, say what triggers an exception (rush work, retainers, new clients), and who can approve non-standard terms in writing.</p>
+<p>Then define what a valid invoice must include: due date, billing contact, amount, line clarity, and how to pay. A missing due date or wrong AP contact creates delays no reminder sequence can fix. Chasa’s tone bands use days overdue from the due date you entered — if that date is wrong, every draft fires at the wrong stage.</p>
+<p>Put the same terms in contracts, SOWs, and invoice footers so follow-ups cite an agreement, not a surprise.</p>
+
+<h2 id="credit-limits">Credit limits: two tiers most solo operators skip</h2>
+<p>Open-account work means you deliver before you are paid. Your policy should say how that credit is granted and reviewed — otherwise “gut feel” becomes the system.</p>
+
+<h3>Tier 1: Soft threshold</h3>
+<p>Below a written aggregate balance (for example open AR under $2,000–$5,000 depending on your average invoice), you can skip formal review if the client has a verified billing contact, no prior bad debt with you, and terms no longer than Net 30. That keeps small jobs moving.</p>
+
+<h3>Tier 2: Formal check</h3>
+<p>Above that threshold — or for first projects above a set amount — require a short credit application or deposit (30–50% upfront is common for freelancers), review payment history, and record the approved limit. Revisit annually, or sooner if payment behavior changes or a new order would push them well over the limit.</p>
+<p>Chasa is not a credit bureau. It is where you see aging and draft the chase once credit was already extended. The policy decides the extension; the tool executes the follow-up.</p>
+
+<figure class="blog-figure">
+  <img src="/blog/ar-policy-that-works-with-chasa/fig2-chase-draft.png" alt="Chasa chase draft with firm tone band for a 27-day overdue invoice" width="1100" height="900" loading="lazy" />
+  <figcaption>Fig. 2. Tone-matched draft for a mid-stage overdue invoice — Soften / Firm up / Shorten on paid plans, then you send from your inbox.</figcaption>
+</figure>
+
+<h2 id="collections-workflow">Collections workflow: stages, tone, and ownership</h2>
+<p>Chasa’s value is the right draft at the right age — but the schedule should reflect deliberate choices, not only defaults.</p>
+
+<h3>Segment lightly</h3>
+<p>Not every client needs the same cadence. High-volume accounts may prefer a monthly summary. New clients may need a gentler first touch. Clients who always pay on day 45 may need an earlier heads-up, not a colder tone. Note those groups in the policy and adjust when you generate drafts.</p>
+
+<h3>A practical stage table</h3>
+<p>A clear workflow names the trigger, the action, and who owns it. Solo operators own every row; small teams should still write names so stage five does not fall between stools.</p>
+<div class="compare-table-wrap">
+  <table class="compare-table">
+    <thead>
+      <tr>
+        <th scope="col">Stage</th>
+        <th scope="col">Trigger</th>
+        <th scope="col">Action</th>
+        <th scope="col">Owner</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td>7 days before due</td>
+        <td>Friendly heads-up (confirm receipt + due date)</td>
+        <td>You · Chasa draft</td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>Due date / +1 day</td>
+        <td>Courtesy reminder</td>
+        <td>You · Chasa draft</td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td>~7–14 days overdue</td>
+        <td>Firm follow-up; ask for a payment date</td>
+        <td>You · Chasa draft</td>
+      </tr>
+      <tr>
+        <td>4</td>
+        <td>~30 days overdue</td>
+        <td>Formal notice; cite terms / late fee if in policy</td>
+        <td>You · Chasa draft</td>
+      </tr>
+      <tr>
+        <td>5</td>
+        <td>~45 days overdue</td>
+        <td>Call or video; record promised pay date</td>
+        <td>You / AR lead</td>
+      </tr>
+      <tr>
+        <td>6</td>
+        <td>~60 days overdue</td>
+        <td>Senior escalation email</td>
+        <td>Founder / finance lead</td>
+      </tr>
+      <tr>
+        <td>7</td>
+        <td>~90 days overdue</td>
+        <td>Final notice before collections or legal</td>
+        <td>Founder</td>
+      </tr>
+      <tr>
+        <td>8</td>
+        <td>120+ days / no response</td>
+        <td>Write-off review or licensed collection referral</td>
+        <td>Founder / management</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<p>Chasa’s aging board and 3-step chase plans help you execute stages 1–4 consistently. Phone outreach and write-off approval stay human — and should be named in the policy so they actually happen.</p>
+
+<figure class="blog-figure">
+  <img src="/blog/ar-policy-that-works-with-chasa/fig3-chase-plan.png" alt="Chasa three-step chase plan with day 0, day 14, and day 30 tones" width="1100" height="780" loading="lazy" />
+  <figcaption>Fig. 3. A 3-step chase plan aligned to policy stages — each draft still leaves your inbox, not an automated sender.</figcaption>
+</figure>
+
+<h2 id="disputes">Disputed invoices: pause, document, resolve</h2>
+<p>Disputes are the most common reason to stop escalating. Your policy should say when chasing pauses and who can pause it.</p>
+<p>A workable rule set:</p>
+<ul>
+  <li>Log the dispute the same day with a short reason</li>
+  <li>Set a resolution target (often 10–30 days)</li>
+  <li>Notify whoever owns delivery or billing</li>
+  <li>Escalate if unresolved past the window</li>
+</ul>
+<p>Use Chasa’s dispute-oriented template language when you reply, then resume aging-based drafts only after the issue is closed or credited. Sending firmer tones into an open dispute burns trust and clutters your record.</p>
+
+<h2 id="write-offs">Write-offs and bad debt thresholds</h2>
+<p>No AR policy is finished without write-offs. A balance becomes a bad-debt candidate when collection is exhausted — silence, insolvency, business closure, or advice that recovery is not worth the cost.</p>
+<p>Define:</p>
+<ul>
+  <li>When a receivable qualifies for write-off review</li>
+  <li>What documentation you keep (chase history, notes, any third-party report)</li>
+  <li>Who approves by amount (e.g. under $500 you alone; above that, co-founder or accountant)</li>
+</ul>
+<p>Keep records for the retention period your accountant recommends (often several years for tax). Consistent notes on each chase in Chasa make that trail easier to reconstruct later.</p>
+
+<h2 id="checklist">AR policy checklist before you rely on Chasa</h2>
+<p>Before you treat drafts as “the process,” confirm each of these is written down — even briefly:</p>
+<ul>
+  <li><strong>Payment terms</strong> — standard terms, exceptions, who approves</li>
+  <li><strong>Invoice standards</strong> — required fields, delivery, bounce escalation</li>
+  <li><strong>Credit limits</strong> — soft threshold, formal review trigger, deposits</li>
+  <li><strong>Segmentation</strong> — who gets adjusted timing or multi-invoice summaries</li>
+  <li><strong>Collection stages</strong> — trigger days, tone, named owner</li>
+  <li><strong>Disputes</strong> — pause authority, timeline, escalation</li>
+  <li><strong>Write-offs</strong> — thresholds, docs, approvals</li>
+</ul>
+<p>If any of these seven still run on convention only, that is where cash flow and client relationships are most exposed.</p>
+
+<figure class="blog-figure">
+  <img src="/blog/ar-policy-that-works-with-chasa/fig4-free-templates.png" alt="Chasa free payment reminder email templates library" width="1484" height="1005" loading="lazy" />
+  <figcaption>Fig. 4. Free template library covering pre-due through final notice — useful scaffolding while your policy stages settle.</figcaption>
+</figure>
+
+<h2 id="policy-first">Chasa works best when the policy is already there</h2>
+<p>Invoice follow-up software cuts blank-page time and keeps tone consistent with how late a balance is. The decisions <em>above</em> the draft — who gets credit, at what limit, on what terms, and what happens when reminders stop working — still need a written framework.</p>
+<p>A good AR policy does not make you rigid. It gives you a reliable process, a clear next step when things get awkward, and a documented basis for every call on a client’s credit. Chasa is most effective when it executes a policy you have already agreed with yourself (or your team).</p>
+<p>Start with the <a href="/free-templates/">free reminder templates</a>, map them to the stage table above, then use the <a href="/app/">AI tool</a> to draft tone-matched emails you send yourself. Pair that with a one-page policy and you close the gap between automation and getting paid.</p>
+
+<h2 id="faq">FAQs</h2>
+<h3>What should an accounts receivable policy include?</h3>
+<p>At minimum: standard payment terms and exception approval, invoice validation rules, a simple credit-limit approach (soft threshold plus formal review or deposit), client segmentation notes, a staged collections workflow with owners, a dispute pause procedure, and write-off approval thresholds with retention of supporting notes.</p>
+<h3>What is a soft (blind) credit threshold?</h3>
+<p>It is the maximum open balance you allow without a formal credit review, as long as the client is verified, has no bad-debt history with you, and stays on short terms (typically Net 30 or less). Above that line, require a deposit, application, or explicit approval before you extend more credit.</p>
+<h3>When should I pause chasing for a dispute?</h3>
+<p>As soon as the client raises a legitimate issue (pricing, delivery, scope). Log it the same day, set a resolution window, and stop escalating tone until it is fixed or credited. Resume aging-based drafts only after the dispute is closed.</p>
+<h3>Who should approve a write-off?</h3>
+<p>Use amount tiers. Small balances can be your call; larger ones should need a second person (co-founder, finance lead, or accountant). Keep chase history and a short memo on why recovery stopped — especially if you claim a tax deduction later.</p>
+<p style="margin-top:28px"><a href="/app/" class="nav-cta">Try Chasa free</a> · <a href="/blog/freelancer-late-payment-policy/">Freelancer late payment policy</a> · <a href="/blog/how-to-follow-up-on-overdue-invoices/">How to follow up on overdue invoices</a></p>
+
+<style>
+.blog-figure {
+  margin: 28px 0;
+  padding: 0;
+}
+.blog-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: var(--paper);
+}
+.blog-figure figcaption {
+  margin-top: 10px;
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.45;
+}
+.page-main .compare-table-wrap {
+  overflow-x: auto;
+  margin: 20px 0 28px;
+}
+.page-main .compare-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+.page-main .compare-table th,
+.page-main .compare-table td {
+  text-align: left;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--line);
+  vertical-align: top;
+}
+.page-main .compare-table th {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--ink-soft);
+}
+.page-main h2 { margin-top: 2em; }
+.page-main h3 { margin-top: 1.4em; }
+.page-main ul { margin: 12px 0 20px; padding-left: 1.25em; }
+.page-main li { margin: 6px 0; }
+</style>
+  <section style="margin-top:40px;padding-top:24px;border-top:1px solid var(--line)">
+    <h2>Related resources</h2>
+    <ul>
+      <li><a href="../../tools/late-payment-calculator">Late payment calculator</a></li>
+      <li><a href="../../tools/chase-savings-calculator">Chase savings calculator</a></li>
+      <li><a href="../../blog/invoice-chase-software-comparison/">Chasa vs Chaser, Paidnice &amp; other invoice chase tools</a></li>
+      <li><a href="../../free-templates/">Free payment reminder email templates</a></li>
+      <li><a href="../../app/">Try the AI invoice follow-up tool</a></li>
+      <li><a href="../../payment-reminder">Payment reminder emails guide</a></li>
+      <li><a href="../../overdue-invoice">Overdue invoice follow-up</a></li>
+      <li><a href="../../invoice-follow-up">Invoice follow-up best practices</a></li>
+    </ul>
+  </section>
+</main>
+<footer class="site-footer">
+  <div class="wrap site-footer-inner">
+    <div class="site-footer-brand">
+      <a href="../../" class="logo" aria-label="Chasa home"><img class="logo-mark" src="../../brand/chasa-icon.png" alt="" width="24" height="24" /><span class="logo-word">chasa</span></a>
+      <p>Free AI invoice follow-ups — paste unpaid invoices, get the reminder email already written.</p>
+    </div>
+    <div class="site-footer-col">
+      <h4>Product</h4>
+      <a href="../../app/">Try free</a>
+      <a href="../../#pricing">Pricing</a>
+      <a href="../../free-templates/">Free templates</a>
+      <a href="../../tools/">Calculators</a>
+      <a href="../../docs/">Docs</a>
+      <a href="../../blog/">Blog</a>
+    </div>
+    <div class="site-footer-col">
+      <h4>Company</h4>
+      <a href="../../about">About</a>
+      <a href="../../press">Press</a>
+      <a href="../../privacy">Privacy</a>
+      <a href="../../terms">Terms</a>
+      <a href="../../imprint">Imprint</a>
+    </div>
+    <div class="site-footer-col">
+      <h4>Connect</h4>
+      <a href="https://www.linkedin.com/company/chasa-io" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      <a href="https://x.com/chasaHQ" target="_blank" rel="noopener noreferrer">X</a>
+      <a href="../../sitemap.xml">Sitemap</a>
+      <a href="../../blog/feed.xml">RSS</a>
+    </div>
+  </div>
+  <div class="wrap footer-bottom">
+    <p>© 2026 RELACON GmbH</p>
+  </div>
+</footer>
+<script src="../../site-nav.js" defer></script>
+<script src="../../cookie-consent.js" defer></script>
+<script src="../../analytics.js" defer></script>
+</body>
+</html>

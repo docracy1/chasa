@@ -5,7 +5,14 @@
     <link>https://chasa.io/blog/</link>
     <description>Invoice follow-up, payment reminders, and freelancer cash flow.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 29 Jul 2026 20:03:12 GMT</lastBuildDate>
+    <lastBuildDate>Wed, 29 Jul 2026 20:10:47 GMT</lastBuildDate>
+    <item>
+      <title>Building an AR policy that works with Chasa</title>
+      <link>https://chasa.io/blog/ar-policy-that-works-with-chasa/</link>
+      <guid isPermaLink="true">https://chasa.io/blog/ar-policy-that-works-with-chasa/</guid>
+      <description>What a practical accounts receivable policy should cover — terms, credit limits, chase stages, disputes, and write-offs — and how each piece maps to Chasa’s aging board, AI drafts, and templates.</description>
+      <pubDate>Fri, 31 Jul 2026 00:00:00 GMT</pubDate>
+    </item>
     <item>
       <title>Chasa vs Chaser, Paidnice, Duefy, Satago &amp; ChaseAI — invoice chase software comparison</title>
       <link>https://chasa.io/blog/invoice-chase-software-comparison/</link>

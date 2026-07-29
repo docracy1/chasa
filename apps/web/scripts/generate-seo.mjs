@@ -54,6 +54,7 @@ function buildSitemapUrls() {
     const urlPath = htmlPathToUrl(file);
     if (urlPath.startsWith("/app/") && urlPath !== "/app/" && urlPath !== "/app/login") continue;
     if (urlPath === "/blog/post") continue;
+    if (urlPath.startsWith("/blog/_shot-fixtures")) continue;
     if (byPath.has(urlPath)) {
       byPath.get(urlPath).lastmod = mtime(file);
       continue;

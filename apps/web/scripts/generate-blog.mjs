@@ -161,6 +161,25 @@ const COMPARISON_FAQ = [
   },
 ];
 
+const AR_POLICY_FAQ = [
+  {
+    q: "What should an accounts receivable policy include?",
+    a: "At minimum: standard payment terms and exception approval, invoice validation rules, a simple credit-limit approach, client segmentation notes, a staged collections workflow with owners, a dispute pause procedure, and write-off approval thresholds.",
+  },
+  {
+    q: "What is a soft credit threshold?",
+    a: "The maximum open balance you allow without a formal credit review, as long as the client is verified, has no bad-debt history with you, and stays on short terms (typically Net 30 or less).",
+  },
+  {
+    q: "When should I pause chasing for a dispute?",
+    a: "As soon as the client raises a legitimate issue. Log it the same day, set a resolution window, and stop escalating tone until it is fixed or credited.",
+  },
+  {
+    q: "Who should approve a write-off?",
+    a: "Use amount tiers. Small balances can be your call; larger ones should need a second person. Keep chase history and a short memo on why recovery stopped.",
+  },
+];
+
 function buildJsonLd(post) {
   const article = {
     "@type": "Article",
@@ -178,7 +197,12 @@ function buildJsonLd(post) {
     mainEntityOfPage: `https://chasa.io/blog/${post.slug}/`,
   };
 
-  if (post.slug !== "invoice-chase-software-comparison") {
+  const faqBySlug = {
+    "invoice-chase-software-comparison": COMPARISON_FAQ,
+    "ar-policy-that-works-with-chasa": AR_POLICY_FAQ,
+  };
+  const faq = faqBySlug[post.slug];
+  if (!faq) {
     return JSON.stringify({ "@context": "https://schema.org", ...article }, null, 2);
   }
 
@@ -189,7 +213,7 @@ function buildJsonLd(post) {
         article,
         {
           "@type": "FAQPage",
-          mainEntity: COMPARISON_FAQ.map((item) => ({
+          mainEntity: faq.map((item) => ({
             "@type": "Question",
             name: item.q,
             acceptedAnswer: { "@type": "Answer", text: item.a },
