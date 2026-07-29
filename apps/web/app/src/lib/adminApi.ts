@@ -22,6 +22,7 @@ export type FunnelStats = {
 export type TrafficStats = {
   days: number;
   pageViews: number;
+  humanPageViews: number;
   botPct: number;
   chasesSent: number;
   chasesCompleted: number;

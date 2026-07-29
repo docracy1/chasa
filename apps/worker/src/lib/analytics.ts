@@ -214,8 +214,21 @@ const BOT_PATTERNS: { name: string; re: RegExp }[] = [
   { name: "Googlebot", re: /googlebot/i },
   { name: "Applebot", re: /applebot/i },
   { name: "Bingbot", re: /bingbot/i },
-  { name: "GPTBot", re: /gptbot/i },
-  { name: "ClaudeBot", re: /claudebot|anthropic/i },
+  { name: "GPTBot", re: /gptbot|oai-searchbot|chatgpt-user/i },
+  { name: "ClaudeBot", re: /claudebot|anthropic|claude-user/i },
+  { name: "PerplexityBot", re: /perplexity/i },
+  { name: "facebookexternalhit", re: /facebookexternalhit|facebot/i },
+  { name: "Twitterbot", re: /twitterbot/i },
+  { name: "LinkedInBot", re: /linkedinbot/i },
+  { name: "Slackbot", re: /slackbot|slack-imgproxy/i },
+  { name: "Discordbot", re: /discordbot/i },
+  { name: "WhatsApp", re: /whatsapp/i },
+  { name: "AhrefsBot", re: /ahrefsbot/i },
+  { name: "SemrushBot", re: /semrushbot/i },
+  { name: "HeadlessChrome", re: /headlesschrome/i },
+  { name: "curl", re: /\bcurl\//i },
+  { name: "python-requests", re: /python-requests|python-urllib|aiohttp/i },
+  // Catch-all last — LinkedInBot/Twitterbot already matched above; this covers misc SEO scrapers.
   { name: "Other bot", re: /bot|crawler|spider|slurp/i },
 ];
 
@@ -316,6 +329,7 @@ export async function getTrafficStats(env: Env, days = 30) {
   return {
     days,
     pageViews: total,
+    humanPageViews: Math.max(0, total - bots),
     botPct: total > 0 ? Math.round((bots / total) * 100) : 0,
     chasesSent: sent,
     chasesCompleted: completed,

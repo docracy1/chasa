@@ -518,7 +518,7 @@ export default function Admin() {
               </label>
               <p className="dash-note dash-note-filter">
                 {humansOnly
-                  ? "Googlebot, GPTBot, ClaudeBot and friends are left out of every count below, so page loads and CTA clicks are measured against the same audience. Events recorded before this filter existed, and events with no user agent (emails, cron), count as human."
+                  ? "Page views and funnel steps exclude classified crawlers (search, social previews, SEO tools, …). The daily chart still shows the bot split. Events recorded before bot tagging, and events with no user agent (emails, cron), count as human."
                   : "Counts include crawler traffic. Anything written without a browser inflates load-style events relative to clicks, which need a real visitor."}
               </p>
               <label className="dash-exclude">
@@ -541,8 +541,12 @@ export default function Admin() {
               <div className="dash-stat-row dash-stat-row-4">
                 <div className="dash-stat">
                   <span className="dash-stat-label">Page views</span>
-                  <strong>{traffic.pageViews}</strong>
-                  <em>{traffic.botPct}% known bots</em>
+                  <strong>{humansOnly ? traffic.humanPageViews : traffic.pageViews}</strong>
+                  <em>
+                    {humansOnly
+                      ? `${traffic.botPct}% of all traffic was known bots (excluded)`
+                      : `${traffic.botPct}% known bots`}
+                  </em>
                 </div>
                 <div className="dash-stat">
                   <span className="dash-stat-label">Chases sent</span>
