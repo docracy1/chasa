@@ -453,6 +453,9 @@ ${mainHtml}
       <a href="/tools/">Calculators</a>
       <a href="/ai">AI</a>
       <a href="/#faq">FAQ</a>
+    </div>
+    <div class="site-footer-col">
+      <h4>Company</h4>
       <a href="/about">About</a>
       <a href="/imprint">Imprint</a>
       <a href="mailto:founder@chasa.io">Contact</a>
