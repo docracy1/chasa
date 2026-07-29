@@ -533,10 +533,38 @@ const indexHtml = chrome({
     plus thank-yous, disputes, and multi-invoice summaries. Original Chasa wording; use as-is or let the
     <a href="/app/">AI tool</a> draft a version matched to how late the invoice is.
   </p>
+
+  <section class="tpl-pack" aria-labelledby="tpl-pack-title">
+    <div class="tpl-pack-copy">
+      <p class="tpl-pack-eyebrow">Free PDF pack</p>
+      <h2 id="tpl-pack-title">All ${tplCount} templates in one branded PDF</h2>
+      <p>
+        Download the full pack with the Chasa logo — subjects, bodies, and stage notes ready to print or share with your team.
+        Enter your email and we’ll send the file plus a short welcome with related guides.
+      </p>
+    </div>
+    <form id="templates-pack-form" class="tpl-pack-form" novalidate>
+      <label class="tpl-pack-label" for="templates-pack-email">Work email</label>
+      <div class="tpl-pack-row">
+        <input id="templates-pack-email" name="email" type="email" autocomplete="email" required
+          placeholder="you@studio.com" maxlength="254" />
+        <button type="submit" class="btn-copy" id="templates-pack-submit">Email me the PDF</button>
+      </div>
+      <div id="templates-pack-turnstile" class="tpl-pack-turnstile"></div>
+      <p id="templates-pack-status" class="tpl-pack-status" role="status" aria-live="polite"></p>
+      <p class="tpl-pack-fine">
+        By downloading you agree we may email you this pack and occasional template tips.
+        Unsubscribe anytime. See our <a href="/privacy">privacy policy</a>.
+        Prefer browsing? The same templates stay free below — no email required.
+      </p>
+    </form>
+  </section>
+
   <div class="tpl-grid">
 ${cards}
   </div>
-</main>`,
+</main>
+<script src="/templates-pack.js" defer></script>`,
 });
 
 writeFileSync(join(outDir, "index.html"), indexHtml);
