@@ -116,6 +116,8 @@ Allow: /features$
 Allow: /features/
 Allow: /docs$
 Allow: /docs/
+Allow: /tools$
+Allow: /tools/
 Disallow: /app/account
 Disallow: /app/admin
 Disallow: /app/team

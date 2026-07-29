@@ -54,6 +54,7 @@ ${jsonLd ? `<script type="application/ld+json">\n${jsonLd}\n</script>` : `<scrip
     <div class="header-nav-right">
       <a href="${link("/#pricing")}" class="header-nav-link header-nav-collapse">Pricing</a>
       <a href="${link("/free-templates/")}" class="header-nav-link header-nav-collapse${activeNav === "templates" ? " header-nav-strong" : ""}">Free templates</a>
+      <a href="${link("/tools/")}" class="header-nav-link header-nav-collapse${activeNav === "tools" ? " header-nav-strong" : ""}">Tools</a>
       <a href="${link("/ai")}" class="header-nav-link header-nav-collapse${activeNav === "ai" ? " header-nav-strong" : ""}">AI</a>
       <a href="${link("/about")}" class="header-nav-link header-nav-collapse">About</a>
       <a href="${link("/app/login")}" class="header-nav-link header-nav-strong">Sign in</a>
@@ -65,6 +66,7 @@ ${jsonLd ? `<script type="application/ld+json">\n${jsonLd}\n</script>` : `<scrip
     <div class="header-mobile-menu" data-mobile-menu>
       <a href="${link("/#pricing")}">Pricing</a>
       <a href="${link("/free-templates/")}">Free templates</a>
+      <a href="${link("/tools/")}">Tools</a>
       <a href="${link("/ai")}">AI</a>
       <a href="${link("/about")}">About</a>
       <a href="${link("/app/login")}">Sign in</a>
@@ -86,6 +88,7 @@ ${mainHtml}
       <a href="${link("/app/")}">Try free</a>
       <a href="${link("/#pricing")}">Pricing</a>
       <a href="${link("/free-templates/")}">Free templates</a>
+      <a href="${link("/tools/")}">Calculators</a>
       <a href="${link("/docs/")}">Docs</a>
       <a href="${link("/blog/")}">Blog</a>
     </div>

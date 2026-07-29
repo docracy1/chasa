@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Invoice Chase Calculators — Late Fees &amp; Savings | Chasa</title>
+<meta name="description" content="Free calculators for late payment interest and chase savings. Estimate fees on unpaid invoices and cash unlocked when you get paid faster.">
+<link rel="canonical" href="https://chasa.io/tools/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Free Invoice Chase Calculators — Late Fees &amp; Savings | Chasa">
+<meta property="og:description" content="Free calculators for late payment interest and chase savings. Estimate fees on unpaid invoices and cash unlocked when you get paid faster.">
+<meta property="og:url" content="https://chasa.io/tools/">
+<meta property="og:image" content="https://chasa.io/brand/og/chasa-og-1200x630.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Free Invoice Chase Calculators — Late Fees &amp; Savings | Chasa">
+<meta name="twitter:description" content="Free calculators for late payment interest and chase savings. Estimate fees on unpaid invoices and cash unlocked when you get paid faster.">
+<meta name="twitter:image" content="https://chasa.io/brand/og/chasa-og-1200x630.png">
+<link rel="alternate" type="application/rss+xml" title="Chasa Blog" href="../blog/feed.xml">
+<link rel="me" href="https://www.linkedin.com/company/chasa-io">
+<link rel="me" href="https://x.com/chasaHQ">
+<style>
+.calc-grid { display: grid; gap: 28px; margin: 28px 0 36px; }
+@media (min-width: 860px) {
+  .calc-grid { grid-template-columns: 1.1fr 0.9fr; align-items: start; }
+}
+.calc-panel, .calc-results {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 20px 22px;
+  background: var(--white);
+}
+.calc-results { background: color-mix(in srgb, var(--accent) 6%, var(--white)); }
+.calc-field { margin-bottom: 14px; }
+.calc-field label {
+  display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; color: var(--ink);
+}
+.calc-field input, .calc-field select {
+  width: 100%; box-sizing: border-box; padding: 10px 12px;
+  border: 1px solid var(--line); border-radius: 8px; font: inherit; background: var(--paper);
+}
+.calc-field input[type="range"] { padding: 0; background: transparent; border: none; }
+.calc-hint { font-size: 12.5px; color: var(--ink-soft); margin-top: 4px; }
+.calc-stat { margin: 0 0 14px; }
+.calc-stat strong { display: block; font-family: Fraunces, Georgia, serif; font-size: 28px; margin-top: 2px; }
+.calc-stat span { font-size: 13px; color: var(--ink-soft); font-weight: 600; }
+.calc-note { font-size: 12.5px; color: var(--ink-soft); margin-top: 12px; line-height: 1.45; }
+.tools-card-grid { display: grid; gap: 14px; margin: 22px 0 8px; }
+@media (min-width: 700px) { .tools-card-grid { grid-template-columns: 1fr 1fr; } }
+.tools-card {
+  display: block; text-decoration: none; color: inherit;
+  border: 1px solid var(--line); border-radius: 12px; padding: 18px 20px;
+  background: var(--white); transition: border-color 0.15s ease, transform 0.12s ease;
+}
+.tools-card:hover { border-color: var(--accent); transform: translateY(-1px); }
+.tools-card h2 { font-size: 20px; margin: 0 0 8px; font-family: Fraunces, Georgia, serif; }
+.tools-card p { margin: 0; color: var(--ink-soft); font-size: 14.5px; line-height: 1.45; }
+</style>
+<script src="/tools-calc.js" defer></script>
+<script type="application/ld+json">
+[{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://chasa.io/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Tools",
+      "item": "https://chasa.io/tools/"
+    }
+  ]
+},
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Chasa invoice chase calculators",
+  "description": "Free late payment interest and chase savings calculators for freelancers and small businesses.",
+  "url": "https://chasa.io/tools/",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "Chasa",
+    "url": "https://chasa.io/"
+  }
+}]
+</script>
+<link rel="icon" href="../favicon.png" type="image/png">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="stylesheet" href="../site.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap site-header-inner">
+    <a href="../" class="logo" aria-label="Chasa home"><img class="logo-mark" src="../brand/chasa-icon.png" alt="" width="28" height="28" /><span class="logo-word">chasa</span></a>
+    <div class="header-nav-right">
+      <a href="../#pricing" class="header-nav-link header-nav-collapse">Pricing</a>
+      <a href="../free-templates/" class="header-nav-link header-nav-collapse">Free templates</a>
+      <a href="../tools/" class="header-nav-link header-nav-collapse header-nav-strong">Tools</a>
+      <a href="../ai" class="header-nav-link header-nav-collapse">AI</a>
+      <a href="../about" class="header-nav-link header-nav-collapse">About</a>
+      <a href="../app/login" class="header-nav-link header-nav-strong">Sign in</a>
+      <a href="../app/" class="nav-cta">Try free</a>
+      <button class="header-menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" data-menu-toggle>
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="header-mobile-menu" data-mobile-menu>
+      <a href="../#pricing">Pricing</a>
+      <a href="../free-templates/">Free templates</a>
+      <a href="../tools/">Tools</a>
+      <a href="../ai">AI</a>
+      <a href="../about">About</a>
+      <a href="../app/login">Sign in</a>
+      <a href="../app/" class="nav-cta">Try free</a>
+    </div>
+  </div>
+</header>
+<main class="wrap page-main">
+<p class="crumb"><a href="/">Home</a> / Tools</p>
+<h1>Free invoice chase calculators</h1>
+<p class="lede">Estimate late payment interest and the cash you unlock when overdue invoices get paid sooner. Built for freelancers and small teams who chase invoices themselves — then draft the follow-up in <a href="/app/">Chasa</a>.</p>
+
+<div class="tools-card-grid">
+  <a class="tools-card" href="/tools/late-payment-calculator">
+    <h2>Late payment calculator</h2>
+    <p>Calculate interest and optional late fees on an unpaid invoice from overdue date to payment date.</p>
+  </a>
+  <a class="tools-card" href="/tools/chase-savings-calculator">
+    <h2>Chase savings calculator</h2>
+    <p>Estimate cash unlocked and hours saved if you cut days outstanding with consistent follow-ups.</p>
+  </a>
+</div>
+
+<h2>Why these tools</h2>
+<p>These calculators run entirely in your browser — no signup, no data upload. Use them to size interest or cash impact, then draft a clear chase email in Chasa and send it yourself.</p>
+<p style="margin-top:28px"><a href="/app/" class="nav-cta">Draft a chase email</a></p>
+</main>
+<footer class="site-footer">
+  <div class="wrap site-footer-inner">
+    <div class="site-footer-brand">
+      <a href="../" class="logo" aria-label="Chasa home"><img class="logo-mark" src="../brand/chasa-icon.png" alt="" width="24" height="24" /><span class="logo-word">chasa</span></a>
+      <p>Free AI invoice follow-ups — paste unpaid invoices, get the reminder email already written.</p>
+    </div>
+    <div class="site-footer-col">
+      <h4>Product</h4>
+      <a href="../app/">Try free</a>
+      <a href="../#pricing">Pricing</a>
+      <a href="../free-templates/">Free templates</a>
+      <a href="../tools/">Calculators</a>
+      <a href="../docs/">Docs</a>
+      <a href="../blog/">Blog</a>
+    </div>
+    <div class="site-footer-col">
+      <h4>Company</h4>
+      <a href="../about">About</a>
+      <a href="../press">Press</a>
+      <a href="../privacy">Privacy</a>
+      <a href="../terms">Terms</a>
+      <a href="../imprint">Imprint</a>
+    </div>
+    <div class="site-footer-col">
+      <h4>Connect</h4>
+      <a href="https://www.linkedin.com/company/chasa-io" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      <a href="https://x.com/chasaHQ" target="_blank" rel="noopener noreferrer">X</a>
+      <a href="../sitemap.xml">Sitemap</a>
+      <a href="../blog/feed.xml">RSS</a>
+    </div>
+  </div>
+  <div class="wrap footer-bottom">
+    <p>© 2026 RELACON GmbH</p>
+  </div>
+</footer>
+<script src="../site-nav.js" defer></script>
+<script src="../cookie-consent.js" defer></script>
+<script src="../analytics.js" defer></script>
+</body>
+</html>

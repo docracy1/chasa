@@ -130,6 +130,8 @@ function buildPostMain(post, body, depth = 2) {
   <section style="margin-top:40px;padding-top:24px;border-top:1px solid var(--line)">
     <h2>Related resources</h2>
     <ul>
+      <li><a href="${href("/tools/late-payment-calculator")}">Late payment calculator</a></li>
+      <li><a href="${href("/tools/chase-savings-calculator")}">Chase savings calculator</a></li>
       <li><a href="${href("/blog/invoice-chase-software-comparison/")}">Chasa vs Chaser, Paidnice &amp; other invoice chase tools</a></li>
       <li><a href="${href("/free-templates/")}">Free payment reminder email templates</a></li>
       <li><a href="${href("/app/")}">Try the AI invoice follow-up tool</a></li>

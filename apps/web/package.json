@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "dev": "vite",
-    "build": "node scripts/copy-fonts.mjs && node scripts/generate-free-templates.mjs && node scripts/generate-marketing.mjs && node scripts/generate-blog.mjs && node scripts/generate-seo.mjs && tsc -b && vite build",
+    "build": "node scripts/copy-fonts.mjs && node scripts/generate-free-templates.mjs && node scripts/generate-calculators.mjs && node scripts/generate-marketing.mjs && node scripts/generate-blog.mjs && node scripts/generate-seo.mjs && tsc -b && vite build",
     "preview": "vite preview",
     "generate:templates": "node scripts/copy-fonts.mjs && node scripts/generate-free-templates.mjs",
     "generate:static": "node scripts/copy-fonts.mjs && node scripts/generate-free-templates.mjs && node scripts/strip-google-fonts.mjs",

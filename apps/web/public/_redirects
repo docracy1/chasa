@@ -11,6 +11,10 @@
 /overdue-invoice  /overdue-invoice.html  200
 /chase-invoices  /chase-invoices.html  200
 /freelancer-invoice-follow-up  /freelancer-invoice-follow-up.html  200
+/tools  /tools/  301
+/tools/  /tools/index.html  200
+/tools/late-payment-calculator  /tools/late-payment-calculator.html  200
+/tools/chase-savings-calculator  /tools/chase-savings-calculator.html  200
 /features  /features/index.html  200
 /features/  /features/index.html  200
 /features/ai-tone  /features/ai-tone.html  200
