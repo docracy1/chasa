@@ -16,6 +16,12 @@ export interface Env {
   ONEDRIVE_CLIENT_SECRET?: string;
   BOX_CLIENT_ID?: string;
   BOX_CLIENT_SECRET?: string;
+  /** Google Sign-In OAuth — see lib/auth.ts */
+  GOOGLE_LOGIN_CLIENT_ID?: string;
+  GOOGLE_LOGIN_CLIENT_SECRET?: string;
+  /** Google Drive / Gmail / Calendar / Sheets connector — see lib/cloudConnectors.ts */
+  GOOGLE_INTEGRATIONS_CLIENT_ID?: string;
+  GOOGLE_INTEGRATIONS_CLIENT_SECRET?: string;
   // Native accounting OAuth (QuickBooks Online / Xero) — see routes/accountingConnectors.ts
   QBO_CLIENT_ID?: string;
   QBO_CLIENT_SECRET?: string;

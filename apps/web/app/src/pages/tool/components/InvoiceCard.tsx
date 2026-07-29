@@ -32,6 +32,10 @@ interface InvoiceCardProps {
   openStats?: { openCount: number; clickCount: number; lastOpenAt: string | null };
   onCopyDraft: (invoice: Invoice) => void;
   onTrackedCopy: (invoice: Invoice) => void;
+  onSaveGmailDraft?: (invoice: Invoice) => void;
+  onSyncReminderCalendar?: (invoiceId: string, reminderId: string) => void;
+  onFetchGmailReply?: (invoiceId: string) => void;
+  onReplySmartFromGmail?: (invoiceId: string) => void;
   mailtoLink: (invoice: Invoice) => string;
   onMailtoClick: (invoice?: Invoice) => void;
   sequenceSendDate: (daysFromNow: number) => string;
@@ -65,6 +69,10 @@ export function InvoiceCard({
   openStats,
   onCopyDraft,
   onTrackedCopy,
+  onSaveGmailDraft,
+  onSyncReminderCalendar,
+  onFetchGmailReply,
+  onReplySmartFromGmail,
   mailtoLink,
   onMailtoClick,
   sequenceSendDate,
@@ -285,14 +293,36 @@ export function InvoiceCard({
                 {invoice.rewriting === "reply" ? "Writing reply…" : "Draft reply"}
               </button>
               {isPro ? (
-                <button
-                  type="button"
-                  className="btn-secondary"
-                  disabled={busy || !invoice.clientReply?.trim()}
-                  onClick={() => onReplySmart(invoice.id)}
-                >
-                  {invoice.rewriting === "replySmart" ? "Analyzing…" : "Smart reply (Pro)"}
-                </button>
+                <>
+                  <button
+                    type="button"
+                    className="btn-secondary"
+                    disabled={busy || !invoice.clientReply?.trim()}
+                    onClick={() => onReplySmart(invoice.id)}
+                  >
+                    {invoice.rewriting === "replySmart" ? "Analyzing…" : "Smart reply (Pro)"}
+                  </button>
+                  {onReplySmartFromGmail && (
+                    <button
+                      type="button"
+                      className="btn-secondary"
+                      disabled={busy}
+                      onClick={() => onReplySmartFromGmail(invoice.id)}
+                    >
+                      {invoice.rewriting === "replySmart" ? "Checking Gmail…" : "Smart reply from Gmail"}
+                    </button>
+                  )}
+                  {onFetchGmailReply && (
+                    <button
+                      type="button"
+                      className="btn-secondary"
+                      disabled={busy}
+                      onClick={() => onFetchGmailReply(invoice.id)}
+                    >
+                      Find reply in Gmail
+                    </button>
+                  )}
+                </>
               ) : (
                 <a className="ai-unlock-link" href="/app/account">
                   Smart reply on Pro ($17/mo) →
@@ -379,6 +409,15 @@ export function InvoiceCard({
                         >
                           Snooze 7 days
                         </button>
+                        {onSyncReminderCalendar && (
+                          <button
+                            type="button"
+                            className="btn-secondary"
+                            onClick={() => onSyncReminderCalendar(invoice.id, r.id)}
+                          >
+                            Add to Google Calendar
+                          </button>
+                        )}
                       </span>
                     ))}
                 </div>
@@ -439,6 +478,11 @@ export function InvoiceCard({
             >
               Open in email client
             </a>
+            {isPaid && onSaveGmailDraft && (
+              <button type="button" className="btn-secondary" onClick={() => onSaveGmailDraft(invoice)}>
+                Save to Gmail drafts
+              </button>
+            )}
             {isPaid && !isPaidInvoice && (
               <button type="button" className="btn-secondary" onClick={() => onMarkSent(invoice)}>
                 Mark as sent

@@ -8,7 +8,8 @@ export type TokenPurpose =
   | "invite"
   | "api-key"
   | "oauth-state"
-  | "webhook-signing";
+  | "webhook-signing"
+  | "google-login-state";
 
 function base64UrlEncode(bytes: Uint8Array): string {
   let binary = "";

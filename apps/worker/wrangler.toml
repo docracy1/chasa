@@ -42,6 +42,11 @@ STRIPE_PRICE_PRO = "price_1TxMyFQu2Ibd9xnHPDe4L9q4"
 STRIPE_PRICE_ENTERPRISE = "price_1TxMzNQu2Ibd9xnHUnRjRDQv"
 # Cloudflare Turnstile site key (public). Create a widget in the CF dashboard, then paste here.
 TURNSTILE_SITE_KEY = "0x4AAAAAAD-e9VZ4OPi8EPWM"
+
+# --- Google (Sign-In + integrations connector) ---
+# Client IDs are non-secret. Secrets via wrangler secret put (see comments below).
+GOOGLE_LOGIN_CLIENT_ID = "111635541806-70v6voa6a9kafmmgbhuokh2a07rvdlir.apps.googleusercontent.com"
+GOOGLE_INTEGRATIONS_CLIENT_ID = "111635541806-ie2hbeub99831tl1q610mt6kmjl7r00v.apps.googleusercontent.com"
 # Local/dev without a real widget: use Cloudflare's always-pass test site key:
 #   TURNSTILE_SITE_KEY = "1x00000000000000000000AA"
 #   and in .dev.vars: TURNSTILE_SECRET_KEY=1x0000000000000000000000000000000AA
@@ -59,6 +64,10 @@ TURNSTILE_SITE_KEY = "0x4AAAAAAD-e9VZ4OPi8EPWM"
 #     https://api.chasa.io/api/account/connectors/dropbox/callback
 #     https://api.chasa.io/api/account/connectors/onedrive/callback
 #     https://api.chasa.io/api/account/connectors/box/callback
+#     https://api.chasa.io/api/account/connectors/google/callback
+#   Login redirect: https://api.chasa.io/api/auth/google/callback
+# Set with: wrangler secret put GOOGLE_LOGIN_CLIENT_SECRET
+# Set with: wrangler secret put GOOGLE_INTEGRATIONS_CLIENT_SECRET
 # Set with: wrangler secret put DROPBOX_CLIENT_ID
 # Set with: wrangler secret put DROPBOX_CLIENT_SECRET
 # Set with: wrangler secret put ONEDRIVE_CLIENT_ID

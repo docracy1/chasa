@@ -13,9 +13,20 @@ export type { InvoiceHints };
 
 const MAX_IMPORT_BYTES = 8 * 1024 * 1024; // 8 MB
 
-export type CloudProvider = "dropbox" | "onedrive" | "box";
+const GOOGLE_CONNECTOR_SCOPE = [
+  "https://www.googleapis.com/auth/drive.readonly",
+  "https://www.googleapis.com/auth/userinfo.email",
+  "https://www.googleapis.com/auth/contacts.readonly",
+  "https://www.googleapis.com/auth/spreadsheets.readonly",
+  "https://www.googleapis.com/auth/spreadsheets",
+  "https://www.googleapis.com/auth/calendar.events",
+  "https://www.googleapis.com/auth/gmail.readonly",
+  "https://www.googleapis.com/auth/gmail.modify",
+].join(" ");
 
-export const CLOUD_PROVIDERS: CloudProvider[] = ["dropbox", "onedrive", "box"];
+export type CloudProvider = "dropbox" | "onedrive" | "box" | "google";
+
+export const CLOUD_PROVIDERS: CloudProvider[] = ["dropbox", "onedrive", "box", "google"];
 
 export function isCloudProvider(v: string): v is CloudProvider {
   return (CLOUD_PROVIDERS as string[]).includes(v);
@@ -65,6 +76,8 @@ function providerConfigured(env: Env, provider: CloudProvider): boolean {
       return !!(env.ONEDRIVE_CLIENT_ID && env.ONEDRIVE_CLIENT_SECRET);
     case "box":
       return !!(env.BOX_CLIENT_ID && env.BOX_CLIENT_SECRET);
+    case "google":
+      return !!(env.GOOGLE_INTEGRATIONS_CLIENT_ID && env.GOOGLE_INTEGRATIONS_CLIENT_SECRET);
   }
 }
 
@@ -284,6 +297,17 @@ export function buildAuthorizeUrl(env: Env, provider: CloudProvider, state: stri
       u.searchParams.set("state", state);
       return u.toString();
     }
+    case "google": {
+      const u = new URL("https://accounts.google.com/o/oauth2/v2/auth");
+      u.searchParams.set("client_id", env.GOOGLE_INTEGRATIONS_CLIENT_ID!);
+      u.searchParams.set("response_type", "code");
+      u.searchParams.set("redirect_uri", redirect);
+      u.searchParams.set("scope", GOOGLE_CONNECTOR_SCOPE);
+      u.searchParams.set("access_type", "offline");
+      u.searchParams.set("prompt", "consent");
+      u.searchParams.set("state", state);
+      return u.toString();
+    }
   }
 }
 
@@ -368,6 +392,40 @@ async function exchangeCode(
         : null,
       externalUserId: me?.id ?? null,
       externalEmail: me?.mail || me?.userPrincipalName || null,
+    };
+  }
+
+  if (provider === "google") {
+    const body = new URLSearchParams({
+      code,
+      grant_type: "authorization_code",
+      client_id: env.GOOGLE_INTEGRATIONS_CLIENT_ID!,
+      client_secret: env.GOOGLE_INTEGRATIONS_CLIENT_SECRET!,
+      redirect_uri: redirect,
+    });
+    const res = await fetch("https://oauth2.googleapis.com/token", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body,
+    });
+    if (!res.ok) throw new Error(`Google token exchange failed (${res.status})`);
+    const data = (await res.json()) as {
+      access_token: string;
+      refresh_token?: string;
+      expires_in?: number;
+    };
+    const meRes = await fetch("https://www.googleapis.com/oauth2/v2/userinfo", {
+      headers: { Authorization: `Bearer ${data.access_token}` },
+    });
+    const me = meRes.ok ? ((await meRes.json()) as { id?: string; email?: string }) : null;
+    return {
+      accessToken: data.access_token,
+      refreshToken: data.refresh_token ?? null,
+      expiresAt: data.expires_in
+        ? new Date(Date.now() + data.expires_in * 1000).toISOString()
+        : null,
+      externalUserId: me?.id ?? null,
+      externalEmail: me?.email ?? null,
     };
   }
 
@@ -519,6 +577,33 @@ async function refreshAccessToken(
     };
   }
 
+  if (provider === "google") {
+    const body = new URLSearchParams({
+      grant_type: "refresh_token",
+      refresh_token: refreshToken,
+      client_id: env.GOOGLE_INTEGRATIONS_CLIENT_ID!,
+      client_secret: env.GOOGLE_INTEGRATIONS_CLIENT_SECRET!,
+    });
+    const res = await fetch("https://oauth2.googleapis.com/token", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body,
+    });
+    if (!res.ok) throw new Error("Google token refresh failed");
+    const data = (await res.json()) as {
+      access_token: string;
+      refresh_token?: string;
+      expires_in?: number;
+    };
+    return {
+      accessToken: data.access_token,
+      refreshToken: data.refresh_token ?? refreshToken,
+      expiresAt: data.expires_in
+        ? new Date(Date.now() + data.expires_in * 1000).toISOString()
+        : null,
+    };
+  }
+
   const body = new URLSearchParams({
     grant_type: "refresh_token",
     refresh_token: refreshToken,
@@ -581,6 +666,15 @@ async function getValidAccessToken(
     .run();
 
   return refreshed.accessToken;
+}
+
+/** Used by Google Gmail/Sheets/Calendar helpers. */
+export async function getCloudAccessToken(
+  env: Env,
+  accountId: string,
+  provider: CloudProvider
+): Promise<string> {
+  return getValidAccessToken(env, accountId, provider);
 }
 
 function looksLikeInvoicePdf(name: string): boolean {
@@ -698,6 +792,37 @@ export async function listRecentFiles(
         modifiedAt: f.lastModifiedDateTime ?? null,
       }));
   }
+
+  if (provider === "google") {
+    const q = "mimeType='application/pdf' and trashed=false";
+    const res = await fetch(
+      `https://www.googleapis.com/drive/v3/files?q=${encodeURIComponent(q)}&fields=files(id,name,mimeType,size,modifiedTime,webViewLink)&pageSize=20&orderBy=modifiedTime desc`,
+      { headers: { Authorization: `Bearer ${accessToken}` } }
+    );
+    if (!res.ok) throw new Error("Could not list Google Drive files");
+    const data = (await res.json()) as {
+      files?: {
+        id?: string;
+        name?: string;
+        mimeType?: string;
+        size?: string;
+        modifiedTime?: string;
+        webViewLink?: string;
+      }[];
+    };
+    return (data.files ?? [])
+      .filter((f) => f.name && looksLikeInvoicePdf(f.name))
+      .map((f) => ({
+        id: f.id ?? f.name!,
+        name: f.name!,
+        path: f.webViewLink ?? null,
+        mimeType: f.mimeType ?? "application/pdf",
+        size: f.size ? Number(f.size) : null,
+        modifiedAt: f.modifiedTime ?? null,
+      }));
+  }
+
+  if (provider !== "box") throw new Error(`Unsupported provider: ${provider}`);
 
   // box — root folder items
   const res = await fetch(
@@ -833,6 +958,48 @@ async function downloadFileBytes(
       },
     };
   }
+
+  if (provider === "google") {
+    const metaRes = await fetch(
+      `https://www.googleapis.com/drive/v3/files/${encodeURIComponent(fileId)}?fields=id,name,size,modifiedTime,mimeType,webViewLink`,
+      { headers: { Authorization: `Bearer ${accessToken}` } }
+    );
+    if (!metaRes.ok) throw new Error(`Could not read Google Drive file (${metaRes.status})`);
+    const meta = (await metaRes.json()) as {
+      id?: string;
+      name?: string;
+      size?: string;
+      modifiedTime?: string;
+      mimeType?: string;
+      webViewLink?: string;
+    };
+    const sizeNum = meta.size ? Number(meta.size) : null;
+    if (sizeNum != null && sizeNum > MAX_IMPORT_BYTES) {
+      throw new Error(`File too large (max ${MAX_IMPORT_BYTES / (1024 * 1024)} MB)`);
+    }
+    const res = await fetch(
+      `https://www.googleapis.com/drive/v3/files/${encodeURIComponent(fileId)}?alt=media`,
+      { headers: { Authorization: `Bearer ${accessToken}` } }
+    );
+    if (!res.ok) throw new Error(`Could not download Google Drive file (${res.status})`);
+    const bytes = await res.arrayBuffer();
+    if (bytes.byteLength > MAX_IMPORT_BYTES) {
+      throw new Error(`File too large (max ${MAX_IMPORT_BYTES / (1024 * 1024)} MB)`);
+    }
+    return {
+      bytes,
+      meta: {
+        id: meta.id ?? fileId,
+        name: meta.name ?? "invoice.pdf",
+        path: meta.webViewLink ?? path,
+        mimeType: meta.mimeType ?? "application/pdf",
+        size: sizeNum ?? bytes.byteLength,
+        modifiedAt: meta.modifiedTime ?? null,
+      },
+    };
+  }
+
+  if (provider !== "box") throw new Error(`Unsupported provider: ${provider}`);
 
   // box
   const metaRes = await fetch(

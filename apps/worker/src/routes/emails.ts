@@ -297,10 +297,43 @@ emails.post("/generate-reply-smart", requireProAccount, async (c) => {
     client_name: clientName,
     invoice_amount: invoiceAmount,
     days_overdue: daysOverdue,
-    client_message: clientMessage,
+    client_message: clientMessageInput,
+    client_email: clientEmail,
+    fetch_from_gmail: fetchFromGmail,
     payment_link: paymentLink,
     aging_invoice_id: agingInvoiceId,
   } = parsed.data;
+  let clientMessage = clientMessageInput?.trim() ?? "";
+  if (!clientMessage && fetchFromGmail) {
+    try {
+      const { findLatestClientReply, isGoogleConnected } = await import("../lib/googleIntegrations");
+      if (!(await isGoogleConnected(c.env, acc.workspaceId))) {
+        return c.json(
+          {
+            error:
+              "Google is not connected. Connect Google on Connectors first, or paste the client reply manually.",
+          },
+          400
+        );
+      }
+      const found = await findLatestClientReply(c.env, acc.workspaceId, {
+        clientEmail: clientEmail ?? null,
+        clientName,
+      });
+      if (!found.found || !found.snippet?.trim()) {
+        return c.json(
+          { error: "No recent inbox reply found for this client. Paste their message instead." },
+          404
+        );
+      }
+      clientMessage = found.snippet.trim();
+    } catch (err) {
+      return c.json({ error: err instanceof Error ? err.message : "Gmail lookup failed" }, 502);
+    }
+  }
+  if (!clientMessage) {
+    return c.json({ error: "Paste the client reply or use Smart reply from Gmail." }, 400);
+  }
   try {
     const draft = await classifyAndReplyEmail(c.env, {
       clientName,

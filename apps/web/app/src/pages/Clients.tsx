@@ -5,7 +5,9 @@ import {
   deleteClient,
   generateEmail,
   getClient,
+  importGoogleContacts,
   listClients,
+  listCloudConnectors,
   trackingStats,
   updateClient,
   type Account,
@@ -50,6 +52,9 @@ export default function ClientsPage({ account }: { account: Account | null }) {
   const [openStats, setOpenStats] = useState<
     Record<string, { openCount: number; clickCount: number; lastOpenAt: string | null }>
   >({});
+  const [googleConnected, setGoogleConnected] = useState(false);
+  const [importingGoogle, setImportingGoogle] = useState(false);
+  const [importGoogleResult, setImportGoogleResult] = useState<{ imported: number; skipped: number } | null>(null);
 
   async function refreshList() {
     const res = await listClients();
@@ -62,6 +67,9 @@ export default function ClientsPage({ account }: { account: Account | null }) {
     refreshList()
       .catch((err) => setError(err instanceof Error ? err.message : "Could not load clients"))
       .finally(() => setLoading(false));
+    listCloudConnectors()
+      .then((res) => setGoogleConnected(res.connectors.some((c) => c.provider === "google" && c.connected)))
+      .catch(() => setGoogleConnected(false));
   }, [account, isPaid]);
 
   useEffect(() => {
@@ -251,6 +259,47 @@ export default function ClientsPage({ account }: { account: Account | null }) {
 
       {error && <div className="error-msg">{error}</div>}
       {loading && <p className="page-sub">Loading…</p>}
+      {isPaid && (
+        <div style={{ marginBottom: 16, display: "flex", gap: 8, flexWrap: "wrap", alignItems: "center" }}>
+          {googleConnected ? (
+            <button
+              type="button"
+              className="btn-secondary"
+              disabled={importingGoogle}
+              onClick={async () => {
+                setImportingGoogle(true);
+                setImportGoogleResult(null);
+                setError(null);
+                try {
+                  const result = await importGoogleContacts();
+                  setImportGoogleResult({ imported: result.imported, skipped: result.skipped });
+                  await refreshList();
+                } catch (err) {
+                  setError(err instanceof Error ? err.message : "Google import failed");
+                } finally {
+                  setImportingGoogle(false);
+                }
+              }}
+            >
+              {importingGoogle ? "Importing…" : "Import from Google"}
+            </button>
+          ) : (
+            <span className="branding-help">
+              To import Google contacts,{" "}
+              <Link to="/connector">connect Google Drive first</Link>.
+            </span>
+          )}
+          {importGoogleResult && (
+            <span className="branding-help">
+              Imported {importGoogleResult.imported}
+              {importGoogleResult.skipped > 0
+                ? `, ${importGoogleResult.skipped} skipped`
+                : ""}
+              .
+            </span>
+          )}
+        </div>
+      )}
 
       <div className="clients-layout">
         <section className="branding-card">

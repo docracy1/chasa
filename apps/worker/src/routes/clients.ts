@@ -252,4 +252,16 @@ clients.delete("/:id", requirePaidAccount, async (c) => {
   return c.json({ ok: true });
 });
 
+/** Import contacts from Google People API using the stored Google OAuth token. */
+clients.post("/import-google", requirePaidAccount, async (c) => {
+  const acc = c.get("account")!;
+  try {
+    const { importGoogleContacts } = await import("../lib/googleIntegrations");
+    const result = await importGoogleContacts(c.env, acc.workspaceId);
+    return c.json({ ok: true, ...result });
+  } catch (err) {
+    return c.json({ error: err instanceof Error ? err.message : "Import failed" }, 502);
+  }
+});
+
 export default clients;

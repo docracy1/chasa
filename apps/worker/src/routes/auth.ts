@@ -7,6 +7,8 @@ import {
   destroySession,
   setSessionCookie,
   clearSessionCookie,
+  getGoogleLoginAuthorizeUrl,
+  handleGoogleLoginCallback,
   SESSION_COOKIE_NAME,
 } from "../lib/auth";
 import { trackEvent } from "../lib/analytics";
@@ -21,6 +23,9 @@ auth.get("/config", (c) => {
   return c.json({
     turnstileSiteKey: turnstileSiteKey(c.env),
     turnstileRequired: Boolean(c.env.TURNSTILE_SECRET_KEY?.trim()),
+    googleLoginEnabled: Boolean(
+      c.env.GOOGLE_LOGIN_CLIENT_ID?.trim() && c.env.GOOGLE_LOGIN_CLIENT_SECRET?.trim()
+    ),
   });
 });
 
@@ -69,8 +74,36 @@ auth.get("/verify", async (c) => {
 auth.post("/logout", async (c) => {
   const sessionToken = getCookie(c, SESSION_COOKIE_NAME);
   if (sessionToken) await destroySession(c.env, sessionToken);
-  clearSessionCookie(c);
+  clearSessionCookie(c, c.env);
   return c.json({ ok: true });
+});
+
+auth.get("/google", async (c) => {
+  const appOrigin = requestAppOrigin(c);
+  const result = await getGoogleLoginAuthorizeUrl(c.env);
+  if (!result.ok) return c.redirect(`${appOrigin}/app/login?error=google_unavailable`);
+  return c.redirect(result.url);
+});
+
+auth.get("/google/callback", async (c) => {
+  const appOrigin = requestAppOrigin(c);
+  const code = c.req.query("code");
+  const state = c.req.query("state");
+  if (!code || !state) return c.redirect(`${appOrigin}/app/login?error=google_auth`);
+  const result = await handleGoogleLoginCallback(c.env, code, state);
+  if (!result.ok) return c.redirect(`${appOrigin}/app/login?error=google_auth`);
+  setSessionCookie(c, c.env, result.sessionToken);
+  if (result.isNew) {
+    c.executionCtx.waitUntil(
+      trackEvent(c.env, {
+        name: "signup_completed",
+        accountId: result.accountId,
+        path: "/api/auth/google/callback",
+        userAgent: c.req.header("User-Agent")?.slice(0, 300) || null,
+      }).catch(() => {})
+    );
+  }
+  return c.redirect(`${appOrigin}/app/account`);
 });
 
 export default auth;

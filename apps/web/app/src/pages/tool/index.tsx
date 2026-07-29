@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import Papa from "papaparse";
 import {
   CLOUD_IMPORT_STORAGE_KEY,
   createTrackedCopy,
+  exportAgingToGoogleSheet,
+  findGmailClientReply,
   generateEmail,
   generateReply,
   generateSequence,
@@ -11,6 +13,7 @@ import {
   generateThankYou,
   getEvidencePack,
   importCloudConnectorFile,
+  importGoogleSheet,
   listCloudConnectorFiles,
   listCloudConnectors,
   listReminders,
@@ -23,8 +26,10 @@ import {
   getInvoiceTimeline,
   rewriteEmail,
   scheduleFollowUpReminder,
+  saveGmailDraft,
   snoozeReminder,
   syncAging,
+  syncReminderToGoogleCalendar,
   trackingStats,
   updateReminderStatus,
   type Account,
@@ -50,6 +55,7 @@ import { InvoiceIntakePanel } from "./components/InvoiceIntakePanel";
 import { PdfPickerPanel } from "./components/PdfPickerPanel";
 import { InvoiceCard } from "./components/InvoiceCard";
 import { DueTodayBanner } from "./components/DueTodayBanner";
+import { googlePickerEnabled, openGoogleDrivePicker } from "../../lib/googlePicker";
 
 function todayIso(): string {
   return new Date().toISOString().slice(0, 10);
@@ -94,6 +100,10 @@ export default function Tool({ account }: { account: Account | null }) {
   const [openStatsMap, setOpenStatsMap] = useState<
     Record<string, { openCount: number; clickCount: number; lastOpenAt: string | null }>
   >({});
+  const [sheetId, setSheetId] = useState("");
+  const [sheetBusy, setSheetBusy] = useState(false);
+  const [sheetMsg, setSheetMsg] = useState<string | null>(null);
+  const [googleConnected, setGoogleConnected] = useState(false);
   const isPaid = account?.plan !== "free" && account?.plan != null;
   const isPro = account?.plan === "pro" || account?.plan === "enterprise";
 
@@ -129,6 +139,16 @@ export default function Tool({ account }: { account: Account | null }) {
       /* ignore */
     }
   }
+
+  useEffect(() => {
+    if (!isPaid) {
+      setGoogleConnected(false);
+      return;
+    }
+    listCloudConnectors()
+      .then((res) => setGoogleConnected(res.connectors.some((c) => c.provider === "google" && c.connected)))
+      .catch(() => setGoogleConnected(false));
+  }, [isPaid]);
 
   useEffect(() => {
     persistInvoices(invoices);
@@ -621,10 +641,11 @@ export default function Tool({ account }: { account: Account | null }) {
     }
   }
 
-  async function handleReplySmart(invoiceId: string) {
+  async function handleReplySmart(invoiceId: string, fromGmail = false) {
     if (!isPro) return;
     const invoice = invoices.find((inv) => inv.id === invoiceId);
-    if (!invoice?.clientReply?.trim()) return;
+    if (!fromGmail && !invoice?.clientReply?.trim()) return;
+    if (!invoice) return;
     setInvoices((prev) =>
       prev.map((inv) =>
         inv.id === invoiceId ? { ...inv, rewriting: "replySmart", error: undefined } : inv
@@ -635,7 +656,8 @@ export default function Tool({ account }: { account: Account | null }) {
         client_name: invoice.clientName,
         invoice_amount: invoice.amount,
         days_overdue: daysOverdue(invoice.dueDate),
-        client_message: invoice.clientReply.trim(),
+        client_message: fromGmail ? undefined : invoice.clientReply?.trim(),
+        fetch_from_gmail: fromGmail || undefined,
         payment_link: paymentLink || account?.paymentLink || undefined,
         aging_invoice_id: invoice.id,
       });
@@ -669,6 +691,200 @@ export default function Tool({ account }: { account: Account | null }) {
             : inv
         )
       );
+    }
+  }
+
+  async function handleFetchGmailReply(invoiceId: string) {
+    if (!isPro) return;
+    const invoice = invoices.find((inv) => inv.id === invoiceId);
+    if (!invoice) return;
+    setInvoices((prev) =>
+      prev.map((inv) => (inv.id === invoiceId ? { ...inv, rewriting: "reply", error: undefined } : inv))
+    );
+    try {
+      const found = await findGmailClientReply({ clientName: invoice.clientName });
+      if (!found.found || !found.snippet) {
+        throw new Error("No recent Gmail reply found for this client.");
+      }
+      setInvoices((prev) =>
+        prev.map((inv) =>
+          inv.id === invoiceId
+            ? { ...inv, clientReply: found.snippet ?? "", rewriting: null }
+            : inv
+        )
+      );
+    } catch (err) {
+      setInvoices((prev) =>
+        prev.map((inv) =>
+          inv.id === invoiceId
+            ? {
+                ...inv,
+                rewriting: null,
+                error: err instanceof Error ? err.message : "Gmail lookup failed.",
+              }
+            : inv
+        )
+      );
+    }
+  }
+
+  async function handleSaveGmailDraft(invoice: Invoice) {
+    if (!isPaid || !invoice.draft) return;
+    try {
+      let to = invoice.clientName.includes("@") ? invoice.clientName.trim() : "";
+      if (!to) {
+        const prompted = window.prompt("Recipient email for Gmail draft:", "");
+        if (!prompted?.includes("@")) return;
+        to = prompted.trim();
+      }
+      await saveGmailDraft({
+        to,
+        subject: invoice.draft.subject,
+        body: invoice.draft.body,
+      });
+      setInvoices((prev) =>
+        prev.map((inv) =>
+          inv.id === invoice.id
+            ? {
+                ...inv,
+                trackingNote: "Saved to Gmail drafts — open Gmail to review and send.",
+                lastChaseStatus: "gmail_draft",
+                lastChaseAt: new Date().toISOString(),
+              }
+            : inv
+        )
+      );
+      void logChaseEvent(invoice, "drafted", invoice.draft.subject, invoice.draft.body);
+      track("chase_sent", { method: "gmail_draft" });
+    } catch (err) {
+      setInvoices((prev) =>
+        prev.map((inv) =>
+          inv.id === invoice.id
+            ? { ...inv, error: err instanceof Error ? err.message : "Gmail draft failed." }
+            : inv
+        )
+      );
+    }
+  }
+
+  async function handleSyncReminderCalendar(invoiceId: string, reminderId: string) {
+    const invoice = invoices.find((inv) => inv.id === invoiceId);
+    const reminder = invoice?.reminders?.find((r) => r.id === reminderId);
+    if (!reminder) return;
+    try {
+      const result = await syncReminderToGoogleCalendar({
+        date: reminder.plannedDate,
+        summary: reminder.label || `Chase: ${invoice?.clientName ?? "client"}`,
+        description: reminder.body || reminder.subject || undefined,
+        clientName: invoice?.clientName,
+      });
+      setInvoices((prev) =>
+        prev.map((inv) =>
+          inv.id === invoiceId
+            ? {
+                ...inv,
+                trackingNote: result.htmlLink
+                  ? `Added to Google Calendar: ${result.htmlLink}`
+                  : "Added to Google Calendar.",
+              }
+            : inv
+        )
+      );
+    } catch (err) {
+      setInvoices((prev) =>
+        prev.map((inv) =>
+          inv.id === invoiceId
+            ? {
+                ...inv,
+                error: err instanceof Error ? err.message : "Calendar sync failed.",
+              }
+            : inv
+        )
+      );
+    }
+  }
+
+  async function handleOpenGooglePicker() {
+    if (!isPaid) return;
+    openGoogleDrivePicker(
+      async (file) => {
+        setPdfBusy(true);
+        setPdfError(null);
+        try {
+          // Import via connected Google connector when available; otherwise ask to connect.
+          const connectors = await listCloudConnectors();
+          const google = connectors.connectors.find((c) => c.provider === "google" && c.connected);
+          if (!google) {
+            setPdfError("Connect Google Drive on Connectors first, then use Open from Drive.");
+            return;
+          }
+          const result = await importCloudConnectorFile("google", { id: file.id, path: null });
+          setPendingImport({
+            ...result,
+            provider: "google",
+            providerLabel: "Google Drive",
+          });
+          setImportClient(result.hints.clientName ?? "");
+          setImportAmount(
+            result.hints.amount != null ? String(result.hints.amount) : ""
+          );
+          setImportDue(result.hints.dueDate ?? "");
+        } catch (err) {
+          setPdfError(err instanceof Error ? err.message : "Drive import failed");
+        } finally {
+          setPdfBusy(false);
+        }
+      },
+      (message) => setPdfError(message)
+    );
+  }
+
+  async function handleSheetImport() {
+    if (!isPaid || !sheetId.trim()) return;
+    setSheetBusy(true);
+    setSheetMsg(null);
+    try {
+      const result = await importGoogleSheet(sheetId.trim());
+      const now = new Date().toISOString();
+      const added: Invoice[] = result.rows.map((row) => ({
+        id: crypto.randomUUID(),
+        clientName: row.clientName,
+        amount: row.amount,
+        dueDate: row.dueDate,
+        createdAt: now,
+        generating: false,
+        rewriting: null,
+      }));
+      setInvoices((prev) => [...added, ...prev]);
+      setSheetMsg(`Imported ${added.length} row(s)${result.skipped ? `, skipped ${result.skipped}` : ""}.`);
+    } catch (err) {
+      setSheetMsg(err instanceof Error ? err.message : "Sheets import failed");
+    } finally {
+      setSheetBusy(false);
+    }
+  }
+
+  async function handleSheetExport() {
+    if (!isPaid || invoices.length === 0) return;
+    setSheetBusy(true);
+    setSheetMsg(null);
+    try {
+      const result = await exportAgingToGoogleSheet({
+        title: `Chasa aging ${todayIso()}`,
+        rows: invoices
+          .filter((inv) => inv.status !== "paid")
+          .map((inv) => ({
+            clientName: inv.clientName,
+            amount: inv.amount,
+            dueDate: inv.dueDate,
+            status: inv.lastChaseStatus ?? "open",
+          })),
+      });
+      setSheetMsg(`Exported: ${result.spreadsheetUrl}`);
+    } catch (err) {
+      setSheetMsg(err instanceof Error ? err.message : "Sheets export failed");
+    } finally {
+      setSheetBusy(false);
     }
   }
 
@@ -1177,6 +1393,15 @@ export default function Tool({ account }: { account: Account | null }) {
         onAddManual={handleAddManual}
         onCsvUpload={handleCsvUpload}
         onOpenPdfPicker={openPdfPicker}
+        onOpenGooglePicker={handleOpenGooglePicker}
+        onSheetImport={handleSheetImport}
+        onSheetExport={handleSheetExport}
+        sheetId={sheetId}
+        onSheetIdChange={setSheetId}
+        sheetBusy={sheetBusy}
+        sheetMsg={sheetMsg}
+        googleConnected={googleConnected}
+        googlePickerEnabled={googlePickerEnabled()}
         onDownloadCsv={downloadCsv}
         onClearList={handleClearList}
       />
@@ -1218,6 +1443,8 @@ export default function Tool({ account }: { account: Account | null }) {
           onClientReplyChange={handleClientReplyChange}
           onReply={handleReply}
           onReplySmart={handleReplySmart}
+          onReplySmartFromGmail={isPro ? (id) => void handleReplySmart(id, true) : undefined}
+          onFetchGmailReply={isPro ? handleFetchGmailReply : undefined}
           onDemandLetter={handleDemandLetter}
           onMarkSent={handleMarkSent}
           onMarkPaid={handleMarkPaid}
@@ -1225,11 +1452,13 @@ export default function Tool({ account }: { account: Account | null }) {
           onCopyNextReminder={copyNextReminder}
           onMarkReminderDone={markReminderDone}
           onSnoozeReminder={handleSnoozeReminder}
+          onSyncReminderCalendar={isPaid ? handleSyncReminderCalendar : undefined}
           onScheduleReplyFollowUp={handleScheduleReplyFollowUp}
           onEvidencePack={handleEvidencePack}
           openStats={openStatsMap[invoice.id]}
           onCopyDraft={copyDraft}
           onTrackedCopy={handleTrackedCopy}
+          onSaveGmailDraft={isPaid ? handleSaveGmailDraft : undefined}
           mailtoLink={mailtoLink}
           onMailtoClick={handleMailtoClick}
           sequenceSendDate={sequenceSendDate}

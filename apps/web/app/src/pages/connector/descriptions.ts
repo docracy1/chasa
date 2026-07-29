@@ -7,6 +7,8 @@ export const CLOUD_DESCRIPTIONS: Record<CloudProvider, string> = {
   onedrive:
     "Import invoice PDFs from OneDrive / Microsoft 365. Connect with Microsoft, then Recent PDFs → Import.",
   box: "Import invoice PDFs from Box. Connect once, then use Recent PDFs → Import into the Tool.",
+  google:
+    "Connect Google for Drive PDF import, Gmail drafts, Sheets, Calendar reminders, and Contacts import.",
 };
 
 export const ACCOUNTING_DESCRIPTIONS: Record<"quickbooks" | "xero", string> = {

@@ -2,7 +2,8 @@ import type { Context, MiddlewareHandler } from "hono";
 import { getCookie, setCookie, deleteCookie } from "hono/cookie";
 import type { Env } from "../types";
 import { isPaidPlan, type Plan } from "./billing";
-import { generateOpaqueToken, hashOpaqueToken, hashOpaqueTokenLookup } from "./token";
+import { timingSafeEqual } from "./cryptoUtils";
+import { generateOpaqueToken, hashOpaqueToken, hashOpaqueTokenLookup, hashOpaqueTokenLegacy } from "./token";
 import { purgeExpiredSessions } from "./sessionCleanup";
 import { sendMagicLinkEmail } from "./email";
 import { normalizePlan } from "./plan";
@@ -32,12 +33,24 @@ function isHttps(url: string): boolean {
 
 export function sessionCookieOptions(env: Env) {
   const https = isHttps(env.PUBLIC_APP_URL);
+  let domain: string | undefined;
+  if (https) {
+    try {
+      const host = new URL(env.PUBLIC_APP_URL).hostname;
+      if (host === "chasa.io" || host.endsWith(".chasa.io")) {
+        domain = ".chasa.io";
+      }
+    } catch {
+      /* ignore */
+    }
+  }
   return {
     httpOnly: true as const,
     secure: https,
     sameSite: (https ? "None" : "Lax") as "None" | "Lax",
     path: "/",
     maxAge: SESSION_TTL_SECONDS,
+    ...(domain ? { domain } : {}),
   };
 }
 
@@ -313,6 +326,113 @@ export function setSessionCookie(c: Context, env: Env, token: string) {
   setCookie(c, SESSION_COOKIE_NAME, token, sessionCookieOptions(env));
 }
 
-export function clearSessionCookie(c: Context) {
-  deleteCookie(c, SESSION_COOKIE_NAME, { path: "/" });
+export function clearSessionCookie(c: Context, env?: Env) {
+  const opts = env ? sessionCookieOptions(env) : { path: "/" };
+  deleteCookie(c, SESSION_COOKIE_NAME, {
+    path: "/",
+    ...("domain" in opts && opts.domain ? { domain: opts.domain as string } : {}),
+  });
+}
+
+const GOOGLE_LOGIN_STATE_TTL_SECONDS = 10 * 60;
+
+export async function createGoogleLoginState(env: Env): Promise<string> {
+  const expiry = String(Math.floor(Date.now() / 1000) + GOOGLE_LOGIN_STATE_TTL_SECONDS);
+  const nonce = generateOpaqueToken().slice(0, 16);
+  const payload = `${expiry}.${nonce}`;
+  const sig = await hashOpaqueToken(payload, env.TOKEN_SECRET, "google-login-state");
+  return `${payload}.${sig}`;
+}
+
+async function parseGoogleLoginState(env: Env, state: string): Promise<boolean> {
+  const parts = state.split(".");
+  if (parts.length !== 3) return false;
+  const [expiry, nonce, sig] = parts;
+  if (!expiry || !nonce || !sig) return false;
+  if (Number(expiry) < Math.floor(Date.now() / 1000)) return false;
+  const payload = `${expiry}.${nonce}`;
+  const expected = await hashOpaqueToken(payload, env.TOKEN_SECRET, "google-login-state");
+  const legacyExpected = await hashOpaqueTokenLegacy(payload, env.TOKEN_SECRET);
+  return timingSafeEqual(expected, sig) || timingSafeEqual(legacyExpected, sig);
+}
+
+export async function getGoogleLoginAuthorizeUrl(
+  env: Env
+): Promise<{ ok: true; url: string } | { ok: false; error: string }> {
+  if (!env.GOOGLE_LOGIN_CLIENT_ID || !env.GOOGLE_LOGIN_CLIENT_SECRET) {
+    return { ok: false, error: "Google sign-in isn't configured" };
+  }
+  const state = await createGoogleLoginState(env);
+  const redirectUri = `${env.PUBLIC_WORKER_URL.replace(/\/$/, "")}/api/auth/google/callback`;
+  const params = new URLSearchParams({
+    client_id: env.GOOGLE_LOGIN_CLIENT_ID,
+    response_type: "code",
+    redirect_uri: redirectUri,
+    scope: "openid email profile",
+    state,
+  });
+  return { ok: true, url: `https://accounts.google.com/o/oauth2/v2/auth?${params.toString()}` };
+}
+
+export async function handleGoogleLoginCallback(
+  env: Env,
+  code: string,
+  state: string
+): Promise<
+  | { ok: true; sessionToken: string; accountId: string; isNew: boolean; isPaid: boolean; plan: Plan }
+  | { ok: false; error: string }
+> {
+  if (!env.GOOGLE_LOGIN_CLIENT_ID || !env.GOOGLE_LOGIN_CLIENT_SECRET) {
+    return { ok: false, error: "Google sign-in isn't configured" };
+  }
+  if (!(await parseGoogleLoginState(env, state))) {
+    return { ok: false, error: "Invalid or expired state" };
+  }
+  const redirectUri = `${env.PUBLIC_WORKER_URL.replace(/\/$/, "")}/api/auth/google/callback`;
+  const tokenRes = await fetch("https://oauth2.googleapis.com/token", {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: new URLSearchParams({
+      code,
+      grant_type: "authorization_code",
+      client_id: env.GOOGLE_LOGIN_CLIENT_ID,
+      client_secret: env.GOOGLE_LOGIN_CLIENT_SECRET,
+      redirect_uri: redirectUri,
+    }).toString(),
+  });
+  if (!tokenRes.ok) return { ok: false, error: "Token exchange failed" };
+  const tokenJson = (await tokenRes.json()) as { id_token?: string };
+  const idToken = tokenJson.id_token;
+  if (!idToken) return { ok: false, error: "Missing id_token from Google" };
+  const tokenInfoRes = await fetch(
+    `https://oauth2.googleapis.com/tokeninfo?id_token=${encodeURIComponent(idToken)}`
+  );
+  if (!tokenInfoRes.ok) return { ok: false, error: "id_token validation failed" };
+  const tokenInfo = (await tokenInfoRes.json()) as {
+    email?: string;
+    email_verified?: boolean | string;
+    aud?: string;
+  };
+  const email = tokenInfo.email?.trim().toLowerCase();
+  if (!email) return { ok: false, error: "Missing email from Google" };
+  const verified =
+    tokenInfo.email_verified === true ||
+    tokenInfo.email_verified === "true" ||
+    tokenInfo.email_verified === "1";
+  if (!verified) return { ok: false, error: "Email isn't verified" };
+  if (tokenInfo.aud && tokenInfo.aud !== env.GOOGLE_LOGIN_CLIENT_ID) {
+    return { ok: false, error: "Invalid token audience" };
+  }
+  const account = await findOrCreateAccount(env, email);
+  await purgeExpiredSessions(env);
+  await env.CHASA_DB.prepare(`DELETE FROM sessions WHERE account_id = ?`).bind(account.id).run();
+  const sessionToken = await createSession(env, account.id);
+  return {
+    ok: true,
+    sessionToken,
+    accountId: account.id,
+    isNew: account.isNew,
+    isPaid: account.isPaid,
+    plan: account.plan,
+  };
 }

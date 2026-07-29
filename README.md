@@ -266,6 +266,9 @@ Protects `/api/auth/request` and admin login.
     | Dropbox | `https://api.chasa.io/api/account/connectors/dropbox/callback` |
     | OneDrive | `https://api.chasa.io/api/account/connectors/onedrive/callback` |
     | Box | `https://api.chasa.io/api/account/connectors/box/callback` |
+    | Google | `https://api.chasa.io/api/account/connectors/google/callback` |
+
+    Google Sign-In redirect: `https://api.chasa.io/api/auth/google/callback`
 
     ```bash
     wrangler secret put DROPBOX_CLIENT_ID
@@ -274,6 +277,8 @@ Protects `/api/auth/request` and admin login.
     wrangler secret put ONEDRIVE_CLIENT_SECRET
     wrangler secret put BOX_CLIENT_ID
     wrangler secret put BOX_CLIENT_SECRET
+    wrangler secret put GOOGLE_LOGIN_CLIENT_SECRET
+    wrangler secret put GOOGLE_INTEGRATIONS_CLIENT_SECRET
     ```
 
 11. **QuickBooks Online + Xero (optional, Solo+):**

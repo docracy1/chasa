@@ -63,7 +63,9 @@ export const replyClassifySchema = z.object({
   client_name: z.string().trim().min(1).max(120),
   invoice_amount: z.coerce.number().finite().min(0).max(999_999_999),
   days_overdue: z.coerce.number().finite().min(0).max(3650),
-  client_message: z.string().trim().min(1).max(4000),
+  client_message: z.string().trim().max(4000).optional(),
+  client_email: z.string().trim().max(200).optional(),
+  fetch_from_gmail: z.boolean().optional(),
   payment_link: z.string().max(500).optional(),
   aging_invoice_id: z.string().max(64).optional(),
 });

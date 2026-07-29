@@ -106,6 +106,7 @@ cloudConnectors.get("/", requirePaidAccount, async (c) => {
 cloudConnectors.get("/dropbox/callback", (c) => handleCallback(c, "dropbox"));
 cloudConnectors.get("/onedrive/callback", (c) => handleCallback(c, "onedrive"));
 cloudConnectors.get("/box/callback", (c) => handleCallback(c, "box"));
+cloudConnectors.get("/google/callback", (c) => handleCallback(c, "google"));
 cloudConnectors.get("/quickbooks/callback", (c) => handleAccountingCallback(c, "quickbooks"));
 cloudConnectors.get("/xero/callback", (c) => handleAccountingCallback(c, "xero"));
 

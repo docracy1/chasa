@@ -365,7 +365,7 @@ export function revokeConnectorKey(id: string) {
   return jsonFetch<{ ok: true }>(`/connector/keys/${id}`, { method: "DELETE" });
 }
 
-export type CloudProvider = "dropbox" | "onedrive" | "box";
+export type CloudProvider = "dropbox" | "onedrive" | "box" | "google";
 
 export type CloudConnectorStatus = {
   provider: CloudProvider;
@@ -454,12 +454,14 @@ export const CLOUD_REDIRECT_URIS: Record<CloudProvider, string> = {
   dropbox: "https://api.chasa.io/api/account/connectors/dropbox/callback",
   onedrive: "https://api.chasa.io/api/account/connectors/onedrive/callback",
   box: "https://api.chasa.io/api/account/connectors/box/callback",
+  google: "https://api.chasa.io/api/account/connectors/google/callback",
 };
 
 export const CLOUD_SECRET_NAMES: Record<CloudProvider, [string, string]> = {
   dropbox: ["DROPBOX_CLIENT_ID", "DROPBOX_CLIENT_SECRET"],
   onedrive: ["ONEDRIVE_CLIENT_ID", "ONEDRIVE_CLIENT_SECRET"],
   box: ["BOX_CLIENT_ID", "BOX_CLIENT_SECRET"],
+  google: ["GOOGLE_INTEGRATIONS_CLIENT_ID", "GOOGLE_INTEGRATIONS_CLIENT_SECRET"],
 };
 
 /** Map OAuth / connect query error codes to founder-friendly copy. */
@@ -516,6 +518,7 @@ export function requestMagicLink(email: string, turnstileToken?: string | null) 
 export type AuthConfig = {
   turnstileSiteKey: string | null;
   turnstileRequired: boolean;
+  googleLoginEnabled?: boolean;
 };
 
 export function logout() {
@@ -691,7 +694,9 @@ export function generateReplySmart(input: {
   client_name: string;
   invoice_amount: number;
   days_overdue: number;
-  client_message: string;
+  client_message?: string;
+  client_email?: string;
+  fetch_from_gmail?: boolean;
   payment_link?: string;
   aging_invoice_id?: string;
 }) {
@@ -699,6 +704,55 @@ export function generateReplySmart(input: {
     method: "POST",
     body: JSON.stringify(input),
   });
+}
+
+export function importGoogleContacts() {
+  return jsonFetch<{ ok: true; imported: number; skipped: number }>("/clients/import-google", {
+    method: "POST",
+  });
+}
+
+export function saveGmailDraft(input: { to: string; subject: string; body: string }) {
+  return jsonFetch<{ ok: true; draftId: string }>("/account/google/gmail-draft", {
+    method: "POST",
+    body: JSON.stringify(input),
+  });
+}
+
+export function importGoogleSheet(spreadsheetId: string, range?: string) {
+  return jsonFetch<{ rows: Array<{ clientName: string; amount: number; dueDate: string }>; skipped: number }>(
+    "/account/google/sheets/import",
+    { method: "POST", body: JSON.stringify({ spreadsheetId, range }) }
+  );
+}
+
+export function exportAgingToGoogleSheet(input: {
+  title?: string;
+  rows: Array<{ clientName: string; amount: number; dueDate: string; status?: string }>;
+}) {
+  return jsonFetch<{ spreadsheetId: string; spreadsheetUrl: string }>("/account/google/sheets/export-aging", {
+    method: "POST",
+    body: JSON.stringify(input),
+  });
+}
+
+export function syncReminderToGoogleCalendar(input: {
+  date: string;
+  summary?: string;
+  description?: string;
+  clientName?: string;
+}) {
+  return jsonFetch<{ eventId: string; htmlLink: string | null }>("/account/google/calendar/sync-reminder", {
+    method: "POST",
+    body: JSON.stringify(input),
+  });
+}
+
+export function findGmailClientReply(input: { clientName: string; clientEmail?: string | null }) {
+  return jsonFetch<{ found: boolean; snippet: string | null; subject: string | null; date: string | null }>(
+    "/account/google/gmail/find-reply",
+    { method: "POST", body: JSON.stringify(input) }
+  );
 }
 
 export function generateDemandLetter(input: {

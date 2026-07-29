@@ -7,6 +7,7 @@ export function emptyTests(): ProviderTests {
     dropbox: { status: "idle", message: null, hint: null, at: null },
     onedrive: { status: "idle", message: null, hint: null, at: null },
     box: { status: "idle", message: null, hint: null, at: null },
+    google: { status: "idle", message: null, hint: null, at: null },
   };
 }
 

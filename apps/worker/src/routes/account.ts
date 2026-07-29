@@ -1,11 +1,13 @@
 import { Hono } from "hono";
 import { requireAccount, requireWorkspaceAdmin, type AuthEnv } from "../lib/auth";
 import cloudConnectors from "./cloudConnectors";
+import googleIntegrations from "./googleIntegrations";
 import { brandingUpdateSchema, digestSettingsSchema, parseJsonBody, validateWorkspaceName } from "../lib/schemas";
 
 const account = new Hono<AuthEnv>();
 
 account.route("/connectors", cloudConnectors);
+account.route("/google", googleIntegrations);
 
 account.get("/me", requireAccount, async (c) => {
   const acc = c.get("account")!;
