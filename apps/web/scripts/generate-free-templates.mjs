@@ -295,6 +295,25 @@ Thanks,
 [Your name]`,
   },
   {
+    slug: "invoice-sent-please-process",
+    name: "Invoice sent — please process",
+    seoTitle: "Free Invoice Delivery Email Template (Please Process)",
+    description:
+      "Free email to send with a new invoice: clear due date, how to pay, and what to do if something looks wrong — sets expectations before any chase.",
+    stage: "On send",
+    tone: "Clear",
+    subject: "Invoice [Invoice #] for [Amount] — due [Due date]",
+    body: `Hi [Client name],
+
+Please find invoice [Invoice #] for [Amount], due [Due date].
+
+Pay here when ready: [Payment link or bank details]
+If PO numbers, billing contacts, or line items need adjusting, reply and I'll update the invoice before the due date.
+
+Thanks for the work — looking forward to the next one,
+[Your name]`,
+  },
+  {
     slug: "confirm-invoice-received-email",
     name: "Confirm invoice received",
     seoTitle: "Free Confirm Invoice Received Email Template",
@@ -310,6 +329,52 @@ Could you confirm you received invoice [Invoice #] for [Amount] (due [Due date])
 If it didn't arrive, reply and I'll resend immediately (and update your billing contact if needed). Copy attached.
 
 Thanks,
+[Your name]`,
+  },
+  {
+    slug: "multiple-invoices-coming-due",
+    name: "Multiple invoices coming due",
+    seoTitle: "Free Email Template for Multiple Invoices Before Due Date",
+    description:
+      "Free pre-due summary when several invoices share the same client. Helps AP schedule one payment run before anything is late.",
+    stage: "Multiple · before due",
+    tone: "Helpful",
+    subject: "Upcoming invoices totaling [Total amount]",
+    body: `Hi [Client name],
+
+A heads-up on invoices coming due so nothing slips your payment run:
+
+• [Invoice #1] — [Amount 1] — due [Date 1]
+• [Invoice #2] — [Amount 2] — due [Date 2]
+
+Combined total: [Total amount]
+
+If everything looks right, you can settle here when ready: [Payment link]. Happy to combine into one remittance or adjust timing if needed.
+
+Thanks,
+[Your name]`,
+  },
+  {
+    slug: "thank-you-multiple-invoices-paid",
+    name: "Thanks — multiple invoices paid",
+    seoTitle: "Free Thank You Email for Multiple Invoice Payments",
+    description:
+      "Free thank-you email after a client clears several invoices at once. Short, warm, and good for repeat payment habits.",
+    stage: "Multiple · paid",
+    tone: "Grateful",
+    subject: "Thanks — payments received ([Total amount])",
+    body: `Hi [Client name],
+
+Confirming we've received your payment covering:
+
+• [Invoice #1] — [Amount 1]
+• [Invoice #2] — [Amount 2]
+
+Total applied: [Total amount]. Thank you — that clears the open balance on our side.
+
+If you need remittance details or receipts for your records, just say the word.
+
+Appreciate you,
 [Your name]`,
   },
 ];
@@ -353,6 +418,7 @@ ${jsonLd ? `<script type="application/ld+json">\n${jsonLd}\n</script>` : ""}
     <div class="header-nav-right">
       <a href="/#pricing" class="header-nav-link header-nav-collapse">Pricing</a>
       <a href="/free-templates/" class="header-nav-link header-nav-collapse${activeNav === "templates" ? " header-nav-strong" : ""}">Free templates</a>
+      <a href="/tools/" class="header-nav-link header-nav-collapse">Tools</a>
       <a href="/ai" class="header-nav-link header-nav-collapse${activeNav === "ai" ? " header-nav-strong" : ""}">AI</a>
       <a href="/about" class="header-nav-link header-nav-collapse">About</a>
       <a href="/app/login" class="header-nav-link header-nav-strong">Sign in</a>
@@ -364,6 +430,7 @@ ${jsonLd ? `<script type="application/ld+json">\n${jsonLd}\n</script>` : ""}
     <div class="header-mobile-menu" data-mobile-menu>
       <a href="/#pricing">Pricing</a>
       <a href="/free-templates/">Free templates</a>
+      <a href="/tools/">Tools</a>
       <a href="/ai">AI</a>
       <a href="/about">About</a>
       <a href="/app/login">Sign in</a>
@@ -383,11 +450,9 @@ ${mainHtml}
       <a href="/app/">Try free</a>
       <a href="/#pricing">Pricing</a>
       <a href="/free-templates/">Free templates</a>
+      <a href="/tools/">Calculators</a>
       <a href="/ai">AI</a>
       <a href="/#faq">FAQ</a>
-    </div>
-    <div class="site-footer-col">
-      <h4>Company</h4>
       <a href="/about">About</a>
       <a href="/imprint">Imprint</a>
       <a href="mailto:founder@chasa.io">Contact</a>
@@ -416,7 +481,7 @@ const indexJsonLd = JSON.stringify(
     name: "Free Invoice Payment Reminder Email Templates",
     url: "https://chasa.io/free-templates/",
     description:
-      "15 free, copy-paste payment reminder email templates for freelancers — from pre-due nudges to final notices.",
+      `${TEMPLATES.length} free, copy-paste payment reminder email templates for freelancers — from pre-due nudges to final notices.`,
     isPartOf: { "@type": "WebSite", name: "Chasa", url: "https://chasa.io" },
     mainEntity: {
       "@type": "ItemList",
@@ -440,10 +505,20 @@ const cards = TEMPLATES.map(
       </a>`
 ).join("\n");
 
+const tplCount = TEMPLATES.length;
+const tplCountWord =
+  {
+    15: "Fifteen",
+    16: "Sixteen",
+    17: "Seventeen",
+    18: "Eighteen",
+    19: "Nineteen",
+    20: "Twenty",
+  }[tplCount] ?? String(tplCount);
+
 const indexHtml = chrome({
-  title: "Free Invoice Payment Reminder Email Templates (15) | Chasa",
-  description:
-    "15 free payment reminder and overdue invoice email templates for freelancers. Copy, personalize, and send — or generate a tone-matched draft in Chasa.",
+  title: `Free Invoice Payment Reminder Email Templates (${tplCount}) | Chasa`,
+  description: `${tplCount} free payment reminder and overdue invoice email templates for freelancers. Copy, personalize, and send — or generate a tone-matched draft in Chasa.`,
   canonical: "https://chasa.io/free-templates/",
   activeNav: "templates",
   jsonLd: indexJsonLd,
@@ -451,7 +526,7 @@ const indexHtml = chrome({
   <p class="crumb"><a href="/">Home</a> / Free templates</p>
   <h1>Free invoice payment reminder templates</h1>
   <p class="lede">
-    Fifteen copy-paste emails for every stage of getting paid — before the due date through final notice,
+    ${tplCountWord} copy-paste emails for every stage of getting paid — on send, before the due date through final notice,
     plus thank-yous, disputes, and multi-invoice summaries. Original Chasa wording; use as-is or let the
     <a href="/app/">AI tool</a> draft a version matched to how late the invoice is.
   </p>

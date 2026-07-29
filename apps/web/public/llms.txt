@@ -7,7 +7,7 @@
 ## Primary services
 
 - [Invoice follow-up tool](https://chasa.io/app/): Upload a CSV or enter invoices manually. Chasa drafts a follow-up email for each one, tuned to how many days overdue it is (friendly at 1–7 days, firmer at 30+).
-- [Free templates](https://chasa.io/free-templates/): 15 copy-paste payment reminder email templates (pre-due through final notice, thank-yous, disputes, multi-invoice).
+- [Free templates](https://chasa.io/free-templates/): 18 copy-paste payment reminder email templates (pre-due through final notice, thank-yous, disputes, multi-invoice).
 - [Free calculators](https://chasa.io/tools/): Late payment interest calculator and chase savings / DSO calculator (runs in-browser, no signup).
 - [AI tools](https://chasa.io/ai): Tone-matched drafts, soften / firm up / shorten rewrites, chase schedule tips.
 - [Landing page](https://chasa.io/): Product overview and how the tone bands work.
