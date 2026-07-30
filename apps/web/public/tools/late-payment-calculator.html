@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Late Payment Calculator — Invoice Interest &amp; Fees | Chasa</title>
+<meta name="description" content="Free late payment calculator for unpaid invoices. Compute interest by days overdue, optional late fee, and updated total due. No signup.">
+<link rel="canonical" href="https://chasa.io/tools/late-payment-calculator">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Late Payment Calculator — Invoice Interest &amp; Fees | Chasa">
+<meta property="og:description" content="Free late payment calculator for unpaid invoices. Compute interest by days overdue, optional late fee, and updated total due. No signup.">
+<meta property="og:url" content="https://chasa.io/tools/late-payment-calculator">
+<meta property="og:image" content="https://chasa.io/brand/og/chasa-og-1200x630.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Late Payment Calculator — Invoice Interest &amp; Fees | Chasa">
+<meta name="twitter:description" content="Free late payment calculator for unpaid invoices. Compute interest by days overdue, optional late fee, and updated total due. No signup.">
+<meta name="twitter:image" content="https://chasa.io/brand/og/chasa-og-1200x630.png">
+<link rel="alternate" type="application/rss+xml" title="Chasa Blog" href="../blog/feed.xml">
+<link rel="me" href="https://www.linkedin.com/company/chasa-io">
+<link rel="me" href="https://x.com/chasaHQ">
+<style>
+.calc-grid { display: grid; gap: 28px; margin: 28px 0 36px; }
+@media (min-width: 860px) {
+  .calc-grid { grid-template-columns: 1.1fr 0.9fr; align-items: start; }
+}
+.calc-panel, .calc-results {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 20px 22px;
+  background: var(--white);
+}
+.calc-results { background: color-mix(in srgb, var(--accent) 6%, var(--white)); }
+.calc-field { margin-bottom: 14px; }
+.calc-field label {
+  display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; color: var(--ink);
+}
+.calc-field input, .calc-field select {
+  width: 100%; box-sizing: border-box; padding: 10px 12px;
+  border: 1px solid var(--line); border-radius: 8px; font: inherit; background: var(--paper);
+}
+.calc-field input[type="range"] { padding: 0; background: transparent; border: none; }
+.calc-hint { font-size: 12.5px; color: var(--ink-soft); margin-top: 4px; }
+.calc-stat { margin: 0 0 14px; }
+.calc-stat strong { display: block; font-family: Fraunces, Georgia, serif; font-size: 28px; margin-top: 2px; }
+.calc-stat span { font-size: 13px; color: var(--ink-soft); font-weight: 600; }
+.calc-note { font-size: 12.5px; color: var(--ink-soft); margin-top: 12px; line-height: 1.45; }
+.tools-card-grid { display: grid; gap: 14px; margin: 22px 0 8px; }
+@media (min-width: 700px) { .tools-card-grid { grid-template-columns: 1fr 1fr; } }
+.tools-card {
+  display: block; text-decoration: none; color: inherit;
+  border: 1px solid var(--line); border-radius: 12px; padding: 18px 20px;
+  background: var(--white); transition: border-color 0.15s ease, transform 0.12s ease;
+}
+.tools-card:hover { border-color: var(--accent); transform: translateY(-1px); }
+.tools-card h2 { font-size: 20px; margin: 0 0 8px; font-family: Fraunces, Georgia, serif; }
+.tools-card p { margin: 0; color: var(--ink-soft); font-size: 14.5px; line-height: 1.45; }
+</style>
+<script src="/tools-calc.js" defer></script>
+<script type="application/ld+json">
+[{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://chasa.io/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Tools",
+      "item": "https://chasa.io/tools/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Late payment calculator",
+      "item": "https://chasa.io/tools/late-payment-calculator"
+    }
+  ]
+},
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Late payment calculator",
+  "description": "Calculate interest and late fees on an unpaid invoice.",
+  "url": "https://chasa.io/tools/late-payment-calculator",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "Chasa",
+    "url": "https://chasa.io/"
+  }
+},
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How do you calculate late payment interest on an unpaid invoice?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Multiply the invoice amount by the annual interest rate, then by days overdue divided by 365. Example: $1,000 × 8% × (30 ÷ 365) ≈ $6.58 interest."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What interest rate should I use for late invoices?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Use the rate in your contract or invoice terms. Many freelancers use 1–1.5% per month (about 12–18% annually). Some countries set a statutory rate for commercial late payments — check local rules."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I charge late fees if my contract never mentioned them?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Usually no. Late interest and fees are easiest to enforce when they appear in your agreement or invoice terms before work starts. Add them to new contracts going forward."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does Chasa email clients for me?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. Chasa drafts follow-up emails; you review and send from your own inbox. That keeps your client relationship in your control."
+      }
+    }
+  ]
+}]
+</script>
+<link rel="icon" href="../favicon.png" type="image/png">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="stylesheet" href="../site.css?v=20260730b">
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap site-header-inner">
+    <a href="../" class="logo" aria-label="Chasa home"><img class="logo-mark" src="../brand/chasa-icon.png" alt="" width="28" height="28" /><span class="logo-word">chasa</span></a>
+    <div class="header-nav-right">
+      <a href="../#pricing" class="header-nav-link header-nav-collapse">Pricing</a>
+      <a href="../free-templates/" class="header-nav-link header-nav-collapse">Free templates</a>
+      <a href="../tools/" class="header-nav-link header-nav-collapse header-nav-strong">Tools</a>
+      <a href="../ai" class="header-nav-link header-nav-collapse">AI</a>
+      <a href="../about" class="header-nav-link header-nav-collapse">About</a>
+      <a href="../app/login" class="header-nav-link header-nav-strong">Sign in</a>
+      <a href="../app/" class="nav-cta">Try free</a>
+      <button class="header-menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" data-menu-toggle>
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+<div class="mobile-panel-backdrop" data-mobile-backdrop></div>
+<div class="mobile-panel" data-mobile-panel>
+  <button class="mobile-panel-close" type="button" aria-label="Close menu" data-mobile-close>✕</button>
+  <nav class="mobile-panel-nav">
+      <a href="../#pricing" class="mobile-panel-nav-link">Pricing</a>
+      <a href="../free-templates/" class="mobile-panel-nav-link">Free templates</a>
+      <a href="../tools/" class="mobile-panel-nav-link">Tools</a>
+      <a href="../ai" class="mobile-panel-nav-link">AI</a>
+      <a href="../about" class="mobile-panel-nav-link">About</a>
+      <a href="../app/login" class="mobile-panel-nav-link">Sign in</a>
+      <a href="../app/" class="mobile-panel-nav-link">Try free</a>
+  </nav>
+  <div class="mobile-panel-ctas">
+    <a href="../app/" class="mobile-panel-cta-primary">Try free</a>
+    <a href="../app/login" class="mobile-panel-cta-secondary">Sign in</a>
+  </div>
+</div>
+<main class="wrap page-main">
+<p class="crumb"><a href="/">Home</a> / <a href="/tools/">Tools</a> / Late payment calculator</p>
+<h1>Late payment calculator</h1>
+<p class="lede">Calculate interest on an unpaid invoice. Enter amount, overdue date, payment date, and rate — see accrued interest, optional flat late fee, and the new total due.</p>
+
+<div class="calc-grid" data-calc="late-payment">
+  <div class="calc-panel">
+    <div class="calc-field">
+      <label for="lp-currency">Currency</label>
+      <select id="lp-currency" data-lp-currency>
+        <option value="USD">USD</option>
+        <option value="EUR">EUR</option>
+        <option value="GBP">GBP</option>
+        <option value="AUD">AUD</option>
+        <option value="CAD">CAD</option>
+      </select>
+    </div>
+    <div class="calc-field">
+      <label for="lp-amount">Invoice amount</label>
+      <input id="lp-amount" data-lp-amount type="number" min="0" step="0.01" value="2500" />
+    </div>
+    <div class="calc-field">
+      <label for="lp-overdue">Date payment became overdue</label>
+      <input id="lp-overdue" data-lp-overdue type="date" />
+    </div>
+    <div class="calc-field">
+      <label for="lp-paid">Date of payment (or today if still unpaid)</label>
+      <input id="lp-paid" data-lp-paid type="date" />
+    </div>
+    <div class="calc-field">
+      <label for="lp-rate">Annual interest rate (<span data-lp-rate-label>8.0%</span>)</label>
+      <input id="lp-rate" data-lp-rate type="range" min="0" max="30" step="0.1" value="8" />
+      <p class="calc-hint">Use your contract rate, or a statutory commercial late-payment rate where it applies.</p>
+    </div>
+    <div class="calc-field">
+      <label for="lp-fee">Optional one-time late fee (% of invoice)</label>
+      <input id="lp-fee" data-lp-fee type="number" min="0" max="100" step="0.1" value="0" />
+    </div>
+  </div>
+  <div class="calc-results" aria-live="polite">
+    <p class="calc-stat"><span>Days overdue</span><strong data-lp-out-days>—</strong></p>
+    <p class="calc-stat"><span>Interest accrued</span><strong data-lp-out-interest>—</strong></p>
+    <p class="calc-stat"><span>Late fee</span><strong data-lp-out-fee>—</strong></p>
+    <p class="calc-stat"><span>Updated total due</span><strong data-lp-out-total>—</strong></p>
+    <p class="calc-note">Simple interest: amount × annual rate × (days ÷ 365). Not legal advice — confirm rates and fees against your contract and local law.</p>
+  </div>
+</div>
+
+<h2>How to calculate late payment interest</h2>
+<p>Late payment interest compensates you for cash tied up after the due date. The usual simple-interest formula is:</p>
+<p><strong>Interest = invoice amount × annual rate × (days overdue ÷ 365)</strong></p>
+<p>After you know the number, add it as a clear line item on an updated invoice or statement, then send a professional follow-up. Chasa can draft that email; you send it.</p>
+
+<h2>What to do next</h2>
+<ol>
+  <li>Confirm the rate is in your terms or allowed by local commercial rules.</li>
+  <li>Issue an updated invoice that itemizes original amount + interest (+ fee if any).</li>
+  <li><a href="/app/">Draft an overdue follow-up</a> that explains the new total without burning the relationship.</li>
+</ol>
+
+<h2>FAQs</h2>
+<details class="faq-item"><summary>How do you calculate late payment interest on an unpaid invoice?</summary><p>Multiply the invoice amount by the annual interest rate, then by days overdue divided by 365. Example: $1,000 × 8% × (30 ÷ 365) ≈ $6.58 interest.</p></details>
+<details class="faq-item"><summary>What interest rate should I use for late invoices?</summary><p>Use the rate in your contract or invoice terms. Many freelancers use 1–1.5% per month (about 12–18% annually). Some countries set a statutory rate for commercial late payments — check local rules.</p></details>
+<details class="faq-item"><summary>Can I charge late fees if my contract never mentioned them?</summary><p>Usually no. Late interest and fees are easiest to enforce when they appear in your agreement or invoice terms before work starts. Add them to new contracts going forward.</p></details>
+<details class="faq-item"><summary>Does Chasa email clients for me?</summary><p>No. Chasa drafts follow-up emails; you review and send from your own inbox. That keeps your client relationship in your control.</p></details>
+
+<h3>Related</h3>
+<ul>
+  <li><a href="/tools/chase-savings-calculator">Chase savings calculator</a></li>
+  <li><a href="/overdue-invoice">Overdue invoice follow-up</a></li>
+  <li><a href="/blog/freelancer-late-payment-policy/">Freelancer late payment policy</a></li>
+  <li><a href="/free-templates/">Free reminder templates</a></li>
+</ul>
+<p style="margin-top:28px"><a href="/app/" class="nav-cta">Draft the chase email</a></p>
+</main>
+<footer class="site-footer">
+  <div class="wrap site-footer-inner">
+    <div class="site-footer-brand">
+      <a href="../" class="logo" aria-label="Chasa home"><img class="logo-mark" src="../brand/chasa-icon.png" alt="" width="24" height="24" /><span class="logo-word">chasa</span></a>
+      <p>Free AI invoice follow-ups — paste unpaid invoices, get the reminder email already written.</p>
+    </div>
+    <div class="site-footer-col">
+      <h4>Product</h4>
+      <a href="../app/">Try free</a>
+      <a href="../#pricing">Pricing</a>
+      <a href="../free-templates/">Free templates</a>
+      <a href="../tools/">Calculators</a>
+      <a href="../docs/">Docs</a>
+      <a href="../blog/">Blog</a>
+    </div>
+    <div class="site-footer-col">
+      <h4>Company</h4>
+      <a href="../about">About</a>
+      <a href="../press">Press</a>
+      <a href="../privacy">Privacy</a>
+      <a href="../terms">Terms</a>
+      <a href="../imprint">Imprint</a>
+    </div>
+    <div class="site-footer-col">
+      <h4>Connect</h4>
+      <a href="https://www.linkedin.com/company/chasa-io" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      <a href="https://x.com/chasaHQ" target="_blank" rel="noopener noreferrer">X</a>
+      <a href="../sitemap.xml">Sitemap</a>
+      <a href="../blog/feed.xml">RSS</a>
+    </div>
+  </div>
+  <div class="wrap footer-bottom">
+    <p>© 2026 RELACON GmbH</p>
+  </div>
+</footer>
+<script src="../site-nav.js?v=20260730b" defer></script>
+<script src="../cookie-consent.js" defer></script>
+<script src="../analytics.js" defer></script>
+</body>
+</html>

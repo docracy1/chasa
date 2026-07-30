@@ -128,8 +128,14 @@ function buildPostMain(post, body, depth = 2) {
   ${post.description ? `<p class="lede">${escapeHtml(post.description)}</p>` : ""}
   ${renderBody(body)}
   <section style="margin-top:40px;padding-top:24px;border-top:1px solid var(--line)">
+    <aside class="tpl-pack-strip" aria-label="Download the full PDF pack">
+      <p class="tpl-pack-strip-copy">Get your polite invoice templates PDF to chase clients with confidence</p>
+      <a class="tpl-pack-strip-btn" href="${href("/free-templates/download")}">Download</a>
+    </aside>
     <h2>Related resources</h2>
     <ul>
+      <li><a href="${href("/tools/late-payment-calculator")}">Late payment calculator</a></li>
+      <li><a href="${href("/tools/chase-savings-calculator")}">Chase savings calculator</a></li>
       <li><a href="${href("/blog/invoice-chase-software-comparison/")}">Chasa vs Chaser, Paidnice &amp; other invoice chase tools</a></li>
       <li><a href="${href("/free-templates/")}">Free payment reminder email templates</a></li>
       <li><a href="${href("/app/")}">Try the AI invoice follow-up tool</a></li>
@@ -159,6 +165,25 @@ const COMPARISON_FAQ = [
   },
 ];
 
+const AR_POLICY_FAQ = [
+  {
+    q: "What should an accounts receivable policy include?",
+    a: "At minimum: standard payment terms and exception approval, invoice validation rules, a simple credit-limit approach, client segmentation notes, a staged collections workflow with owners, a dispute pause procedure, and write-off approval thresholds.",
+  },
+  {
+    q: "What is a soft credit threshold?",
+    a: "The maximum open balance you allow without a formal credit review, as long as the client is verified, has no bad-debt history with you, and stays on short terms (typically Net 30 or less).",
+  },
+  {
+    q: "When should I pause chasing for a dispute?",
+    a: "As soon as the client raises a legitimate issue. Log it the same day, set a resolution window, and stop escalating tone until it is fixed or credited.",
+  },
+  {
+    q: "Who should approve a write-off?",
+    a: "Use amount tiers. Small balances can be your call; larger ones should need a second person. Keep chase history and a short memo on why recovery stopped.",
+  },
+];
+
 function buildJsonLd(post) {
   const article = {
     "@type": "Article",
@@ -176,7 +201,12 @@ function buildJsonLd(post) {
     mainEntityOfPage: `https://chasa.io/blog/${post.slug}/`,
   };
 
-  if (post.slug !== "invoice-chase-software-comparison") {
+  const faqBySlug = {
+    "invoice-chase-software-comparison": COMPARISON_FAQ,
+    "ar-policy-that-works-with-chasa": AR_POLICY_FAQ,
+  };
+  const faq = faqBySlug[post.slug];
+  if (!faq) {
     return JSON.stringify({ "@context": "https://schema.org", ...article }, null, 2);
   }
 
@@ -187,7 +217,7 @@ function buildJsonLd(post) {
         article,
         {
           "@type": "FAQPage",
-          mainEntity: COMPARISON_FAQ.map((item) => ({
+          mainEntity: faq.map((item) => ({
             "@type": "Question",
             name: item.q,
             acceptedAnswer: { "@type": "Answer", text: item.a },

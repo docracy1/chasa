@@ -44,7 +44,7 @@
 <link rel="icon" href="/favicon.png" type="image/png">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<link rel="stylesheet" href="/site.css">
+<link rel="stylesheet" href="/site.css?v=20260730b">
 </head>
 <body>
 <header class="site-header">
@@ -53,6 +53,7 @@
     <div class="header-nav-right">
       <a href="/#pricing" class="header-nav-link header-nav-collapse">Pricing</a>
       <a href="/free-templates/" class="header-nav-link header-nav-collapse">Free templates</a>
+      <a href="/tools/" class="header-nav-link header-nav-collapse">Tools</a>
       <a href="/ai" class="header-nav-link header-nav-collapse">AI</a>
       <a href="/about" class="header-nav-link header-nav-collapse">About</a>
       <a href="/app/login" class="header-nav-link header-nav-strong">Sign in</a>
@@ -61,16 +62,25 @@
         <span></span><span></span><span></span>
       </button>
     </div>
-    <div class="header-mobile-menu" data-mobile-menu>
-      <a href="/#pricing">Pricing</a>
-      <a href="/free-templates/">Free templates</a>
-      <a href="/ai">AI</a>
-      <a href="/about">About</a>
-      <a href="/app/login">Sign in</a>
-      <a href="/app/" class="nav-cta">Try free</a>
-    </div>
   </div>
 </header>
+<div class="mobile-panel-backdrop" data-mobile-backdrop></div>
+<div class="mobile-panel" data-mobile-panel>
+  <button class="mobile-panel-close" type="button" aria-label="Close menu" data-mobile-close>✕</button>
+  <nav class="mobile-panel-nav">
+      <a href="/#pricing" class="mobile-panel-nav-link">Pricing</a>
+      <a href="/free-templates/" class="mobile-panel-nav-link">Free templates</a>
+      <a href="/tools/" class="mobile-panel-nav-link">Tools</a>
+      <a href="/ai" class="mobile-panel-nav-link">AI</a>
+      <a href="/about" class="mobile-panel-nav-link">About</a>
+      <a href="/app/login" class="mobile-panel-nav-link">Sign in</a>
+      <a href="/app/" class="mobile-panel-nav-link">Try free</a>
+  </nav>
+  <div class="mobile-panel-ctas">
+    <a href="/app/" class="mobile-panel-cta-primary">Try free</a>
+    <a href="/app/login" class="mobile-panel-cta-secondary">Sign in</a>
+  </div>
+</div>
 <main class="wrap page-main">
 <h1>Terms</h1>
   <p class="lede">
@@ -119,6 +129,7 @@
       <a href="/app/">Try free</a>
       <a href="/#pricing">Pricing</a>
       <a href="/free-templates/">Free templates</a>
+      <a href="/tools/">Calculators</a>
       <a href="/docs/">Docs</a>
       <a href="/blog/">Blog</a>
     </div>
@@ -142,7 +153,7 @@
     <p>© 2026 RELACON GmbH</p>
   </div>
 </footer>
-<script src="/site-nav.js" defer></script>
+<script src="/site-nav.js?v=20260730b" defer></script>
 <script src="/cookie-consent.js" defer></script>
 <script src="/analytics.js" defer></script>
 </body>

@@ -55,7 +55,7 @@ GOOGLE_INTEGRATIONS_CLIENT_ID = "111635541806-ie2hbeub99831tl1q610mt6kmjl7r00v.a
 # --- Secrets (never stored in this file) ---
 # Set with: wrangler secret put TOKEN_SECRET            (generate: openssl rand -hex 32)
 # Set with: wrangler secret put RESEND_API_KEY
-# Set with: wrangler secret put ADMIN_PASSWORD           (admin dashboard at /app/admin)
+# Set with: wrangler secret put ADMIN_PASSWORD           (admin dashboard at /app/admin + password sign-in on /app/login for ADMIN_EMAIL)
 # Set with: wrangler secret put TURNSTILE_SECRET_KEY     (Turnstile widget secret from CF dashboard)
 # Set with: wrangler secret put STRIPE_SECRET_KEY
 # Set with: wrangler secret put STRIPE_WEBHOOK_SECRET

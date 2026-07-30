@@ -301,22 +301,202 @@ a { color: inherit; }
   margin-bottom: 16px;
 }
 
+/* Mobile top bar + bottom nav — desktop keeps the sidebar. */
+.app-mobile-header,
+.app-bottom-nav,
+.app-more-sheet {
+  display: none;
+}
+
 @media (max-width: 860px) {
   .app-shell {
     grid-template-columns: 1fr;
+    padding-bottom: calc(88px + env(safe-area-inset-bottom, 0px));
   }
   .app-sidebar {
-    position: static;
-    height: auto;
-    border-right: 0;
+    display: none;
+  }
+  .app-mobile-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    position: sticky;
+    top: 0;
+    z-index: 80;
+    padding: 12px 16px;
+    background: var(--white);
     border-bottom: 1px solid var(--line);
   }
-  .app-main {
-    padding: 24px 18px 56px;
+  .app-mobile-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    color: var(--ink);
+    font-weight: 700;
+    font-size: 16px;
+    letter-spacing: -0.03em;
+    min-width: 0;
   }
-  .welcome-attention,
-  .welcome-actions {
+  .app-mobile-brand img {
+    width: 24px;
+    height: 24px;
+    border-radius: 6px;
+    object-fit: contain;
+    flex-shrink: 0;
+  }
+  .app-mobile-brand span {
+    color: var(--accent);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .app-mobile-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--ink);
+    flex-shrink: 0;
+  }
+  .app-main {
+    padding: 20px 16px calc(24px + env(safe-area-inset-bottom, 0px));
+  }
+  .welcome-attention {
     grid-template-columns: 1fr;
+  }
+  .welcome-stat strong {
+    font-size: 32px;
+  }
+  /* FAB covers “Start something new” — hide the redundant block on phones. */
+  .welcome-section-title,
+  .welcome-actions {
+    display: none;
+  }
+
+  .app-bottom-nav {
+    display: flex;
+    position: fixed;
+    left: 12px;
+    right: 12px;
+    bottom: calc(10px + env(safe-area-inset-bottom, 0px));
+    z-index: 90;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 2px;
+    padding: 8px 10px 10px;
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: 22px;
+    box-shadow: 0 8px 28px color-mix(in srgb, var(--ink) 14%, transparent);
+  }
+  .app-bottom-nav-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    background: none;
+    border: none;
+    padding: 6px 4px;
+    color: var(--ink-soft);
+    font-size: 10px;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    text-decoration: none;
+  }
+  .app-bottom-nav-item.is-active {
+    color: var(--accent);
+  }
+  .app-bottom-nav-fab {
+    width: 54px;
+    height: 54px;
+    margin: 0 4px 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    font-size: 28px;
+    font-weight: 500;
+    line-height: 1;
+    box-shadow: 0 6px 18px color-mix(in srgb, var(--accent) 40%, transparent);
+    flex-shrink: 0;
+    transform: translateY(-10px);
+  }
+
+  .app-more-sheet {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 120;
+  }
+  .app-more-backdrop {
+    position: absolute;
+    inset: 0;
+    background: color-mix(in srgb, var(--ink) 40%, transparent);
+    border: none;
+    padding: 0;
+    cursor: pointer;
+  }
+  .app-more-panel {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--white);
+    border-radius: 20px 20px 0 0;
+    padding: 10px 16px calc(24px + env(safe-area-inset-bottom, 0px));
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    max-height: 75vh;
+    overflow-y: auto;
+  }
+  .app-more-handle {
+    width: 40px;
+    height: 4px;
+    border-radius: 999px;
+    background: var(--line);
+    margin: 4px auto 12px;
+  }
+  .app-more-email {
+    font-size: 12px;
+    color: var(--ink-soft);
+    margin: 0 0 8px;
+    padding: 0 8px;
+    overflow-wrap: anywhere;
+  }
+  .app-more-panel a,
+  .app-more-panel button {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-align: left;
+    background: none;
+    border: none;
+    padding: 14px 12px;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--ink);
+    text-decoration: none;
+    font-family: inherit;
+    cursor: pointer;
+  }
+  .app-more-panel .nav-icon {
+    flex-shrink: 0;
+    color: var(--ink-soft);
+  }
+  .app-more-panel a:hover,
+  .app-more-panel button:hover {
+    background: var(--accent-soft);
+  }
+  .app-more-danger {
+    color: var(--accent) !important;
+    margin-top: 4px;
   }
 }
 
@@ -1062,12 +1242,14 @@ textarea {
 .dash-side-nav a,
 .dash-account-popover a,
 .dash-account-popover button {
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: 10px;
   width: 100%;
   text-align: left;
   border: 0;
   background: transparent;
-  color: var(--ink);
+  color: var(--ink-soft);
   font: inherit;
   font-size: 14px;
   padding: 10px 12px;
@@ -1075,23 +1257,142 @@ textarea {
   cursor: pointer;
   text-decoration: none;
 }
+.dash-side-nav .nav-icon {
+  flex-shrink: 0;
+  opacity: 0.9;
+}
 .dash-side-nav button:hover,
 .dash-side-nav a:hover,
 .dash-account-popover a:hover,
 .dash-account-popover button:hover {
   background: var(--paper);
+  color: var(--ink);
 }
 .dash-side-nav button.is-active,
 .dash-side-nav a.is-active {
-  background: color-mix(in srgb, var(--accent) 14%, var(--white));
-  color: var(--ink);
+  background: color-mix(in srgb, var(--accent) 12%, var(--white));
+  color: var(--accent);
   font-weight: 600;
+}
+.dash-side-nav a.is-active .nav-icon {
+  opacity: 1;
 }
 .dash-side-footer {
   margin-top: auto;
   padding-top: 16px;
   border-top: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
+
+.lang-switcher {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  color: inherit;
+}
+.lang-switcher-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: none;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  padding: 4px 2px;
+  cursor: pointer;
+  opacity: 0.78;
+}
+.lang-switcher-trigger:hover,
+.lang-switcher[data-open] .lang-switcher-trigger {
+  opacity: 1;
+}
+.lang-switcher-globe {
+  display: block;
+  flex-shrink: 0;
+}
+.lang-switcher-code {
+  line-height: 1;
+}
+.lang-switcher-chevron {
+  display: block;
+  flex-shrink: 0;
+  opacity: 0.7;
+  transition: transform 0.15s ease;
+}
+.lang-switcher-chevron.is-open {
+  transform: rotate(180deg);
+}
+.lang-switcher-menu {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  z-index: 40;
+  min-width: 148px;
+  margin: 0;
+  padding: 6px;
+  list-style: none;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--panel, #fff);
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.12);
+}
+.lang-switcher-option {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  width: 100%;
+  border: none;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: 13px;
+  text-align: left;
+  padding: 8px 10px;
+  border-radius: 7px;
+  cursor: pointer;
+}
+.lang-switcher-option:hover,
+.lang-switcher-option.is-active {
+  background: var(--accent-soft, rgba(37, 99, 235, 0.1));
+}
+.lang-switcher-option-code {
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  min-width: 1.6em;
+}
+.lang-switcher-option-name {
+  opacity: 0.72;
+  font-weight: 500;
+}
+.lang-switcher-sidebar {
+  margin-bottom: 2px;
+}
+.lang-switcher-sidebar .lang-switcher-menu {
+  right: auto;
+  left: 0;
+}
+.panel-lang,
+.app-more-lang {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 12px;
+}
+.app-more-lang {
+  padding: 0 4px 8px;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 8px;
+}
+.app-more-lang .lang-switcher-menu {
+  right: 0;
+  left: auto;
+}
+
 .dash-account-menu {
   position: relative;
 }

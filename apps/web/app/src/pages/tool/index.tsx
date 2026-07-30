@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import Papa from "papaparse";
+import { useT } from "../../lib/i18n";
 import {
   CLOUD_IMPORT_STORAGE_KEY,
   createTrackedCopy,
@@ -69,6 +70,7 @@ function daysFromToday(isoDate: string): number {
 }
 
 export default function Tool({ account }: { account: Account | null }) {
+  const t = useT();
   const [searchParams] = useSearchParams();
   const [invoices, setInvoices] = useState<Invoice[]>(() => loadStoredInvoices());
   const [clientName, setClientName] = useState("");
@@ -310,7 +312,7 @@ export default function Tool({ account }: { account: Account | null }) {
         await loadPdfFiles(connected[0]);
       }
     } catch (err) {
-      setPdfError(err instanceof Error ? err.message : "Could not load connectors");
+      setPdfError(err instanceof Error ? err.message : t("tool.connectorsLoadFailed"));
     } finally {
       setPdfBusy(false);
     }
@@ -325,7 +327,7 @@ export default function Tool({ account }: { account: Account | null }) {
       setPdfFiles(res.files);
     } catch (err) {
       setPdfFiles([]);
-      setPdfError(err instanceof Error ? err.message : "Could not list PDFs");
+      setPdfError(err instanceof Error ? err.message : t("tool.pdfsListFailed"));
     } finally {
       setPdfBusy(false);
     }
@@ -355,7 +357,7 @@ export default function Tool({ account }: { account: Account | null }) {
       setShowPdfPicker(false);
       track("fields_added", { source: "cloud_pdf_pending" });
     } catch (err) {
-      setPdfError(err instanceof Error ? err.message : "Could not import PDF");
+      setPdfError(err instanceof Error ? err.message : t("tool.pdfImportFailed"));
     } finally {
       setPdfBusy(false);
     }
@@ -449,7 +451,7 @@ export default function Tool({ account }: { account: Account | null }) {
             ? {
                 ...inv,
                 generating: false,
-                error: err instanceof Error ? err.message : "Something went wrong.",
+                error: err instanceof Error ? err.message : t("common.error"),
               }
             : inv
         )
@@ -479,7 +481,7 @@ export default function Tool({ account }: { account: Account | null }) {
   async function handleMultiDraft() {
     const selected = invoices.filter((inv) => selectedIds.has(inv.id));
     if (selected.length < 2) {
-      setMultiError("Select at least two invoices.");
+      setMultiError(t("tool.selectTwo"));
       return;
     }
     if (!isPaid && isAtLimit()) return;
@@ -520,7 +522,7 @@ export default function Tool({ account }: { account: Account | null }) {
       track("chase_drafted", { source: "multi", count: selected.length });
     } catch (err) {
       track("send_failed", { source: "multi" });
-      setMultiError(err instanceof Error ? err.message : "Something went wrong.");
+      setMultiError(err instanceof Error ? err.message : t("common.error"));
     } finally {
       setMultiBusy(false);
     }
@@ -561,7 +563,7 @@ export default function Tool({ account }: { account: Account | null }) {
             ? {
                 ...inv,
                 rewriting: null,
-                error: err instanceof Error ? err.message : "Something went wrong.",
+                error: err instanceof Error ? err.message : t("common.error"),
               }
             : inv
         )
@@ -596,7 +598,7 @@ export default function Tool({ account }: { account: Account | null }) {
             ? {
                 ...inv,
                 rewriting: null,
-                error: err instanceof Error ? err.message : "Something went wrong.",
+                error: err instanceof Error ? err.message : t("common.error"),
               }
             : inv
         )
@@ -633,7 +635,7 @@ export default function Tool({ account }: { account: Account | null }) {
             ? {
                 ...inv,
                 rewriting: null,
-                error: err instanceof Error ? err.message : "Something went wrong.",
+                error: err instanceof Error ? err.message : t("common.error"),
               }
             : inv
         )
@@ -686,7 +688,7 @@ export default function Tool({ account }: { account: Account | null }) {
             ? {
                 ...inv,
                 rewriting: null,
-                error: err instanceof Error ? err.message : "Something went wrong.",
+                error: err instanceof Error ? err.message : t("common.error"),
               }
             : inv
         )
@@ -704,7 +706,7 @@ export default function Tool({ account }: { account: Account | null }) {
     try {
       const found = await findGmailClientReply({ clientName: invoice.clientName });
       if (!found.found || !found.snippet) {
-        throw new Error("No recent Gmail reply found for this client.");
+        throw new Error(t("tool.noGmailReply"));
       }
       setInvoices((prev) =>
         prev.map((inv) =>
@@ -720,7 +722,7 @@ export default function Tool({ account }: { account: Account | null }) {
             ? {
                 ...inv,
                 rewriting: null,
-                error: err instanceof Error ? err.message : "Gmail lookup failed.",
+                error: err instanceof Error ? err.message : t("tool.gmailLookupFailed"),
               }
             : inv
         )
@@ -733,7 +735,7 @@ export default function Tool({ account }: { account: Account | null }) {
     try {
       let to = invoice.clientName.includes("@") ? invoice.clientName.trim() : "";
       if (!to) {
-        const prompted = window.prompt("Recipient email for Gmail draft:", "");
+        const prompted = window.prompt(t("tool.gmailRecipientPrompt"), "");
         if (!prompted?.includes("@")) return;
         to = prompted.trim();
       }
@@ -747,7 +749,7 @@ export default function Tool({ account }: { account: Account | null }) {
           inv.id === invoice.id
             ? {
                 ...inv,
-                trackingNote: "Saved to Gmail drafts — open Gmail to review and send.",
+                trackingNote: t("tool.gmailDraftSaved"),
                 lastChaseStatus: "gmail_draft",
                 lastChaseAt: new Date().toISOString(),
               }
@@ -760,7 +762,7 @@ export default function Tool({ account }: { account: Account | null }) {
       setInvoices((prev) =>
         prev.map((inv) =>
           inv.id === invoice.id
-            ? { ...inv, error: err instanceof Error ? err.message : "Gmail draft failed." }
+            ? { ...inv, error: err instanceof Error ? err.message : t("tool.gmailDraftFailed") }
             : inv
         )
       );
@@ -784,8 +786,8 @@ export default function Tool({ account }: { account: Account | null }) {
             ? {
                 ...inv,
                 trackingNote: result.htmlLink
-                  ? `Added to Google Calendar: ${result.htmlLink}`
-                  : "Added to Google Calendar.",
+                  ? t("tool.calendarAddedWithLink", { link: result.htmlLink })
+                  : t("tool.calendarAdded"),
               }
             : inv
         )
@@ -796,7 +798,7 @@ export default function Tool({ account }: { account: Account | null }) {
           inv.id === invoiceId
             ? {
                 ...inv,
-                error: err instanceof Error ? err.message : "Calendar sync failed.",
+                error: err instanceof Error ? err.message : t("tool.calendarFailed"),
               }
             : inv
         )
@@ -815,7 +817,7 @@ export default function Tool({ account }: { account: Account | null }) {
           const connectors = await listCloudConnectors();
           const google = connectors.connectors.find((c) => c.provider === "google" && c.connected);
           if (!google) {
-            setPdfError("Connect Google Drive on Connectors first, then use Open from Drive.");
+            setPdfError(t("tool.connectGoogleFirst"));
             return;
           }
           const result = await importCloudConnectorFile("google", { id: file.id, path: null });
@@ -830,7 +832,7 @@ export default function Tool({ account }: { account: Account | null }) {
           );
           setImportDue(result.hints.dueDate ?? "");
         } catch (err) {
-          setPdfError(err instanceof Error ? err.message : "Drive import failed");
+          setPdfError(err instanceof Error ? err.message : t("tool.driveFailed"));
         } finally {
           setPdfBusy(false);
         }
@@ -858,7 +860,7 @@ export default function Tool({ account }: { account: Account | null }) {
       setInvoices((prev) => [...added, ...prev]);
       setSheetMsg(`Imported ${added.length} row(s)${result.skipped ? `, skipped ${result.skipped}` : ""}.`);
     } catch (err) {
-      setSheetMsg(err instanceof Error ? err.message : "Sheets import failed");
+      setSheetMsg(err instanceof Error ? err.message : t("tool.sheetsFailed"));
     } finally {
       setSheetBusy(false);
     }
@@ -882,7 +884,7 @@ export default function Tool({ account }: { account: Account | null }) {
       });
       setSheetMsg(`Exported: ${result.spreadsheetUrl}`);
     } catch (err) {
-      setSheetMsg(err instanceof Error ? err.message : "Sheets export failed");
+      setSheetMsg(err instanceof Error ? err.message : t("tool.sheetsFailed"));
     } finally {
       setSheetBusy(false);
     }
@@ -920,7 +922,7 @@ export default function Tool({ account }: { account: Account | null }) {
             ? {
                 ...inv,
                 rewriting: null,
-                error: err instanceof Error ? err.message : "Something went wrong.",
+                error: err instanceof Error ? err.message : t("common.error"),
               }
             : inv
         )
@@ -1006,7 +1008,7 @@ export default function Tool({ account }: { account: Account | null }) {
             ? {
                 ...inv,
                 rewriting: null,
-                error: err instanceof Error ? err.message : "Something went wrong.",
+                error: err instanceof Error ? err.message : t("common.error"),
               }
             : inv
         )
@@ -1039,7 +1041,7 @@ export default function Tool({ account }: { account: Account | null }) {
             ? {
                 ...inv,
                 rewriting: null,
-                error: err instanceof Error ? err.message : "Something went wrong.",
+                error: err instanceof Error ? err.message : t("common.error"),
               }
             : inv
         )
@@ -1075,7 +1077,7 @@ export default function Tool({ account }: { account: Account | null }) {
       setInvoices((prev) =>
         prev.map((inv) =>
           inv.id === invoice.id
-            ? { ...inv, error: err instanceof Error ? err.message : "Tracked copy failed." }
+            ? { ...inv, error: err instanceof Error ? err.message : t("tool.trackedFailed") }
             : inv
         )
       );
@@ -1131,7 +1133,7 @@ export default function Tool({ account }: { account: Account | null }) {
         agingInvoiceId: invoice.id,
         clientName: invoice.clientName,
         daysFromNow,
-        label: promised ? `If unpaid after ${promised}` : "Follow-up after payment promise",
+        label: promised ? `If unpaid after ${promised}` : t("tool.followUpPromise"),
         subject: invoice.draft.subject,
         body: invoice.draft.body,
       });
@@ -1161,7 +1163,7 @@ export default function Tool({ account }: { account: Account | null }) {
           inv.id === invoiceId
             ? {
                 ...inv,
-                error: err instanceof Error ? err.message : "Could not export evidence pack.",
+                error: err instanceof Error ? err.message : t("tool.evidenceFailed"),
               }
             : inv
         )
@@ -1335,12 +1337,9 @@ export default function Tool({ account }: { account: Account | null }) {
 
       <div id="chase-workspace">
         <h2 className="welcome-section-title" style={{ marginTop: 8 }}>
-          Chase workspace
+          {t("tool.workspaceTitle")}
         </h2>
-        <p className="page-sub">
-          Add invoices manually, upload a CSV, or import a PDF from Dropbox / OneDrive / Box (Solo+).
-          Chasa writes the follow-up — draft only, never auto-sent.
-        </p>
+        <p className="page-sub">{t("tool.workspaceSub")}</p>
       </div>
 
       <UsageBar usedCount={usedCount} atLimit={atLimit} isPaid={isPaid} isSignedIn={!!account} />
@@ -1443,8 +1442,10 @@ export default function Tool({ account }: { account: Account | null }) {
           onClientReplyChange={handleClientReplyChange}
           onReply={handleReply}
           onReplySmart={handleReplySmart}
-          onReplySmartFromGmail={isPro ? (id) => void handleReplySmart(id, true) : undefined}
-          onFetchGmailReply={isPro ? handleFetchGmailReply : undefined}
+          onReplySmartFromGmail={
+            isPro && googleConnected ? (id) => void handleReplySmart(id, true) : undefined
+          }
+          onFetchGmailReply={isPro && googleConnected ? handleFetchGmailReply : undefined}
           onDemandLetter={handleDemandLetter}
           onMarkSent={handleMarkSent}
           onMarkPaid={handleMarkPaid}
@@ -1458,7 +1459,8 @@ export default function Tool({ account }: { account: Account | null }) {
           openStats={openStatsMap[invoice.id]}
           onCopyDraft={copyDraft}
           onTrackedCopy={handleTrackedCopy}
-          onSaveGmailDraft={isPaid ? handleSaveGmailDraft : undefined}
+          onSaveGmailDraft={isPaid && googleConnected ? handleSaveGmailDraft : undefined}
+          googleConnected={googleConnected}
           mailtoLink={mailtoLink}
           onMailtoClick={handleMailtoClick}
           sequenceSendDate={sequenceSendDate}

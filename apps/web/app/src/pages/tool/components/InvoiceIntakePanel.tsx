@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { track } from "../../../lib/analytics";
+import { useT } from "../../../lib/i18n";
 import type { Invoice } from "../types";
 
 interface InvoiceIntakePanelProps {
@@ -55,50 +56,53 @@ export function InvoiceIntakePanel({
   onDownloadCsv,
   onClearList,
 }: InvoiceIntakePanelProps) {
+  const t = useT();
+
   return (
     <div className="panel">
       <form onSubmit={onAddManual}>
         <div className="field-row">
           <input
             type="text"
-            placeholder="Client name"
+            placeholder={t("intake.clientPlaceholder")}
             value={clientName}
             onChange={(e) => onClientNameChange(e.target.value)}
           />
           <input
             type="number"
-            placeholder="Amount"
+            placeholder={t("intake.amountPlaceholder")}
             value={amount}
             onChange={(e) => onAmountChange(e.target.value)}
             step="0.01"
           />
           <input type="date" value={dueDate} onChange={(e) => onDueDateChange(e.target.value)} />
           <button type="submit" className="btn-primary">
-            Add
+            {t("intake.add")}
           </button>
         </div>
       </form>
       <div className="payment-link-row">
         <label htmlFor="payment-link">
-          Payment link <span className="optional-tag">(optional)</span>
+          {t("intake.paymentLink")}{" "}
+          <span className="optional-tag">{t("common.optional")}</span>
         </label>
         <input
           id="payment-link"
           type="url"
-          placeholder="https://buy.stripe.com/… or PayPal.me / Wise"
+          placeholder={t("intake.paymentPlaceholderFull")}
           value={paymentLink}
           onChange={(e) => onPaymentLinkChange(e.target.value)}
         />
         {isPaid ? (
           <Link className="branding-help" to="/branding">
-            Set account default
+            {t("intake.setDefault")}
           </Link>
         ) : (
-          <span className="branding-help">Saved in this browser · Solo+ for account default</span>
+          <span className="branding-help">{t("intake.browserOnly")}</span>
         )}
       </div>
       <label className="btn-secondary" style={{ cursor: "pointer" }}>
-        Upload CSV
+        {t("intake.uploadCsv")}
         <input type="file" accept=".csv" onChange={onCsvUpload} style={{ display: "none" }} />
       </label>
       {isPaid ? (
@@ -108,11 +112,11 @@ export function InvoiceIntakePanel({
           style={{ marginLeft: 8 }}
           onClick={() => void onOpenPdfPicker()}
         >
-          Import PDF
+          {t("intake.importPdf")}
         </button>
       ) : (
         <Link className="btn-secondary" style={{ marginLeft: 8 }} to="/connector">
-          PDF import (Solo+)
+          {t("intake.pdfSolo")}
         </Link>
       )}
       {isPaid && googlePickerEnabled && onOpenGooglePicker && (
@@ -122,14 +126,14 @@ export function InvoiceIntakePanel({
           style={{ marginLeft: 8 }}
           onClick={() => void onOpenGooglePicker()}
         >
-          Open from Drive
+          {t("intake.openDrive")}
         </button>
       )}
       {isPaid && (
         <div style={{ marginTop: 12, display: "flex", gap: 8, flexWrap: "wrap", alignItems: "center" }}>
           <input
             type="text"
-            placeholder="Google Sheet ID"
+            placeholder={t("intake.sheetId")}
             value={sheetId}
             onChange={(e) => onSheetIdChange?.(e.target.value)}
             style={{ minWidth: 220 }}
@@ -141,7 +145,7 @@ export function InvoiceIntakePanel({
             disabled={!googleConnected || sheetBusy || !sheetId.trim()}
             onClick={() => void onSheetImport?.()}
           >
-            {sheetBusy ? "Working…" : "Import Sheet"}
+            {sheetBusy ? t("intake.working") : t("intake.importSheet")}
           </button>
           <button
             type="button"
@@ -149,11 +153,11 @@ export function InvoiceIntakePanel({
             disabled={!googleConnected || sheetBusy || invoices.length === 0}
             onClick={() => void onSheetExport?.()}
           >
-            Export aging to Sheets
+            {t("intake.exportAging")}
           </button>
           {!googleConnected && (
             <Link className="branding-help" to="/connector">
-              Connect Google first
+              {t("intake.connectGoogle")}
             </Link>
           )}
           {sheetMsg && <span className="branding-help">{sheetMsg}</span>}
@@ -161,7 +165,7 @@ export function InvoiceIntakePanel({
       )}
       {isPaid && invoices.some((inv) => inv.draft) && (
         <button className="btn-secondary" style={{ marginLeft: 8 }} onClick={onDownloadCsv}>
-          Download all as CSV
+          {t("intake.downloadCsv")}
         </button>
       )}
       {invoices.length > 0 && (
@@ -170,13 +174,13 @@ export function InvoiceIntakePanel({
           className="btn-secondary"
           style={{ marginLeft: 8 }}
           onClick={() => {
-            if (confirm("Clear all invoices from this session?")) {
+            if (confirm(t("intake.clearConfirm"))) {
               onClearList();
               track("aging_cleared");
             }
           }}
         >
-          Clear list
+          {t("intake.clearList")}
         </button>
       )}
     </div>

@@ -1,25 +1,27 @@
 import { formatUsDateTime } from "../../../lib/locale";
 import type { ChaseEventRecord } from "../../../lib/api";
+import { useT } from "../../../lib/i18n";
 
-const EVENT_LABELS: Record<string, string> = {
-  drafted: "Draft created",
-  sent: "Marked sent",
-  copied: "Copied to clipboard",
-  mailto: "Opened in mail app",
-  marked_paid: "Marked paid",
-  reply_detected: "Client reply detected",
-  note: "Note",
+const EVENT_KEYS: Record<string, string> = {
+  drafted: "timeline.drafted",
+  sent: "timeline.sent",
+  copied: "timeline.copied",
+  mailto: "timeline.mailto",
+  marked_paid: "timeline.marked_paid",
+  reply_detected: "timeline.reply_detected",
+  note: "timeline.note",
 };
 
 export function ChaseTimeline({ events }: { events: ChaseEventRecord[] }) {
+  const t = useT();
   if (!events.length) return null;
   return (
     <div className="chase-timeline">
-      <div className="ai-tools-label">Chase timeline</div>
+      <div className="ai-tools-label">{t("timeline.title")}</div>
       <ul className="chase-timeline-list">
         {events.map((ev) => (
           <li key={ev.id}>
-            <strong>{EVENT_LABELS[ev.eventType] ?? ev.eventType}</strong>
+            <strong>{EVENT_KEYS[ev.eventType] ? t(EVENT_KEYS[ev.eventType]) : ev.eventType}</strong>
             <span className="chase-timeline-meta">
               {formatUsDateTime(ev.createdAt)}
               {ev.subject ? ` · ${ev.subject}` : ""}

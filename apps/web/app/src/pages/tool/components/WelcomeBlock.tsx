@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { FREE_LIMIT } from "../../../lib/usage";
 import type { Account } from "../../../lib/api";
+import { useT } from "../../../lib/i18n";
 
 interface WelcomeBlockProps {
   welcomeName: string | null;
@@ -21,40 +22,42 @@ export function WelcomeBlock({
   account,
   usedCount,
 }: WelcomeBlockProps) {
+  const t = useT();
+
   return (
     <section className="welcome-block">
-      <h1>{welcomeName ? `Welcome, ${welcomeName}` : "Welcome"}</h1>
+      <h1>{welcomeName ? t("welcome.titleNamed", { name: welcomeName }) : t("welcome.title")}</h1>
       <p className="page-sub" style={{ marginBottom: 0 }}>
-        Here&apos;s what needs your attention today.
+        {t("welcome.sub")}
       </p>
 
       <div className="welcome-attention">
         <div className={`welcome-stat${overdueCount > 0 ? " is-accent" : ""}`}>
-          <span className="welcome-stat-label">Overdue invoices</span>
+          <span className="welcome-stat-label">{t("welcome.overdue")}</span>
           <strong>{overdueCount}</strong>
-          <em>{invoiceCount === 0 ? "Add invoices to begin" : "In this workspace"}</em>
+          <em>{invoiceCount === 0 ? t("welcome.overdueEmpty") : t("welcome.overdueIn")}</em>
         </div>
         <div className="welcome-stat">
-          <span className="welcome-stat-label">Drafts ready</span>
+          <span className="welcome-stat-label">{t("welcome.drafts")}</span>
           <strong>{draftedCount}</strong>
-          <em>Never auto-sent</em>
+          <em>{t("welcome.neverSent")}</em>
         </div>
         <div className="welcome-stat">
-          <span className="welcome-stat-label">{isPaid ? "Plan" : "Free drafts"}</span>
+          <span className="welcome-stat-label">{isPaid ? t("welcome.plan") : t("welcome.freeDrafts")}</span>
           <strong>{isPaid ? account?.plan ?? "paid" : `${Math.max(0, FREE_LIMIT - usedCount)}`}</strong>
-          <em>{isPaid ? "All features unlocked" : `of ${FREE_LIMIT} left this month`}</em>
+          <em>{isPaid ? t("welcome.unlocked") : t("welcome.left", { limit: FREE_LIMIT })}</em>
         </div>
       </div>
 
-      <h2 className="welcome-section-title">Start something new</h2>
+      <h2 className="welcome-section-title">{t("welcome.startNew")}</h2>
       <div className="welcome-actions">
         <a className="welcome-action" href="#chase-workspace">
           <span className="welcome-action-icon" aria-hidden="true">
             +
           </span>
           <span>
-            <strong>New chase</strong>
-            <span>Paste invoices or add a row, write drafts</span>
+            <strong>{t("welcome.action.chase")}</strong>
+            <span>{t("welcome.action.chaseSub")}</span>
           </span>
         </a>
         <a className="welcome-action" href="#chase-workspace">
@@ -62,8 +65,8 @@ export function WelcomeBlock({
             ↗
           </span>
           <span>
-            <strong>Import CSV</strong>
-            <span>QuickBooks, FreshBooks, Xero, Wave…</span>
+            <strong>{t("welcome.action.csv")}</strong>
+            <span>{t("welcome.action.csvSub")}</span>
           </span>
         </a>
         <Link className="welcome-action" to="/connector">
@@ -71,8 +74,8 @@ export function WelcomeBlock({
             ≡
           </span>
           <span>
-            <strong>Connectors</strong>
-            <span>Dropbox, OneDrive, Box, or API keys</span>
+            <strong>{t("welcome.action.connectors")}</strong>
+            <span>{t("welcome.action.connectorsSub")}</span>
           </span>
         </Link>
         <Link className="welcome-action" to={isPaid ? "/clients" : "/account"}>
@@ -80,24 +83,22 @@ export function WelcomeBlock({
             ▤
           </span>
           <span>
-            <strong>Aging &amp; clients</strong>
-            <span>{isPaid ? "Track outstanding balances" : "Unlock on Solo+"}</span>
+            <strong>{t("welcome.action.aging")}</strong>
+            <span>{isPaid ? t("welcome.action.agingPaid") : t("welcome.action.agingFree")}</span>
           </span>
         </Link>
       </div>
 
-      <h2 className="welcome-section-title">Needs attention</h2>
+      <h2 className="welcome-section-title">{t("welcome.needsAttention")}</h2>
       {overdueCount === 0 ? (
         <div className="welcome-quiet">
           <span className="welcome-quiet-check" aria-hidden="true">
             ✓
           </span>
           <span>
-            <strong>You&apos;re all caught up. Smooth.</strong>
+            <strong>{t("welcome.caughtUp")}</strong>
             <span>
-              {invoiceCount === 0
-                ? "Nothing overdue yet — import a CSV or add an invoice below."
-                : "No overdue invoices waiting on a chase right now."}
+              {invoiceCount === 0 ? t("welcome.caughtUpEmpty") : t("welcome.caughtUpNone")}
             </span>
           </span>
         </div>
@@ -112,9 +113,11 @@ export function WelcomeBlock({
           </span>
           <span>
             <strong>
-              {overdueCount} overdue invoice{overdueCount === 1 ? "" : "s"}
+              {overdueCount === 1
+                ? t("welcome.overdueOne", { count: overdueCount })
+                : t("welcome.overdueMany", { count: overdueCount })}
             </strong>
-            <span>Scroll to the aging table or draft follow-ups below.</span>
+            <span>{t("welcome.overdueHint")}</span>
           </span>
         </div>
       )}

@@ -1,5 +1,6 @@
 import { CLOUD_LABELS } from "../../../lib/cloudImport";
 import type { CloudProvider } from "../../../lib/api";
+import { useT } from "../../../lib/i18n";
 import { PROVIDERS } from "../constants";
 import type { ProviderTests } from "../types";
 import { StatusPill } from "./StatusPill";
@@ -23,45 +24,51 @@ export function ConnectorChecklist({
   apiKeyTested,
   checklistDone,
 }: ConnectorChecklistProps) {
+  const t = useT();
+
   return (
     <div className="connector-checklist">
-      <h2>Checklist</h2>
+      <h2>{t("connector.checklist")}</h2>
       <p className="branding-help" style={{ marginTop: 0 }}>
-        Done when all three show Connected + Test OK
-        {checklistDone ? " — you’re there." : "."}
+        {t("connector.checklistIntro")}
+        {checklistDone ? t("connector.checklistDoneSuffix") : "."}
       </p>
       <ul className="connector-checklist-list">
         {PROVIDERS.map((p) => {
           const st = statusByProvider.get(p);
-          const t = tests[p];
+          const testState = tests[p];
           const configured = !statusLoaded || st?.configured !== false;
           const connected = !!st?.connected;
-          const testOk = t.status === "ok";
+          const testOk = testState.status === "ok";
           return (
             <li key={p}>
               <strong>{CLOUD_LABELS[p]}</strong>
               <span className="connector-checklist-marks">
                 <StatusPill kind={configured ? "ok" : "warn"}>
-                  {configured ? "Configured" : "Secrets missing"}
+                  {configured ? t("connector.configured") : t("connector.secretsMissing")}
                 </StatusPill>
                 <StatusPill kind={connected ? "ok" : "muted"}>
-                  {connected ? "Connected" : "Not connected"}
+                  {connected ? t("connector.connected") : t("connector.notConnected")}
                 </StatusPill>
-                <StatusPill kind={testOk ? "ok" : t.status === "fail" ? "fail" : "muted"}>
-                  {testOk ? "Test OK" : t.status === "fail" ? "Test fail" : "Test pending"}
+                <StatusPill kind={testOk ? "ok" : testState.status === "fail" ? "fail" : "muted"}>
+                  {testOk
+                    ? t("connector.testOk")
+                    : testState.status === "fail"
+                      ? t("connector.testFail")
+                      : t("connector.testPending")}
                 </StatusPill>
               </span>
             </li>
           );
         })}
         <li>
-          <strong>Zapier / API key</strong>
+          <strong>{t("connector.zapierApiKey")}</strong>
           <span className="connector-checklist-marks">
             <StatusPill kind={keysCount > 0 || hasNewToken ? "ok" : "muted"}>
-              {keysCount > 0 || hasNewToken ? "Key created" : "No key yet"}
+              {keysCount > 0 || hasNewToken ? t("connector.keyCreated") : t("connector.noKeyYet")}
             </StatusPill>
             <StatusPill kind={apiKeyTested ? "ok" : "muted"}>
-              {apiKeyTested ? "Curl verified" : "Copy full curl"}
+              {apiKeyTested ? t("connector.curlVerified") : t("connector.copyFullCurlLabel")}
             </StatusPill>
           </span>
         </li>

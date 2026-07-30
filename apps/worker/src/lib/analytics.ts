@@ -52,6 +52,7 @@ export const TEMPLATE_FUNNEL = [
   "template_started",
   "template_abandoned",
   "template_completed",
+  "templates_pack_subscribed",
 ] as const;
 
 /** 4. Traffic — KPI: landingpage_cta_clicked */

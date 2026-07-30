@@ -1,14 +1,13 @@
+import { useT } from "../../../lib/i18n";
+
 export function SignInPanel() {
+  const t = useT();
   return (
     <div className="panel">
-      <h1>Connector</h1>
-      <p className="page-sub">
-        Sign in to connect Dropbox, OneDrive, or Box, or create API keys for Zapier / Make
-        (QuickBooks, FreshBooks, Xero, Wave, and more). CSV upload works without a paid plan in the
-        Tool.
-      </p>
+      <h1>{t("connector.signInTitle")}</h1>
+      <p className="page-sub">{t("connector.signInBody")}</p>
       <a className="btn-primary" href="/app/login">
-        Sign in
+        {t("nav.signin")}
       </a>
     </div>
   );

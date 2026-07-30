@@ -1,5 +1,6 @@
 import { track } from "../../../lib/analytics";
 import { daysOverdue } from "../../../lib/dates";
+import { useT } from "../../../lib/i18n";
 import { toneClass, toneLabel } from "../chaseTone";
 import type { Invoice } from "../types";
 
@@ -38,23 +39,21 @@ export function AgingOverviewPanel({
   onGenerate,
   onMultiDraftChange,
 }: AgingOverviewPanelProps) {
+  const t = useT();
   return (
     <section className="panel aging-panel">
       <div className="aging-head">
         <div>
-          <h2 className="aging-title">Aging overview</h2>
-          <p className="branding-help">
-            Client · amount · days overdue · last chase. Rows stay in this browser
-            {isPaid ? " and sync to your Solo+ workspace" : " (re-upload CSV anytime)"}.
-          </p>
+          <h2 className="aging-title">{t("aging.title")}</h2>
+          <p className="branding-help">{isPaid ? t("aging.helpPaid") : t("aging.helpFree")}</p>
         </div>
         <div className="aging-actions">
           <button type="button" className="btn-secondary" onClick={onSelectAll}>
-            Select all
+            {t("aging.selectAll")}
           </button>
           {selectedCount > 0 && (
             <button type="button" className="btn-secondary" onClick={onClearSelection}>
-              Clear ({selectedCount})
+              {t("aging.clear", { count: selectedCount })}
             </button>
           )}
           <button
@@ -63,7 +62,7 @@ export function AgingOverviewPanel({
             disabled={selectedCount < 2 || multiBusy || atLimit}
             onClick={() => void onMultiDraft()}
           >
-            {multiBusy ? "Writing…" : "Draft one email"}
+            {multiBusy ? t("common.writing") : t("aging.draftOne")}
           </button>
         </div>
       </div>
@@ -72,10 +71,10 @@ export function AgingOverviewPanel({
           <thead>
             <tr>
               <th className="aging-check" />
-              <th>Client</th>
-              <th>Amount</th>
-              <th>Days overdue</th>
-              <th>Last chase</th>
+              <th>{t("aging.client")}</th>
+              <th>{t("aging.amount")}</th>
+              <th>{t("aging.days")}</th>
+              <th>{t("aging.lastChase")}</th>
               <th />
             </tr>
           </thead>
@@ -96,7 +95,7 @@ export function AgingOverviewPanel({
                   <td>${inv.amount.toFixed(2)}</td>
                   <td>
                     <span className={`days-badge ${toneClass(days)}`}>
-                      {days}d · {toneLabel(days)}
+                      {days}d · {toneLabel(days, t)}
                     </span>
                   </td>
                   <td className="aging-status">
@@ -122,7 +121,7 @@ export function AgingOverviewPanel({
                         if (!inv.draft && !atLimit) void onGenerate(inv.id);
                       }}
                     >
-                      {inv.draft ? "View draft" : "Generate chase"}
+                      {inv.draft ? t("aging.viewDraft") : t("aging.generate")}
                     </button>
                   </td>
                 </tr>
@@ -134,7 +133,7 @@ export function AgingOverviewPanel({
       {multiError && <div className="error-msg">{multiError}</div>}
       {multiDraft && (
         <div className="multi-draft-box">
-          <div className="ai-tools-label">Multi-invoice draft ({selectedCount} invoices)</div>
+          <div className="ai-tools-label">{t("aging.multiTitle", { count: selectedCount })}</div>
           <input
             type="text"
             className="draft-subject"
@@ -157,14 +156,14 @@ export function AgingOverviewPanel({
                 track("chase_sent", { method: "copy", source: "multi" });
               }}
             >
-              Copy
+              {t("common.copy")}
             </button>
             <a
               className="btn-secondary"
               href={`mailto:?subject=${encodeURIComponent(multiDraft.subject)}&body=${encodeURIComponent(multiDraft.body)}`}
               onClick={() => track("chase_sent", { method: "mailto", source: "multi" })}
             >
-              Open in email client
+              {t("aging.openMail")}
             </a>
           </div>
         </div>

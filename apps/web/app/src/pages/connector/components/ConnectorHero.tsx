@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { ConnectorChecklist } from "./ConnectorChecklist";
 import type { CloudProvider } from "../../../lib/api";
 import type { ProviderTests } from "../types";
+import { useT } from "../../../lib/i18n";
 
 type ConnectorHeroProps = {
   isPaid: boolean;
@@ -38,34 +39,26 @@ export function ConnectorHero({
   onExpandChecklist,
   onCollapseChecklist,
 }: ConnectorHeroProps) {
+  const t = useT();
   return (
     <section className="branding-card connector-test-hero">
-      <h1 className="webhooks-title">Connectors</h1>
+      <h1 className="webhooks-title">{t("connector.title")}</h1>
       <p className="branding-help">
-        Bring unpaid invoices into Chasa from cloud storage, QuickBooks/Xero, or Zapier — then draft
-        follow-ups in the Tool. <strong>Chasa never emails your clients</strong>; you always send
-        from your own inbox.
+        {t("connector.hero")}{" "}
+        <strong>{t("connector.neverEmails")}</strong>
+        {t("connector.heroSend")}
       </p>
       <ol className="connector-how-list">
-        <li>
-          <strong>Cloud storage</strong> — connect Dropbox, OneDrive, or Box → import invoice PDFs
-        </li>
-        <li>
-          <strong>Accounting</strong> — connect QuickBooks Online or Xero → import overdue invoices
-        </li>
-        <li>
-          <strong>Zapier / API</strong> — push overdue invoices from FreshBooks, Wave, Zoho, and
-          more into a chase draft
-        </li>
+        <li>{t("connector.cloudStep")}</li>
+        <li>{t("connector.accountingStep")}</li>
+        <li>{t("connector.zapierStep")}</li>
       </ol>
-      <p className="branding-help">
-        After import, open the <a href="/app/">Tool</a> to generate AI follow-ups.
-      </p>
+      <p className="branding-help">{t("connector.afterImport")}</p>
 
       {!isPaid && (
         <div className="upgrade-nudge">
-          Cloud storage and API keys are on Solo ($7), Pro ($17), and Enterprise.{" "}
-          <Link to="/account">Upgrade</Link> to run this checklist.
+          {t("connector.upgradeNudge")}{" "}
+          <Link to="/account">{t("connector.upgradeLink")}</Link>
         </div>
       )}
 
@@ -87,14 +80,14 @@ export function ConnectorHero({
       {allCloudTestOk && notesCollapsed && (
         <div className="connector-checklist connector-checklist-compact">
           <p>
-            All three cloud connectors tested OK.
+            {t("connector.allTested")}
             <button
               type="button"
               className="btn-secondary"
               style={{ marginLeft: 12 }}
               onClick={onExpandChecklist}
             >
-              Show checklist
+              {t("connector.showChecklist")}
             </button>
           </p>
         </div>
@@ -103,7 +96,7 @@ export function ConnectorHero({
       {allCloudTestOk && !notesCollapsed && (
         <p className="branding-help">
           <button type="button" className="btn-secondary" onClick={onCollapseChecklist}>
-            Collapse checklist
+            {t("connector.collapseChecklist")}
           </button>
         </p>
       )}

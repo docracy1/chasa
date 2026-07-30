@@ -8,6 +8,7 @@ import {
   type CloudProvider,
 } from "../../../lib/api";
 import { CLOUD_LABELS } from "../../../lib/cloudImport";
+import { useT } from "../../../lib/i18n";
 import { ACCOUNTING_LABELS, ACCOUNTING_PROVIDERS, PROVIDERS } from "../constants";
 
 type OperatorNotesSectionProps = {
@@ -27,20 +28,20 @@ export function OperatorNotesSection({
   keepSetupOpen,
   onCollapseNotes,
 }: OperatorNotesSectionProps) {
+  const t = useT();
+
   return (
     <section className="branding-card connector-operator-notes" style={{ marginTop: 20 }}>
       <h2 className="webhooks-title" style={{ fontSize: "1.25rem" }}>
-        Operator notes
+        {t("connector.operatorTitle")}
       </h2>
-      <p className="branding-help">
-        Exact redirect URIs (register in each provider console) and which secrets are still missing.
-      </p>
+      <p className="branding-help">{t("connector.operatorBody")}</p>
       <table className="connector-ops-table">
         <thead>
           <tr>
-            <th>Provider</th>
-            <th>Redirect URI</th>
-            <th>Secrets</th>
+            <th>{t("connector.colProvider")}</th>
+            <th>{t("connector.colRedirect")}</th>
+            <th>{t("connector.colSecrets")}</th>
           </tr>
         </thead>
         <tbody>
@@ -56,10 +57,12 @@ export function OperatorNotesSection({
                 <td>
                   {missing ? (
                     <span className="connector-pill connector-pill-warn">
-                      Missing {CLOUD_SECRET_NAMES[p].join(" + ")}
+                      {t("connector.missingSecrets", {
+                        secrets: CLOUD_SECRET_NAMES[p].join(" + "),
+                      })}
                     </span>
                   ) : statusLoaded ? (
-                    <span className="connector-pill connector-pill-ok">Set</span>
+                    <span className="connector-pill connector-pill-ok">{t("connector.set")}</span>
                   ) : (
                     <span className="connector-pill connector-pill-muted">…</span>
                   )}
@@ -79,10 +82,12 @@ export function OperatorNotesSection({
                 </td>
                 <td>
                   {missing ? (
-                    <span className="connector-pill connector-pill-warn">Missing {secrets}</span>
+                    <span className="connector-pill connector-pill-warn">
+                      {t("connector.missingSecrets", { secrets })}
+                    </span>
                   ) : st ? (
                     <span className="connector-pill connector-pill-ok">
-                      {st.configured ? "Set" : "Missing"}
+                      {st.configured ? t("connector.set") : t("connector.missing")}
                     </span>
                   ) : (
                     <span className="connector-pill connector-pill-muted">…</span>
@@ -96,7 +101,7 @@ export function OperatorNotesSection({
       {missingSecrets.length > 0 && (
         <div className="connector-secret-help" style={{ marginTop: 14 }}>
           <p>
-            <strong>Still missing</strong> (
+            <strong>{t("connector.stillMissing")}</strong> (
             {missingSecrets.map((s) => CLOUD_LABELS[s.provider]).join(", ")}):
           </p>
           <pre className="connector-pre">
@@ -109,7 +114,7 @@ export function OperatorNotesSection({
       {statusLoaded && accounting.some((a) => !a.configured) && (
         <div className="connector-secret-help" style={{ marginTop: 14 }}>
           <p>
-            <strong>Accounting secrets still missing</strong> (
+            <strong>{t("connector.accountingSecretsMissing")}</strong> (
             {accounting
               .filter((a) => !a.configured)
               .map((a) => ACCOUNTING_LABELS[a.provider])
@@ -127,9 +132,7 @@ export function OperatorNotesSection({
         </div>
       )}
       {missingSecrets.length === 0 && statusLoaded && (
-        <p className="branding-help">
-          All three OAuth secret pairs look configured on this worker.
-        </p>
+        <p className="branding-help">{t("connector.allCloudConfigured")}</p>
       )}
       {!keepSetupOpen && (
         <button
@@ -138,7 +141,7 @@ export function OperatorNotesSection({
           style={{ marginTop: 12 }}
           onClick={onCollapseNotes}
         >
-          Collapse operator notes
+          {t("connector.collapseOperatorNotes")}
         </button>
       )}
     </section>

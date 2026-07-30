@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
-import { requestMagicLink, type AuthConfig } from "../lib/api";
+import { adminPasswordLogin, requestMagicLink, type AuthConfig } from "../lib/api";
 import { track } from "../lib/analytics";
+import { useT } from "../lib/i18n";
 import TurnstileWidget, { resetTurnstile } from "../components/TurnstileWidget";
+import LanguageSwitcher from "../components/LanguageSwitcher";
 
 async function loadAuthConfig(): Promise<AuthConfig | null> {
   try {
@@ -14,40 +16,55 @@ async function loadAuthConfig(): Promise<AuthConfig | null> {
 }
 
 export default function Login() {
+  const t = useT();
   const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [sent, setSent] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
   const [turnstileRequired, setTurnstileRequired] = useState(false);
   const [googleLoginEnabled, setGoogleLoginEnabled] = useState(false);
+  const [adminEmail, setAdminEmail] = useState<string | null>(null);
 
   useEffect(() => {
     track("signup_started");
     const params = new URLSearchParams(window.location.search);
     const err = params.get("error");
     if (err === "google_auth" || err === "google_unavailable") {
-      setError("Google sign-in failed. Try again, or use the email link below.");
+      setError("google_auth");
     }
     void loadAuthConfig().then((cfg) => {
       setTurnstileRequired(Boolean(cfg?.turnstileRequired));
       setGoogleLoginEnabled(Boolean(cfg?.googleLoginEnabled));
+      setAdminEmail(cfg?.adminEmail?.trim().toLowerCase() || null);
     });
   }, []);
+
+  const isAdminEmail =
+    Boolean(adminEmail) && email.trim().toLowerCase() === adminEmail;
+
+  const displayError =
+    error === "google_auth" ? t("login.googleFailed") : error;
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (turnstileRequired && !turnstileToken) {
-      setError("Complete the security check and try again.");
+      setError(t("login.turnstile"));
       return;
     }
     setSubmitting(true);
     setError(null);
     try {
+      if (isAdminEmail) {
+        await adminPasswordLogin(email, password, turnstileToken);
+        window.location.href = "/app/account";
+        return;
+      }
       await requestMagicLink(email, turnstileToken);
       setSent(true);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Something went wrong.");
+      setError(err instanceof Error ? err.message : t("login.genericError"));
       setTurnstileToken(null);
       resetTurnstile();
     } finally {
@@ -58,17 +75,21 @@ export default function Login() {
   if (sent) {
     return (
       <div className="panel">
-        <h1>Check your email</h1>
-        <p className="page-sub">
-          We sent a sign-in link to {email}. Click it to log in — it expires in 15 minutes.
-        </p>
+        <div className="panel-lang">
+          <LanguageSwitcher />
+        </div>
+        <h1>{t("login.sentTitle")}</h1>
+        <p className="page-sub">{t("login.sentBody", { email })}</p>
       </div>
     );
   }
 
   return (
     <div className="panel">
-      <h1>Sign in</h1>
+      <div className="panel-lang">
+        <LanguageSwitcher />
+      </div>
+      <h1>{t("login.title")}</h1>
       {googleLoginEnabled ? (
         <>
           <a
@@ -90,39 +111,68 @@ export default function Login() {
               <path fill="#FBBC05" d="M10.53 28.59c-.49-1.47-.76-3.04-.76-4.59s.27-3.12.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.55 10.78l7.98-6.19z" />
               <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.55 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z" />
             </svg>
-            Continue with Google
+            {t("login.google")}
           </a>
           <div style={{ display: "flex", alignItems: "center", gap: 10, margin: "16px 0" }}>
             <div style={{ flex: 1, height: 1, background: "var(--hairline, #ddd)" }} />
             <span style={{ fontSize: 12, color: "var(--mute, #888)", whiteSpace: "nowrap" }}>
-              or sign in with email
+              {t("login.orEmailShort")}
             </span>
             <div style={{ flex: 1, height: 1, background: "var(--hairline, #ddd)" }} />
           </div>
         </>
       ) : (
-        <p className="page-sub">No password — we'll email you a link.</p>
+        <p className="page-sub">{isAdminEmail ? t("login.subAdmin") : t("login.sub")}</p>
       )}
       <form onSubmit={handleSubmit}>
-        <div className="field-row" style={{ gridTemplateColumns: "1fr auto" }}>
+        <div
+          className="field-row"
+          style={{ gridTemplateColumns: isAdminEmail ? "1fr" : "1fr auto" }}
+        >
           <input
             type="email"
-            placeholder="you@example.com"
+            placeholder={t("login.emailPlaceholder")}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
+            autoComplete="email"
           />
-          <button
-            type="submit"
-            className="btn-primary"
-            disabled={submitting || (turnstileRequired && !turnstileToken)}
-          >
-            {submitting ? "Sending…" : "Send link"}
-          </button>
+          {!isAdminEmail && (
+            <button
+              type="submit"
+              className="btn-primary"
+              disabled={submitting || (turnstileRequired && !turnstileToken)}
+            >
+              {submitting ? t("login.sending") : t("login.cta")}
+            </button>
+          )}
         </div>
+        {isAdminEmail && (
+          <>
+            <div className="field-row" style={{ gridTemplateColumns: "1fr", marginTop: 10 }}>
+              <input
+                type="password"
+                placeholder={t("login.passwordPlaceholder")}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                autoComplete="current-password"
+                autoFocus
+              />
+            </div>
+            <button
+              type="submit"
+              className="btn-primary"
+              style={{ width: "100%", marginTop: 10 }}
+              disabled={submitting || (turnstileRequired && !turnstileToken)}
+            >
+              {submitting ? t("login.signingIn") : t("login.signIn")}
+            </button>
+          </>
+        )}
         <TurnstileWidget onToken={setTurnstileToken} />
       </form>
-      {error && <div className="error-msg">{error}</div>}
+      {displayError && <div className="error-msg">{displayError}</div>}
     </div>
   );
 }

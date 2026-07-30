@@ -140,6 +140,16 @@
     "body": "Hi [Client name],\n\nQuick summary of open invoices:\n\n• [Invoice #1] — [Amount 1] — due [Date 1] — [X] days overdue\n• [Invoice #2] — [Amount 2] — due [Date 2] — [Y] days overdue\n\nTotal outstanding: [Total amount]\n\nYou can pay the full balance here: [Payment link]. If a payment plan would help, reply and we'll set one up.\n\nThanks,\n[Your name]"
   },
   {
+    "slug": "invoice-sent-please-process",
+    "name": "Invoice sent — please process",
+    "seoTitle": "Free Invoice Delivery Email Template (Please Process)",
+    "description": "Free email to send with a new invoice: clear due date, how to pay, and what to do if something looks wrong — sets expectations before any chase.",
+    "stage": "On send",
+    "tone": "Clear",
+    "subject": "Invoice [Invoice #] for [Amount] — due [Due date]",
+    "body": "Hi [Client name],\n\nPlease find invoice [Invoice #] for [Amount], due [Due date].\n\nPay here when ready: [Payment link or bank details]\nIf PO numbers, billing contacts, or line items need adjusting, reply and I'll update the invoice before the due date.\n\nThanks for the work — looking forward to the next one,\n[Your name]"
+  },
+  {
     "slug": "confirm-invoice-received-email",
     "name": "Confirm invoice received",
     "seoTitle": "Free Confirm Invoice Received Email Template",
@@ -148,5 +158,25 @@
     "tone": "Neutral",
     "subject": "Did invoice [Invoice #] reach you?",
     "body": "Hi [Client name],\n\nCould you confirm you received invoice [Invoice #] for [Amount] (due [Due date])?\n\nIf it didn't arrive, reply and I'll resend immediately (and update your billing contact if needed). Copy attached.\n\nThanks,\n[Your name]"
+  },
+  {
+    "slug": "multiple-invoices-coming-due",
+    "name": "Multiple invoices coming due",
+    "seoTitle": "Free Email Template for Multiple Invoices Before Due Date",
+    "description": "Free pre-due summary when several invoices share the same client. Helps AP schedule one payment run before anything is late.",
+    "stage": "Multiple · before due",
+    "tone": "Helpful",
+    "subject": "Upcoming invoices totaling [Total amount]",
+    "body": "Hi [Client name],\n\nA heads-up on invoices coming due so nothing slips your payment run:\n\n• [Invoice #1] — [Amount 1] — due [Date 1]\n• [Invoice #2] — [Amount 2] — due [Date 2]\n\nCombined total: [Total amount]\n\nIf everything looks right, you can settle here when ready: [Payment link]. Happy to combine into one remittance or adjust timing if needed.\n\nThanks,\n[Your name]"
+  },
+  {
+    "slug": "thank-you-multiple-invoices-paid",
+    "name": "Thanks — multiple invoices paid",
+    "seoTitle": "Free Thank You Email for Multiple Invoice Payments",
+    "description": "Free thank-you email after a client clears several invoices at once. Short, warm, and good for repeat payment habits.",
+    "stage": "Multiple · paid",
+    "tone": "Grateful",
+    "subject": "Thanks — payments received ([Total amount])",
+    "body": "Hi [Client name],\n\nConfirming we've received your payment covering:\n\n• [Invoice #1] — [Amount 1]\n• [Invoice #2] — [Amount 2]\n\nTotal applied: [Total amount]. Thank you — that clears the open balance on our side.\n\nIf you need remittance details or receipts for your records, just say the word.\n\nAppreciate you,\n[Your name]"
   }
 ]

@@ -3,6 +3,9 @@
 import { ORG_JSON_LD, SOCIAL } from "../data/seo-config.mjs";
 import { renderSeoHead } from "./seo-head.mjs";
 
+/** Bump when site.css / site-nav.js change so Pages edge caches refresh. */
+export const ASSET_V = "20260730b";
+
 export function escapeHtml(s) {
   return s
     .replaceAll("&", "&amp;")
@@ -45,7 +48,7 @@ ${jsonLd ? `<script type="application/ld+json">\n${jsonLd}\n</script>` : `<scrip
 <link rel="icon" href="${link("/favicon.png")}" type="image/png">
 <link rel="icon" href="${link("/favicon.svg")}" type="image/svg+xml">
 <link rel="apple-touch-icon" href="${link("/apple-touch-icon.png")}">
-<link rel="stylesheet" href="${link("/site.css")}">
+<link rel="stylesheet" href="${link(`/site.css?v=${ASSET_V}`)}">
 </head>
 <body>
 <header class="site-header">
@@ -54,6 +57,7 @@ ${jsonLd ? `<script type="application/ld+json">\n${jsonLd}\n</script>` : `<scrip
     <div class="header-nav-right">
       <a href="${link("/#pricing")}" class="header-nav-link header-nav-collapse">Pricing</a>
       <a href="${link("/free-templates/")}" class="header-nav-link header-nav-collapse${activeNav === "templates" ? " header-nav-strong" : ""}">Free templates</a>
+      <a href="${link("/tools/")}" class="header-nav-link header-nav-collapse${activeNav === "tools" ? " header-nav-strong" : ""}">Tools</a>
       <a href="${link("/ai")}" class="header-nav-link header-nav-collapse${activeNav === "ai" ? " header-nav-strong" : ""}">AI</a>
       <a href="${link("/about")}" class="header-nav-link header-nav-collapse">About</a>
       <a href="${link("/app/login")}" class="header-nav-link header-nav-strong">Sign in</a>
@@ -62,16 +66,25 @@ ${jsonLd ? `<script type="application/ld+json">\n${jsonLd}\n</script>` : `<scrip
         <span></span><span></span><span></span>
       </button>
     </div>
-    <div class="header-mobile-menu" data-mobile-menu>
-      <a href="${link("/#pricing")}">Pricing</a>
-      <a href="${link("/free-templates/")}">Free templates</a>
-      <a href="${link("/ai")}">AI</a>
-      <a href="${link("/about")}">About</a>
-      <a href="${link("/app/login")}">Sign in</a>
-      <a href="${link("/app/")}" class="nav-cta">Try free</a>
-    </div>
   </div>
 </header>
+<div class="mobile-panel-backdrop" data-mobile-backdrop></div>
+<div class="mobile-panel" data-mobile-panel>
+  <button class="mobile-panel-close" type="button" aria-label="Close menu" data-mobile-close>✕</button>
+  <nav class="mobile-panel-nav">
+      <a href="${link("/#pricing")}" class="mobile-panel-nav-link">Pricing</a>
+      <a href="${link("/free-templates/")}" class="mobile-panel-nav-link">Free templates</a>
+      <a href="${link("/tools/")}" class="mobile-panel-nav-link">Tools</a>
+      <a href="${link("/ai")}" class="mobile-panel-nav-link">AI</a>
+      <a href="${link("/about")}" class="mobile-panel-nav-link">About</a>
+      <a href="${link("/app/login")}" class="mobile-panel-nav-link">Sign in</a>
+      <a href="${link("/app/")}" class="mobile-panel-nav-link">Try free</a>
+  </nav>
+  <div class="mobile-panel-ctas">
+    <a href="${link("/app/")}" class="mobile-panel-cta-primary">Try free</a>
+    <a href="${link("/app/login")}" class="mobile-panel-cta-secondary">Sign in</a>
+  </div>
+</div>
 <main class="wrap page-main">
 ${mainHtml}
 </main>
@@ -86,6 +99,7 @@ ${mainHtml}
       <a href="${link("/app/")}">Try free</a>
       <a href="${link("/#pricing")}">Pricing</a>
       <a href="${link("/free-templates/")}">Free templates</a>
+      <a href="${link("/tools/")}">Calculators</a>
       <a href="${link("/docs/")}">Docs</a>
       <a href="${link("/blog/")}">Blog</a>
     </div>
@@ -109,7 +123,7 @@ ${mainHtml}
     <p>© ${new Date().getFullYear()} RELACON GmbH</p>
   </div>
 </footer>
-<script src="${link("/site-nav.js")}" defer></script>
+<script src="${link(`/site-nav.js?v=${ASSET_V}`)}" defer></script>
 <script src="${link("/cookie-consent.js")}" defer></script>
 <script src="${link("/analytics.js")}" defer></script>
 </body>

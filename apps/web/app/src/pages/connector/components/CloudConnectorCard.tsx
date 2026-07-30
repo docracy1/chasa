@@ -6,7 +6,8 @@ import {
   type CloudProvider,
 } from "../../../lib/api";
 import { CLOUD_LABELS } from "../../../lib/cloudImport";
-import { CLOUD_DESCRIPTIONS } from "../descriptions";
+import { CLOUD_DESCRIPTION_KEYS } from "../descriptions";
+import { useT } from "../../../lib/i18n";
 import { ONEDRIVE_REDIRECT } from "../constants";
 import type { ProviderTests } from "../types";
 import { StatusPill } from "./StatusPill";
@@ -27,7 +28,7 @@ type CloudConnectorCardProps = {
 
 export function CloudConnectorCard({
   connector: c,
-  test: t,
+  test: testState,
   statusLoaded,
   isPaid,
   busy,
@@ -38,51 +39,54 @@ export function CloudConnectorCard({
   onListFiles,
   onDisconnect,
 }: CloudConnectorCardProps) {
+  const t = useT();
   const configured = !statusLoaded || c.configured;
   const lastError =
-    t.status === "fail"
-      ? t.message
+    testState.status === "fail"
+      ? testState.message
       : !configured
-        ? "OAuth secrets not set on this worker yet."
+        ? t("connector.oauthSecretsMissing")
         : null;
 
   return (
     <li className="cloud-connector-row connector-card">
       <div className="cloud-connector-meta">
         <strong>{CLOUD_LABELS[c.provider]}</strong>
-        <p className="connector-card-desc">{CLOUD_DESCRIPTIONS[c.provider]}</p>
+        <p className="connector-card-desc">{t(CLOUD_DESCRIPTION_KEYS[c.provider])}</p>
         <div className="connector-checklist-marks">
           <StatusPill kind={configured ? "ok" : "warn"}>
-            {configured ? "Configured" : "Secrets missing"}
+            {configured ? t("connector.configured") : t("connector.secretsMissing")}
           </StatusPill>
           <StatusPill kind={c.connected ? "ok" : "muted"}>
             {c.connected
-              ? `Connected${c.externalEmail ? ` · ${c.externalEmail}` : ""}`
-              : "Not connected"}
+              ? `${t("connector.connected")}${c.externalEmail ? ` · ${c.externalEmail}` : ""}`
+              : t("connector.notConnected")}
           </StatusPill>
-          <StatusPill kind={t.status === "ok" ? "ok" : t.status === "fail" ? "fail" : "muted"}>
-            {t.status === "ok"
-              ? "Test OK"
-              : t.status === "running"
-                ? "Testing…"
-                : t.status === "fail"
-                  ? "Test fail"
-                  : "Not tested"}
+          <StatusPill
+            kind={testState.status === "ok" ? "ok" : testState.status === "fail" ? "fail" : "muted"}
+          >
+            {testState.status === "ok"
+              ? t("connector.testOk")
+              : testState.status === "running"
+                ? t("common.testing")
+                : testState.status === "fail"
+                  ? t("connector.testFail")
+                  : t("connector.testPending")}
           </StatusPill>
         </div>
         {c.connected && c.connectedAt && (
           <span className="connector-key-detail">
-            Since {new Date(c.connectedAt).toLocaleDateString()}
+            {t("connector.since", { date: new Date(c.connectedAt).toLocaleDateString() })}
           </span>
         )}
         {lastError && (
           <p className="connector-last-error">
-            Last error: {lastError}
-            {t.hint ? ` — ${t.hint}` : ""}
+            {t("connector.lastError", { error: lastError })}
+            {testState.hint ? ` — ${testState.hint}` : ""}
           </p>
         )}
-        {t.status === "ok" && t.message && (
-          <p className="connector-test-ok-line">{t.message}</p>
+        {testState.status === "ok" && testState.message && (
+          <p className="connector-test-ok-line">{testState.message}</p>
         )}
       </div>
       <div className="cloud-connector-actions">
@@ -94,7 +98,7 @@ export function CloudConnectorCard({
               disabled={testingProvider !== null}
               onClick={() => onTest(c.provider)}
             >
-              {testingProvider === c.provider ? "Testing…" : "Test"}
+              {testingProvider === c.provider ? t("common.testing") : t("common.test")}
             </button>
             <button
               type="button"
@@ -102,7 +106,9 @@ export function CloudConnectorCard({
               disabled={filesBusy}
               onClick={() => onListFiles(c.provider)}
             >
-              {filesBusy && filesProvider === c.provider ? "Loading…" : "Recent PDFs"}
+              {filesBusy && filesProvider === c.provider
+                ? t("common.loading")
+                : t("connector.recentPdfs")}
             </button>
             <button
               type="button"
@@ -110,18 +116,18 @@ export function CloudConnectorCard({
               disabled={busy}
               onClick={() => onDisconnect(c.provider)}
             >
-              Disconnect
+              {t("common.disconnect")}
             </button>
           </>
         )}
         {isPaid && !c.connected && statusLoaded && configured && (
           <a className="btn-primary" href={cloudConnectorConnectUrl(c.provider)}>
-            Connect
+            {t("common.connect")}
           </a>
         )}
         {isPaid && !c.connected && statusLoaded && !configured && (
           <span className="btn-secondary cloud-connector-disabled" aria-disabled>
-            Connect unavailable
+            {t("connector.connectUnavailable")}
           </span>
         )}
       </div>
@@ -157,6 +163,44 @@ wrangler secret put ONEDRIVE_CLIENT_SECRET`}</pre>
                   </li>
                   <li>
                     Refresh this page, then <strong>Connect</strong>.
+                  </li>
+                </ol>
+              </>
+            ) : c.provider === "google" ? (
+              <>
+                <p>
+                  <strong>Google (Drive + Gmail)</strong> — OAuth client in Google Cloud Console.
+                  After connect, the Tool can save chase drafts into Gmail Drafts and read replies —
+                  Chasa never sends.
+                </p>
+                <ol className="connector-setup-steps">
+                  <li>
+                    Open{" "}
+                    <a
+                      href="https://console.cloud.google.com/apis/credentials"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Google Cloud credentials
+                    </a>{" "}
+                    → create an <strong>OAuth 2.0 Client ID</strong> (Web application).
+                  </li>
+                  <li>
+                    Authorized redirect URI:
+                    <pre className="connector-pre">{CLOUD_REDIRECT_URIS.google}</pre>
+                  </li>
+                  <li>
+                    Enable APIs: Drive, Gmail, Sheets, Calendar, People. Scopes include Drive
+                    readonly, Gmail modify (drafts), Sheets, Calendar events, Contacts.
+                  </li>
+                  <li>
+                    From <code>apps/worker</code>:
+                    <pre className="connector-pre">{`wrangler secret put GOOGLE_INTEGRATIONS_CLIENT_ID
+wrangler secret put GOOGLE_INTEGRATIONS_CLIENT_SECRET`}</pre>
+                  </li>
+                  <li>
+                    Refresh this page, then <strong>Connect</strong> → approve Drive + Gmail →{" "}
+                    <strong>Test</strong>.
                   </li>
                 </ol>
               </>

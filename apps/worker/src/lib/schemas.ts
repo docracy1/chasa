@@ -7,6 +7,14 @@ export const magicLinkRequestSchema = z.object({
   turnstileToken: z.string().optional(),
 });
 
+export const templatesPackLeadSchema = z.object({
+  email: z.string().trim().email().max(254),
+  firstName: z.string().trim().max(80).optional(),
+  role: z.string().trim().max(80).optional(),
+  invoiceTool: z.string().trim().max(80).optional(),
+  turnstileToken: z.string().optional(),
+});
+
 export const analyticsTrackSchema = z.object({
   name: z.string().min(1).max(80),
   properties: z

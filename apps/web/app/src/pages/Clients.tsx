@@ -19,15 +19,20 @@ import { getUsedCount, incrementUsedCount, isAtLimit, FREE_LIMIT } from "../lib/
 
 import { daysOverdue } from "../lib/dates";
 import { formatUsDateTime } from "../lib/locale";
+import { useT } from "../lib/i18n";
 
-function riskLabel(score: number | null | undefined): { text: string; className: string } | null {
+function riskLabel(
+  score: number | null | undefined,
+  t: (key: string) => string
+): { text: string; className: string } | null {
   if (score == null) return null;
-  if (score >= 70) return { text: "High risk", className: "client-risk high" };
-  if (score >= 40) return { text: "Medium risk", className: "client-risk medium" };
-  return { text: "Low risk", className: "client-risk low" };
+  if (score >= 70) return { text: t("clients.highRisk"), className: "client-risk high" };
+  if (score >= 40) return { text: t("clients.mediumRisk"), className: "client-risk medium" };
+  return { text: t("clients.lowRisk"), className: "client-risk low" };
 }
 
 export default function ClientsPage({ account }: { account: Account | null }) {
+  const t = useT();
   const [searchParams, setSearchParams] = useSearchParams();
   const selectedId = searchParams.get("id");
   const isPaid = account?.plan !== "free" && account?.plan != null;
@@ -65,7 +70,7 @@ export default function ClientsPage({ account }: { account: Account | null }) {
     if (!account || !isPaid) return;
     setLoading(true);
     refreshList()
-      .catch((err) => setError(err instanceof Error ? err.message : "Could not load clients"))
+      .catch((err) => setError(err instanceof Error ? err.message : t("clients.loadFailed")))
       .finally(() => setLoading(false));
     listCloudConnectors()
       .then((res) => setGoogleConnected(res.connectors.some((c) => c.provider === "google" && c.connected)))
@@ -95,23 +100,26 @@ export default function ClientsPage({ account }: { account: Account | null }) {
           setOpenStats({});
         }
       })
-      .catch((err) => setError(err instanceof Error ? err.message : "Could not load client"))
+      .catch((err) => setError(err instanceof Error ? err.message : t("clients.loadClientFailed")))
       .finally(() => setBusy(false));
   }, [selectedId, isPaid]);
 
   const outstandingLabel = useMemo(() => {
     if (!detail) return "";
-    if (detail.outstandingCount === 0) return "No linked overdue invoices";
-    return `${detail.outstandingCount} open · $${detail.outstandingTotal.toFixed(2)}`;
-  }, [detail]);
+    if (detail.outstandingCount === 0) return t("clients.noLinkedOverdue");
+    return t("clients.openTotal", {
+      count: detail.outstandingCount,
+      total: detail.outstandingTotal.toFixed(2),
+    });
+  }, [detail, t]);
 
   if (!account) {
     return (
       <div className="panel">
-        <h1>Clients</h1>
-        <p className="page-sub">Sign in on Solo or higher to manage clients and chase notes.</p>
+        <h1>{t("clients.title")}</h1>
+        <p className="page-sub">{t("clients.signInSub")}</p>
         <a className="btn-primary" href="/app/login">
-          Sign in
+          {t("nav.signin")}
         </a>
       </div>
     );
@@ -120,13 +128,10 @@ export default function ClientsPage({ account }: { account: Account | null }) {
   if (!isPaid) {
     return (
       <div className="panel">
-        <h1>Clients</h1>
-        <p className="page-sub">
-          Client management (contacts, notes, promised-to-pay) is included on Solo and up. Aging from
-          CSV still works for free in the Tool.
-        </p>
+        <h1>{t("clients.title")}</h1>
+        <p className="page-sub">{t("clients.upgradeSub")}</p>
         <div className="upgrade-nudge">
-          <Link to="/account">Upgrade to Solo</Link> to unlock saved clients.
+          <Link to="/account">{t("clients.upgradeToSolo")}</Link> {t("clients.upgradeHint")}
         </div>
       </div>
     );
@@ -150,7 +155,7 @@ export default function ClientsPage({ account }: { account: Account | null }) {
       setCreateEmail("");
       setCreateNotes("");
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Could not create client");
+      setError(err instanceof Error ? err.message : t("clients.createFailed"));
     } finally {
       setBusy(false);
     }
@@ -171,7 +176,7 @@ export default function ClientsPage({ account }: { account: Account | null }) {
       await refreshList();
       track("client_updated");
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Could not save client");
+      setError(err instanceof Error ? err.message : t("clients.saveFailed"));
     } finally {
       setBusy(false);
     }
@@ -182,14 +187,14 @@ export default function ClientsPage({ account }: { account: Account | null }) {
     setBusy(true);
     setError(null);
     try {
-      const note = contactNote.trim() || "Promised to pay";
+      const note = contactNote.trim() || t("clients.promisedDefault");
       const updated = await updateClient(detail.id, { lastContactNote: note });
       setDetail(updated);
       setContactNote(updated.lastContactNote ?? note);
       await refreshList();
       track("client_contact_note");
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Could not save note");
+      setError(err instanceof Error ? err.message : t("clients.noteFailed"));
     } finally {
       setBusy(false);
     }
@@ -197,7 +202,7 @@ export default function ClientsPage({ account }: { account: Account | null }) {
 
   async function handleDelete() {
     if (!detail) return;
-    if (!confirm(`Delete client “${detail.name}”? Aging rows stay but unlink.`)) return;
+    if (!confirm(t("clients.deleteConfirm", { name: detail.name }))) return;
     setBusy(true);
     try {
       await deleteClient(detail.id);
@@ -206,7 +211,7 @@ export default function ClientsPage({ account }: { account: Account | null }) {
       setDetail(null);
       await refreshList();
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Could not delete");
+      setError(err instanceof Error ? err.message : t("clients.deleteFailed"));
     } finally {
       setBusy(false);
     }
@@ -234,7 +239,7 @@ export default function ClientsPage({ account }: { account: Account | null }) {
       setDraft(result);
       track("client_chase_drafted", { invoices: invoices.length });
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Could not draft chase");
+      setError(err instanceof Error ? err.message : t("clients.draftFailed"));
     } finally {
       setDraftBusy(false);
     }
@@ -243,22 +248,19 @@ export default function ClientsPage({ account }: { account: Account | null }) {
   return (
     <div className="clients-page">
       <p className="crumb">
-        <Link to="/">Tool</Link> / Clients
+        <Link to="/">{t("clients.toolCrumb")}</Link> / {t("clients.title")}
       </p>
-      <h1>Clients</h1>
-      <p className="page-sub">
-        Contacts for chase drafts — notes, promised-to-pay, and linked overdue invoices from your
-        aging board. Draft only; Chasa never emails clients.
-      </p>
+      <h1>{t("clients.title")}</h1>
+      <p className="page-sub">{t("clients.pageSub")}</p>
 
       {!isPaid && (
         <div className="usage-bar">
-          {usedCount}/{FREE_LIMIT} free drafts used this month
+          {t("usage.bar", { used: usedCount, limit: FREE_LIMIT })}
         </div>
       )}
 
       {error && <div className="error-msg">{error}</div>}
-      {loading && <p className="page-sub">Loading…</p>}
+      {loading && <p className="page-sub">{t("common.loading")}</p>}
       {isPaid && (
         <div style={{ marginBottom: 16, display: "flex", gap: 8, flexWrap: "wrap", alignItems: "center" }}>
           {googleConnected ? (
@@ -275,25 +277,25 @@ export default function ClientsPage({ account }: { account: Account | null }) {
                   setImportGoogleResult({ imported: result.imported, skipped: result.skipped });
                   await refreshList();
                 } catch (err) {
-                  setError(err instanceof Error ? err.message : "Google import failed");
+                  setError(err instanceof Error ? err.message : t("clients.googleImportFailed"));
                 } finally {
                   setImportingGoogle(false);
                 }
               }}
             >
-              {importingGoogle ? "Importing…" : "Import from Google"}
+              {importingGoogle ? t("common.importing") : t("clients.importGoogle")}
             </button>
           ) : (
             <span className="branding-help">
-              To import Google contacts,{" "}
-              <Link to="/connector">connect Google Drive first</Link>.
+              {t("clients.connectGooglePrefix")}{" "}
+              <Link to="/connector">{t("clients.connectGoogle")}</Link>.
             </span>
           )}
           {importGoogleResult && (
             <span className="branding-help">
-              Imported {importGoogleResult.imported}
+              {t("clients.importedCount", { count: importGoogleResult.imported })}
               {importGoogleResult.skipped > 0
-                ? `, ${importGoogleResult.skipped} skipped`
+                ? t("clients.importedSkipped", { skipped: importGoogleResult.skipped })
                 : ""}
               .
             </span>
@@ -303,9 +305,9 @@ export default function ClientsPage({ account }: { account: Account | null }) {
 
       <div className="clients-layout">
         <section className="branding-card">
-          <h2>All clients</h2>
+          <h2>{t("clients.all")}</h2>
           {clients.length === 0 ? (
-            <p className="branding-help">No clients yet. Add one, or sync aging from the Tool (CSV).</p>
+            <p className="branding-help">{t("clients.empty")}</p>
           ) : (
             <ul className="clients-list">
               {clients.map((c) => (
@@ -318,13 +320,15 @@ export default function ClientsPage({ account }: { account: Account | null }) {
                     <strong>{c.name}</strong>
                     <span>
                       {c.outstandingCount > 0
-                        ? `$${c.outstandingTotal.toFixed(2)} open`
-                        : "No open invoices"}
+                        ? t("clients.openAmount", { amount: c.outstandingTotal.toFixed(2) })
+                        : t("clients.noOpenInvoices")}
                     </span>
                     {isPro && c.riskScore != null && (
-                      <span className={riskLabel(c.riskScore)?.className}>
-                        {riskLabel(c.riskScore)?.text}
-                        {c.avgDaysLate != null ? ` · avg ${Math.round(c.avgDaysLate)}d late` : ""}
+                      <span className={riskLabel(c.riskScore, t)?.className}>
+                        {riskLabel(c.riskScore, t)?.text}
+                        {c.avgDaysLate != null
+                          ? t("clients.avgDaysLate", { days: Math.round(c.avgDaysLate) })
+                          : ""}
                       </span>
                     )}
                     {c.lastContactNote && (
@@ -336,11 +340,11 @@ export default function ClientsPage({ account }: { account: Account | null }) {
             </ul>
           )}
 
-          <h2 style={{ marginTop: 20 }}>Add client</h2>
+          <h2 style={{ marginTop: 20 }}>{t("clients.add")}</h2>
           <form className="clients-form" onSubmit={handleCreate}>
             <input
               type="text"
-              placeholder="Name"
+              placeholder={t("clients.name")}
               value={createName}
               onChange={(e) => setCreateName(e.target.value)}
               required
@@ -349,20 +353,20 @@ export default function ClientsPage({ account }: { account: Account | null }) {
             />
             <input
               type="email"
-              placeholder="Email (optional)"
+              placeholder={t("clients.email")}
               value={createEmail}
               onChange={(e) => setCreateEmail(e.target.value)}
               disabled={busy}
             />
             <textarea
               rows={2}
-              placeholder="Notes (optional)"
+              placeholder={t("clients.notes")}
               value={createNotes}
               onChange={(e) => setCreateNotes(e.target.value)}
               disabled={busy}
             />
             <button type="submit" className="btn-primary" disabled={busy}>
-              {busy ? "Saving…" : "Add client"}
+              {busy ? t("common.saving") : t("clients.add")}
             </button>
           </form>
         </section>
@@ -373,20 +377,25 @@ export default function ClientsPage({ account }: { account: Account | null }) {
               <h2>{detail.name}</h2>
               <p className="branding-help">{outstandingLabel}</p>
               {isPro && detail.riskScore != null && (
-                <p className={`client-risk-detail ${riskLabel(detail.riskScore)?.className ?? ""}`}>
-                  Payment risk: {detail.riskScore}/100
-                  {detail.avgDaysLate != null ? ` · pays ~${Math.round(detail.avgDaysLate)} days late on average` : ""}
+                <p className={`client-risk-detail ${riskLabel(detail.riskScore, t)?.className ?? ""}`}>
+                  {t("clients.paymentRisk", { score: detail.riskScore })}
+                  {detail.avgDaysLate != null
+                    ? t("clients.paysLate", { days: Math.round(detail.avgDaysLate) })
+                    : ""}
                   {detail.paidInvoiceCount != null && detail.paidInvoiceCount > 0
-                    ? ` · ${detail.paidInvoiceCount} paid, ${detail.lateInvoiceCount ?? 0} late`
+                    ? t("clients.paidLateCount", {
+                        paid: detail.paidInvoiceCount,
+                        late: detail.lateInvoiceCount ?? 0,
+                      })
                     : ""}
                 </p>
               )}
               {isPro && detail.riskScore == null && (
-                <p className="branding-help">Risk score updates when you mark invoices paid.</p>
+                <p className="branding-help">{t("clients.riskScoreHint")}</p>
               )}
               <form className="clients-form" onSubmit={handleSave}>
                 <label>
-                  Name
+                  {t("clients.name")}
                   <input
                     type="text"
                     value={name}
@@ -397,7 +406,7 @@ export default function ClientsPage({ account }: { account: Account | null }) {
                   />
                 </label>
                 <label>
-                  Email
+                  {t("clients.emailField")}
                   <input
                     type="email"
                     value={email}
@@ -406,7 +415,7 @@ export default function ClientsPage({ account }: { account: Account | null }) {
                   />
                 </label>
                 <label>
-                  Notes
+                  {t("clients.notesField")}
                   <textarea
                     rows={3}
                     value={notes}
@@ -416,50 +425,50 @@ export default function ClientsPage({ account }: { account: Account | null }) {
                 </label>
                 <div className="draft-actions">
                   <button type="submit" className="btn-primary" disabled={busy}>
-                    Save
+                    {t("common.save")}
                   </button>
                   <button type="button" className="btn-secondary" disabled={busy} onClick={handleDelete}>
-                    Delete
+                    {t("common.delete")}
                   </button>
                 </div>
               </form>
 
-              <h3 className="clients-subhead">Last contact / promised to pay</h3>
+              <h3 className="clients-subhead">{t("clients.contactNoteTitle")}</h3>
               <div className="clients-form">
                 <input
                   type="text"
-                  placeholder='e.g. "Promised to pay Friday"'
+                  placeholder={t("clients.contactNotePlaceholder")}
                   value={contactNote}
                   onChange={(e) => setContactNote(e.target.value)}
                   disabled={busy}
                   maxLength={500}
                 />
                 <button type="button" className="btn-secondary" disabled={busy} onClick={handlePromised}>
-                  Save contact note
+                  {t("clients.saveContactNote")}
                 </button>
                 {detail.lastContactAt && (
                   <p className="branding-help">
-                    Last note {formatUsDateTime(detail.lastContactAt)}
+                    {t("clients.lastNote", { date: formatUsDateTime(detail.lastContactAt) })}
                   </p>
                 )}
               </div>
 
-              <h3 className="clients-subhead">Related overdue</h3>
+              <h3 className="clients-subhead">{t("clients.relatedOverdue")}</h3>
               {invoices.length === 0 ? (
                 <p className="branding-help">
-                  No linked aging rows. Upload a CSV in the <Link to="/">Tool</Link> — paid accounts
-                  sync clients automatically.
+                  {t("clients.noLinkedBeforeTool")}{" "}
+                  <Link to="/">{t("clients.toolCrumb")}</Link> {t("clients.noLinkedAfterTool")}
                 </p>
               ) : (
                 <>
                 <table className="aging-table">
                   <thead>
                     <tr>
-                      <th>Amount</th>
-                      <th>Due</th>
-                      <th>Days</th>
-                      <th>Last chase</th>
-                      <th>Opens</th>
+                      <th>{t("aging.amount")}</th>
+                      <th>{t("invoice.dueLabel")}</th>
+                      <th>{t("aging.days")}</th>
+                      <th>{t("aging.lastChase")}</th>
+                      <th>{t("clients.opensCol")}</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -473,7 +482,9 @@ export default function ClientsPage({ account }: { account: Account | null }) {
                           {openStats[inv.id]
                             ? `${openStats[inv.id].openCount}${
                                 openStats[inv.id].clickCount
-                                  ? ` · ${openStats[inv.id].clickCount} clicks`
+                                  ? t("clients.clicksInCell", {
+                                      count: openStats[inv.id].clickCount,
+                                    })
                                   : ""
                               }`
                             : "—"}
@@ -483,8 +494,7 @@ export default function ClientsPage({ account }: { account: Account | null }) {
                   </tbody>
                 </table>
                 <p className="branding-help" style={{ marginTop: 8 }}>
-                  Opens only count when you used Copy tracked HTML (image pixel). Plain mailto does
-                  not track.
+                  {t("clients.trackingHint")}
                 </p>
                 </>
               )}
@@ -497,10 +507,10 @@ export default function ClientsPage({ account }: { account: Account | null }) {
                     disabled={draftBusy}
                     onClick={() => void draftChase()}
                   >
-                    {draftBusy ? "Writing…" : "Draft chase email"}
+                    {draftBusy ? t("common.writing") : t("clients.draftChase")}
                   </button>
                   <Link className="btn-secondary" to="/">
-                    Open in Tool
+                    {t("clients.openTool")}
                   </Link>
                 </div>
               )}
@@ -529,21 +539,21 @@ export default function ClientsPage({ account }: { account: Account | null }) {
                         track("chase_sent", { method: "copy", source: "clients" });
                       }}
                     >
-                      Copy
+                      {t("common.copy")}
                     </button>
                     <a
                       className="btn-secondary"
                       href={`mailto:${encodeURIComponent(detail.email || "")}?subject=${encodeURIComponent(draft.subject)}&body=${encodeURIComponent(draft.body)}`}
                       onClick={() => track("chase_sent", { method: "mailto", source: "clients" })}
                     >
-                      Open in email client
+                      {t("invoice.openMail")}
                     </a>
                   </div>
                 </div>
               )}
             </>
           ) : (
-            <p className="branding-help">Select a client to edit notes, mark promised-to-pay, or draft a chase.</p>
+            <p className="branding-help">{t("clients.selectHint")}</p>
           )}
         </section>
       </div>

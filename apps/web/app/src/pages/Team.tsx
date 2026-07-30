@@ -9,6 +9,7 @@ import {
   type Account,
   type TeamInfo,
 } from "../lib/api";
+import { useT } from "../lib/i18n";
 
 function emailInitials(email: string): string {
   const local = email.split("@")[0]?.trim() || "?";
@@ -19,8 +20,10 @@ function emailInitials(email: string): string {
   return local.slice(0, 2).toUpperCase();
 }
 
-function roleLabel(role: string): string {
-  return role === "admin" ? "Admin" : "Member";
+function roleLabel(role: string, t: (key: string) => string): string {
+  if (role === "admin") return t("team.admin");
+  if (role === "owner") return t("team.owner");
+  return t("team.member");
 }
 
 export default function TeamPage({
@@ -30,6 +33,7 @@ export default function TeamPage({
   account: Account | null;
   refresh: () => Promise<void>;
 }) {
+  const t = useT();
   const [searchParams, setSearchParams] = useSearchParams();
   const [team, setTeam] = useState<TeamInfo | null>(null);
   const [email, setEmail] = useState("");
@@ -42,8 +46,12 @@ export default function TeamPage({
   const isPaid = !!account && account.plan !== "free";
   const seatsUsed = team?.seats.used ?? 0;
   const seatsLimit = team?.seats.limit ?? 0;
-  const seatsPct =
-    seatsLimit > 0 ? Math.min(100, Math.round((seatsUsed / seatsLimit) * 100)) : 0;
+  const seatsUnlimited = seatsLimit >= 1000;
+  const seatsPct = seatsUnlimited
+    ? 0
+    : seatsLimit > 0
+      ? Math.min(100, Math.round((seatsUsed / seatsLimit) * 100))
+      : 0;
 
   async function load() {
     const t = await getTeam();
@@ -52,7 +60,7 @@ export default function TeamPage({
 
   useEffect(() => {
     if (!account || !isPaid) return;
-    load().catch((err) => setError(err instanceof Error ? err.message : "Could not load team"));
+    load().catch((err) => setError(err instanceof Error ? err.message : t("team.loadFailed")));
   }, [account, isPaid]);
 
   useEffect(() => {
@@ -66,7 +74,7 @@ export default function TeamPage({
         await refresh();
         await load();
       })
-      .catch((err) => setError(err instanceof Error ? err.message : "Could not accept invite"))
+      .catch((err) => setError(err instanceof Error ? err.message : t("team.acceptFailed")))
       .finally(() => setBusy(false));
   }, [account, isPaid, searchParams, accepted]);
 
@@ -74,12 +82,12 @@ export default function TeamPage({
     return (
       <div className="team-page">
         <p className="crumb">
-          <Link to="/account">Account</Link> / Team
+          <Link to="/account">{t("team.crumbAccount")}</Link> / {t("team.title")}
         </p>
-        <h1>Team</h1>
-        <p className="page-sub">Sign in on Solo or higher to invite teammates.</p>
+        <h1>{t("team.title")}</h1>
+        <p className="page-sub">{t("team.signInSub")}</p>
         <Link className="btn-primary" to="/login">
-          Sign in
+          {t("nav.signin")}
         </Link>
       </div>
     );
@@ -89,14 +97,12 @@ export default function TeamPage({
     return (
       <div className="team-page">
         <p className="crumb">
-          <Link to="/account">Account</Link> / Team
+          <Link to="/account">{t("team.crumbAccount")}</Link> / {t("team.title")}
         </p>
-        <h1>Team</h1>
-        <p className="page-sub">
-          Invite teammates with admin/member roles. Solo includes 3 seats; Pro 5; Enterprise 25.
-        </p>
+        <h1>{t("team.title")}</h1>
+        <p className="page-sub">{t("team.upgradeSub")}</p>
         <div className="upgrade-nudge">
-          <Link to="/account">Upgrade to Solo</Link> to unlock team seats.
+          <Link to="/account">{t("team.upgradeToSolo")}</Link> {t("team.upgradeSeatsHint")}
         </div>
       </div>
     );
@@ -114,7 +120,7 @@ export default function TeamPage({
       setEmail("");
       await load();
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Invite failed");
+      setError(err instanceof Error ? err.message : t("team.inviteFailed"));
     } finally {
       setBusy(false);
     }
@@ -126,43 +132,52 @@ export default function TeamPage({
   return (
     <div className="team-page">
       <p className="crumb">
-        <Link to="/account">Account</Link> / Team
+        <Link to="/account">{t("team.crumbAccount")}</Link> / {t("team.title")}
       </p>
-      <h1>Team</h1>
+      <h1>{t("team.title")}</h1>
       <p className="page-sub">
-        Invite teammates to this workspace. You&apos;re signed in as{" "}
-        <strong>{account.email}</strong> · role{" "}
-        <span className={`team-role-badge ${yourRole}`}>{roleLabel(yourRole)}</span>
+        {t("team.signedInAs")}{" "}
+        <strong>{account.email}</strong> · {t("team.roleWord")}{" "}
+        <span className={`team-role-badge ${yourRole}`}>{roleLabel(yourRole, t)}</span>
       </p>
 
-      {accepted && <div className="success-msg">Invite accepted — you&apos;re in this workspace.</div>}
+      {accepted && <div className="success-msg">{t("team.inviteAccepted")}</div>}
       {error && <div className="error-msg">{error}</div>}
 
       <section className="branding-card team-seats-card">
         <div className="team-seats-head">
           <div>
-            <h2>Seats</h2>
+            <h2>{t("team.seats")}</h2>
             <p className="branding-help">
               {seatsLimit > 0 ? (
-                <>
-                  <strong>
-                    {seatsUsed} of {seatsLimit}
-                  </strong>{" "}
-                  seats used
-                  {team?.ownerEmail ? (
-                    <>
-                      {" "}
-                      · workspace owner <strong>{team.ownerEmail}</strong>
-                    </>
-                  ) : null}
-                </>
+                seatsUnlimited ? (
+                  <>
+                    {t("team.seatsUsedUnlimited", { used: seatsUsed })}
+                    {team?.ownerEmail ? (
+                      <>
+                        {" "}
+                        {t("team.ownerSuffix")} <strong>{team.ownerEmail}</strong>
+                      </>
+                    ) : null}
+                  </>
+                ) : (
+                  <>
+                    {t("team.seatsUsedOf", { used: seatsUsed, limit: seatsLimit })}
+                    {team?.ownerEmail ? (
+                      <>
+                        {" "}
+                        {t("team.ownerSuffix")} <strong>{team.ownerEmail}</strong>
+                      </>
+                    ) : null}
+                  </>
+                )
               ) : (
-                "Loading seat usage…"
+                t("team.seatsLoading")
               )}
             </p>
           </div>
           <span className="team-seats-count">
-            {seatsUsed}/{seatsLimit || "—"}
+            {seatsUnlimited ? `${seatsUsed} / ∞` : `${seatsUsed}/${seatsLimit || "—"}`}
           </span>
         </div>
         <div
@@ -170,8 +185,8 @@ export default function TeamPage({
           role="progressbar"
           aria-valuenow={seatsUsed}
           aria-valuemin={0}
-          aria-valuemax={seatsLimit || 1}
-          aria-label="Seat usage"
+          aria-valuemax={seatsUnlimited ? Math.max(seatsUsed, 1) : seatsLimit || 1}
+          aria-label={t("team.seatUsageAria")}
         >
           <div className="team-seats-fill" style={{ width: `${seatsPct}%` }} />
         </div>
@@ -179,33 +194,30 @@ export default function TeamPage({
 
       {isAdmin && (
         <section className="branding-card">
-          <h2>Invite by email</h2>
-          <p className="branding-help">
-            Sends an invite link. Admins can manage members and billing-related settings; members can
-            work in the workspace.
-          </p>
+          <h2>{t("team.inviteTitle")}</h2>
+          <p className="branding-help">{t("team.inviteHelp")}</p>
           <form className="team-invite-form" onSubmit={handleInvite}>
             <label className="team-invite-email">
-              Email
+              {t("team.email")}
               <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="teammate@company.com"
+                placeholder={t("team.emailPlaceholder")}
                 required
                 disabled={busy}
                 autoComplete="email"
               />
             </label>
             <label className="team-invite-role">
-              Role
+              {t("team.role")}
               <select
                 value={role}
                 onChange={(e) => setRole(e.target.value as "admin" | "member")}
                 disabled={busy}
               >
-                <option value="member">Member</option>
-                <option value="admin">Admin</option>
+                <option value="member">{t("team.member")}</option>
+                <option value="admin">{t("team.admin")}</option>
               </select>
             </label>
             <button
@@ -213,23 +225,23 @@ export default function TeamPage({
               type="submit"
               disabled={busy || (team?.seats.remaining ?? 0) <= 0}
             >
-              {busy ? "Sending…" : "Send invite"}
+              {busy ? t("team.sending") : t("team.sendInvite")}
             </button>
           </form>
           {inviteUrl && (
             <p className="team-invite-link">
-              Invite sent. Share link if needed: <code>{inviteUrl}</code>
+              {t("team.inviteSent")} <code>{inviteUrl}</code>
             </p>
           )}
           {(team?.seats.remaining ?? 0) <= 0 && (
-            <p className="team-invite-full">All seats are used. Upgrade or remove a member to invite more.</p>
+            <p className="team-invite-full">{t("team.seatsFull")}</p>
           )}
         </section>
       )}
 
       <section className="branding-card">
-        <h2>Members</h2>
-        <p className="branding-help">People with access to this workspace.</p>
+        <h2>{t("team.members")}</h2>
+        <p className="branding-help">{t("team.membersHelp")}</p>
         <ul className="team-list">
           <li className="team-member-row">
             <span className="team-avatar" aria-hidden>
@@ -237,9 +249,9 @@ export default function TeamPage({
             </span>
             <div className="team-member-main">
               <strong>{team?.ownerEmail ?? "…"}</strong>
-              <span className="team-member-meta">Workspace owner</span>
+              <span className="team-member-meta">{t("team.workspaceOwner")}</span>
             </div>
-            <span className="team-role-badge admin">Owner</span>
+            <span className="team-role-badge admin">{t("team.owner")}</span>
           </li>
           {(team?.members ?? []).map((m) => (
             <li key={m.id} className="team-member-row">
@@ -249,32 +261,32 @@ export default function TeamPage({
               <div className="team-member-main">
                 <strong>{m.email}</strong>
                 <span className="team-member-meta">
-                  {m.status === "pending" ? "Invite pending" : "Active"}
+                  {m.status === "pending" ? t("team.pending") : t("team.active")}
                   {m.joinedAt
-                    ? ` · joined ${new Date(m.joinedAt).toLocaleDateString()}`
+                    ? t("team.joined", { date: new Date(m.joinedAt).toLocaleDateString() })
                     : m.invitedAt
-                      ? ` · invited ${new Date(m.invitedAt).toLocaleDateString()}`
+                      ? t("team.invited", { date: new Date(m.invitedAt).toLocaleDateString() })
                       : null}
                 </span>
               </div>
               {isAdmin ? (
                 <div className="team-member-actions">
                   <label className="team-inline-role">
-                    <span className="visually-hidden">Role</span>
+                    <span className="visually-hidden">{t("team.role")}</span>
                     <select
                       value={m.role}
-                      aria-label={`Role for ${m.email}`}
+                      aria-label={`${t("team.role")} ${m.email}`}
                       onChange={async (e) => {
                         try {
                           await updateTeamMemberRole(m.id, e.target.value as "admin" | "member");
                           await load();
                         } catch (err) {
-                          setError(err instanceof Error ? err.message : "Update failed");
+                          setError(err instanceof Error ? err.message : t("team.updateFailed"));
                         }
                       }}
                     >
-                      <option value="member">Member</option>
-                      <option value="admin">Admin</option>
+                      <option value="member">{t("team.member")}</option>
+                      <option value="admin">{t("team.admin")}</option>
                     </select>
                   </label>
                   <button
@@ -285,21 +297,24 @@ export default function TeamPage({
                         await removeTeamMember(m.id);
                         await load();
                       } catch (err) {
-                        setError(err instanceof Error ? err.message : "Remove failed");
+                        setError(err instanceof Error ? err.message : t("team.removeFailed"));
                       }
                     }}
                   >
-                    Remove
+                    {t("team.remove")}
                   </button>
                 </div>
               ) : (
-                <span className={`team-role-badge ${m.role}`}>{roleLabel(m.role)}</span>
+                <span className={`team-role-badge ${m.role}`}>{roleLabel(m.role, t)}</span>
               )}
             </li>
           ))}
         </ul>
         {team && team.members.length === 0 && (
-          <p className="team-empty-hint">No invited members yet{isAdmin ? " — send an invite above." : "."}</p>
+          <p className="team-empty-hint">
+            {t("team.noMembersHint")}
+            {isAdmin ? t("team.noMembersAdminSuffix") : "."}
+          </p>
         )}
       </section>
     </div>

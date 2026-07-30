@@ -1,5 +1,11 @@
 [
   {
+    "title": "Building an AR policy that works with Chasa",
+    "slug": "ar-policy-that-works-with-chasa",
+    "description": "What a practical accounts receivable policy should cover — terms, credit limits, chase stages, disputes, and write-offs — and how each piece maps to Chasa’s aging board, AI drafts, and templates.",
+    "publishedAt": "2026-07-31"
+  },
+  {
     "title": "Chasa vs Chaser, Paidnice, Duefy, Satago & ChaseAI — invoice chase software comparison",
     "slug": "invoice-chase-software-comparison",
     "description": "Side-by-side comparison of invoice chase tools for freelancers and SMBs: price, auto-send vs draft-only, AI drafts, sequences, and tracking — Chasa vs Chaser, Paidnice, Duefy, Satago, and ChaseAI.",

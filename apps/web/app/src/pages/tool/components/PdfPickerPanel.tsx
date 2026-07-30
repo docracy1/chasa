@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import type { CloudFile, CloudProvider } from "../../../lib/api";
+import { useT } from "../../../lib/i18n";
 import { CLOUD_LABELS } from "../constants";
 
 interface PdfPickerPanelProps {
@@ -23,20 +24,21 @@ export function PdfPickerPanel({
   onLoadPdfFiles,
   onImportPdf,
 }: PdfPickerPanelProps) {
+  const t = useT();
   return (
     <div className="panel cloud-import-panel">
       <div className="cloud-import-picker-head">
-        <h2 className="cloud-import-title">Import PDF from cloud storage</h2>
+        <h2 className="cloud-import-title">{t("pdf.title")}</h2>
         <button type="button" className="btn-secondary" onClick={onClose}>
-          Close
+          {t("common.close")}
         </button>
       </div>
       {pdfError && <div className="error-msg">{pdfError}</div>}
-      {pdfBusy && <p className="page-sub">Loading…</p>}
+      {pdfBusy && <p className="page-sub">{t("common.loading")}</p>}
       {!pdfBusy && pdfProviders.length === 0 && (
         <p className="branding-help">
-          No cloud storage connected yet.{" "}
-          <Link to="/connector">Connect Dropbox, OneDrive, or Box</Link> first.
+          {t("pdf.noCloud")}{" "}
+          <Link to="/connector">{t("pdf.connectCloud")}</Link>.
         </p>
       )}
       {pdfProviders.length > 1 && (
@@ -55,7 +57,7 @@ export function PdfPickerPanel({
         </div>
       )}
       {pdfProvider && !pdfBusy && pdfFiles.length === 0 && (
-        <p className="branding-help">No PDFs found. Try another provider or upload a CSV.</p>
+        <p className="branding-help">{t("pdf.noneFound")}</p>
       )}
       {pdfFiles.length > 0 && (
         <ul className="cloud-files-list">
@@ -75,7 +77,7 @@ export function PdfPickerPanel({
                 disabled={pdfBusy}
                 onClick={() => void onImportPdf(f)}
               >
-                Import
+                {t("pdf.import")}
               </button>
             </li>
           ))}

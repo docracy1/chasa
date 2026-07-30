@@ -14,7 +14,7 @@ founder@chasa.io.
 - No signup required for the first 5 AI-generated chase drafts per month.
 - Paste invoices manually or upload CSVs.
 - Tone-matched drafts based on days overdue.
-- 15+ free payment reminder templates at `https://chasa.io/free-templates/`.
+- 18+ free payment reminder templates at `https://chasa.io/free-templates/`.
 - Users copy the result into Gmail, Outlook, Apple Mail, or another client themselves.
 
 ## Paid plans

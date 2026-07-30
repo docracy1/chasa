@@ -96,6 +96,10 @@ Stripe price IDs live in `apps/worker/wrangler.toml` as `STRIPE_PRICE_SOLO`, `ST
 
 All app routes except `/login` and `/admin` require a session. Unauthenticated users redirect to `/login`. SPA analytics require cookie consent (GDPR).
 
+### i18n (EN + ES)
+
+Same path as Docracy: lightweight catalogs in `apps/web/app/src/lib/i18n/` (no i18next). `LocaleProvider` + EN|ES switcher on login, sidebar, and More sheet. P1 covers login / shell / welcome; expand catalogs for the rest of the app next. Preference stored as `chasa_locale`. Marketing HTML stays English until a later pass.
+
 ### Marketing & SEO (static HTML in `apps/web/public/`)
 
 - Homepage with pricing, FAQ JSON-LD, competitor comparison

@@ -14,6 +14,10 @@ jobs:
         with:
           node-version: 24
           cache: npm
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install reportlab
       - run: npm ci
       - run: npm run lint
       - run: npm run test
@@ -36,6 +40,10 @@ jobs:
         with:
           node-version: 24
           cache: npm
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install reportlab
       - run: npm ci
       - name: Deploy worker
         if: env.CLOUDFLARE_API_TOKEN != ''

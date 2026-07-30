@@ -1,8 +1,10 @@
 import type { Context, MiddlewareHandler } from "hono";
 import { getCookie, setCookie, deleteCookie } from "hono/cookie";
 import type { Env } from "../types";
+import { getAdminEmail } from "./adminAuth";
 import { isPaidPlan, type Plan } from "./billing";
 import { timingSafeEqual } from "./cryptoUtils";
+import { checkRateLimit } from "./rateLimit";
 import { generateOpaqueToken, hashOpaqueToken, hashOpaqueTokenLookup, hashOpaqueTokenLegacy } from "./token";
 import { purgeExpiredSessions } from "./sessionCleanup";
 import { sendMagicLinkEmail } from "./email";
@@ -192,6 +194,50 @@ export async function createSession(env: Env, accountId: string): Promise<string
     .run();
 
   return token;
+}
+
+/**
+ * Password sign-in for ADMIN_EMAIL — same shared ADMIN_PASSWORD as /api/admin/login, but
+ * creates a normal app session (Docracy-style) so the founder can enter the product without
+ * waiting on a magic link. Generic error text avoids admin-email enumeration.
+ */
+export async function adminPasswordLogin(
+  env: Env,
+  email: string,
+  password: string,
+  ip: string
+): Promise<
+  | { ok: true; sessionToken: string; accountId: string; isNew: boolean; isPaid: boolean; plan: Plan }
+  | { ok: false; error: string; status?: number }
+> {
+  const rl = await checkRateLimit(env, `auth_admin_login:${ip}`, 10, 900);
+  if (!rl.ok) {
+    return { ok: false, error: "Too many sign-in attempts. Try again later.", status: 429 };
+  }
+
+  if (!env.ADMIN_PASSWORD) {
+    return { ok: false, error: "Admin password sign-in isn't configured yet." };
+  }
+
+  const normalized = email.trim().toLowerCase();
+  const emailOk = timingSafeEqual(normalized, getAdminEmail(env));
+  const passOk = timingSafeEqual(password, env.ADMIN_PASSWORD);
+  if (!emailOk || !passOk) {
+    return { ok: false, error: "Invalid email or password." };
+  }
+
+  const account = await findOrCreateAccount(env, normalized);
+  await purgeExpiredSessions(env);
+  await env.CHASA_DB.prepare(`DELETE FROM sessions WHERE account_id = ?`).bind(account.id).run();
+  const sessionToken = await createSession(env, account.id);
+  return {
+    ok: true,
+    sessionToken,
+    accountId: account.id,
+    isNew: account.isNew,
+    isPaid: account.isPaid,
+    plan: account.plan,
+  };
 }
 
 async function findSessionRow(env: Env, sessionToken: string, now: string) {
