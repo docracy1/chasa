@@ -2181,3 +2181,111 @@ textarea {
     width: 100%;
   }
 }
+
+.lang-switcher {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  color: inherit;
+}
+.lang-switcher-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: none;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  padding: 4px 2px;
+  cursor: pointer;
+  opacity: 0.78;
+}
+.lang-switcher-trigger:hover,
+.lang-switcher[data-open] .lang-switcher-trigger {
+  opacity: 1;
+}
+.lang-switcher-globe {
+  display: block;
+  flex-shrink: 0;
+}
+.lang-switcher-code {
+  line-height: 1;
+}
+.lang-switcher-chevron {
+  display: block;
+  flex-shrink: 0;
+  opacity: 0.7;
+  transition: transform 0.15s ease;
+}
+.lang-switcher-chevron.is-open {
+  transform: rotate(180deg);
+}
+.lang-switcher-menu {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  z-index: 40;
+  min-width: 148px;
+  margin: 0;
+  padding: 6px;
+  list-style: none;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--panel, #fff);
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.12);
+}
+.lang-switcher-option {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  width: 100%;
+  border: none;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: 13px;
+  text-align: left;
+  padding: 8px 10px;
+  border-radius: 7px;
+  cursor: pointer;
+}
+.lang-switcher-option:hover,
+.lang-switcher-option.is-active {
+  background: var(--accent-soft, rgba(37, 99, 235, 0.1));
+}
+.lang-switcher-option-code {
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  min-width: 1.6em;
+}
+.lang-switcher-option-name {
+  opacity: 0.72;
+  font-weight: 500;
+}
+.lang-switcher-sidebar {
+  margin-bottom: 2px;
+}
+.lang-switcher-sidebar .lang-switcher-menu {
+  right: auto;
+  left: 0;
+}
+.panel-lang,
+.app-more-lang {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 12px;
+}
+.app-more-lang {
+  padding: 0 4px 8px;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 8px;
+}
+.app-more-lang .lang-switcher-menu {
+  right: 0;
+  left: auto;
+}
+
