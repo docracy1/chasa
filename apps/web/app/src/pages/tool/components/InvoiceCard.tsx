@@ -1,8 +1,10 @@
 import type { RewriteAction } from "../../../lib/api";
 import { daysOverdue } from "../../../lib/dates";
+import { useT } from "../../../lib/i18n";
 import { chaseTip, toneClass, toneLabel } from "../chaseTone";
 import type { Invoice } from "../types";
 import { ChaseTimeline } from "./ChaseTimeline";
+import { Link } from "react-router-dom";
 
 interface InvoiceCardProps {
   invoice: Invoice;
@@ -33,6 +35,8 @@ interface InvoiceCardProps {
   onCopyDraft: (invoice: Invoice) => void;
   onTrackedCopy: (invoice: Invoice) => void;
   onSaveGmailDraft?: (invoice: Invoice) => void;
+  /** Paid but Google not connected — show connect hint instead of Save to Gmail. */
+  googleConnected?: boolean;
   onSyncReminderCalendar?: (invoiceId: string, reminderId: string) => void;
   onFetchGmailReply?: (invoiceId: string) => void;
   onReplySmartFromGmail?: (invoiceId: string) => void;
@@ -70,6 +74,7 @@ export function InvoiceCard({
   onCopyDraft,
   onTrackedCopy,
   onSaveGmailDraft,
+  googleConnected = false,
   onSyncReminderCalendar,
   onFetchGmailReply,
   onReplySmartFromGmail,
@@ -81,6 +86,7 @@ export function InvoiceCard({
   const tone = toneClass(days);
   const busy = invoice.generating || invoice.rewriting !== null;
   const isPaidInvoice = invoice.status === "paid";
+  const t = useT();
 
   return (
     <div id={`invoice-${invoice.id}`} className={`invoice-card ${tone} ${isPaidInvoice ? "invoice-paid" : ""}`}>
@@ -95,17 +101,18 @@ export function InvoiceCard({
             <span className="invoice-client">{invoice.clientName}</span>
           </label>
           <div className="invoice-meta">
-            ${invoice.amount.toFixed(2)} · due {invoice.dueDate}
-            {isPaidInvoice ? " · paid" : ""}
-            {invoice.lastChaseStatus ? ` · last chase: ${invoice.lastChaseStatus}` : ""}
+            ${invoice.amount.toFixed(2)} · {t("invoice.dueLabel")} {invoice.dueDate}
+            {isPaidInvoice ? ` ${t("invoice.paid")}` : ""}
+            {invoice.lastChaseStatus ? ` ${t("invoice.lastChase")} ${invoice.lastChaseStatus}` : ""}
           </div>
         </div>
         <span className="days-badge">
-          {toneLabel(days)} · {days} day{days === 1 ? "" : "s"} late
+          {toneLabel(days, t)} ·{" "}
+          {days === 1 ? t("invoice.dayLate", { days }) : t("invoice.daysLate", { days })}
         </span>
       </div>
 
-      <div className="chase-tip">{chaseTip(days)}</div>
+      <div className="chase-tip">{chaseTip(days, t)}</div>
 
       {!invoice.draft && (
         <button
@@ -113,7 +120,7 @@ export function InvoiceCard({
           disabled={busy || atLimit}
           onClick={() => onGenerate(invoice.id)}
         >
-          {invoice.generating ? "Writing…" : "Generate follow-up"}
+          {invoice.generating ? t("common.writing") : t("invoice.generate")}
         </button>
       )}
       {invoice.error && <div className="error-msg">{invoice.error}</div>}
@@ -134,7 +141,7 @@ export function InvoiceCard({
 
           <div className={`ai-tools-inline ${isPaid ? "" : "ai-tools-locked"}`}>
             <div className="ai-tools-label">
-              AI tools {isPaid ? null : <span className="paid-pill">Paid</span>}
+              {t("invoice.aiTools")} {isPaid ? null : <span className="paid-pill">{t("invoice.paidBadge")}</span>}
             </div>
             {isPaid ? (
               <>
@@ -148,8 +155,8 @@ export function InvoiceCard({
                     ↓
                   </span>
                   <span>
-                    <strong>{invoice.rewriting === "softer" ? "Softening…" : "Soften"}</strong>
-                    <span>Less pressure, still asks</span>
+                    <strong>{invoice.rewriting === "softer" ? t("invoice.softening") : t("invoice.soften")}</strong>
+                    <span>{t("invoice.softenSub")}</span>
                   </span>
                 </button>
                 <button
@@ -162,8 +169,8 @@ export function InvoiceCard({
                     ↑
                   </span>
                   <span>
-                    <strong>{invoice.rewriting === "firmer" ? "Firming…" : "Firm up"}</strong>
-                    <span>Clearer urgency</span>
+                    <strong>{invoice.rewriting === "firmer" ? t("invoice.firming") : t("invoice.firm")}</strong>
+                    <span>{t("invoice.firmSub")}</span>
                   </span>
                 </button>
                 <button
@@ -177,9 +184,9 @@ export function InvoiceCard({
                   </span>
                   <span>
                     <strong>
-                      {invoice.rewriting === "shorter" ? "Shortening…" : "Make shorter"}
+                      {invoice.rewriting === "shorter" ? t("invoice.shortening") : t("invoice.makeShorter")}
                     </strong>
-                    <span>Under ~60 words</span>
+                    <span>{t("invoice.shorterSub")}</span>
                   </span>
                 </button>
                 <button
@@ -193,9 +200,9 @@ export function InvoiceCard({
                   </span>
                   <span>
                     <strong>
-                      {invoice.rewriting === "thankyou" ? "Writing…" : "Thank-you email"}
+                      {invoice.rewriting === "thankyou" ? t("common.writing") : t("invoice.thankYouEmail")}
                     </strong>
-                    <span>After they paid</span>
+                    <span>{t("invoice.thankYouSub")}</span>
                   </span>
                 </button>
                 {isPaid ? (
@@ -210,14 +217,14 @@ export function InvoiceCard({
                     </span>
                     <span>
                       <strong>
-                        {invoice.rewriting === "sequence" ? "Planning…" : "3-step chase plan"}
+                        {invoice.rewriting === "sequence" ? t("invoice.planning") : t("invoice.sequencePlan")}
                       </strong>
-                      <span>Solo+ · calendar dates</span>
+                      <span>{t("invoice.sequenceSub")}</span>
                     </span>
                   </button>
                 ) : (
                   <a className="ai-unlock-link" href="/app/account">
-                    Unlock chase plans on Solo ($7/mo) →
+                    {t("invoice.unlockSoloPlans")}
                   </a>
                 )}
                 {isPaid && (
@@ -232,9 +239,9 @@ export function InvoiceCard({
                     </span>
                     <span>
                       <strong>
-                        {invoice.rewriting === "sms" ? "Writing…" : "SMS / WhatsApp draft"}
+                        {invoice.rewriting === "sms" ? t("common.writing") : t("invoice.sms")}
                       </strong>
-                      <span>Copy or open — never auto-sent</span>
+                      <span>{t("invoice.smsSub")}</span>
                     </span>
                   </button>
                 )}
@@ -246,8 +253,8 @@ export function InvoiceCard({
                     ↓
                   </span>
                   <span>
-                    <strong>Soften</strong>
-                    <span>Less pressure, still asks</span>
+                    <strong>{t("invoice.soften")}</strong>
+                    <span>{t("invoice.softenSub")}</span>
                   </span>
                 </div>
                 <div className="ai-tool-btn ai-tool-teaser" aria-disabled="true">
@@ -255,8 +262,8 @@ export function InvoiceCard({
                     ↑
                   </span>
                   <span>
-                    <strong>Firm up</strong>
-                    <span>Clearer urgency</span>
+                    <strong>{t("invoice.firm")}</strong>
+                    <span>{t("invoice.firmSub")}</span>
                   </span>
                 </div>
                 <div className="ai-tool-btn ai-tool-teaser" aria-disabled="true">
@@ -264,12 +271,12 @@ export function InvoiceCard({
                     ✂
                   </span>
                   <span>
-                    <strong>Make shorter</strong>
-                    <span>Under ~60 words</span>
+                    <strong>{t("invoice.makeShorter")}</strong>
+                    <span>{t("invoice.shorterSub")}</span>
                   </span>
                 </div>
                 <a className="ai-unlock-link" href="/app/account">
-                  Unlock AI tools from Solo ($7/mo) →
+                  {t("invoice.unlockAiTools")}
                 </a>
               </>
             )}
@@ -277,10 +284,10 @@ export function InvoiceCard({
 
           {isPaid && (
             <div className="reply-box">
-              <label className="ai-tools-label">Client replied? Paste it — AI drafts your answer</label>
+              <label className="ai-tools-label">{t("invoice.replyLabel")}</label>
               <textarea
                 rows={3}
-                placeholder="Paste their email reply here…"
+                placeholder={t("invoice.replyPlaceholder")}
                 value={invoice.clientReply ?? ""}
                 onChange={(e) => onClientReplyChange(invoice.id, e.target.value)}
               />
@@ -290,7 +297,7 @@ export function InvoiceCard({
                 disabled={busy || !invoice.clientReply?.trim()}
                 onClick={() => onReply(invoice.id)}
               >
-                {invoice.rewriting === "reply" ? "Writing reply…" : "Draft reply"}
+                {invoice.rewriting === "reply" ? t("invoice.writingReply") : t("invoice.draftReply")}
               </button>
               {isPro ? (
                 <>
@@ -300,7 +307,7 @@ export function InvoiceCard({
                     disabled={busy || !invoice.clientReply?.trim()}
                     onClick={() => onReplySmart(invoice.id)}
                   >
-                    {invoice.rewriting === "replySmart" ? "Analyzing…" : "Smart reply (Pro)"}
+                    {invoice.rewriting === "replySmart" ? t("invoice.analyzing") : t("invoice.smartReply")}
                   </button>
                   {onReplySmartFromGmail && (
                     <button
@@ -309,7 +316,7 @@ export function InvoiceCard({
                       disabled={busy}
                       onClick={() => onReplySmartFromGmail(invoice.id)}
                     >
-                      {invoice.rewriting === "replySmart" ? "Checking Gmail…" : "Smart reply from Gmail"}
+                      {invoice.rewriting === "replySmart" ? t("invoice.checkingGmail") : t("invoice.smartReplyGmail")}
                     </button>
                   )}
                   {onFetchGmailReply && (
@@ -319,13 +326,13 @@ export function InvoiceCard({
                       disabled={busy}
                       onClick={() => onFetchGmailReply(invoice.id)}
                     >
-                      Find reply in Gmail
+                      {t("invoice.findGmail")}
                     </button>
                   )}
                 </>
               ) : (
                 <a className="ai-unlock-link" href="/app/account">
-                  Smart reply on Pro ($17/mo) →
+                  {t("invoice.unlockProReply")}
                 </a>
               )}
               {invoice.replyInsight && (
@@ -335,7 +342,7 @@ export function InvoiceCard({
                   <p className="chase-tip">{invoice.replyInsight.suggestedAction}</p>
                   {invoice.replyInsight.promisedPayDate && (
                     <p className="chase-tip">
-                      Promised pay date detected: {invoice.replyInsight.promisedPayDate}
+                      {t("invoice.promisedDate")} {invoice.replyInsight.promisedPayDate}
                     </p>
                   )}
                   {isPro &&
@@ -346,7 +353,7 @@ export function InvoiceCard({
                         style={{ marginTop: 8 }}
                         onClick={() => onScheduleReplyFollowUp(invoice.id)}
                       >
-                        Schedule follow-up if unpaid
+                        {t("invoice.scheduleFollowUp")}
                       </button>
                     )}
                 </div>
@@ -356,7 +363,7 @@ export function InvoiceCard({
 
           {invoice.sequence && (
             <div className="sequence-box">
-              <div className="ai-tools-label">Chase plan calendar</div>
+              <div className="ai-tools-label">{t("invoice.calendar")}</div>
               <p className="chase-tip">{invoice.sequence.tip}</p>
               <div className="sequence-steps">
                 {invoice.sequence.steps.map((step, idx) => (
@@ -367,16 +374,18 @@ export function InvoiceCard({
                     onClick={() => onApplySequenceStep(invoice.id, idx)}
                   >
                     <strong>
-                      Step {step.step}
+                      {t("dueToday.step", { n: step.step })}
                       {step.daysFromNow === 0
-                        ? " · send today"
+                        ? t("invoice.sendToday")
                         : ` · ${sequenceSendDate(step.daysFromNow)}`}
                     </strong>
                     <span>{step.label}</span>
                     <span className="sequence-step-date">
                       {step.daysFromNow === 0
-                        ? "Today"
-                        : `In ${step.daysFromNow} day${step.daysFromNow === 1 ? "" : "s"}`}
+                        ? t("invoice.today")
+                        : step.daysFromNow === 1
+                          ? t("invoice.inDaysOne", { days: step.daysFromNow })
+                          : t("invoice.inDaysMany", { days: step.daysFromNow })}
                     </span>
                   </button>
                 ))}
@@ -388,7 +397,7 @@ export function InvoiceCard({
                     className="btn-secondary"
                     onClick={() => onCopyNextReminder(invoice)}
                   >
-                    Copy next
+                    {t("invoice.copyNext")}
                   </button>
                   {invoice.reminders
                     .filter((r) => r.status === "planned")
@@ -400,14 +409,14 @@ export function InvoiceCard({
                           className="btn-secondary"
                           onClick={() => onMarkReminderDone(invoice.id, r.id)}
                         >
-                          Mark step done
+                          {t("invoice.markDone")}
                         </button>
                         <button
                           type="button"
                           className="btn-secondary"
                           onClick={() => onSnoozeReminder(invoice.id, r.id, 7)}
                         >
-                          Snooze 7 days
+                          {t("invoice.snooze")}
                         </button>
                         {onSyncReminderCalendar && (
                           <button
@@ -415,7 +424,7 @@ export function InvoiceCard({
                             className="btn-secondary"
                             onClick={() => onSyncReminderCalendar(invoice.id, r.id)}
                           >
-                            Add to Google Calendar
+                            {t("invoice.addCalendar")}
                           </button>
                         )}
                       </span>
@@ -427,7 +436,7 @@ export function InvoiceCard({
 
           {invoice.smsDraft && (
             <div className="sequence-box">
-              <div className="ai-tools-label">SMS / WhatsApp (you send)</div>
+              <div className="ai-tools-label">{t("invoice.smsWhatsApp")}</div>
               <p className="chase-tip">{invoice.smsDraft.sms}</p>
               <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 8 }}>
                 <button
@@ -435,10 +444,10 @@ export function InvoiceCard({
                   className="btn-secondary"
                   onClick={() => navigator.clipboard.writeText(invoice.smsDraft!.sms)}
                 >
-                  Copy SMS
+                  {t("invoice.copySms")}
                 </button>
                 <a className="btn-secondary" href={invoice.smsDraft.smsUri}>
-                  Open SMS
+                  {t("invoice.openSms")}
                 </a>
               </div>
               <p className="chase-tip">{invoice.smsDraft.whatsapp}</p>
@@ -448,7 +457,7 @@ export function InvoiceCard({
                   className="btn-secondary"
                   onClick={() => navigator.clipboard.writeText(invoice.smsDraft!.whatsapp)}
                 >
-                  Copy WhatsApp
+                  {t("invoice.copyWa")}
                 </button>
                 <a
                   className="btn-secondary"
@@ -456,7 +465,7 @@ export function InvoiceCard({
                   target="_blank"
                   rel="noreferrer"
                 >
-                  Open WhatsApp
+                  {t("invoice.openWa")}
                 </a>
               </div>
             </div>
@@ -464,11 +473,11 @@ export function InvoiceCard({
 
           <div className="draft-actions">
             <button className="btn-secondary" onClick={() => onCopyDraft(invoice)}>
-              Copy
+              {t("common.copy")}
             </button>
             {isPaid && (
               <button className="btn-secondary" onClick={() => onTrackedCopy(invoice)}>
-                Copy tracked HTML
+                {t("invoice.copyTracked")}
               </button>
             )}
             <a
@@ -476,21 +485,31 @@ export function InvoiceCard({
               href={mailtoLink(invoice)}
               onClick={() => onMailtoClick(invoice)}
             >
-              Open in email client
+              {t("invoice.openMail")}
             </a>
             {isPaid && onSaveGmailDraft && (
-              <button type="button" className="btn-secondary" onClick={() => onSaveGmailDraft(invoice)}>
-                Save to Gmail drafts
+              <button
+                type="button"
+                className="btn-secondary"
+                title={t("invoice.saveGmailTitle")}
+                onClick={() => onSaveGmailDraft(invoice)}
+              >
+                {t("invoice.saveGmail")}
               </button>
+            )}
+            {isPaid && !googleConnected && !onSaveGmailDraft && (
+              <Link className="btn-secondary" to="/connector">
+                {t("invoice.connectGoogle")}
+              </Link>
             )}
             {isPaid && !isPaidInvoice && (
               <button type="button" className="btn-secondary" onClick={() => onMarkSent(invoice)}>
-                Mark as sent
+                {t("invoice.markSent")}
               </button>
             )}
             {isPaid && !isPaidInvoice && (
               <button type="button" className="btn-secondary" onClick={() => onMarkPaid(invoice)}>
-                Mark as paid
+                {t("invoice.markPaid")}
               </button>
             )}
             {isPro && !isPaidInvoice && (
@@ -501,8 +520,8 @@ export function InvoiceCard({
                 onClick={() => onDemandLetter(invoice.id)}
               >
                 {invoice.rewriting === "demandLetter"
-                  ? "Generating…"
-                  : "Formal demand letter (Pro)"}
+                  ? t("invoice.generating")
+                  : t("invoice.demandLetter")}
               </button>
             )}
             <button
@@ -510,18 +529,29 @@ export function InvoiceCard({
               disabled={busy || atLimit}
               onClick={() => onGenerate(invoice.id)}
             >
-              {invoice.generating ? "Writing…" : "Regenerate"}
+              {invoice.generating ? t("common.writing") : t("invoice.regenerate")}
             </button>
           </div>
           {openStats && (openStats.openCount > 0 || openStats.clickCount > 0) && (
             <p className="chase-tip" style={{ marginTop: 8 }}>
-              Tracked email: {openStats.openCount} open{openStats.openCount === 1 ? "" : "s"}
-              {openStats.clickCount > 0
-                ? ` · ${openStats.clickCount} click${openStats.clickCount === 1 ? "" : "s"}`
-                : ""}
-              {openStats.lastOpenAt
-                ? ` · last opened ${new Date(openStats.lastOpenAt).toLocaleDateString("en-US")}`
-                : ""}
+              {t("invoice.trackedOpens", {
+                opens: openStats.openCount,
+                openLabel:
+                  openStats.openCount === 1 ? t("invoice.openOne") : t("invoice.openMany"),
+                clicks:
+                  openStats.clickCount > 0
+                    ? ` · ${openStats.clickCount} ${
+                        openStats.clickCount === 1
+                          ? t("invoice.clickOne")
+                          : t("invoice.clickMany")
+                      }`
+                    : "",
+                lastOpened: openStats.lastOpenAt
+                  ? t("invoice.lastOpened", {
+                      date: new Date(openStats.lastOpenAt).toLocaleDateString(),
+                    })
+                  : "",
+              })}
             </p>
           )}
           {isPro && !isPaidInvoice && (
@@ -531,7 +561,7 @@ export function InvoiceCard({
               style={{ marginTop: 8 }}
               onClick={() => onEvidencePack(invoice.id)}
             >
-              Export evidence pack (Pro)
+              {t("invoice.evidence")}
             </button>
           )}
           {isPaid && invoice.timeline && <ChaseTimeline events={invoice.timeline} />}

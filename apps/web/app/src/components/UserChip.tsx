@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
+import { useT } from "../lib/i18n";
 
 function initials(email: string): string {
   const local = email.split("@")[0] || "A";
@@ -15,6 +16,7 @@ export default function UserChip({
   plan?: string | null;
   onLogout: () => void;
 }) {
+  const t = useT();
   const [open, setOpen] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
   const leaveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -65,19 +67,19 @@ export default function UserChip({
     >
       <div className="dash-account-popover" role="menu" hidden={!open}>
         <Link to="/account" role="menuitem" onClick={() => setOpen(false)}>
-          Account
+          {t("nav.account")}
         </Link>
         <Link to="/team" role="menuitem" onClick={() => setOpen(false)}>
-          Team
+          {t("nav.team")}
         </Link>
         <Link to="/connector" role="menuitem" onClick={() => setOpen(false)}>
-          Test connectors
+          {t("nav.testConnectors")}
         </Link>
         <a href="mailto:founder@chasa.io" role="menuitem">
-          Support
+          {t("nav.support")}
         </a>
         <button type="button" role="menuitem" className="dash-logout" onClick={onLogout}>
-          ← Log out
+          {t("nav.logoutArrow")}
         </button>
       </div>
       <button

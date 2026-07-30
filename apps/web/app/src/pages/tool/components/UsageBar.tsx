@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { FREE_LIMIT } from "../../../lib/usage";
 import { track } from "../../../lib/analytics";
+import { useT } from "../../../lib/i18n";
 
 interface UsageBarProps {
   usedCount: number;
@@ -13,6 +14,7 @@ interface UsageBarProps {
 }
 
 export function UsageBar({ usedCount, atLimit, isPaid, isSignedIn }: UsageBarProps) {
+  const t = useT();
   useEffect(() => {
     if (atLimit) track("quota_wall_shown", { signedIn: isSignedIn });
   }, [atLimit, isSignedIn]);
@@ -24,28 +26,23 @@ export function UsageBar({ usedCount, atLimit, isPaid, isSignedIn }: UsageBarPro
   if (!atLimit) {
     return (
       <div className="usage-bar">
-        {usedCount}/{FREE_LIMIT} free drafts used this month
-        {remaining === 1 && <strong className="usage-bar-last"> · last free one</strong>}
+        {t("usage.bar", { used: usedCount, limit: FREE_LIMIT })}
+        {remaining === 1 && <strong className="usage-bar-last">{t("usage.lastOne")}</strong>}
       </div>
     );
   }
 
   return (
     <div className="quota-wall">
-      <h3 className="quota-wall-title">
-        You've written {FREE_LIMIT} chase emails this month
-      </h3>
-      <p className="quota-wall-body">
-        That's the free monthly cap. Solo lifts it entirely — unlimited drafts, plus soften and
-        firm-up rewrites, chase plans with calendar dates, and saved clients.
-      </p>
+      <h3 className="quota-wall-title">{t("usage.wallTitle", { limit: FREE_LIMIT })}</h3>
+      <p className="quota-wall-body">{t("usage.wallBody")}</p>
       <div className="quota-wall-actions">
         <Link
           to="/account"
           className="quota-wall-primary"
           onClick={() => track("quota_wall_upgrade_clicked", { signedIn: isSignedIn })}
         >
-          Upgrade to Solo — $7/mo
+          {t("usage.upgradeSolo")}
         </Link>
         {!isSignedIn && (
           <Link
@@ -53,13 +50,11 @@ export function UsageBar({ usedCount, atLimit, isPaid, isSignedIn }: UsageBarPro
             className="quota-wall-secondary"
             onClick={() => track("quota_wall_signin_clicked")}
           >
-            or sign in free to keep your drafts
+            {t("usage.orSignIn")}
           </Link>
         )}
       </div>
-      <p className="quota-wall-note">
-        Free drafts reset on the 1st. Your invoices stay on this device either way.
-      </p>
+      <p className="quota-wall-note">{t("usage.resetNote")}</p>
     </div>
   );
 }

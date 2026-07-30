@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { useT } from "../../lib/i18n";
 import {
   CLOUD_IMPORT_STORAGE_KEY,
   createConnectorKey,
@@ -39,6 +40,7 @@ import type { ProviderTests } from "./types";
 import { loadPersistedTests, persistTests, sampleCurl } from "./utils";
 
 export default function ConnectorPage({ account }: { account: Account | null }) {
+  const t = useT();
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const [keys, setKeys] = useState<ConnectorKey[]>([]);
@@ -84,7 +86,7 @@ export default function ConnectorPage({ account }: { account: Account | null }) 
       setCloud(cloudRes.connectors);
       setAccounting(cloudRes.accounting ?? []);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Could not load connectors");
+      setError(err instanceof Error ? err.message : t("connector.loadFailed"));
     } finally {
       setLoading(false);
     }
@@ -143,8 +145,8 @@ export default function ConnectorPage({ account }: { account: Account | null }) 
           : "provider";
       setCloudMsg(
         isAccounting
-          ? `Connected ${label}. Import overdue invoices below.`
-          : `Connected ${label}. Run Test to verify file access.`
+          ? t("connector.connectedAccounting", { label })
+          : t("connector.connectedCloud", { label })
       );
       setSearchParams({}, { replace: true });
       if (isPaid) refresh();
@@ -183,7 +185,7 @@ export default function ConnectorPage({ account }: { account: Account | null }) 
       setAdding(false);
       await refresh();
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Could not create key");
+      setError(err instanceof Error ? err.message : t("connector.createKeyFailed"));
     } finally {
       setBusy(false);
     }
@@ -200,7 +202,7 @@ export default function ConnectorPage({ account }: { account: Account | null }) 
       setNewToken(created.token);
       await refresh();
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Could not create key");
+      setError(err instanceof Error ? err.message : t("connector.createKeyFailed"));
     } finally {
       setBusy(false);
     }
@@ -215,7 +217,7 @@ export default function ConnectorPage({ account }: { account: Account | null }) 
       if (newToken) setNewToken(null);
       await refresh();
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Could not revoke key");
+      setError(err instanceof Error ? err.message : t("connector.revokeFailed"));
     } finally {
       setBusy(false);
     }
@@ -242,7 +244,7 @@ export default function ConnectorPage({ account }: { account: Account | null }) 
       });
       await refresh();
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Could not disconnect");
+      setError(err instanceof Error ? err.message : t("connector.disconnectFailed"));
     } finally {
       setBusy(false);
     }
@@ -254,7 +256,7 @@ export default function ConnectorPage({ account }: { account: Account | null }) 
     setError(null);
     setTests((prev) => ({
       ...prev,
-      [provider]: { ...prev[provider], status: "running", message: "Testing…", hint: null },
+      [provider]: { ...prev[provider], status: "running", message: t("common.testing"), hint: null },
     }));
     try {
       const result: CloudConnectorTestResult = await testCloudConnector(provider);
@@ -272,7 +274,7 @@ export default function ConnectorPage({ account }: { account: Account | null }) 
         return next;
       });
       if (result.ok) {
-        setCloudMsg(`${CLOUD_LABELS[provider]} test OK.`);
+        setCloudMsg(t("connector.testOkMsg", { label: CLOUD_LABELS[provider] }));
         const listed = await listCloudConnectorFiles(provider).catch(() => null);
         if (listed) {
           setFilesProvider(provider);
@@ -280,7 +282,7 @@ export default function ConnectorPage({ account }: { account: Account | null }) 
         }
       }
     } catch (err) {
-      const msg = err instanceof Error ? err.message : "Test failed";
+      const msg = err instanceof Error ? err.message : t("connector.testFailed");
       setTests((prev) => {
         const next = {
           ...prev,
@@ -309,7 +311,7 @@ export default function ConnectorPage({ account }: { account: Account | null }) 
       setFiles(res.files);
     } catch (err) {
       setFiles([]);
-      setError(err instanceof Error ? err.message : "Could not list files");
+      setError(err instanceof Error ? err.message : t("connector.listFilesFailed"));
     } finally {
       setFilesBusy(false);
     }
@@ -334,7 +336,7 @@ export default function ConnectorPage({ account }: { account: Account | null }) 
       );
       navigate("/");
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Could not import PDF");
+      setError(err instanceof Error ? err.message : t("connector.importPdfFailed"));
     } finally {
       setImportingId(null);
     }
@@ -364,11 +366,15 @@ export default function ConnectorPage({ account }: { account: Account | null }) 
     try {
       const res = await importAccountingInvoices(provider);
       setCloudMsg(
-        `Imported ${res.imported} overdue invoice${res.imported === 1 ? "" : "s"} from ${ACCOUNTING_LABELS[provider]} into aging.`
+        t("connector.importedAccounting", {
+          count: res.imported,
+          suffix: res.imported === 1 ? "" : "s",
+          provider: ACCOUNTING_LABELS[provider],
+        })
       );
       navigate("/");
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Import failed");
+      setError(err instanceof Error ? err.message : t("connector.importFailed"));
     } finally {
       setAccountingBusy(null);
     }
@@ -379,7 +385,7 @@ export default function ConnectorPage({ account }: { account: Account | null }) 
       await disconnectAccountingConnector(provider);
       await refresh();
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Disconnect failed");
+      setError(err instanceof Error ? err.message : t("connector.disconnectFailed"));
     }
   }
 
@@ -398,8 +404,8 @@ export default function ConnectorPage({ account }: { account: Account | null }) 
   return (
     <div className="webhooks-page connector-test-page">
       <p className="crumb">
-        <Link to="/account">Account</Link> / Connector
-        {isOperator ? <span className="connector-admin-tag"> · Enterprise admin</span> : null}
+        <Link to="/account">{t("team.crumbAccount")}</Link> / {t("connector.signInTitle")}
+        {isOperator ? <span className="connector-admin-tag">{t("connector.enterpriseAdmin")}</span> : null}
       </p>
 
       <ConnectorHero
@@ -461,9 +467,9 @@ export default function ConnectorPage({ account }: { account: Account | null }) 
       {isPaid && allCloudTestOk && notesCollapsed && (
         <section className="branding-card" style={{ marginTop: 20 }}>
           <p className="branding-help" style={{ margin: 0 }}>
-            Operator notes collapsed (all tests passed).{" "}
+            {t("connector.notesCollapsed")}{" "}
             <button type="button" className="btn-secondary" onClick={() => setNotesCollapsed(false)}>
-              Show again
+              {t("connector.showAgain")}
             </button>
           </p>
         </section>

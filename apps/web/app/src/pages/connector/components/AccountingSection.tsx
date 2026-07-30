@@ -7,7 +7,8 @@ import {
   type AccountingProvider,
 } from "../../../lib/api";
 import { ACCOUNTING_CONSOLE, ACCOUNTING_LABELS, ACCOUNTING_PROVIDERS } from "../constants";
-import { ACCOUNTING_DESCRIPTIONS } from "../descriptions";
+import { ACCOUNTING_DESCRIPTION_KEYS } from "../descriptions";
+import { useT } from "../../../lib/i18n";
 import { StatusPill } from "./StatusPill";
 
 type AccountingSectionProps = {
@@ -27,29 +28,23 @@ export function AccountingSection({
   onImport,
   onDisconnect,
 }: AccountingSectionProps) {
+  const t = useT();
+
   return (
     <section className="branding-card" style={{ marginTop: 20 }}>
       <h2 className="webhooks-title" style={{ fontSize: "1.25rem" }}>
-        QuickBooks Online &amp; Xero
+        {t("connector.accountingTitle")}
       </h2>
-      <p className="branding-help">
-        Use this when you invoice in QuickBooks or Xero. Chasa imports <strong>overdue</strong>{" "}
-        invoices into your aging list so you can draft chase emails in the Tool — never auto-sent.
-      </p>
+      <p className="branding-help">{t("connector.accountingBody")}</p>
       <ol className="connector-how-list">
-        <li>
-          Click <strong>Connect</strong> and sign in to QuickBooks or Xero
-        </li>
-        <li>
-          Click <strong>Import overdue</strong> to pull open late invoices into Chasa
-        </li>
-        <li>
-          Open the <a href="/app/">Tool</a> (or Clients) and generate follow-ups
-        </li>
+        <li>{t("connector.accountingHow1")}</li>
+        <li>{t("connector.accountingHow2")}</li>
+        <li>{t("connector.accountingHow3")}</li>
       </ol>
       {!isPaid && (
         <div className="upgrade-nudge">
-          Native QBO / Xero is on Solo and up. <Link to="/account">Upgrade</Link>
+          {t("connector.accountingUpgrade")}{" "}
+          <Link to="/account">{t("connector.upgradeLink")}</Link>
         </div>
       )}
       <ul className="cloud-connector-list connector-cards">
@@ -70,25 +65,29 @@ export function AccountingSection({
             <li key={p} className="cloud-connector-row connector-card">
               <div className="cloud-connector-meta">
                 <strong>{ACCOUNTING_LABELS[p]}</strong>
-                <p className="connector-card-desc">{ACCOUNTING_DESCRIPTIONS[p]}</p>
+                <p className="connector-card-desc">{t(ACCOUNTING_DESCRIPTION_KEYS[p])}</p>
                 <div className="connector-checklist-marks">
                   <StatusPill kind={secretsMissing ? "warn" : "ok"}>
-                    {secretsMissing ? "Secrets missing" : statusLoaded ? "Configured" : "…"}
+                    {secretsMissing
+                      ? t("connector.secretsMissing")
+                      : statusLoaded
+                        ? t("connector.configured")
+                        : "…"}
                   </StatusPill>
                   <StatusPill kind={st.connected ? "ok" : "muted"}>
-                    {st.connected ? "Connected" : "Not connected"}
+                    {st.connected ? t("connector.connected") : t("connector.notConnected")}
                   </StatusPill>
                 </div>
               </div>
               <div className="cloud-connector-actions">
                 {isPaid && !st.connected && st.configured && (
                   <a className="btn-primary" href={accountingConnectUrl(p)}>
-                    Connect
+                    {t("common.connect")}
                   </a>
                 )}
                 {isPaid && !st.connected && secretsMissing && (
                   <span className="btn-secondary cloud-connector-disabled" aria-disabled>
-                    Connect unavailable
+                    {t("connector.connectUnavailable")}
                   </span>
                 )}
                 {isPaid && st.connected && (
@@ -99,7 +98,7 @@ export function AccountingSection({
                       disabled={accountingBusy !== null}
                       onClick={() => onImport(p)}
                     >
-                      {accountingBusy === p ? "Importing…" : "Import overdue"}
+                      {accountingBusy === p ? t("connector.importing") : t("connector.importOverdue")}
                     </button>
                     <button
                       type="button"
@@ -107,7 +106,7 @@ export function AccountingSection({
                       disabled={accountingBusy !== null}
                       onClick={() => onDisconnect(p)}
                     >
-                      Disconnect
+                      {t("common.disconnect")}
                     </button>
                   </>
                 )}

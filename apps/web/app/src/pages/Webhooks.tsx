@@ -7,8 +7,10 @@ import {
   type Account,
   type WebhookItem,
 } from "../lib/api";
+import { useT } from "../lib/i18n";
 
 export default function WebhooksPage({ account }: { account: Account | null }) {
+  const t = useT();
   const [hooks, setHooks] = useState<WebhookItem[]>([]);
   const [url, setUrl] = useState("");
   const [busy, setBusy] = useState(false);
@@ -28,7 +30,7 @@ export default function WebhooksPage({ account }: { account: Account | null }) {
       const res = await listWebhooks();
       setHooks(res.webhooks);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Could not load webhooks");
+      setError(err instanceof Error ? err.message : t("webhooks.loadFailed"));
     } finally {
       setLoading(false);
     }
@@ -41,10 +43,10 @@ export default function WebhooksPage({ account }: { account: Account | null }) {
   if (!account) {
     return (
       <div className="panel">
-        <h1>Webhooks</h1>
-        <p className="page-sub">Sign in to manage webhooks.</p>
+        <h1>{t("webhooks.title")}</h1>
+        <p className="page-sub">{t("webhooks.signInSub")}</p>
         <a className="btn-primary" href="/app/login">
-          Sign in
+          {t("nav.signin")}
         </a>
       </div>
     );
@@ -61,7 +63,7 @@ export default function WebhooksPage({ account }: { account: Account | null }) {
       setAdding(false);
       await refresh();
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Could not add webhook");
+      setError(err instanceof Error ? err.message : t("webhooks.addFailed"));
     } finally {
       setBusy(false);
     }
@@ -75,7 +77,7 @@ export default function WebhooksPage({ account }: { account: Account | null }) {
       await deleteWebhook(id);
       await refresh();
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Could not delete webhook");
+      setError(err instanceof Error ? err.message : t("webhooks.deleteFailed"));
     } finally {
       setBusy(false);
     }
@@ -84,25 +86,23 @@ export default function WebhooksPage({ account }: { account: Account | null }) {
   return (
     <div className="webhooks-page">
       <p className="crumb">
-        <Link to="/account">Account</Link> / Webhooks
+        <Link to="/account">{t("team.crumbAccount")}</Link> / {t("webhooks.title")}
       </p>
       <section className="branding-card">
-        <h1 className="webhooks-title">Webhooks</h1>
-        <p className="branding-help">
-          Get notified at a URL you control when a chase is drafted, sent, or completed in your
-          workflow. Payload is JSON — nothing is emailed for you.
-        </p>
+        <h1 className="webhooks-title">{t("webhooks.title")}</h1>
+        <p className="branding-help">{t("webhooks.pageSub")}</p>
 
         {!isPaid && (
           <div className="upgrade-nudge">
-            Webhooks are included on Solo and up. <Link to="/account">Upgrade</Link> to add endpoints.
+            {t("webhooks.upgradeNudge")} <Link to="/account">{t("branding.upgradeLink")}</Link>{" "}
+            {t("webhooks.upgradeHint")}
           </div>
         )}
 
         {loading ? (
-          <p className="page-sub">Loading…</p>
+          <p className="page-sub">{t("common.loading")}</p>
         ) : hooks.length === 0 ? (
-          <p className="webhooks-empty">No webhooks yet.</p>
+          <p className="webhooks-empty">{t("webhooks.empty")}</p>
         ) : (
           <ul className="webhooks-list">
             {hooks.map((h) => (
@@ -115,7 +115,7 @@ export default function WebhooksPage({ account }: { account: Account | null }) {
                     disabled={busy}
                     onClick={() => handleDelete(h.id)}
                   >
-                    Remove
+                    {t("common.remove")}
                   </button>
                 )}
               </li>
@@ -125,7 +125,7 @@ export default function WebhooksPage({ account }: { account: Account | null }) {
 
         {isPaid && !adding && (
           <button type="button" className="btn-primary" onClick={() => setAdding(true)}>
-            + Add webhook
+            {t("webhooks.add")}
           </button>
         )}
 
@@ -134,13 +134,13 @@ export default function WebhooksPage({ account }: { account: Account | null }) {
             <input
               type="url"
               required
-              placeholder="https://example.com/hooks/chasa"
+              placeholder={t("webhooks.urlPlaceholder")}
               value={url}
               onChange={(e) => setUrl(e.target.value)}
               disabled={busy}
             />
             <button type="submit" className="btn-primary" disabled={busy}>
-              {busy ? "Saving…" : "Save"}
+              {busy ? t("common.saving") : t("common.save")}
             </button>
             <button
               type="button"
@@ -151,7 +151,7 @@ export default function WebhooksPage({ account }: { account: Account | null }) {
                 setUrl("");
               }}
             >
-              Cancel
+              {t("common.cancel")}
             </button>
           </form>
         )}
@@ -159,25 +159,25 @@ export default function WebhooksPage({ account }: { account: Account | null }) {
         {error && <div className="error-msg">{error}</div>}
 
         <div className="webhooks-events">
-          <h2>Events</h2>
+          <h2>{t("webhooks.events")}</h2>
           <ul>
             <li>
-              <code>chase.drafted</code> — follow-up draft generated
+              <code>chase.drafted</code> — {t("webhooks.eventDrafted")}
             </li>
             <li>
-              <code>chase.sent</code> — draft copied / opened in mail client
+              <code>chase.sent</code> — {t("webhooks.eventSent")}
             </li>
             <li>
-              <code>chase.thank_you</code> — thank-you draft generated
+              <code>chase.thank_you</code> — {t("webhooks.eventThankYou")}
             </li>
             <li>
-              <code>chase.reply_drafted</code> — reply to client message
+              <code>chase.reply_drafted</code> — {t("webhooks.eventReply")}
             </li>
             <li>
-              <code>chase.sequence_planned</code> — 3-step chase plan (Solo+)
+              <code>chase.sequence_planned</code> — {t("webhooks.eventSequence")}
             </li>
             <li>
-              <code>chase.downloaded</code> — CSV export of drafts
+              <code>chase.downloaded</code> — {t("webhooks.eventDownloaded")}
             </li>
           </ul>
         </div>

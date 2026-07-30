@@ -1,4 +1,5 @@
 import type { CloudConnectorStatus, CloudFile, CloudProvider } from "../../../lib/api";
+import { useT } from "../../../lib/i18n";
 import { CloudConnectorCard } from "./CloudConnectorCard";
 import { CloudFilesPanel } from "./CloudFilesPanel";
 import type { ProviderTests } from "../types";
@@ -38,32 +39,23 @@ export function CloudStorageSection({
   onDisconnect,
   onImportFile,
 }: CloudStorageSectionProps) {
+  const t = useT();
+
   return (
     <section className="branding-card" style={{ marginTop: 20 }}>
       <h2 className="webhooks-title" style={{ fontSize: "1.25rem" }}>
-        Cloud storage (PDF import)
+        {t("connector.cloudTitle")}
       </h2>
-      <p className="branding-help">
-        Use this when invoice PDFs live in Dropbox, OneDrive, or Box. Chasa reads the PDF, extracts
-        client / amount / due date hints, and adds a row in the Tool so you can draft a chase email.
-      </p>
+      <p className="branding-help">{t("connector.cloudBody")}</p>
       <ol className="connector-how-list">
-        <li>
-          Click <strong>Connect</strong> and approve access in the provider
-        </li>
-        <li>
-          Click <strong>Test</strong> once (optional) to confirm the link works
-        </li>
-        <li>
-          Click <strong>Recent PDFs</strong> → <strong>Import</strong> on the file you want
-        </li>
-        <li>
-          Finish the import in the <a href="/app/">Tool</a>, then generate the follow-up
-        </li>
+        <li>{t("connector.howConnect")}</li>
+        <li>{t("connector.howTest")}</li>
+        <li>{t("connector.howPdfs")}</li>
+        <li>{t("connector.howFinish")}</li>
       </ol>
 
       {loading && isPaid ? (
-        <p className="page-sub">Loading…</p>
+        <p className="page-sub">{t("common.loading")}</p>
       ) : (
         <ul className="cloud-connector-list connector-cards">
           {rows.map((c) => (

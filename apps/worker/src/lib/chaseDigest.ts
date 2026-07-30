@@ -1,4 +1,5 @@
 import type { Env } from "../types";
+import { ctaButton, emailHeadline, emailShell } from "./email";
 
 type ReminderRow = {
   id: string;
@@ -86,9 +87,17 @@ async function sendDigestEmail(
     </div>`);
   }
 
-  const html = `<p>Good morning — <strong>${reminders.length}</strong> planned chase step(s) are due today. Chasa never auto-sends; tap a link to review and send from your inbox:</p>
-${blocks.join("\n")}
-<p style="color:#666;font-size:13px;margin-top:20px">Turn off daily digests in Account settings.</p>`;
+  const html = emailShell(appUrl, `
+    ${emailHeadline(`${reminders.length} follow-up${reminders.length === 1 ? "" : "s"} ready today`)}
+    <p style="margin:0 0 16px;font-size:15px;color:#1B3155;line-height:1.55;">
+      Good morning — <strong>${reminders.length}</strong> planned chase step(s) are due today.
+      Chasa never auto-sends; review and send from your inbox:
+    </p>
+    ${blocks.join("\n")}
+    ${ctaButton(`${appUrl}/app/`, "Open Chasa")}
+    <p style="color:#6B7A90;font-size:13px;margin-top:20px">Turn off daily digests in Account settings.</p>
+    <p style="margin:28px 0 0 0;font-size:15px;color:#1B3155;line-height:1.5;">Until soon,<br><em style="font-style:italic;color:#6B7A90;">Chasa</em></p>
+  `);
 
   const res = await fetch("https://api.resend.com/emails", {
     method: "POST",

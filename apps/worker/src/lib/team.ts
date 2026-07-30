@@ -198,26 +198,6 @@ export async function sendInviteEmail(
   inviteUrl: string,
   inviterEmail: string
 ): Promise<void> {
-  if (!env.RESEND_API_KEY) {
-    console.log(`[dev] team invite email queued for ${to} (link not logged)`);
-    return;
-  }
-  const res = await fetch("https://api.resend.com/emails", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${env.RESEND_API_KEY}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      from: `Chasa <login@chasa.io>`,
-      to: [to],
-      subject: `${inviterEmail} invited you to a Chasa workspace`,
-      html: `<p>${inviterEmail} invited you to collaborate on invoice follow-ups in Chasa.</p>
-<p><a href="${inviteUrl}">Accept invite</a></p>
-<p>Sign in with this email address (${to}) to join. Chasa never emails your clients — drafts only.</p>`,
-    }),
-  });
-  if (!res.ok) {
-    console.error(`Resend invite failed (${res.status}): ${await res.text()}`);
-  }
+  const { sendTeamInviteEmail } = await import("./email");
+  await sendTeamInviteEmail(env, to, inviterEmail, inviteUrl);
 }

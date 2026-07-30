@@ -1,12 +1,21 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
-import { logout, openBillingPortal, startCheckout, updateDigestSettings, type Account as AccountType } from "../lib/api";
+import {
+  logout,
+  openBillingPortal,
+  startCheckout,
+  updateDigestSettings,
+  type Account as AccountType,
+} from "../lib/api";
+import { useT } from "../lib/i18n";
 
-type CheckoutPlan = "solo" | "pro" | "enterprise";
+type StripeCheckoutPlan = "solo" | "pro";
 
-function isCheckoutPlan(raw: string | null): raw is CheckoutPlan {
-  return raw === "solo" || raw === "pro" || raw === "enterprise";
+function isStripeCheckoutPlan(raw: string | null): raw is StripeCheckoutPlan {
+  return raw === "solo" || raw === "pro";
 }
+
+const ENTERPRISE_SALES = "mailto:sales@chasa.io?subject=Chasa%20Enterprise";
 
 export default function Account({
   account,
@@ -15,20 +24,21 @@ export default function Account({
   account: AccountType | null;
   refresh: () => Promise<void>;
 }) {
-  const [busy, setBusy] = useState<"solo" | "pro" | "enterprise" | "portal" | "digest" | null>(null);
+  const t = useT();
+  const [busy, setBusy] = useState<"solo" | "pro" | "portal" | "digest" | null>(null);
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const autoCheckoutStarted = useRef(false);
 
-  async function handleUpgrade(plan: CheckoutPlan) {
+  async function handleUpgrade(plan: StripeCheckoutPlan) {
     setBusy(plan);
     setError(null);
     try {
       const { url } = await startCheckout(plan);
       window.location.href = url;
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Something went wrong.");
+      setError(err instanceof Error ? err.message : t("common.error"));
       setBusy(null);
     }
   }
@@ -36,7 +46,12 @@ export default function Account({
   useEffect(() => {
     if (!account || autoCheckoutStarted.current) return;
     const plan = searchParams.get("plan");
-    if (!isCheckoutPlan(plan)) return;
+    if (plan === "enterprise") {
+      setSearchParams({}, { replace: true });
+      window.location.href = ENTERPRISE_SALES;
+      return;
+    }
+    if (!isStripeCheckoutPlan(plan)) return;
     if (account.plan === plan) {
       setSearchParams({}, { replace: true });
       return;
@@ -49,10 +64,10 @@ export default function Account({
   if (!account) {
     return (
       <div className="panel">
-        <h1>You're not signed in</h1>
-        <p className="page-sub">Sign in to manage your subscription and see your account.</p>
+        <h1>{t("account.notSignedIn")}</h1>
+        <p className="page-sub">{t("account.notSignedInSub")}</p>
         <Link className="btn-primary" to="/login">
-          Sign in
+          {t("nav.signin")}
         </Link>
       </div>
     );
@@ -67,7 +82,7 @@ export default function Account({
       const { url } = await openBillingPortal();
       window.location.href = url;
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Something went wrong.");
+      setError(err instanceof Error ? err.message : t("common.error"));
       setBusy(null);
     }
   }
@@ -94,7 +109,7 @@ export default function Account({
       await updateDigestSettings(!acc.digestEnabled);
       await refresh();
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Something went wrong.");
+      setError(err instanceof Error ? err.message : t("common.error"));
     } finally {
       setBusy(null);
     }
@@ -102,45 +117,39 @@ export default function Account({
 
   return (
     <div className="panel account-panel">
-      <h1>Your account</h1>
+      <h1>{t("account.title")}</h1>
       <p className="page-sub">
         {acc.email} · <span className={`plan-badge ${acc.plan}`}>{acc.plan}</span>
       </p>
 
-      {checkoutStatus === "success" && (
-        <div className="success-msg">Checkout complete — your plan will update shortly.</div>
-      )}
+      {checkoutStatus === "success" && <div className="success-msg">{t("account.checkoutOk")}</div>}
       {checkoutStatus === "cancelled" && (
         <div className="page-sub" style={{ marginBottom: 16 }}>
-          Checkout cancelled. You can try again anytime.
+          {t("account.checkoutCancel")}
         </div>
       )}
 
       <section className="account-plan-section">
-        <h2 className="account-section-title">Subscription</h2>
+        <h2 className="account-section-title">{t("account.subscription")}</h2>
         <div className="upgrade-actions">
           {showSolo && (
             <button className="btn-primary" onClick={() => handleUpgrade("solo")} disabled={!!busy}>
-              {busy === "solo" ? "Redirecting…" : "Upgrade to Solo — $7/mo"}
+              {busy === "solo" ? t("common.redirecting") : t("account.upgradeSolo")}
             </button>
           )}
           {showPro && (
             <button className="btn-secondary" onClick={() => handleUpgrade("pro")} disabled={!!busy}>
-              {busy === "pro" ? "Redirecting…" : "Upgrade to Pro — $17/mo"}
+              {busy === "pro" ? t("common.redirecting") : t("account.upgradePro")}
             </button>
           )}
           {showEnterprise && (
-            <button
-              className="btn-secondary"
-              onClick={() => handleUpgrade("enterprise")}
-              disabled={!!busy}
-            >
-              {busy === "enterprise" ? "Redirecting…" : "Upgrade to Enterprise"}
-            </button>
+            <a className="btn-secondary" href={ENTERPRISE_SALES}>
+              {t("account.contactSales")}
+            </a>
           )}
           {isPaid && (
             <button className="btn-secondary" onClick={handleManageBilling} disabled={!!busy}>
-              {busy === "portal" ? "Redirecting…" : "Manage billing"}
+              {busy === "portal" ? t("common.redirecting") : t("account.manageBilling")}
             </button>
           )}
         </div>
@@ -149,41 +158,33 @@ export default function Account({
 
       {isPaid && (
         <section className="account-plan-section">
-          <h2 className="account-section-title">Daily chase digest</h2>
-          <p className="page-sub">
-            Email at 9:00 AM Eastern (6 AM Pacific) when you have planned chase steps due today. Solo+
-            feature.
-          </p>
-          <button
-            className="btn-secondary"
-            onClick={toggleDigest}
-            disabled={busy === "digest"}
-          >
+          <h2 className="account-section-title">{t("account.digestTitle")}</h2>
+          <p className="page-sub">{t("account.digestBody")}</p>
+          <button className="btn-secondary" onClick={toggleDigest} disabled={busy === "digest"}>
             {busy === "digest"
-              ? "Saving…"
+              ? t("common.saving")
               : acc.digestEnabled !== false
-                ? "Digest on — click to turn off"
-                : "Digest off — click to turn on"}
+                ? t("account.digestOn")
+                : t("account.digestOff")}
           </button>
         </section>
       )}
 
       <section className="account-plan-section">
-        <h2 className="account-section-title">What you get</h2>
+        <h2 className="account-section-title">{t("account.whatYouGet")}</h2>
         <ul className="plan-feature-list">
-          <li>Solo ($7): approve-to-send digest, timeline, snooze, Wave/Zoho/FreshBooks Zapier</li>
-          <li>Pro ($17): reply detection, risk score, demand letter, evidence pack for collections</li>
+          <li>{t("account.featSolo")}</li>
+          <li>{t("account.featPro")}</li>
+          <li>
+            {t("account.featEnterprise")} <a href={ENTERPRISE_SALES}>sales@chasa.io</a>
+          </li>
         </ul>
-        {!isPro && isPaid && (
-          <p className="page-sub">
-            Upgrade to Pro for AI reply classification and formal overdue / collection-notice letters.
-          </p>
-        )}
+        {!isPro && isPaid && <p className="page-sub">{t("account.proNudge")}</p>}
       </section>
 
       <div style={{ marginTop: 28 }}>
         <button className="btn-secondary" onClick={handleLogout}>
-          Sign out
+          {t("account.signOut")}
         </button>
       </div>
     </div>

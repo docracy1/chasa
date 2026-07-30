@@ -2,12 +2,13 @@ import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { getBranding, updateBranding, type Account, type Branding } from "../lib/api";
 import { detectPaymentProvider, paymentProviderLabel } from "../lib/paymentProvider";
+import { useT } from "../lib/i18n";
 
 function fileToDataUrl(file: File): Promise<string> {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.onload = () => resolve(String(reader.result));
-    reader.onerror = () => reject(new Error("Could not read file"));
+    reader.onerror = () => reject(new Error("read_failed"));
     reader.readAsDataURL(file);
   });
 }
@@ -19,6 +20,7 @@ export default function BrandingPage({
   account: Account | null;
   refresh: () => Promise<void>;
 }) {
+  const t = useT();
   const [branding, setBranding] = useState<Branding | null>(null);
   const [name, setName] = useState("");
   const [paymentLink, setPaymentLink] = useState("");
@@ -57,10 +59,10 @@ export default function BrandingPage({
   if (!account) {
     return (
       <div className="panel">
-        <h1>Branding</h1>
-        <p className="page-sub">Sign in to set your workspace logo and name.</p>
+        <h1>{t("branding.title")}</h1>
+        <p className="page-sub">{t("branding.signInSub")}</p>
         <a className="btn-primary" href="/app/login">
-          Sign in
+          {t("nav.signin")}
         </a>
       </div>
     );
@@ -84,7 +86,7 @@ export default function BrandingPage({
       setSaved(true);
       await refresh();
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Save failed");
+      setError(err instanceof Error ? err.message : t("branding.saveFailed"));
     } finally {
       setBusy(false);
     }
@@ -95,7 +97,7 @@ export default function BrandingPage({
     e.target.value = "";
     if (!file || !isPaid) return;
     if (file.size > 100_000) {
-      setError("Logo is too large — keep under ~100KB.");
+      setError(t("branding.logoTooLarge"));
       return;
     }
     setBusy(true);
@@ -108,7 +110,13 @@ export default function BrandingPage({
       setSaved(true);
       await refresh();
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Upload failed");
+      setError(
+        err instanceof Error && err.message === "read_failed"
+          ? t("branding.readFileFailed")
+          : err instanceof Error
+            ? err.message
+            : t("branding.uploadFailed")
+      );
     } finally {
       setBusy(false);
     }
@@ -123,7 +131,7 @@ export default function BrandingPage({
       setBranding(next);
       await refresh();
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Remove failed");
+      setError(err instanceof Error ? err.message : t("branding.removeFailed"));
     } finally {
       setBusy(false);
     }
@@ -139,7 +147,7 @@ export default function BrandingPage({
       setName("");
       await refresh();
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Remove failed");
+      setError(err instanceof Error ? err.message : t("branding.removeFailed"));
     } finally {
       setBusy(false);
     }
@@ -161,7 +169,7 @@ export default function BrandingPage({
       setSaved(true);
       await refresh();
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Save failed");
+      setError(err instanceof Error ? err.message : t("branding.saveFailed"));
     } finally {
       setBusy(false);
     }
@@ -184,7 +192,7 @@ export default function BrandingPage({
       setSaved(true);
       await refresh();
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Save failed");
+      setError(err instanceof Error ? err.message : t("branding.saveFailed"));
     } finally {
       setBusy(false);
     }
@@ -193,24 +201,21 @@ export default function BrandingPage({
   return (
     <div className="branding-page">
       <p className="crumb">
-        <Link to="/account">Account</Link> / Branding
+        <Link to="/account">{t("team.crumbAccount")}</Link> / {t("branding.title")}
       </p>
-      <h1>Branding</h1>
-      <p className="page-sub">
-        Replace the Chasa logo with your own in the app, set a short workspace name, and optionally a
-        default payment link for chase drafts.
-      </p>
+      <h1>{t("branding.title")}</h1>
+      <p className="page-sub">{t("branding.pageSub")}</p>
 
       {!isPaid && (
         <div className="upgrade-nudge">
-          Branding is included on Solo and up.{" "}
-          <Link to="/account">Upgrade</Link> to unlock logo + workspace name.
+          {t("branding.upgradeNudge")}{" "}
+          <Link to="/account">{t("branding.upgradeLink")}</Link> {t("branding.upgradeHint")}
         </div>
       )}
 
       <section className="branding-card">
-        <h2>Logo</h2>
-        <p className="branding-help">Shown in the app header instead of the default Chasa mark.</p>
+        <h2>{t("branding.logo")}</h2>
+        <p className="branding-help">{t("branding.logoHelp")}</p>
         <div className="branding-logo-row">
           <div className="branding-logo-preview">
             <img
@@ -223,7 +228,7 @@ export default function BrandingPage({
           {isPaid ? (
             <>
               <label className="btn-secondary" style={{ cursor: busy ? "wait" : "pointer" }}>
-                {branding?.logoDataUrl ? "Replace logo" : "Upload logo"}
+                {branding?.logoDataUrl ? t("branding.replace") : t("branding.upload")}
                 <input
                   type="file"
                   accept="image/png,image/jpeg,image/webp"
@@ -234,29 +239,27 @@ export default function BrandingPage({
               </label>
               {branding?.logoDataUrl && (
                 <button type="button" className="btn-secondary" disabled={busy} onClick={removeLogo}>
-                  Remove logo
+                  {t("branding.removeLogo")}
                 </button>
               )}
             </>
           ) : (
             <button type="button" className="btn-secondary" disabled>
-              Upload logo
+              {t("branding.upload")}
             </button>
           )}
         </div>
       </section>
 
       <section className="branding-card">
-        <h2>Workspace name</h2>
-        <p className="branding-help">
-          A short label shown next to your logo. Letters and numbers only, 3–30 characters.
-        </p>
+        <h2>{t("branding.workspaceName")}</h2>
+        <p className="branding-help">{t("branding.workspaceHelp")}</p>
         <form className="branding-name-row" onSubmit={saveName}>
           <input
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            placeholder="e.g. relacon"
+            placeholder={t("branding.workspacePlaceholder")}
             minLength={3}
             maxLength={30}
             disabled={!isPaid || busy}
@@ -265,53 +268,46 @@ export default function BrandingPage({
           {isPaid && (
             <>
               <button type="submit" className="btn-primary" disabled={busy}>
-                {busy ? "Saving…" : "Save"}
+                {busy ? t("common.saving") : t("common.save")}
               </button>
               {branding?.workspaceName && (
                 <button type="button" className="btn-secondary" disabled={busy} onClick={removeName}>
-                  Remove
+                  {t("common.remove")}
                 </button>
               )}
             </>
           )}
         </form>
-        {saved && <p className="branding-saved">Saved.</p>}
+        {saved && <p className="branding-saved">{t("branding.saved")}</p>}
       </section>
 
       <section className="branding-card">
-        <h2>Default payment link</h2>
-        <p className="branding-help">
-          Stripe Payment Link, PayPal.me, Venmo, Zelle, or any pay URL. Included in AI chase drafts
-          when set (you can still override per session in the Tool).
-        </p>
+        <h2>{t("branding.paymentLink")}</h2>
+        <p className="branding-help">{t("branding.paymentHelp")}</p>
         <form className="branding-name-row" onSubmit={savePaymentLink}>
           <input
             type="url"
             value={paymentLink}
             onChange={(e) => setPaymentLink(e.target.value)}
-            placeholder="https://buy.stripe.com/… or paypal.me/…"
+            placeholder={t("branding.paymentPlaceholder")}
             disabled={!isPaid || busy}
           />
           {isPaid && (
             <button type="submit" className="btn-primary" disabled={busy}>
-              {busy ? "Saving…" : "Save"}
+              {busy ? t("common.saving") : t("common.save")}
             </button>
           )}
         </form>
         {paymentProvider && paymentLink.trim() && (
           <p className="branding-help">
-            Detected: <strong>{paymentProviderLabel(paymentProvider)}</strong> — will be appended to
-            AI drafts as “Pay here: …”
+            {t("branding.detectedProvider", { provider: paymentProviderLabel(paymentProvider) })}
           </p>
         )}
       </section>
 
       <section className="branding-card">
-        <h2>Late-fee hint</h2>
-        <p className="branding-help">
-          Optional. When enabled, AI drafts can reference your contract terms (common in the US: Net
-          30, 1.5% monthly late fee). Chasa never charges clients — wording only.
-        </p>
+        <h2>{t("branding.lateFee")}</h2>
+        <p className="branding-help">{t("branding.lateFeeHelp")}</p>
         <form onSubmit={saveLateFee}>
           <label style={{ display: "flex", gap: 8, alignItems: "center", marginBottom: 12 }}>
             <input
@@ -320,20 +316,20 @@ export default function BrandingPage({
               onChange={(e) => setLateFeeEnabled(e.target.checked)}
               disabled={!isPaid || busy}
             />
-            Include late-fee line in drafts
+            {t("branding.lateFeeToggle")}
           </label>
           <div className="branding-name-row">
             <input
               type="text"
               value={lateFeeHint}
               onChange={(e) => setLateFeeHint(e.target.value)}
-              placeholder="e.g. 1.5% per month or $25 late fee after 30 days"
+              placeholder={t("branding.lateFeePlaceholder")}
               maxLength={200}
               disabled={!isPaid || busy}
             />
             {isPaid && (
               <button type="submit" className="btn-primary" disabled={busy}>
-                {busy ? "Saving…" : "Save"}
+                {busy ? t("common.saving") : t("common.save")}
               </button>
             )}
           </div>

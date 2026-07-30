@@ -19,6 +19,7 @@ import {
   type TrafficStats,
 } from "../lib/adminApi";
 import TurnstileWidget, { resetTurnstile } from "../components/TurnstileWidget";
+import { useT } from "../lib/i18n";
 
 type NavId =
   | "dashboard"
@@ -36,23 +37,29 @@ function FunnelTable({
   title,
   steps,
   kpi,
+  t,
 }: {
   title: string;
   steps: { name: string; count: number }[];
   kpi?: string;
+  t: (key: string, vars?: Record<string, string | number>) => string;
 }) {
   const max = Math.max(1, ...steps.map((s) => s.count));
   return (
     <section className="dash-card">
       <h2 className="dash-card-title">
         {title}
-        {kpi ? <span className="dash-kpi-tag">KPI · {kpi}</span> : null}
+        {kpi ? (
+          <span className="dash-kpi-tag">
+            {t("admin.kpi")} · {kpi}
+          </span>
+        ) : null}
       </h2>
       <table className="admin-table">
         <thead>
           <tr>
-            <th>Event</th>
-            <th>Count</th>
+            <th>{t("admin.colEvent")}</th>
+            <th>{t("admin.colCount")}</th>
             <th></th>
           </tr>
         </thead>
@@ -74,13 +81,23 @@ function FunnelTable({
   );
 }
 
-function DayChart({ rows }: { rows: { day: string; human: number; bot: number }[] }) {
+function DayChart({
+  rows,
+  t,
+}: {
+  rows: { day: string; human: number; bot: number }[];
+  t: (key: string, vars?: Record<string, string | number>) => string;
+}) {
   const max = Math.max(1, ...rows.map((r) => r.human + r.bot));
   return (
     <div className="dash-chart">
       <div className="dash-chart-bars">
         {rows.map((r) => (
-          <div key={r.day} className="dash-chart-col" title={`${r.day}: ${r.human} human / ${r.bot} bot`}>
+          <div
+            key={r.day}
+            className="dash-chart-col"
+            title={t("admin.chartTitle", { day: r.day, human: r.human, bot: r.bot })}
+          >
             <div className="dash-chart-stack">
               <div className="dash-bar-human" style={{ height: `${(r.human / max) * 120}px` }} />
               <div className="dash-bar-bot" style={{ height: `${(r.bot / max) * 120}px` }} />
@@ -91,10 +108,10 @@ function DayChart({ rows }: { rows: { day: string; human: number; bot: number }[
       </div>
       <div className="dash-chart-legend">
         <span>
-          <i className="lg-human" /> Human
+          <i className="lg-human" /> {t("admin.legendHuman")}
         </span>
         <span>
-          <i className="lg-bot" /> Bot
+          <i className="lg-bot" /> {t("admin.legendBot")}
         </span>
       </div>
     </div>
@@ -110,10 +127,12 @@ function DashAccountMenu({
   email,
   onAdmin,
   onLogout,
+  t,
 }: {
   email: string;
   onAdmin: () => void;
   onLogout: () => void;
+  t: (key: string) => string;
 }) {
   const [open, setOpen] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
@@ -165,19 +184,19 @@ function DashAccountMenu({
     >
       <div className="dash-account-popover" role="menu" hidden={!open}>
         <a href="/app/account" role="menuitem">
-          Subscription
+          {t("account.subscription")}
         </a>
         <a href="/app/connector" role="menuitem">
-          Test connectors
+          {t("nav.testConnectors")}
         </a>
         <button type="button" role="menuitem" className="is-active-soft" onClick={onAdmin}>
-          Admin
+          {t("admin.title")}
         </button>
         <a href="mailto:founder@chasa.io" role="menuitem">
-          Support
+          {t("nav.support")}
         </a>
         <button type="button" role="menuitem" className="dash-logout" onClick={onLogout}>
-          ← Log out
+          {t("nav.logoutArrow")}
         </button>
       </div>
       <button
@@ -213,6 +232,7 @@ function fmtDate(iso: string): string {
 }
 
 export default function Admin() {
+  const t = useT();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
@@ -272,7 +292,7 @@ export default function Admin() {
       setAuthedEmail(res.email);
       await loadAll(days);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Login failed");
+      setError(err instanceof Error ? err.message : t("admin.loginFailed"));
       setTurnstileToken(null);
       resetTurnstile();
     } finally {
@@ -325,7 +345,7 @@ export default function Admin() {
       const b = await adminBlogList();
       setPosts(b.posts);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Could not create post");
+      setError(err instanceof Error ? err.message : t("admin.createPostFailed"));
     } finally {
       setBusy(false);
     }
@@ -338,7 +358,7 @@ export default function Admin() {
   }
 
   async function removePost(id: string) {
-    if (!confirm("Delete this post?")) return;
+    if (!confirm(t("admin.deletePostConfirm"))) return;
     await adminBlogDelete(id);
     const b = await adminBlogList();
     setPosts(b.posts);
@@ -352,7 +372,7 @@ export default function Admin() {
       setEntEmail("");
       setSignups(await adminSignups());
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Grant failed");
+      setError(err instanceof Error ? err.message : t("admin.grantFailed"));
     } finally {
       setBusy(false);
     }
@@ -361,7 +381,7 @@ export default function Admin() {
   if (loading) {
     return (
       <div className="dash-shell">
-        <div className="dash-loading">Loading…</div>
+        <div className="dash-loading">{t("common.loading")}</div>
       </div>
     );
   }
@@ -370,22 +390,22 @@ export default function Admin() {
     return (
       <div className="dash-shell">
         <header className="dash-topnav">
-          <a href="/" className="dash-brand" aria-label="Chasa home">
+          <a href="/" className="dash-brand" aria-label={t("admin.chasaHome")}>
             <img src="/brand/chasa-icon.png" alt="" width="22" height="22" />
             <span>chasa</span>
           </a>
         </header>
         <div className="dash-login-wrap">
           <div className="dash-login-card">
-            <h1>Admin</h1>
-            <p>Sign in as admin to manage Chasa.</p>
+            <h1>{t("admin.title")}</h1>
+            <p>{t("admin.signInSub")}</p>
             <form onSubmit={handleLogin}>
               <label>
-                Email
+                {t("team.email")}
                 <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
               </label>
               <label>
-                Password
+                {t("login.passwordPlaceholder")}
                 <input
                   type="password"
                   value={password}
@@ -395,7 +415,7 @@ export default function Admin() {
               </label>
               <TurnstileWidget onToken={setTurnstileToken} />
               <button type="submit" className="btn-primary" disabled={busy}>
-                {busy ? "Signing in…" : "Sign in"}
+                {busy ? t("login.signingIn") : t("login.signIn")}
               </button>
             </form>
             {error && <div className="error-msg">{error}</div>}
@@ -410,21 +430,21 @@ export default function Admin() {
   return (
     <div className="dash-shell">
       <header className="dash-topnav">
-        <a href="/" className="dash-brand" aria-label="Chasa home">
+        <a href="/" className="dash-brand" aria-label={t("admin.chasaHome")}>
           <img src="/brand/chasa-icon.png" alt="" width="22" height="22" />
           <span>chasa</span>
         </a>
         <nav className="dash-topnav-links">
-          <a href="/#pricing">Pricing</a>
-          <a href="/free-templates/">Free templates</a>
-          <a href="/blog/">Blog</a>
-          <a href="/app/">App</a>
-          <a href="/app/connector">Test connectors</a>
+          <a href="/#pricing">{t("admin.pricing")}</a>
+          <a href="/free-templates/">{t("admin.freeTemplates")}</a>
+          <a href="/blog/">{t("admin.blog")}</a>
+          <a href="/app/">{t("admin.app")}</a>
+          <a href="/app/connector">{t("nav.testConnectors")}</a>
           <button type="button" className="dash-topnav-strong" onClick={() => setNav("analytics")}>
-            Admin
+            {t("admin.title")}
           </button>
           <button type="button" onClick={handleLogout}>
-            Log out
+            {t("nav.logout")}
           </button>
         </nav>
       </header>
@@ -432,33 +452,33 @@ export default function Admin() {
       <div className="dash-body">
         <aside className="dash-sidebar">
           <a href="/app/" className="dash-new-btn">
-            + New chase
+            {t("admin.newChase")}
           </a>
           <nav className="dash-side-nav">
             {(
               [
-                ["analytics", "Analytics"],
-                ["blog", "Blog posts"],
-                ["signups", "Signups"],
-                ["activation", "Activation"],
-                ["completion", "Completion"],
-                ["template", "Templates"],
-                ["traffic", "Traffic events"],
-                ["email", "Email"],
-                ["errors", "Errors"],
+                ["analytics", "admin.nav.analytics"],
+                ["blog", "admin.nav.blog"],
+                ["signups", "admin.nav.signups"],
+                ["activation", "admin.nav.activation"],
+                ["completion", "admin.nav.completion"],
+                ["template", "admin.nav.template"],
+                ["traffic", "admin.nav.traffic"],
+                ["email", "admin.nav.email"],
+                ["errors", "admin.nav.errors"],
               ] as const
-            ).map(([id, label]) => (
+            ).map(([id, labelKey]) => (
               <button
                 key={id}
                 type="button"
                 className={nav === id ? "is-active" : ""}
                 onClick={() => setNav(id)}
               >
-                {label}
+                {t(labelKey)}
               </button>
             ))}
             <a href="/app/connector" className="dash-side-link">
-              Test connectors
+              {t("nav.testConnectors")}
             </a>
           </nav>
           <div className="dash-side-footer">
@@ -466,6 +486,7 @@ export default function Admin() {
               email={authedEmail}
               onAdmin={() => setNav("analytics")}
               onLogout={handleLogout}
+              t={t}
             />
           </div>
         </aside>
@@ -473,17 +494,17 @@ export default function Admin() {
         <main className="dash-main">
           <h1>
             {nav === "blog"
-              ? "Blog posts"
+              ? t("admin.nav.blog")
               : nav === "signups"
-                ? "Signups"
+                ? t("admin.nav.signups")
                 : nav === "analytics"
-                  ? "Analytics"
-                  : "Welcome back"}
+                  ? t("admin.nav.analytics")
+                  : t("admin.welcomeBack")}
           </h1>
           <p className="dash-sub">
-            Aggregate traffic and funnel counts — no per-visitor tracking, no IPs stored.
+            {t("admin.analyticsSub")}
             {nav === "analytics" || nav === "activation" || nav === "completion"
-              ? ` Signed in as ${authedEmail}.`
+              ? t("admin.signedInAs", { email: authedEmail })
               : null}
           </p>
           {error && <div className="error-msg">{error}</div>}
@@ -504,7 +525,7 @@ export default function Admin() {
                     className={days === d ? "is-on" : ""}
                     onClick={() => changeDays(d)}
                   >
-                    Last {d}d
+                    {t("admin.lastDays", { days: d })}
                   </button>
                 ))}
               </div>
@@ -514,12 +535,10 @@ export default function Admin() {
                   checked={humansOnly}
                   onChange={(e) => changeHumansOnly(e.target.checked)}
                 />
-                Humans only (exclude classified crawlers from event counts)
+                {t("admin.humansOnly")}
               </label>
               <p className="dash-note dash-note-filter">
-                {humansOnly
-                  ? "Page views and funnel steps exclude classified crawlers (search, social previews, SEO tools, …). The daily chart still shows the bot split. Events recorded before bot tagging, and events with no user agent (emails, cron), count as human."
-                  : "Counts include crawler traffic. Anything written without a browser inflates load-style events relative to clicks, which need a real visitor."}
+                {humansOnly ? t("admin.humansOnlyNote") : t("admin.allTrafficNote")}
               </p>
               <label className="dash-exclude">
                 <input
@@ -531,7 +550,7 @@ export default function Admin() {
                     setExcludeSelfState(on);
                   }}
                 />
-                Don&apos;t count my own visits (this browser only)
+                {t("admin.excludeSelf")}
               </label>
             </>
           )}
@@ -540,43 +559,43 @@ export default function Admin() {
             <>
               <div className="dash-stat-row dash-stat-row-4">
                 <div className="dash-stat">
-                  <span className="dash-stat-label">Page views</span>
+                  <span className="dash-stat-label">{t("admin.pageViews")}</span>
                   <strong>{humansOnly ? traffic.humanPageViews : traffic.pageViews}</strong>
                   <em>
                     {humansOnly
-                      ? `${traffic.botPct}% of all traffic was known bots (excluded)`
-                      : `${traffic.botPct}% known bots`}
+                      ? t("admin.botExcluded", { pct: traffic.botPct })
+                      : t("admin.botPct", { pct: traffic.botPct })}
                   </em>
                 </div>
                 <div className="dash-stat">
-                  <span className="dash-stat-label">Chases sent</span>
+                  <span className="dash-stat-label">{t("admin.chasesSent")}</span>
                   <strong>{traffic.chasesSent}</strong>
                 </div>
                 <div className="dash-stat">
-                  <span className="dash-stat-label">Chases completed</span>
+                  <span className="dash-stat-label">{t("admin.chasesCompleted")}</span>
                   <strong>{traffic.chasesCompleted}</strong>
                 </div>
                 <div className="dash-stat">
-                  <span className="dash-stat-label">Sent → completed</span>
+                  <span className="dash-stat-label">{t("admin.sentToCompleted")}</span>
                   <strong>{traffic.conversion}</strong>
                 </div>
               </div>
 
               <section className="dash-card">
-                <h2 className="dash-card-title">Page views by day</h2>
-                <DayChart rows={traffic.byDay} />
+                <h2 className="dash-card-title">{t("admin.pageViewsByDay")}</h2>
+                <DayChart rows={traffic.byDay} t={t} />
               </section>
 
               <div className="dash-grid-3">
                 <section className="dash-card">
-                  <h2 className="dash-card-title">By route</h2>
+                  <h2 className="dash-card-title">{t("admin.byRoute")}</h2>
                   <table className="admin-table">
                     <thead>
                       <tr>
-                        <th>Route</th>
-                        <th>Total</th>
-                        <th>Human</th>
-                        <th>Bot</th>
+                        <th>{t("admin.colRoute")}</th>
+                        <th>{t("admin.colTotal")}</th>
+                        <th>{t("admin.colHuman")}</th>
+                        <th>{t("admin.colBot")}</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -594,18 +613,18 @@ export default function Admin() {
                   </table>
                 </section>
                 <section className="dash-card">
-                  <h2 className="dash-card-title">By bot</h2>
+                  <h2 className="dash-card-title">{t("admin.byBot")}</h2>
                   <table className="admin-table">
                     <thead>
                       <tr>
-                        <th>Bot</th>
-                        <th>Views</th>
+                        <th>{t("admin.colBotName")}</th>
+                        <th>{t("admin.colViews")}</th>
                       </tr>
                     </thead>
                     <tbody>
                       {traffic.byBot.length === 0 ? (
                         <tr>
-                          <td colSpan={2}>No bots yet</td>
+                          <td colSpan={2}>{t("admin.noBotsYet")}</td>
                         </tr>
                       ) : (
                         traffic.byBot.map((r) => (
@@ -619,12 +638,12 @@ export default function Admin() {
                   </table>
                 </section>
                 <section className="dash-card">
-                  <h2 className="dash-card-title">By country</h2>
+                  <h2 className="dash-card-title">{t("admin.byCountry")}</h2>
                   <table className="admin-table">
                     <thead>
                       <tr>
-                        <th>Country</th>
-                        <th>Views</th>
+                        <th>{t("admin.colCountry")}</th>
+                        <th>{t("admin.colViews")}</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -644,13 +663,10 @@ export default function Admin() {
 
           {nav === "blog" && (
             <section className="dash-card">
-              <h2 className="dash-card-title">Blog posts</h2>
-              <p className="dash-muted">
-                Publish articles yourself — no code deploy needed. New posts appear on /blog as soon
-                as you publish them.
-              </p>
+              <h2 className="dash-card-title">{t("admin.blogPosts")}</h2>
+              <p className="dash-muted">{t("admin.blogMuted")}</p>
               {posts.length === 0 ? (
-                <p className="dash-muted">No posts yet — write your first one below.</p>
+                <p className="dash-muted">{t("admin.noPosts")}</p>
               ) : (
                 <ul className="dash-post-list">
                   {posts.map((p) => (
@@ -658,15 +674,15 @@ export default function Admin() {
                       <div>
                         <strong>{p.title}</strong>
                         <span>
-                          /{p.slug} · {p.published ? "Published" : "Draft"}
+                          /{p.slug} · {p.published ? t("admin.published") : t("admin.draft")}
                         </span>
                       </div>
                       <div className="dash-post-actions">
                         <button type="button" className="btn-secondary" onClick={() => togglePublish(p)}>
-                          {p.published ? "Unpublish" : "Publish"}
+                          {p.published ? t("admin.unpublish") : t("admin.publish")}
                         </button>
                         <button type="button" className="btn-secondary" onClick={() => removePost(p.id)}>
-                          Delete
+                          {t("admin.deletePost")}
                         </button>
                       </div>
                     </li>
@@ -674,28 +690,28 @@ export default function Admin() {
                 </ul>
               )}
               <h3 className="dash-card-title" style={{ marginTop: 20 }}>
-                New post
+                {t("admin.newPost")}
               </h3>
               <form className="dash-blog-form" onSubmit={createBlog}>
                 <input
-                  placeholder="Title"
+                  placeholder={t("admin.postTitle")}
                   value={blogForm.title}
                   onChange={(e) => setBlogForm({ ...blogForm, title: e.target.value })}
                   required
                 />
                 <input
-                  placeholder="Slug (optional — derived from title if blank)"
+                  placeholder={t("admin.postSlug")}
                   value={blogForm.slug}
                   onChange={(e) => setBlogForm({ ...blogForm, slug: e.target.value })}
                 />
                 <input
-                  placeholder="Short description (shown on the blog index and in search results)"
+                  placeholder={t("admin.postDesc")}
                   value={blogForm.description}
                   onChange={(e) => setBlogForm({ ...blogForm, description: e.target.value })}
                 />
                 <textarea
                   rows={8}
-                  placeholder="Body — separate paragraphs with a blank line"
+                  placeholder={t("admin.postBody")}
                   value={blogForm.body}
                   onChange={(e) => setBlogForm({ ...blogForm, body: e.target.value })}
                   required
@@ -706,10 +722,10 @@ export default function Admin() {
                     checked={blogForm.published}
                     onChange={(e) => setBlogForm({ ...blogForm, published: e.target.checked })}
                   />
-                  Published (visible on /blog)
+                  {t("admin.publishedVisible")}
                 </label>
                 <button type="submit" className="btn-primary" disabled={busy}>
-                  Create post
+                  {t("admin.createPost")}
                 </button>
               </form>
             </section>
@@ -718,17 +734,14 @@ export default function Admin() {
           {nav === "signups" && signups && (
             <>
               <section className="dash-card">
-                <h2 className="dash-card-title">All signups ({signups.total})</h2>
-                <p className="dash-muted">
-                  Every account, including free signups that never pay. Chasa&apos;s magic-link
-                  sign-in only collects an email address.
-                </p>
+                <h2 className="dash-card-title">{t("admin.allSignups", { total: signups.total })}</h2>
+                <p className="dash-muted">{t("admin.signupsMuted")}</p>
                 <button type="button" className="btn-secondary" onClick={() => setShowAllFree((v) => !v)}>
-                  {showAllFree ? "Show less" : "Show all"}
+                  {showAllFree ? t("admin.showLess") : t("admin.showAll")}
                 </button>
                 <div className="dash-signup-cols">
                   <div>
-                    <h3>Free ({signups.free.length})</h3>
+                    <h3>{t("admin.free", { count: signups.free.length })}</h3>
                     <ul>
                       {freeShown.map((a) => (
                         <li key={a.email}>
@@ -739,7 +752,7 @@ export default function Admin() {
                     </ul>
                   </div>
                   <div>
-                    <h3>Paid ({signups.paid.length})</h3>
+                    <h3>{t("admin.paid", { count: signups.paid.length })}</h3>
                     <ul>
                       {signups.paid.map((a) => (
                         <li key={a.email}>
@@ -754,26 +767,22 @@ export default function Admin() {
                 </div>
               </section>
               <section className="dash-card">
-                <h2 className="dash-card-title">Enterprise accounts</h2>
-                <p className="dash-muted">
-                  Self-serve customers checkout via Stripe (Solo / Pro / Enterprise). For bank
-                  transfers or offline deals, grant Enterprise manually here once payment is
-                  confirmed.
-                </p>
+                <h2 className="dash-card-title">{t("admin.enterpriseAccounts")}</h2>
+                <p className="dash-muted">{t("admin.enterpriseMuted")}</p>
                 <form className="dash-ent-form" onSubmit={grantEnterprise}>
                   <input
                     type="email"
-                    placeholder="customer@example.com"
+                    placeholder={t("admin.entEmailPlaceholder")}
                     value={entEmail}
                     onChange={(e) => setEntEmail(e.target.value)}
                     required
                   />
                   <button type="submit" className="btn-primary" disabled={busy}>
-                    Grant Enterprise
+                    {t("admin.grantEnterprise")}
                   </button>
                 </form>
                 {signups.enterprise.length === 0 ? (
-                  <p className="dash-muted">No enterprise accounts yet.</p>
+                  <p className="dash-muted">{t("admin.noEnterprise")}</p>
                 ) : (
                   <ul className="dash-post-list">
                     {signups.enterprise.map((a) => (
@@ -789,25 +798,43 @@ export default function Admin() {
           )}
 
           {stats && nav === "activation" && (
-            <FunnelTable title="Activation funnel" steps={stats.activation} kpi="chase_sent" />
+            <FunnelTable
+              title={t("admin.activationFunnel")}
+              steps={stats.activation}
+              kpi="chase_sent"
+              t={t}
+            />
           )}
           {stats && nav === "completion" && (
-            <FunnelTable title="Completion funnel" steps={stats.completion} kpi="chase_completed" />
+            <FunnelTable
+              title={t("admin.completionFunnel")}
+              steps={stats.completion}
+              kpi="chase_completed"
+              t={t}
+            />
           )}
           {stats && nav === "template" && (
-            <FunnelTable title="Template funnel" steps={stats.template} kpi="template_completed" />
+            <FunnelTable
+              title={t("admin.templateFunnel")}
+              steps={stats.template}
+              kpi="template_completed"
+              t={t}
+            />
           )}
           {stats && nav === "traffic" && (
             <FunnelTable
-              title="Traffic events"
+              title={t("admin.trafficEvents")}
               steps={stats.traffic}
               kpi="landingpage_cta_clicked"
+              t={t}
             />
           )}
           {stats && nav === "email" && (
-            <FunnelTable title="Email funnel" steps={stats.email} kpi="email_clicked" />
+            <FunnelTable title={t("admin.emailFunnel")} steps={stats.email} kpi="email_clicked" t={t} />
           )}
-          {stats && nav === "errors" && <FunnelTable title="Error events" steps={stats.errors} />}
+          {stats && nav === "errors" && (
+            <FunnelTable title={t("admin.errorEvents")} steps={stats.errors} t={t} />
+          )}
         </main>
       </div>
     </div>

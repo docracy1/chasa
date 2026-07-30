@@ -1,4 +1,5 @@
 import type { PendingCloudImport } from "../types";
+import { useT } from "../../../lib/i18n";
 
 interface CloudImportConfirmProps {
   pendingImport: PendingCloudImport;
@@ -23,26 +24,27 @@ export function CloudImportConfirm({
   onConfirm,
   onDismiss,
 }: CloudImportConfirmProps) {
+  const t = useT();
   return (
     <div className="panel cloud-import-panel">
-      <h2 className="cloud-import-title">Confirm PDF import</h2>
+      <h2 className="cloud-import-title">{t("cloudImport.title")}</h2>
       <p className="branding-help">
-        From {pendingImport.providerLabel}: <code>{pendingImport.file.name}</code>
+        {pendingImport.providerLabel}: <code>{pendingImport.file.name}</code>
         {pendingImport.hints.confidence !== "none"
-          ? ` · hints confidence: ${pendingImport.hints.confidence}`
-          : " · no fields auto-detected — fill them in below"}
+          ? ` · ${pendingImport.hints.confidence}`
+          : ` · ${t("cloudImport.noHints")}`}
       </p>
       <form onSubmit={onConfirm}>
         <div className="field-row">
           <input
             type="text"
-            placeholder="Client name"
+            placeholder={t("intake.clientPlaceholder")}
             value={importClient}
             onChange={(e) => onImportClientChange(e.target.value)}
           />
           <input
             type="number"
-            placeholder="Amount"
+            placeholder={t("intake.amountPlaceholder")}
             value={importAmount}
             onChange={(e) => onImportAmountChange(e.target.value)}
             step="0.01"
@@ -53,25 +55,22 @@ export function CloudImportConfirm({
             onChange={(e) => onImportDueChange(e.target.value)}
           />
           <button type="submit" className="btn-primary">
-            Add invoice
+            {t("cloudImport.add")}
           </button>
           <button type="button" className="btn-secondary" onClick={onDismiss}>
-            Dismiss
+            {t("cloudImport.dismiss")}
           </button>
         </div>
       </form>
       {pendingImport.textPreview ? (
         <details className="cloud-import-preview">
           <summary>
-            Extracted text preview ({pendingImport.extractedChars} chars) — copy if useful
+            {t("cloudImport.preview")} ({pendingImport.extractedChars})
           </summary>
           <pre>{pendingImport.textPreview}</pre>
         </details>
       ) : (
-        <p className="branding-help">
-          No extractable text found (scanned PDF?). Enter the fields manually from the filename
-          or open the file in {pendingImport.providerLabel}.
-        </p>
+        <p className="branding-help">{t("cloudImport.scanned")}</p>
       )}
     </div>
   );

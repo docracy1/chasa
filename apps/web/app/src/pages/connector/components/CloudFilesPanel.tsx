@@ -1,5 +1,6 @@
 import type { CloudFile, CloudProvider } from "../../../lib/api";
 import { CLOUD_LABELS } from "../../../lib/cloudImport";
+import { useT } from "../../../lib/i18n";
 
 type CloudFilesPanelProps = {
   filesProvider: CloudProvider;
@@ -16,11 +17,13 @@ export function CloudFilesPanel({
   importingId,
   onImportFile,
 }: CloudFilesPanelProps) {
+  const t = useT();
+
   return (
     <div className="cloud-files">
-      <h2>Recent PDFs — {CLOUD_LABELS[filesProvider]}</h2>
+      <h2>{t("connector.recentPdfsNamed", { provider: CLOUD_LABELS[filesProvider] })}</h2>
       {files.length === 0 && !filesBusy ? (
-        <p className="branding-help">No PDF files found in the usual locations.</p>
+        <p className="branding-help">{t("connector.noPdfs")}</p>
       ) : (
         <ul className="cloud-files-list">
           {files.map((f) => (
@@ -39,7 +42,7 @@ export function CloudFilesPanel({
                 disabled={importingId !== null}
                 onClick={() => onImportFile(filesProvider, f)}
               >
-                {importingId === f.id ? "Importing…" : "Import to Tool"}
+                {importingId === f.id ? t("connector.importing") : t("connector.importToTool")}
               </button>
             </li>
           ))}

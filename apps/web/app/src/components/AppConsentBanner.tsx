@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { consentPending, hasAnalyticsConsent, setAnalyticsConsent } from "../lib/consent";
 import { loadClarity } from "../lib/clarity";
+import { useT } from "../lib/i18n";
 
 export default function AppConsentBanner() {
+  const t = useT();
   const [hidden, setHidden] = useState(() => !consentPending() || hasAnalyticsConsent());
 
   useEffect(() => {
@@ -16,7 +18,7 @@ export default function AppConsentBanner() {
       className="chasa-app-consent"
       role="dialog"
       aria-modal="true"
-      aria-label="Cookie consent"
+      aria-label={t("consent.aria")}
       style={{
         position: "fixed",
         bottom: 0,
@@ -29,11 +31,20 @@ export default function AppConsentBanner() {
         boxShadow: "0 -4px 24px rgba(0,0,0,.18)",
       }}
     >
-      <div style={{ maxWidth: 1100, margin: "0 auto", display: "flex", gap: 16, flexWrap: "wrap", alignItems: "center" }}>
+      <div
+        style={{
+          maxWidth: 1100,
+          margin: "0 auto",
+          display: "flex",
+          gap: 16,
+          flexWrap: "wrap",
+          alignItems: "center",
+        }}
+      >
         <p style={{ margin: 0, flex: 1, fontSize: 14, lineHeight: 1.5 }}>
-          We use cookies for anonymous analytics. See our{" "}
+          {t("consent.body")}{" "}
           <a href="/privacy" style={{ color: "var(--accent, #c45c26)" }}>
-            Privacy policy
+            {t("consent.privacy")}
           </a>
           .
         </p>
@@ -46,7 +57,7 @@ export default function AppConsentBanner() {
               setHidden(true);
             }}
           >
-            Decline
+            {t("consent.decline")}
           </button>
           <button
             type="button"
@@ -57,7 +68,7 @@ export default function AppConsentBanner() {
               setHidden(true);
             }}
           >
-            Accept
+            {t("consent.accept")}
           </button>
         </div>
       </div>

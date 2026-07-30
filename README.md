@@ -52,7 +52,7 @@ Stripe price IDs live in `apps/worker/wrangler.toml` as `STRIPE_PRICE_SOLO`, `ST
 | Feature | Free | Solo+ |
 |---------|------|-------|
 | AI chase email drafts (tone by days overdue) | 5/mo | Unlimited |
-| 18+ copy-paste email templates (`/free-templates/`) | ✓ | ✓ |
+| 15+ copy-paste email templates (`/free-templates/`) | ✓ | ✓ |
 | CSV invoice upload (Tool) | ✓ | ✓ |
 | Manual invoice list + aging board (Tool) | ✓ | ✓ |
 | Rewrite softer / firmer / shorter | — | ✓ |
@@ -96,13 +96,17 @@ Stripe price IDs live in `apps/worker/wrangler.toml` as `STRIPE_PRICE_SOLO`, `ST
 
 All app routes except `/login` and `/admin` require a session. Unauthenticated users redirect to `/login`. SPA analytics require cookie consent (GDPR).
 
+### i18n (EN + ES)
+
+Same path as Docracy: lightweight catalogs in `apps/web/app/src/lib/i18n/` (no i18next). `LocaleProvider` + EN|ES switcher on login, sidebar, and More sheet. P1 covers login / shell / welcome; expand catalogs for the rest of the app next. Preference stored as `chasa_locale`. Marketing HTML stays English until a later pass.
+
 ### Marketing & SEO (static HTML in `apps/web/public/`)
 
 - Homepage with pricing, FAQ JSON-LD, competitor comparison
 - SEO landing pages: `/invoice-follow-up`, `/payment-reminder`, `/overdue-invoice`, `/chase-invoices`, `/freelancer-invoice-follow-up`
 - `/features/` (index, AI tone, templates), `/docs/`, `/ai`, `/about`
 - `/blog/` (3 articles + dynamic `post.html`)
-- `/free-templates/` — 18 generated template pages + index
+- `/free-templates/` — 15 generated template pages + index
 - Legal: `/privacy`, `/terms`, `/imprint`
 - `sitemap.xml`, `robots.txt`, `404.html`, cookie consent, scroll-depth analytics
 - Self-hosted fonts (no Google Fonts); enforcing CSP via `_headers`

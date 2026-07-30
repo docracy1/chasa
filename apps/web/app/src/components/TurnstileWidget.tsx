@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { useT } from "../lib/i18n";
 
 declare global {
   interface Window {
@@ -74,6 +75,7 @@ type Props = {
  * When keys are absent (local/dev bypass), renders nothing and reports token null.
  */
 export default function TurnstileWidget({ onToken }: Props) {
+  const t = useT();
   const containerRef = useRef<HTMLDivElement>(null);
   const widgetIdRef = useRef<string | null>(null);
   const onTokenRef = useRef(onToken);
@@ -116,7 +118,7 @@ export default function TurnstileWidget({ onToken }: Props) {
           "error-callback": () => onTokenRef.current(null),
         });
       } catch {
-        if (!cancelled) setLoadError("Security check failed to load. Refresh the page.");
+        if (!cancelled) setLoadError(t("turnstile.failed"));
       }
     })();
 
