@@ -8,7 +8,8 @@ workers_dev = true
 preview_urls = true
 
 [triggers]
-crons = ["0 3 * * *", "0 14 * * *"]
+# Single daily cron — purge expired sessions + chase digests (branch in scheduled handler).
+crons = ["0 8 * * *"]
 
 # Custom API host (Cloudflare zone must be Active for this to resolve publicly).
 [[routes]]

@@ -67,10 +67,11 @@ app.get("/", (c) => c.text("chasa-worker ok"));
 export default {
   fetch: app.fetch.bind(app),
   scheduled: async (event: ScheduledEvent, env: Env, ctx: ExecutionContext) => {
-    if (event.cron === "0 14 * * *") {
-      ctx.waitUntil(sendDailyChaseDigests(env));
-      return;
-    }
-    ctx.waitUntil(purgeExpiredSessions(env));
+    ctx.waitUntil(
+      (async () => {
+        await purgeExpiredSessions(env);
+        await sendDailyChaseDigests(env);
+      })()
+    );
   },
 };
