@@ -1,10 +1,14 @@
+# script-src needs 'unsafe-inline' + frame-src 'self': Cloudflare Bot Fight / email-obfuscation
+# injects an inline bootstrap (+ same-origin hidden iframe). Without both, the challenge never
+# completes and /assets/*.js can get an HTML interstitial — React never boots, so /app/login
+# and Start free look broken.
 /*
   Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
   X-Frame-Options: DENY
   Permissions-Policy: camera=(), microphone=(), geolocation=()
-  Content-Security-Policy: default-src 'self'; script-src 'self' challenges.cloudflare.com https://www.clarity.ms https://scripts.clarity.ms; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: https:; connect-src 'self' https://api.chasa.io https://chasa.io https://www.chasa.io https://chasa-71s.pages.dev https://challenges.cloudflare.com https://www.clarity.ms https://scripts.clarity.ms https://c.clarity.ms https://b.clarity.ms https://i.clarity.ms https://y.clarity.ms https://c.bing.com; worker-src 'self' blob: https://www.clarity.ms https://scripts.clarity.ms; frame-src challenges.cloudflare.com; report-uri https://api.chasa.io/api/csp-report
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://challenges.cloudflare.com https://www.clarity.ms https://scripts.clarity.ms; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: https:; connect-src 'self' https://api.chasa.io https://chasa.io https://www.chasa.io https://chasa-71s.pages.dev https://challenges.cloudflare.com https://www.clarity.ms https://scripts.clarity.ms https://c.clarity.ms https://b.clarity.ms https://i.clarity.ms https://y.clarity.ms https://c.bing.com; worker-src 'self' blob: https://www.clarity.ms https://scripts.clarity.ms; frame-src 'self' https://challenges.cloudflare.com; report-uri https://api.chasa.io/api/csp-report
 
 /brand/*
   Cache-Control: public, max-age=31536000, immutable
