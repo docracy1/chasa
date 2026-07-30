@@ -70,19 +70,18 @@ const HOURLY_CRON = "0 * * * *";
 export default {
   fetch: app.fetch.bind(app),
   scheduled: async (event: ScheduledEvent, env: Env, ctx: ExecutionContext) => {
-    // Hourly: SPA Sign in / Start free smoke only (fast outage signal).
-    if (event.cron === HOURLY_CRON) {
-      ctx.waitUntil(runSpaSmokeAndAlert(env).catch((err) => console.error("SPA smoke sweep failed:", err)));
-      return;
-    }
+    // Always: SPA Sign in / Start free smoke (fast outage signal).
+    ctx.waitUntil(runSpaSmokeAndAlert(env).catch((err) => console.error("SPA smoke sweep failed:", err)));
 
-    // Daily (08:00 UTC): session purge + chase digests + SPA smoke (deduped if hourly already ran).
-    ctx.waitUntil(
-      (async () => {
-        await purgeExpiredSessions(env);
-        await sendDailyChaseDigests(env);
-        await runSpaSmokeAndAlert(env).catch((err) => console.error("SPA smoke sweep failed:", err));
-      })()
-    );
+    // Once daily at 08:00 UTC — same hourly trigger, gated by clock (no second cron; account limit).
+    const hourUtc = new Date().getUTCHours();
+    if (hourUtc === 8 || event.cron !== HOURLY_CRON) {
+      ctx.waitUntil(
+        (async () => {
+          await purgeExpiredSessions(env);
+          await sendDailyChaseDigests(env);
+        })()
+      );
+    }
   },
 };

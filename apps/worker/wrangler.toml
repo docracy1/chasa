@@ -8,8 +8,8 @@ workers_dev = true
 preview_urls = true
 
 [triggers]
-# Hourly SPA smoke (Sign in / Start free) + daily session purge / chase digests (branch in handler).
-crons = ["0 * * * *", "0 8 * * *"]
+# Single hourly cron (account trigger limit). SPA smoke every hour; session purge + chase digests at 08:00 UTC.
+crons = ["0 * * * *"]
 
 # Custom API host (Cloudflare zone must be Active for this to resolve publicly).
 [[routes]]
