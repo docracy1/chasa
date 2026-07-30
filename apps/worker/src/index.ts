@@ -24,6 +24,7 @@ import leads from "./routes/leads";
 import { configuredAppOrigin, isAllowedAppOrigin } from "./lib/appUrl";
 import { purgeExpiredSessions } from "./lib/sessionCleanup";
 import { sendDailyChaseDigests } from "./lib/chaseDigest";
+import { runSpaSmokeAndAlert } from "./lib/spaSmoke";
 
 const app = new Hono<AuthEnv>();
 
@@ -64,13 +65,23 @@ app.route("/mcp", mcp);
 
 app.get("/", (c) => c.text("chasa-worker ok"));
 
+const HOURLY_CRON = "0 * * * *";
+
 export default {
   fetch: app.fetch.bind(app),
   scheduled: async (event: ScheduledEvent, env: Env, ctx: ExecutionContext) => {
+    // Hourly: SPA Sign in / Start free smoke only (fast outage signal).
+    if (event.cron === HOURLY_CRON) {
+      ctx.waitUntil(runSpaSmokeAndAlert(env).catch((err) => console.error("SPA smoke sweep failed:", err)));
+      return;
+    }
+
+    // Daily (08:00 UTC): session purge + chase digests + SPA smoke (deduped if hourly already ran).
     ctx.waitUntil(
       (async () => {
         await purgeExpiredSessions(env);
         await sendDailyChaseDigests(env);
+        await runSpaSmokeAndAlert(env).catch((err) => console.error("SPA smoke sweep failed:", err));
       })()
     );
   },

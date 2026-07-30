@@ -268,3 +268,48 @@ export async function sendTemplatesPackWelcomeEmail(
     path: "/api/leads/templates-pack",
   }).catch(() => {});
 }
+
+/** SPA hydrate failure (Sign in / Start free) — recipient is usually FEEDBACK_EMAIL / founder@chasa.io. */
+export async function sendSpaSmokeAlert(
+  env: Env,
+  to: string,
+  failures: { name: string; detail?: string }[]
+): Promise<void> {
+  const lines = failures
+    .map((f) => `<li><strong>${escapeHtml(f.name)}</strong>: ${escapeHtml(f.detail ?? "failed")}</li>`)
+    .join("");
+  const body = `
+    ${emailHeadline("Chasa SPA smoke check failed")}
+    <p style="margin:0 0 16px 0;font-size:15px;color:${INK};line-height:1.55;">
+      Sign in (/app/login) or Start free (/app/) may be stuck because the main JS bundle is not
+      serving as JavaScript (often <code>text/html</code> SPA fallback).
+    </p>
+    <ul style="margin:0;padding-left:20px;font-size:14px;color:${INK};line-height:1.6;">${lines}</ul>
+    <p style="margin:20px 0 0 0;font-size:13px;color:${MUTED_HEX};line-height:1.5;">
+      Deduped: alert on new failure, then every 6 hours while still down.
+    </p>
+    ${SIGN_OFF}
+  `;
+
+  if (!env.RESEND_API_KEY) {
+    console.log(`[dev] spa smoke alert to=${to}\n${body}\n`);
+    return;
+  }
+
+  const res = await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${env.RESEND_API_KEY}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      from: `Chasa <login@chasa.io>`,
+      to: [to],
+      subject: "Chasa: Sign in / Start free broken (SPA JS)",
+      html: emailShell(appUrl(env), body),
+    }),
+  });
+  if (!res.ok) {
+    console.error(`Resend spa smoke alert failed (${res.status}): ${await res.text()}`);
+  }
+}
