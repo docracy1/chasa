@@ -409,12 +409,26 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    color: var(--accent);
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: var(--white);
     line-height: 0;
     vertical-align: middle;
+    position: relative;
+  }
+  .price-table .check::after {
+    content: "";
+    width: 5px;
+    height: 9px;
+    border: solid var(--white);
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg) translateY(-1px);
+    box-sizing: border-box;
   }
   .price-table .check svg {
-    display: block;
+    display: none;
   }
   .price-table .cross {
     color: color-mix(in srgb, var(--ink) 28%, var(--white));
@@ -837,206 +851,216 @@
     </div>
   </section>
 
-  <!-- Pricing (product) -->
+  <!-- Pricing (product) — eversign-style: features first, sticky prices -->
   <section class="pricing wrap" id="pricing" data-cta-source="home_pricing">
-    <h2>Compare plans</h2>
-    <p class="pricing-sub">Free to try · Solo for freelancers · Pro when chase volume picks up · Enterprise — custom yearly, contact sales</p>
-    <div class="price-table-wrap">
-      <table class="price-table">
-        <thead>
-          <tr>
-            <th scope="col"></th>
-            <th scope="col">Free</th>
-            <th scope="col">Solo</th>
-            <th scope="col" class="col-pro">Pro</th>
-            <th scope="col">Enterprise</th>
-          </tr>
-          <tr class="price-row">
-            <th scope="col"></th>
-            <th scope="col"><span class="amt">$0</span><span class="per">forever</span></th>
-            <th scope="col"><span class="amt">$7</span><span class="per">per month</span></th>
-            <th scope="col" class="col-pro"><span class="amt">$17</span><span class="per">per month</span><span class="popular-tag">Most popular</span></th>
-            <th scope="col"><span class="amt">Custom</span><span class="per">billed yearly</span></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>AI drafts / month</td>
-            <td>5</td>
-            <td>100</td>
-            <td class="col-pro">Unlimited</td>
-            <td>Unlimited</td>
-          </tr>
-          <tr>
-            <td>Free email templates</td>
-            <td><span class="check">✓</span></td>
-            <td><span class="check">✓</span></td>
-            <td class="col-pro"><span class="check">✓</span></td>
-            <td><span class="check">✓</span></td>
-          </tr>
-          <tr>
-            <td>Tone-matched drafts</td>
-            <td><span class="check">✓</span></td>
-            <td><span class="check">✓</span></td>
-            <td class="col-pro"><span class="check">✓</span></td>
-            <td><span class="check">✓</span></td>
-          </tr>
-          <tr>
-            <td>Soften / firm up / shorten</td>
-            <td><span class="cross">✗</span></td>
-            <td><span class="check">✓</span></td>
-            <td class="col-pro"><span class="check">✓</span></td>
-            <td><span class="check">✓</span></td>
-          </tr>
-          <tr>
-            <td>AI thank-you + reply drafts</td>
-            <td><span class="cross">✗</span></td>
-            <td><span class="check">✓</span></td>
-            <td class="col-pro"><span class="check">✓</span></td>
-            <td><span class="check">✓</span></td>
-          </tr>
-          <tr>
-            <td>AI 3-step chase plans</td>
-            <td><span class="cross">✗</span></td>
-            <td><span class="check">✓</span></td>
-            <td class="col-pro"><span class="check">✓</span></td>
-            <td><span class="check">✓</span></td>
-          </tr>
-          <tr>
-            <td>Reminder calendar (copy next / mark done)</td>
-            <td><span class="cross">✗</span></td>
-            <td><span class="check">✓</span></td>
-            <td class="col-pro"><span class="check">✓</span></td>
-            <td><span class="check">✓</span></td>
-          </tr>
-          <tr>
-            <td>Email open / click tracking (tracked HTML)</td>
-            <td><span class="cross">✗</span></td>
-            <td><span class="check">✓</span></td>
-            <td class="col-pro"><span class="check">✓</span></td>
-            <td><span class="check">✓</span></td>
-          </tr>
-          <tr>
-            <td>SMS / WhatsApp drafts (copy / open link)</td>
-            <td><span class="cross">✗</span></td>
-            <td><span class="check">✓</span></td>
-            <td class="col-pro"><span class="check">✓</span></td>
-            <td><span class="check">✓</span></td>
-          </tr>
-          <tr>
-            <td>Native QuickBooks Online + Xero OAuth</td>
-            <td><span class="cross">✗</span></td>
-            <td><span class="check">✓</span></td>
-            <td class="col-pro"><span class="check">✓</span></td>
-            <td><span class="check">✓</span></td>
-          </tr>
-          <tr>
-            <td>Team seats / roles</td>
-            <td><span class="cross">✗</span></td>
-            <td>3 seats</td>
-            <td class="col-pro">5 seats</td>
-            <td>Unlimited</td>
-          </tr>
-          <tr>
-            <td>Late-fee hint in drafts</td>
-            <td><span class="cross">✗</span></td>
-            <td><span class="check">✓</span></td>
-            <td class="col-pro"><span class="check">✓</span></td>
-            <td><span class="check">✓</span></td>
-          </tr>
-          <tr>
-            <td>CSV upload (QBO, FreshBooks, Xero, Wave, Zoho, sevDesk…)</td>
-            <td><span class="check">✓</span></td>
-            <td><span class="check">✓</span></td>
-            <td class="col-pro"><span class="check">✓</span></td>
-            <td><span class="check">✓</span></td>
-          </tr>
-          <tr>
-            <td>Aging overview board</td>
-            <td><span class="check">✓</span></td>
-            <td><span class="check">✓</span></td>
-            <td class="col-pro"><span class="check">✓</span></td>
-            <td><span class="check">✓</span></td>
-          </tr>
-          <tr>
-            <td>Multi-invoice chase draft</td>
-            <td><span class="check">✓</span></td>
-            <td><span class="check">✓</span></td>
-            <td class="col-pro"><span class="check">✓</span></td>
-            <td><span class="check">✓</span></td>
-          </tr>
-          <tr>
-            <td>Payment link in drafts</td>
-            <td>Session</td>
-            <td><span class="check">✓</span> account default</td>
-            <td class="col-pro"><span class="check">✓</span></td>
-            <td><span class="check">✓</span></td>
-          </tr>
-          <tr>
-            <td>Client management</td>
-            <td><span class="cross">✗</span></td>
-            <td><span class="check">✓</span></td>
-            <td class="col-pro"><span class="check">✓</span></td>
-            <td><span class="check">✓</span></td>
-          </tr>
-          <tr>
-            <td>CSV export of drafts</td>
-            <td><span class="cross">✗</span></td>
-            <td><span class="check">✓</span></td>
-            <td class="col-pro"><span class="check">✓</span></td>
-            <td><span class="check">✓</span></td>
-          </tr>
-          <tr>
-            <td>Chase schedule tips</td>
-            <td><span class="check">✓</span></td>
-            <td><span class="check">✓</span></td>
-            <td class="col-pro"><span class="check">✓</span></td>
-            <td><span class="check">✓</span></td>
-          </tr>
-          <tr>
-            <td>Priority support</td>
-            <td><span class="cross">✗</span></td>
-            <td><span class="cross">✗</span></td>
-            <td class="col-pro"><span class="check">✓</span></td>
-            <td><span class="check">✓</span></td>
-          </tr>
-          <tr>
-            <td>Zapier / Make API (QBO, FreshBooks, Xero, Wave, Zoho…)</td>
-            <td><span class="cross">✗</span></td>
-            <td><span class="check">✓</span></td>
-            <td class="col-pro"><span class="check">✓</span></td>
-            <td><span class="check">✓</span></td>
-          </tr>
-          <tr>
-            <td>Cloud storage — Dropbox, OneDrive, Box · PDF import</td>
-            <td><span class="cross">✗</span></td>
-            <td><span class="check">✓</span></td>
-            <td class="col-pro"><span class="check">✓</span></td>
-            <td><span class="check">✓</span></td>
-          </tr>
-          <tr>
-            <td>Dedicated chase dashboard</td>
-            <td><span class="cross">✗</span></td>
-            <td><span class="cross">✗</span></td>
-            <td class="col-pro"><span class="cross">✗</span></td>
-            <td><span class="check">✓</span></td>
-          </tr>
-          <tr>
-            <td>Custom tone / volume</td>
-            <td><span class="cross">✗</span></td>
-            <td><span class="cross">✗</span></td>
-            <td class="col-pro"><span class="cross">✗</span></td>
-            <td><span class="muted">Yes — scoped with you</span></td>
-          </tr>
-          <tr class="price-cta-row">
-            <td></td>
-            <td><a href="/app/">Start free</a></td>
-            <td><a href="/app/account">Get Solo</a></td>
-            <td class="col-pro"><a class="featured" href="/app/account">Get Pro</a></td>
-            <td><a href="mailto:sales@chasa.io?subject=Chasa%20Enterprise">Contact sales</a></td>
-          </tr>
-        </tbody>
-      </table>
+    <div class="pricing-compare">
+      <div class="price-table-wrap">
+        <table class="price-table">
+          <thead>
+            <tr>
+              <th scope="col"></th>
+              <th scope="col">Free</th>
+              <th scope="col">Solo</th>
+              <th scope="col" class="col-pro">Pro<span class="popular-tag">Most popular</span></th>
+              <th scope="col">Enterprise</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>AI drafts / month</td>
+              <td><span class="plan-cell-text">5</span></td>
+              <td><span class="plan-cell-text">100</span></td>
+              <td class="col-pro"><span class="plan-cell-text">Unlimited</span></td>
+              <td><span class="plan-cell-text">Unlimited</span></td>
+            </tr>
+            <tr>
+              <td>Free email templates</td>
+              <td><span class="check" aria-label="Included"></span></td>
+              <td><span class="check" aria-label="Included"></span></td>
+              <td class="col-pro"><span class="check" aria-label="Included"></span></td>
+              <td><span class="check" aria-label="Included"></span></td>
+            </tr>
+            <tr>
+              <td>Tone-matched drafts</td>
+              <td><span class="check" aria-label="Included"></span></td>
+              <td><span class="check" aria-label="Included"></span></td>
+              <td class="col-pro"><span class="check" aria-label="Included"></span></td>
+              <td><span class="check" aria-label="Included"></span></td>
+            </tr>
+            <tr>
+              <td>Soften / firm up / shorten</td>
+              <td><span class="cross" aria-label="Not included">—</span></td>
+              <td><span class="check" aria-label="Included"></span></td>
+              <td class="col-pro"><span class="check" aria-label="Included"></span></td>
+              <td><span class="check" aria-label="Included"></span></td>
+            </tr>
+            <tr>
+              <td>AI thank-you + reply drafts</td>
+              <td><span class="cross" aria-label="Not included">—</span></td>
+              <td><span class="check" aria-label="Included"></span></td>
+              <td class="col-pro"><span class="check" aria-label="Included"></span></td>
+              <td><span class="check" aria-label="Included"></span></td>
+            </tr>
+            <tr>
+              <td>AI 3-step chase plans</td>
+              <td><span class="cross" aria-label="Not included">—</span></td>
+              <td><span class="check" aria-label="Included"></span></td>
+              <td class="col-pro"><span class="check" aria-label="Included"></span></td>
+              <td><span class="check" aria-label="Included"></span></td>
+            </tr>
+            <tr>
+              <td>Reminder calendar (copy next / mark done)</td>
+              <td><span class="cross" aria-label="Not included">—</span></td>
+              <td><span class="check" aria-label="Included"></span></td>
+              <td class="col-pro"><span class="check" aria-label="Included"></span></td>
+              <td><span class="check" aria-label="Included"></span></td>
+            </tr>
+            <tr>
+              <td>Email open / click tracking (tracked HTML)</td>
+              <td><span class="cross" aria-label="Not included">—</span></td>
+              <td><span class="check" aria-label="Included"></span></td>
+              <td class="col-pro"><span class="check" aria-label="Included"></span></td>
+              <td><span class="check" aria-label="Included"></span></td>
+            </tr>
+            <tr>
+              <td>SMS / WhatsApp drafts (copy / open link)</td>
+              <td><span class="cross" aria-label="Not included">—</span></td>
+              <td><span class="check" aria-label="Included"></span></td>
+              <td class="col-pro"><span class="check" aria-label="Included"></span></td>
+              <td><span class="check" aria-label="Included"></span></td>
+            </tr>
+            <tr>
+              <td>Native QuickBooks Online + Xero OAuth</td>
+              <td><span class="cross" aria-label="Not included">—</span></td>
+              <td><span class="check" aria-label="Included"></span></td>
+              <td class="col-pro"><span class="check" aria-label="Included"></span></td>
+              <td><span class="check" aria-label="Included"></span></td>
+            </tr>
+            <tr>
+              <td>Team seats / roles</td>
+              <td><span class="cross" aria-label="Not included">—</span></td>
+              <td><span class="plan-cell-text">3 seats</span></td>
+              <td class="col-pro"><span class="plan-cell-text">5 seats</span></td>
+              <td><span class="plan-cell-text">Unlimited</span></td>
+            </tr>
+            <tr>
+              <td>Late-fee hint in drafts</td>
+              <td><span class="cross" aria-label="Not included">—</span></td>
+              <td><span class="check" aria-label="Included"></span></td>
+              <td class="col-pro"><span class="check" aria-label="Included"></span></td>
+              <td><span class="check" aria-label="Included"></span></td>
+            </tr>
+            <tr>
+              <td>CSV upload (QBO, FreshBooks, Xero, Wave, Zoho, sevDesk…)</td>
+              <td><span class="check" aria-label="Included"></span></td>
+              <td><span class="check" aria-label="Included"></span></td>
+              <td class="col-pro"><span class="check" aria-label="Included"></span></td>
+              <td><span class="check" aria-label="Included"></span></td>
+            </tr>
+            <tr>
+              <td>Aging overview board</td>
+              <td><span class="check" aria-label="Included"></span></td>
+              <td><span class="check" aria-label="Included"></span></td>
+              <td class="col-pro"><span class="check" aria-label="Included"></span></td>
+              <td><span class="check" aria-label="Included"></span></td>
+            </tr>
+            <tr>
+              <td>Multi-invoice chase draft</td>
+              <td><span class="check" aria-label="Included"></span></td>
+              <td><span class="check" aria-label="Included"></span></td>
+              <td class="col-pro"><span class="check" aria-label="Included"></span></td>
+              <td><span class="check" aria-label="Included"></span></td>
+            </tr>
+            <tr>
+              <td>Payment link in drafts</td>
+              <td><span class="plan-cell-text">Session</span></td>
+              <td><span class="plan-cell-text">Account default</span></td>
+              <td class="col-pro"><span class="check" aria-label="Included"></span></td>
+              <td><span class="check" aria-label="Included"></span></td>
+            </tr>
+            <tr>
+              <td>Client management</td>
+              <td><span class="cross" aria-label="Not included">—</span></td>
+              <td><span class="check" aria-label="Included"></span></td>
+              <td class="col-pro"><span class="check" aria-label="Included"></span></td>
+              <td><span class="check" aria-label="Included"></span></td>
+            </tr>
+            <tr>
+              <td>CSV export of drafts</td>
+              <td><span class="cross" aria-label="Not included">—</span></td>
+              <td><span class="check" aria-label="Included"></span></td>
+              <td class="col-pro"><span class="check" aria-label="Included"></span></td>
+              <td><span class="check" aria-label="Included"></span></td>
+            </tr>
+            <tr>
+              <td>Chase schedule tips</td>
+              <td><span class="check" aria-label="Included"></span></td>
+              <td><span class="check" aria-label="Included"></span></td>
+              <td class="col-pro"><span class="check" aria-label="Included"></span></td>
+              <td><span class="check" aria-label="Included"></span></td>
+            </tr>
+            <tr>
+              <td>Priority support</td>
+              <td><span class="cross" aria-label="Not included">—</span></td>
+              <td><span class="cross" aria-label="Not included">—</span></td>
+              <td class="col-pro"><span class="check" aria-label="Included"></span></td>
+              <td><span class="check" aria-label="Included"></span></td>
+            </tr>
+            <tr>
+              <td>Zapier / Make API (QBO, FreshBooks, Xero, Wave, Zoho…)</td>
+              <td><span class="cross" aria-label="Not included">—</span></td>
+              <td><span class="check" aria-label="Included"></span></td>
+              <td class="col-pro"><span class="check" aria-label="Included"></span></td>
+              <td><span class="check" aria-label="Included"></span></td>
+            </tr>
+            <tr>
+              <td>Cloud storage — Dropbox, OneDrive, Box · PDF import</td>
+              <td><span class="cross" aria-label="Not included">—</span></td>
+              <td><span class="check" aria-label="Included"></span></td>
+              <td class="col-pro"><span class="check" aria-label="Included"></span></td>
+              <td><span class="check" aria-label="Included"></span></td>
+            </tr>
+            <tr>
+              <td>Dedicated chase dashboard</td>
+              <td><span class="cross" aria-label="Not included">—</span></td>
+              <td><span class="cross" aria-label="Not included">—</span></td>
+              <td class="col-pro"><span class="cross" aria-label="Not included">—</span></td>
+              <td><span class="check" aria-label="Included"></span></td>
+            </tr>
+            <tr>
+              <td>Custom tone / volume</td>
+              <td><span class="cross" aria-label="Not included">—</span></td>
+              <td><span class="cross" aria-label="Not included">—</span></td>
+              <td class="col-pro"><span class="cross" aria-label="Not included">—</span></td>
+              <td><span class="muted">Yes — scoped with you</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="pricing-sticky-bar" aria-label="Plan prices">
+        <div class="pricing-sticky-spacer" aria-hidden="true"></div>
+        <div class="pricing-sticky-col">
+          <div class="pricing-sticky-name">Free</div>
+          <div class="pricing-sticky-price">$0<span class="pricing-sticky-note">forever</span></div>
+          <a class="pricing-sticky-cta" href="/app/">Start free</a>
+        </div>
+        <div class="pricing-sticky-col">
+          <div class="pricing-sticky-name">Solo</div>
+          <div class="pricing-sticky-price">$7<span class="pricing-sticky-note">per month</span></div>
+          <a class="pricing-sticky-cta" href="/app/account">Get Solo</a>
+        </div>
+        <div class="pricing-sticky-col is-pro">
+          <div class="pricing-sticky-name">Pro</div>
+          <div class="pricing-sticky-price">$17<span class="pricing-sticky-note">per month</span></div>
+          <a class="pricing-sticky-cta featured" href="/app/account">Get Pro</a>
+        </div>
+        <div class="pricing-sticky-col">
+          <div class="pricing-sticky-name">Enterprise</div>
+          <div class="pricing-sticky-price">Custom<span class="pricing-sticky-note">billed yearly</span></div>
+          <a class="pricing-sticky-cta" href="mailto:sales@chasa.io?subject=Chasa%20Enterprise">Contact sales</a>
+        </div>
+      </div>
     </div>
   </section>
 
