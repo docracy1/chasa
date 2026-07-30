@@ -5,18 +5,24 @@
   var closeBtn = document.querySelector("[data-mobile-close]");
   if (!btn || !panel) return;
 
+  function menuAriaLabel(open) {
+    var lang = window.chasaSiteLang;
+    if (lang && lang.t) return lang.t(open ? "nav.closeMenu" : "nav.openMenu");
+    return open ? "Close menu" : "Open menu";
+  }
+
   function openPanel() {
     panel.classList.add("is-open");
     if (backdrop) backdrop.classList.add("is-open");
     btn.setAttribute("aria-expanded", "true");
-    btn.setAttribute("aria-label", "Close menu");
+    btn.setAttribute("aria-label", menuAriaLabel(true));
   }
 
   function closePanel() {
     panel.classList.remove("is-open");
     if (backdrop) backdrop.classList.remove("is-open");
     btn.setAttribute("aria-expanded", "false");
-    btn.setAttribute("aria-label", "Open menu");
+    btn.setAttribute("aria-label", menuAriaLabel(false));
   }
 
   btn.addEventListener("click", function () {

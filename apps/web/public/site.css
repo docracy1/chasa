@@ -190,6 +190,34 @@ a { color: inherit; }
   opacity: 1;
   border-bottom-color: var(--ink);
 }
+
+.locale-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--ink-soft);
+  user-select: none;
+}
+.locale-switch button {
+  font: inherit;
+  letter-spacing: inherit;
+  background: none;
+  border: 0;
+  padding: 2px 3px;
+  cursor: pointer;
+  color: inherit;
+  opacity: 0.55;
+}
+.locale-switch button:hover { opacity: 0.9; color: var(--ink); }
+.locale-switch button.is-active {
+  opacity: 1;
+  color: var(--ink);
+}
+.locale-switch-sep { opacity: 0.35; }
 .header-nav-strong {
   font-weight: 700;
   opacity: 1;

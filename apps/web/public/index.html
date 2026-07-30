@@ -568,6 +568,74 @@
     }
   }
 
+  /* Phones: fixed stacked plan rows (4 plans → taller bar than Docracy) */
+  @media (max-width: 720px) {
+    .pricing {
+      padding-bottom: calc(340px + env(safe-area-inset-bottom, 0px));
+    }
+    .pricing-compare {
+      padding-top: 12px;
+    }
+    .pricing-sticky-bar {
+      position: fixed;
+      left: 12px;
+      right: 12px;
+      bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+      z-index: 20;
+      grid-template-columns: 1fr;
+      border-radius: 10px;
+      box-shadow: 0 -4px 28px color-mix(in srgb, var(--ink) 14%, transparent);
+    }
+    .pricing-sticky-spacer {
+      display: none;
+    }
+    .pricing-sticky-col {
+      flex-direction: row;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px 12px;
+      padding: 12px 14px;
+      border-right: none;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+    }
+    .pricing-sticky-col:last-child {
+      border-bottom: none;
+    }
+    .pricing-sticky-name {
+      flex: 0 0 72px;
+      font-size: 10px;
+    }
+    .pricing-sticky-price {
+      flex: 1 1 80px;
+      font-size: 20px;
+      text-align: left;
+    }
+    .pricing-sticky-note {
+      display: inline;
+      margin-top: 0;
+      margin-left: 4px;
+      font-size: 10px;
+      white-space: normal;
+    }
+    .pricing-sticky-cta {
+      flex: 0 0 auto;
+      width: auto;
+      min-width: 108px;
+      max-width: 46%;
+      padding: 8px 10px;
+      font-size: 11.5px;
+      white-space: normal;
+      line-height: 1.2;
+    }
+    /* Keep chat launcher above the fixed pricing bar */
+    body:has(.pricing) .chasa-asst {
+      bottom: calc(340px + env(safe-area-inset-bottom, 0px));
+      right: 16px;
+    }
+  }
+
   @media (max-width: 900px) {
     .steps { grid-template-columns: 1fr 1fr; }
     .feature-grid.five { grid-template-columns: 1fr 1fr; }
@@ -578,6 +646,35 @@
     .pc-row { flex-direction: column; align-items: flex-start; }
     .pc-row-nums { align-self: flex-end; }
   }
+
+  /* Locale switcher (marketing) */
+  .locale-switch {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: var(--ink-soft);
+    user-select: none;
+  }
+  .locale-switch button {
+    font: inherit;
+    letter-spacing: inherit;
+    background: none;
+    border: 0;
+    padding: 2px 3px;
+    cursor: pointer;
+    color: inherit;
+    opacity: 0.55;
+  }
+  .locale-switch button:hover { opacity: 0.9; color: var(--ink); }
+  .locale-switch button.is-active {
+    opacity: 1;
+    color: var(--ink);
+  }
+  .locale-switch-sep { opacity: 0.35; }
 
   /* ---------- FAQ ---------- */
   .faq {
@@ -648,15 +745,20 @@
   <div class="wrap site-header-inner">
     <a href="/" class="logo" aria-label="Chasa home"><img class="logo-mark" src="/brand/chasa-icon.png" alt="Chasa" width="28" height="28" /><span class="logo-word">chasa</span></a>
     <div class="header-nav-right">
-      <a href="/#pricing" class="header-nav-link header-nav-collapse">Pricing</a>
-      <a href="/blog/invoice-chase-software-comparison/" class="header-nav-link header-nav-collapse">Compare</a>
-      <a href="/free-templates/" class="header-nav-link header-nav-collapse">Free templates</a>
-      <a href="/tools/" class="header-nav-link header-nav-collapse">Tools</a>
-      <a href="/ai" class="header-nav-link header-nav-collapse">AI</a>
-      <a href="/about" class="header-nav-link header-nav-collapse">About</a>
-      <a href="/app/login" class="header-nav-link header-nav-strong">Sign in</a>
-      <a href="/app/" class="nav-cta">Try free</a>
-      <button class="header-menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" data-menu-toggle>
+      <a href="/#pricing" class="header-nav-link header-nav-collapse" data-i18n="nav.pricing">Pricing</a>
+      <a href="/blog/invoice-chase-software-comparison/" class="header-nav-link header-nav-collapse" data-i18n="nav.compare">Compare</a>
+      <a href="/free-templates/" class="header-nav-link header-nav-collapse" data-i18n="nav.templates">Free templates</a>
+      <a href="/tools/" class="header-nav-link header-nav-collapse" data-i18n="nav.tools">Tools</a>
+      <a href="/ai" class="header-nav-link header-nav-collapse" data-i18n="nav.ai">AI</a>
+      <a href="/about" class="header-nav-link header-nav-collapse" data-i18n="nav.about">About</a>
+      <a href="/app/login" class="header-nav-link header-nav-strong" data-i18n="nav.signIn">Sign in</a>
+      <a href="/app/" class="nav-cta" data-i18n="nav.tryFree">Try free</a>
+      <div class="locale-switch" role="group" data-i18n-aria="nav.language">
+        <button type="button" data-locale="en" class="is-active">EN</button>
+        <span class="locale-switch-sep" aria-hidden="true">|</span>
+        <button type="button" data-locale="es">ES</button>
+      </div>
+      <button class="header-menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" data-menu-toggle data-i18n-aria="nav.openMenu">
         <span></span><span></span><span></span>
       </button>
     </div>
@@ -665,20 +767,20 @@
 
 <div class="mobile-panel-backdrop" data-mobile-backdrop></div>
 <div class="mobile-panel" data-mobile-panel>
-  <button class="mobile-panel-close" type="button" aria-label="Close menu" data-mobile-close>✕</button>
+  <button class="mobile-panel-close" type="button" aria-label="Close menu" data-mobile-close data-i18n-aria="nav.closeMenu">✕</button>
   <nav class="mobile-panel-nav">
-      <a href="/#pricing" class="mobile-panel-nav-link">Pricing</a>
-      <a href="/blog/invoice-chase-software-comparison/" class="mobile-panel-nav-link">Compare</a>
-      <a href="/free-templates/" class="mobile-panel-nav-link">Free templates</a>
-      <a href="/tools/" class="mobile-panel-nav-link">Tools</a>
-      <a href="/ai" class="mobile-panel-nav-link">AI</a>
-      <a href="/about" class="mobile-panel-nav-link">About</a>
-      <a href="/app/login" class="mobile-panel-nav-link">Sign in</a>
-      <a href="/app/" class="mobile-panel-nav-link">Try free</a>
+      <a href="/#pricing" class="mobile-panel-nav-link" data-i18n="nav.pricing">Pricing</a>
+      <a href="/blog/invoice-chase-software-comparison/" class="mobile-panel-nav-link" data-i18n="nav.compare">Compare</a>
+      <a href="/free-templates/" class="mobile-panel-nav-link" data-i18n="nav.templates">Free templates</a>
+      <a href="/tools/" class="mobile-panel-nav-link" data-i18n="nav.tools">Tools</a>
+      <a href="/ai" class="mobile-panel-nav-link" data-i18n="nav.ai">AI</a>
+      <a href="/about" class="mobile-panel-nav-link" data-i18n="nav.about">About</a>
+      <a href="/app/login" class="mobile-panel-nav-link" data-i18n="nav.signIn">Sign in</a>
+      <a href="/app/" class="mobile-panel-nav-link" data-i18n="nav.tryFree">Try free</a>
   </nav>
   <div class="mobile-panel-ctas">
-    <a href="/app/" class="mobile-panel-cta-primary">Try free</a>
-    <a href="/app/login" class="mobile-panel-cta-secondary">Sign in</a>
+    <a href="/app/" class="mobile-panel-cta-primary" data-i18n="nav.tryFree">Try free</a>
+    <a href="/app/login" class="mobile-panel-cta-secondary" data-i18n="nav.signIn">Sign in</a>
   </div>
 </div>
 
@@ -689,113 +791,113 @@
       <img src="/brand/chasa-icon.png" alt="Chasa" width="40" height="40" />
       <span>chasa</span>
     </a>
-    <h1>Get unpaid invoices paid — without the awkward chase</h1>
-    <p class="sub">Paste overdue invoices. Chasa writes the follow-up in the right tone for how late each one is. You copy, edit, and send from your inbox.</p>
+    <h1 data-i18n="home.hero.title">Get unpaid invoices paid — without the awkward chase</h1>
+    <p class="sub" data-i18n="home.hero.sub">Paste overdue invoices. Chasa writes the follow-up in the right tone for how late each one is. You copy, edit, and send from your inbox.</p>
     <div class="hero-ctas" data-cta-source="home_hero">
-      <a href="/app/" class="btn-primary" data-cta>Try free</a>
-      <a href="/free-templates/" class="hero-ctas-secondary" data-cta>or browse free templates</a>
+      <a href="/app/" class="btn-primary" data-cta data-i18n="home.hero.ctaPrimary">Try free</a>
+      <a href="/free-templates/" class="hero-ctas-secondary" data-cta data-i18n="home.hero.ctaSecondary">or browse free templates</a>
     </div>
-    <div class="hero-note">No signup needed — 5 free AI drafts to start</div>
+    <div class="hero-note" data-i18n="home.hero.note">No signup needed — 5 free AI drafts to start</div>
   </section>
 
   <!-- [How it works] -->
   <section class="section wrap" id="how">
-    <h2 class="section-title">How it works</h2>
-    <p class="section-sub">Four steps from overdue invoice to sent follow-up.</p>
+    <h2 class="section-title" data-i18n="home.how.title">How it works</h2>
+    <p class="section-sub" data-i18n="home.how.sub">Four steps from overdue invoice to sent follow-up.</p>
     <div class="steps">
       <div class="step">
         <div class="step-num">01</div>
-        <h3>Add your invoices</h3>
-        <p>Client, amount, due date — type them in or upload a CSV.</p>
+        <h3 data-i18n="home.how.step1.title">Add your invoices</h3>
+        <p data-i18n="home.how.step1.body">Client, amount, due date — type them in or upload a CSV.</p>
       </div>
       <div class="step">
         <div class="step-num">02</div>
-        <h3>Chasa drafts the chase</h3>
-        <p>Tone matches days overdue: friendly early, firmer later.</p>
+        <h3 data-i18n="home.how.step2.title">Chasa drafts the chase</h3>
+        <p data-i18n="home.how.step2.body">Tone matches days overdue: friendly early, firmer later.</p>
       </div>
       <div class="step">
         <div class="step-num">03</div>
-        <h3>Tweak if you want</h3>
-        <p>Edit the draft, or use Soften / Firm up / Shorten on paid plans.</p>
+        <h3 data-i18n="home.how.step3.title">Tweak if you want</h3>
+        <p data-i18n="home.how.step3.body">Edit the draft, or use Soften / Firm up / Shorten on paid plans.</p>
       </div>
       <div class="step">
         <div class="step-num">04</div>
-        <h3>Send from your inbox</h3>
-        <p>Copy or open mailto — clients hear from you, not a bot.</p>
+        <h3 data-i18n="home.how.step4.title">Send from your inbox</h3>
+        <p data-i18n="home.how.step4.body">Copy or open mailto — clients hear from you, not a bot.</p>
       </div>
     </div>
   </section>
 
   <!-- [Built for…] -->
   <section class="section wrap" id="built-for">
-    <h2 class="section-title">Built for chasing payment — not collections theater</h2>
-    <p class="section-sub">When the invoice is late and you still want the relationship.</p>
+    <h2 class="section-title" data-i18n="home.builtFor.title">Built for chasing payment — not collections theater</h2>
+    <p class="section-sub" data-i18n="home.builtFor.sub">When the invoice is late and you still want the relationship.</p>
     <div class="feature-grid">
       <div class="feature-item">
-        <h3>Freelancers</h3>
-        <p>Solo operators who hate rewriting the same reminder four times.</p>
+        <h3 data-i18n="home.builtFor.freelancers.title">Freelancers</h3>
+        <p data-i18n="home.builtFor.freelancers.body">Solo operators who hate rewriting the same reminder four times.</p>
       </div>
       <div class="feature-item">
-        <h3>Small teams</h3>
-        <p>A few people sharing chase volume without a collections stack.</p>
+        <h3 data-i18n="home.builtFor.teams.title">Small teams</h3>
+        <p data-i18n="home.builtFor.teams.body">A few people sharing chase volume without a collections stack.</p>
       </div>
       <div class="feature-item">
-        <h3>One-off clients</h3>
-        <p>Project work where one overdue invoice shouldn’t start a fight.</p>
+        <h3 data-i18n="home.builtFor.oneOff.title">One-off clients</h3>
+        <p data-i18n="home.builtFor.oneOff.body">Project work where one overdue invoice shouldn’t start a fight.</p>
       </div>
     </div>
   </section>
 
   <!-- [Why Chasa] -->
   <section class="section wrap" id="why">
-    <h2 class="section-title">Why Chasa</h2>
-    <p class="section-sub">Simple enough to use today. Serious enough to use every month.</p>
+    <h2 class="section-title" data-i18n="home.why.title">Why Chasa</h2>
+    <p class="section-sub" data-i18n="home.why.sub">Simple enough to use today. Serious enough to use every month.</p>
     <div class="feature-grid five">
       <div class="feature-item">
-        <h3>No account required</h3>
-        <p>Start free with 5 AI drafts. Sign in only when you upgrade.</p>
+        <h3 data-i18n="home.why.noAccount.title">No account required</h3>
+        <p data-i18n="home.why.noAccount.body">Start free with 5 AI drafts. Sign in only when you upgrade.</p>
       </div>
       <div class="feature-item">
-        <h3>Fast setup</h3>
-        <p>Paste invoices or drop a CSV — drafts in seconds.</p>
+        <h3 data-i18n="home.why.fastSetup.title">Fast setup</h3>
+        <p data-i18n="home.why.fastSetup.body">Paste invoices or drop a CSV — drafts in seconds.</p>
       </div>
       <div class="feature-item">
-        <h3>Simple interface</h3>
-        <p>One job: write the chase email. Nothing else in the way.</p>
+        <h3 data-i18n="home.why.simpleUi.title">Simple interface</h3>
+        <p data-i18n="home.why.simpleUi.body">One job: write the chase email. Nothing else in the way.</p>
       </div>
       <div class="feature-item">
-        <h3>Templates included</h3>
-        <p>18 free payment-reminder templates you can copy anytime.</p>
+        <h3 data-i18n="home.why.templates.title">Templates included</h3>
+        <p data-i18n="home.why.templates.body">18 free payment-reminder templates you can copy anytime.</p>
       </div>
       <div class="feature-item">
-        <h3>You stay in control</h3>
-        <p>We never email your clients. You send every message.</p>
+        <h3 data-i18n="home.why.control.title">You stay in control</h3>
+        <p data-i18n="home.why.control.body">We never email your clients. You send every message.</p>
       </div>
     </div>
   </section>
 
   <!-- [Template Library Preview] -->
   <section class="section wrap" id="templates">
-    <h2 class="section-title">Ready-to-use templates for invoice follow-ups</h2>
-    <p class="section-sub">Simple payment reminder emails you can send in minutes — no formatting, no setup, no account required.</p>
+    <h2 class="section-title" data-i18n="home.templates.title">Ready-to-use templates for invoice follow-ups</h2>
+    <p class="section-sub" data-i18n="home.templates.sub">Simple payment reminder emails you can send in minutes — no formatting, no setup, no account required.</p>
     <ul class="tpl-preview-list">
-      <li><a href="/free-templates/payment-reminder-before-due-date">Payment reminder — before due</a></li>
-      <li><a href="/free-templates/gentle-overdue-invoice-reminder">Gentle overdue — 1–3 days</a></li>
-      <li><a href="/free-templates/overdue-invoice-reminder-7-days">Second reminder — 7 days</a></li>
-      <li><a href="/free-templates/formal-overdue-notice-30-days">Formal notice — 30 days</a></li>
-      <li><a href="/free-templates/final-notice-before-collections">Final notice — 90 days</a></li>
-      <li><a href="/free-templates/thank-you-for-payment-email">Thank you for payment</a></li>
+      <li><a href="/free-templates/payment-reminder-before-due-date" data-i18n="home.templates.beforeDue">Payment reminder — before due</a></li>
+      <li><a href="/free-templates/gentle-overdue-invoice-reminder" data-i18n="home.templates.gentleOverdue">Gentle overdue — 1–3 days</a></li>
+      <li><a href="/free-templates/overdue-invoice-reminder-7-days" data-i18n="home.templates.sevenDays">Second reminder — 7 days</a></li>
+      <li><a href="/free-templates/formal-overdue-notice-30-days" data-i18n="home.templates.thirtyDays">Formal notice — 30 days</a></li>
+      <li><a href="/free-templates/final-notice-before-collections" data-i18n="home.templates.ninetyDays">Final notice — 90 days</a></li>
+      <li><a href="/free-templates/thank-you-for-payment-email" data-i18n="home.templates.thankYou">Thank you for payment</a></li>
     </ul>
     <div class="tpl-preview-cta">
-      <a href="/free-templates/" class="btn-secondary">See all 18 free templates</a>
+      <a href="/free-templates/" class="btn-secondary" data-i18n="home.templates.seeAll">See all 18 free templates</a>
     </div>
   </section>
 
   <!-- Integrations (real connectors — official brand SVGs) -->
   <section class="integrations-band wrap" id="integrations" aria-labelledby="integrations-heading">
     <div class="integrations-inner">
-      <h2 id="integrations-heading">Connect Chasa with the tools you already use</h2>
-      <p class="integrations-lede">
+      <h2 id="integrations-heading" data-i18n="home.integrations.title">Connect Chasa with the tools you already use</h2>
+      <p class="integrations-lede" data-i18n="home.integrations.lede">
         Plug into the platforms you already use — cloud storage, automation, and AI assistants. Solo and Pro unlock
         native connectors; everything listed here is real today.
       </p>
@@ -841,12 +943,12 @@
           <span class="integrations-tile-name">Cursor</span>
         </div>
       </div>
-      <p class="integrations-footnote">
+      <p class="integrations-footnote" data-i18n="home.integrations.footnote">
         Dropbox, OneDrive, and Box import invoice PDFs. Zapier and webhooks push overdue invoices. MCP connects Claude,
         ChatGPT, Grok, Perplexity, and Cursor to chase drafts.
       </p>
       <div class="integrations-cta-wrap">
-        <a href="/docs/" class="integrations-cta">Learn more →</a>
+        <a href="/docs/" class="integrations-cta" data-i18n="home.integrations.cta">Learn more →</a>
       </div>
     </div>
   </section>
@@ -859,206 +961,206 @@
           <thead>
             <tr>
               <th scope="col"></th>
-              <th scope="col">Free</th>
-              <th scope="col">Solo</th>
-              <th scope="col" class="col-pro">Pro<span class="popular-tag">Most popular</span></th>
-              <th scope="col">Enterprise</th>
+              <th scope="col" data-i18n="home.pricing.planFree">Free</th>
+              <th scope="col" data-i18n="home.pricing.planSolo">Solo</th>
+              <th scope="col" class="col-pro">Pro<span class="popular-tag" data-i18n="home.pricing.popularTag">Most popular</span></th>
+              <th scope="col" data-i18n="home.pricing.planEnterprise">Enterprise</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td>AI drafts / month</td>
+              <td data-i18n="home.pricing.row.aiDrafts">AI drafts / month</td>
               <td><span class="plan-cell-text">5</span></td>
               <td><span class="plan-cell-text">100</span></td>
-              <td class="col-pro"><span class="plan-cell-text">Unlimited</span></td>
-              <td><span class="plan-cell-text">Unlimited</span></td>
+              <td class="col-pro"><span class="plan-cell-text" data-i18n="home.pricing.unlimited">Unlimited</span></td>
+              <td><span class="plan-cell-text" data-i18n="home.pricing.unlimited">Unlimited</span></td>
             </tr>
             <tr>
-              <td>Free email templates</td>
-              <td><span class="check" aria-label="Included"></span></td>
-              <td><span class="check" aria-label="Included"></span></td>
-              <td class="col-pro"><span class="check" aria-label="Included"></span></td>
-              <td><span class="check" aria-label="Included"></span></td>
+              <td data-i18n="home.pricing.row.freeTemplates">Free email templates</td>
+              <td><span class="check" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
+              <td><span class="check" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
+              <td class="col-pro"><span class="check" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
+              <td><span class="check" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
             </tr>
             <tr>
-              <td>Tone-matched drafts</td>
-              <td><span class="check" aria-label="Included"></span></td>
-              <td><span class="check" aria-label="Included"></span></td>
-              <td class="col-pro"><span class="check" aria-label="Included"></span></td>
-              <td><span class="check" aria-label="Included"></span></td>
+              <td data-i18n="home.pricing.row.toneMatched">Tone-matched drafts</td>
+              <td><span class="check" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
+              <td><span class="check" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
+              <td class="col-pro"><span class="check" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
+              <td><span class="check" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
             </tr>
             <tr>
-              <td>Soften / firm up / shorten</td>
-              <td><span class="cross" aria-label="Not included">—</span></td>
-              <td><span class="check" aria-label="Included"></span></td>
-              <td class="col-pro"><span class="check" aria-label="Included"></span></td>
-              <td><span class="check" aria-label="Included"></span></td>
+              <td data-i18n="home.pricing.row.toneAdjust">Soften / firm up / shorten</td>
+              <td><span class="cross" data-i18n-aria="a11y.notIncluded" aria-label="Not included">—</span></td>
+              <td><span class="check" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
+              <td class="col-pro"><span class="check" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
+              <td><span class="check" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
             </tr>
             <tr>
-              <td>AI thank-you + reply drafts</td>
-              <td><span class="cross" aria-label="Not included">—</span></td>
-              <td><span class="check" aria-label="Included"></span></td>
-              <td class="col-pro"><span class="check" aria-label="Included"></span></td>
-              <td><span class="check" aria-label="Included"></span></td>
+              <td data-i18n="home.pricing.row.thankYouReply">AI thank-you + reply drafts</td>
+              <td><span class="cross" data-i18n-aria="a11y.notIncluded" aria-label="Not included">—</span></td>
+              <td><span class="check" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
+              <td class="col-pro"><span class="check" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
+              <td><span class="check" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
             </tr>
             <tr>
-              <td>AI 3-step chase plans</td>
-              <td><span class="cross" aria-label="Not included">—</span></td>
-              <td><span class="check" aria-label="Included"></span></td>
-              <td class="col-pro"><span class="check" aria-label="Included"></span></td>
-              <td><span class="check" aria-label="Included"></span></td>
+              <td data-i18n="home.pricing.row.chasePlans">AI 3-step chase plans</td>
+              <td><span class="cross" data-i18n-aria="a11y.notIncluded" aria-label="Not included">—</span></td>
+              <td><span class="check" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
+              <td class="col-pro"><span class="check" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
+              <td><span class="check" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
             </tr>
             <tr>
-              <td>Reminder calendar (copy next / mark done)</td>
-              <td><span class="cross" aria-label="Not included">—</span></td>
-              <td><span class="check" aria-label="Included"></span></td>
-              <td class="col-pro"><span class="check" aria-label="Included"></span></td>
-              <td><span class="check" aria-label="Included"></span></td>
+              <td data-i18n="home.pricing.row.reminderCalendar">Reminder calendar (copy next / mark done)</td>
+              <td><span class="cross" data-i18n-aria="a11y.notIncluded" aria-label="Not included">—</span></td>
+              <td><span class="check" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
+              <td class="col-pro"><span class="check" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
+              <td><span class="check" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
             </tr>
             <tr>
-              <td>Email open / click tracking (tracked HTML)</td>
-              <td><span class="cross" aria-label="Not included">—</span></td>
-              <td><span class="check" aria-label="Included"></span></td>
-              <td class="col-pro"><span class="check" aria-label="Included"></span></td>
-              <td><span class="check" aria-label="Included"></span></td>
+              <td data-i18n="home.pricing.row.emailTracking">Email open / click tracking (tracked HTML)</td>
+              <td><span class="cross" data-i18n-aria="a11y.notIncluded" aria-label="Not included">—</span></td>
+              <td><span class="check" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
+              <td class="col-pro"><span class="check" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
+              <td><span class="check" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
             </tr>
             <tr>
-              <td>SMS / WhatsApp drafts (copy / open link)</td>
-              <td><span class="cross" aria-label="Not included">—</span></td>
-              <td><span class="check" aria-label="Included"></span></td>
-              <td class="col-pro"><span class="check" aria-label="Included"></span></td>
-              <td><span class="check" aria-label="Included"></span></td>
+              <td data-i18n="home.pricing.row.smsWhatsapp">SMS / WhatsApp drafts (copy / open link)</td>
+              <td><span class="cross" data-i18n-aria="a11y.notIncluded" aria-label="Not included">—</span></td>
+              <td><span class="check" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
+              <td class="col-pro"><span class="check" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
+              <td><span class="check" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
             </tr>
             <tr>
-              <td>Native QuickBooks Online + Xero OAuth</td>
-              <td><span class="cross" aria-label="Not included">—</span></td>
-              <td><span class="check" aria-label="Included"></span></td>
-              <td class="col-pro"><span class="check" aria-label="Included"></span></td>
-              <td><span class="check" aria-label="Included"></span></td>
+              <td data-i18n="home.pricing.row.qboXero">Native QuickBooks Online + Xero OAuth</td>
+              <td><span class="cross" data-i18n-aria="a11y.notIncluded" aria-label="Not included">—</span></td>
+              <td><span class="check" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
+              <td class="col-pro"><span class="check" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
+              <td><span class="check" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
             </tr>
             <tr>
-              <td>Team seats / roles</td>
-              <td><span class="cross" aria-label="Not included">—</span></td>
-              <td><span class="plan-cell-text">3 seats</span></td>
-              <td class="col-pro"><span class="plan-cell-text">5 seats</span></td>
-              <td><span class="plan-cell-text">Unlimited</span></td>
+              <td data-i18n="home.pricing.row.teamSeats">Team seats / roles</td>
+              <td><span class="cross" data-i18n-aria="a11y.notIncluded" aria-label="Not included">—</span></td>
+              <td><span class="plan-cell-text" data-i18n="home.pricing.seats3">3 seats</span></td>
+              <td class="col-pro"><span class="plan-cell-text" data-i18n="home.pricing.seats5">5 seats</span></td>
+              <td><span class="plan-cell-text" data-i18n="home.pricing.unlimited">Unlimited</span></td>
             </tr>
             <tr>
-              <td>Late-fee hint in drafts</td>
-              <td><span class="cross" aria-label="Not included">—</span></td>
-              <td><span class="check" aria-label="Included"></span></td>
-              <td class="col-pro"><span class="check" aria-label="Included"></span></td>
-              <td><span class="check" aria-label="Included"></span></td>
+              <td data-i18n="home.pricing.row.lateFeeHint">Late-fee hint in drafts</td>
+              <td><span class="cross" data-i18n-aria="a11y.notIncluded" aria-label="Not included">—</span></td>
+              <td><span class="check" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
+              <td class="col-pro"><span class="check" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
+              <td><span class="check" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
             </tr>
             <tr>
-              <td>CSV upload (QBO, FreshBooks, Xero, Wave, Zoho, sevDesk…)</td>
-              <td><span class="check" aria-label="Included"></span></td>
-              <td><span class="check" aria-label="Included"></span></td>
-              <td class="col-pro"><span class="check" aria-label="Included"></span></td>
-              <td><span class="check" aria-label="Included"></span></td>
+              <td data-i18n="home.pricing.row.csvUpload">CSV upload (QBO, FreshBooks, Xero, Wave, Zoho, sevDesk…)</td>
+              <td><span class="check" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
+              <td><span class="check" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
+              <td class="col-pro"><span class="check" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
+              <td><span class="check" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
             </tr>
             <tr>
-              <td>Aging overview board</td>
-              <td><span class="check" aria-label="Included"></span></td>
-              <td><span class="check" aria-label="Included"></span></td>
-              <td class="col-pro"><span class="check" aria-label="Included"></span></td>
-              <td><span class="check" aria-label="Included"></span></td>
+              <td data-i18n="home.pricing.row.agingBoard">Aging overview board</td>
+              <td><span class="check" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
+              <td><span class="check" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
+              <td class="col-pro"><span class="check" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
+              <td><span class="check" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
             </tr>
             <tr>
-              <td>Multi-invoice chase draft</td>
-              <td><span class="check" aria-label="Included"></span></td>
-              <td><span class="check" aria-label="Included"></span></td>
-              <td class="col-pro"><span class="check" aria-label="Included"></span></td>
-              <td><span class="check" aria-label="Included"></span></td>
+              <td data-i18n="home.pricing.row.multiInvoice">Multi-invoice chase draft</td>
+              <td><span class="check" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
+              <td><span class="check" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
+              <td class="col-pro"><span class="check" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
+              <td><span class="check" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
             </tr>
             <tr>
-              <td>Payment link in drafts</td>
-              <td><span class="plan-cell-text">Session</span></td>
-              <td><span class="plan-cell-text">Account default</span></td>
-              <td class="col-pro"><span class="check" aria-label="Included"></span></td>
-              <td><span class="check" aria-label="Included"></span></td>
+              <td data-i18n="home.pricing.row.paymentLink">Payment link in drafts</td>
+              <td><span class="plan-cell-text" data-i18n="home.pricing.session">Session</span></td>
+              <td><span class="plan-cell-text" data-i18n="home.pricing.accountDefault">Account default</span></td>
+              <td class="col-pro"><span class="check" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
+              <td><span class="check" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
             </tr>
             <tr>
-              <td>Client management</td>
-              <td><span class="cross" aria-label="Not included">—</span></td>
-              <td><span class="check" aria-label="Included"></span></td>
-              <td class="col-pro"><span class="check" aria-label="Included"></span></td>
-              <td><span class="check" aria-label="Included"></span></td>
+              <td data-i18n="home.pricing.row.clientMgmt">Client management</td>
+              <td><span class="cross" data-i18n-aria="a11y.notIncluded" aria-label="Not included">—</span></td>
+              <td><span class="check" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
+              <td class="col-pro"><span class="check" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
+              <td><span class="check" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
             </tr>
             <tr>
-              <td>CSV export of drafts</td>
-              <td><span class="cross" aria-label="Not included">—</span></td>
-              <td><span class="check" aria-label="Included"></span></td>
-              <td class="col-pro"><span class="check" aria-label="Included"></span></td>
-              <td><span class="check" aria-label="Included"></span></td>
+              <td data-i18n="home.pricing.row.csvExport">CSV export of drafts</td>
+              <td><span class="cross" data-i18n-aria="a11y.notIncluded" aria-label="Not included">—</span></td>
+              <td><span class="check" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
+              <td class="col-pro"><span class="check" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
+              <td><span class="check" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
             </tr>
             <tr>
-              <td>Chase schedule tips</td>
-              <td><span class="check" aria-label="Included"></span></td>
-              <td><span class="check" aria-label="Included"></span></td>
-              <td class="col-pro"><span class="check" aria-label="Included"></span></td>
-              <td><span class="check" aria-label="Included"></span></td>
+              <td data-i18n="home.pricing.row.scheduleTips">Chase schedule tips</td>
+              <td><span class="check" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
+              <td><span class="check" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
+              <td class="col-pro"><span class="check" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
+              <td><span class="check" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
             </tr>
             <tr>
-              <td>Priority support</td>
-              <td><span class="cross" aria-label="Not included">—</span></td>
-              <td><span class="cross" aria-label="Not included">—</span></td>
-              <td class="col-pro"><span class="check" aria-label="Included"></span></td>
-              <td><span class="check" aria-label="Included"></span></td>
+              <td data-i18n="home.pricing.row.prioritySupport">Priority support</td>
+              <td><span class="cross" data-i18n-aria="a11y.notIncluded" aria-label="Not included">—</span></td>
+              <td><span class="cross" data-i18n-aria="a11y.notIncluded" aria-label="Not included">—</span></td>
+              <td class="col-pro"><span class="check" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
+              <td><span class="check" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
             </tr>
             <tr>
-              <td>Zapier / Make API (QBO, FreshBooks, Xero, Wave, Zoho…)</td>
-              <td><span class="cross" aria-label="Not included">—</span></td>
-              <td><span class="check" aria-label="Included"></span></td>
-              <td class="col-pro"><span class="check" aria-label="Included"></span></td>
-              <td><span class="check" aria-label="Included"></span></td>
+              <td data-i18n="home.pricing.row.zapierApi">Zapier / Make API (QBO, FreshBooks, Xero, Wave, Zoho…)</td>
+              <td><span class="cross" data-i18n-aria="a11y.notIncluded" aria-label="Not included">—</span></td>
+              <td><span class="check" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
+              <td class="col-pro"><span class="check" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
+              <td><span class="check" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
             </tr>
             <tr>
-              <td>Cloud storage — Dropbox, OneDrive, Box · PDF import</td>
-              <td><span class="cross" aria-label="Not included">—</span></td>
-              <td><span class="check" aria-label="Included"></span></td>
-              <td class="col-pro"><span class="check" aria-label="Included"></span></td>
-              <td><span class="check" aria-label="Included"></span></td>
+              <td data-i18n="home.pricing.row.cloudStorage">Cloud storage — Dropbox, OneDrive, Box · PDF import</td>
+              <td><span class="cross" data-i18n-aria="a11y.notIncluded" aria-label="Not included">—</span></td>
+              <td><span class="check" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
+              <td class="col-pro"><span class="check" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
+              <td><span class="check" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
             </tr>
             <tr>
-              <td>Dedicated chase dashboard</td>
-              <td><span class="cross" aria-label="Not included">—</span></td>
-              <td><span class="cross" aria-label="Not included">—</span></td>
-              <td class="col-pro"><span class="cross" aria-label="Not included">—</span></td>
-              <td><span class="check" aria-label="Included"></span></td>
+              <td data-i18n="home.pricing.row.dedicatedDashboard">Dedicated chase dashboard</td>
+              <td><span class="cross" data-i18n-aria="a11y.notIncluded" aria-label="Not included">—</span></td>
+              <td><span class="cross" data-i18n-aria="a11y.notIncluded" aria-label="Not included">—</span></td>
+              <td class="col-pro"><span class="cross" data-i18n-aria="a11y.notIncluded" aria-label="Not included">—</span></td>
+              <td><span class="check" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
             </tr>
             <tr>
-              <td>Custom tone / volume</td>
-              <td><span class="cross" aria-label="Not included">—</span></td>
-              <td><span class="cross" aria-label="Not included">—</span></td>
-              <td class="col-pro"><span class="cross" aria-label="Not included">—</span></td>
-              <td><span class="muted">Yes — scoped with you</span></td>
+              <td data-i18n="home.pricing.row.customTone">Custom tone / volume</td>
+              <td><span class="cross" data-i18n-aria="a11y.notIncluded" aria-label="Not included">—</span></td>
+              <td><span class="cross" data-i18n-aria="a11y.notIncluded" aria-label="Not included">—</span></td>
+              <td class="col-pro"><span class="cross" data-i18n-aria="a11y.notIncluded" aria-label="Not included">—</span></td>
+              <td><span class="muted" data-i18n="home.pricing.customScoped">Yes — scoped with you</span></td>
             </tr>
           </tbody>
         </table>
       </div>
 
-      <div class="pricing-sticky-bar" aria-label="Plan prices">
+      <div class="pricing-sticky-bar" data-i18n-aria="home.pricing.planPrices" aria-label="Plan prices">
         <div class="pricing-sticky-spacer" aria-hidden="true"></div>
         <div class="pricing-sticky-col">
-          <div class="pricing-sticky-name">Free</div>
-          <div class="pricing-sticky-price">$0<span class="pricing-sticky-note">forever</span></div>
-          <a class="pricing-sticky-cta" href="/app/">Start free</a>
+          <div class="pricing-sticky-name" data-i18n="home.pricing.planFree">Free</div>
+          <div class="pricing-sticky-price">$0<span class="pricing-sticky-note" data-i18n="home.pricing.forever">forever</span></div>
+          <a class="pricing-sticky-cta" href="/app/" data-i18n="home.pricing.startFree">Start free</a>
         </div>
         <div class="pricing-sticky-col">
-          <div class="pricing-sticky-name">Solo</div>
-          <div class="pricing-sticky-price">$7<span class="pricing-sticky-note">per month</span></div>
-          <a class="pricing-sticky-cta" href="/app/account">Get Solo</a>
+          <div class="pricing-sticky-name" data-i18n="home.pricing.planSolo">Solo</div>
+          <div class="pricing-sticky-price">$7<span class="pricing-sticky-note" data-i18n="home.pricing.perMonth">per month</span></div>
+          <a class="pricing-sticky-cta" href="/app/account" data-i18n="home.pricing.getSolo">Get Solo</a>
         </div>
         <div class="pricing-sticky-col is-pro">
-          <div class="pricing-sticky-name">Pro</div>
-          <div class="pricing-sticky-price">$17<span class="pricing-sticky-note">per month</span></div>
-          <a class="pricing-sticky-cta featured" href="/app/account">Get Pro</a>
+          <div class="pricing-sticky-name" data-i18n="home.pricing.planPro">Pro</div>
+          <div class="pricing-sticky-price">$17<span class="pricing-sticky-note" data-i18n="home.pricing.perMonth">per month</span></div>
+          <a class="pricing-sticky-cta featured" href="/app/account" data-i18n="home.pricing.getPro">Get Pro</a>
         </div>
         <div class="pricing-sticky-col">
-          <div class="pricing-sticky-name">Enterprise</div>
-          <div class="pricing-sticky-price">Custom<span class="pricing-sticky-note">billed yearly</span></div>
-          <a class="pricing-sticky-cta" href="mailto:sales@chasa.io?subject=Chasa%20Enterprise">Contact sales</a>
+          <div class="pricing-sticky-name" data-i18n="home.pricing.planEnterprise">Enterprise</div>
+          <div class="pricing-sticky-price">Custom<span class="pricing-sticky-note" data-i18n="home.pricing.billedYearly">billed yearly</span></div>
+          <a class="pricing-sticky-cta" href="mailto:sales@chasa.io?subject=Chasa%20Enterprise" data-i18n="home.pricing.contactSales">Contact sales</a>
         </div>
       </div>
     </div>
@@ -1066,31 +1168,31 @@
 
 <!-- [FAQ] -->
   <section class="faq wrap" id="faq">
-    <h2>FAQ</h2>
+    <h2 data-i18n="home.faq.title">FAQ</h2>
     <div class="faq-list">
       <details class="faq-item">
-        <summary>What is Chasa?</summary>
-        <p>An AI invoice follow-up tool. Paste unpaid invoices and get payment reminder emails written in the right tone for how late each one is.</p>
+        <summary data-i18n="home.faq.q1">What is Chasa?</summary>
+        <p data-i18n="home.faq.a1">An AI invoice follow-up tool. Paste unpaid invoices and get payment reminder emails written in the right tone for how late each one is.</p>
       </details>
       <details class="faq-item">
-        <summary>Do I need an account?</summary>
-        <p>No — Free works without signup (5 AI drafts per month + templates). Sign in to upgrade to Solo ($7) or Pro ($17). For Enterprise (custom, billed yearly), email <a href="mailto:sales@chasa.io">sales@chasa.io</a>.</p>
+        <summary data-i18n="home.faq.q2">Do I need an account?</summary>
+        <p data-i18n-html="home.faq.a2">No — Free works without signup (5 AI drafts per month + templates). Sign in to upgrade to Solo ($7) or Pro ($17). For Enterprise (custom, billed yearly), email <a href="mailto:sales@chasa.io">sales@chasa.io</a>.</p>
       </details>
       <details class="faq-item">
-        <summary>Does Chasa send emails for me?</summary>
-        <p>No. You copy the draft into your own inbox (or open a mailto link). Clients hear from you, not from us.</p>
+        <summary data-i18n="home.faq.q3">Does Chasa send emails for me?</summary>
+        <p data-i18n="home.faq.a3">No. You copy the draft into your own inbox (or open a mailto link). Clients hear from you, not from us.</p>
       </details>
       <details class="faq-item">
-        <summary>Does Chasa connect to QuickBooks, FreshBooks, or Xero?</summary>
-        <p>Yes for <strong>QuickBooks Online</strong> and <strong>Xero</strong> on Solo and up — native OAuth in <a href="/app/connector">Connector</a> imports overdue invoices into aging. <strong>FreshBooks</strong> and Wave: create an API key and use our Zapier template, or export CSV and upload in the Tool (headers mapped automatically, Free too). Cloud storage (Dropbox, OneDrive, Box) PDF import is also Solo+.</p>
+        <summary data-i18n="home.faq.q4">Does Chasa connect to QuickBooks, FreshBooks, or Xero?</summary>
+        <p data-i18n-html="home.faq.a4">Yes for <strong>QuickBooks Online</strong> and <strong>Xero</strong> on Solo and up — native OAuth in <a href="/app/connector">Connector</a> imports overdue invoices into aging. <strong>FreshBooks</strong> and Wave: create an API key and use our Zapier template, or export CSV and upload in the Tool (headers mapped automatically, Free too). Cloud storage (Dropbox, OneDrive, Box) PDF import is also Solo+.</p>
       </details>
       <details class="faq-item">
-        <summary>How does the tone work?</summary>
-        <p>Friendly under a week overdue, professional at 8–30 days, direct past 30 days. Same invoice, escalating tone — no template picking.</p>
+        <summary data-i18n="home.faq.q5">How does the tone work?</summary>
+        <p data-i18n="home.faq.a5">Friendly under a week overdue, professional at 8–30 days, direct past 30 days. Same invoice, escalating tone — no template picking.</p>
       </details>
       <details class="faq-item">
-        <summary>Who’s behind Chasa?</summary>
-        <p>Chasa is a product of RELACON GmbH in Vienna. See <a href="/about">About</a> and the <a href="/imprint">Imprint</a>.</p>
+        <summary data-i18n="home.faq.q6">Who’s behind Chasa?</summary>
+        <p data-i18n-html="home.faq.a6">Chasa is a product of RELACON GmbH in Vienna. See <a href="/about" data-i18n="footer.about">About</a> and the <a href="/imprint" data-i18n="footer.imprint">Imprint</a>.</p>
       </details>
     </div>
   </section>
@@ -1101,41 +1203,42 @@
   <div class="wrap site-footer-inner">
     <div class="site-footer-brand">
       <a href="/" class="logo" aria-label="Chasa home"><img class="logo-mark" src="/brand/chasa-icon.png" alt="Chasa" width="24" height="24" /><span class="logo-word">chasa</span></a>
-      <p>Free AI invoice follow-ups — paste unpaid invoices, get the reminder email already written.</p>
+      <p data-i18n="footer.tagline">Free AI invoice follow-ups — paste unpaid invoices, get the reminder email already written.</p>
     </div>
     <div class="site-footer-col">
-      <h4>Product</h4>
-      <a href="/app/">Try free</a>
-      <a href="/#pricing">Pricing</a>
-      <a href="/blog/invoice-chase-software-comparison/">Compare</a>
-      <a href="/free-templates/">Free templates</a>
-      <a href="/tools/">Calculators</a>
-      <a href="/features/">Features</a>
-      <a href="/docs/">Docs</a>
-      <a href="/ai">AI</a>
-      <a href="/#faq">FAQ</a>
+      <h4 data-i18n="footer.product">Product</h4>
+      <a href="/app/" data-i18n="footer.tryFree">Try free</a>
+      <a href="/#pricing" data-i18n="footer.pricing">Pricing</a>
+      <a href="/blog/invoice-chase-software-comparison/" data-i18n="footer.compare">Compare</a>
+      <a href="/free-templates/" data-i18n="footer.templates">Free templates</a>
+      <a href="/tools/" data-i18n="footer.calculators">Calculators</a>
+      <a href="/features/" data-i18n="footer.features">Features</a>
+      <a href="/docs/" data-i18n="footer.docs">Docs</a>
+      <a href="/ai" data-i18n="footer.ai">AI</a>
+      <a href="/#faq" data-i18n="footer.faq">FAQ</a>
     </div>
     <div class="site-footer-col">
-      <h4>Company</h4>
+      <h4 data-i18n="footer.company">Company</h4>
       <a href="/about">About</a>
-      <a href="/press">Press</a>
+      <a href="/press" data-i18n="footer.press">Press</a>
       <a href="/imprint">Imprint</a>
-      <a href="mailto:founder@chasa.io">Contact</a>
-      <a href="https://www.linkedin.com/company/chasa-io" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-      <a href="https://x.com/chasaHQ" target="_blank" rel="noopener noreferrer">X</a>
+      <a href="mailto:founder@chasa.io" data-i18n="footer.contact">Contact</a>
+      <a href="https://www.linkedin.com/company/chasa-io" target="_blank" rel="noopener noreferrer" data-i18n="footer.linkedin">LinkedIn</a>
+      <a href="https://x.com/chasaHQ" target="_blank" rel="noopener noreferrer" data-i18n="footer.x">X</a>
     </div>
     <div class="site-footer-col">
-      <h4>Legal</h4>
-      <a href="/privacy">Privacy</a>
-      <a href="/terms">Terms</a>
-      <a href="/sitemap.xml">Sitemap</a>
-      <a href="/blog/feed.xml">RSS</a>
+      <h4 data-i18n="footer.legal">Legal</h4>
+      <a href="/privacy" data-i18n="footer.privacy">Privacy</a>
+      <a href="/terms" data-i18n="footer.terms">Terms</a>
+      <a href="/sitemap.xml" data-i18n="footer.sitemap">Sitemap</a>
+      <a href="/blog/feed.xml" data-i18n="footer.rss">RSS</a>
     </div>
   </div>
-  <div class="site-footer-bottom">© 2026 Chasa — a product of RELACON GmbH</div>
+  <div class="site-footer-bottom" data-i18n-year="footer.copyright">© 2026 Chasa — a product of RELACON GmbH</div>
 </footer>
 
-<script src="/site-nav.js"></script>
+<script src="/site-lang.js" defer></script>
+<script src="/site-nav.js" defer></script>
 <script src="/cookie-consent.js"></script>
 <script src="/assistant.js"></script>
 
