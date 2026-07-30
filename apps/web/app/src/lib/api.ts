@@ -515,10 +515,24 @@ export function requestMagicLink(email: string, turnstileToken?: string | null) 
   });
 }
 
+/** Password sign-in for ADMIN_EMAIL — sets the normal app session cookie. */
+export function adminPasswordLogin(
+  email: string,
+  password: string,
+  turnstileToken?: string | null
+) {
+  return jsonFetch<{ ok: true }>("/auth/admin-login", {
+    method: "POST",
+    body: JSON.stringify({ email, password, turnstileToken: turnstileToken || undefined }),
+  });
+}
+
 export type AuthConfig = {
   turnstileSiteKey: string | null;
   turnstileRequired: boolean;
   googleLoginEnabled?: boolean;
+  /** When set, login UI shows a password field for this address. */
+  adminEmail?: string;
 };
 
 export function logout() {
@@ -534,7 +548,7 @@ export async function getMe(): Promise<Account | null> {
   }
 }
 
-export function startCheckout(plan: "solo" | "pro" | "enterprise") {
+export function startCheckout(plan: "solo" | "pro") {
   return jsonFetch<{ url: string }>("/billing/checkout", {
     method: "POST",
     body: JSON.stringify({ plan }),

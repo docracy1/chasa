@@ -87,7 +87,7 @@
 <link rel="icon" href="../../favicon.png" type="image/png">
 <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="../../apple-touch-icon.png">
-<link rel="stylesheet" href="../../site.css">
+<link rel="stylesheet" href="../../site.css?v=20260730b">
 </head>
 <body>
 <header class="site-header">
@@ -105,17 +105,25 @@
         <span></span><span></span><span></span>
       </button>
     </div>
-    <div class="header-mobile-menu" data-mobile-menu>
-      <a href="../../#pricing">Pricing</a>
-      <a href="../../free-templates/">Free templates</a>
-      <a href="../../tools/">Tools</a>
-      <a href="../../ai">AI</a>
-      <a href="../../about">About</a>
-      <a href="../../app/login">Sign in</a>
-      <a href="../../app/" class="nav-cta">Try free</a>
-    </div>
   </div>
 </header>
+<div class="mobile-panel-backdrop" data-mobile-backdrop></div>
+<div class="mobile-panel" data-mobile-panel>
+  <button class="mobile-panel-close" type="button" aria-label="Close menu" data-mobile-close>✕</button>
+  <nav class="mobile-panel-nav">
+      <a href="../../#pricing" class="mobile-panel-nav-link">Pricing</a>
+      <a href="../../free-templates/" class="mobile-panel-nav-link">Free templates</a>
+      <a href="../../tools/" class="mobile-panel-nav-link">Tools</a>
+      <a href="../../ai" class="mobile-panel-nav-link">AI</a>
+      <a href="../../about" class="mobile-panel-nav-link">About</a>
+      <a href="../../app/login" class="mobile-panel-nav-link">Sign in</a>
+      <a href="../../app/" class="mobile-panel-nav-link">Try free</a>
+  </nav>
+  <div class="mobile-panel-ctas">
+    <a href="../../app/" class="mobile-panel-cta-primary">Try free</a>
+    <a href="../../app/login" class="mobile-panel-cta-secondary">Sign in</a>
+  </div>
+</div>
 <main class="wrap page-main">
 <p><a href="../../blog/">← Blog</a></p>
   <h1>Building an AR policy that works with Chasa</h1>
@@ -338,6 +346,10 @@
 .page-main li { margin: 6px 0; }
 </style>
   <section style="margin-top:40px;padding-top:24px;border-top:1px solid var(--line)">
+    <aside class="tpl-pack-strip" aria-label="Download the full PDF pack">
+      <p class="tpl-pack-strip-copy">Get your polite invoice templates PDF to chase clients with confidence</p>
+      <a class="tpl-pack-strip-btn" href="../../free-templates/download">Download</a>
+    </aside>
     <h2>Related resources</h2>
     <ul>
       <li><a href="../../tools/late-payment-calculator">Late payment calculator</a></li>
@@ -386,7 +398,7 @@
     <p>© 2026 RELACON GmbH</p>
   </div>
 </footer>
-<script src="../../site-nav.js" defer></script>
+<script src="../../site-nav.js?v=20260730b" defer></script>
 <script src="../../cookie-consent.js" defer></script>
 <script src="../../analytics.js" defer></script>
 </body>

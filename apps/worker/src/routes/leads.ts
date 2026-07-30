@@ -37,7 +37,11 @@ leads.post("/templates-pack", async (c) => {
   const check = await verifyTurnstile(c.env, parsed.data.turnstileToken, ip);
   if (!check.ok) return c.json({ error: check.error }, 400);
 
-  const { lead, isNew, resubscribed } = await upsertTemplatesPackLead(c.env, parsed.data.email);
+  const { lead, isNew, resubscribed } = await upsertTemplatesPackLead(c.env, parsed.data.email, {
+    firstName: parsed.data.firstName,
+    role: parsed.data.role,
+    invoiceTool: parsed.data.invoiceTool,
+  });
   const appOrigin = requestAppOrigin(c) || configuredAppOrigin(c.env);
   const downloadUrl = `${appOrigin.replace(/\/$/, "")}${PDF_PATH}`;
   const workerBase = (c.env.PUBLIC_WORKER_URL || "https://api.chasa.io").replace(/\/$/, "");
@@ -48,7 +52,11 @@ leads.post("/templates-pack", async (c) => {
   if (shouldSend) {
     c.executionCtx.waitUntil(
       (async () => {
-        await sendTemplatesPackWelcomeEmail(c.env, lead.email, { downloadUrl, unsubUrl });
+        await sendTemplatesPackWelcomeEmail(c.env, lead.email, {
+          downloadUrl,
+          unsubUrl,
+          firstName: lead.first_name,
+        });
         await markWelcomeSent(c.env, lead.id);
       })().catch((err) => console.error("[leads] welcome email failed", err))
     );

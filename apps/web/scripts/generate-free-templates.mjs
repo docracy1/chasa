@@ -9,6 +9,7 @@ import { fileURLToPath } from "node:url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const outDir = join(__dirname, "../public/free-templates");
+const ASSET_V = "20260730b";
 
 /** @type {Array<{
  *  slug: string;
@@ -409,7 +410,7 @@ ${jsonLd ? `<script type="application/ld+json">\n${jsonLd}\n</script>` : ""}
 <link rel="icon" href="/favicon.png" type="image/png">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<link rel="stylesheet" href="/site.css">
+<link rel="stylesheet" href="/site.css?v=${ASSET_V}">
 </head>
 <body>
 <header class="site-header">
@@ -427,17 +428,25 @@ ${jsonLd ? `<script type="application/ld+json">\n${jsonLd}\n</script>` : ""}
         <span></span><span></span><span></span>
       </button>
     </div>
-    <div class="header-mobile-menu" data-mobile-menu>
-      <a href="/#pricing">Pricing</a>
-      <a href="/free-templates/">Free templates</a>
-      <a href="/tools/">Tools</a>
-      <a href="/ai">AI</a>
-      <a href="/about">About</a>
-      <a href="/app/login">Sign in</a>
-      <a href="/app/">Try free</a>
-    </div>
   </div>
 </header>
+<div class="mobile-panel-backdrop" data-mobile-backdrop></div>
+<div class="mobile-panel" data-mobile-panel>
+  <button class="mobile-panel-close" type="button" aria-label="Close menu" data-mobile-close>✕</button>
+  <nav class="mobile-panel-nav">
+      <a href="/#pricing" class="mobile-panel-nav-link">Pricing</a>
+      <a href="/free-templates/" class="mobile-panel-nav-link">Free templates</a>
+      <a href="/tools/" class="mobile-panel-nav-link">Tools</a>
+      <a href="/ai" class="mobile-panel-nav-link">AI</a>
+      <a href="/about" class="mobile-panel-nav-link">About</a>
+      <a href="/app/login" class="mobile-panel-nav-link">Sign in</a>
+      <a href="/app/" class="mobile-panel-nav-link">Try free</a>
+  </nav>
+  <div class="mobile-panel-ctas">
+    <a href="/app/" class="mobile-panel-cta-primary">Try free</a>
+    <a href="/app/login" class="mobile-panel-cta-secondary">Sign in</a>
+  </div>
+</div>
 ${mainHtml}
 <footer class="site-footer">
   <div class="wrap site-footer-inner">
@@ -468,7 +477,7 @@ ${mainHtml}
   </div>
   <div class="site-footer-bottom">© ${YEAR} Chasa — a product of RELACON GmbH</div>
 </footer>
-<script src="/site-nav.js"></script>
+<script src="/site-nav.js?v=${ASSET_V}"></script>
 <script src="/analytics.js"></script>
 </body>
 </html>
@@ -534,40 +543,142 @@ const indexHtml = chrome({
     <a href="/app/">AI tool</a> draft a version matched to how late the invoice is.
   </p>
 
-  <section class="tpl-pack" aria-labelledby="tpl-pack-title">
-    <div class="tpl-pack-copy">
-      <p class="tpl-pack-eyebrow">Free PDF pack</p>
-      <h2 id="tpl-pack-title">All ${tplCount} templates in one branded PDF</h2>
-      <p>
-        Download the full pack with the Chasa logo — subjects, bodies, and stage notes ready to print or share with your team.
-        Enter your email and we’ll send the file plus a short welcome with related guides.
-      </p>
-    </div>
-    <form id="templates-pack-form" class="tpl-pack-form" novalidate>
-      <label class="tpl-pack-label" for="templates-pack-email">Work email</label>
-      <div class="tpl-pack-row">
-        <input id="templates-pack-email" name="email" type="email" autocomplete="email" required
-          placeholder="you@studio.com" maxlength="254" />
-        <button type="submit" class="btn-copy" id="templates-pack-submit">Email me the PDF</button>
-      </div>
-      <div id="templates-pack-turnstile" class="tpl-pack-turnstile"></div>
-      <p id="templates-pack-status" class="tpl-pack-status" role="status" aria-live="polite"></p>
-      <p class="tpl-pack-fine">
-        By downloading you agree we may email you this pack and occasional template tips.
-        Unsubscribe anytime. See our <a href="/privacy">privacy policy</a>.
-        Prefer browsing? The same templates stay free below — no email required.
-      </p>
-    </form>
-  </section>
+  <aside class="tpl-pack-strip" aria-label="Download the full PDF pack">
+    <p class="tpl-pack-strip-copy">Get all ${tplCount} politely worded invoice templates in one branded PDF</p>
+    <a class="tpl-pack-strip-btn" href="/free-templates/download">Download</a>
+  </aside>
 
   <div class="tpl-grid">
 ${cards}
   </div>
-</main>
-<script src="/templates-pack.js" defer></script>`,
+</main>`,
 });
 
 writeFileSync(join(outDir, "index.html"), indexHtml);
+
+const downloadJsonLd = JSON.stringify(
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    name: `Download ${tplCount} polite invoice templates — Chasa`,
+    description: `Free PDF pack of ${tplCount} politely worded payment reminder emails. Enter your details to download.`,
+    url: "https://chasa.io/free-templates/download",
+    isPartOf: { "@type": "WebSite", name: "Chasa", url: "https://chasa.io" },
+  },
+  null,
+  2
+);
+
+const downloadHtml = `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Download ${tplCount} polite invoice templates — Chasa</title>
+<meta name="description" content="Free PDF pack of ${tplCount} politely worded payment reminder emails for freelancers and small teams. Download with the Chasa logo.">
+<link rel="canonical" href="https://chasa.io/free-templates/download">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Download ${tplCount} polite invoice templates — Chasa">
+<meta property="og:description" content="Free PDF pack of ${tplCount} politely worded payment reminder emails. Enter your details to download.">
+<meta property="og:url" content="https://chasa.io/free-templates/download">
+<meta name="twitter:card" content="summary">
+<script type="application/ld+json">
+${downloadJsonLd}
+</script>
+<link rel="icon" href="/favicon.png" type="image/png">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="stylesheet" href="/site.css?v=${ASSET_V}">
+</head>
+<body class="lead-pack-page">
+  <header class="lead-pack-topbar">
+    <a href="/" class="lead-pack-brand" aria-label="Chasa home">
+      <img src="/brand/chasa-icon.png" alt="" width="28" height="28" />
+      <span>chasa</span>
+    </a>
+    <a href="/free-templates/" class="lead-pack-top-link">Browse templates</a>
+  </header>
+
+  <main class="lead-pack-shell">
+    <section class="lead-pack-copy">
+      <h1>${tplCount} politely worded templates to get invoices paid</h1>
+      <p>
+        Tired of rewriting the same chase email — or sounding too harsh when cash is late?
+        Freelancers and small teams lose days to awkward follow-ups and inconsistent tone.
+      </p>
+      <p>
+        This free PDF packs every Chasa template into one branded guide: subjects, bodies, and stage notes
+        from sending the invoice through final notice, thank-yous, disputes, and multi-invoice summaries.
+      </p>
+      <div class="lead-pack-mock" aria-hidden="true">
+        <div class="lead-pack-book lead-pack-book-back"></div>
+        <div class="lead-pack-book lead-pack-book-mid"></div>
+        <div class="lead-pack-book lead-pack-book-front">
+          <div class="lead-pack-book-mark">chasa</div>
+          <div class="lead-pack-book-title">${tplCount} politely worded templates</div>
+          <div class="lead-pack-book-sub">to get invoices paid</div>
+          <ul class="lead-pack-book-bullets">
+            <li>Pre-due → final notice</li>
+            <li>Disputes &amp; thank-yous</li>
+            <li>Copy-paste ready</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="lead-pack-card" aria-labelledby="lead-pack-form-title">
+      <h2 id="lead-pack-form-title">Download your free guide</h2>
+      <form id="templates-pack-form" class="lead-pack-form" novalidate>
+        <label class="lead-pack-label" for="templates-pack-first-name">First name <span aria-hidden="true">*</span></label>
+        <input id="templates-pack-first-name" name="firstName" type="text" autocomplete="given-name" required maxlength="80" />
+
+        <label class="lead-pack-label" for="templates-pack-email">Email <span aria-hidden="true">*</span></label>
+        <input id="templates-pack-email" name="email" type="email" autocomplete="email" required maxlength="254" placeholder="you@studio.com" />
+
+        <label class="lead-pack-label" for="templates-pack-role">How do you chase invoices?</label>
+        <select id="templates-pack-role" name="role">
+          <option value="">Please select</option>
+          <option value="freelancer">Freelancer / solo</option>
+          <option value="agency">Small agency or studio</option>
+          <option value="inhouse">In-house ops / finance</option>
+          <option value="accounting">Accounting or bookkeeping firm</option>
+          <option value="other">Other</option>
+        </select>
+
+        <label class="lead-pack-label" for="templates-pack-tool">Which invoicing setup do you use? <span aria-hidden="true">*</span></label>
+        <select id="templates-pack-tool" name="invoiceTool" required>
+          <option value="">Please select</option>
+          <option value="spreadsheet">Spreadsheet / CSV</option>
+          <option value="quickbooks">QuickBooks</option>
+          <option value="xero">Xero</option>
+          <option value="wave">Wave / FreshBooks / similar</option>
+          <option value="other">Other / not sure</option>
+        </select>
+
+        <div id="templates-pack-turnstile" class="tpl-pack-turnstile"></div>
+        <p id="templates-pack-status" class="tpl-pack-status" role="status" aria-live="polite"></p>
+
+        <p class="lead-pack-fine">
+          Chasa will use the contact information you provide to send the PDF and occasional product tips.
+          You can unsubscribe anytime. See our <a href="/privacy">Privacy Policy</a>.
+        </p>
+
+        <button type="submit" class="lead-pack-submit" id="templates-pack-submit">Download now</button>
+      </form>
+    </section>
+  </main>
+
+  <p class="lead-pack-foot">
+    Prefer browsing online? <a href="/free-templates/">All ${tplCount} templates stay free</a> — no email required.
+  </p>
+  <script src="/templates-pack.js?v=${ASSET_V}" defer></script>
+  <script src="/site-nav.js?v=${ASSET_V}" defer></script>
+</body>
+</html>
+`;
+
+writeFileSync(join(outDir, "download.html"), downloadHtml);
+console.log(`Wrote download landing → ${join(outDir, "download.html")}`);
 
 for (const t of TEMPLATES) {
   const jsonLd = JSON.stringify(
@@ -670,4 +781,4 @@ document.querySelectorAll(".btn-copy").forEach(function (btn) {
 }
 
 writeFileSync(join(outDir, "templates.json"), JSON.stringify(TEMPLATES, null, 2));
-console.log(`Wrote ${TEMPLATES.length} templates + index → ${outDir}`);
+console.log(`Wrote ${TEMPLATES.length} templates + index + download → ${outDir}`);

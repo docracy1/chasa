@@ -1,28 +1,14 @@
+# SPA app shell (Vite builds to /app/)
 /app/*  /app/index.html  200
 /app  /app/  301
-/about  /about.html  200
-/press  /press.html  200
-/imprint  /imprint.html  200
-/privacy  /privacy.html  200
-/terms  /terms.html  200
-/ai  /ai.html  200
-/invoice-follow-up  /invoice-follow-up.html  200
-/payment-reminder  /payment-reminder.html  200
-/overdue-invoice  /overdue-invoice.html  200
-/chase-invoices  /chase-invoices.html  200
-/freelancer-invoice-follow-up  /freelancer-invoice-follow-up.html  200
+
+# Directory trailing-slash normalization only.
+# Do NOT add `/path /path.html 200` rewrites — Cloudflare Pages pretty URLs
+# already serve `path.html` at `/path`, and those rewrites cause 308 loops.
 /tools  /tools/  301
-/tools/  /tools/index.html  200
-/tools/late-payment-calculator  /tools/late-payment-calculator.html  200
-/tools/chase-savings-calculator  /tools/chase-savings-calculator.html  200
-/features  /features/index.html  200
-/features/  /features/index.html  200
-/features/ai-tone  /features/ai-tone.html  200
-/features/templates  /features/templates.html  200
-/docs  /docs/index.html  200
-/docs/  /docs/index.html  200
 /blog  /blog/  301
-/blog/  /blog/index.html  200
-/blog/:slug  /blog/:slug/index.html  200
-/free-templates/:slug  /free-templates/:slug.html  200
+/features  /features/  301
+/docs  /docs/  301
+/free-templates  /free-templates/  301
+
 /*  /404.html  404

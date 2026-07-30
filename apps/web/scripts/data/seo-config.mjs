@@ -22,6 +22,7 @@ export const SITEMAP_ROUTES = [
   { path: "/app/", priority: 0.9, changefreq: "weekly" },
   { path: "/app/login", priority: 0.5, changefreq: "monthly" },
   { path: "/free-templates/", priority: 0.9, changefreq: "weekly" },
+  { path: "/free-templates/download", priority: 0.85, changefreq: "monthly" },
   { path: "/ai", priority: 0.85, changefreq: "weekly" },
   { path: "/invoice-follow-up", priority: 0.85, changefreq: "monthly" },
   { path: "/payment-reminder", priority: 0.85, changefreq: "monthly" },

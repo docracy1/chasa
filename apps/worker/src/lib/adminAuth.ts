@@ -12,8 +12,12 @@ export interface AdminContext {
   email: string;
 }
 
-function adminEmail(env: Env): string {
+export function getAdminEmail(env: Env): string {
   return (env.ADMIN_EMAIL || "rl@relacon.at").trim().toLowerCase();
+}
+
+export function isAdminEmail(env: Env, email: string): boolean {
+  return email.trim().toLowerCase() === getAdminEmail(env);
 }
 
 function isHttps(url: string): boolean {
@@ -46,7 +50,7 @@ export async function loginAdmin(
     return { ok: false, error: "Admin login isn't configured yet." };
   }
   const normalized = email.trim().toLowerCase();
-  const emailOk = timingSafeEqual(normalized, adminEmail(env));
+  const emailOk = timingSafeEqual(normalized, getAdminEmail(env));
   const passOk = timingSafeEqual(password, env.ADMIN_PASSWORD);
   if (!emailOk || !passOk) {
     return { ok: false, error: "Invalid email or password." };

@@ -1,7 +1,9 @@
 import { Hono } from "hono";
 import { getCookie } from "hono/cookie";
+import { getAdminEmail } from "../lib/adminAuth";
 import type { AuthEnv } from "../lib/auth";
 import {
+  adminPasswordLogin,
   consumeMagicLink,
   requestMagicLink,
   destroySession,
@@ -13,7 +15,7 @@ import {
 } from "../lib/auth";
 import { trackEvent } from "../lib/analytics";
 import { clientIp, turnstileSiteKey, verifyTurnstile } from "../lib/turnstile";
-import { magicLinkRequestSchema, parseJsonBody } from "../lib/schemas";
+import { adminLoginSchema, magicLinkRequestSchema, parseJsonBody } from "../lib/schemas";
 import { requestAppOrigin } from "../lib/appUrl";
 
 const auth = new Hono<AuthEnv>();
@@ -26,6 +28,8 @@ auth.get("/config", (c) => {
     googleLoginEnabled: Boolean(
       c.env.GOOGLE_LOGIN_CLIENT_ID?.trim() && c.env.GOOGLE_LOGIN_CLIENT_SECRET?.trim()
     ),
+    /** Non-secret — login UI shows a password field when the typed email matches. */
+    adminEmail: getAdminEmail(c.env),
   });
 });
 
@@ -38,6 +42,39 @@ auth.post("/request", async (c) => {
 
   const result = await requestMagicLink(c.env, parsed.data.email, requestAppOrigin(c));
   if (!result.ok) return c.json({ error: result.error }, 400);
+  return c.json({ ok: true });
+});
+
+/** Founder password sign-in — creates a normal app session (not the /app/admin cookie). */
+auth.post("/admin-login", async (c) => {
+  const parsed = await parseJsonBody(c.req, adminLoginSchema);
+  if (!parsed.ok) return c.json({ error: parsed.error }, 400);
+
+  const check = await verifyTurnstile(c.env, parsed.data.turnstileToken, clientIp(c));
+  if (!check.ok) return c.json({ error: check.error }, 400);
+
+  const result = await adminPasswordLogin(
+    c.env,
+    parsed.data.email,
+    parsed.data.password,
+    clientIp(c) || "unknown"
+  );
+  if (!result.ok) return c.json({ error: result.error }, (result.status ?? 401) as 401 | 429);
+
+  const existing = getCookie(c, SESSION_COOKIE_NAME);
+  if (existing) await destroySession(c.env, existing);
+
+  setSessionCookie(c, c.env, result.sessionToken);
+  if (result.isNew) {
+    c.executionCtx.waitUntil(
+      trackEvent(c.env, {
+        name: "signup_completed",
+        accountId: result.accountId,
+        path: "/api/auth/admin-login",
+        userAgent: c.req.header("User-Agent")?.slice(0, 300) || null,
+      }).catch(() => {})
+    );
+  }
   return c.json({ ok: true });
 });
 

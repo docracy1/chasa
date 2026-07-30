@@ -1,19 +1,23 @@
 /**
- * Email-gated PDF pack download on /free-templates/.
- * Collects email → POST /api/leads/templates-pack → download PDF + welcome email.
+ * Email-gated PDF pack download.
+ * Works on /free-templates/download (full form) — POST /api/leads/templates-pack.
  */
 (function () {
   var API = "/api/leads";
   var form = document.getElementById("templates-pack-form");
   if (!form) return;
 
+  var firstNameInput = document.getElementById("templates-pack-first-name");
   var emailInput = document.getElementById("templates-pack-email");
+  var roleInput = document.getElementById("templates-pack-role");
+  var toolInput = document.getElementById("templates-pack-tool");
   var statusEl = document.getElementById("templates-pack-status");
   var submitBtn = document.getElementById("templates-pack-submit");
   var turnstileHost = document.getElementById("templates-pack-turnstile");
   var turnstileToken = null;
   var turnstileWidgetId = null;
   var turnstileRequired = false;
+  var defaultBtnLabel = (submitBtn && submitBtn.textContent) || "Download now";
 
   function setStatus(msg, isError) {
     if (!statusEl) return;
@@ -60,9 +64,24 @@
 
   form.addEventListener("submit", function (e) {
     e.preventDefault();
+    var firstName = (firstNameInput && firstNameInput.value ? firstNameInput.value : "").trim();
     var email = (emailInput && emailInput.value ? emailInput.value : "").trim();
+    var role = roleInput && roleInput.value ? roleInput.value : "";
+    var invoiceTool = toolInput && toolInput.value ? toolInput.value : "";
+
+    if (!firstName) {
+      setStatus("Enter your first name.", true);
+      if (firstNameInput) firstNameInput.focus();
+      return;
+    }
     if (!email) {
       setStatus("Enter your email to get the PDF.", true);
+      if (emailInput) emailInput.focus();
+      return;
+    }
+    if (toolInput && toolInput.required && !invoiceTool) {
+      setStatus("Please select your invoicing setup.", true);
+      toolInput.focus();
       return;
     }
     if (turnstileRequired && !turnstileToken) {
@@ -72,14 +91,20 @@
 
     if (submitBtn) {
       submitBtn.disabled = true;
-      submitBtn.textContent = "Sending…";
+      submitBtn.textContent = "Preparing…";
     }
     setStatus("");
 
     fetch(API + "/templates-pack", {
       method: "POST",
       headers: { "Content-Type": "application/json", Accept: "application/json" },
-      body: JSON.stringify({ email: email, turnstileToken: turnstileToken || undefined }),
+      body: JSON.stringify({
+        email: email,
+        firstName: firstName,
+        role: role || undefined,
+        invoiceTool: invoiceTool || undefined,
+        turnstileToken: turnstileToken || undefined,
+      }),
     })
       .then(function (r) {
         return r.json().then(function (data) {
@@ -94,8 +119,8 @@
         var url = res.data.downloadUrl || "/free-templates/chasa-polite-invoice-templates.pdf";
         setStatus(
           res.data.welcomeEmail
-            ? "PDF unlocked — download starting. We also emailed you a copy with a few useful reads."
-            : "PDF unlocked — download starting. Check your inbox if you need the link again."
+            ? "Download starting — we also emailed you the PDF with a few useful reads."
+            : "Download starting. Check your inbox if you need the link again."
         );
         var a = document.createElement("a");
         a.href = url;
@@ -111,7 +136,7 @@
       .finally(function () {
         if (submitBtn) {
           submitBtn.disabled = false;
-          submitBtn.textContent = "Email me the PDF";
+          submitBtn.textContent = defaultBtnLabel;
         }
         turnstileToken = null;
         if (window.turnstile && turnstileWidgetId !== null) {

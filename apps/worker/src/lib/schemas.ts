@@ -9,6 +9,9 @@ export const magicLinkRequestSchema = z.object({
 
 export const templatesPackLeadSchema = z.object({
   email: z.string().trim().email().max(254),
+  firstName: z.string().trim().max(80).optional(),
+  role: z.string().trim().max(80).optional(),
+  invoiceTool: z.string().trim().max(80).optional(),
   turnstileToken: z.string().optional(),
 });
 

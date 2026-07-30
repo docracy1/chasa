@@ -128,6 +128,10 @@ function buildPostMain(post, body, depth = 2) {
   ${post.description ? `<p class="lede">${escapeHtml(post.description)}</p>` : ""}
   ${renderBody(body)}
   <section style="margin-top:40px;padding-top:24px;border-top:1px solid var(--line)">
+    <aside class="tpl-pack-strip" aria-label="Download the full PDF pack">
+      <p class="tpl-pack-strip-copy">Get your polite invoice templates PDF to chase clients with confidence</p>
+      <a class="tpl-pack-strip-btn" href="${href("/free-templates/download")}">Download</a>
+    </aside>
     <h2>Related resources</h2>
     <ul>
       <li><a href="${href("/tools/late-payment-calculator")}">Late payment calculator</a></li>

@@ -169,10 +169,12 @@ function greetingName(email: string): string {
 export async function sendTemplatesPackWelcomeEmail(
   env: Env,
   email: string,
-  opts: { downloadUrl: string; unsubUrl: string }
+  opts: { downloadUrl: string; unsubUrl: string; firstName?: string | null }
 ): Promise<void> {
   const base = appUrl(env);
-  const name = greetingName(email);
+  const name =
+    (opts.firstName && opts.firstName.trim()) ||
+    greetingName(email);
   const articles = [
     {
       title: "How to follow up on overdue invoices (without burning bridges)",
