@@ -343,6 +343,9 @@
   }
   .pricing-compare {
     position: relative;
+    /* Shared column math so sticky prices line up under Free / Solo / Pro / Enterprise. */
+    --pricing-feature-col: 28%;
+    --pricing-plan-col: calc((100% - var(--pricing-feature-col)) / 4);
   }
   .price-table-wrap {
     /* No overflow-x by default — it breaks sticky. Enable only on narrow screens. */
@@ -350,6 +353,7 @@
   .price-table {
     width: 100%;
     min-width: 640px;
+    table-layout: fixed;
     border-collapse: separate;
     border-spacing: 0;
     font-size: 14px;
@@ -367,11 +371,15 @@
     text-align: left;
     color: var(--ink);
     font-weight: 500;
-    width: 32%;
+    width: var(--pricing-feature-col);
     position: sticky;
     left: 0;
     background: var(--white);
     z-index: 1;
+  }
+  .price-table th:not(:first-child),
+  .price-table td:not(:first-child) {
+    width: var(--pricing-plan-col);
   }
   .price-table thead th {
     font-size: 13px;
@@ -402,8 +410,17 @@
   }
   .price-table .plan-cell-text {
     color: var(--ink);
-    font-weight: 600;
-    font-size: 13.5px;
+    font-weight: 800;
+    font-size: 26px;
+    line-height: 1.15;
+    font-family: 'Fraunces', serif;
+  }
+  .price-table .muted {
+    color: var(--ink);
+    font-size: 26px;
+    font-weight: 800;
+    line-height: 1.15;
+    font-family: 'Fraunces', serif;
   }
   .price-table .check {
     display: inline-flex;
@@ -434,10 +451,6 @@
     color: color-mix(in srgb, var(--ink) 28%, var(--white));
     font-weight: 600;
   }
-  .price-table .muted {
-    color: var(--ink-soft);
-    font-size: 13px;
-  }
   .price-table thead th.col-pro {
     white-space: normal;
     line-height: 1.25;
@@ -463,9 +476,16 @@
     bottom: 0;
     z-index: 6;
     display: grid;
-    grid-template-columns: minmax(140px, 1.4fr) 1fr 1fr 1fr 1fr;
+    grid-template-columns:
+      var(--pricing-feature-col)
+      var(--pricing-plan-col)
+      var(--pricing-plan-col)
+      var(--pricing-plan-col)
+      var(--pricing-plan-col);
     gap: 0;
     margin-top: 0;
+    width: 100%;
+    box-sizing: border-box;
     background: var(--white);
     border: 1px solid var(--line);
     border-radius: 10px;
