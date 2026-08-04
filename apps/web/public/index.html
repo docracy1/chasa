@@ -136,55 +136,283 @@
 
   header, main, footer { position: relative; z-index: 1; }
 
-  /* ---------- HERO ---------- */
-  .hero {
-    padding: clamp(72px, 12vh, 120px) 0 80px;
-    text-align: center;
-    background:
-      radial-gradient(ellipse 80% 60% at 50% -10%, color-mix(in srgb, var(--accent) 18%, transparent), transparent 60%),
-      linear-gradient(180deg, color-mix(in srgb, var(--ink) 4%, var(--paper)) 0%, var(--paper) 100%);
+  /* ---------- HOMEPAGE DARK HEADER (Docracy-style) ---------- */
+  .page-home .site-header {
+    background: var(--ink);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    backdrop-filter: none;
   }
-  .hero-brand {
+  .page-home .logo-word { color: #fff; }
+  .page-home .header-nav-link {
+    color: #fff;
+    opacity: 0.88;
+  }
+  .page-home .header-nav-link:hover {
+    opacity: 1;
+    border-bottom-color: rgba(255, 255, 255, 0.55);
+  }
+  .page-home .locale-switch { color: rgba(255, 255, 255, 0.75); }
+  .page-home .locale-switch button:hover { color: #fff; }
+  .page-home .locale-switch button.is-active { color: #fff; }
+  .page-home .header-menu-toggle span { background: #fff; }
+  .page-home .nav-cta {
+    border-radius: 999px;
+    padding: 10px 18px;
+    font-weight: 700;
+  }
+  .page-home .header-nav-sales {
+    display: inline-flex;
+    align-items: center;
+    padding: 10px 16px;
+    border-radius: 999px;
+    background: #fff;
+    color: var(--ink);
+    font-size: 13.5px;
+    font-weight: 700;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .page-home .header-nav-sales:hover { background: #eef2f8; }
+  .page-home .header-login-btn {
+    display: inline-flex;
+    align-items: center;
+    padding: 9px 16px;
+    border-radius: 999px;
+    border: 1.5px solid rgba(255, 255, 255, 0.55);
+    color: #fff;
+    font-size: 13.5px;
+    font-weight: 650;
+    text-decoration: none;
+    background: transparent;
+  }
+  .page-home .header-login-btn:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: #fff;
+  }
+
+  /* ---------- HERO (Docracy-style split band, Chasa colours) ---------- */
+  .hero-band {
+    --hero-mid: #3d5f8f;
+    --hero-body: rgba(232, 238, 248, 0.88);
+    background: linear-gradient(135deg, var(--hero-mid) 0%, var(--ink) 100%);
+    color: #fff;
+    padding: 64px 24px 72px;
+    overflow: hidden;
+  }
+  .hero-inner {
+    max-width: 1080px;
+    margin: 0 auto;
+  }
+  .hero-split {
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 48px;
+    align-items: center;
+  }
+  .hero-band h1 {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-weight: 800;
+    font-size: clamp(34px, 4.6vw, 56px);
+    line-height: 1.12;
+    letter-spacing: -0.025em;
+    color: #fff;
+    margin: 0 0 18px;
+    max-width: 14em;
+    white-space: pre-line;
+  }
+  .hero-sub {
+    font-size: 17px;
+    line-height: 1.45;
+    color: var(--hero-body);
+    margin: 0 0 22px;
+    max-width: 34em;
+  }
+  .hero-cta-row {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 18px 22px;
+    margin-top: 8px;
+  }
+  .hero-signup {
+    display: flex;
+    align-items: stretch;
+    flex: 1 1 320px;
+    max-width: 480px;
+    border-radius: 999px;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.18);
+  }
+  .hero-signup-input {
+    flex: 1;
+    min-width: 0;
+    border: none;
+    outline: none;
+    padding: 14px 18px;
+    font: inherit;
+    font-size: 15px;
+    color: var(--ink);
+    background: transparent;
+  }
+  .hero-signup-input::placeholder { color: #8a96a8; }
+  .hero-signup-btn {
+    flex-shrink: 0;
+    border: none;
+    cursor: pointer;
+    padding: 14px 22px;
+    font: inherit;
+    font-size: 15px;
+    font-weight: 800;
+    letter-spacing: 0.01em;
+    background: var(--accent);
+    color: #fff;
+    white-space: nowrap;
+    transition: filter 0.15s ease;
+  }
+  .hero-signup-btn:hover { filter: brightness(0.95); }
+  .hero-watch-btn {
     display: inline-flex;
     align-items: center;
     gap: 10px;
-    margin-bottom: 28px;
-    text-decoration: none;
-  }
-  .hero-brand img { width: 40px; height: 40px; display: block; }
-  .hero-brand span {
-    font-family: 'Inter', sans-serif;
+    border: none;
+    background: transparent;
+    color: #fff;
+    font: inherit;
+    font-size: 15px;
     font-weight: 700;
-    font-size: 28px;
-    letter-spacing: -0.03em;
-    color: var(--ink);
+    text-decoration: none;
+    padding: 6px 0;
   }
-  h1 {
-    font-family: 'Fraunces', serif;
+  .hero-watch-btn:hover { opacity: 0.88; }
+  .hero-watch-icon { display: inline-flex; line-height: 0; }
+  .hero-cta-hint {
+    margin: 12px 0 0;
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.65);
+  }
+  .hero-secondary-link {
+    margin: 14px 0 0;
+    font-size: 14px;
+  }
+  .hero-secondary-link a {
+    color: rgba(255, 255, 255, 0.9);
     font-weight: 600;
-    font-size: clamp(34px, 5.2vw, 56px);
-    line-height: 1.08;
-    letter-spacing: -0.015em;
-    max-width: 720px;
-    margin: 0 auto 18px;
+    text-decoration: underline;
+    text-underline-offset: 3px;
   }
-  .sub {
-    font-size: 18px;
-    color: var(--ink-soft);
-    max-width: 520px;
-    margin: 0 auto 28px;
-    line-height: 1.6;
+  .hero-secondary-link a:hover { color: #fff; }
+
+  .doc-mockup-glow {
+    position: relative;
+    padding: 20px;
   }
-  /* One dominant primary; secondary demoted to a text link — same conversion pattern as
-     Docracy's in-hero CTA. Two equal-weight buttons split attention. */
-  .hero-ctas {
+  .doc-mockup-glow::before {
+    content: "";
+    position: absolute;
+    inset: -20px;
+    background: radial-gradient(closest-side, rgba(236, 104, 60, 0.22), transparent 70%);
+    z-index: 0;
+  }
+  .doc-mockup-card {
+    position: relative;
+    z-index: 1;
+    background: #fff;
+    border-radius: 18px;
+    box-shadow: 0 24px 48px rgba(0, 0, 0, 0.28);
+    overflow: hidden;
+    aspect-ratio: 4 / 3;
+    transform: rotate(2.5deg);
+    animation: mockup-float 6s ease-in-out infinite;
+  }
+  @keyframes mockup-float {
+    0%, 100% { transform: rotate(2.5deg) translateY(0); }
+    50% { transform: rotate(1.5deg) translateY(-6px); }
+  }
+  .chase-mockup {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    padding: 28px 28px 24px;
+    box-sizing: border-box;
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+  .chase-mockup-title {
+    height: 14px;
+    width: 42%;
+    border-radius: 4px;
+    background: color-mix(in srgb, var(--ink) 55%, #c5cedb);
+    margin-bottom: 22px;
+  }
+  .chase-mockup-line {
+    height: 8px;
+    border-radius: 4px;
+    background: #e4e9f0;
+    margin-bottom: 12px;
+  }
+  .chase-mockup-line.w80 { width: 80%; }
+  .chase-mockup-line.w95 { width: 95%; }
+  .chase-mockup-line.w60 { width: 60%; }
+  .chase-mockup-line.w70 { width: 70%; }
+  .chase-mockup-meta {
     display: flex;
     align-items: center;
-    gap: 18px;
-    justify-content: center;
-    flex-wrap: wrap;
-    margin-bottom: 14px;
+    justify-content: space-between;
+    margin-top: 28px;
   }
+  .chase-mockup-tag {
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #3d5a80;
+    background: #e8eef6;
+    padding: 5px 10px;
+    border-radius: 999px;
+  }
+  .chase-mockup-check {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--accent);
+    display: grid;
+    place-items: center;
+    box-shadow: 0 6px 16px rgba(236, 104, 60, 0.35);
+  }
+  .chase-mockup-check svg { display: block; }
+  .chase-mockup-snippet {
+    margin-top: 18px;
+    padding: 14px 14px 12px;
+    border-radius: 10px;
+    background: #f7f8fb;
+    border: 1px solid #e6ebf2;
+  }
+  .chase-mockup-snippet-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+  .chase-mockup-snippet .chase-mockup-line { background: #d7dde7; margin-bottom: 8px; }
+
+  @media (max-width: 760px) {
+    .hero-split { grid-template-columns: 1fr; }
+    .hero-band { padding: 36px 20px 40px; }
+    .hero-band h1 {
+      font-size: clamp(26px, 7.2vw, 34px);
+      margin: 0 0 12px;
+      max-width: none;
+    }
+    .hero-sub { font-size: 15px; margin: 0 0 16px; }
+    .doc-mockup-glow { display: none; }
+    .hero-signup { flex: 1 1 100%; max-width: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .doc-mockup-card { animation: none; }
+  }
+
   .btn-primary {
     font-family: 'Inter', sans-serif;
     font-weight: 700;
@@ -199,48 +427,6 @@
     display: inline-block;
   }
   .btn-primary:hover { transform: translateY(-1px); }
-  .btn-secondary {
-    font-family: 'Inter', sans-serif;
-    font-weight: 600;
-    font-size: 16px;
-    background: transparent;
-    color: var(--ink);
-    padding: 14px 24px;
-    border-radius: 4px;
-    text-decoration: none;
-    border: 1.5px solid var(--line);
-    display: inline-block;
-  }
-  .btn-secondary:hover { border-color: var(--ink-soft); }
-  .hero-ctas-secondary {
-    font-family: 'Inter', sans-serif;
-    font-size: 15px;
-    font-weight: 500;
-    color: var(--ink-soft);
-    text-decoration: underline;
-    text-underline-offset: 3px;
-  }
-  .hero-ctas-secondary:hover { color: var(--ink); }
-  .hero-note {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 13px;
-    color: var(--ink-soft);
-  }
-  @media (max-width: 700px) {
-    .hero-ctas {
-      flex-direction: column;
-      align-items: stretch;
-      gap: 14px;
-    }
-    .hero-ctas .btn-primary {
-      width: 100%;
-      text-align: center;
-    }
-    .hero-ctas-secondary,
-    .hero-note {
-      text-align: center;
-    }
-  }
 
   /* ---------- SHARED SECTION ---------- */
   .section {
@@ -766,7 +952,7 @@
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 </head>
-<body>
+<body class="page-home">
 
 <header class="site-header">
   <div class="wrap site-header-inner">
@@ -777,13 +963,14 @@
       <a href="/free-templates/" class="header-nav-link header-nav-collapse" data-i18n="nav.templates">Free templates</a>
       <a href="/tools/" class="header-nav-link header-nav-collapse" data-i18n="nav.tools">Tools</a>
       <a href="/ai" class="header-nav-link header-nav-collapse" data-i18n="nav.ai">AI</a>
-      <a href="/app/login" class="header-nav-link header-nav-strong" data-i18n="nav.signIn">Sign in</a>
-      <a href="/app/" class="nav-cta" data-i18n="nav.tryFree">Try free</a>
       <div class="locale-switch" role="group" data-i18n-aria="nav.language">
         <button type="button" data-locale="en" class="is-active">EN</button>
         <span class="locale-switch-sep" aria-hidden="true">|</span>
         <button type="button" data-locale="es">ES</button>
       </div>
+      <a href="mailto:sales@chasa.io?subject=Chasa%20sales" class="header-nav-sales header-nav-collapse" data-i18n="nav.contactSales">Contact sales</a>
+      <a href="/app/" class="nav-cta" data-i18n="nav.tryFree">Try free</a>
+      <a href="/app/login" class="header-login-btn header-nav-collapse" data-i18n="nav.signIn">Sign in</a>
       <button class="header-menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" data-menu-toggle data-i18n-aria="nav.openMenu">
         <span></span><span></span><span></span>
       </button>
@@ -806,23 +993,72 @@
   <div class="mobile-panel-ctas">
     <a href="/app/" class="mobile-panel-cta-primary" data-i18n="nav.tryFree">Try free</a>
     <a href="/app/login" class="mobile-panel-cta-secondary" data-i18n="nav.signIn">Sign in</a>
+    <a href="mailto:sales@chasa.io?subject=Chasa%20sales" class="mobile-panel-cta-secondary" data-i18n="nav.contactSales">Contact sales</a>
   </div>
 </div>
 
 <main>
   <!-- [Hero] -->
-  <section class="hero wrap">
-    <a href="/" class="hero-brand" aria-label="Chasa home">
-      <img src="/brand/chasa-icon.png" alt="Chasa" width="40" height="40" />
-      <span>chasa</span>
-    </a>
-    <h1 data-i18n="home.hero.title">Get unpaid invoices paid — without the awkward chase</h1>
-    <p class="sub" data-i18n="home.hero.sub">Paste overdue invoices. Chasa writes the follow-up in the right tone for how late each one is. You copy, edit, and send from your inbox.</p>
-    <div class="hero-ctas" data-cta-source="home_hero">
-      <a href="/app/" class="btn-primary" data-cta data-i18n="home.hero.ctaPrimary">Try free</a>
-      <a href="/free-templates/" class="hero-ctas-secondary" data-cta data-i18n="home.hero.ctaSecondary">or browse free templates</a>
+  <section class="hero-band">
+    <div class="hero-inner hero-split">
+      <div>
+        <h1 data-i18n="home.hero.title">Get unpaid invoices paid.
+AI drafts the chase in the right tone.</h1>
+        <p class="hero-sub" data-i18n="home.hero.sub">Paste overdue invoices. Chasa writes the follow-up for how late each one is — you copy, edit, and send from your inbox.</p>
+        <div class="hero-cta-row" data-cta-source="home_hero">
+          <form class="hero-signup" id="hero-signup" action="/app/login" method="get">
+            <input
+              class="hero-signup-input"
+              type="email"
+              name="email"
+              autocomplete="email"
+              placeholder="What's your email?"
+              aria-label="What's your email?"
+              data-i18n-placeholder="home.hero.emailPlaceholder"
+              data-i18n-aria="home.hero.emailPlaceholder"
+            />
+            <button type="submit" class="hero-signup-btn" data-cta data-i18n="home.hero.startFree">Start free →</button>
+          </form>
+          <a href="#how" class="hero-watch-btn" data-cta>
+            <span class="hero-watch-icon" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                <circle cx="12" cy="12" r="10" fill="rgba(255,255,255,0.18)" />
+                <path d="M10 8.5v7l6-3.5-6-3.5z" fill="#fff" />
+              </svg>
+            </span>
+            <span data-i18n="home.hero.watchHow">See how it works</span>
+          </a>
+        </div>
+        <p class="hero-cta-hint" data-i18n="home.hero.note">No credit card required · no account needed to start.</p>
+        <p class="hero-secondary-link">
+          <a href="/free-templates/" data-cta data-i18n="home.hero.ctaSecondary">or browse free templates</a>
+        </p>
+      </div>
+      <div class="doc-mockup-glow" aria-hidden="true">
+        <div class="doc-mockup-card">
+          <div class="chase-mockup">
+            <div class="chase-mockup-title"></div>
+            <div class="chase-mockup-line w95"></div>
+            <div class="chase-mockup-line w80"></div>
+            <div class="chase-mockup-line w70"></div>
+            <div class="chase-mockup-snippet">
+              <div class="chase-mockup-snippet-label">Friendly · 12 days overdue</div>
+              <div class="chase-mockup-line w95"></div>
+              <div class="chase-mockup-line w80"></div>
+              <div class="chase-mockup-line w60"></div>
+            </div>
+            <div class="chase-mockup-meta">
+              <span class="chase-mockup-tag">Draft ready</span>
+              <span class="chase-mockup-check">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                  <path d="M5 12.5l4.2 4.2L19 7.5" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="hero-note" data-i18n="home.hero.note">No signup needed — 5 free AI drafts to start</div>
   </section>
 
   <!-- [How it works] -->
@@ -1380,6 +1616,23 @@
 <script src="/price-compare.js" defer></script>
 <script src="/cookie-consent.js"></script>
 <script src="/assistant.js"></script>
+<script>
+  (function () {
+    var form = document.getElementById("hero-signup");
+    if (!form) return;
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var input = form.querySelector('input[name="email"]');
+      var email = input && input.value ? String(input.value).trim() : "";
+      var next = encodeURIComponent("/app/");
+      if (email) {
+        window.location.href = "/app/login?email=" + encodeURIComponent(email) + "&next=" + next;
+        return;
+      }
+      window.location.href = "/app/";
+    });
+  })();
+</script>
 
 </body>
 </html>

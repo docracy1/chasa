@@ -11,6 +11,7 @@
     "nav.about": "About",
     "nav.signIn": "Sign in",
     "nav.tryFree": "Try free",
+    "nav.contactSales": "Contact sales",
     "nav.openMenu": "Open menu",
     "nav.closeMenu": "Close menu",
     "nav.language": "Language",
@@ -47,11 +48,14 @@
     "footer.copyright": "© {{year}} Chasa — a product of RELACON GmbH",
     "a11y.included": "Included",
     "a11y.notIncluded": "Not included",
-    "home.hero.title": "Get unpaid invoices paid — without the awkward chase",
-    "home.hero.sub": "Paste overdue invoices. Chasa writes the follow-up in the right tone for how late each one is. You copy, edit, and send from your inbox.",
+    "home.hero.title": "Get unpaid invoices paid.\nAI drafts the chase in the right tone.",
+    "home.hero.sub": "Paste overdue invoices. Chasa writes the follow-up for how late each one is — you copy, edit, and send from your inbox.",
     "home.hero.ctaPrimary": "Try free",
+    "home.hero.startFree": "Start free →",
+    "home.hero.emailPlaceholder": "What's your email?",
+    "home.hero.watchHow": "See how it works",
     "home.hero.ctaSecondary": "or browse free templates",
-    "home.hero.note": "No signup needed — 5 free AI drafts to start",
+    "home.hero.note": "No credit card required · no account needed to start.",
     "home.how.title": "How it works",
     "home.how.sub": "Four steps from overdue invoice to sent follow-up.",
     "home.how.step1.title": "Add your invoices",
@@ -211,6 +215,7 @@
     "nav.about": "Nosotros",
     "nav.signIn": "Iniciar sesión",
     "nav.tryFree": "Probar gratis",
+    "nav.contactSales": "Contactar ventas",
     "nav.openMenu": "Abrir menú",
     "nav.closeMenu": "Cerrar menú",
     "nav.language": "Idioma",
@@ -247,11 +252,14 @@
     "footer.copyright": "© {{year}} Chasa — un producto de RELACON GmbH",
     "a11y.included": "Incluido",
     "a11y.notIncluded": "No incluido",
-    "home.hero.title": "Cobra facturas impagas — sin el seguimiento incómodo",
-    "home.hero.sub": "Pega facturas vencidas. Chasa redacta el seguimiento con el tono correcto según cuánto llevan de retraso. Tú copias, editas y envías desde tu bandeja.",
+    "home.hero.title": "Cobra facturas impagas.\nLa IA redacta el seguimiento con el tono correcto.",
+    "home.hero.sub": "Pega facturas vencidas. Chasa redacta el seguimiento según cuánto llevan de retraso — tú copias, editas y envías desde tu bandeja.",
     "home.hero.ctaPrimary": "Probar gratis",
+    "home.hero.startFree": "Empezar gratis →",
+    "home.hero.emailPlaceholder": "¿Cuál es tu email?",
+    "home.hero.watchHow": "Ver cómo funciona",
     "home.hero.ctaSecondary": "o ver plantillas gratis",
-    "home.hero.note": "Sin registro — 5 borradores con IA para empezar",
+    "home.hero.note": "Sin tarjeta · no hace falta cuenta para empezar.",
     "home.how.title": "Cómo funciona",
     "home.how.sub": "Cuatro pasos de factura vencida a seguimiento enviado.",
     "home.how.step1.title": "Agrega tus facturas",
@@ -448,6 +456,11 @@
     document.querySelectorAll("[data-i18n-aria]").forEach(function (el) {
       var key = el.getAttribute("data-i18n-aria");
       if (key) el.setAttribute("aria-label", t(key));
+    });
+
+    document.querySelectorAll("[data-i18n-placeholder]").forEach(function (el) {
+      var key = el.getAttribute("data-i18n-placeholder");
+      if (key) el.setAttribute("placeholder", t(key));
     });
 
     var year = String(new Date().getFullYear());
