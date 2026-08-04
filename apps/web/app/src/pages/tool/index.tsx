@@ -1,9 +1,12 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import Papa from "papaparse";
 import { useT } from "../../lib/i18n";
+import { matchesChaseView, parseChaseView, chaseViewTitleKey } from "./chaseViews";
 import {
   CLOUD_IMPORT_STORAGE_KEY,
+  PENDING_INVOICES_STORAGE_KEY,
+  PENDING_TEMPLATE_STORAGE_KEY,
   createTrackedCopy,
   exportAgingToGoogleSheet,
   findGmailClientReply,
@@ -67,6 +70,22 @@ function daysFromToday(isoDate: string): number {
   const today = new Date();
   today.setHours(0, 0, 0, 0);
   return Math.max(1, Math.ceil((target.getTime() - today.getTime()) / 86400000) + 1);
+}
+
+function fillTemplate(
+  text: string,
+  row: { clientName: string; amount: number; dueDate: string }
+): string {
+  return text
+    .replace(/\[Client name\]/gi, row.clientName)
+    .replace(/\[Amount\]/gi, String(row.amount))
+    .replace(/\[Due date\]/gi, row.dueDate)
+    .replace(/\[Invoice #\]/gi, "")
+    .replace(/\[Payment link(?: or bank details)?\]/gi, "")
+    .replace(/\[Your name\]/gi, "")
+    .replace(/\[Your company\]/gi, "")
+    .replace(/\[New deadline date\]/gi, "")
+    .replace(/\[Final internal deadline\]/gi, "");
 }
 
 export default function Tool({ account }: { account: Account | null }) {
@@ -244,6 +263,52 @@ export default function Tool({ account }: { account: Account | null }) {
       track("fields_added", { source: "cloud_pdf_pending" });
     } catch {
       sessionStorage.removeItem(CLOUD_IMPORT_STORAGE_KEY);
+    }
+  }, []);
+
+  useEffect(() => {
+    try {
+      const rawInvoices = sessionStorage.getItem(PENDING_INVOICES_STORAGE_KEY);
+      const rawTemplate = sessionStorage.getItem(PENDING_TEMPLATE_STORAGE_KEY);
+      sessionStorage.removeItem(PENDING_INVOICES_STORAGE_KEY);
+      sessionStorage.removeItem(PENDING_TEMPLATE_STORAGE_KEY);
+      if (!rawInvoices) return;
+      const rows = JSON.parse(rawInvoices) as { clientName: string; amount: number; dueDate: string }[];
+      if (!Array.isArray(rows) || rows.length === 0) return;
+      let template: { subject: string; body: string } | null = null;
+      if (rawTemplate) {
+        try {
+          const parsed = JSON.parse(rawTemplate) as { subject?: string; body?: string };
+          if (parsed.subject && parsed.body) template = { subject: parsed.subject, body: parsed.body };
+        } catch {
+          /* ignore */
+        }
+      }
+      setInvoices((prev) => [
+        ...prev,
+        ...rows
+          .filter((r) => r.clientName && Number.isFinite(r.amount) && r.dueDate)
+          .map((r) => {
+            const draft = template
+              ? {
+                  subject: fillTemplate(template.subject, r),
+                  body: fillTemplate(template.body, r),
+                }
+              : undefined;
+            return {
+              id: crypto.randomUUID(),
+              clientName: r.clientName,
+              amount: r.amount,
+              dueDate: r.dueDate,
+              generating: false,
+              rewriting: null,
+              draft,
+            };
+          }),
+      ]);
+    } catch {
+      sessionStorage.removeItem(PENDING_INVOICES_STORAGE_KEY);
+      sessionStorage.removeItem(PENDING_TEMPLATE_STORAGE_KEY);
     }
   }, []);
 
@@ -1318,6 +1383,27 @@ export default function Tool({ account }: { account: Account | null }) {
 
   const overdueCount = invoices.filter((inv) => daysOverdue(inv.dueDate) > 0).length;
   const draftedCount = invoices.filter((inv) => inv.draft).length;
+  const chaseView = parseChaseView(searchParams.get("view"));
+  const visibleInvoices = useMemo(
+    () => invoices.filter((inv) => matchesChaseView(inv, chaseView)),
+    [invoices, chaseView]
+  );
+  const agingInvoices = useMemo(
+    () =>
+      chaseView === "paid"
+        ? visibleInvoices
+        : visibleInvoices.filter((inv) => inv.status !== "paid"),
+    [visibleInvoices, chaseView]
+  );
+
+  useEffect(() => {
+    if (!chaseView) return;
+    const timer = window.setTimeout(() => {
+      document.getElementById("aging-board")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 60);
+    return () => window.clearTimeout(timer);
+  }, [chaseView]);
+
   const firstName = account?.email?.split("@")[0]?.split(/[._-]/)[0] || null;
   const welcomeName = firstName
     ? firstName.charAt(0).toUpperCase() + firstName.slice(1)
@@ -1325,46 +1411,76 @@ export default function Tool({ account }: { account: Account | null }) {
 
   return (
     <div>
-      <WelcomeBlock
-        welcomeName={welcomeName}
-        overdueCount={overdueCount}
-        draftedCount={draftedCount}
-        invoiceCount={invoices.length}
-        isPaid={isPaid}
-        account={account}
-        usedCount={usedCount}
-      />
-
-      <div id="chase-workspace">
-        <h2 className="welcome-section-title" style={{ marginTop: 8 }}>
-          {t("tool.workspaceTitle")}
-        </h2>
-        <p className="page-sub">{t("tool.workspaceSub")}</p>
-      </div>
-
-      <UsageBar usedCount={usedCount} atLimit={atLimit} isPaid={isPaid} isSignedIn={!!account} />
-
-      {invoices.length > 0 && (
-        <AgingOverviewPanel
-          invoices={invoices}
+      {!chaseView && (
+        <WelcomeBlock
+          welcomeName={welcomeName}
+          overdueCount={overdueCount}
+          draftedCount={draftedCount}
+          invoiceCount={invoices.length}
           isPaid={isPaid}
-          selectedIds={selectedIds}
-          selectedCount={selectedCount}
-          multiBusy={multiBusy}
-          atLimit={atLimit}
-          multiError={multiError}
-          multiDraft={multiDraft}
-          onSelectAll={selectAllOverdue}
-          onClearSelection={clearSelection}
-          onMultiDraft={handleMultiDraft}
-          onToggleSelect={toggleSelect}
-          onScrollToInvoice={scrollToInvoice}
-          onGenerate={handleGenerate}
-          onMultiDraftChange={setMultiDraft}
+          account={account}
+          usedCount={usedCount}
         />
       )}
 
-      {pendingImport && (
+      {chaseView ? (
+        <section id="aging-board" className="chase-view-header">
+          <div className="chase-view-header-row">
+            <div>
+              <h1 className="chase-view-title">{t(chaseViewTitleKey(chaseView))}</h1>
+              <p className="page-sub">
+                {t("chaseView.count", { count: visibleInvoices.length })}
+              </p>
+            </div>
+            <Link to="/" className="btn-secondary">
+              {t("chaseView.clearFilter")}
+            </Link>
+          </div>
+          {visibleInvoices.length === 0 && (
+            <div className="panel chase-view-empty">
+              <p>{t(`chaseView.empty.${chaseView}`)}</p>
+              <Link to="/new" className="btn-primary">
+                {t("nav.newChase")}
+              </Link>
+            </div>
+          )}
+        </section>
+      ) : (
+        <div id="chase-workspace">
+          <h2 className="welcome-section-title" style={{ marginTop: 8 }}>
+            {t("tool.workspaceTitle")}
+          </h2>
+          <p className="page-sub">{t("tool.workspaceSub")}</p>
+        </div>
+      )}
+
+      {!chaseView && (
+        <UsageBar usedCount={usedCount} atLimit={atLimit} isPaid={isPaid} isSignedIn={!!account} />
+      )}
+
+      {agingInvoices.length > 0 && (
+        <div id={chaseView ? undefined : "aging-board"}>
+          <AgingOverviewPanel
+            invoices={agingInvoices}
+            isPaid={isPaid}
+            selectedIds={selectedIds}
+            selectedCount={selectedCount}
+            multiBusy={multiBusy}
+            atLimit={atLimit}
+            multiError={multiError}
+            multiDraft={multiDraft}
+            onSelectAll={selectAllOverdue}
+            onClearSelection={clearSelection}
+            onMultiDraft={handleMultiDraft}
+            onToggleSelect={toggleSelect}
+            onScrollToInvoice={scrollToInvoice}
+            onGenerate={handleGenerate}
+            onMultiDraftChange={setMultiDraft}
+          />
+        </div>
+      )}
+
+      {!chaseView && pendingImport && (
         <CloudImportConfirm
           pendingImport={pendingImport}
           importClient={importClient}
@@ -1378,34 +1494,36 @@ export default function Tool({ account }: { account: Account | null }) {
         />
       )}
 
-      <InvoiceIntakePanel
-        clientName={clientName}
-        amount={amount}
-        dueDate={dueDate}
-        paymentLink={paymentLink}
-        isPaid={isPaid}
-        invoices={invoices}
-        onClientNameChange={setClientName}
-        onAmountChange={setAmount}
-        onDueDateChange={setDueDate}
-        onPaymentLinkChange={setPaymentLink}
-        onAddManual={handleAddManual}
-        onCsvUpload={handleCsvUpload}
-        onOpenPdfPicker={openPdfPicker}
-        onOpenGooglePicker={handleOpenGooglePicker}
-        onSheetImport={handleSheetImport}
-        onSheetExport={handleSheetExport}
-        sheetId={sheetId}
-        onSheetIdChange={setSheetId}
-        sheetBusy={sheetBusy}
-        sheetMsg={sheetMsg}
-        googleConnected={googleConnected}
-        googlePickerEnabled={googlePickerEnabled()}
-        onDownloadCsv={downloadCsv}
-        onClearList={handleClearList}
-      />
+      {!chaseView && (
+        <InvoiceIntakePanel
+          clientName={clientName}
+          amount={amount}
+          dueDate={dueDate}
+          paymentLink={paymentLink}
+          isPaid={isPaid}
+          invoices={invoices}
+          onClientNameChange={setClientName}
+          onAmountChange={setAmount}
+          onDueDateChange={setDueDate}
+          onPaymentLinkChange={setPaymentLink}
+          onAddManual={handleAddManual}
+          onCsvUpload={handleCsvUpload}
+          onOpenPdfPicker={openPdfPicker}
+          onOpenGooglePicker={handleOpenGooglePicker}
+          onSheetImport={handleSheetImport}
+          onSheetExport={handleSheetExport}
+          sheetId={sheetId}
+          onSheetIdChange={setSheetId}
+          sheetBusy={sheetBusy}
+          sheetMsg={sheetMsg}
+          googleConnected={googleConnected}
+          googlePickerEnabled={googlePickerEnabled()}
+          onDownloadCsv={downloadCsv}
+          onClearList={handleClearList}
+        />
+      )}
 
-      {showPdfPicker && (
+      {!chaseView && showPdfPicker && (
         <PdfPickerPanel
           pdfError={pdfError}
           pdfBusy={pdfBusy}
@@ -1422,9 +1540,8 @@ export default function Tool({ account }: { account: Account | null }) {
         <DueTodayBanner reminders={dueTodayReminders} onOpenReminder={handleOpenDueReminder} />
       )}
 
-      {invoices
-        .filter((inv) => inv.status !== "paid")
-        .map((invoice) => (
+      {(chaseView === "paid" ? visibleInvoices : visibleInvoices.filter((inv) => inv.status !== "paid")).map(
+        (invoice) => (
         <InvoiceCard
           key={invoice.id}
           invoice={invoice}
@@ -1465,7 +1582,8 @@ export default function Tool({ account }: { account: Account | null }) {
           onMailtoClick={handleMailtoClick}
           sequenceSendDate={sequenceSendDate}
         />
-      ))}
+      )
+      )}
     </div>
   );
 }

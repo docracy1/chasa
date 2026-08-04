@@ -10,8 +10,10 @@ export type FunnelStats = {
     events: number;
     activationKpi: number;
     completionKpi: number;
+    growthKpi: number;
   };
   activation: { name: string; count: number }[];
+  growth: { name: string; count: number }[];
   completion: { name: string; count: number }[];
   template: { name: string; count: number }[];
   traffic: { name: string; count: number }[];
@@ -21,6 +23,7 @@ export type FunnelStats = {
 
 export type TrafficStats = {
   days: number;
+  day: string | null;
   pageViews: number;
   humanPageViews: number;
   botPct: number;
@@ -32,6 +35,20 @@ export type TrafficStats = {
   byBot: { bot: string; count: number }[];
   byCountry: { country: string; count: number }[];
   note: string;
+};
+
+export type TrafficSourceRow = {
+  event: "referral_source_detected" | "campaign_click";
+  source: string;
+  attribution: string;
+  day: string;
+  count: number;
+};
+
+export type TrafficSourcesStats = {
+  days: number;
+  humansOnly: boolean;
+  rows: TrafficSourceRow[];
 };
 
 export type SignupLists = {
@@ -87,8 +104,31 @@ export function adminFunnels(days = 30, humansOnly = false) {
   return adminFetch<FunnelStats>(`/funnels?days=${days}${humansOnly ? "&humansOnly=1" : ""}`);
 }
 
-export function adminTraffic(days = 30) {
-  return adminFetch<TrafficStats>(`/traffic?days=${days}`);
+export type OutreachStats = {
+  days: number;
+  since: string;
+  humanOpens: number;
+  botOpens: number;
+  byCampaign: { label: string; count: number }[];
+  byWho: { who: string; count: number }[];
+  recent: { at: string; code: string; label: string; who: string | null; isBot: boolean }[];
+  links: { path: string; use: string }[];
+};
+
+export function adminTraffic(days = 30, day?: string | null) {
+  const params = new URLSearchParams({ days: String(days) });
+  if (day) params.set("day", day);
+  return adminFetch<TrafficStats>(`/traffic?${params.toString()}`);
+}
+
+export function adminTrafficSources(days = 30, humansOnly = true) {
+  const params = new URLSearchParams({ days: String(days) });
+  if (humansOnly) params.set("humansOnly", "1");
+  return adminFetch<TrafficSourcesStats>(`/traffic-sources?${params.toString()}`);
+}
+
+export function adminOutreach(days = 30) {
+  return adminFetch<OutreachStats>(`/outreach?days=${days}`);
 }
 
 export function adminSignups() {

@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { getBranding, updateBranding, type Account, type Branding } from "../lib/api";
 import { detectPaymentProvider, paymentProviderLabel } from "../lib/paymentProvider";
+import { isWorkspaceAdmin } from "../lib/plan";
 import { useT } from "../lib/i18n";
 
 function fileToDataUrl(file: File): Promise<string> {
@@ -69,6 +70,24 @@ export default function BrandingPage({
   }
 
   const isPaid = account.plan !== "free";
+  const canEdit = isPaid && isWorkspaceAdmin(account);
+
+  if (isPaid && !canEdit) {
+    return (
+      <div className="branding-page">
+        <p className="crumb">
+          <Link to="/">{t("nav.dashboard")}</Link> / {t("branding.title")}
+        </p>
+        <h1>{t("branding.title")}</h1>
+        <div className="panel">
+          <p className="page-sub">{t("workspace.adminOnly")}</p>
+          <Link className="btn-secondary" to="/">
+            {t("nav.dashboard")}
+          </Link>
+        </div>
+      </div>
+    );
+  }
 
   async function saveName(e: React.FormEvent) {
     e.preventDefault();

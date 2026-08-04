@@ -7,6 +7,7 @@ import {
   updateDigestSettings,
   type Account as AccountType,
 } from "../lib/api";
+import { track } from "../lib/analytics";
 import { useT } from "../lib/i18n";
 
 type StripeCheckoutPlan = "solo" | "pro";
@@ -34,6 +35,7 @@ export default function Account({
   async function handleUpgrade(plan: StripeCheckoutPlan) {
     setBusy(plan);
     setError(null);
+    track("upgrade_clicked", { plan });
     try {
       const { url } = await startCheckout(plan);
       window.location.href = url;

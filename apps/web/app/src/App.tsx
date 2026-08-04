@@ -1,13 +1,17 @@
 import { lazy, Suspense, useEffect } from "react";
-import { Routes, Route, useLocation } from "react-router-dom";
+import { Routes, Route, Link, useLocation } from "react-router-dom";
 import AppShell from "./components/AppShell";
+import LanguageSwitcher from "./components/LanguageSwitcher";
 import ProtectedRoute from "./components/ProtectedRoute";
 import AppConsentBanner from "./components/AppConsentBanner";
 import { AccountProvider, useAccountContext } from "./lib/AccountContext";
 import { setUnauthorizedHandler } from "./lib/api";
 import { track } from "./lib/analytics";
+import { useT } from "./lib/i18n";
 
 const Tool = lazy(() => import("./pages/Tool"));
+const NewChase = lazy(() => import("./pages/NewChase"));
+const Templates = lazy(() => import("./pages/Templates"));
 const Login = lazy(() => import("./pages/Login"));
 const Account = lazy(() => import("./pages/Account"));
 const Admin = lazy(() => import("./pages/Admin"));
@@ -18,6 +22,7 @@ const Clients = lazy(() => import("./pages/Clients"));
 const Team = lazy(() => import("./pages/Team"));
 
 function AppRoutes() {
+  const t = useT();
   const { account, loading, refresh, signOut } = useAccountContext();
   const location = useLocation();
   const isAdmin = location.pathname.startsWith("/admin");
@@ -25,7 +30,12 @@ function AppRoutes() {
 
   useEffect(() => {
     setUnauthorizedHandler(() => {
-      window.location.href = "/app/login";
+      // A 401 here is the normal "not signed in yet" state while already on the login page — not an
+      // expired session to bounce out of. Redirecting to the page we're already on still triggers a
+      // full reload, which re-fires the same 401 forever.
+      if (window.location.pathname !== "/app/login") {
+        window.location.href = "/app/login";
+      }
     });
   }, []);
 
@@ -46,10 +56,20 @@ function AppRoutes() {
   if (isLogin) {
     return (
       <div className="app-auth">
-        <a href="/" className="app-auth-brand" aria-label="Chasa home">
-          <img src="/brand/chasa-icon.png" alt="" width="28" height="28" />
-          <span>chasa</span>
-        </a>
+        <header className="app-topbar app-topbar-auth">
+          {account ? (
+            <Link to="/" className="app-topbar-brand" aria-label={t("nav.home")}>
+              <img src="/brand/chasa-icon.png" alt="" width="24" height="24" />
+              <span>chasa</span>
+            </Link>
+          ) : (
+            <a href="/" className="app-topbar-brand" aria-label="Chasa home">
+              <img src="/brand/chasa-icon.png" alt="" width="24" height="24" />
+              <span>chasa</span>
+            </a>
+          )}
+          <LanguageSwitcher className="lang-switcher-on-dark" />
+        </header>
         <Suspense fallback={<p className="page-sub">Loading…</p>}>
           <Routes>
             <Route path="/login" element={<Login />} />
@@ -69,6 +89,22 @@ function AppRoutes() {
               element={
                 <ProtectedRoute>
                   <Tool account={account} />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/new"
+              element={
+                <ProtectedRoute>
+                  <NewChase account={account} />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/templates"
+              element={
+                <ProtectedRoute>
+                  <Templates />
                 </ProtectedRoute>
               }
             />

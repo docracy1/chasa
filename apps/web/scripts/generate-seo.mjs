@@ -64,7 +64,7 @@ function buildSitemapUrls() {
     byPath.set(urlPath, {
       loc: `${SITE_URL}${urlPath}`,
       lastmod: mtime(file),
-      changefreq: isBlog ? "yearly" : isTemplate ? "monthly" : "monthly",
+      changefreq: "monthly",
       priority: isBlog ? 0.7 : isTemplate ? 0.7 : 0.6,
     });
   }

@@ -312,3 +312,45 @@ export function parseInvoiceHints(filename: string, text: string): InvoiceHints 
   hints.confidence = scoreHints(hints);
   return hints;
 }
+
+const MAX_LOCAL_PDF_BYTES = 15 * 1024 * 1024;
+
+/** Parse a user-uploaded invoice PDF (New chase page) into Tool field hints. */
+export function importLocalPdfBytes(
+  filename: string,
+  bytes: ArrayBuffer
+): {
+  file: { id: string; name: string; path: null; mimeType: string; size: number; modifiedAt: null };
+  hints: InvoiceHints;
+  textPreview: string;
+  extractedChars: number;
+} {
+  const name = filename.trim() || "invoice.pdf";
+  if (!name.toLowerCase().endsWith(".pdf")) {
+    throw new Error("Only PDF files can be imported");
+  }
+  if (bytes.byteLength === 0) {
+    throw new Error("Uploaded file was empty");
+  }
+  if (bytes.byteLength > MAX_LOCAL_PDF_BYTES) {
+    throw new Error(`File too large (max ${MAX_LOCAL_PDF_BYTES / (1024 * 1024)} MB)`);
+  }
+  if (!isPdfMagic(bytes)) {
+    throw new Error("File does not look like a PDF (corrupt or wrong type)");
+  }
+  const text = extractPdfText(bytes);
+  const hints = parseInvoiceHints(name, text);
+  return {
+    file: {
+      id: `upload:${name}`,
+      name,
+      path: null,
+      mimeType: "application/pdf",
+      size: bytes.byteLength,
+      modifiedAt: null,
+    },
+    hints,
+    textPreview: text.slice(0, 2500),
+    extractedChars: text.length,
+  };
+}

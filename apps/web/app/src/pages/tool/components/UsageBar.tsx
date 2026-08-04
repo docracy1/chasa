@@ -40,7 +40,10 @@ export function UsageBar({ usedCount, atLimit, isPaid, isSignedIn }: UsageBarPro
         <Link
           to="/account"
           className="quota-wall-primary"
-          onClick={() => track("quota_wall_upgrade_clicked", { signedIn: isSignedIn })}
+          onClick={() => {
+            track("quota_wall_upgrade_clicked", { signedIn: isSignedIn });
+            track("upgrade_clicked", { source: "quota_wall", signedIn: isSignedIn });
+          }}
         >
           {t("usage.upgradeSolo")}
         </Link>

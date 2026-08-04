@@ -276,6 +276,11 @@ export function buildAuthorizeUrl(env: Env, provider: CloudProvider, state: stri
       u.searchParams.set("response_type", "code");
       u.searchParams.set("redirect_uri", redirect);
       u.searchParams.set("token_access_type", "offline");
+      // Dropbox's scoped-app permission model requires these listed explicitly here — omitting
+      // `scope` was issuing tokens with no effective file access, so the connection succeeded
+      // (get_current_account needs no file scope) but every listRecentFiles call 401'd, surfaced
+      // generically as "Could not list Dropbox files".
+      u.searchParams.set("scope", "account_info.read files.metadata.read files.content.read");
       u.searchParams.set("state", state);
       return u.toString();
     }

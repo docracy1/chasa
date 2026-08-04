@@ -94,19 +94,47 @@ function postMainFromExisting(slug) {
   return main ? extractBodyFromMain(main) : null;
 }
 
+const NEW_BADGE_DAYS = 14;
+
+function isRecent(publishedAt) {
+  if (!publishedAt) return false;
+  const days = (Date.now() - new Date(publishedAt).getTime()) / 86_400_000;
+  return days >= 0 && days <= NEW_BADGE_DAYS;
+}
+
 function buildIndexMain(posts) {
   const articles = posts
-    .map(
-      (p) => `<article style="margin-bottom:28px;padding-bottom:20px;border-bottom:1px solid var(--line)">
-      <h2 style="font-family:Fraunces,serif;font-size:24px;margin:0 0 8px"><a href="/blog/${escapeHtml(p.slug)}/">${escapeHtml(p.title)}</a></h2>
-      <p style="color:var(--ink-soft);margin:0">${escapeHtml(p.description || "")}</p>
-    </article>`
-    )
+    .map((p) => {
+      const category = p.category || "Guide";
+      const badge = isRecent(p.publishedAt) ? `<span class="blog-card-badge"><i></i>New</span>` : "";
+      return `<article class="blog-card">
+      <div class="blog-card-top">
+        <span class="blog-card-tag">${escapeHtml(category)}</span>
+        ${badge}
+      </div>
+      <h2><a href="/blog/${escapeHtml(p.slug)}/">${escapeHtml(p.title)}</a></h2>
+      <p>${escapeHtml(p.description || "")}</p>
+      <a class="blog-read-btn" href="/blog/${escapeHtml(p.slug)}/">Read article</a>
+    </article>`;
+    })
     .join("\n    ");
-  return `<h1>Blog</h1>
-  <p class="lede" style="margin-bottom:28px">Notes on chasing invoices without the awkwardness.</p>
-  <div id="posts">
-    ${articles}
+
+  return `<section class="blog-hero">
+    <h1>Practical guides for<br>getting paid faster.</h1>
+    <p class="lede">Short, high-signal articles about invoice follow-ups, tone, and cash flow — written for freelancers and small teams who chase payment themselves.</p>
+  </section>
+  <div class="blog-layout">
+    <div class="blog-posts">
+      ${articles}
+    </div>
+    <aside class="blog-sidebar-cta">
+      <span class="blog-sidebar-eyebrow">Quick help</span>
+      <h3>Not sure how to word your next chase?</h3>
+      <p>Paste your invoice details and get a tone-matched follow-up draft in seconds — free, no signup.</p>
+      <a class="blog-sidebar-btn blog-sidebar-btn-primary" href="/app/">Try Chasa free</a>
+      <a class="blog-sidebar-btn blog-sidebar-btn-secondary" href="/free-templates/">Browse free templates</a>
+      <p class="blog-sidebar-tip">Tip: stay friendly under 7 days late, get firmer past 30, and always leave the door open for a reply.</p>
+    </aside>
   </div>`;
 }
 
@@ -232,12 +260,39 @@ function buildJsonLd(post) {
 
 const posts = await fetchPosts();
 
+const blogIndexJsonLd = JSON.stringify(
+  {
+    "@context": "https://schema.org",
+    "@type": "Blog",
+    name: "Chasa Blog",
+    url: "https://chasa.io/blog/",
+    description:
+      "Practical guides on invoice follow-ups, payment reminder emails, and AR policy for freelancers and small teams.",
+    publisher: {
+      "@type": "Organization",
+      name: "RELACON GmbH",
+      logo: { "@type": "ImageObject", url: "https://chasa.io/brand/chasa-icon.png" },
+    },
+    blogPost: posts.map((p) => ({
+      "@type": "BlogPosting",
+      headline: p.title,
+      description: p.description || "",
+      url: `https://chasa.io/blog/${p.slug}/`,
+      datePublished: p.publishedAt || undefined,
+    })),
+  },
+  null,
+  2
+);
+
 const indexHtml = chrome({
-  title: "Blog — Chasa",
-  description: "Notes on invoice chase, freelancing cash flow, and Chasa.",
+  title: "Invoice Chasing & Payment Reminder Guides | Chasa Blog",
+  description:
+    "Practical guides on chasing overdue invoices, writing payment reminder emails, and building an AR policy — for freelancers and small teams who chase payment themselves.",
   canonical: "/blog/",
   activeNav: "blog",
   mainHtml: buildIndexMain(posts),
+  jsonLd: blogIndexJsonLd,
   depth: 1,
 });
 writeFileSync(join(publicDir, "blog/index.html"), indexHtml, "utf8");

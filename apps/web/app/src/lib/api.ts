@@ -37,6 +37,8 @@ export interface Account {
   digestEnabled?: boolean;
   role?: "admin" | "member";
   workspaceId?: string;
+  /** True when email matches ADMIN_EMAIL — show Admin in the account menu. */
+  isAdmin?: boolean;
 }
 
 export type Branding = {
@@ -411,8 +413,19 @@ export type CloudConnectorTestResult = {
   explanation?: string;
 };
 
-/** sessionStorage key — Connector writes, Tool reads + clears */
+/** sessionStorage key — Connector / New chase write, Tool reads + clears */
 export const CLOUD_IMPORT_STORAGE_KEY = "chasa.cloudImport";
+/** sessionStorage key — New chase manual/CSV rows → Tool adds on mount */
+export const PENDING_INVOICES_STORAGE_KEY = "chasa.pendingInvoices";
+/** sessionStorage key — free template subject/body applied after first generate */
+export const PENDING_TEMPLATE_STORAGE_KEY = "chasa.pendingTemplate";
+
+export function importLocalPdf(filename: string, base64: string) {
+  return jsonFetch<CloudFileImport>("/account/pdf/import", {
+    method: "POST",
+    body: JSON.stringify({ filename, base64 }),
+  });
+}
 
 export function listCloudConnectors() {
   return jsonFetch<{ connectors: CloudConnectorStatus[]; accounting?: AccountingConnectorStatus[] }>(

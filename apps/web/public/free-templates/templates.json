@@ -6,6 +6,7 @@
     "description": "Free pre-due payment reminder email template. Confirm the invoice arrived and put the due date on your client's calendar — no awkward chase yet.",
     "stage": "7 days before due",
     "tone": "Warm",
+    "category": "Before due",
     "subject": "Invoice [Invoice #] due [Due date]",
     "body": "Hi [Client name],\n\nQuick note that invoice [Invoice #] for [Amount] is due on [Due date].\n\nI've attached a copy in case it's useful. If anything looks off, reply and I'll sort it before the due date.\n\nThanks,\n[Your name]"
   },
@@ -16,6 +17,7 @@
     "description": "Free email template for the day an invoice is due. A clear, friendly nudge with the amount, due date, and an easy way to pay.",
     "stage": "Due date",
     "tone": "Friendly",
+    "category": "Due & early overdue",
     "subject": "Invoice [Invoice #] is due today — [Amount]",
     "body": "Hi [Client name],\n\nFriendly reminder that invoice [Invoice #] for [Amount] is due today ([Due date]).\n\nYou can pay here: [Payment link or bank details]\nI've attached the invoice again for convenience.\n\nAppreciate it,\n[Your name]"
   },
@@ -26,6 +28,7 @@
     "description": "Free polite overdue invoice email template for 1–3 days late. Assumes an oversight, asks for a payment date, no blame.",
     "stage": "1–3 days overdue",
     "tone": "Polite",
+    "category": "Due & early overdue",
     "subject": "Quick check-in on invoice [Invoice #]",
     "body": "Hi [Client name],\n\nI noticed invoice [Invoice #] for [Amount] (due [Due date]) hasn't cleared yet — it may have crossed with your payment run.\n\nCould you let me know when payment is scheduled? Invoice attached; pay here if helpful: [Payment link].\n\nThanks,\n[Your name]"
   },
@@ -36,6 +39,7 @@
     "description": "Free firm-but-respectful email template for invoices 7 days overdue. Restates the balance and asks for a clear payment date.",
     "stage": "7 days overdue",
     "tone": "Firm",
+    "category": "Overdue follow-ups",
     "subject": "Invoice [Invoice #] is 7 days overdue — [Amount]",
     "body": "Hi [Client name],\n\nInvoice [Invoice #] for [Amount] was due on [Due date] and is now 7 days overdue.\n\nPlease confirm when we can expect payment, or flag if there's an issue with the invoice so I can fix it. Copy attached — pay here: [Payment link].\n\nBest,\n[Your name]"
   },
@@ -46,6 +50,7 @@
     "description": "Free email template offering a short payment plan when an invoice is about 14 days overdue. Keeps the relationship intact while recovering cash.",
     "stage": "14 days overdue",
     "tone": "Empathetic",
+    "category": "Overdue follow-ups",
     "subject": "Invoice [Invoice #] overdue — can we set a plan?",
     "body": "Hi [Client name],\n\nInvoice [Invoice #] for [Amount] (due [Due date]) is now 14 days overdue, and I haven't heard back.\n\nIf paying in full this week is tight, I'm happy to set up a short payment plan. Tell me what works and I'll confirm in writing.\n\nOtherwise you can settle here: [Payment link]. Invoice attached.\n\nThanks,\n[Your name]"
   },
@@ -56,6 +61,7 @@
     "description": "Free formal payment notice template for invoices 30 days overdue. Summarizes the facts and sets a firm new payment deadline.",
     "stage": "30 days overdue",
     "tone": "Formal",
+    "category": "Formal notices",
     "subject": "Formal notice: invoice [Invoice #] — 30 days overdue",
     "body": "Dear [Client name],\n\nThis is a formal notice regarding invoice [Invoice #] for [Amount], originally due [Due date]. The balance remains unpaid and is now 30 days overdue.\n\nPlease arrange payment by [New deadline date]. If payment is already in progress, reply with the expected arrival date.\n\nInvoice attached. Payment details: [Payment link or bank details].\n\nRegards,\n[Your name]\n[Your company]"
   },
@@ -66,6 +72,7 @@
     "description": "Free serious formal notice email for invoices ~60 days overdue. States consequences clearly without drama.",
     "stage": "60 days overdue",
     "tone": "Serious",
+    "category": "Formal notices",
     "subject": "Second notice: invoice [Invoice #] — 60 days overdue",
     "body": "Dear [Client name],\n\nInvoice [Invoice #] for [Amount] (due [Due date]) remains unpaid at 60 days overdue despite earlier reminders.\n\nPlease settle the full balance by [Final internal deadline]. If we do not receive payment or a written payment plan by that date, we will need to pause further work and consider next collection steps.\n\nPay here: [Payment link]. Invoice attached.\n\nRegards,\n[Your name]\n[Your company]"
   },
@@ -76,6 +83,7 @@
     "description": "Free final-notice email template before escalating to collections. Clear last chance with amount, due date, and deadline.",
     "stage": "90 days overdue",
     "tone": "Final",
+    "category": "Formal notices",
     "subject": "Final notice: invoice [Invoice #] before collections",
     "body": "Dear [Client name],\n\nThis is a final notice for invoice [Invoice #] totaling [Amount], due [Due date], now 90 days overdue.\n\nUnless payment in full (or a signed payment plan) is received by [Cut-off date], we will refer this account for collection.\n\nPayment: [Payment link or bank details]\nInvoice attached for your records.\n\nRegards,\n[Your name]\n[Your company]"
   },
@@ -86,6 +94,7 @@
     "description": "Free short thank-you email after a client pays an invoice. Reinforces goodwill and closes the loop professionally.",
     "stage": "After payment",
     "tone": "Warm",
+    "category": "Payments received",
     "subject": "Thanks — invoice [Invoice #] received",
     "body": "Hi [Client name],\n\nPayment for invoice [Invoice #] ([Amount]) landed — thank you.\n\nLooking forward to the next project together.\n\nBest,\n[Your name]"
   },
@@ -96,6 +105,7 @@
     "description": "Free email template to confirm a partial payment and clearly state the remaining balance and next due date.",
     "stage": "Partial payment",
     "tone": "Clear",
+    "category": "Payments received",
     "subject": "Partial payment received — [Amount remaining] still due on [Invoice #]",
     "body": "Hi [Client name],\n\nThanks — I received [Amount paid] toward invoice [Invoice #].\n\nRemaining balance: [Amount remaining], due by [Next due date].\nPay the rest here: [Payment link].\n\nAppreciate it,\n[Your name]"
   },
@@ -106,6 +116,7 @@
     "description": "Free professional email template when a client disputes an invoice. Acknowledges the issue and proposes a clear next step.",
     "stage": "Dispute",
     "tone": "Calm",
+    "category": "Disputes",
     "subject": "Re: invoice [Invoice #] — let's resolve this",
     "body": "Hi [Client name],\n\nThanks for flagging the concern on invoice [Invoice #] ([Amount]).\n\nI've reviewed [brief note: line item / scope / hours]. Here's what I propose: [proposed fix — credit, revised invoice, or call].\n\nIf that works, I'll send an updated invoice today. If not, let's hop on a 15-minute call this week.\n\nBest,\n[Your name]"
   },
@@ -116,6 +127,7 @@
     "description": "Free follow-up template when a client promised a payment date and missed it. Firm, factual, and short.",
     "stage": "Missed promise",
     "tone": "Direct",
+    "category": "Overdue follow-ups",
     "subject": "Following up — payment promised for [Promised date]",
     "body": "Hi [Client name],\n\nOn [Promise date conversation], you said invoice [Invoice #] ([Amount]) would be paid by [Promised date]. That date has passed and payment hasn't arrived.\n\nPlease send payment today or reply with a revised date I can rely on: [Payment link].\n\nThanks,\n[Your name]"
   },
@@ -126,6 +138,7 @@
     "description": "Free gentle reminder template for a new client's first invoice. Helpful tone that protects a new relationship.",
     "stage": "New client",
     "tone": "Helpful",
+    "category": "Due & early overdue",
     "subject": "Checking in on your first invoice ([Invoice #])",
     "body": "Hi [Client name],\n\nHope the kickoff has been smooth. Just checking that invoice [Invoice #] for [Amount] (due [Due date]) arrived okay — first invoices sometimes land in the wrong inbox.\n\nHappy to resend or adjust billing details. Pay here whenever ready: [Payment link].\n\nExcited to keep going,\n[Your name]"
   },
@@ -136,6 +149,7 @@
     "description": "Free summary email when several invoices are overdue. Lists each balance so the client can clear everything in one go.",
     "stage": "Multiple invoices",
     "tone": "Organized",
+    "category": "Overdue follow-ups",
     "subject": "Outstanding invoices totaling [Total amount]",
     "body": "Hi [Client name],\n\nQuick summary of open invoices:\n\n• [Invoice #1] — [Amount 1] — due [Date 1] — [X] days overdue\n• [Invoice #2] — [Amount 2] — due [Date 2] — [Y] days overdue\n\nTotal outstanding: [Total amount]\n\nYou can pay the full balance here: [Payment link]. If a payment plan would help, reply and we'll set one up.\n\nThanks,\n[Your name]"
   },
@@ -146,6 +160,7 @@
     "description": "Free email to send with a new invoice: clear due date, how to pay, and what to do if something looks wrong — sets expectations before any chase.",
     "stage": "On send",
     "tone": "Clear",
+    "category": "Before due",
     "subject": "Invoice [Invoice #] for [Amount] — due [Due date]",
     "body": "Hi [Client name],\n\nPlease find invoice [Invoice #] for [Amount], due [Due date].\n\nPay here when ready: [Payment link or bank details]\nIf PO numbers, billing contacts, or line items need adjusting, reply and I'll update the invoice before the due date.\n\nThanks for the work — looking forward to the next one,\n[Your name]"
   },
@@ -156,6 +171,7 @@
     "description": "Free short email asking the client to confirm they received an invoice — useful before escalating a chase.",
     "stage": "Delivery check",
     "tone": "Neutral",
+    "category": "Before due",
     "subject": "Did invoice [Invoice #] reach you?",
     "body": "Hi [Client name],\n\nCould you confirm you received invoice [Invoice #] for [Amount] (due [Due date])?\n\nIf it didn't arrive, reply and I'll resend immediately (and update your billing contact if needed). Copy attached.\n\nThanks,\n[Your name]"
   },
@@ -166,6 +182,7 @@
     "description": "Free pre-due summary when several invoices share the same client. Helps AP schedule one payment run before anything is late.",
     "stage": "Multiple · before due",
     "tone": "Helpful",
+    "category": "Before due",
     "subject": "Upcoming invoices totaling [Total amount]",
     "body": "Hi [Client name],\n\nA heads-up on invoices coming due so nothing slips your payment run:\n\n• [Invoice #1] — [Amount 1] — due [Date 1]\n• [Invoice #2] — [Amount 2] — due [Date 2]\n\nCombined total: [Total amount]\n\nIf everything looks right, you can settle here when ready: [Payment link]. Happy to combine into one remittance or adjust timing if needed.\n\nThanks,\n[Your name]"
   },
@@ -176,6 +193,7 @@
     "description": "Free thank-you email after a client clears several invoices at once. Short, warm, and good for repeat payment habits.",
     "stage": "Multiple · paid",
     "tone": "Grateful",
+    "category": "Payments received",
     "subject": "Thanks — payments received ([Total amount])",
     "body": "Hi [Client name],\n\nConfirming we've received your payment covering:\n\n• [Invoice #1] — [Amount 1]\n• [Invoice #2] — [Amount 2]\n\nTotal applied: [Total amount]. Thank you — that clears the open balance on our side.\n\nIf you need remittance details or receipts for your records, just say the word.\n\nAppreciate you,\n[Your name]"
   }

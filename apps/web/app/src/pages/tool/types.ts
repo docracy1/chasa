@@ -8,7 +8,7 @@ import type {
 } from "../../lib/api";
 
 export type PendingCloudImport = CloudFileImport & {
-  provider: CloudProvider;
+  provider: CloudProvider | "upload";
   providerLabel: string;
 };
 

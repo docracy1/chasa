@@ -4,11 +4,18 @@ import type { Env } from "../types";
  * Chasa analytics catalog (invoice chase product).
  * Structure: { name, properties?, visitorId?, accountId?, path?, created_at }
  *
- * Priority: Activation > Completion > Templates > Traffic > Email > Errors
- * KPIs: chase_sent (activation), chase_completed (completion, future),
- *       template_completed (templates), landingpage_cta_clicked (traffic),
- *       email_clicked (email)
+ * Priority: Activation > Growth > Completion > Templates > Traffic > Email > Errors
+ * KPIs: chase_sent (activation), checkout_completed (growth),
+ *       chase_completed (completion), template_completed (templates),
+ *       landingpage_cta_clicked (traffic), email_clicked (email)
  */
+
+/** Growth / revenue — KPI: checkout_completed (same steps as Docracy) */
+export const GROWTH_FUNNEL = [
+  "upgrade_clicked",
+  "checkout_started",
+  "checkout_completed",
+] as const;
 
 /** 1. Activation — KPI: chase_sent */
 export const ACTIVATION_FUNNEL = [
@@ -36,12 +43,15 @@ export const ACTIVATION_FUNNEL = [
   "quota_wall_signin_clicked",
 ] as const;
 
-/** 2. Completion — KPI: chase_completed (stub until paid/open tracking) */
+/** 2. Completion — KPI: chase_completed. chase_opened fires from the tracked-email open pixel
+ *  (chaseTracking.ts recordOpen, first open only); chase_completed fires when an invoice is marked
+ *  paid (routes/aging.ts mark-paid) — neither requires the recipient to do anything Chasa-specific,
+ *  so this funnel only reflects traffic that used the HTML tracked-chase feature. */
 export const COMPLETION_FUNNEL = [
   "chase_sent",
   "chase_downloaded",
-  "chase_opened", // future: recipient opened follow-up
-  "chase_completed", // future: marked paid / resolved
+  "chase_opened",
+  "chase_completed",
 ] as const;
 
 /** 3. Templates — KPI: template_completed */
@@ -60,6 +70,7 @@ export const TRAFFIC_FUNNEL = [
   "landingpage_loaded",
   "landingpage_cta_clicked",
   "referral_source_detected",
+  "outreach_link_opened",
   "blog_article_loaded",
   "blog_cta_clicked",
   "page_viewed",
@@ -83,6 +94,7 @@ export const ERROR_EVENTS = [
 
 const ALLOWED = new Set<string>([
   ...ACTIVATION_FUNNEL,
+  ...GROWTH_FUNNEL,
   ...COMPLETION_FUNNEL,
   ...TEMPLATE_FUNNEL,
   ...TRAFFIC_FUNNEL,
@@ -165,8 +177,9 @@ async function countsFor(
 export async function getFunnelStats(env: Env, days = 30, humansOnly = false) {
   const since = new Date(Date.now() - days * 24 * 60 * 60 * 1000).toISOString();
   const humanFilter = humansOnly ? ` ${HUMANS_ONLY_SQL}` : "";
-  const [activation, completion, template, traffic, email, errors, totals] = await Promise.all([
+  const [activation, growth, completion, template, traffic, email, errors, totals] = await Promise.all([
     countsFor(env, ACTIVATION_FUNNEL, since, humansOnly),
+    countsFor(env, GROWTH_FUNNEL, since, humansOnly),
     countsFor(env, COMPLETION_FUNNEL, since, humansOnly),
     countsFor(env, TEMPLATE_FUNNEL, since, humansOnly),
     countsFor(env, TRAFFIC_FUNNEL, since, humansOnly),
@@ -178,16 +191,18 @@ export async function getFunnelStats(env: Env, days = 30, humansOnly = false) {
          (SELECT COUNT(*) FROM accounts WHERE plan != 'free') as paid_accounts,
          (SELECT COUNT(*) FROM analytics_events WHERE created_at >= ?${humanFilter}) as events,
          (SELECT COUNT(*) FROM analytics_events WHERE name = 'chase_sent' AND created_at >= ?${humanFilter}) as activation_kpi,
-         (SELECT COUNT(*) FROM analytics_events WHERE name = 'chase_completed' AND created_at >= ?${humanFilter}) as completion_kpi
+         (SELECT COUNT(*) FROM analytics_events WHERE name = 'chase_completed' AND created_at >= ?${humanFilter}) as completion_kpi,
+         (SELECT COUNT(*) FROM analytics_events WHERE name = 'checkout_completed' AND created_at >= ?${humanFilter}) as growth_kpi
        `
     )
-      .bind(since, since, since)
+      .bind(since, since, since, since)
       .first<{
         accounts: number;
         paid_accounts: number;
         events: number;
         activation_kpi: number;
         completion_kpi: number;
+        growth_kpi: number;
       }>(),
   ]);
 
@@ -201,8 +216,10 @@ export async function getFunnelStats(env: Env, days = 30, humansOnly = false) {
       events: Number(totals?.events ?? 0),
       activationKpi: Number(totals?.activation_kpi ?? 0),
       completionKpi: Number(totals?.completion_kpi ?? 0),
+      growthKpi: Number(totals?.growth_kpi ?? 0),
     },
     activation,
+    growth,
     completion,
     template,
     traffic,
@@ -266,18 +283,24 @@ export async function recordPageView(
     .run();
 }
 
-export async function getTrafficStats(env: Env, days = 30) {
+export async function getTrafficStats(env: Env, days = 30, day?: string | null) {
   const sinceDay = new Date(Date.now() - days * 24 * 60 * 60 * 1000).toISOString().slice(0, 10);
   const sinceIso = new Date(Date.now() - days * 24 * 60 * 60 * 1000).toISOString();
+  const dayFilter =
+    typeof day === "string" && /^\d{4}-\d{2}-\d{2}$/.test(day) ? day : null;
+  // Breakdown tables can pin to one day; the day chart always keeps the full window so you can
+  // click another bar without losing the series.
+  const breakdownWhere = dayFilter ? `day = ?` : `day >= ?`;
+  const breakdownBind = dayFilter ?? sinceDay;
 
   const [totals, byDay, byRoute, byBot, byCountry, kpis] = await Promise.all([
     env.CHASA_DB.prepare(
       `SELECT
          COUNT(*) as total,
          SUM(CASE WHEN is_bot = 1 THEN 1 ELSE 0 END) as bots
-       FROM page_views WHERE day >= ?`
+       FROM page_views WHERE ${breakdownWhere}`
     )
-      .bind(sinceDay)
+      .bind(breakdownBind)
       .first<{ total: number; bots: number }>(),
     env.CHASA_DB.prepare(
       `SELECT day,
@@ -293,24 +316,24 @@ export async function getTrafficStats(env: Env, days = 30) {
          COUNT(*) as total,
          SUM(CASE WHEN is_bot = 0 THEN 1 ELSE 0 END) as human,
          SUM(CASE WHEN is_bot = 1 THEN 1 ELSE 0 END) as bot
-       FROM page_views WHERE day >= ?
+       FROM page_views WHERE ${breakdownWhere}
        GROUP BY path ORDER BY total DESC LIMIT 20`
     )
-      .bind(sinceDay)
+      .bind(breakdownBind)
       .all<{ path: string; total: number; human: number; bot: number }>(),
     env.CHASA_DB.prepare(
       `SELECT COALESCE(bot_name, 'Unknown') as bot, COUNT(*) as c
-       FROM page_views WHERE day >= ? AND is_bot = 1
+       FROM page_views WHERE ${breakdownWhere} AND is_bot = 1
        GROUP BY bot_name ORDER BY c DESC LIMIT 20`
     )
-      .bind(sinceDay)
+      .bind(breakdownBind)
       .all<{ bot: string; c: number }>(),
     env.CHASA_DB.prepare(
       `SELECT COALESCE(country, '??') as country, COUNT(*) as c
-       FROM page_views WHERE day >= ?
+       FROM page_views WHERE ${breakdownWhere}
        GROUP BY country ORDER BY c DESC LIMIT 20`
     )
-      .bind(sinceDay)
+      .bind(breakdownBind)
       .all<{ country: string; c: number }>(),
     env.CHASA_DB.prepare(
       `SELECT
@@ -329,6 +352,7 @@ export async function getTrafficStats(env: Env, days = 30) {
 
   return {
     days,
+    day: dayFilter,
     pageViews: total,
     humanPageViews: Math.max(0, total - bots),
     botPct: total > 0 ? Math.round((bots / total) * 100) : 0,
@@ -355,3 +379,187 @@ export async function getTrafficStats(env: Env, days = 30) {
     note: "Aggregate traffic from Chasa (CF country header, UA bot detect). No IPs or visitor IDs stored on page views.",
   };
 }
+
+export type TrafficSourceRow = {
+  event: "referral_source_detected" | "campaign_click";
+  source: string;
+  attribution: string;
+  day: string;
+  count: number;
+};
+
+function hostnameFromReferrer(referrer: string): string | null {
+  try {
+    const host = new URL(referrer).hostname.toLowerCase();
+    return host || null;
+  } catch {
+    return null;
+  }
+}
+
+function attributionTag(utmSource: string, utmCampaign: string): string {
+  const source = utmSource.trim().toLowerCase().replace(/[^a-z0-9._/-]+/g, "-").slice(0, 40);
+  const campaign = utmCampaign.trim().toLowerCase().replace(/[^a-z0-9._/-]+/g, "-").slice(0, 40);
+  if (!source) return "";
+  return campaign ? `${source}/${campaign}` : source;
+}
+
+/** Docracy-style external discovery rows for the Admin overview. */
+export async function getTrafficSources(env: Env, days = 30, humansOnly = false) {
+  const since = new Date(Date.now() - days * 24 * 60 * 60 * 1000).toISOString();
+  const humanFilter = humansOnly ? ` AND COALESCE(is_bot, 0) = 0` : "";
+  const { results } = await env.CHASA_DB.prepare(
+    `SELECT name, properties, created_at
+     FROM analytics_events
+     WHERE created_at >= ?
+       AND name IN ('referral_source_detected', 'outreach_link_opened')
+       ${humanFilter}
+     ORDER BY created_at DESC
+     LIMIT 2000`
+  )
+    .bind(since)
+    .all<{ name: string; properties: string | null; created_at: string }>();
+
+  const buckets = new Map<string, TrafficSourceRow>();
+
+  for (const row of results ?? []) {
+    let props: Record<string, unknown> = {};
+    try {
+      props = row.properties ? (JSON.parse(row.properties) as Record<string, unknown>) : {};
+    } catch {
+      props = {};
+    }
+    const day = row.created_at.slice(0, 10);
+
+    if (row.name === "referral_source_detected") {
+      const sourceHint = String(props.source ?? "").toLowerCase();
+      const referrer = String(props.referrer ?? "");
+      const host =
+        hostnameFromReferrer(referrer) ||
+        (sourceHint && !["direct", "internal", "referral"].includes(sourceHint) ? sourceHint : "");
+
+      if (host) {
+        const key = `ref:${day}:${host}`;
+        const prev = buckets.get(key);
+        if (prev) prev.count += 1;
+        else
+          buckets.set(key, {
+            event: "referral_source_detected",
+            source: host,
+            attribution: "",
+            day,
+            count: 1,
+          });
+      }
+
+      const tag = attributionTag(String(props.utm_source ?? ""), String(props.utm_campaign ?? ""));
+      if (tag) {
+        const key = `camp:${day}:${tag}`;
+        const prev = buckets.get(key);
+        if (prev) prev.count += 1;
+        else
+          buckets.set(key, {
+            event: "campaign_click",
+            source: "",
+            attribution: tag,
+            day,
+            count: 1,
+          });
+      }
+    } else if (row.name === "outreach_link_opened") {
+      const source = String(props.source ?? "outreach");
+      const campaign = String(props.campaign ?? props.code ?? "dm");
+      const tag = attributionTag(source, campaign);
+      if (!tag) continue;
+      const key = `camp:${day}:${tag}`;
+      const prev = buckets.get(key);
+      if (prev) prev.count += 1;
+      else
+        buckets.set(key, {
+          event: "campaign_click",
+          source: "",
+          attribution: tag,
+          day,
+          count: 1,
+        });
+    }
+  }
+
+  return {
+    days,
+    humansOnly,
+    rows: [...buckets.values()].sort((a, b) => b.day.localeCompare(a.day) || b.count - a.count),
+  };
+}
+
+/** Opens of /go/* outreach short links (server-logged, including optional ?who=). */
+export async function getOutreachStats(env: Env, days = 30) {
+  const since = new Date(Date.now() - days * 24 * 60 * 60 * 1000).toISOString();
+  const { results } = await env.CHASA_DB.prepare(
+    `SELECT properties, created_at, is_bot
+     FROM analytics_events
+     WHERE name = 'outreach_link_opened' AND created_at >= ?
+     ORDER BY created_at DESC
+     LIMIT 500`
+  )
+    .bind(since)
+    .all<{ properties: string | null; created_at: string; is_bot: number | null }>();
+
+  const byCampaign = new Map<string, number>();
+  const byWho = new Map<string, number>();
+  const recent: {
+    at: string;
+    code: string;
+    label: string;
+    who: string | null;
+    isBot: boolean;
+  }[] = [];
+
+  let humanOpens = 0;
+  let botOpens = 0;
+
+  for (const row of results ?? []) {
+    let props: Record<string, unknown> = {};
+    try {
+      props = row.properties ? (JSON.parse(row.properties) as Record<string, unknown>) : {};
+    } catch {
+      props = {};
+    }
+    const code = String(props.code ?? "dm");
+    const source = String(props.source ?? "outreach");
+    const campaign = String(props.campaign ?? code);
+    const who = props.who ? String(props.who) : null;
+    const label = String(props.label ?? (who ? `${source}/${campaign}/${who}` : `${source}/${campaign}`));
+    const isBot = Number(row.is_bot) === 1;
+
+    recent.push({ at: row.created_at, code, label, who, isBot });
+
+    if (isBot) {
+      botOpens++;
+      continue;
+    }
+    humanOpens++;
+    const campKey = `${source}/${campaign}`;
+    byCampaign.set(campKey, (byCampaign.get(campKey) ?? 0) + 1);
+    if (who) byWho.set(who, (byWho.get(who) ?? 0) + 1);
+  }
+
+  const sortCount = (a: [string, number], b: [string, number]) => b[1] - a[1];
+  return {
+    days,
+    since,
+    humanOpens,
+    botOpens,
+    byCampaign: [...byCampaign.entries()].sort(sortCount).slice(0, 40).map(([label, count]) => ({ label, count })),
+    byWho: [...byWho.entries()].sort(sortCount).slice(0, 40).map(([who, count]) => ({ who, count })),
+    recent: recent.slice(0, 50),
+    links: [
+      { path: "/go/dm", use: "Cold email / DM outreach (add ?who=name)" },
+      { path: "/go/li", use: "LinkedIn posts & comments" },
+      { path: "/go/x", use: "X / Twitter" },
+      { path: "/go/try", use: "Generic try CTA → /app/" },
+      { path: "/go/templates", use: "Free templates" },
+    ],
+  };
+}
+

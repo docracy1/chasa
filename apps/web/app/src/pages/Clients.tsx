@@ -393,6 +393,11 @@ export default function ClientsPage({ account }: { account: Account | null }) {
               {isPro && detail.riskScore == null && (
                 <p className="branding-help">{t("clients.riskScoreHint")}</p>
               )}
+              {isPaid && !isPro && (
+                <p className="branding-help">
+                  <Link to="/account">{t("clients.unlockRisk")}</Link>
+                </p>
+              )}
               <form className="clients-form" onSubmit={handleSave}>
                 <label>
                   {t("clients.name")}

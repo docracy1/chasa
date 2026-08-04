@@ -8,6 +8,7 @@ import { checkRateLimit } from "./rateLimit";
 import { generateOpaqueToken, hashOpaqueToken, hashOpaqueTokenLookup, hashOpaqueTokenLegacy } from "./token";
 import { purgeExpiredSessions } from "./sessionCleanup";
 import { sendMagicLinkEmail } from "./email";
+import { detectLocaleFromHeader, normalizeLocale, type Locale } from "./locale";
 import { normalizePlan } from "./plan";
 
 const MAGIC_LINK_TTL_SECONDS = 15 * 60;
@@ -58,7 +59,8 @@ export function sessionCookieOptions(env: Env) {
 
 async function findOrCreateAccount(
   env: Env,
-  email: string
+  email: string,
+  locale: Locale = "en"
 ): Promise<{ id: string; plan: Plan; isPaid: boolean; isNew: boolean }> {
   const normalized = email.trim().toLowerCase();
   const existing = await env.CHASA_DB.prepare(`SELECT id, is_paid, plan FROM accounts WHERE email = ?`)
@@ -75,9 +77,9 @@ async function findOrCreateAccount(
 
   const id = crypto.randomUUID();
   await env.CHASA_DB.prepare(
-    `INSERT INTO accounts (id, email, created_at, is_paid, plan) VALUES (?, ?, ?, 0, 'free')`
+    `INSERT INTO accounts (id, email, created_at, is_paid, plan, locale) VALUES (?, ?, ?, 0, 'free', ?)`
   )
-    .bind(id, normalized, new Date().toISOString())
+    .bind(id, normalized, new Date().toISOString(), locale)
     .run();
   return { id, plan: "free", isPaid: false, isNew: true };
 }
@@ -88,12 +90,22 @@ const MAGIC_LINK_COOLDOWN_SECONDS = 60;
 export async function requestMagicLink(
   env: Env,
   email: string,
-  appOrigin: string
+  appOrigin: string,
+  acceptLanguage?: string | null
 ): Promise<{ ok: true } | { ok: false; error: string }> {
   const normalized = email.trim().toLowerCase();
   if (!normalized || !normalized.includes("@")) {
     return { ok: false, error: "Enter a valid email address." };
   }
+
+  // Prefer an existing account's stored preference over the current browser's language — a
+  // returning user on a borrowed device shouldn't suddenly get emails in the wrong language.
+  const existingAccount = await env.CHASA_DB.prepare(`SELECT locale FROM accounts WHERE email = ?`)
+    .bind(normalized)
+    .first<{ locale: string | null }>();
+  const locale: Locale = existingAccount
+    ? normalizeLocale(existingAccount.locale)
+    : detectLocaleFromHeader(acceptLanguage);
 
   const now = new Date();
   const cooldownSince = new Date(now.getTime() - MAGIC_LINK_COOLDOWN_SECONDS * 1000).toISOString();
@@ -120,14 +132,15 @@ export async function requestMagicLink(
   // session cookie is set on the API host and never sent with same-origin /api calls from the app.
   // Cookie options omit Domain= so the browser scopes the cookie to the app host (pages.dev or chasa.io).
   const verifyUrl = `${appOrigin}/api/auth/verify?token=${encodeURIComponent(token)}`;
-  await sendMagicLinkEmail(env, normalized, verifyUrl);
+  await sendMagicLinkEmail(env, normalized, verifyUrl, locale);
 
   return { ok: true };
 }
 
 export async function consumeMagicLink(
   env: Env,
-  token: string
+  token: string,
+  acceptLanguage?: string | null
 ): Promise<
   | { ok: true; sessionToken: string; isPaid: boolean; plan: Plan; accountId: string; isNew: boolean }
   | { ok: false; error: string }
@@ -167,7 +180,7 @@ export async function consumeMagicLink(
     return { ok: false, error: "That link is invalid or has expired. Request a new one." };
   }
 
-  const account = await findOrCreateAccount(env, row.email);
+  const account = await findOrCreateAccount(env, row.email, detectLocaleFromHeader(acceptLanguage));
   await purgeExpiredSessions(env);
   await env.CHASA_DB.prepare(`DELETE FROM sessions WHERE account_id = ?`).bind(account.id).run();
   const sessionToken = await createSession(env, account.id);
@@ -423,7 +436,8 @@ export async function getGoogleLoginAuthorizeUrl(
 export async function handleGoogleLoginCallback(
   env: Env,
   code: string,
-  state: string
+  state: string,
+  acceptLanguage?: string | null
 ): Promise<
   | { ok: true; sessionToken: string; accountId: string; isNew: boolean; isPaid: boolean; plan: Plan }
   | { ok: false; error: string }
@@ -469,7 +483,7 @@ export async function handleGoogleLoginCallback(
   if (tokenInfo.aud && tokenInfo.aud !== env.GOOGLE_LOGIN_CLIENT_ID) {
     return { ok: false, error: "Invalid token audience" };
   }
-  const account = await findOrCreateAccount(env, email);
+  const account = await findOrCreateAccount(env, email, detectLocaleFromHeader(acceptLanguage));
   await purgeExpiredSessions(env);
   await env.CHASA_DB.prepare(`DELETE FROM sessions WHERE account_id = ?`).bind(account.id).run();
   const sessionToken = await createSession(env, account.id);

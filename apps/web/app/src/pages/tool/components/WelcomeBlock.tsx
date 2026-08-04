@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { FREE_LIMIT } from "../../../lib/usage";
 import type { Account } from "../../../lib/api";
+import { isWorkspaceAdmin } from "../../../lib/plan";
 import { useT } from "../../../lib/i18n";
 
 interface WelcomeBlockProps {
@@ -23,6 +24,7 @@ export function WelcomeBlock({
   usedCount,
 }: WelcomeBlockProps) {
   const t = useT();
+  const showConnectors = isWorkspaceAdmin(account);
 
   return (
     <section className="welcome-block">
@@ -51,7 +53,7 @@ export function WelcomeBlock({
 
       <h2 className="welcome-section-title">{t("welcome.startNew")}</h2>
       <div className="welcome-actions">
-        <a className="welcome-action" href="#chase-workspace">
+        <Link className="welcome-action" to="/new">
           <span className="welcome-action-icon" aria-hidden="true">
             +
           </span>
@@ -59,8 +61,8 @@ export function WelcomeBlock({
             <strong>{t("welcome.action.chase")}</strong>
             <span>{t("welcome.action.chaseSub")}</span>
           </span>
-        </a>
-        <a className="welcome-action" href="#chase-workspace">
+        </Link>
+        <Link className="welcome-action" to="/new">
           <span className="welcome-action-icon" aria-hidden="true">
             ↗
           </span>
@@ -68,16 +70,18 @@ export function WelcomeBlock({
             <strong>{t("welcome.action.csv")}</strong>
             <span>{t("welcome.action.csvSub")}</span>
           </span>
-        </a>
-        <Link className="welcome-action" to="/connector">
-          <span className="welcome-action-icon" aria-hidden="true">
-            ≡
-          </span>
-          <span>
-            <strong>{t("welcome.action.connectors")}</strong>
-            <span>{t("welcome.action.connectorsSub")}</span>
-          </span>
         </Link>
+        {showConnectors ? (
+          <Link className="welcome-action" to="/connector">
+            <span className="welcome-action-icon" aria-hidden="true">
+              ≡
+            </span>
+            <span>
+              <strong>{t("welcome.action.connectors")}</strong>
+              <span>{t("welcome.action.connectorsSub")}</span>
+            </span>
+          </Link>
+        ) : null}
         <Link className="welcome-action" to={isPaid ? "/clients" : "/account"}>
           <span className="welcome-action-icon" aria-hidden="true">
             ▤
@@ -88,6 +92,35 @@ export function WelcomeBlock({
           </span>
         </Link>
       </div>
+
+      {isPaid ? (
+        <>
+          <h2 className="welcome-section-title">{t("welcome.aiTools.title")}</h2>
+          <div className="welcome-ai-tools">
+            <div className="welcome-ai-tool">
+              <strong>{t("welcome.aiTools.tone.title")}</strong>
+              <span>{t("welcome.aiTools.tone.body")}</span>
+            </div>
+            <div className="welcome-ai-tool">
+              <strong>{t("welcome.aiTools.sequence.title")}</strong>
+              <span>{t("welcome.aiTools.sequence.body")}</span>
+            </div>
+            <div className="welcome-ai-tool">
+              <strong>{t("welcome.aiTools.timeline.title")}</strong>
+              <span>{t("welcome.aiTools.timeline.body")}</span>
+            </div>
+            {account?.plan === "pro" || account?.plan === "enterprise" ? (
+              <div className="welcome-ai-tool is-pro">
+                <strong>{t("welcome.aiTools.pro.title")}</strong>
+                <span>{t("welcome.aiTools.pro.body")}</span>
+              </div>
+            ) : null}
+          </div>
+          <Link to="/new" className="welcome-ai-tools-cta">
+            {t("welcome.aiTools.cta")}
+          </Link>
+        </>
+      ) : null}
 
       <h2 className="welcome-section-title">{t("welcome.needsAttention")}</h2>
       {overdueCount === 0 ? (

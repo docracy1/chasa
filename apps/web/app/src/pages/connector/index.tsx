@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { useT } from "../../lib/i18n";
 import {
   CLOUD_IMPORT_STORAGE_KEY,
@@ -24,6 +24,7 @@ import {
   type ConnectorKey,
 } from "../../lib/api";
 import { CLOUD_LABELS } from "../../lib/cloudImport";
+import { isWorkspaceAdmin } from "../../lib/plan";
 import { AccountingSection } from "./components/AccountingSection";
 import { ApiKeySection } from "./components/ApiKeySection";
 import { CloudStorageSection } from "./components/CloudStorageSection";
@@ -42,6 +43,7 @@ import { loadPersistedTests, persistTests, sampleCurl } from "./utils";
 export default function ConnectorPage({ account }: { account: Account | null }) {
   const t = useT();
   const navigate = useNavigate();
+  const location = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
   const [keys, setKeys] = useState<ConnectorKey[]>([]);
   const [cloud, setCloud] = useState<CloudConnectorStatus[]>([]);
@@ -95,6 +97,15 @@ export default function ConnectorPage({ account }: { account: Account | null }) 
   useEffect(() => {
     refresh();
   }, [account?.email, isPaid]);
+
+  useEffect(() => {
+    const id = location.hash.replace(/^#/, "");
+    if (!id) return;
+    const timer = window.setTimeout(() => {
+      document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 80);
+    return () => window.clearTimeout(timer);
+  }, [location.hash, loading]);
 
   useEffect(() => {
     const connectedParam = searchParams.get("connected");
@@ -169,6 +180,20 @@ export default function ConnectorPage({ account }: { account: Account | null }) 
 
   if (!account) {
     return <SignInPanel />;
+  }
+
+  if (isPaid && !isWorkspaceAdmin(account)) {
+    return (
+      <div className="webhooks-page connector-test-page">
+        <h1>{t("connector.title")}</h1>
+        <div className="panel">
+          <p className="page-sub">{t("workspace.adminOnly")}</p>
+          <Link className="btn-secondary" to="/">
+            {t("nav.dashboard")}
+          </Link>
+        </div>
+      </div>
+    );
   }
 
   async function handleCreate(e: React.FormEvent) {

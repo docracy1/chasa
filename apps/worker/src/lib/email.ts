@@ -1,5 +1,6 @@
 import type { Env } from "../types";
 import { trackEvent } from "./analytics";
+import type { Locale } from "./locale";
 
 const ACCENT = "#EC683C";
 const INK = "#1B3155";
@@ -15,9 +16,14 @@ function escapeHtml(str: string): string {
     .replace(/'/g, "&#39;");
 }
 
+const FOOTER_TEXT: Record<Locale, string> = {
+  en: "Drafts only — you always send from your own inbox",
+  es: "Solo borradores — siempre envías tú desde tu bandeja",
+};
+
 /** Shared branded shell — same Swipesign-style pattern as Docracy: gray canvas, white card,
  *  centered logo, pill CTA. */
-export function emailShell(appUrl: string, bodyHtml: string): string {
+export function emailShell(appUrl: string, bodyHtml: string, locale: Locale = "en"): string {
   const logo = `${appUrl.replace(/\/$/, "")}/brand/chasa-icon.png`;
   return `
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${PAPER};padding:32px 16px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,Helvetica,sans-serif;">
@@ -39,7 +45,7 @@ export function emailShell(appUrl: string, bodyHtml: string): string {
       <table role="presentation" width="520" cellpadding="0" cellspacing="0" style="max-width:520px;width:100%;">
         <tr>
           <td style="padding:24px 32px 0 32px;text-align:center;font-size:12px;color:${MUTED_HEX};line-height:1.6;">
-            Drafts only — you always send from your own inbox · <a href="${appUrl}" style="color:${MUTED_HEX};text-decoration:underline;">chasa.io</a>
+            ${FOOTER_TEXT[locale]} · <a href="${appUrl}" style="color:${MUTED_HEX};text-decoration:underline;">chasa.io</a>
           </td>
         </tr>
       </table>
@@ -58,14 +64,43 @@ export function ctaButton(url: string, label: string): string {
   </td></tr></table>`;
 }
 
-const SIGN_OFF = `<p style="margin:28px 0 0 0;font-size:15px;color:${INK};line-height:1.5;">Until soon,<br><em style="font-style:italic;color:${MUTED_HEX};">Chasa</em></p>`;
+const SIGN_OFF_TEXT: Record<Locale, string> = {
+  en: "Until soon,",
+  es: "Hasta pronto,",
+};
+
+export function signOff(locale: Locale = "en"): string {
+  return `<p style="margin:28px 0 0 0;font-size:15px;color:${INK};line-height:1.5;">${SIGN_OFF_TEXT[locale]}<br><em style="font-style:italic;color:${MUTED_HEX};">Chasa</em></p>`;
+}
 
 function appUrl(env: Env): string {
   return (env.PUBLIC_APP_URL || "https://chasa.io").replace(/\/$/, "");
 }
 
+const MAGIC_LINK_COPY: Record<Locale, { subject: string; headline: string; body: string; cta: string; note: string }> = {
+  en: {
+    subject: "Your Chasa sign-in link",
+    headline: "Sign in to Chasa",
+    body: "Click the button below to sign in. This link expires in 15 minutes and can only be used once.",
+    cta: "Sign in",
+    note: "If you didn't request this, you can safely ignore this email.",
+  },
+  es: {
+    subject: "Tu enlace de inicio de sesión de Chasa",
+    headline: "Inicia sesión en Chasa",
+    body: "Haz clic en el botón para iniciar sesión. Este enlace caduca en 15 minutos y solo se puede usar una vez.",
+    cta: "Iniciar sesión",
+    note: "Si no solicitaste esto, puedes ignorar este correo con tranquilidad.",
+  },
+};
+
 // Falls back to logging when RESEND_API_KEY isn't set, so local dev never blocks on a missing secret.
-export async function sendMagicLinkEmail(env: Env, email: string, verifyUrl: string): Promise<void> {
+export async function sendMagicLinkEmail(
+  env: Env,
+  email: string,
+  verifyUrl: string,
+  locale: Locale = "en"
+): Promise<void> {
   if (!env.RESEND_API_KEY) {
     console.log(`[dev] magic link email queued for ${email} (token not logged)`);
     await trackEvent(env, {
@@ -76,16 +111,17 @@ export async function sendMagicLinkEmail(env: Env, email: string, verifyUrl: str
     return;
   }
 
+  const copy = MAGIC_LINK_COPY[locale];
   const body = `
-    ${emailHeadline("Sign in to Chasa")}
+    ${emailHeadline(copy.headline)}
     <p style="margin:0;font-size:15px;color:${INK};line-height:1.55;">
-      Click the button below to sign in. This link expires in 15 minutes and can only be used once.
+      ${copy.body}
     </p>
-    ${ctaButton(verifyUrl, "Sign in")}
+    ${ctaButton(verifyUrl, copy.cta)}
     <p style="margin:0;font-size:13px;color:${MUTED_HEX};line-height:1.5;">
-      If you didn't request this, you can safely ignore this email.
+      ${copy.note}
     </p>
-    ${SIGN_OFF}
+    ${signOff(locale)}
   `;
 
   const res = await fetch("https://api.resend.com/emails", {
@@ -97,8 +133,8 @@ export async function sendMagicLinkEmail(env: Env, email: string, verifyUrl: str
     body: JSON.stringify({
       from: `Chasa <login@chasa.io>`,
       to: [email],
-      subject: "Your Chasa sign-in link",
-      html: emailShell(appUrl(env), body),
+      subject: copy.subject,
+      html: emailShell(appUrl(env), body, locale),
     }),
   });
 
@@ -119,25 +155,48 @@ export async function sendMagicLinkEmail(env: Env, email: string, verifyUrl: str
   }).catch(() => {});
 }
 
+const TEAM_INVITE_COPY: Record<
+  Locale,
+  { subject: (inviter: string) => string; headline: string; body: (inviter: string, to: string) => string; cta: string }
+> = {
+  en: {
+    subject: (inviter) => `${inviter} invited you to a Chasa workspace`,
+    headline: "You're invited to a Chasa workspace",
+    body: (inviter, to) =>
+      `${escapeHtml(inviter)} invited you to collaborate on invoice follow-ups in Chasa. Sign in with <strong>${escapeHtml(to)}</strong> to join. Chasa never emails your clients — drafts only.`,
+    cta: "Accept invite",
+  },
+  es: {
+    subject: (inviter) => `${inviter} te invitó a un espacio de trabajo de Chasa`,
+    headline: "Te invitaron a un espacio de trabajo de Chasa",
+    body: (inviter, to) =>
+      `${escapeHtml(inviter)} te invitó a colaborar en seguimientos de facturas en Chasa. Inicia sesión con <strong>${escapeHtml(to)}</strong> para unirte. Chasa nunca envía correos a tus clientes — solo borradores.`,
+    cta: "Aceptar invitación",
+  },
+};
+
+/** `locale` is the inviter's own preference (see team.ts sendInviteEmail) — the invitee hasn't
+ *  signed up yet, so there's nothing else to go on. */
 export async function sendTeamInviteEmail(
   env: Env,
   to: string,
   inviterEmail: string,
-  inviteUrl: string
+  inviteUrl: string,
+  locale: Locale = "en"
 ): Promise<void> {
   if (!env.RESEND_API_KEY) {
     console.log(`[dev] team invite email queued for ${to} (link not logged)`);
     return;
   }
 
+  const copy = TEAM_INVITE_COPY[locale];
   const body = `
-    ${emailHeadline("You're invited to a Chasa workspace")}
+    ${emailHeadline(copy.headline)}
     <p style="margin:0;font-size:15px;color:${INK};line-height:1.55;">
-      ${escapeHtml(inviterEmail)} invited you to collaborate on invoice follow-ups in Chasa.
-      Sign in with <strong>${escapeHtml(to)}</strong> to join. Chasa never emails your clients — drafts only.
+      ${copy.body(inviterEmail, to)}
     </p>
-    ${ctaButton(inviteUrl, "Accept invite")}
-    ${SIGN_OFF}
+    ${ctaButton(inviteUrl, copy.cta)}
+    ${signOff(locale)}
   `;
 
   const res = await fetch("https://api.resend.com/emails", {
@@ -149,12 +208,64 @@ export async function sendTeamInviteEmail(
     body: JSON.stringify({
       from: `Chasa <login@chasa.io>`,
       to: [to],
-      subject: `${inviterEmail} invited you to a Chasa workspace`,
-      html: emailShell(appUrl(env), body),
+      subject: copy.subject(inviterEmail),
+      html: emailShell(appUrl(env), body, locale),
     }),
   });
   if (!res.ok) {
     console.error(`Resend invite failed (${res.status}): ${await res.text()}`);
+  }
+}
+
+const PAYMENT_FAILED_COPY: Record<Locale, { subject: string; headline: string; body: string; cta: string }> = {
+  en: {
+    subject: "Action needed: your Chasa payment failed",
+    headline: "We couldn't charge your card",
+    body: "Stripe tried to renew your Chasa subscription but the payment didn't go through. Your account is still active — update your card to avoid an interruption.",
+    cta: "Update billing",
+  },
+  es: {
+    subject: "Acción necesaria: falló tu pago de Chasa",
+    headline: "No pudimos cobrar tu tarjeta",
+    body: "Stripe intentó renovar tu suscripción de Chasa, pero el pago no se completó. Tu cuenta sigue activa — actualiza tu tarjeta para evitar una interrupción.",
+    cta: "Actualizar facturación",
+  },
+};
+
+/** Sent on Stripe's invoice.payment_failed — a heads-up, not an access change. Stripe's own retry
+ *  schedule (and eventual subscription cancellation) is what actually revokes paid status; this
+ *  just gives the account owner a chance to fix their card before that happens. */
+export async function sendPaymentFailedEmail(env: Env, email: string, locale: Locale = "en"): Promise<void> {
+  if (!env.RESEND_API_KEY) {
+    console.log(`[dev] payment-failed email queued for ${email}`);
+    return;
+  }
+
+  const copy = PAYMENT_FAILED_COPY[locale];
+  const body = `
+    ${emailHeadline(copy.headline)}
+    <p style="margin:0 0 12px 0;font-size:15px;color:${INK};line-height:1.55;">
+      ${copy.body}
+    </p>
+    ${ctaButton(`${appUrl(env)}/app/account`, copy.cta)}
+    ${signOff(locale)}
+  `;
+
+  const res = await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${env.RESEND_API_KEY}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      from: `Chasa <login@chasa.io>`,
+      to: [email],
+      subject: copy.subject,
+      html: emailShell(appUrl(env), body, locale),
+    }),
+  });
+  if (!res.ok) {
+    console.error(`Resend payment-failed email failed (${res.status}): ${await res.text()}`);
   }
 }
 
@@ -165,66 +276,98 @@ function greetingName(email: string): string {
   return token.charAt(0).toUpperCase() + token.slice(1).toLowerCase();
 }
 
+// Blog articles themselves are English-only content (no Spanish version exists), so titles stay in
+// English even in the es copy below — only the surrounding email copy is translated. Linking to a
+// Spanish title for an English page would be worse than an honest English link.
+const TEMPLATES_ARTICLES = [
+  { title: "How to follow up on overdue invoices (without burning bridges)", href: "/blog/how-to-follow-up-on-overdue-invoices/" },
+  { title: "Building an AR policy that works with Chasa", href: "/blog/ar-policy-that-works-with-chasa/" },
+  { title: "Freelancer late payment policy", href: "/blog/freelancer-late-payment-policy/" },
+];
+
+const TEMPLATES_WELCOME_COPY: Record<
+  Locale,
+  {
+    subject: string;
+    greeting: (name: string) => string;
+    intro: string;
+    downloadCta: string;
+    readsIntro: string;
+    tryIntro: string;
+    tryCta: string;
+    freeNote: string;
+    unsubscribe: string;
+  }
+> = {
+  en: {
+    subject: "Your polite invoice templates (plus a few reads)",
+    greeting: (name) => `Hi ${name},`,
+    intro:
+      "Thanks for downloading our politely worded invoice templates. They’re yours to copy, personalize, and send from your own inbox — no awkward blank page.",
+    downloadCta: "Download the PDF again",
+    readsIntro: "We keep publishing practical notes for freelancers and small teams. These may help next:",
+    tryIntro:
+      "Prefer not to rewrite every chase by hand? Paste unpaid invoices into Chasa and get a tone-matched draft for how late each one is. You still send — clients always hear from you, not from an automated collections domain.",
+    tryCta: "Try Chasa free",
+    freeNote: "Five AI drafts per month on Free · no card required.",
+    unsubscribe: "Unsubscribe from template updates",
+  },
+  es: {
+    subject: "Tus plantillas de facturas (y algunas lecturas)",
+    greeting: (name) => `Hola ${name},`,
+    intro:
+      "Gracias por descargar nuestras plantillas de facturas con un tono cordial. Son tuyas para copiar, personalizar y enviar desde tu propia bandeja — sin la incómoda hoja en blanco.",
+    downloadCta: "Descargar el PDF de nuevo",
+    readsIntro: "Seguimos publicando notas prácticas para freelancers y equipos pequeños. Estas pueden ayudarte después:",
+    tryIntro:
+      "¿Prefieres no reescribir cada seguimiento a mano? Pega facturas impagas en Chasa y recibe un borrador con el tono correcto según el retraso de cada una. Tú sigues enviando — tus clientes siempre te escuchan a ti, no a un dominio automatizado de cobranza.",
+    tryCta: "Probar Chasa gratis",
+    freeNote: "Cinco borradores con IA al mes en el plan Gratis · sin tarjeta.",
+    unsubscribe: "Darse de baja de actualizaciones de plantillas",
+  },
+};
+
 /** Welcome email after someone downloads the polite templates PDF pack. */
 export async function sendTemplatesPackWelcomeEmail(
   env: Env,
   email: string,
-  opts: { downloadUrl: string; unsubUrl: string; firstName?: string | null }
+  opts: { downloadUrl: string; unsubUrl: string; firstName?: string | null },
+  locale: Locale = "en"
 ): Promise<void> {
   const base = appUrl(env);
-  const name =
-    (opts.firstName && opts.firstName.trim()) ||
-    greetingName(email);
-  const articles = [
-    {
-      title: "How to follow up on overdue invoices (without burning bridges)",
-      href: `${base}/blog/how-to-follow-up-on-overdue-invoices/`,
-    },
-    {
-      title: "Building an AR policy that works with Chasa",
-      href: `${base}/blog/ar-policy-that-works-with-chasa/`,
-    },
-    {
-      title: "Freelancer late payment policy",
-      href: `${base}/blog/freelancer-late-payment-policy/`,
-    },
-  ];
+  const name = (opts.firstName && opts.firstName.trim()) || greetingName(email);
+  const copy = TEMPLATES_WELCOME_COPY[locale];
 
-  const articleList = articles
-    .map(
-      (a) =>
-        `<li style="margin:0 0 8px 0;"><a href="${a.href}" style="color:${ACCENT};text-decoration:underline;">${escapeHtml(a.title)}</a></li>`
-    )
-    .join("");
+  const articleList = TEMPLATES_ARTICLES.map(
+    (a) =>
+      `<li style="margin:0 0 8px 0;"><a href="${base}${a.href}" style="color:${ACCENT};text-decoration:underline;">${escapeHtml(a.title)}</a></li>`
+  ).join("");
 
   const body = `
     <p style="margin:0 0 16px 0;font-size:15px;color:${INK};line-height:1.55;">
-      Hi ${escapeHtml(name)},
+      ${copy.greeting(escapeHtml(name))}
     </p>
     <p style="margin:0 0 16px 0;font-size:15px;color:${INK};line-height:1.55;">
-      Thanks for downloading our politely worded invoice templates. They’re yours to copy,
-      personalize, and send from your own inbox — no awkward blank page.
+      ${copy.intro}
     </p>
-    ${ctaButton(opts.downloadUrl, "Download the PDF again")}
+    ${ctaButton(opts.downloadUrl, copy.downloadCta)}
     <p style="margin:0 0 12px 0;font-size:15px;color:${INK};line-height:1.55;">
-      We keep publishing practical notes for freelancers and small teams. These may help next:
+      ${copy.readsIntro}
     </p>
     <ul style="margin:0 0 20px 0;padding-left:20px;font-size:15px;color:${INK};line-height:1.5;">
       ${articleList}
     </ul>
     <p style="margin:0 0 16px 0;font-size:15px;color:${INK};line-height:1.55;">
-      Prefer not to rewrite every chase by hand? Paste unpaid invoices into Chasa and get a
-      tone-matched draft for how late each one is. You still send — clients always hear from you,
-      not from an automated collections domain.
+      ${copy.tryIntro}
     </p>
-    ${ctaButton(`${base}/app/`, "Try Chasa free")}
+    ${ctaButton(`${base}/app/`, copy.tryCta)}
     <p style="margin:0;font-size:13px;color:${MUTED_HEX};line-height:1.5;">
-      Five AI drafts per month on Free · no card required.
+      ${copy.freeNote}
     </p>
-    ${SIGN_OFF}
+    ${signOff(locale)}
     <p style="margin:24px 0 0 0;font-size:11px;color:${MUTED_HEX};line-height:1.55;text-align:center;">
       RELACON GmbH · Elisabethstraße 15/5b · 1010 Vienna · Austria<br/>
-      <a href="${opts.unsubUrl}" style="color:${MUTED_HEX};text-decoration:underline;">Unsubscribe from template updates</a>
+      <a href="${opts.unsubUrl}" style="color:${MUTED_HEX};text-decoration:underline;">${copy.unsubscribe}</a>
     </p>
   `;
 
@@ -247,8 +390,8 @@ export async function sendTemplatesPackWelcomeEmail(
     body: JSON.stringify({
       from: `Chasa <login@chasa.io>`,
       to: [email],
-      subject: "Your polite invoice templates (plus a few reads)",
-      html: emailShell(base, body),
+      subject: copy.subject,
+      html: emailShell(base, body, locale),
     }),
   });
 
@@ -288,7 +431,7 @@ export async function sendSpaSmokeAlert(
     <p style="margin:20px 0 0 0;font-size:13px;color:${MUTED_HEX};line-height:1.5;">
       Deduped: alert on new failure, then every 6 hours while still down.
     </p>
-    ${SIGN_OFF}
+    ${signOff()}
   `;
 
   if (!env.RESEND_API_KEY) {

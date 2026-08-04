@@ -4,14 +4,18 @@ import {
   findAccountIdByStripeCustomerId,
   getStripeCustomerId,
   priceIdForPlan,
+  setAccountBillingStatus,
   setAccountPlan,
   setStripeCustomerId,
   setStripeSubscriptionId,
 } from "../lib/billing";
 import { verifyAndExtract } from "../lib/billingProviders/stripe";
 import { claimStripeEvent, parseStripeEventId } from "../lib/stripeEvents";
+import { sendPaymentFailedEmail } from "../lib/email";
+import { normalizeLocale } from "../lib/locale";
 import { billingCheckoutSchema, parseJsonBody } from "../lib/schemas";
 import { requestAppOrigin } from "../lib/appUrl";
+import { trackEvent } from "../lib/analytics";
 
 const billing = new Hono<AuthEnv>();
 
@@ -166,6 +170,12 @@ billing.post("/checkout", requireAccount, async (c) => {
   if (!session.url) {
     return c.json({ error: "Stripe returned a checkout session without a URL." }, 502);
   }
+  await trackEvent(c.env, {
+    name: "checkout_started",
+    accountId: account.id,
+    properties: { plan, mode },
+    userAgent: c.req.header("user-agent"),
+  });
   return c.json({ url: session.url });
 });
 
@@ -186,11 +196,43 @@ billing.post("/webhook", async (c) => {
     await setAccountPlan(c.env, result.accountId, result.plan);
     if (result.customerId) await setStripeCustomerId(c.env, result.accountId, result.customerId);
     if (result.subscriptionId) await setStripeSubscriptionId(c.env, result.accountId, result.subscriptionId);
+    await trackEvent(c.env, {
+      name: "checkout_completed",
+      accountId: result.accountId,
+      properties: { plan: result.plan },
+    });
   } else if (result?.type === "subscription_deleted") {
     const accountId = await findAccountIdByStripeCustomerId(c.env, result.customerId);
     if (accountId) {
       await setAccountPlan(c.env, accountId, "free");
+      await setAccountBillingStatus(c.env, accountId, "canceled");
       await setStripeSubscriptionId(c.env, accountId, null);
+    }
+  } else if (result?.type === "subscription_updated") {
+    const accountId = await findAccountIdByStripeCustomerId(c.env, result.customerId);
+    if (accountId) {
+      await setAccountBillingStatus(c.env, accountId, result.status);
+      if (result.status === "canceled") {
+        await setAccountPlan(c.env, accountId, "free");
+      } else if ((result.status === "active" || result.status === "trialing") && result.plan) {
+        // Covers plan changes made through Stripe's own customer portal — checkout.session.completed
+        // only fires on the *first* subscription, not later upgrades/downgrades.
+        await setAccountPlan(c.env, accountId, result.plan);
+      }
+      // past_due / unpaid / incomplete: leave the plan alone (grace period). billing_status above
+      // is what surfaces the problem; invoice.payment_failed below is what emails the owner.
+    }
+  } else if (result?.type === "payment_failed") {
+    const accountId = await findAccountIdByStripeCustomerId(c.env, result.customerId);
+    if (accountId) {
+      const account = await c.env.CHASA_DB.prepare(`SELECT email, locale FROM accounts WHERE id = ?`)
+        .bind(accountId)
+        .first<{ email: string; locale: string | null }>();
+      if (account?.email) {
+        await sendPaymentFailedEmail(c.env, account.email, normalizeLocale(account.locale)).catch((err) =>
+          console.error("payment-failed email send failed:", err)
+        );
+      }
     }
   }
 

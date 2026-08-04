@@ -3,6 +3,7 @@ import { requirePaidAccount, requireProAccount, type AuthEnv } from "../lib/auth
 import { recordChaseEvent, listChaseEvents } from "../lib/chaseEvents";
 import { recordClientPaymentOutcome } from "../lib/clientRisk";
 import { generateEvidencePackHtml } from "../lib/evidencePack";
+import { trackEvent } from "../lib/analytics";
 import {
   agingChaseSchema,
   agingMarkPaidSchema,
@@ -260,6 +261,14 @@ aging.post("/:id/mark-paid", requirePaidAccount, async (c) => {
     channel: "system",
     metadata: { note: parsed.data.note ?? null, daysLate },
   });
+
+  c.executionCtx.waitUntil(
+    trackEvent(c.env, {
+      name: "chase_completed",
+      accountId: acc.workspaceId,
+      path: "/api/aging/mark-paid",
+    }).catch(() => {})
+  );
 
   if (row.client_id) {
     await recordClientPaymentOutcome(c.env, acc.workspaceId, row.client_id, {

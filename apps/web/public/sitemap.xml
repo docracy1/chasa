@@ -2,283 +2,319 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://chasa.io/</loc>
-    <lastmod>2026-07-30</lastmod>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.00</priority>
   </url>
   <url>
     <loc>https://chasa.io/about</loc>
-    <lastmod>2026-07-30</lastmod>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.60</priority>
   </url>
   <url>
     <loc>https://chasa.io/ai</loc>
-    <lastmod>2026-07-30</lastmod>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://chasa.io/app/</loc>
-    <lastmod>2026-07-30</lastmod>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.90</priority>
   </url>
   <url>
     <loc>https://chasa.io/app/login</loc>
-    <lastmod>2026-07-30</lastmod>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.50</priority>
   </url>
   <url>
     <loc>https://chasa.io/blog/</loc>
-    <lastmod>2026-07-30</lastmod>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.70</priority>
+    <priority>0.80</priority>
   </url>
   <url>
     <loc>https://chasa.io/blog/ar-policy-that-works-with-chasa/</loc>
-    <lastmod>2026-07-30</lastmod>
-    <changefreq>yearly</changefreq>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.70</priority>
   </url>
   <url>
     <loc>https://chasa.io/blog/freelancer-late-payment-policy/</loc>
-    <lastmod>2026-07-30</lastmod>
-    <changefreq>yearly</changefreq>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.70</priority>
   </url>
   <url>
     <loc>https://chasa.io/blog/how-to-follow-up-on-overdue-invoices/</loc>
-    <lastmod>2026-07-30</lastmod>
-    <changefreq>yearly</changefreq>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.70</priority>
   </url>
   <url>
     <loc>https://chasa.io/blog/invoice-chase-software-comparison/</loc>
-    <lastmod>2026-07-30</lastmod>
-    <changefreq>yearly</changefreq>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.70</priority>
   </url>
   <url>
     <loc>https://chasa.io/blog/invoice-payment-reminder-email-templates/</loc>
-    <lastmod>2026-07-30</lastmod>
-    <changefreq>yearly</changefreq>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.70</priority>
   </url>
   <url>
+    <loc>https://chasa.io/chasa-vs-chaseai</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://chasa.io/chasa-vs-chaser</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://chasa.io/chasa-vs-duefy</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://chasa.io/chasa-vs-paidnice</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://chasa.io/chasa-vs-satago</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
     <loc>https://chasa.io/chase-invoices</loc>
-    <lastmod>2026-07-30</lastmod>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://chasa.io/docs/</loc>
-    <lastmod>2026-07-30</lastmod>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
     <loc>https://chasa.io/features/</loc>
-    <lastmod>2026-07-30</lastmod>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.80</priority>
   </url>
   <url>
     <loc>https://chasa.io/features/ai-tone</loc>
-    <lastmod>2026-07-30</lastmod>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
     <loc>https://chasa.io/features/templates</loc>
-    <lastmod>2026-07-30</lastmod>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
     <loc>https://chasa.io/free-templates/</loc>
-    <lastmod>2026-07-30</lastmod>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.90</priority>
   </url>
   <url>
     <loc>https://chasa.io/free-templates/broken-payment-promise-follow-up</loc>
-    <lastmod>2026-07-30</lastmod>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.70</priority>
   </url>
   <url>
     <loc>https://chasa.io/free-templates/confirm-invoice-received-email</loc>
-    <lastmod>2026-07-30</lastmod>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.70</priority>
   </url>
   <url>
     <loc>https://chasa.io/free-templates/disputed-invoice-response</loc>
-    <lastmod>2026-07-30</lastmod>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.70</priority>
   </url>
   <url>
     <loc>https://chasa.io/free-templates/download</loc>
-    <lastmod>2026-07-30</lastmod>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://chasa.io/free-templates/final-notice-before-collections</loc>
-    <lastmod>2026-07-30</lastmod>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.70</priority>
   </url>
   <url>
     <loc>https://chasa.io/free-templates/first-invoice-new-client-reminder</loc>
-    <lastmod>2026-07-30</lastmod>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.70</priority>
   </url>
   <url>
     <loc>https://chasa.io/free-templates/formal-overdue-notice-30-days</loc>
-    <lastmod>2026-07-30</lastmod>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.70</priority>
   </url>
   <url>
     <loc>https://chasa.io/free-templates/gentle-overdue-invoice-reminder</loc>
-    <lastmod>2026-07-30</lastmod>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.70</priority>
   </url>
   <url>
     <loc>https://chasa.io/free-templates/invoice-due-today-reminder</loc>
-    <lastmod>2026-07-30</lastmod>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.70</priority>
   </url>
   <url>
     <loc>https://chasa.io/free-templates/invoice-sent-please-process</loc>
-    <lastmod>2026-07-30</lastmod>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.70</priority>
   </url>
   <url>
     <loc>https://chasa.io/free-templates/multiple-invoices-coming-due</loc>
-    <lastmod>2026-07-30</lastmod>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.70</priority>
   </url>
   <url>
     <loc>https://chasa.io/free-templates/multiple-overdue-invoices-summary</loc>
-    <lastmod>2026-07-30</lastmod>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.70</priority>
   </url>
   <url>
     <loc>https://chasa.io/free-templates/overdue-invoice-reminder-7-days</loc>
-    <lastmod>2026-07-30</lastmod>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.70</priority>
   </url>
   <url>
     <loc>https://chasa.io/free-templates/partial-payment-acknowledgment</loc>
-    <lastmod>2026-07-30</lastmod>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.70</priority>
   </url>
   <url>
     <loc>https://chasa.io/free-templates/payment-plan-offer-overdue-invoice</loc>
-    <lastmod>2026-07-30</lastmod>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.70</priority>
   </url>
   <url>
     <loc>https://chasa.io/free-templates/payment-reminder-before-due-date</loc>
-    <lastmod>2026-07-30</lastmod>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.70</priority>
   </url>
   <url>
     <loc>https://chasa.io/free-templates/second-formal-notice-60-days</loc>
-    <lastmod>2026-07-30</lastmod>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.70</priority>
   </url>
   <url>
     <loc>https://chasa.io/free-templates/thank-you-for-payment-email</loc>
-    <lastmod>2026-07-30</lastmod>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.70</priority>
   </url>
   <url>
     <loc>https://chasa.io/free-templates/thank-you-multiple-invoices-paid</loc>
-    <lastmod>2026-07-30</lastmod>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.70</priority>
   </url>
   <url>
     <loc>https://chasa.io/freelancer-invoice-follow-up</loc>
-    <lastmod>2026-07-30</lastmod>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://chasa.io/imprint</loc>
-    <lastmod>2026-07-30</lastmod>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.30</priority>
   </url>
   <url>
     <loc>https://chasa.io/invoice-follow-up</loc>
-    <lastmod>2026-07-30</lastmod>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://chasa.io/overdue-invoice</loc>
-    <lastmod>2026-07-30</lastmod>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://chasa.io/payment-reminder</loc>
-    <lastmod>2026-07-30</lastmod>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
     <loc>https://chasa.io/press</loc>
-    <lastmod>2026-07-30</lastmod>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.55</priority>
   </url>
   <url>
     <loc>https://chasa.io/privacy</loc>
-    <lastmod>2026-07-30</lastmod>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.40</priority>
   </url>
   <url>
+    <loc>https://chasa.io/switch-to-chasa</loc>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+  </url>
+  <url>
     <loc>https://chasa.io/terms</loc>
-    <lastmod>2026-07-30</lastmod>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.40</priority>
   </url>
   <url>
     <loc>https://chasa.io/tools/</loc>
-    <lastmod>2026-07-30</lastmod>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.90</priority>
   </url>
   <url>
     <loc>https://chasa.io/tools/chase-savings-calculator</loc>
-    <lastmod>2026-07-30</lastmod>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.90</priority>
   </url>
   <url>
     <loc>https://chasa.io/tools/late-payment-calculator</loc>
-    <lastmod>2026-07-30</lastmod>
+    <lastmod>2026-08-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.90</priority>
   </url>

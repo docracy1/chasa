@@ -196,8 +196,13 @@ export async function sendInviteEmail(
   env: Env,
   to: string,
   inviteUrl: string,
-  inviterEmail: string
+  inviterEmail: string,
+  inviterAccountId: string
 ): Promise<void> {
   const { sendTeamInviteEmail } = await import("./email");
-  await sendTeamInviteEmail(env, to, inviterEmail, inviteUrl);
+  const { getAccountLocale } = await import("./locale");
+  // The invitee hasn't signed up yet, so there's no preference of their own to read — the
+  // inviter's own locale is the best available guess for what language to send this in.
+  const locale = await getAccountLocale(env, inviterAccountId);
+  await sendTeamInviteEmail(env, to, inviterEmail, inviteUrl, locale);
 }

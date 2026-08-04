@@ -8,6 +8,12 @@ export const MARKETING_PAGES = [
   { file: "invoice-follow-up.html" },
   { file: "freelancer-invoice-follow-up.html" },
   { file: "chase-invoices.html" },
+  // Vs-competitor SEO landings (see generate-vs-pages.mjs)
+  { file: "chasa-vs-chaser.html" },
+  { file: "chasa-vs-paidnice.html" },
+  { file: "chasa-vs-duefy.html" },
+  { file: "chasa-vs-satago.html" },
+  { file: "chasa-vs-chaseai.html" },
   // Features
   { file: "features/index.html", depth: 1, activeNav: "features" },
   { file: "features/templates.html", depth: 1, activeNav: "templates" },

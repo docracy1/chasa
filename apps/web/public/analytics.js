@@ -104,10 +104,12 @@
 
     var params = new URLSearchParams(location.search);
     var utm = params.get("utm_source");
+    var refParam = params.get("ref") || params.get("who");
     var ref = document.referrer || "";
     var source = "direct";
     var lower = ref.toLowerCase();
     if (utm) source = utm.toLowerCase();
+    else if (refParam) source = String(refParam).toLowerCase().slice(0, 64);
     else if (lower.indexOf("linkedin.com") !== -1) source = "linkedin";
     else if (lower.indexOf("google.") !== -1) source = "google";
     else if (ref && lower.indexOf(location.host) === -1) source = "referral";
@@ -119,6 +121,7 @@
       utm_source: utm || undefined,
       utm_medium: params.get("utm_medium") || undefined,
       utm_campaign: params.get("utm_campaign") || undefined,
+      who: params.get("who") || undefined,
     });
   }
 

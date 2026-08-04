@@ -1,6 +1,7 @@
-import { useState, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { logout, type Account } from "../lib/api";
+import { isWorkspaceAdmin } from "../lib/plan";
 import { useT } from "../lib/i18n";
 import LanguageSwitcher from "./LanguageSwitcher";
 import UserChip from "./UserChip";
@@ -8,6 +9,9 @@ import UserChip from "./UserChip";
 type NavIconName =
   | "dashboard"
   | "clients"
+  | "tools"
+  | "templates"
+  | "chases"
   | "connector"
   | "team"
   | "branding"
@@ -46,6 +50,26 @@ function NavIcon({ name, size = 20 }: { name: NavIconName; size?: number }) {
           <path d="M3.5 19.5c0-3 2.5-5.5 5.5-5.5s5.5 2.5 5.5 5.5" />
           <circle cx="17" cy="9" r="2.25" />
           <path d="M15.5 14.2c2.3.4 4 2.4 4 5.3" />
+        </svg>
+      );
+    case "templates":
+      return (
+        <svg {...common}>
+          <path d="M8 3h8a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z" />
+          <path d="M9.5 8h5M9.5 12h5M9.5 16h3" />
+        </svg>
+      );
+    case "chases":
+      return (
+        <svg {...common}>
+          <path d="M4 6h12l4 6-4 6H4l4-6-4-6z" />
+          <path d="M8 12h6" />
+        </svg>
+      );
+    case "tools":
+      return (
+        <svg {...common}>
+          <path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3.5 17.5l3 3 5.8-5.8a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.5-2.5 2.5-2.5z" />
         </svg>
       );
     case "connector":
@@ -102,12 +126,6 @@ function NavIcon({ name, size = 20 }: { name: NavIconName; size?: number }) {
   }
 }
 
-function scrollToNewChase() {
-  requestAnimationFrame(() => {
-    document.getElementById("chase-workspace")?.scrollIntoView({ behavior: "smooth", block: "start" });
-  });
-}
-
 export default function AppShell({
   account,
   loading,
@@ -125,37 +143,116 @@ export default function AppShell({
   const navigate = useNavigate();
   const location = useLocation();
   const [moreSheetOpen, setMoreSheetOpen] = useState(false);
+  const [chasesExpanded, setChasesExpanded] = useState(false);
+  const [toolsExpanded, setToolsExpanded] = useState(false);
   const logoSrc = account?.logoDataUrl || "/brand/chasa-icon.png";
   const wordmark = account?.workspaceName || "chasa";
+  const workspaceAdmin = isWorkspaceAdmin(account);
 
-  const nav = [
-    { to: "/", label: t("nav.dashboard"), icon: "dashboard" as const, end: true },
-    { to: "/clients", label: t("nav.clients"), icon: "clients" as const },
-    { to: "/connector", label: t("nav.testConnectors"), icon: "connector" as const },
-    { to: "/team", label: t("nav.team"), icon: "team" as const },
-    { to: "/branding", label: t("nav.branding"), icon: "branding" as const },
-    { to: "/webhooks", label: t("nav.webhooks"), icon: "webhooks" as const },
-    { to: "/account", label: t("nav.account"), icon: "account" as const },
-  ] as const;
+  const view = new URLSearchParams(location.search).get("view");
+  const onDashboard = location.pathname === "/" || location.pathname === "";
 
-  const moreLinks = [
-    { to: "/team", label: t("nav.team"), icon: "team" as const },
-    { to: "/branding", label: t("nav.branding"), icon: "branding" as const },
-    { to: "/webhooks", label: t("nav.webhooks"), icon: "webhooks" as const },
-    { to: "/account", label: t("nav.account"), icon: "account" as const },
-  ] as const;
+  // Docracy-style sidebar: text items + Documents/Tools-style accordions. Team/Subscription stay
+  // in the account chip only. Branding / webhooks / connectors are workspace-admin only.
+  const chasesNav = [
+    { pathname: "/", search: "?view=overdue", view: "overdue" as const, label: t("nav.chasesOverdue") },
+    { pathname: "/", search: "?view=waiting", view: "waiting" as const, label: t("nav.chasesWaiting") },
+    { pathname: "/", search: "?view=paid", view: "paid" as const, label: t("nav.chasesPaid") },
+  ];
 
-  const pageTitles: Array<{ match: (path: string) => boolean; title: string }> = [
+  const toolsNav = (
+    [
+      workspaceAdmin
+        ? { to: "/connector", hash: "api-key", label: t("nav.connectorApi") }
+        : null,
+      workspaceAdmin ? { to: "/webhooks", hash: undefined, label: t("nav.webhooks") } : null,
+      { to: "/clients", hash: undefined, label: t("nav.clients") },
+      workspaceAdmin
+        ? { to: "/connector", hash: "cloud", label: t("nav.connectors") }
+        : null,
+      workspaceAdmin ? { to: "/branding", hash: undefined, label: t("nav.branding") } : null,
+      { to: "/team", hash: undefined, label: t("nav.team") },
+    ] as const
+  ).filter(Boolean) as Array<{ to: string; hash: string | undefined; label: string }>;
+
+  const chasesPathActive = onDashboard && (view === "overdue" || view === "waiting" || view === "paid");
+  const toolsPathActive =
+    location.pathname.startsWith("/clients") ||
+    location.pathname.startsWith("/team") ||
+    (workspaceAdmin &&
+      (location.pathname.startsWith("/connector") ||
+        location.pathname.startsWith("/webhooks") ||
+        location.pathname.startsWith("/branding")));
+
+  useEffect(() => {
+    if (chasesPathActive) setChasesExpanded(true);
+  }, [chasesPathActive]);
+
+  useEffect(() => {
+    if (toolsPathActive) setToolsExpanded(true);
+  }, [toolsPathActive]);
+
+  const moreLinks = (
+    [
+      { to: "/?view=overdue", label: t("nav.chasesOverdue"), icon: "chases" as const },
+      { to: "/?view=waiting", label: t("nav.chasesWaiting"), icon: "chases" as const },
+      { to: "/?view=paid", label: t("nav.chasesPaid"), icon: "chases" as const },
+      { to: "/clients", label: t("nav.clients"), icon: "clients" as const },
+      workspaceAdmin
+        ? { to: "/connector", label: t("nav.connectorApi"), icon: "connector" as const }
+        : null,
+      workspaceAdmin
+        ? { to: "/webhooks", label: t("nav.webhooks"), icon: "webhooks" as const }
+        : null,
+      workspaceAdmin
+        ? { to: "/branding", label: t("nav.branding"), icon: "branding" as const }
+        : null,
+      { to: "/team", label: t("nav.team"), icon: "team" as const },
+      { to: "/account", label: t("nav.subscription"), icon: "account" as const },
+    ] as const
+  ).filter(Boolean) as Array<{
+    to: string;
+    label: string;
+    icon: "chases" | "clients" | "connector" | "webhooks" | "branding" | "team" | "account";
+  }>;
+
+  const pageTitles: Array<{ match: (path: string, search: string) => boolean; title: string }> = [
+    {
+      match: (p, s) => (p === "/" || p === "") && new URLSearchParams(s).get("view") === "overdue",
+      title: t("nav.chasesOverdue"),
+    },
+    {
+      match: (p, s) => (p === "/" || p === "") && new URLSearchParams(s).get("view") === "waiting",
+      title: t("nav.chasesWaiting"),
+    },
+    {
+      match: (p, s) => (p === "/" || p === "") && new URLSearchParams(s).get("view") === "paid",
+      title: t("nav.chasesPaid"),
+    },
+    { match: (p) => p.startsWith("/new"), title: t("nav.newChase") },
+    { match: (p) => p.startsWith("/templates"), title: t("nav.templates") },
     { match: (p) => p === "/" || p === "", title: t("nav.dashboard") },
     { match: (p) => p.startsWith("/clients"), title: t("nav.clients") },
-    { match: (p) => p.startsWith("/connector"), title: t("nav.connectors") },
+    { match: (p) => p.startsWith("/connector"), title: t("nav.tools") },
     { match: (p) => p.startsWith("/team"), title: t("nav.team") },
     { match: (p) => p.startsWith("/branding"), title: t("nav.branding") },
     { match: (p) => p.startsWith("/webhooks"), title: t("nav.webhooks") },
-    { match: (p) => p.startsWith("/account"), title: t("nav.account") },
+    { match: (p) => p.startsWith("/account"), title: t("nav.subscription") },
+    { match: (p) => p.startsWith("/admin"), title: t("nav.admin") },
   ];
 
-  const pageTitle = pageTitles.find((entry) => entry.match(location.pathname))?.title ?? "chasa";
+  const pageTitle =
+    pageTitles.find((entry) => entry.match(location.pathname, location.search))?.title ?? "chasa";
+
+  function toolItemActive(to: string, hash?: string): boolean {
+    if (to === "/clients") return location.pathname.startsWith("/clients");
+    if (to === "/webhooks") return location.pathname.startsWith("/webhooks");
+    if (to === "/branding") return location.pathname.startsWith("/branding");
+    if (to === "/team") return location.pathname.startsWith("/team");
+    if (!location.pathname.startsWith("/connector")) return false;
+    const current = location.hash.replace(/^#/, "") || "api-key";
+    return current === (hash || "api-key");
+  }
 
   async function handleLogout() {
     setMoreSheetOpen(false);
@@ -170,48 +267,149 @@ export default function AppShell({
 
   return (
     <div className="app-shell">
-      <header className="app-mobile-header">
-        <Link to="/" className="app-mobile-brand" aria-label={t("nav.home")} onClick={() => setMoreSheetOpen(false)}>
+      <header className="app-topbar">
+        <Link
+          to="/"
+          className="app-topbar-brand"
+          aria-label={t("nav.home")}
+          onClick={(e) => {
+            setMoreSheetOpen(false);
+            // Force a clean start page even when already on / with ?view=
+            if (location.pathname === "/" || location.pathname === "") {
+              e.preventDefault();
+              navigate("/", { replace: true });
+            }
+          }}
+        >
           <img src={logoSrc} alt="" width="24" height="24" />
           <span>{wordmark}</span>
         </Link>
-        <span className="app-mobile-title">{pageTitle}</span>
+        <span className="app-topbar-title">{pageTitle}</span>
+        <LanguageSwitcher className="lang-switcher-on-dark" />
       </header>
 
       <aside className="app-sidebar">
-        <Link to="/" className="app-brand" aria-label={t("nav.home")}>
+        <Link
+          to="/"
+          className="app-brand"
+          aria-label={t("nav.home")}
+          onClick={(e) => {
+            setMoreSheetOpen(false);
+            if (location.pathname === "/" || location.pathname === "") {
+              e.preventDefault();
+              navigate("/", { replace: true });
+            }
+          }}
+        >
           <img src={logoSrc} alt="" width="28" height="28" />
           <span>{wordmark}</span>
         </Link>
-
-        <Link
-          to="/"
-          className="dash-new-btn"
-          onClick={() => {
-            scrollToNewChase();
-          }}
-        >
-          + {t("nav.newChase")}
+        <Link to="/new" className={`dash-new-btn${location.pathname.startsWith("/new") ? " is-active" : ""}`}>
+          {t("nav.new")}
         </Link>
 
         <nav className="dash-side-nav" aria-label={t("nav.app")}>
-          {nav.map((item) => (
-            <NavLink
-              key={item.to}
-              to={item.to}
-              end={"end" in item ? item.end : false}
-              className={({ isActive }) => (isActive ? "is-active" : undefined)}
+          <NavLink
+            to="/"
+            end
+            className={({ isActive }) =>
+              isActive && !view ? "dash-nav-item is-active" : "dash-nav-item"
+            }
+          >
+            <span className="dash-nav-item-label">
+              <NavIcon name="dashboard" />
+              <span>{t("nav.dashboard")}</span>
+            </span>
+          </NavLink>
+
+          <NavLink
+            to="/templates"
+            className={({ isActive }) => (isActive ? "dash-nav-item is-active" : "dash-nav-item")}
+          >
+            <span className="dash-nav-item-label">
+              <NavIcon name="templates" />
+              <span>{t("nav.templates")}</span>
+            </span>
+          </NavLink>
+
+          <div className="dash-nav-group">
+            <button
+              type="button"
+              className={`dash-nav-item dash-nav-group-header${chasesPathActive ? " is-active" : ""}`}
+              aria-expanded={chasesExpanded}
+              onClick={() => {
+                setChasesExpanded((open) => !open);
+                if (!onDashboard) navigate("/");
+              }}
             >
-              <NavIcon name={item.icon} />
-              <span>{item.label}</span>
-            </NavLink>
-          ))}
+              <span className="dash-nav-item-label">
+                <NavIcon name="chases" />
+                <span>{t("nav.chases")}</span>
+              </span>
+              <span className={`dash-nav-chevron${chasesExpanded ? " is-open" : ""}`} aria-hidden="true">
+                ⌄
+              </span>
+            </button>
+            {chasesExpanded ? (
+              <div className="dash-nav-subitems">
+                {chasesNav.map((item) => (
+                  <Link
+                    key={item.view}
+                    to={{ pathname: item.pathname, search: item.search }}
+                    className={`dash-nav-subitem${onDashboard && view === item.view ? " is-active" : ""}`}
+                    onClick={() => setChasesExpanded(true)}
+                  >
+                    {item.label}
+                  </Link>
+                ))}
+              </div>
+            ) : null}
+          </div>
+
+          <div className="dash-nav-group">
+            <button
+              type="button"
+              className={`dash-nav-item dash-nav-group-header${toolsPathActive ? " is-active" : ""}`}
+              aria-expanded={toolsExpanded}
+              onClick={() => setToolsExpanded((open) => !open)}
+            >
+              <span className="dash-nav-item-label">
+                <NavIcon name="tools" />
+                <span>{t("nav.tools")}</span>
+              </span>
+              <span className={`dash-nav-chevron${toolsExpanded ? " is-open" : ""}`} aria-hidden="true">
+                ⌄
+              </span>
+            </button>
+            {toolsExpanded ? (
+              <div className="dash-nav-subitems">
+                {toolsNav.map((item) => {
+                  const href = item.hash ? `${item.to}#${item.hash}` : item.to;
+                  const active = toolItemActive(item.to, item.hash);
+                  return (
+                    <Link
+                      key={href}
+                      to={href}
+                      className={`dash-nav-subitem${active ? " is-active" : ""}`}
+                      onClick={() => setToolsExpanded(true)}
+                    >
+                      {item.label}
+                    </Link>
+                  );
+                })}
+              </div>
+            ) : null}
+          </div>
         </nav>
 
         <div className="dash-side-footer">
-          <LanguageSwitcher className="lang-switcher-sidebar" />
           {!loading && account ? (
-            <UserChip email={account.email} plan={account.plan} onLogout={handleLogout} />
+            <UserChip
+              email={account.email}
+              plan={account.plan}
+              isAdmin={!!account.isAdmin}
+              onLogout={handleLogout}
+            />
           ) : !loading ? (
             <Link to="/login" className="app-signin-chip">
               {t("nav.signin")}
@@ -228,7 +426,7 @@ export default function AppShell({
         <NavLink
           to="/"
           end
-          className={({ isActive }) => `app-bottom-nav-item${isActive ? " is-active" : ""}`}
+          className={({ isActive }) => `app-bottom-nav-item${isActive && !view ? " is-active" : ""}`}
           onClick={() => setMoreSheetOpen(false)}
         >
           <NavIcon name="dashboard" size={22} />
@@ -243,23 +441,20 @@ export default function AppShell({
           <span>{t("nav.clients")}</span>
         </NavLink>
         <Link
-          to="/"
+          to="/new"
           className="app-bottom-nav-fab"
           aria-label={t("nav.newChase")}
-          onClick={() => {
-            setMoreSheetOpen(false);
-            scrollToNewChase();
-          }}
+          onClick={() => setMoreSheetOpen(false)}
         >
           <span aria-hidden="true">+</span>
         </Link>
         <NavLink
-          to="/connector"
+          to={workspaceAdmin ? "/connector" : "/templates"}
           className={({ isActive }) => `app-bottom-nav-item${isActive ? " is-active" : ""}`}
           onClick={() => setMoreSheetOpen(false)}
         >
-          <NavIcon name="connector" size={22} />
-          <span>{t("nav.connect")}</span>
+          <NavIcon name={workspaceAdmin ? "tools" : "templates"} size={22} />
+          <span>{workspaceAdmin ? t("nav.tools") : t("nav.templates")}</span>
         </NavLink>
         <button
           type="button"
@@ -282,15 +477,22 @@ export default function AppShell({
           <div className="app-more-panel">
             <div className="app-more-handle" aria-hidden="true" />
             {account ? <p className="app-more-email">{account.email}</p> : null}
-            <div className="app-more-lang">
-              <LanguageSwitcher />
-            </div>
+            <Link to="/templates" onClick={() => setMoreSheetOpen(false)}>
+              <NavIcon name="templates" />
+              <span>{t("nav.templates")}</span>
+            </Link>
             {moreLinks.map((item) => (
               <Link key={item.to} to={item.to} onClick={() => setMoreSheetOpen(false)}>
                 <NavIcon name={item.icon} />
                 <span>{item.label}</span>
               </Link>
             ))}
+            {account?.isAdmin ? (
+              <Link to="/admin" onClick={() => setMoreSheetOpen(false)}>
+                <NavIcon name="account" />
+                <span>{t("nav.admin")}</span>
+              </Link>
+            ) : null}
             <a href="mailto:founder@chasa.io" onClick={() => setMoreSheetOpen(false)}>
               <NavIcon name="support" />
               <span>{t("nav.support")}</span>

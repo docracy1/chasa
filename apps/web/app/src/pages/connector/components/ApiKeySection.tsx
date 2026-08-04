@@ -48,7 +48,7 @@ export function ApiKeySection({
   const t = useT();
 
   return (
-    <section className="branding-card" style={{ marginTop: 20 }}>
+    <section id="api-key" className="branding-card" style={{ marginTop: 20 }}>
       <h1 className="webhooks-title" style={{ fontSize: "1.25rem" }}>
         {t("connector.apiTitle")}
       </h1>

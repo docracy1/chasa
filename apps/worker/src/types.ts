@@ -27,6 +27,8 @@ export interface Env {
   QBO_CLIENT_SECRET?: string;
   XERO_CLIENT_ID?: string;
   XERO_CLIENT_SECRET?: string;
+  /** Microsoft Clarity Data Export API token (project-scoped) — see lib/clarityApi.ts */
+  CLARITY_API_TOKEN?: string;
 
   // Non-secret config ([vars] in wrangler.toml)
   WORKERS_AI_MODEL?: string;

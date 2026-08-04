@@ -40,7 +40,12 @@ auth.post("/request", async (c) => {
   const check = await verifyTurnstile(c.env, parsed.data.turnstileToken, clientIp(c));
   if (!check.ok) return c.json({ error: check.error }, 400);
 
-  const result = await requestMagicLink(c.env, parsed.data.email, requestAppOrigin(c));
+  const result = await requestMagicLink(
+    c.env,
+    parsed.data.email,
+    requestAppOrigin(c),
+    c.req.header("Accept-Language")
+  );
   if (!result.ok) return c.json({ error: result.error }, 400);
   return c.json({ ok: true });
 });
@@ -85,7 +90,7 @@ auth.get("/verify", async (c) => {
   const token = c.req.query("token");
   if (!token) return c.redirect(`${appOrigin}/app/login?error=missing_token`);
 
-  const result = await consumeMagicLink(c.env, token);
+  const result = await consumeMagicLink(c.env, token, c.req.header("Accept-Language"));
   if (!result.ok) {
     return c.redirect(`${appOrigin}/app/login?error=invalid_token`);
   }
@@ -127,7 +132,7 @@ auth.get("/google/callback", async (c) => {
   const code = c.req.query("code");
   const state = c.req.query("state");
   if (!code || !state) return c.redirect(`${appOrigin}/app/login?error=google_auth`);
-  const result = await handleGoogleLoginCallback(c.env, code, state);
+  const result = await handleGoogleLoginCallback(c.env, code, state, c.req.header("Accept-Language"));
   if (!result.ok) return c.redirect(`${appOrigin}/app/login?error=google_auth`);
   setSessionCookie(c, c.env, result.sessionToken);
   if (result.isNew) {

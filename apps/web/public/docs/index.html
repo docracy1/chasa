@@ -44,7 +44,6 @@
       <a href="../free-templates/" class="header-nav-link header-nav-collapse" data-i18n="nav.templates">Free templates</a>
       <a href="../tools/" class="header-nav-link header-nav-collapse" data-i18n="nav.tools">Tools</a>
       <a href="../ai" class="header-nav-link header-nav-collapse" data-i18n="nav.ai">AI</a>
-      <a href="../about" class="header-nav-link header-nav-collapse" data-i18n="nav.about">About</a>
       <a href="../app/login" class="header-nav-link header-nav-strong" data-i18n="nav.signIn">Sign in</a>
       <a href="../app/" class="nav-cta" data-i18n="nav.tryFree">Try free</a>
       <div class="locale-switch" data-locale-switch role="group" data-i18n-aria="nav.language"></div>
@@ -63,7 +62,6 @@
       <a href="../free-templates/" class="mobile-panel-nav-link" data-i18n="nav.templates">Free templates</a>
       <a href="../tools/" class="mobile-panel-nav-link" data-i18n="nav.tools">Tools</a>
       <a href="../ai" class="mobile-panel-nav-link" data-i18n="nav.ai">AI</a>
-      <a href="../about" class="mobile-panel-nav-link" data-i18n="nav.about">About</a>
       <a href="../app/login" class="mobile-panel-nav-link" data-i18n="nav.signIn">Sign in</a>
       <a href="../app/" class="mobile-panel-nav-link" data-i18n="nav.tryFree">Try free</a>
   </nav>
@@ -75,54 +73,120 @@
 <main class="wrap page-main">
 <p class="crumb"><a href="/">Home</a> / Docs</p>
   <h1>Chasa documentation</h1>
-  <p class="lede">Quick reference for getting started, connecting your accounting tools, and using the Zapier API.</p>
+  <p class="lede">Everything Chasa actually does, in detail — getting started, AI drafting tools, connectors, team &amp; billing, webhooks, the public API, and MCP.</p>
 
-  <h3>Getting started</h3>
-  <ol>
-    <li>Open <a href="/app/">the Chasa tool</a> — no signup required for the free tier.</li>
-    <li>Add invoices manually (client, amount, due date) or upload a CSV export from your accounting software.</li>
-    <li>Click <strong>Draft chase</strong> to generate a tone-matched follow-up email.</li>
-    <li>Copy the draft into your email client or open the mailto link. Chasa never sends on your behalf.</li>
-    <li>Mark the invoice done when paid, or schedule your next reminder.</li>
-  </ol>
-  <p>Free tier includes 5 AI drafts per month. Sign in to upgrade to Solo ($7/mo) or Pro ($17/mo) for unlimited drafts, tone tweaks, and connectors.</p>
+  <div class="docs-layout">
+    <nav class="docs-sidebar" aria-label="Docs sections">
+      <a href="#getting-started">Getting Started</a>
+      <a href="#tone-tools">Tone Tools</a>
+      <a href="#chase-plans">Chase Plans &amp; Timeline</a>
+      <a href="#connectors">Connectors</a>
+      <a href="#team-billing">Team &amp; Billing</a>
+      <a href="#webhooks-api">Webhooks &amp; API</a>
+      <a href="#mcp">MCP</a>
+    </nav>
 
-  <h3>Connectors overview</h3>
-  <p>Chasa supports several ways to get overdue invoices into the tool:</p>
-  <ul>
-    <li><strong>CSV upload</strong> (Free) — export from QuickBooks, Xero, FreshBooks, Wave, Zoho, sevDesk, or any spreadsheet. Chasa maps common column headers automatically.</li>
-    <li><strong>QuickBooks Online</strong> (Solo+) — native OAuth in <a href="/app/connector">Connector</a>. Imports overdue invoices into your aging board.</li>
-    <li><strong>Xero</strong> (Solo+) — same OAuth flow as QuickBooks.</li>
-    <li><strong>Cloud storage</strong> (Solo+) — Dropbox, OneDrive, Box, or Google Drive PDF import. Google also unlocks Gmail drafts (Chasa writes into your Drafts; you send), Sheets, Calendar, and Contacts.</li>
-    <li><strong>Zapier / Make</strong> (Solo+) — push invoices via API key (see below).</li>
-  </ul>
+    <div class="docs-content">
 
-  <h3>Zapier API key</h3>
-  <p>On Solo or Pro, create an API key in <a href="/app/webhooks">Webhooks &amp; API</a> under your account settings. Use it to send invoice data from Zapier, Make, or custom scripts.</p>
-  <p><strong>Endpoint:</strong> <code>POST https://api.chasa.io/api/v1/chase/draft</code></p>
-  <p><strong>Headers:</strong></p>
-  <ul>
-    <li><code>Authorization: Bearer YOUR_API_KEY</code></li>
-    <li><code>Content-Type: application/json</code></li>
-  </ul>
-  <p><strong>Body example:</strong></p>
-  <pre style="background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:14px;font-family:'IBM Plex Mono',monospace;font-size:13px;overflow-x:auto">{
-  "invoices": [
-    {
-      "client": "Acme Corp",
-      "amount": 2400.00,
-      "currency": "USD",
-      "dueDate": "2026-06-15",
-      "invoiceNumber": "INV-1042"
-    }
-  ]
+      <section id="getting-started" class="docs-section">
+        <h2>Getting started</h2>
+        <ol>
+          <li>Open <a href="/app/">the Chasa tool</a> — no signup required for the free tier.</li>
+          <li>Add invoices manually (client, amount, due date) or upload a CSV export from your accounting software.</li>
+          <li>Click <strong>Draft chase</strong> to generate a tone-matched follow-up email.</li>
+          <li>Copy the draft into your email client or open the mailto link. Chasa never sends on your behalf.</li>
+          <li>Mark the invoice paid when it clears, or schedule your next reminder.</li>
+        </ol>
+        <p>Free includes 5 AI drafts per month with no account. Solo ($7/mo) removes the cap and unlocks tone tools, chase plans, connectors, branding, webhooks, and the API. Pro ($17/mo) adds reply detection, risk scoring, demand letters, and evidence packs. Enterprise is custom, billed yearly — email <a href="mailto:sales@chasa.io">sales@chasa.io</a>.</p>
+      </section>
+
+      <section id="tone-tools" class="docs-section">
+        <h2>Tone tools</h2>
+        <p>Every draft can be rewritten in one click from the invoice card, on Solo and up:</p>
+        <ul>
+          <li><strong>Soften</strong> — less pressure, still asks for payment.</li>
+          <li><strong>Firm up</strong> — clearer urgency when polite reminders were ignored.</li>
+          <li><strong>Make shorter</strong> — a tight version under ~60 words.</li>
+        </ul>
+        <p>Chasa also drafts <strong>SMS and WhatsApp</strong> versions of the same follow-up (SMS ≤160 characters, WhatsApp ≤280) with <code>sms:</code> and <code>wa.me</code> links that open your own messaging app. Same rule as email: Chasa writes it, you send it — nothing goes out automatically.</p>
+      </section>
+
+      <section id="chase-plans" class="docs-section">
+        <h2>Chase plans &amp; timeline</h2>
+        <ul>
+          <li><strong>3-step chase plan</strong> (Solo+) — an auto-sequenced set of follow-ups with calendar dates, instead of drafting each reminder from scratch.</li>
+          <li><strong>Chase timeline</strong> — every reminder, reply, and payment logged per client, so you can see the full history of a chase at a glance.</li>
+          <li><strong>Clients &amp; aging</strong> (Solo+) — track outstanding balances, add a contact note, and mark an invoice paid; marking paid automatically cancels any remaining planned reminders for it.</li>
+          <li><strong>Payment risk score</strong> (Pro+) — a 5–95 score per client, computed from their own history: how often they pay late and by how many days on average. Updates whenever you mark an invoice paid.</li>
+          <li><strong>Demand letter &amp; evidence pack</strong> (Pro+) — a formal notice and an exportable record of the chase history, for escalating a stalled invoice toward collections.</li>
+        </ul>
+      </section>
+
+      <section id="connectors" class="docs-section">
+        <h2>Connectors</h2>
+        <p>Ways to get overdue invoices into Chasa:</p>
+        <ul>
+          <li><strong>CSV upload</strong> (Free) — export from QuickBooks, Xero, FreshBooks, Wave, Zoho, sevDesk, or any spreadsheet. Common column headers are mapped automatically.</li>
+          <li><strong>QuickBooks Online</strong> (Solo+) — native OAuth in <a href="/app/connector">Connector</a>. Imports overdue invoices straight into your aging board.</li>
+          <li><strong>Xero</strong> (Solo+) — same OAuth flow as QuickBooks.</li>
+          <li><strong>Cloud storage</strong> (Solo+) — Dropbox, OneDrive, Box, or Google Drive PDF import. Google also unlocks Gmail drafts (Chasa writes into your Drafts; you send), Sheets, Calendar, and Contacts.</li>
+          <li><strong>Zapier / Make</strong> (Solo+) — push invoices via API key; see <a href="#webhooks-api">Webhooks &amp; API</a> below.</li>
+        </ul>
+      </section>
+
+      <section id="team-billing" class="docs-section">
+        <h2>Team &amp; billing</h2>
+        <p><strong>Seats</strong> by plan — Free: 1 (no team), Solo: 3, Pro: 5, Enterprise: 25. An admin invites a teammate by email from <a href="/app/team">Team</a>; they accept from the emailed invite link and get the role (Admin or Member) you assigned.</p>
+        <p><strong>Branding</strong> (Solo+, admin) — set a custom logo, workspace name, default payment link, and an optional late-fee hint line that gets inserted into drafts.</p>
+        <p><strong>Plans</strong> — Free $0 forever, Solo $7/mo, Pro $17/mo, Enterprise custom (billed yearly). <strong>Manage billing</strong> in Account opens Stripe's own Customer Portal for upgrades, downgrades, payment method changes, and cancellation — there's no separate in-app billing history page, Stripe's portal is the record of truth.</p>
+      </section>
+
+      <section id="webhooks-api" class="docs-section">
+        <h2>Webhooks &amp; API</h2>
+        <h3>Outbound webhooks</h3>
+        <p>Solo+ and admin-only, up to 10 endpoints per account, configured in <a href="/app/webhooks">Webhooks &amp; API</a>. Events: <code>chase.drafted</code>, <code>chase.sent</code>, <code>chase.thank_you</code>, <code>chase.reply_drafted</code>, <code>chase.sequence_planned</code>, <code>chase.downloaded</code>. Each delivery is a signed POST:</p>
+        <ul>
+          <li><code>X-Chasa-Event</code> — the event name</li>
+          <li><code>X-Chasa-Signature: sha256=&lt;hmac&gt;</code> — HMAC-SHA256 of the body, keyed to the secret shown when you create the endpoint</li>
+          <li>Body: <code>{ event, created_at, data }</code></li>
+        </ul>
+
+        <h3>Public API</h3>
+        <p>Create an API key in <a href="/app/webhooks">Webhooks &amp; API</a> — the same key works for the API, Zapier, and MCP. Requires a paid plan.</p>
+        <p><strong>Endpoint:</strong> <code>POST https://api.chasa.io/api/v1/chase/draft</code></p>
+        <p><strong>Headers:</strong></p>
+        <ul>
+          <li><code>Authorization: Bearer YOUR_API_KEY</code></li>
+          <li><code>Content-Type: application/json</code></li>
+        </ul>
+        <p><strong>Body example:</strong></p>
+        <pre style="background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:14px;font-family:'IBM Plex Mono',monospace;font-size:13px;overflow-x:auto">{
+  "client_name": "Acme Corp",
+  "invoice_amount": 2400.00,
+  "days_overdue": 12
 }</pre>
-  <p>Imported invoices appear in your aging board. Draft chases from there as usual. Rate limits apply per plan — see account settings for details.</p>
+        <p>Response is a draft <code>subject</code> + <code>body</code>, tone-matched to how overdue the invoice is — never sent on your behalf. Same shape works from Zapier's "Webhooks by Zapier" action or Make's HTTP module.</p>
+      </section>
 
-  <h3>Need help?</h3>
-  <p>Email <a href="mailto:founder@chasa.io">founder@chasa.io</a> or read the <a href="/#faq">FAQ</a> on the homepage.</p>
+      <section id="mcp" class="docs-section">
+        <h2>MCP</h2>
+        <p>Chasa runs a public MCP (Model Context Protocol) server so Claude, ChatGPT, Grok, Perplexity, or Cursor can draft a chase directly in conversation.</p>
+        <p><strong>Endpoint:</strong> <code>https://api.chasa.io/mcp</code></p>
+        <ul>
+          <li><code>list_templates</code>, <code>recommend_template</code>, <code>get_chase_tip</code> — public, no signup or key needed.</li>
+          <li><code>draft_chase_email</code> — needs your Chasa API key (see above) or an active sign-in.</li>
+        </ul>
+        <p>Rate limits: 120 requests/hour per IP overall, 30/hour specifically for <code>draft_chase_email</code>.</p>
+      </section>
 
-  <p style="margin-top:28px"><a href="/app/" class="nav-cta">Open the tool</a></p>
+      <section id="need-help" class="docs-section">
+        <h2>Need help?</h2>
+        <p>Email <a href="mailto:founder@chasa.io">founder@chasa.io</a> or read the <a href="/#faq">FAQ</a> on the homepage.</p>
+        <p style="margin-top:20px"><a href="/app/" class="nav-cta">Open the tool</a></p>
+      </section>
+
+    </div>
+  </div>
 </main>
 <footer class="site-footer">
   <div class="wrap site-footer-inner">
@@ -134,13 +198,22 @@
       <h4 data-i18n="footer.product">Product</h4>
       <a href="../app/" data-i18n="footer.tryFree">Try free</a>
       <a href="../#pricing" data-i18n="footer.pricing">Pricing</a>
-      <a href="../blog/invoice-chase-software-comparison/" data-i18n="footer.compare">Compare</a>
       <a href="../free-templates/" data-i18n="footer.templates">Free templates</a>
       <a href="../tools/" data-i18n="footer.calculators">Calculators</a>
       <a href="../features/" data-i18n="footer.features">Features</a>
       <a href="../docs/" data-i18n="footer.docs">Docs</a>
       <a href="../ai" data-i18n="footer.ai">AI</a>
       <a href="../#faq" data-i18n="footer.faq">FAQ</a>
+    </div>
+    <div class="site-footer-col">
+      <h4 data-i18n="footer.compareCol">Compare</h4>
+      <a href="../chasa-vs-chaser" data-i18n="footer.vsChaser">vs Chaser</a>
+      <a href="../chasa-vs-paidnice" data-i18n="footer.vsPaidnice">vs Paidnice</a>
+      <a href="../chasa-vs-duefy" data-i18n="footer.vsDuefy">vs Duefy</a>
+      <a href="../chasa-vs-satago" data-i18n="footer.vsSatago">vs Satago</a>
+      <a href="../chasa-vs-chaseai" data-i18n="footer.vsChaseai">vs ChaseAI</a>
+      <a href="../switch-to-chasa" data-i18n="footer.switch">Switch to Chasa</a>
+      <a href="../blog/invoice-chase-software-comparison/" data-i18n="footer.compare">See full comparison</a>
     </div>
     <div class="site-footer-col">
       <h4 data-i18n="footer.company">Company</h4>

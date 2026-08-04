@@ -67,6 +67,15 @@ export async function setStripeSubscriptionId(env: Env, accountId: string, subsc
     .run();
 }
 
+/** Last-known Stripe subscription status (active/trialing/past_due/unpaid/canceled/…) — recorded
+ *  on every customer.subscription.updated regardless of whether it changes the plan, so a payment
+ *  problem is visible before the subscription is actually deleted. */
+export async function setAccountBillingStatus(env: Env, accountId: string, status: string | null): Promise<void> {
+  await env.CHASA_DB.prepare(`UPDATE accounts SET billing_status = ? WHERE id = ?`)
+    .bind(status, accountId)
+    .run();
+}
+
 export async function findAccountIdByStripeCustomerId(env: Env, customerId: string): Promise<string | null> {
   const row = await env.CHASA_DB.prepare(`SELECT id FROM accounts WHERE stripe_customer_id = ?`)
     .bind(customerId)

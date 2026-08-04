@@ -777,7 +777,6 @@
       <a href="/free-templates/" class="header-nav-link header-nav-collapse" data-i18n="nav.templates">Free templates</a>
       <a href="/tools/" class="header-nav-link header-nav-collapse" data-i18n="nav.tools">Tools</a>
       <a href="/ai" class="header-nav-link header-nav-collapse" data-i18n="nav.ai">AI</a>
-      <a href="/about" class="header-nav-link header-nav-collapse" data-i18n="nav.about">About</a>
       <a href="/app/login" class="header-nav-link header-nav-strong" data-i18n="nav.signIn">Sign in</a>
       <a href="/app/" class="nav-cta" data-i18n="nav.tryFree">Try free</a>
       <div class="locale-switch" role="group" data-i18n-aria="nav.language">
@@ -801,7 +800,6 @@
       <a href="/free-templates/" class="mobile-panel-nav-link" data-i18n="nav.templates">Free templates</a>
       <a href="/tools/" class="mobile-panel-nav-link" data-i18n="nav.tools">Tools</a>
       <a href="/ai" class="mobile-panel-nav-link" data-i18n="nav.ai">AI</a>
-      <a href="/about" class="mobile-panel-nav-link" data-i18n="nav.about">About</a>
       <a href="/app/login" class="mobile-panel-nav-link" data-i18n="nav.signIn">Sign in</a>
       <a href="/app/" class="mobile-panel-nav-link" data-i18n="nav.tryFree">Try free</a>
   </nav>
@@ -925,10 +923,18 @@
     <div class="integrations-inner">
       <h2 id="integrations-heading" data-i18n="home.integrations.title">Connect Chasa with the tools you already use</h2>
       <p class="integrations-lede" data-i18n="home.integrations.lede">
-        Plug into the platforms you already use — cloud storage, automation, and AI assistants. Solo and Pro unlock
-        native connectors; everything listed here is real today.
+        Plug into the platforms you already use — accounting, cloud storage, automation, and AI assistants. Solo and
+        Pro unlock native connectors; everything listed here is real today.
       </p>
       <div class="integrations-grid" role="list">
+        <div class="integrations-tile" role="listitem">
+          <img src="/integrations/quickbooks.svg" alt="" width="32" height="32" class="integrations-tile-logo" />
+          <span class="integrations-tile-name">QuickBooks</span>
+        </div>
+        <div class="integrations-tile" role="listitem">
+          <img src="/integrations/xero.svg" alt="" width="32" height="32" class="integrations-tile-logo" />
+          <span class="integrations-tile-name">Xero</span>
+        </div>
         <div class="integrations-tile" role="listitem">
           <img src="/integrations/dropbox.svg" alt="" width="32" height="32" class="integrations-tile-logo" />
           <span class="integrations-tile-name">Dropbox</span>
@@ -971,8 +977,9 @@
         </div>
       </div>
       <p class="integrations-footnote" data-i18n="home.integrations.footnote">
-        Dropbox, OneDrive, and Box import invoice PDFs. Zapier and webhooks push overdue invoices. MCP connects Claude,
-        ChatGPT, Grok, Perplexity, and Cursor to chase drafts.
+        QuickBooks Online and Xero import overdue invoices into aging. Dropbox, OneDrive, Box, and Google import
+        invoice PDFs (Google also unlocks Gmail drafts). Zapier and webhooks push overdue invoices. MCP connects
+        Claude, ChatGPT, Grok, Perplexity, and Cursor to chase drafts.
       </p>
       <div class="integrations-cta-wrap">
         <a href="/docs/" class="integrations-cta" data-i18n="home.integrations.cta">Learn more →</a>
@@ -1193,6 +1200,101 @@
     </div>
   </section>
 
+<!-- [COMPARE] -->
+  <section class="section wrap" id="compare">
+    <h2 id="price-comparison">Price comparison</h2>
+    <p>Chasa Solo is a flat <strong>$7/mo</strong> per workspace (Pro $17). Use the slider to estimate what the same team size costs on entry plans from each competitor.</p>
+    <div class="pc-panel" data-price-compare>
+      <div class="pc-slider-card">
+        <div class="pc-slider-label">Team size</div>
+        <div class="pc-slider-value"><strong data-pc-count>5</strong><span>people</span></div>
+        <input class="pc-range" data-pc-slider type="range" min="1" max="20" value="5" aria-label="Team size" />
+        <div class="pc-range-ends"><span>1</span><span>20</span></div>
+      </div>
+
+      <div class="pc-row pc-row-chasa">
+        <div class="pc-row-main">
+          <div class="pc-row-name">Chasa Solo</div>
+          <div class="pc-row-formula">Flat workspace fee · Pro is $17/mo, also flat</div>
+        </div>
+        <div class="pc-row-nums">
+          <div class="pc-total">$7<small>/mo</small></div>
+        </div>
+      </div>
+
+      <div class="pc-row" data-pc-comp="chaser">
+        <div class="pc-row-main">
+          <div class="pc-row-name">
+            <span data-pc-title>Chaser Compact</span>
+            <a class="pc-row-link" href="/blog/invoice-chase-software-comparison/#compare-chaser">vs Chaser →</a>
+          </div>
+          <div class="pc-row-formula" data-pc-formula></div>
+        </div>
+        <div class="pc-row-nums">
+          <span class="pc-delta" data-pc-delta></span>
+          <div class="pc-total" data-pc-total></div>
+        </div>
+      </div>
+
+      <div class="pc-row" data-pc-comp="paidnice">
+        <div class="pc-row-main">
+          <div class="pc-row-name">
+            <span data-pc-title>Paidnice Essentials</span>
+            <a class="pc-row-link" href="/blog/invoice-chase-software-comparison/#compare-paidnice">vs Paidnice →</a>
+          </div>
+          <div class="pc-row-formula" data-pc-formula></div>
+        </div>
+        <div class="pc-row-nums">
+          <span class="pc-delta" data-pc-delta></span>
+          <div class="pc-total" data-pc-total></div>
+        </div>
+      </div>
+
+      <div class="pc-row" data-pc-comp="duefy">
+        <div class="pc-row-main">
+          <div class="pc-row-name">
+            <span data-pc-title>Duefy Solo</span>
+            <a class="pc-row-link" href="/blog/invoice-chase-software-comparison/#compare-duefy">vs Duefy →</a>
+          </div>
+          <div class="pc-row-formula" data-pc-formula></div>
+        </div>
+        <div class="pc-row-nums">
+          <span class="pc-delta" data-pc-delta></span>
+          <div class="pc-total" data-pc-total></div>
+        </div>
+      </div>
+
+      <div class="pc-row" data-pc-comp="satago">
+        <div class="pc-row-main">
+          <div class="pc-row-name">
+            <span data-pc-title>Satago Basic</span>
+            <a class="pc-row-link" href="/blog/invoice-chase-software-comparison/#compare-satago">vs Satago →</a>
+          </div>
+          <div class="pc-row-formula" data-pc-formula></div>
+        </div>
+        <div class="pc-row-nums">
+          <span class="pc-delta" data-pc-delta></span>
+          <div class="pc-total" data-pc-total></div>
+        </div>
+      </div>
+
+      <div class="pc-row" data-pc-comp="chaseai">
+        <div class="pc-row-main">
+          <div class="pc-row-name">
+            <span data-pc-title>ChaseAI Starter</span>
+            <a class="pc-row-link" href="/blog/invoice-chase-software-comparison/#compare-chaseai">vs ChaseAI →</a>
+          </div>
+          <div class="pc-row-formula" data-pc-formula></div>
+        </div>
+        <div class="pc-row-nums">
+          <span class="pc-delta" data-pc-delta></span>
+          <div class="pc-total" data-pc-total></div>
+        </div>
+      </div>
+    </div>
+    <p class="pc-note">Figures use published list prices (USD where available; Satago converted from GBP at ~$1.28). Competitors often include auto-send, SMS, or payment portals Chasa does not. Chasa never emails your clients — you send every draft yourself. <a href="/blog/invoice-chase-software-comparison/">See the full comparison →</a></p>
+  </section>
+
 <!-- [FAQ] -->
   <section class="faq wrap" id="faq">
     <h2 data-i18n="home.faq.title">FAQ</h2>
@@ -1236,13 +1338,22 @@
       <h4 data-i18n="footer.product">Product</h4>
       <a href="/app/" data-i18n="footer.tryFree">Try free</a>
       <a href="/#pricing" data-i18n="footer.pricing">Pricing</a>
-      <a href="/blog/invoice-chase-software-comparison/" data-i18n="footer.compare">Compare</a>
       <a href="/free-templates/" data-i18n="footer.templates">Free templates</a>
       <a href="/tools/" data-i18n="footer.calculators">Calculators</a>
       <a href="/features/" data-i18n="footer.features">Features</a>
       <a href="/docs/" data-i18n="footer.docs">Docs</a>
       <a href="/ai" data-i18n="footer.ai">AI</a>
       <a href="/#faq" data-i18n="footer.faq">FAQ</a>
+    </div>
+    <div class="site-footer-col">
+      <h4 data-i18n="footer.compareCol">Compare</h4>
+      <a href="/chasa-vs-chaser" data-i18n="footer.vsChaser">vs Chaser</a>
+      <a href="/chasa-vs-paidnice" data-i18n="footer.vsPaidnice">vs Paidnice</a>
+      <a href="/chasa-vs-duefy" data-i18n="footer.vsDuefy">vs Duefy</a>
+      <a href="/chasa-vs-satago" data-i18n="footer.vsSatago">vs Satago</a>
+      <a href="/chasa-vs-chaseai" data-i18n="footer.vsChaseai">vs ChaseAI</a>
+      <a href="/switch-to-chasa" data-i18n="footer.switch">Switch to Chasa</a>
+      <a href="/blog/invoice-chase-software-comparison/" data-i18n="footer.compare">See full comparison</a>
     </div>
     <div class="site-footer-col">
       <h4 data-i18n="footer.company">Company</h4>
@@ -1266,6 +1377,7 @@
 
 <script src="/site-lang.js" defer></script>
 <script src="/site-nav.js" defer></script>
+<script src="/price-compare.js" defer></script>
 <script src="/cookie-consent.js"></script>
 <script src="/assistant.js"></script>
 

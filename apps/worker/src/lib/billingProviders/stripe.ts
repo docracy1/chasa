@@ -10,7 +10,9 @@ export type StripeWebhookResult =
       customerId: string | null;
       subscriptionId: string | null;
     }
-  | { type: "subscription_deleted"; customerId: string };
+  | { type: "subscription_deleted"; customerId: string }
+  | { type: "subscription_updated"; customerId: string; status: string; plan: Plan | null }
+  | { type: "payment_failed"; customerId: string };
 
 const REPLAY_TOLERANCE_SECONDS = 300; // matches Stripe's own default tolerance
 
@@ -42,11 +44,16 @@ function parseSignatureHeader(header: string): { timestamp: string; signatures: 
  * signature, a stale (replayed) event, or an event type we don't act on — the webhook route
  * itself always responds 200 regardless, since Stripe only needs to know we received it.
  *
- * Two event types are handled: "checkout.session.completed" unlocks the paid tier and records the
+ * Four event types are handled: "checkout.session.completed" unlocks the paid tier and records the
  * Stripe customer/subscription id; "customer.subscription.deleted" is the one signal that a
  * subscription actually ended (cancellation, or Stripe giving up after failed-payment retries),
- * so it's what revokes paid status — resolved back to an account via billing.ts's
- * findAccountIdByStripeCustomerId, since that payload has no client_reference_id of its own.
+ * so it's what revokes paid status; "customer.subscription.updated" catches everything short of
+ * that — a plan change made through Stripe's own customer portal, or the status moving through
+ * past_due/unpaid on a failed renewal — so the account's plan and billing_status stay in sync
+ * without waiting for the subscription to be deleted outright; "invoice.payment_failed" is a
+ * heads-up notification only (no plan change), since Stripe's retry schedule is what actually
+ * decides whether the subscription survives. All four resolve back to an account via billing.ts's
+ * findAccountIdByStripeCustomerId, since none of these payloads carry a client_reference_id.
  */
 export async function verifyAndExtract(
   rawBody: string,
@@ -109,6 +116,25 @@ export async function verifyAndExtract(
     const customerId = event.data?.object?.customer;
     if (typeof customerId !== "string" || !customerId) return null;
     return { type: "subscription_deleted", customerId };
+  }
+
+  if (event.type === "customer.subscription.updated") {
+    const obj = event.data?.object;
+    const customerId = obj?.customer;
+    const status = obj?.status;
+    if (typeof customerId !== "string" || !customerId || typeof status !== "string") return null;
+
+    const items = (obj?.items as { data?: Array<{ price?: { id?: string } }> } | undefined)?.data;
+    const priceId = items?.[0]?.price?.id;
+    const plan = planFromPriceId(env, typeof priceId === "string" ? priceId : null);
+
+    return { type: "subscription_updated", customerId, status, plan };
+  }
+
+  if (event.type === "invoice.payment_failed") {
+    const customerId = event.data?.object?.customer;
+    if (typeof customerId !== "string" || !customerId) return null;
+    return { type: "payment_failed", customerId };
   }
 
   return null;

@@ -1,6 +1,7 @@
 import type { Context, MiddlewareHandler } from "hono";
 import { getCookie, setCookie, deleteCookie } from "hono/cookie";
 import type { Env } from "../types";
+import { resolveAccount, SESSION_COOKIE_NAME } from "./auth";
 import { generateOpaqueToken, hashOpaqueToken, hashOpaqueTokenLookup } from "./token";
 import { timingSafeEqual } from "./cryptoUtils";
 import { checkRateLimit } from "./rateLimit";
@@ -97,6 +98,26 @@ export async function resolveAdmin(env: Env, token: string): Promise<AdminContex
   return { email: row.email };
 }
 
+/** Prefer dedicated admin cookie; otherwise allow the normal app session when the email is
+ *  ADMIN_EMAIL — same pattern as Docracy so the dashboard Admin link doesn't ask again. */
+export async function resolveAdminAccess(
+  env: Env,
+  adminToken: string | undefined,
+  sessionToken: string | undefined
+): Promise<AdminContext | null> {
+  if (adminToken) {
+    const fromAdminCookie = await resolveAdmin(env, adminToken);
+    if (fromAdminCookie) return fromAdminCookie;
+  }
+  if (sessionToken) {
+    const account = await resolveAccount(env, sessionToken);
+    if (account && isAdminEmail(env, account.email)) {
+      return { email: account.email.trim().toLowerCase() };
+    }
+  }
+  return null;
+}
+
 export async function destroyAdminSession(env: Env, token: string): Promise<void> {
   const [primaryHash, legacyHash] = await hashOpaqueTokenLookup(token, env.TOKEN_SECRET, "admin-session");
   await env.CHASA_DB.prepare(`DELETE FROM admin_sessions WHERE token_hash IN (?, ?)`)
@@ -116,8 +137,11 @@ type AdminVars = { admin: AdminContext | null };
 export type AdminEnv = { Bindings: Env; Variables: AdminVars };
 
 export const requireAdmin: MiddlewareHandler<AdminEnv> = async (c, next) => {
-  const token = getCookie(c, ADMIN_COOKIE_NAME);
-  const admin = token ? await resolveAdmin(c.env, token) : null;
+  const admin = await resolveAdminAccess(
+    c.env,
+    getCookie(c, ADMIN_COOKIE_NAME),
+    getCookie(c, SESSION_COOKIE_NAME)
+  );
   if (!admin) return c.json({ error: "Admin sign-in required" }, 401);
   c.set("admin", admin);
   await next();

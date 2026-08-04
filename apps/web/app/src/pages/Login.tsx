@@ -3,7 +3,6 @@ import { adminPasswordLogin, requestMagicLink, type AuthConfig } from "../lib/ap
 import { track } from "../lib/analytics";
 import { useT } from "../lib/i18n";
 import TurnstileWidget, { resetTurnstile } from "../components/TurnstileWidget";
-import LanguageSwitcher from "../components/LanguageSwitcher";
 
 async function loadAuthConfig(): Promise<AuthConfig | null> {
   try {
@@ -75,9 +74,6 @@ export default function Login() {
   if (sent) {
     return (
       <div className="panel">
-        <div className="panel-lang">
-          <LanguageSwitcher />
-        </div>
         <h1>{t("login.sentTitle")}</h1>
         <p className="page-sub">{t("login.sentBody", { email })}</p>
       </div>
@@ -86,9 +82,6 @@ export default function Login() {
 
   return (
     <div className="panel">
-      <div className="panel-lang">
-        <LanguageSwitcher />
-      </div>
       <h1>{t("login.title")}</h1>
       {googleLoginEnabled ? (
         <>

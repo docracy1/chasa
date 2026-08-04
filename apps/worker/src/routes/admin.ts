@@ -6,11 +6,13 @@ import {
   destroyAdminSession,
   loginAdmin,
   requireAdmin,
-  resolveAdmin,
+  resolveAdminAccess,
   setAdminCookie,
   type AdminEnv,
 } from "../lib/adminAuth";
-import { getFunnelStats, getTrafficStats } from "../lib/analytics";
+import { SESSION_COOKIE_NAME } from "../lib/auth";
+import { getFunnelStats, getOutreachStats, getTrafficSources, getTrafficStats } from "../lib/analytics";
+import { getCachedClaritySnapshot, refreshClaritySnapshot } from "../lib/clarityApi";
 import { createPost, deletePost, listPosts, updatePost } from "../lib/blog";
 import { clientIp, verifyTurnstile } from "../lib/turnstile";
 import {
@@ -43,8 +45,11 @@ admin.post("/logout", async (c) => {
 });
 
 admin.get("/me", async (c) => {
-  const token = getCookie(c, ADMIN_COOKIE_NAME);
-  const adminUser = token ? await resolveAdmin(c.env, token) : null;
+  const adminUser = await resolveAdminAccess(
+    c.env,
+    getCookie(c, ADMIN_COOKIE_NAME),
+    getCookie(c, SESSION_COOKIE_NAME)
+  );
   if (!adminUser) return c.json({ error: "Admin sign-in required" }, 401);
   return c.json({ email: adminUser.email });
 });
@@ -62,8 +67,40 @@ admin.get("/funnels", requireAdmin, async (c) => {
 admin.get("/traffic", requireAdmin, async (c) => {
   const daysRaw = Number(c.req.query("days") || "30");
   const days = Number.isFinite(daysRaw) ? Math.min(Math.max(daysRaw, 1), 90) : 30;
-  const stats = await getTrafficStats(c.env, days);
+  const day = c.req.query("day") || null;
+  const stats = await getTrafficStats(c.env, days, day);
   return c.json(stats);
+});
+
+admin.get("/traffic-sources", requireAdmin, async (c) => {
+  const daysRaw = Number(c.req.query("days") || "30");
+  const days = Number.isFinite(daysRaw) ? Math.min(Math.max(daysRaw, 1), 90) : 30;
+  const humansOnly = c.req.query("humansOnly") === "1";
+  const stats = await getTrafficSources(c.env, days, humansOnly);
+  return c.json(stats);
+});
+
+admin.get("/outreach", requireAdmin, async (c) => {
+  const daysRaw = Number(c.req.query("days") || "30");
+  const days = Number.isFinite(daysRaw) ? Math.min(Math.max(daysRaw, 1), 90) : 30;
+  const stats = await getOutreachStats(c.env, days);
+  return c.json(stats);
+});
+
+admin.get("/clarity", requireAdmin, async (c) => {
+  const configured = !!c.env.CLARITY_API_TOKEN;
+  const snapshot = await getCachedClaritySnapshot(c.env);
+  return c.json({ configured, snapshot });
+});
+
+admin.post("/clarity/refresh", requireAdmin, async (c) => {
+  if (!c.env.CLARITY_API_TOKEN) return c.json({ error: "not_configured" }, 400);
+  const result = await refreshClaritySnapshot(c.env);
+  if (!result.ok) {
+    const status = result.error === "too_soon" || result.error === "daily_quota_reached" ? 429 : 502;
+    return c.json({ error: result.error }, status);
+  }
+  return c.json({ snapshot: result.snapshot });
 });
 
 admin.get("/signups", requireAdmin, async (c) => {

@@ -25,6 +25,7 @@ import { configuredAppOrigin, isAllowedAppOrigin } from "./lib/appUrl";
 import { purgeExpiredSessions } from "./lib/sessionCleanup";
 import { sendDailyChaseDigests } from "./lib/chaseDigest";
 import { runSpaSmokeAndAlert } from "./lib/spaSmoke";
+import { refreshClaritySnapshot } from "./lib/clarityApi";
 
 const app = new Hono<AuthEnv>();
 
@@ -80,6 +81,11 @@ export default {
         (async () => {
           await purgeExpiredSessions(env);
           await sendDailyChaseDigests(env);
+          if (env.CLARITY_API_TOKEN) {
+            await refreshClaritySnapshot(env, { force: true }).catch((err) =>
+              console.error("Clarity snapshot refresh failed:", err)
+            );
+          }
         })()
       );
     }

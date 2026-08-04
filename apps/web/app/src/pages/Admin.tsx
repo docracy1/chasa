@@ -1,4 +1,3 @@
-import { useEffect, useRef, useState } from "react";
 import {
   adminBlogCreate,
   adminBlogDelete,
@@ -9,21 +8,29 @@ import {
   adminLogin,
   adminLogout,
   adminMe,
+  adminOutreach,
   adminSignups,
   adminTraffic,
+  adminTrafficSources,
   isExcludeSelf,
   setExcludeSelf,
   type BlogPost,
   type FunnelStats,
+  type OutreachStats,
   type SignupLists,
+  type TrafficSourceRow,
+  type TrafficSourcesStats,
   type TrafficStats,
 } from "../lib/adminApi";
 import TurnstileWidget, { resetTurnstile } from "../components/TurnstileWidget";
+import LanguageSwitcher from "../components/LanguageSwitcher";
 import { useT } from "../lib/i18n";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 type NavId =
   | "dashboard"
   | "activation"
+  | "growth"
   | "completion"
   | "template"
   | "traffic"
@@ -35,11 +42,13 @@ type NavId =
 
 function FunnelTable({
   title,
+  note,
   steps,
   kpi,
   t,
 }: {
   title: string;
+  note?: string;
   steps: { name: string; count: number }[];
   kpi?: string;
   t: (key: string, vars?: Record<string, string | number>) => string;
@@ -55,26 +64,34 @@ function FunnelTable({
           </span>
         ) : null}
       </h2>
+      {note ? <p className="dash-muted" style={{ marginTop: -4, marginBottom: 12 }}>{note}</p> : null}
       <table className="admin-table">
         <thead>
           <tr>
             <th>{t("admin.colEvent")}</th>
             <th>{t("admin.colCount")}</th>
+            <th>{t("admin.colOfPrevious")}</th>
             <th></th>
           </tr>
         </thead>
         <tbody>
-          {steps.map((step) => (
-            <tr key={step.name} className={kpi && step.name === kpi ? "is-kpi" : undefined}>
-              <td>
-                <code>{step.name}</code>
-              </td>
-              <td>{step.count}</td>
-              <td className="admin-bar-cell">
-                <div className="admin-bar" style={{ width: `${(step.count / max) * 100}%` }} />
-              </td>
-            </tr>
-          ))}
+          {steps.map((step, i) => {
+            const prev = i === 0 ? null : steps[i - 1].count;
+            const ofPrev =
+              prev == null || prev <= 0 ? null : Math.round((step.count / prev) * 100);
+            return (
+              <tr key={step.name} className={kpi && step.name === kpi ? "is-kpi" : undefined}>
+                <td>
+                  <code>{step.name}</code>
+                </td>
+                <td>{step.count}</td>
+                <td className="admin-of-prev">{ofPrev == null ? "—" : t("admin.ofPrevious", { pct: ofPrev })}</td>
+                <td className="admin-bar-cell">
+                  <div className="admin-bar" style={{ width: `${(step.count / max) * 100}%` }} />
+                </td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
     </section>
@@ -83,28 +100,37 @@ function FunnelTable({
 
 function DayChart({
   rows,
+  selectedDay,
+  onSelectDay,
   t,
 }: {
   rows: { day: string; human: number; bot: number }[];
+  selectedDay: string | null;
+  onSelectDay: (day: string | null) => void;
   t: (key: string, vars?: Record<string, string | number>) => string;
 }) {
   const max = Math.max(1, ...rows.map((r) => r.human + r.bot));
   return (
     <div className="dash-chart">
       <div className="dash-chart-bars">
-        {rows.map((r) => (
-          <div
-            key={r.day}
-            className="dash-chart-col"
-            title={t("admin.chartTitle", { day: r.day, human: r.human, bot: r.bot })}
-          >
-            <div className="dash-chart-stack">
-              <div className="dash-bar-human" style={{ height: `${(r.human / max) * 120}px` }} />
-              <div className="dash-bar-bot" style={{ height: `${(r.bot / max) * 120}px` }} />
-            </div>
-            <span>{r.day.slice(5)}</span>
-          </div>
-        ))}
+        {rows.map((r) => {
+          const selected = selectedDay === r.day;
+          return (
+            <button
+              key={r.day}
+              type="button"
+              className={`dash-chart-col${selected ? " is-selected" : ""}`}
+              title={t("admin.chartTitle", { day: r.day, human: r.human, bot: r.bot })}
+              onClick={() => onSelectDay(selected ? null : r.day)}
+            >
+              <div className="dash-chart-stack">
+                <div className="dash-bar-human" style={{ height: `${(r.human / max) * 120}px` }} />
+                <div className="dash-bar-bot" style={{ height: `${(r.bot / max) * 120}px` }} />
+              </div>
+              <span>{r.day.slice(5)}</span>
+            </button>
+          );
+        })}
       </div>
       <div className="dash-chart-legend">
         <span>
@@ -113,7 +139,157 @@ function DayChart({
         <span>
           <i className="lg-bot" /> {t("admin.legendBot")}
         </span>
+        <span className="dash-chart-hint">{t("admin.chartClickDay")}</span>
       </div>
+    </div>
+  );
+}
+
+const SELF_HOST_RE = /chasa/i;
+
+const HOST_LABELS: Record<string, string> = {
+  "t.co": "Twitter/X",
+  "twitter.com": "Twitter/X",
+  "x.com": "Twitter/X",
+  "google.com": "Google",
+  "www.google.com": "Google",
+  google: "Google",
+  "bing.com": "Bing",
+  "www.bing.com": "Bing",
+  bing: "Bing",
+  "linkedin.com": "LinkedIn",
+  "www.linkedin.com": "LinkedIn",
+  linkedin: "LinkedIn",
+  "reddit.com": "Reddit",
+  "www.reddit.com": "Reddit",
+  "producthunt.com": "Product Hunt",
+  "www.producthunt.com": "Product Hunt",
+  "news.ycombinator.com": "Hacker News",
+  "indiehackers.com": "IndieHackers",
+  "www.indiehackers.com": "IndieHackers",
+};
+
+function hostLabel(host: string): string {
+  const bare = host.replace(/^www\./, "");
+  return HOST_LABELS[host] ?? HOST_LABELS[bare] ?? bare;
+}
+
+function TrafficSourcesTable({
+  rows,
+  t,
+}: {
+  rows: TrafficSourceRow[];
+  t: (key: string, vars?: Record<string, string | number>) => string;
+}) {
+  const days = useMemo(() => {
+    const set = new Set<string>();
+    for (const r of rows) set.add(r.day);
+    return [...set].sort((a, b) => b.localeCompare(a));
+  }, [rows]);
+  const [selectedDay, setSelectedDay] = useState("all");
+
+  const { referrers, campaigns, selfReferralCount } = useMemo(() => {
+    const referrerMap = new Map<string, number>();
+    const campaignMap = new Map<string, number>();
+    let selfCount = 0;
+    for (const r of rows) {
+      if (selectedDay !== "all" && r.day !== selectedDay) continue;
+      if (r.event === "referral_source_detected" && r.source) {
+        if (SELF_HOST_RE.test(r.source)) {
+          selfCount += r.count;
+          continue;
+        }
+        const label = hostLabel(r.source);
+        referrerMap.set(label, (referrerMap.get(label) ?? 0) + r.count);
+      } else if (r.event === "campaign_click" && r.attribution) {
+        campaignMap.set(r.attribution, (campaignMap.get(r.attribution) ?? 0) + r.count);
+      }
+    }
+    return {
+      referrers: [...referrerMap.entries()].sort(([, a], [, b]) => b - a),
+      campaigns: [...campaignMap.entries()].sort(([, a], [, b]) => b - a),
+      selfReferralCount: selfCount,
+    };
+  }, [rows, selectedDay]);
+
+  const nothingYet = referrers.length === 0 && campaigns.length === 0;
+
+  return (
+    <div className="admin-traffic-sources">
+      <div className="admin-traffic-sources-toolbar">
+        <label className="admin-day-filter">
+          <span className="sr-only">{t("admin.filterByDay")}</span>
+          <select
+            value={selectedDay}
+            onChange={(e) => setSelectedDay(e.target.value)}
+            aria-label={t("admin.filterByDay")}
+          >
+            <option value="all">{t("admin.allDays")}</option>
+            {days.map((d) => (
+              <option key={d} value={d}>
+                {d}
+              </option>
+            ))}
+          </select>
+        </label>
+        <p className="dash-note">
+          {t("admin.selfReferralNote", { count: selfReferralCount })}
+        </p>
+      </div>
+      {nothingYet ? (
+        <p className="dash-muted">{t("admin.noExternalTraffic")}</p>
+      ) : (
+        <div className="admin-traffic-sources-grid">
+          <div className="admin-traffic-sources-panel">
+            <h3>{t("admin.externalSites")}</h3>
+            {referrers.length === 0 ? (
+              <p className="dash-muted">{t("admin.noneYet")}</p>
+            ) : (
+              <table className="admin-table admin-table-compact">
+                <thead>
+                  <tr>
+                    <th>{t("admin.colSite")}</th>
+                    <th>{t("admin.colVisits")}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {referrers.map(([label, count]) => (
+                    <tr key={label}>
+                      <td>{label}</td>
+                      <td>{count}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
+          </div>
+          <div className="admin-traffic-sources-panel">
+            <h3>{t("admin.taggedCampaigns")}</h3>
+            {campaigns.length === 0 ? (
+              <p className="dash-muted">{t("admin.noneYet")}</p>
+            ) : (
+              <table className="admin-table admin-table-compact">
+                <thead>
+                  <tr>
+                    <th>{t("admin.colCampaign")}</th>
+                    <th>{t("admin.colClicks")}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {campaigns.map(([label, count]) => (
+                    <tr key={label}>
+                      <td>
+                        <code>{label}</code>
+                      </td>
+                      <td>{count}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
@@ -186,9 +362,6 @@ function DashAccountMenu({
         <a href="/app/account" role="menuitem">
           {t("account.subscription")}
         </a>
-        <a href="/app/connector" role="menuitem">
-          {t("nav.testConnectors")}
-        </a>
         <button type="button" role="menuitem" className="is-active-soft" onClick={onAdmin}>
           {t("admin.title")}
         </button>
@@ -239,6 +412,8 @@ export default function Admin() {
   const [authedEmail, setAuthedEmail] = useState<string | null>(null);
   const [stats, setStats] = useState<FunnelStats | null>(null);
   const [traffic, setTraffic] = useState<TrafficStats | null>(null);
+  const [trafficSources, setTrafficSources] = useState<TrafficSourcesStats | null>(null);
+  const [outreach, setOutreach] = useState<OutreachStats | null>(null);
   const [signups, setSignups] = useState<SignupLists | null>(null);
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [error, setError] = useState<string | null>(null);
@@ -246,6 +421,7 @@ export default function Admin() {
   const [loading, setLoading] = useState(true);
   const [nav, setNav] = useState<NavId>("analytics");
   const [days, setDays] = useState(30);
+  const [trafficDay, setTrafficDay] = useState<string | null>(null);
   // On by default: crawler hits belong in the page_views bot tiles, not in a funnel where the
   // click half can only ever come from a real browser.
   const [humansOnly, setHumansOnly] = useState(true);
@@ -260,15 +436,19 @@ export default function Admin() {
     published: false,
   });
 
-  async function loadAll(d = days, h = humansOnly) {
-    const [f, t, s, b] = await Promise.all([
+  async function loadAll(d = days, h = humansOnly, day = trafficDay) {
+    const [f, tr, sources, o, s, b] = await Promise.all([
       adminFunnels(d, h),
-      adminTraffic(d),
+      adminTraffic(d, day),
+      adminTrafficSources(d, h),
+      adminOutreach(d),
       adminSignups(),
       adminBlogList(),
     ]);
     setStats(f);
-    setTraffic(t);
+    setTraffic(tr);
+    setTrafficSources(sources);
+    setOutreach(o);
     setSignups(s);
     setPosts(b.posts);
   }
@@ -302,28 +482,65 @@ export default function Admin() {
 
   async function handleLogout() {
     await adminLogout();
+    // Account-session admins stay authorized via chasa_session — leave Admin for the app
+    // instead of bouncing back into the password form.
+    try {
+      const me = await adminMe();
+      if (me.email) {
+        window.location.href = "/app/";
+        return;
+      }
+    } catch {
+      /* password-only admin session cleared */
+    }
     setAuthedEmail(null);
     setStats(null);
+    setTraffic(null);
+    setTrafficSources(null);
+    setOutreach(null);
+    setSignups(null);
+    setPosts([]);
+    setTrafficDay(null);
   }
 
   async function changeDays(d: number) {
     setDays(d);
+    setTrafficDay(null);
     setBusy(true);
     try {
-      const [f, t] = await Promise.all([adminFunnels(d, humansOnly), adminTraffic(d)]);
+      const [f, tr, sources, o] = await Promise.all([
+        adminFunnels(d, humansOnly),
+        adminTraffic(d, null),
+        adminTrafficSources(d, humansOnly),
+        adminOutreach(d),
+      ]);
       setStats(f);
-      setTraffic(t);
+      setTraffic(tr);
+      setTrafficSources(sources);
+      setOutreach(o);
     } finally {
       setBusy(false);
     }
   }
 
-  // Only the funnels refetch — /traffic ignores the flag, since its human/bot split is the point.
+  async function changeTrafficDay(day: string | null) {
+    setTrafficDay(day);
+    setBusy(true);
+    try {
+      setTraffic(await adminTraffic(days, day));
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  // Funnels + traffic sources respect humansOnly; page_views keep their own bot split.
   async function changeHumansOnly(on: boolean) {
     setHumansOnly(on);
     setBusy(true);
     try {
-      setStats(await adminFunnels(days, on));
+      const [f, sources] = await Promise.all([adminFunnels(days, on), adminTrafficSources(days, on)]);
+      setStats(f);
+      setTrafficSources(sources);
     } finally {
       setBusy(false);
     }
@@ -394,6 +611,7 @@ export default function Admin() {
             <img src="/brand/chasa-icon.png" alt="" width="22" height="22" />
             <span>chasa</span>
           </a>
+          <LanguageSwitcher className="lang-switcher-on-dark" />
         </header>
         <div className="dash-login-wrap">
           <div className="dash-login-card">
@@ -439,25 +657,26 @@ export default function Admin() {
           <a href="/free-templates/">{t("admin.freeTemplates")}</a>
           <a href="/blog/">{t("admin.blog")}</a>
           <a href="/app/">{t("admin.app")}</a>
-          <a href="/app/connector">{t("nav.testConnectors")}</a>
           <button type="button" className="dash-topnav-strong" onClick={() => setNav("analytics")}>
             {t("admin.title")}
           </button>
           <button type="button" onClick={handleLogout}>
             {t("nav.logout")}
           </button>
+          <LanguageSwitcher className="lang-switcher-on-dark" />
         </nav>
       </header>
 
       <div className="dash-body">
         <aside className="dash-sidebar">
-          <a href="/app/" className="dash-new-btn">
+          <a href="/app/new" className="dash-new-btn">
             {t("admin.newChase")}
           </a>
           <nav className="dash-side-nav">
             {(
               [
                 ["analytics", "admin.nav.analytics"],
+                ["growth", "admin.nav.growth"],
                 ["blog", "admin.nav.blog"],
                 ["signups", "admin.nav.signups"],
                 ["activation", "admin.nav.activation"],
@@ -477,9 +696,6 @@ export default function Admin() {
                 {t(labelKey)}
               </button>
             ))}
-            <a href="/app/connector" className="dash-side-link">
-              {t("nav.testConnectors")}
-            </a>
           </nav>
           <div className="dash-side-footer">
             <DashAccountMenu
@@ -499,17 +715,20 @@ export default function Admin() {
                 ? t("admin.nav.signups")
                 : nav === "analytics"
                   ? t("admin.nav.analytics")
-                  : t("admin.welcomeBack")}
+                  : nav === "growth"
+                    ? t("admin.nav.growth")
+                    : t("admin.welcomeBack")}
           </h1>
           <p className="dash-sub">
             {t("admin.analyticsSub")}
-            {nav === "analytics" || nav === "activation" || nav === "completion"
+            {nav === "analytics" || nav === "activation" || nav === "growth" || nav === "completion"
               ? t("admin.signedInAs", { email: authedEmail })
               : null}
           </p>
           {error && <div className="error-msg">{error}</div>}
 
           {(nav === "analytics" ||
+            nav === "growth" ||
             nav === "activation" ||
             nav === "completion" ||
             nav === "template" ||
@@ -574,6 +793,7 @@ export default function Admin() {
                 <div className="dash-stat">
                   <span className="dash-stat-label">{t("admin.chasesCompleted")}</span>
                   <strong>{traffic.chasesCompleted}</strong>
+                  <em>{t("admin.chasesCompletedSub")}</em>
                 </div>
                 <div className="dash-stat">
                   <span className="dash-stat-label">{t("admin.sentToCompleted")}</span>
@@ -581,14 +801,157 @@ export default function Admin() {
                 </div>
               </div>
 
+              {trafficSources && (
+                <section className="dash-card admin-traffic-sources-card">
+                  <h2 className="dash-card-title">{t("admin.externalTrafficTitle")}</h2>
+                  <p className="dash-note">{t("admin.externalTrafficSub")}</p>
+                  <TrafficSourcesTable rows={trafficSources.rows} t={t} />
+                </section>
+              )}
+
               <section className="dash-card">
-                <h2 className="dash-card-title">{t("admin.pageViewsByDay")}</h2>
-                <DayChart rows={traffic.byDay} t={t} />
+                <h2 className="dash-card-title">
+                  {t("admin.pageViewsByDay")}
+                  {trafficDay ? (
+                    <button type="button" className="btn-secondary" onClick={() => void changeTrafficDay(null)}>
+                      {t("admin.clearDayFilter", { day: trafficDay })}
+                    </button>
+                  ) : null}
+                </h2>
+                <DayChart
+                  rows={traffic.byDay}
+                  selectedDay={trafficDay}
+                  onSelectDay={(day) => void changeTrafficDay(day)}
+                  t={t}
+                />
               </section>
+
+              {outreach && (
+                <section className="dash-card">
+                  <h2 className="dash-card-title">{t("admin.outreachTitle")}</h2>
+                  <p className="dash-note">{t("admin.outreachSub")}</p>
+                  <div className="dash-stat-row dash-stat-row-4" style={{ marginBottom: 16 }}>
+                    <div className="dash-stat">
+                      <span className="dash-stat-label">{t("admin.outreachOpens")}</span>
+                      <strong>{outreach.humanOpens}</strong>
+                      <em>
+                        {outreach.botOpens > 0
+                          ? t("admin.outreachBots", { count: outreach.botOpens })
+                          : t("admin.outreachLinkHint")}
+                      </em>
+                    </div>
+                  </div>
+                  <div className="dash-grid-3">
+                    <div>
+                      <h3 className="dash-card-title" style={{ fontSize: 14 }}>
+                        {t("admin.outreachByCampaign")}
+                      </h3>
+                      <table className="admin-table">
+                        <thead>
+                          <tr>
+                            <th>{t("admin.colCampaign")}</th>
+                            <th>{t("admin.colOpens")}</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {outreach.byCampaign.length === 0 ? (
+                            <tr>
+                              <td colSpan={2}>{t("admin.outreachEmpty")}</td>
+                            </tr>
+                          ) : (
+                            outreach.byCampaign.map((r) => (
+                              <tr key={r.label}>
+                                <td>
+                                  <code>{r.label}</code>
+                                </td>
+                                <td>{r.count}</td>
+                              </tr>
+                            ))
+                          )}
+                        </tbody>
+                      </table>
+                    </div>
+                    <div>
+                      <h3 className="dash-card-title" style={{ fontSize: 14 }}>
+                        {t("admin.outreachByWho")}
+                      </h3>
+                      <table className="admin-table">
+                        <thead>
+                          <tr>
+                            <th>{t("admin.colWho")}</th>
+                            <th>{t("admin.colOpens")}</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {outreach.byWho.length === 0 ? (
+                            <tr>
+                              <td colSpan={2}>{t("admin.outreachNoWho")}</td>
+                            </tr>
+                          ) : (
+                            outreach.byWho.map((r) => (
+                              <tr key={r.who}>
+                                <td>
+                                  <code>{r.who}</code>
+                                </td>
+                                <td>{r.count}</td>
+                              </tr>
+                            ))
+                          )}
+                        </tbody>
+                      </table>
+                    </div>
+                    <div>
+                      <h3 className="dash-card-title" style={{ fontSize: 14 }}>
+                        {t("admin.outreachRecent")}
+                      </h3>
+                      <table className="admin-table">
+                        <thead>
+                          <tr>
+                            <th>{t("admin.colWhen")}</th>
+                            <th>{t("admin.colLabel")}</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {outreach.recent.filter((r) => !r.isBot).length === 0 ? (
+                            <tr>
+                              <td colSpan={2}>{t("admin.outreachEmpty")}</td>
+                            </tr>
+                          ) : (
+                            outreach.recent
+                              .filter((r) => !r.isBot)
+                              .slice(0, 15)
+                              .map((r) => (
+                                <tr key={`${r.at}-${r.label}`}>
+                                  <td style={{ whiteSpace: "nowrap", fontSize: 12 }}>
+                                    {r.at.slice(0, 16).replace("T", " ")}
+                                  </td>
+                                  <td>
+                                    <code style={{ fontSize: 12 }}>{r.label}</code>
+                                  </td>
+                                </tr>
+                              ))
+                          )}
+                        </tbody>
+                      </table>
+                      <p className="dash-note" style={{ marginTop: 12 }}>
+                        {t("admin.outreachLinks")}:{" "}
+                        {outreach.links.map((l) => (
+                          <span key={l.path}>
+                            <code>https://chasa.io{l.path}</code>{" "}
+                          </span>
+                        ))}
+                      </p>
+                    </div>
+                  </div>
+                </section>
+              )}
 
               <div className="dash-grid-3">
                 <section className="dash-card">
-                  <h2 className="dash-card-title">{t("admin.byRoute")}</h2>
+                  <h2 className="dash-card-title">
+                    {t("admin.byRoute")}
+                    {trafficDay ? <span className="dash-kpi-tag">{trafficDay}</span> : null}
+                  </h2>
                   <table className="admin-table">
                     <thead>
                       <tr>
@@ -599,21 +962,30 @@ export default function Admin() {
                       </tr>
                     </thead>
                     <tbody>
-                      {traffic.byRoute.map((r) => (
-                        <tr key={r.path}>
-                          <td>
-                            <code>{r.path}</code>
-                          </td>
-                          <td>{r.total}</td>
-                          <td>{r.human}</td>
-                          <td>{r.bot}</td>
+                      {traffic.byRoute.length === 0 ? (
+                        <tr>
+                          <td colSpan={4}>{t("admin.noTrafficDay")}</td>
                         </tr>
-                      ))}
+                      ) : (
+                        traffic.byRoute.map((r) => (
+                          <tr key={r.path}>
+                            <td>
+                              <code>{r.path}</code>
+                            </td>
+                            <td>{r.total}</td>
+                            <td>{r.human}</td>
+                            <td>{r.bot}</td>
+                          </tr>
+                        ))
+                      )}
                     </tbody>
                   </table>
                 </section>
                 <section className="dash-card">
-                  <h2 className="dash-card-title">{t("admin.byBot")}</h2>
+                  <h2 className="dash-card-title">
+                    {t("admin.byBot")}
+                    {trafficDay ? <span className="dash-kpi-tag">{trafficDay}</span> : null}
+                  </h2>
                   <table className="admin-table">
                     <thead>
                       <tr>
@@ -638,7 +1010,10 @@ export default function Admin() {
                   </table>
                 </section>
                 <section className="dash-card">
-                  <h2 className="dash-card-title">{t("admin.byCountry")}</h2>
+                  <h2 className="dash-card-title">
+                    {t("admin.byCountry")}
+                    {trafficDay ? <span className="dash-kpi-tag">{trafficDay}</span> : null}
+                  </h2>
                   <table className="admin-table">
                     <thead>
                       <tr>
@@ -647,12 +1022,18 @@ export default function Admin() {
                       </tr>
                     </thead>
                     <tbody>
-                      {traffic.byCountry.map((r) => (
-                        <tr key={r.country}>
-                          <td>{r.country}</td>
-                          <td>{r.count}</td>
+                      {traffic.byCountry.length === 0 ? (
+                        <tr>
+                          <td colSpan={2}>{t("admin.noTrafficDay")}</td>
                         </tr>
-                      ))}
+                      ) : (
+                        traffic.byCountry.map((r) => (
+                          <tr key={r.country}>
+                            <td>{r.country}</td>
+                            <td>{r.count}</td>
+                          </tr>
+                        ))
+                      )}
                     </tbody>
                   </table>
                 </section>
@@ -797,6 +1178,15 @@ export default function Admin() {
             </>
           )}
 
+          {stats && nav === "growth" && (
+            <FunnelTable
+              title={t("admin.growthFunnel")}
+              note={t("admin.growthNote")}
+              steps={stats.growth ?? []}
+              kpi="checkout_completed"
+              t={t}
+            />
+          )}
           {stats && nav === "activation" && (
             <FunnelTable
               title={t("admin.activationFunnel")}

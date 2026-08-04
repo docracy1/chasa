@@ -524,6 +524,11 @@ export function InvoiceCard({
                   : t("invoice.demandLetter")}
               </button>
             )}
+            {isPaid && !isPro && !isPaidInvoice && (
+              <Link className="btn-secondary" to="/account">
+                {t("invoice.unlockDemandLetter")}
+              </Link>
+            )}
             <button
               className="btn-secondary"
               disabled={busy || atLimit}
@@ -563,6 +568,11 @@ export function InvoiceCard({
             >
               {t("invoice.evidence")}
             </button>
+          )}
+          {isPaid && !isPro && !isPaidInvoice && (
+            <Link className="ai-unlock-link" to="/account" style={{ display: "inline-block", marginTop: 8 }}>
+              {t("invoice.unlockEvidence")}
+            </Link>
           )}
           {isPaid && invoice.timeline && <ChaseTimeline events={invoice.timeline} />}
           {invoice.trackingNote && (

@@ -21,8 +21,12 @@ Worker `PUBLIC_APP_URL` is `https://chasa.io` (magic links, OAuth callbacks, Str
 **Go-live checklist**
 
 1. Attach `chasa.io` on Cloudflare Pages project `chasa` and wait for **Active**.
-2. Redirect `www` → apex. Pages `_redirects` cannot match hostnames, so use **Bulk Redirects**: source `www.chasa.io` → target `https://chasa.io`, `301`, with *preserve query string*, *subpath matching* and *preserve path suffix*. Needs a proxied `www` DNS record (`A` → `192.0.2.1`).
-3. Run `./scripts/go-live-verify.sh`.
+2. Redirect `www` → apex. Pages `_redirects` cannot match hostnames, so use **Bulk Redirects**: source `www.chasa.io` → target `https://chasa.io`, `301`, with *preserve query string*, *subpath matching* and *preserve path suffix*. Needs a proxied `www` DNS record (`CNAME` → `chasa-71s.pages.dev`, or `A` → `192.0.2.1` if apex-only).
+3. DNS helper (needs `CLOUDFLARE_API_TOKEN` with Zone DNS Edit): `./scripts/go-live-dns.sh`
+4. Confirm accounting OAuth secrets are set on the worker (`QBO_CLIENT_ID` / `QBO_CLIENT_SECRET`, `XERO_CLIENT_ID` / `XERO_CLIENT_SECRET`) and redirect URIs registered in Intuit / Xero developer consoles:
+   - `https://api.chasa.io/api/account/connectors/quickbooks/callback`
+   - `https://api.chasa.io/api/account/connectors/xero/callback`
+5. Run `./scripts/go-live-verify.sh`.
 
 The order does not matter: browser-facing links are built from the origin the request came in on (see “App origin resolution” below), so pages.dev and chasa.io both keep working whichever is deployed first.
 

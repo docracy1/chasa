@@ -7,6 +7,7 @@ import {
   type Account,
   type WebhookItem,
 } from "../lib/api";
+import { isWorkspaceAdmin } from "../lib/plan";
 import { useT } from "../lib/i18n";
 
 export default function WebhooksPage({ account }: { account: Account | null }) {
@@ -19,9 +20,10 @@ export default function WebhooksPage({ account }: { account: Account | null }) {
   const [loading, setLoading] = useState(true);
 
   const isPaid = !!account && account.plan !== "free";
+  const canManage = isPaid && isWorkspaceAdmin(account);
 
   async function refresh() {
-    if (!account || !isPaid) {
+    if (!account || !isPaid || !canManage) {
       setLoading(false);
       return;
     }
@@ -48,6 +50,20 @@ export default function WebhooksPage({ account }: { account: Account | null }) {
         <a className="btn-primary" href="/app/login">
           {t("nav.signin")}
         </a>
+      </div>
+    );
+  }
+
+  if (isPaid && !canManage) {
+    return (
+      <div className="webhooks-page">
+        <h1 className="webhooks-title">{t("webhooks.title")}</h1>
+        <div className="panel">
+          <p className="page-sub">{t("workspace.adminOnly")}</p>
+          <Link className="btn-secondary" to="/">
+            {t("nav.dashboard")}
+          </Link>
+        </div>
       </div>
     );
   }

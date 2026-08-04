@@ -1,4 +1,5 @@
 import type { Env } from "../types";
+import { trackEvent } from "./analytics";
 
 export type TrackingSummary = {
   id: string;
@@ -129,18 +130,34 @@ export async function isAllowedTrackingUrl(env: Env, chaseId: string, url: strin
 }
 
 export async function recordOpen(env: Env, chaseId: string): Promise<boolean> {
+  // Read the pre-update open_count so we can tell a first open (funnel-worthy) from a re-open
+  // (recipient re-loading the same email, e.g. scrolling back to it) without a second round trip.
+  const existing = await env.CHASA_DB.prepare(
+    `SELECT account_id, open_count FROM chase_tracking WHERE id = ?`
+  )
+    .bind(chaseId)
+    .first<{ account_id: string; open_count: number }>();
+  if (!existing) return false;
+
   const now = new Date().toISOString();
-  const result = await env.CHASA_DB.prepare(
+  await env.CHASA_DB.prepare(
     `UPDATE chase_tracking SET open_count = open_count + 1, last_open_at = ? WHERE id = ?`
   )
     .bind(now, chaseId)
     .run();
-  if (!result.meta.changes) return false;
   await env.CHASA_DB.prepare(
     `INSERT INTO chase_tracking_events (id, chase_id, event_type, meta, created_at) VALUES (?, ?, 'open', NULL, ?)`
   )
     .bind(crypto.randomUUID(), chaseId, now)
     .run();
+
+  if (existing.open_count === 0) {
+    await trackEvent(env, {
+      name: "chase_opened",
+      accountId: existing.account_id,
+      path: "/api/t/o",
+    }).catch(() => {});
+  }
   return true;
 }
 

@@ -56,7 +56,6 @@
       <a href="/free-templates/" class="header-nav-link header-nav-collapse" data-i18n="nav.templates">Free templates</a>
       <a href="/tools/" class="header-nav-link header-nav-collapse" data-i18n="nav.tools">Tools</a>
       <a href="/ai" class="header-nav-link header-nav-collapse" data-i18n="nav.ai">AI</a>
-      <a href="/about" class="header-nav-link header-nav-collapse" data-i18n="nav.about">About</a>
       <a href="/app/login" class="header-nav-link header-nav-strong" data-i18n="nav.signIn">Sign in</a>
       <a href="/app/" class="nav-cta" data-i18n="nav.tryFree">Try free</a>
       <div class="locale-switch" data-locale-switch role="group" data-i18n-aria="nav.language"></div>
@@ -75,7 +74,6 @@
       <a href="/free-templates/" class="mobile-panel-nav-link" data-i18n="nav.templates">Free templates</a>
       <a href="/tools/" class="mobile-panel-nav-link" data-i18n="nav.tools">Tools</a>
       <a href="/ai" class="mobile-panel-nav-link" data-i18n="nav.ai">AI</a>
-      <a href="/about" class="mobile-panel-nav-link" data-i18n="nav.about">About</a>
       <a href="/app/login" class="mobile-panel-nav-link" data-i18n="nav.signIn">Sign in</a>
       <a href="/app/" class="mobile-panel-nav-link" data-i18n="nav.tryFree">Try free</a>
   </nav>
@@ -85,50 +83,109 @@
   </div>
 </div>
 <main class="wrap page-main">
-<h1>Privacy</h1>
-  <p class="lede">
+<h1 data-i18n="privacy.title">Privacy</h1>
+  <p class="lede" data-i18n="privacy.lede">
     This describes what Chasa's software actually does with your data today. It hasn't been reviewed
     by a lawyer — treat it as an accurate technical description, not a legal guarantee.
   </p>
 
-  <h3>What we collect</h3>
-  <p>
+  <h3 data-i18n="privacy.whatWeCollect.title">What we collect</h3>
+  <p data-i18n="privacy.whatWeCollect.body1">
     Free use without an account stores nothing on our servers about your invoices — drafts are
     generated in the request and not retained. If you sign in, we store your email address to
     manage your account and billing status.
   </p>
-  <p>
+  <p data-i18n="privacy.whatWeCollect.body2">
     If you request the free templates PDF pack, we store the email you submit so we can send the
     download link and related product tips. You can unsubscribe from those emails anytime via the
     link in the message. Individual template pages on the site stay available without an email.
   </p>
 
-  <h3>Invoice content</h3>
-  <p>
+  <h3 data-i18n="privacy.invoiceContent.title">Invoice content</h3>
+  <p data-i18n="privacy.invoiceContent.body">
     Client names, amounts, and due dates you submit to generate a draft are sent to our AI provider
     (Cloudflare Workers AI) for that request only. We don't keep a history of your invoices or draft
     emails on our side.
   </p>
 
-  <h3>Traffic analytics</h3>
-  <p>
-    With your consent, we use first-party page analytics and
+  <h3 data-i18n="privacy.cookies.title">Cookies &amp; traffic analytics</h3>
+  <p data-i18n-html="privacy.cookies.body">
+    A small number of strictly necessary cookies keep you signed in and remember your cookie choice —
+    these don't need consent under ePrivacy rules and can't be declined without breaking sign-in. With
+    your separate consent (the banner on first visit), we also use first-party page analytics and
     <a href="https://clarity.microsoft.com/" rel="noopener noreferrer" target="_blank">Microsoft Clarity</a>
-    (heatmaps and session recordings) to understand how people use Chasa. You can decline cookies; we
-    then skip both. Our host (Cloudflare) may still log standard request metadata. We don't use
-    advertising trackers or share data with ad networks.
+    (heatmaps and session recordings) to understand how people use Chasa. Decline, and we skip both —
+    you can change your mind anytime by clearing the <code>chasa_cookie_consent</code> value in your
+    browser. Our host (Cloudflare) may still log standard request metadata (IP, user agent) for
+    security and abuse prevention regardless of consent, as that's an unavoidable part of serving the
+    request. We don't use advertising trackers or share data with ad networks.
   </p>
 
-  <h3>Third parties</h3>
-  <p>
-    Magic-link sign-in emails and optional template-pack welcome emails (when configured) are sent via
-    Resend. Billing runs through Stripe when you upgrade. AI drafting uses Cloudflare Workers AI.
-    Optional analytics use Microsoft Clarity when you accept cookies. We don't sell your data.
+  <h3 data-i18n="privacy.controller.title">Data controller</h3>
+  <p data-i18n-html="privacy.controller.body">
+    Chasa is a product of RELACON GmbH, Vienna, Austria — the data controller for personal data
+    described on this page. Contact details are under "Contact" below.
   </p>
 
-  <h3>Contact</h3>
-  <p>
-    Questions about your data? Reach out at
+  <h3 data-i18n="privacy.legalBasis.title">Legal basis for processing</h3>
+  <p data-i18n="privacy.legalBasis.body">
+    Account data (email, plan, billing status) is processed to perform the contract with you (GDPR
+    Art. 6(1)(b)) — we can't provide an account or paid plan without it. Analytics and Clarity run only
+    on your consent (Art. 6(1)(a)) and stop the moment you decline or withdraw it. Security-relevant
+    request logs kept by Cloudflare rest on our legitimate interest in keeping the service running and
+    abuse-free (Art. 6(1)(f)).
+  </p>
+
+  <h3 data-i18n="privacy.retention.title">How long we keep it</h3>
+  <p data-i18n="privacy.retention.body">
+    Account records persist for as long as your account exists, plus a limited period afterward to
+    satisfy billing and tax record-keeping obligations, then are deleted. Invoice details you paste to
+    generate a draft are never written to our database in the first place — they exist only for the
+    duration of that one request. Template-pack email addresses are kept until you unsubscribe.
+  </p>
+
+  <h3 data-i18n="privacy.subprocessors.title">Subprocessors</h3>
+  <p data-i18n="privacy.subprocessors.intro">The services above that touch your data, and why:</p>
+  <ul data-i18n-html="privacy.subprocessors.list">
+    <li><strong>Cloudflare</strong> (USA/EU, Workers &amp; Pages hosting, D1 database, Workers AI) — runs the app, stores account data, drafts invoice follow-ups.</li>
+    <li><strong>Resend</strong> (USA) — delivers sign-in links and transactional email.</li>
+    <li><strong>Stripe</strong> (USA/Ireland) — processes payments; we never see or store full card numbers.</li>
+    <li><strong>Microsoft Clarity</strong> (USA) — session analytics, only after cookie consent.</li>
+  </ul>
+
+  <h3 data-i18n="privacy.transfers.title">International data transfers</h3>
+  <p data-i18n-html="privacy.transfers.body">
+    Some subprocessors above process data outside the EU/EEA (notably the US). Where that happens, we
+    rely on the provider's Standard Contractual Clauses or equivalent safeguards — see each provider's
+    own privacy documentation (<a href="https://www.cloudflare.com/privacypolicy/" rel="noopener noreferrer" target="_blank">Cloudflare</a>,
+    <a href="https://resend.com/legal/privacy-policy" rel="noopener noreferrer" target="_blank">Resend</a>,
+    <a href="https://stripe.com/privacy" rel="noopener noreferrer" target="_blank">Stripe</a>,
+    <a href="https://privacy.microsoft.com/privacystatement" rel="noopener noreferrer" target="_blank">Microsoft</a>) for the specifics of their transfer mechanism.
+  </p>
+
+  <h3 data-i18n="privacy.rights.title">Your rights (GDPR)</h3>
+  <p data-i18n-html="privacy.rights.body">
+    If you're in the EU/EEA/UK, you can ask us to access, correct, delete, or export (portability) the
+    personal data we hold on you, and you can object to or restrict processing, or withdraw consent for
+    analytics at any time — none of this affects the lawfulness of processing before the withdrawal.
+    Email <a href="mailto:founder@chasa.io">founder@chasa.io</a> and we'll respond within a reasonable
+    time. You also have the right to lodge a complaint with your local data protection authority — in
+    Austria, the
+    <a href="https://www.dsb.gv.at/" rel="noopener noreferrer" target="_blank">Datenschutzbehörde (DSB)</a>.
+  </p>
+
+  <h3 data-i18n="privacy.children.title">Children</h3>
+  <p data-i18n="privacy.children.body">Chasa is a business tool and isn't directed at, or knowingly used by, children under 16.</p>
+
+  <h3 data-i18n="privacy.changes.title">Changes to this policy</h3>
+  <p data-i18n="privacy.changes.body">
+    If what we collect or why changes materially, we'll update this page and, for signed-in accounts,
+    note it in-app.
+  </p>
+
+  <h3 data-i18n="privacy.contact.title">Contact</h3>
+  <p data-i18n-html="privacy.contact.body">
+    Questions about your data, or want to exercise any of the rights above? Reach out at
     <a href="mailto:founder@chasa.io">founder@chasa.io</a>.
   </p>
 </main>
@@ -142,13 +199,22 @@
       <h4 data-i18n="footer.product">Product</h4>
       <a href="/app/" data-i18n="footer.tryFree">Try free</a>
       <a href="/#pricing" data-i18n="footer.pricing">Pricing</a>
-      <a href="/blog/invoice-chase-software-comparison/" data-i18n="footer.compare">Compare</a>
       <a href="/free-templates/" data-i18n="footer.templates">Free templates</a>
       <a href="/tools/" data-i18n="footer.calculators">Calculators</a>
       <a href="/features/" data-i18n="footer.features">Features</a>
       <a href="/docs/" data-i18n="footer.docs">Docs</a>
       <a href="/ai" data-i18n="footer.ai">AI</a>
       <a href="/#faq" data-i18n="footer.faq">FAQ</a>
+    </div>
+    <div class="site-footer-col">
+      <h4 data-i18n="footer.compareCol">Compare</h4>
+      <a href="/chasa-vs-chaser" data-i18n="footer.vsChaser">vs Chaser</a>
+      <a href="/chasa-vs-paidnice" data-i18n="footer.vsPaidnice">vs Paidnice</a>
+      <a href="/chasa-vs-duefy" data-i18n="footer.vsDuefy">vs Duefy</a>
+      <a href="/chasa-vs-satago" data-i18n="footer.vsSatago">vs Satago</a>
+      <a href="/chasa-vs-chaseai" data-i18n="footer.vsChaseai">vs ChaseAI</a>
+      <a href="/switch-to-chasa" data-i18n="footer.switch">Switch to Chasa</a>
+      <a href="/blog/invoice-chase-software-comparison/" data-i18n="footer.compare">See full comparison</a>
     </div>
     <div class="site-footer-col">
       <h4 data-i18n="footer.company">Company</h4>

@@ -104,6 +104,13 @@
         role: role || undefined,
         invoiceTool: invoiceTool || undefined,
         turnstileToken: turnstileToken || undefined,
+        lang: (function () {
+          try {
+            return localStorage.getItem("chasa_locale") === "es" ? "es" : undefined;
+          } catch (e) {
+            return undefined;
+          }
+        })(),
       }),
     })
       .then(function (r) {

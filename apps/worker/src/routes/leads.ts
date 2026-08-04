@@ -2,6 +2,7 @@ import { Hono } from "hono";
 import type { AuthEnv } from "../lib/auth";
 import { trackEvent } from "../lib/analytics";
 import { sendTemplatesPackWelcomeEmail } from "../lib/email";
+import { detectLocaleFromHeader, normalizeLocale } from "../lib/locale";
 import {
   markWelcomeSent,
   unsubscribeByToken,
@@ -50,13 +51,21 @@ leads.post("/templates-pack", async (c) => {
   // Welcome on first download, if never sent, or if they re-subscribe after unsubscribing.
   const shouldSend = isNew || !lead.welcome_sent_at || resubscribed;
   if (shouldSend) {
+    const locale = parsed.data.lang
+      ? normalizeLocale(parsed.data.lang)
+      : detectLocaleFromHeader(c.req.header("Accept-Language"));
     c.executionCtx.waitUntil(
       (async () => {
-        await sendTemplatesPackWelcomeEmail(c.env, lead.email, {
-          downloadUrl,
-          unsubUrl,
-          firstName: lead.first_name,
-        });
+        await sendTemplatesPackWelcomeEmail(
+          c.env,
+          lead.email,
+          {
+            downloadUrl,
+            unsubUrl,
+            firstName: lead.first_name,
+          },
+          locale
+        );
         await markWelcomeSent(c.env, lead.id);
       })().catch((err) => console.error("[leads] welcome email failed", err))
     );

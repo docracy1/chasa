@@ -42,7 +42,7 @@ export function CloudStorageSection({
   const t = useT();
 
   return (
-    <section className="branding-card" style={{ marginTop: 20 }}>
+    <section id="cloud" className="branding-card" style={{ marginTop: 20 }}>
       <h2 className="webhooks-title" style={{ fontSize: "1.25rem" }}>
         {t("connector.cloudTitle")}
       </h2>

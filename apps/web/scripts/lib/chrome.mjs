@@ -60,7 +60,6 @@ ${jsonLd ? `<script type="application/ld+json">\n${jsonLd}\n</script>` : `<scrip
       <a href="${link("/free-templates/")}" class="header-nav-link header-nav-collapse${activeNav === "templates" ? " header-nav-strong" : ""}" data-i18n="nav.templates">Free templates</a>
       <a href="${link("/tools/")}" class="header-nav-link header-nav-collapse${activeNav === "tools" ? " header-nav-strong" : ""}" data-i18n="nav.tools">Tools</a>
       <a href="${link("/ai")}" class="header-nav-link header-nav-collapse${activeNav === "ai" ? " header-nav-strong" : ""}" data-i18n="nav.ai">AI</a>
-      <a href="${link("/about")}" class="header-nav-link header-nav-collapse" data-i18n="nav.about">About</a>
       <a href="${link("/app/login")}" class="header-nav-link header-nav-strong" data-i18n="nav.signIn">Sign in</a>
       <a href="${link("/app/")}" class="nav-cta" data-i18n="nav.tryFree">Try free</a>
       <div class="locale-switch" data-locale-switch role="group" data-i18n-aria="nav.language"></div>
@@ -79,7 +78,6 @@ ${jsonLd ? `<script type="application/ld+json">\n${jsonLd}\n</script>` : `<scrip
       <a href="${link("/free-templates/")}" class="mobile-panel-nav-link" data-i18n="nav.templates">Free templates</a>
       <a href="${link("/tools/")}" class="mobile-panel-nav-link" data-i18n="nav.tools">Tools</a>
       <a href="${link("/ai")}" class="mobile-panel-nav-link" data-i18n="nav.ai">AI</a>
-      <a href="${link("/about")}" class="mobile-panel-nav-link" data-i18n="nav.about">About</a>
       <a href="${link("/app/login")}" class="mobile-panel-nav-link" data-i18n="nav.signIn">Sign in</a>
       <a href="${link("/app/")}" class="mobile-panel-nav-link" data-i18n="nav.tryFree">Try free</a>
   </nav>
@@ -101,13 +99,22 @@ ${mainHtml}
       <h4 data-i18n="footer.product">Product</h4>
       <a href="${link("/app/")}" data-i18n="footer.tryFree">Try free</a>
       <a href="${link("/#pricing")}" data-i18n="footer.pricing">Pricing</a>
-      <a href="${link("/blog/invoice-chase-software-comparison/")}" data-i18n="footer.compare">Compare</a>
       <a href="${link("/free-templates/")}" data-i18n="footer.templates">Free templates</a>
       <a href="${link("/tools/")}" data-i18n="footer.calculators">Calculators</a>
       <a href="${link("/features/")}" data-i18n="footer.features">Features</a>
       <a href="${link("/docs/")}" data-i18n="footer.docs">Docs</a>
       <a href="${link("/ai")}" data-i18n="footer.ai">AI</a>
       <a href="${link("/#faq")}" data-i18n="footer.faq">FAQ</a>
+    </div>
+    <div class="site-footer-col">
+      <h4 data-i18n="footer.compareCol">Compare</h4>
+      <a href="${link("/chasa-vs-chaser")}" data-i18n="footer.vsChaser">vs Chaser</a>
+      <a href="${link("/chasa-vs-paidnice")}" data-i18n="footer.vsPaidnice">vs Paidnice</a>
+      <a href="${link("/chasa-vs-duefy")}" data-i18n="footer.vsDuefy">vs Duefy</a>
+      <a href="${link("/chasa-vs-satago")}" data-i18n="footer.vsSatago">vs Satago</a>
+      <a href="${link("/chasa-vs-chaseai")}" data-i18n="footer.vsChaseai">vs ChaseAI</a>
+      <a href="${link("/switch-to-chasa")}" data-i18n="footer.switch">Switch to Chasa</a>
+      <a href="${link("/blog/invoice-chase-software-comparison/")}" data-i18n="footer.compare">See full comparison</a>
     </div>
     <div class="site-footer-col">
       <h4 data-i18n="footer.company">Company</h4>

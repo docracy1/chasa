@@ -115,7 +115,7 @@ export function InvoiceIntakePanel({
           {t("intake.importPdf")}
         </button>
       ) : (
-        <Link className="btn-secondary" style={{ marginLeft: 8 }} to="/connector">
+        <Link className="btn-secondary" style={{ marginLeft: 8 }} to="/account">
           {t("intake.pdfSolo")}
         </Link>
       )}

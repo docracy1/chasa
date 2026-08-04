@@ -1,7 +1,9 @@
 import { Hono } from "hono";
-import { requireAccount, requireWorkspaceAdmin, type AuthEnv } from "../lib/auth";
+import { requireAccount, requirePaidAccount, requireWorkspaceAdmin, type AuthEnv } from "../lib/auth";
+import { isAdminEmail } from "../lib/adminAuth";
 import cloudConnectors from "./cloudConnectors";
 import googleIntegrations from "./googleIntegrations";
+import { importLocalPdfBytes } from "../lib/pdfInvoiceHints";
 import { brandingUpdateSchema, digestSettingsSchema, parseJsonBody, validateWorkspaceName } from "../lib/schemas";
 
 const account = new Hono<AuthEnv>();
@@ -35,6 +37,7 @@ account.get("/me", requireAccount, async (c) => {
     digestEnabled: row?.digest_enabled !== 0,
     role: acc.role,
     workspaceId: acc.workspaceId,
+    isAdmin: isAdminEmail(c.env, acc.email),
   });
 });
 
@@ -181,6 +184,37 @@ account.patch("/digest", requireAccount, async (c) => {
     .bind(parsed.data.digestEnabled ? 1 : 0, acc.workspaceId)
     .run();
   return c.json({ digestEnabled: parsed.data.digestEnabled });
+});
+
+/** Local PDF upload from New chase — same hint shape as cloud connector import. */
+account.post("/pdf/import", requirePaidAccount, async (c) => {
+  let body: { filename?: string; base64?: string };
+  try {
+    body = await c.req.json();
+  } catch {
+    return c.json({ error: "Invalid JSON body" }, 400);
+  }
+  const filename = typeof body.filename === "string" ? body.filename : "";
+  const base64 = typeof body.base64 === "string" ? body.base64.replace(/^data:application\/pdf;base64,/, "") : "";
+  if (!base64) return c.json({ error: "base64 is required" }, 400);
+  try {
+    const binary = atob(base64);
+    const bytes = new Uint8Array(binary.length);
+    for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+    const result = importLocalPdfBytes(filename || "invoice.pdf", bytes.buffer);
+    return c.json(result);
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : "Could not import PDF";
+    if (
+      msg.startsWith("File too large") ||
+      msg.startsWith("Only PDF") ||
+      msg.startsWith("File does not") ||
+      msg.startsWith("Uploaded file")
+    ) {
+      return c.json({ error: msg }, 400);
+    }
+    return c.json({ error: msg }, 502);
+  }
 });
 
 export default account;

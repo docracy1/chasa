@@ -16,4 +16,12 @@
 /docs  /docs/  301
 /free-templates  /free-templates/  301
 
+# Outreach short links are handled by functions/go/[[code]].ts (logs open, then 302).
+# These static redirects are a fallback if the Function is unavailable.
+/go/dm  /?utm_source=outreach&utm_medium=dm&utm_campaign=dm  302
+/go/li  /?utm_source=linkedin&utm_medium=social&utm_campaign=li  302
+/go/x   /?utm_source=x&utm_medium=social&utm_campaign=x  302
+/go/try /app/?utm_source=try&utm_medium=shortlink&utm_campaign=try  302
+/go/templates  /free-templates/?utm_source=templates&utm_medium=shortlink&utm_campaign=templates  302
+
 /*  /404.html  404

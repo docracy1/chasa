@@ -31,9 +31,7 @@ binding = "AI"
 # This is the deployed (production) value. Local `wrangler dev` overrides it via
 # apps/worker/.dev.vars, which takes precedence over [vars] when running locally.
 [vars]
-# Until chasa.io is attached on Pages, keep the preview origin so OAuth / magic-link
-# redirects land somewhere that resolves. Flip to https://chasa.io after Custom domains are Active.
-PUBLIC_APP_URL = "https://chasa-71s.pages.dev"
+PUBLIC_APP_URL = "https://chasa.io"
 PUBLIC_WORKER_URL = "https://api.chasa.io"
 WORKERS_AI_MODEL = "@cf/meta/llama-3.1-8b-instruct-fp8"
 FEEDBACK_EMAIL = "founder@chasa.io"
@@ -82,6 +80,11 @@ GOOGLE_INTEGRATIONS_CLIENT_ID = "111635541806-ie2hbeub99831tl1q610mt6kmjl7r00v.a
 # Set with: wrangler secret put QBO_CLIENT_SECRET
 # Set with: wrangler secret put XERO_CLIENT_ID
 # Set with: wrangler secret put XERO_CLIENT_SECRET
+# Microsoft Clarity Data Export API (optional — admin dashboard reads cached data, refreshed daily
+# by cron; shows "not connected" until set). Generate a token in Clarity: open the Chasa project at
+# clarity.microsoft.com -> Settings -> Data Export -> API tokens. Token is project-scoped, no
+# separate project id needed.
+# Set with: wrangler secret put CLARITY_API_TOKEN
 # Price IDs are non-secret — set above as STRIPE_PRICE_SOLO / PRO / ENTERPRISE.
 
 # --- Staging: isolated D1 so testing never touches production data ---

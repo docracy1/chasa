@@ -56,7 +56,6 @@
       <a href="/free-templates/" class="header-nav-link header-nav-collapse" data-i18n="nav.templates">Free templates</a>
       <a href="/tools/" class="header-nav-link header-nav-collapse" data-i18n="nav.tools">Tools</a>
       <a href="/ai" class="header-nav-link header-nav-collapse" data-i18n="nav.ai">AI</a>
-      <a href="/about" class="header-nav-link header-nav-collapse" data-i18n="nav.about">About</a>
       <a href="/app/login" class="header-nav-link header-nav-strong" data-i18n="nav.signIn">Sign in</a>
       <a href="/app/" class="nav-cta" data-i18n="nav.tryFree">Try free</a>
       <div class="locale-switch" data-locale-switch role="group" data-i18n-aria="nav.language"></div>
@@ -75,7 +74,6 @@
       <a href="/free-templates/" class="mobile-panel-nav-link" data-i18n="nav.templates">Free templates</a>
       <a href="/tools/" class="mobile-panel-nav-link" data-i18n="nav.tools">Tools</a>
       <a href="/ai" class="mobile-panel-nav-link" data-i18n="nav.ai">AI</a>
-      <a href="/about" class="mobile-panel-nav-link" data-i18n="nav.about">About</a>
       <a href="/app/login" class="mobile-panel-nav-link" data-i18n="nav.signIn">Sign in</a>
       <a href="/app/" class="mobile-panel-nav-link" data-i18n="nav.tryFree">Try free</a>
   </nav>
@@ -85,40 +83,77 @@
   </div>
 </div>
 <main class="wrap page-main">
-<h1>Terms</h1>
-  <p class="lede">
+<h1 data-i18n="terms.title">Terms</h1>
+  <p class="lede" data-i18n="terms.lede">
     This describes how Chasa actually works today. It hasn't been reviewed by a lawyer — treat it as
     a plain description of the service, not a binding legal contract.
   </p>
 
-  <h3>What Chasa is</h3>
-  <p>
+  <h3 data-i18n="terms.whatIsChasa.title">What Chasa is</h3>
+  <p data-i18n="terms.whatIsChasa.body">
     Chasa is a tool that drafts payment follow-up emails from invoice details you provide. The free
     tier includes a limited number of AI drafts per month; a paid plan removes that limit.
   </p>
 
-  <h3>You send the email</h3>
-  <p>
+  <h3 data-i18n="terms.youSendEmail.title">You send the email</h3>
+  <p data-i18n="terms.youSendEmail.body">
     Chasa does not email your clients. Drafts are for you to copy, edit, and send from your own
     inbox. You're responsible for what you send.
   </p>
 
-  <h3>No guarantees</h3>
-  <p>
+  <h3 data-i18n="terms.noGuarantees.title">No guarantees</h3>
+  <p data-i18n="terms.noGuarantees.body">
     The service is provided as-is, with no uptime guarantee and no warranty that a draft will get
     you paid or suit every situation. AI output can be wrong — review before sending.
   </p>
 
-  <h3>Acceptable use</h3>
-  <p>
+  <h3 data-i18n="terms.acceptableUse.title">Acceptable use</h3>
+  <p data-i18n="terms.acceptableUse.body">
     Don't use Chasa to generate abusive, fraudulent, or unlawful content. We may restrict access
     that violates this without notice.
   </p>
 
-  <h3>Billing</h3>
-  <p>
+  <h3 data-i18n="terms.yourContent.title">Your content</h3>
+  <p data-i18n-html="terms.yourContent.body">
+    You own the invoice details you submit and the drafts Chasa generates from them. We don't claim
+    any rights over that content beyond what's needed to process your request and provide the
+    service — see <a href="/privacy">Privacy</a> for how that data is (and mostly isn't) retained.
+  </p>
+
+  <h3 data-i18n="terms.liability.title">Limitation of liability</h3>
+  <p data-i18n="terms.liability.body">
+    To the extent permitted by law, Chasa and RELACON GmbH aren't liable for indirect, incidental, or
+    consequential damages arising from your use of the service — including late or unrecovered
+    payments, client relationships, or reliance on AI-drafted content. Where liability can't be
+    excluded, it's limited to the amount you paid us in the 12 months before the claim, or €100 for
+    free accounts.
+  </p>
+
+  <h3 data-i18n="terms.billing.title">Billing</h3>
+  <p data-i18n="terms.billing.body">
     Paid plans are billed through Stripe. Cancel anytime from your account; access continues through
-    the end of the billing period already paid.
+    the end of the billing period already paid. If a renewal payment fails, we'll email you and give
+    you a chance to update your card before the subscription lapses.
+  </p>
+
+  <h3 data-i18n="terms.termination.title">Termination</h3>
+  <p data-i18n="terms.termination.body">
+    You can stop using Chasa and cancel any paid plan at any time. We may suspend or terminate an
+    account that violates the acceptable-use terms above, or that we reasonably believe poses a
+    security risk to the service, with notice where practical.
+  </p>
+
+  <h3 data-i18n="terms.changes.title">Changes to these terms</h3>
+  <p data-i18n="terms.changes.body">
+    If we change these terms materially, we'll update this page and, for signed-in accounts, note it
+    in-app. Continued use after a change means you accept the update.
+  </p>
+
+  <h3 data-i18n="terms.governingLaw.title">Governing law</h3>
+  <p data-i18n="terms.governingLaw.body">
+    These terms are governed by Austrian law. Disputes that can't be resolved informally fall under
+    the jurisdiction of the competent courts in Vienna, Austria, without prejudice to any mandatory
+    consumer-protection rights you have in your own country of residence.
   </p>
 </main>
 <footer class="site-footer">
@@ -131,13 +166,22 @@
       <h4 data-i18n="footer.product">Product</h4>
       <a href="/app/" data-i18n="footer.tryFree">Try free</a>
       <a href="/#pricing" data-i18n="footer.pricing">Pricing</a>
-      <a href="/blog/invoice-chase-software-comparison/" data-i18n="footer.compare">Compare</a>
       <a href="/free-templates/" data-i18n="footer.templates">Free templates</a>
       <a href="/tools/" data-i18n="footer.calculators">Calculators</a>
       <a href="/features/" data-i18n="footer.features">Features</a>
       <a href="/docs/" data-i18n="footer.docs">Docs</a>
       <a href="/ai" data-i18n="footer.ai">AI</a>
       <a href="/#faq" data-i18n="footer.faq">FAQ</a>
+    </div>
+    <div class="site-footer-col">
+      <h4 data-i18n="footer.compareCol">Compare</h4>
+      <a href="/chasa-vs-chaser" data-i18n="footer.vsChaser">vs Chaser</a>
+      <a href="/chasa-vs-paidnice" data-i18n="footer.vsPaidnice">vs Paidnice</a>
+      <a href="/chasa-vs-duefy" data-i18n="footer.vsDuefy">vs Duefy</a>
+      <a href="/chasa-vs-satago" data-i18n="footer.vsSatago">vs Satago</a>
+      <a href="/chasa-vs-chaseai" data-i18n="footer.vsChaseai">vs ChaseAI</a>
+      <a href="/switch-to-chasa" data-i18n="footer.switch">Switch to Chasa</a>
+      <a href="/blog/invoice-chase-software-comparison/" data-i18n="footer.compare">See full comparison</a>
     </div>
     <div class="site-footer-col">
       <h4 data-i18n="footer.company">Company</h4>

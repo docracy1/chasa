@@ -53,7 +53,7 @@ team.post("/invite", requireWorkspaceAdmin, async (c) => {
   if ("error" in result) return c.json({ error: result.error }, result.status as 400);
 
   const inviteUrl = `${requestAppOrigin(c)}/app/team?invite=${encodeURIComponent(result.inviteToken)}`;
-  await sendInviteEmail(c.env, result.member.email, inviteUrl, acc.email);
+  await sendInviteEmail(c.env, result.member.email, inviteUrl, acc.email, acc.id);
 
   return c.json({ member: result.member, ok: true });
 });
