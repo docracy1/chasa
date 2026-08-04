@@ -115,7 +115,7 @@
   ]
 }
 </script>
-<link rel="stylesheet" href="/site.css">
+<link rel="stylesheet" href="/site.css?v=20260804d">
 <style>
   html { scroll-behavior: smooth; }
 
@@ -128,7 +128,7 @@
       to bottom,
       transparent 0,
       transparent 38px,
-      color-mix(in srgb, var(--ink) 4%, transparent) 39px
+      color-mix(in srgb, var(--accent) 5%, transparent) 39px
     );
     pointer-events: none;
     z-index: 0;
@@ -136,11 +136,10 @@
 
   header, main, footer { position: relative; z-index: 1; }
 
-  /* ---------- HERO (Docracy-style split band, Chasa colours) ---------- */
+  /* ---------- HERO (Docracy split layout, Chasa orange — no blue) ---------- */
   .hero-band {
-    --hero-mid: #3d5f8f;
-    --hero-body: rgba(232, 238, 248, 0.88);
-    background: linear-gradient(135deg, var(--hero-mid) 0%, var(--ink) 100%);
+    --hero-body: rgba(255, 255, 255, 0.9);
+    background: linear-gradient(135deg, var(--hero-from) 0%, var(--accent) 42%, var(--hero-to) 100%);
     color: #fff;
     padding: 64px 24px 72px;
     overflow: hidden;
@@ -287,13 +286,13 @@
     height: 14px;
     width: 42%;
     border-radius: 4px;
-    background: color-mix(in srgb, var(--ink) 55%, #c5cedb);
+    background: color-mix(in srgb, var(--accent) 45%, #c9b0a4);
     margin-bottom: 22px;
   }
   .chase-mockup-line {
     height: 8px;
     border-radius: 4px;
-    background: #e4e9f0;
+    background: #f0e6e1;
     margin-bottom: 12px;
   }
   .chase-mockup-line.w80 { width: 80%; }
@@ -311,8 +310,8 @@
     font-weight: 800;
     letter-spacing: 0.06em;
     text-transform: uppercase;
-    color: #3d5a80;
-    background: #e8eef6;
+    color: var(--accent);
+    background: #fff0ea;
     padding: 5px 10px;
     border-radius: 999px;
   }
@@ -357,6 +356,61 @@
   }
   @media (prefers-reduced-motion: reduce) {
     .doc-mockup-card { animation: none; }
+  }
+
+  .how-modal-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 800;
+    background: rgba(6, 16, 32, 0.78);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  .how-modal-backdrop.is-open { display: flex; }
+  .how-modal-backdrop[hidden] { display: none !important; }
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+  .how-modal {
+    position: relative;
+    width: min(940px, 100%);
+    background: #000;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.45);
+  }
+  .how-modal-close {
+    position: absolute;
+    top: 10px;
+    right: 12px;
+    z-index: 2;
+    width: 36px;
+    height: 36px;
+    border: none;
+    border-radius: 999px;
+    background: rgba(0, 0, 0, 0.55);
+    color: #fff;
+    font-size: 22px;
+    line-height: 1;
+    cursor: pointer;
+  }
+  .how-modal-close:hover { background: rgba(0, 0, 0, 0.75); }
+  .how-modal-video {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    background: #000;
   }
 
   .btn-primary {
@@ -965,15 +1019,15 @@ AI drafts the chase in the right tone.</h1>
             />
             <button type="submit" class="hero-signup-btn" data-cta data-i18n="home.hero.startFree">Start free →</button>
           </form>
-          <a href="#how" class="hero-watch-btn" data-cta>
+          <button type="button" class="hero-watch-btn" id="watch-how-it-works" data-cta data-open-how-video>
             <span class="hero-watch-icon" aria-hidden="true">
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
                 <circle cx="12" cy="12" r="10" fill="rgba(255,255,255,0.18)" />
                 <path d="M10 8.5v7l6-3.5-6-3.5z" fill="#fff" />
               </svg>
             </span>
-            <span data-i18n="home.hero.watchHow">See how it works</span>
-          </a>
+            <span data-i18n="home.hero.watchHow">Watch how it works</span>
+          </button>
         </div>
         <p class="hero-cta-hint" data-i18n="home.hero.note">No credit card required · no account needed to start.</p>
         <p class="hero-secondary-link">
@@ -1509,6 +1563,25 @@ AI drafts the chase in the right tone.</h1>
   </section>
 </main>
 
+<div class="how-modal-backdrop" id="how-modal" hidden>
+  <div class="how-modal" role="dialog" aria-modal="true" aria-labelledby="how-modal-title">
+    <h2 id="how-modal-title" class="sr-only" data-i18n="home.hero.videoTitle">How Chasa works — chase unpaid invoices in under a minute</h2>
+    <button type="button" class="how-modal-close" data-close-how-video data-i18n-aria="home.hero.videoClose" aria-label="Close video">×</button>
+    <video
+      id="how-modal-video"
+      class="how-modal-video"
+      src="/videos/how-it-works.webm?v=20260804e"
+      poster="/videos/how-it-works-poster.jpg?v=20260804e"
+      controls
+      playsinline
+      preload="metadata"
+    >
+      <track kind="captions" src="/videos/how-it-works.en.vtt" srclang="en" label="English" default />
+      <track kind="captions" src="/videos/how-it-works.es.vtt" srclang="es" label="Español" />
+    </video>
+  </div>
+</div>
+
 
 <footer class="site-footer">
   <div class="wrap site-footer-inner">
@@ -1557,7 +1630,7 @@ AI drafts the chase in the right tone.</h1>
   <div class="site-footer-bottom" data-i18n-year="footer.copyright">© 2026 Chasa — a product of RELACON GmbH</div>
 </footer>
 
-<script src="/site-lang.js" defer></script>
+<script src="/site-lang.js?v=20260804d" defer></script>
 <script src="/site-nav.js" defer></script>
 <script src="/price-compare.js" defer></script>
 <script src="/cookie-consent.js"></script>
@@ -1565,17 +1638,61 @@ AI drafts the chase in the right tone.</h1>
 <script>
   (function () {
     var form = document.getElementById("hero-signup");
-    if (!form) return;
-    form.addEventListener("submit", function (e) {
-      e.preventDefault();
-      var input = form.querySelector('input[name="email"]');
-      var email = input && input.value ? String(input.value).trim() : "";
-      var next = encodeURIComponent("/app/");
-      if (email) {
-        window.location.href = "/app/login?email=" + encodeURIComponent(email) + "&next=" + next;
-        return;
+    if (form) {
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        var input = form.querySelector('input[name="email"]');
+        var email = input && input.value ? String(input.value).trim() : "";
+        var next = encodeURIComponent("/app/");
+        if (email) {
+          window.location.href = "/app/login?email=" + encodeURIComponent(email) + "&next=" + next;
+          return;
+        }
+        window.location.href = "/app/";
+      });
+    }
+
+    var modal = document.getElementById("how-modal");
+    var video = document.getElementById("how-modal-video");
+    if (!modal || !video) return;
+
+    function openHow() {
+      modal.hidden = false;
+      modal.classList.add("is-open");
+      document.body.style.overflow = "hidden";
+      if (window.location.hash !== "#watch-how-it-works") {
+        history.replaceState(null, "", "#watch-how-it-works");
       }
-      window.location.href = "/app/";
+      video.currentTime = 0;
+      var play = video.play();
+      if (play && play.catch) play.catch(function () {});
+    }
+
+    function closeHow() {
+      video.pause();
+      modal.classList.remove("is-open");
+      modal.hidden = true;
+      document.body.style.overflow = "";
+      if (window.location.hash === "#watch-how-it-works") {
+        history.replaceState(null, "", window.location.pathname + window.location.search);
+      }
+    }
+
+    document.querySelectorAll("[data-open-how-video]").forEach(function (btn) {
+      btn.addEventListener("click", openHow);
+    });
+    document.querySelectorAll("[data-close-how-video]").forEach(function (btn) {
+      btn.addEventListener("click", closeHow);
+    });
+    modal.addEventListener("click", function (e) {
+      if (e.target === modal) closeHow();
+    });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && modal.classList.contains("is-open")) closeHow();
+    });
+    if (window.location.hash === "#watch-how-it-works") openHow();
+    window.addEventListener("hashchange", function () {
+      if (window.location.hash === "#watch-how-it-works") openHow();
     });
   })();
 </script>

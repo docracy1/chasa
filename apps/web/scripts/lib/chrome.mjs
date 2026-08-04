@@ -3,8 +3,8 @@
 import { ORG_JSON_LD, SOCIAL } from "../data/seo-config.mjs";
 import { renderSeoHead } from "./seo-head.mjs";
 
-/** Bump when site.css / site-nav.js change so Pages edge caches refresh. */
-export const ASSET_V = "20260804a";
+/** Bump when site.css / site-nav.js / site-lang.js change so Pages edge caches refresh. */
+export const ASSET_V = "20260804d";
 
 export function escapeHtml(s) {
   return s
@@ -137,7 +137,7 @@ ${mainHtml}
   </div>
   <div class="site-footer-bottom" data-i18n-year="footer.copyright">© ${new Date().getFullYear()} Chasa — a product of RELACON GmbH</div>
 </footer>
-<script src="${link("/site-lang.js")}" defer></script>
+<script src="${link(`/site-lang.js?v=${ASSET_V}`)}" defer></script>
 <script src="${link(`/site-nav.js?v=${ASSET_V}`)}" defer></script>
 <script src="${link("/cookie-consent.js")}" defer></script>
 <script src="${link("/analytics.js")}" defer></script>

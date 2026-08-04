@@ -9,7 +9,7 @@ import { fileURLToPath } from "node:url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const outDir = join(__dirname, "../public/free-templates");
-const ASSET_V = "20260804a";
+const ASSET_V = "20260804d";
 
 /** Category order controls both the "Categories" jump menu and section order on the page. */
 const CATEGORIES = [

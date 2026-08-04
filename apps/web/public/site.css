@@ -73,19 +73,26 @@
 /* Shared chrome — palette + header/footer (mirrored from docracy.io structure) */
 
 :root {
-  --ink: #1B3155;
+  /* Chasa palette: warm ink + orange (no navy/blue) */
+  --ink: #2A1410;
   --accent: #EC683C;
-  --paper: #F2F4F8;
+  --paper: #F7F3F0;
   --white: #FFFFFF;
 
+  /* Marketing chrome — orange family, Docracy layout */
+  --header-bg: #C24A28;
+  --hero-from: #F48A5C;
+  --hero-to: #C24A28;
+  --on-orange: #2A1410;
+
   --ink-soft: color-mix(in srgb, var(--ink) 58%, var(--white));
-  --line: color-mix(in srgb, var(--ink) 14%, var(--white));
-  --paper-deep: color-mix(in srgb, var(--ink) 5%, var(--paper));
+  --line: color-mix(in srgb, var(--ink) 12%, var(--white));
+  --paper-deep: color-mix(in srgb, var(--accent) 4%, var(--paper));
   --accent-soft: color-mix(in srgb, var(--accent) 16%, var(--white));
 
   --sage: color-mix(in srgb, var(--ink) 70%, var(--white));
-  --sage-bg: color-mix(in srgb, var(--ink) 8%, var(--white));
-  --amber: color-mix(in srgb, var(--accent) 72%, var(--ink));
+  --sage-bg: color-mix(in srgb, var(--accent) 6%, var(--white));
+  --amber: color-mix(in srgb, var(--accent) 78%, var(--ink));
   --amber-bg: color-mix(in srgb, var(--accent) 14%, var(--white));
   --rust: var(--accent);
   --rust-bg: var(--accent-soft);
@@ -109,13 +116,13 @@ a { color: inherit; }
   padding: 0 28px;
 }
 
-/* ---------- HEADER (dark navy — Docracy-style marketing chrome) ---------- */
+/* ---------- HEADER (deep Chasa orange — Docracy layout, orange palette) ---------- */
 .site-header {
   position: sticky;
   top: 0;
   z-index: 100;
-  background: var(--ink);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  background: var(--header-bg);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 .site-header-inner {
@@ -228,14 +235,14 @@ a { color: inherit; }
   padding: 10px 16px;
   border-radius: 999px;
   background: #fff;
-  color: var(--ink);
+  color: var(--accent);
   font-size: 13.5px;
   font-weight: 700;
   text-decoration: none;
   white-space: nowrap;
   flex-shrink: 0;
 }
-.header-nav-sales:hover { background: #eef2f8; }
+.header-nav-sales:hover { background: #fff5f0; }
 
 .header-login-btn {
   display: inline-flex;
@@ -243,7 +250,7 @@ a { color: inherit; }
   justify-content: center;
   padding: 9px 16px;
   border-radius: 999px;
-  border: 1.5px solid rgba(255, 255, 255, 0.55);
+  border: 1.5px solid rgba(255, 255, 255, 0.7);
   color: #fff;
   font-size: 13.5px;
   font-weight: 650;
@@ -253,7 +260,7 @@ a { color: inherit; }
   flex-shrink: 0;
 }
 .header-login-btn:hover {
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.12);
   border-color: #fff;
 }
 
@@ -267,11 +274,23 @@ a { color: inherit; }
   padding: 10px 18px;
   border-radius: 999px;
   text-decoration: none;
-  transition: filter 0.15s ease;
+  transition: filter 0.15s ease, background 0.15s ease;
   white-space: nowrap;
   flex-shrink: 0;
 }
 .nav-cta:hover { filter: brightness(0.95); }
+
+/* On the orange header, white pills pop the way mint does on Docracy’s dark bar */
+.site-header .nav-cta {
+  color: var(--accent);
+  background: #fff;
+  border-color: #fff;
+  filter: none;
+}
+.site-header .nav-cta:hover {
+  background: #fff5f0;
+  filter: none;
+}
 
 /* Legacy inline mobile nav — replaced by .mobile-panel; hide if any pages still emit it */
 .header-mobile-menu {
@@ -397,7 +416,7 @@ a { color: inherit; }
 /* ---------- FOOTER ---------- */
 .site-footer {
   margin-top: 64px;
-  background: var(--ink);
+  background: var(--header-bg);
   color: color-mix(in srgb, var(--white) 78%, transparent);
   padding: 48px 0 24px;
 }
@@ -490,6 +509,101 @@ a { color: inherit; }
   text-decoration: none;
 }
 .legal-page a:hover { text-decoration: underline; }
+
+/* ---------- DOCS ---------- */
+.docs-page { padding-bottom: 60px; }
+.docs-page h1 {
+  font-family: 'Fraunces', serif;
+  font-weight: 600;
+  font-size: clamp(28px, 4vw, 36px);
+  margin-bottom: 12px;
+  line-height: 1.15;
+}
+.docs-page .lede {
+  font-size: 15px;
+  color: var(--ink-soft);
+  max-width: 640px;
+  margin-bottom: 32px;
+  line-height: 1.6;
+}
+.docs-layout {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 40px;
+  align-items: start;
+}
+.docs-sidebar {
+  position: sticky;
+  top: 96px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.docs-sidebar a {
+  display: block;
+  padding: 7px 10px;
+  border-radius: 8px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--ink-soft);
+  text-decoration: none;
+}
+.docs-sidebar a:hover {
+  background: var(--paper);
+  color: var(--accent);
+}
+.docs-content { min-width: 0; max-width: 680px; }
+.docs-section {
+  padding-top: 8px;
+  margin-bottom: 40px;
+  scroll-margin-top: 90px;
+}
+.docs-section h2 {
+  font-family: 'Fraunces', serif;
+  font-weight: 600;
+  font-size: 22px;
+  margin: 0 0 14px;
+  padding-top: 24px;
+  border-top: 1px solid var(--line);
+}
+.docs-section:first-of-type h2 { border-top: 0; padding-top: 0; }
+.docs-section h3 {
+  font-size: 15px;
+  font-weight: 700;
+  margin: 20px 0 8px;
+}
+.docs-section p, .docs-section li {
+  font-size: 14.5px;
+  color: var(--ink-soft);
+  line-height: 1.6;
+}
+.docs-section ul, .docs-section ol {
+  margin: 0 0 14px;
+  padding-left: 1.3em;
+}
+.docs-section code {
+  background: var(--paper);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px;
+  color: var(--ink);
+}
+.docs-section a { color: var(--accent); font-weight: 600; text-decoration: none; }
+.docs-section a:hover { text-decoration: underline; }
+@media (max-width: 760px) {
+  .docs-layout { grid-template-columns: 1fr; }
+  .docs-sidebar {
+    position: static;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--line);
+  }
+  .docs-sidebar a { padding: 6px 10px; background: var(--paper); border-radius: 999px; }
+}
 
 /* ---------- BLOG INDEX ---------- */
 .blog-hero {
@@ -1606,7 +1720,7 @@ a { color: inherit; }
 .chasa-asst { position: fixed; right: 20px; bottom: 20px; z-index: 99999; font-family: Inter, system-ui, sans-serif; }
 .chasa-asst-fab {
   width: 56px; height: 56px; border-radius: 999px; border: 0;
-  background: var(--ink, #1B3155); color: #fff; cursor: pointer;
+  background: var(--ink, #2A1410); color: #fff; cursor: pointer;
   display: grid; place-items: center; box-shadow: 0 8px 24px rgba(27,49,85,.28);
   padding: 0; line-height: 1;
 }
@@ -1620,7 +1734,7 @@ a { color: inherit; }
 .chasa-asst-panel[hidden] { display: none !important; }
 .chasa-asst-head {
   display: flex; align-items: center; justify-content: space-between;
-  padding: 12px 14px; background: var(--ink, #1B3155); color: #fff;
+  padding: 12px 14px; background: var(--ink, #2A1410); color: #fff;
 }
 .chasa-asst-title { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 14px; }
 .chasa-asst-title img {
@@ -1630,13 +1744,13 @@ a { color: inherit; }
 .chasa-asst-x:hover { opacity: 1; }
 .chasa-asst-body { padding: 14px; max-height: min(420px, 60vh); overflow: auto; display: flex; flex-direction: column; gap: 10px; }
 .chasa-asst-msg { padding: 10px 12px; border-radius: 12px; font-size: 13.5px; line-height: 1.45; max-width: 95%; }
-.chasa-asst-msg.bot { background: #f2f4f8; color: #1B3155; align-self: flex-start; }
-.chasa-asst-msg.user { background: #fde8e0; color: #1B3155; align-self: flex-end; }
+.chasa-asst-msg.bot { background: #f7f3f0; color: #2A1410; align-self: flex-start; }
+.chasa-asst-msg.user { background: #fde8e0; color: #2A1410; align-self: flex-end; }
 .chasa-asst-chips { display: flex; flex-direction: column; gap: 8px; }
 .chasa-asst-chips button, .chasa-asst-link {
   display: block; width: 100%; text-align: left; padding: 10px 12px;
   border: 1px solid #d5dbe7; border-radius: 10px; background: #fff;
-  font: inherit; font-size: 13.5px; cursor: pointer; color: #1B3155; text-decoration: none;
+  font: inherit; font-size: 13.5px; cursor: pointer; color: #2A1410; text-decoration: none;
   box-sizing: border-box;
 }
 .chasa-asst-chips button:hover, .chasa-asst-link:hover { border-color: var(--accent, #EC683C); }

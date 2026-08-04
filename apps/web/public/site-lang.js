@@ -53,9 +53,11 @@
     "home.hero.ctaPrimary": "Try free",
     "home.hero.startFree": "Start free →",
     "home.hero.emailPlaceholder": "What's your email?",
-    "home.hero.watchHow": "See how it works",
+    "home.hero.watchHow": "Watch how it works",
     "home.hero.ctaSecondary": "or browse free templates",
     "home.hero.note": "No credit card required · no account needed to start.",
+    "home.hero.videoTitle": "How Chasa works — chase unpaid invoices in under a minute",
+    "home.hero.videoClose": "Close video",
     "home.how.title": "How it works",
     "home.how.sub": "Four steps from overdue invoice to sent follow-up.",
     "home.how.step1.title": "Add your invoices",
@@ -260,6 +262,8 @@
     "home.hero.watchHow": "Ver cómo funciona",
     "home.hero.ctaSecondary": "o ver plantillas gratis",
     "home.hero.note": "Sin tarjeta · no hace falta cuenta para empezar.",
+    "home.hero.videoTitle": "Cómo funciona Chasa — cobra facturas en menos de un minuto",
+    "home.hero.videoClose": "Cerrar video",
     "home.how.title": "Cómo funciona",
     "home.how.sub": "Cuatro pasos de factura vencida a seguimiento enviado.",
     "home.how.step1.title": "Agrega tus facturas",
@@ -445,28 +449,44 @@
 
     document.querySelectorAll("[data-i18n]").forEach(function (el) {
       var key = el.getAttribute("data-i18n");
-      if (key) el.textContent = t(key);
+      if (!key) return;
+      var catalog = catalogs[currentLocale] || catalogs.en;
+      var raw = catalog[key] != null ? catalog[key] : catalogs.en[key];
+      // Keep the HTML fallback when a key is missing (avoids flashing raw keys on stale caches).
+      if (raw != null) el.textContent = interpolate(raw);
     });
 
     document.querySelectorAll("[data-i18n-html]").forEach(function (el) {
       var key = el.getAttribute("data-i18n-html");
-      if (key) el.innerHTML = t(key);
+      if (!key) return;
+      var catalog = catalogs[currentLocale] || catalogs.en;
+      var raw = catalog[key] != null ? catalog[key] : catalogs.en[key];
+      if (raw != null) el.innerHTML = interpolate(raw);
     });
 
     document.querySelectorAll("[data-i18n-aria]").forEach(function (el) {
       var key = el.getAttribute("data-i18n-aria");
-      if (key) el.setAttribute("aria-label", t(key));
+      if (!key) return;
+      var catalog = catalogs[currentLocale] || catalogs.en;
+      var raw = catalog[key] != null ? catalog[key] : catalogs.en[key];
+      if (raw != null) el.setAttribute("aria-label", interpolate(raw));
     });
 
     document.querySelectorAll("[data-i18n-placeholder]").forEach(function (el) {
       var key = el.getAttribute("data-i18n-placeholder");
-      if (key) el.setAttribute("placeholder", t(key));
+      if (!key) return;
+      var catalog = catalogs[currentLocale] || catalogs.en;
+      var raw = catalog[key] != null ? catalog[key] : catalogs.en[key];
+      if (raw != null) el.setAttribute("placeholder", interpolate(raw));
     });
 
     var year = String(new Date().getFullYear());
     document.querySelectorAll("[data-i18n-year]").forEach(function (el) {
       var key = el.getAttribute("data-i18n-year");
-      if (key) el.textContent = t(key, { year: year });
+      if (!key) return;
+      var catalog = catalogs[currentLocale] || catalogs.en;
+      var raw = catalog[key] != null ? catalog[key] : catalogs.en[key];
+      if (raw != null) el.textContent = interpolate(raw, { year: year });
     });
 
     document.querySelectorAll(".locale-switch").forEach(function (wrap) {

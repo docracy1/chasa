@@ -59,9 +59,11 @@ export const en = {
   "home.hero.ctaPrimary": "Try free",
   "home.hero.startFree": "Start free →",
   "home.hero.emailPlaceholder": "What's your email?",
-  "home.hero.watchHow": "See how it works",
+  "home.hero.watchHow": "Watch how it works",
   "home.hero.ctaSecondary": "or browse free templates",
   "home.hero.note": "No credit card required · no account needed to start.",
+  "home.hero.videoTitle": "How Chasa works — chase unpaid invoices in under a minute",
+  "home.hero.videoClose": "Close video",
 
   "home.how.title": "How it works",
   "home.how.sub": "Four steps from overdue invoice to sent follow-up.",
@@ -319,6 +321,8 @@ export const es = {
   "home.hero.watchHow": "Ver cómo funciona",
   "home.hero.ctaSecondary": "o ver plantillas gratis",
   "home.hero.note": "Sin tarjeta · no hace falta cuenta para empezar.",
+  "home.hero.videoTitle": "Cómo funciona Chasa — cobra facturas en menos de un minuto",
+  "home.hero.videoClose": "Cerrar video",
 
   "home.how.title": "Cómo funciona",
   "home.how.sub": "Cuatro pasos de factura vencida a seguimiento enviado.",
