@@ -95,7 +95,6 @@ export default function NewChase({ account }: { account: Account | null }) {
     if (!slug || allTemplates.length === 0) return;
     const tpl = allTemplates.find((row) => row.slug === slug);
     if (tpl) useTemplate(tpl);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [allTemplates, searchParams]);
 
   async function acceptPdf(file: File) {
