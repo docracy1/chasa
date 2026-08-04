@@ -4,7 +4,7 @@ import { ORG_JSON_LD, SOCIAL } from "../data/seo-config.mjs";
 import { renderSeoHead } from "./seo-head.mjs";
 
 /** Bump when site.css / site-nav.js change so Pages edge caches refresh. */
-export const ASSET_V = "20260730b";
+export const ASSET_V = "20260804a";
 
 export function escapeHtml(s) {
   return s
@@ -60,9 +60,10 @@ ${jsonLd ? `<script type="application/ld+json">\n${jsonLd}\n</script>` : `<scrip
       <a href="${link("/free-templates/")}" class="header-nav-link header-nav-collapse${activeNav === "templates" ? " header-nav-strong" : ""}" data-i18n="nav.templates">Free templates</a>
       <a href="${link("/tools/")}" class="header-nav-link header-nav-collapse${activeNav === "tools" ? " header-nav-strong" : ""}" data-i18n="nav.tools">Tools</a>
       <a href="${link("/ai")}" class="header-nav-link header-nav-collapse${activeNav === "ai" ? " header-nav-strong" : ""}" data-i18n="nav.ai">AI</a>
-      <a href="${link("/app/login")}" class="header-nav-link header-nav-strong" data-i18n="nav.signIn">Sign in</a>
-      <a href="${link("/app/")}" class="nav-cta" data-i18n="nav.tryFree">Try free</a>
       <div class="locale-switch" data-locale-switch role="group" data-i18n-aria="nav.language"></div>
+      <a href="mailto:sales@chasa.io?subject=Chasa%20sales" class="header-nav-sales header-nav-collapse" data-i18n="nav.contactSales">Contact sales</a>
+      <a href="${link("/app/")}" class="nav-cta" data-i18n="nav.tryFree">Try free</a>
+      <a href="${link("/app/login")}" class="header-login-btn header-nav-collapse" data-i18n="nav.signIn">Sign in</a>
       <button class="header-menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" data-menu-toggle data-i18n-aria="nav.openMenu">
         <span></span><span></span><span></span>
       </button>
@@ -84,6 +85,7 @@ ${jsonLd ? `<script type="application/ld+json">\n${jsonLd}\n</script>` : `<scrip
   <div class="mobile-panel-ctas">
     <a href="${link("/app/")}" class="mobile-panel-cta-primary" data-i18n="nav.tryFree">Try free</a>
     <a href="${link("/app/login")}" class="mobile-panel-cta-secondary" data-i18n="nav.signIn">Sign in</a>
+    <a href="mailto:sales@chasa.io?subject=Chasa%20sales" class="mobile-panel-cta-secondary" data-i18n="nav.contactSales">Contact sales</a>
   </div>
 </div>
 <main class="wrap page-main">

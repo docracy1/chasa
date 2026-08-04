@@ -9,7 +9,7 @@ import { fileURLToPath } from "node:url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const outDir = join(__dirname, "../public/free-templates");
-const ASSET_V = "20260730b";
+const ASSET_V = "20260804a";
 
 /** Category order controls both the "Categories" jump menu and section order on the page. */
 const CATEGORIES = [
@@ -451,8 +451,9 @@ ${jsonLd ? `<script type="application/ld+json">\n${jsonLd}\n</script>` : ""}
       <a href="/tools/" class="header-nav-link header-nav-collapse">Tools</a>
       <a href="/ai" class="header-nav-link header-nav-collapse${activeNav === "ai" ? " header-nav-strong" : ""}">AI</a>
       <a href="/about" class="header-nav-link header-nav-collapse">About</a>
-      <a href="/app/login" class="header-nav-link header-nav-strong">Sign in</a>
+      <a href="mailto:sales@chasa.io?subject=Chasa%20sales" class="header-nav-sales header-nav-collapse">Contact sales</a>
       <a href="/app/" class="nav-cta">Try free</a>
+      <a href="/app/login" class="header-login-btn header-nav-collapse">Sign in</a>
       <button class="header-menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" data-menu-toggle>
         <span></span><span></span><span></span>
       </button>
@@ -474,6 +475,7 @@ ${jsonLd ? `<script type="application/ld+json">\n${jsonLd}\n</script>` : ""}
   <div class="mobile-panel-ctas">
     <a href="/app/" class="mobile-panel-cta-primary">Try free</a>
     <a href="/app/login" class="mobile-panel-cta-secondary">Sign in</a>
+    <a href="mailto:sales@chasa.io?subject=Chasa%20sales" class="mobile-panel-cta-secondary">Contact sales</a>
   </div>
 </div>
 ${mainHtml}
