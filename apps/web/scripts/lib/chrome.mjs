@@ -86,7 +86,7 @@ const COMPARE_ITEMS = [
 const USE_CASE_ITEMS = [
   { path: "/use-cases/risk-scoring-automation", icon: "sparkles", titleKey: "nav.mega.useCase.risk.title", title: "Risk scoring automation", descKey: "nav.mega.useCase.risk.desc", desc: "Flag late-payment risk before invoices go delinquent." },
   { path: "/use-cases/audit-ready-workflows", icon: "scale", titleKey: "nav.mega.useCase.audit.title", title: "Audit-ready workflows", descKey: "nav.mega.useCase.audit.desc", desc: "Timestamped evidence packs and demand letters." },
-  { path: "/use-cases/sox-evidence-automation", icon: "shield", titleKey: "nav.mega.useCase.sox.title", title: "SOX evidence automation", descKey: "nav.mega.useCase.sox.desc", desc: "Immutable AR activity logs for auditors." },
+  { path: "/compliance/sox", icon: "shield", titleKey: "nav.mega.useCase.sox.title", title: "SOX evidence automation", descKey: "nav.mega.useCase.sox.desc", desc: "Immutable AR activity logs for auditors." },
   { path: "/use-cases/compliance-dashboard", icon: "briefcase", titleKey: "nav.mega.useCase.compliance.title", title: "Compliance dashboard", descKey: "nav.mega.useCase.compliance.desc", desc: "Aging buckets and follow-up status at a glance." },
   { path: "/use-cases/chasa-certificate-monitoring", icon: "mail", titleKey: "nav.mega.useCase.certificate.title", title: "Certificate monitoring", descKey: "nav.mega.useCase.certificate.desc", desc: "Proof of delivery and chase-history verification." },
   { path: "/use-cases/document-signing-api", icon: "duplicate", titleKey: "nav.mega.useCase.api.title", title: "Follow-up API", descKey: "nav.mega.useCase.api.desc", desc: "Integrate chase drafts into your own stack." },
@@ -271,7 +271,7 @@ ${mainHtml}
       <h4 data-i18n="footer.useCasesHeader">Use Cases</h4>
       <a href="${link("/use-cases/risk-scoring-automation")}">Risk Scoring</a>
       <a href="${link("/use-cases/audit-ready-workflows")}">Audit Workflows</a>
-      <a href="${link("/use-cases/sox-evidence-automation")}">SOX AR Evidence</a>
+      <a href="${link("/compliance/sox")}">SOX AR Evidence</a>
       <a href="${link("/use-cases/compliance-dashboard")}">Compliance Board</a>
       <a href="${link("/use-cases/chasa-certificate-monitoring")}">Certificate Proof</a>
       <a href="${link("/use-cases/document-signing-api")}">Follow-up API</a>

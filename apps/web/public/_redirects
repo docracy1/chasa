@@ -24,4 +24,13 @@
 /go/try /app/?utm_source=try&utm_medium=shortlink&utm_campaign=try  302
 /go/templates  /free-templates/?utm_source=templates&utm_medium=shortlink&utm_campaign=templates  302
 
+# Compliance pages consolidated under /compliance/ — preserve any indexing/link
+# equity the old URLs picked up rather than letting them 404.
+/compliance  /compliance/  301
+/solutions  /solutions/  301
+/solutions/  /compliance/  301
+/solutions/soc2-evidence-automation  /compliance/soc2  301
+/solutions/iso27001-evidence-automation  /compliance/iso27001  301
+/use-cases/sox-evidence-automation  /compliance/sox  301
+
 /*  /404.html  404
