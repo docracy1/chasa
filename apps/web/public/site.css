@@ -273,10 +273,16 @@ a { color: inherit; }
   gap: 5px;
   background: none;
   border: none;
-  font: inherit;
+  /* `.header-nav-link` (also on this element) sets font-size/weight/color — `font: inherit`
+     here would reset those to the button's own inherited default and silently override it. */
   font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: #fff;
+  opacity: 0.88;
   cursor: pointer;
 }
+.nav-megamenu-trigger:hover { opacity: 1; }
 .nav-megamenu-chevron { transition: transform 0.15s ease; opacity: 0.75; }
 .nav-megamenu-chevron.is-open { transform: rotate(180deg); }
 .nav-megamenu-panel {
