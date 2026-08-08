@@ -18,6 +18,12 @@ export const MARKETING_PAGES = [
   { file: "features/index.html", depth: 1, activeNav: "features" },
   { file: "features/templates.html", depth: 1, activeNav: "templates" },
   { file: "features/ai-tone.html", depth: 1, activeNav: "ai" },
+  // Industry
+  { file: "industry/freelancers.html", depth: 1, activeNav: "industry" },
+  { file: "industry/creative-agencies.html", depth: 1, activeNav: "industry" },
+  { file: "industry/real-estate.html", depth: 1, activeNav: "industry" },
+  { file: "industry/construction.html", depth: 1, activeNav: "industry" },
+  { file: "industry/small-business.html", depth: 1, activeNav: "industry" },
   // Use Cases
   { file: "use-cases/index.html", depth: 1, activeNav: "use-cases" },
   { file: "use-cases/risk-scoring-automation.html", depth: 1, activeNav: "use-cases" },

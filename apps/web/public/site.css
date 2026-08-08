@@ -541,7 +541,10 @@ a { color: inherit; }
   background: transparent;
 }
 
-@media (max-width: 640px) {
+/* The full desktop nav (11 items + 3 CTA buttons since Industry/Use Cases were added) stops
+   fitting on one row below ~1150px and wraps into a broken multi-row header instead of
+   shrinking gracefully — collapsing to the mobile panel earlier avoids that outright. */
+@media (max-width: 1200px) {
   .header-nav-collapse { display: none; }
   .header-menu-toggle { display: inline-flex; }
   .mobile-panel-backdrop.is-open { display: block; }

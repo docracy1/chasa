@@ -23,6 +23,12 @@ const ICON_PATHS = {
   info: '<circle cx="12" cy="12" r="8.5" /><path d="M12 11v5.5M12 8v.01" />',
   mail: '<rect x="3" y="5.5" width="18" height="13" rx="1.5" /><path d="M3.5 6.5L12 13l8.5-6.5" />',
   scale: '<path d="M12 3v18M7 8H3l3 6a3 3 0 0 0 4 0l-3-6zM21 8h-4l3 6a3 3 0 0 0 4 0l-3-6z" /><path d="M8 21h8" />',
+  megaphone: '<path d="M3 10v4h3l6 4V6L6 10H3z" /><path d="M16 9.5a3 3 0 0 1 0 5" />',
+  building:
+    '<rect x="5" y="3.5" width="10" height="17" rx="1" /><path d="M15 20.5h4v-8l-4-3" /><path d="M8.5 7.5h.01M11.5 7.5h.01M8.5 11h.01M11.5 11h.01M8.5 14.5h.01M11.5 14.5h.01" />',
+  hammer: '<path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3.5 17.5l3 3 5.8-5.8a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.5-2.5 2.5-2.5z" />',
+  store:
+    '<path d="M4 9.5l1-4h14l1 4" /><path d="M4 9.5a2.25 2.25 0 0 0 4.5 0 2.25 2.25 0 0 0 4.5 0 2.25 2.25 0 0 0 4.5 0 2.25 2.25 0 0 0 4.5 0" /><path d="M5.5 11v9h13v-9" />',
 };
 
 function navIcon(name, small = false) {
@@ -85,6 +91,14 @@ const USE_CASE_ITEMS = [
   { path: "/use-cases/chasa-certificate-monitoring", icon: "mail", titleKey: "nav.mega.useCase.certificate.title", title: "Certificate monitoring", descKey: "nav.mega.useCase.certificate.desc", desc: "Proof of delivery and chase-history verification." },
   { path: "/use-cases/document-signing-api", icon: "duplicate", titleKey: "nav.mega.useCase.api.title", title: "Follow-up API", descKey: "nav.mega.useCase.api.desc", desc: "Integrate chase drafts into your own stack." },
   { path: "/use-cases/flat-fee-esign", icon: "users", titleKey: "nav.mega.useCase.flatFee.title", title: "Flat-fee pricing", descKey: "nav.mega.useCase.flatFee.desc", desc: "No per-document fees — unlimited chases from $7/mo." },
+];
+
+const INDUSTRY_ITEMS = [
+  { path: "/industry/freelancers", icon: "briefcase", titleKey: "nav.mega.industry.freelancers.title", title: "Freelancers & Consultants", descKey: "nav.mega.industry.freelancers.desc", desc: "Client invoices and repeat-client follow-ups." },
+  { path: "/industry/creative-agencies", icon: "megaphone", titleKey: "nav.mega.industry.creative.title", title: "Creative & Marketing Agencies", descKey: "nav.mega.industry.creative.desc", desc: "Retainers, project bills, and scope-change invoices." },
+  { path: "/industry/real-estate", icon: "building", titleKey: "nav.mega.industry.realEstate.title", title: "Real Estate & Property", descKey: "nav.mega.industry.realEstate.desc", desc: "Vendor and contractor invoices for property teams." },
+  { path: "/industry/construction", icon: "hammer", titleKey: "nav.mega.industry.construction.title", title: "Construction & Trades", descKey: "nav.mega.industry.construction.desc", desc: "Payment chasing for completed job stages." },
+  { path: "/industry/small-business", icon: "store", titleKey: "nav.mega.industry.smallBusiness.title", title: "Small Business & Local Services", descKey: "nav.mega.industry.smallBusiness.desc", desc: "Invoice chasing with no dedicated AR staff." },
 ];
 
 const RESOURCE_ITEMS = [
@@ -174,6 +188,12 @@ ${jsonLd ? `<script type="application/ld+json">\n${jsonLd}\n</script>` : `<scrip
           footerHref: link("/blog/invoice-chase-software-comparison/"),
         },
       })}
+      ${megaMenu({
+        triggerKey: "nav.industry",
+        triggerLabel: "Industry",
+        items: INDUSTRY_ITEMS.map((it) => ({ ...it, href: link(it.path) })),
+        columns: 2,
+      })}
       <a href="${link("/#pricing")}" class="header-nav-link header-nav-collapse" data-i18n="nav.pricing">Pricing</a>
       ${megaMenu({
         triggerKey: "nav.useCases",
@@ -206,6 +226,7 @@ ${jsonLd ? `<script type="application/ld+json">\n${jsonLd}\n</script>` : `<scrip
   <button class="mobile-panel-close" type="button" aria-label="Close menu" data-mobile-close data-i18n-aria="nav.closeMenu">✕</button>
   <nav class="mobile-panel-nav">
       <a href="${link("/features/")}" class="mobile-panel-nav-link" data-i18n="nav.features">Features</a>
+      <a href="${link("/industry/freelancers")}" class="mobile-panel-nav-link" data-i18n="nav.industry">Industry</a>
       <a href="${link("/#pricing")}" class="mobile-panel-nav-link" data-i18n="nav.pricing">Pricing</a>
       <a href="${link("/use-cases/")}" class="mobile-panel-nav-link" data-i18n="nav.useCases">Use Cases</a>
       <a href="${link("/blog/")}" class="mobile-panel-nav-link" data-i18n="nav.blog">Blog</a>
