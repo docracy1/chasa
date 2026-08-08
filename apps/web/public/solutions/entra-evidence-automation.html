@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Microsoft Entra ID Evidence Automation (Roadmap) | Chasa</title>
+<meta name="description" content="Auditors want proof of Entra ID access, MFA, and config state. Chasa already automates AR audit evidence today — Entra ID connector is next on our roadmap.">
+<link rel="canonical" href="https://chasa.io/solutions/entra-evidence-automation">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Microsoft Entra ID Evidence Automation (Roadmap) | Chasa">
+<meta property="og:description" content="Auditors want proof of Entra ID access, MFA, and config state. Chasa already automates AR audit evidence today — Entra ID connector is next on our roadmap.">
+<meta property="og:url" content="https://chasa.io/solutions/entra-evidence-automation">
+<meta property="og:image" content="https://chasa.io/brand/og/chasa-og-1200x630.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Microsoft Entra ID Evidence Automation (Roadmap) | Chasa">
+<meta name="twitter:description" content="Auditors want proof of Entra ID access, MFA, and config state. Chasa already automates AR audit evidence today — Entra ID connector is next on our roadmap.">
+<meta name="twitter:image" content="https://chasa.io/brand/og/chasa-og-1200x630.png">
+<link rel="alternate" type="application/rss+xml" title="Chasa Blog" href="/blog/feed.xml">
+<link rel="me" href="https://www.linkedin.com/company/chasa-io">
+<link rel="me" href="https://x.com/chasaHQ">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Chasa",
+  "url": "https://chasa.io",
+  "logo": "https://chasa.io/brand/chasa-logo.svg",
+  "sameAs": [
+    "https://www.linkedin.com/company/chasa-io",
+    "https://x.com/chasaHQ"
+  ],
+  "parentOrganization": {
+    "@type": "Organization",
+    "name": "RELACON GmbH",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Vienna",
+      "addressCountry": "AT"
+    }
+  }
+}
+</script>
+<link rel="icon" href="/favicon.png" type="image/png">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="stylesheet" href="/site.css?v=20260807a">
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap site-header-inner">
+    <a href="/" class="logo" aria-label="Chasa home"><img class="logo-mark" src="/brand/chasa-icon.png" alt="" width="28" height="28" /><span class="logo-word">chasa</span></a>
+    <div class="header-nav-right">
+      <a href="/#pricing" class="header-nav-link header-nav-collapse" data-i18n="nav.pricing">Pricing</a>
+      <a href="/features/" class="header-nav-link header-nav-collapse" data-i18n="nav.features">Features</a>
+      <a href="/use-cases/" class="header-nav-link header-nav-collapse" data-i18n="nav.useCases">Use Cases</a>
+      <a href="/solutions/" class="header-nav-link header-nav-collapse header-nav-strong">Compliance</a>
+      <a href="/blog/" class="header-nav-link header-nav-collapse" data-i18n="nav.blog">Blog</a>
+      <a href="/docs/" class="header-nav-link header-nav-collapse" data-i18n="nav.api">API</a>
+      <div class="locale-switch" data-locale-switch role="group" data-i18n-aria="nav.language"></div>
+      <!--email_off-->
+      <a href="#contact-sales" class="header-nav-sales header-nav-collapse" data-sales-mail data-sales-subject="Chasa sales" data-i18n="nav.contactSales">Contact sales</a>
+      <!--/email_off-->
+      <a href="/app/" class="nav-cta" data-i18n="nav.tryFree">Try free</a>
+      <a href="/app/login" class="header-login-btn header-nav-collapse" data-i18n="nav.signIn">Sign in</a>
+      <button class="header-menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" data-menu-toggle data-i18n-aria="nav.openMenu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+<div class="mobile-panel-backdrop" data-mobile-backdrop></div>
+<div class="mobile-panel" data-mobile-panel>
+  <button class="mobile-panel-close" type="button" aria-label="Close menu" data-mobile-close data-i18n-aria="nav.closeMenu">✕</button>
+  <nav class="mobile-panel-nav">
+      <a href="/features/" class="mobile-panel-nav-link" data-i18n="nav.features">Features</a>
+      <a href="/#pricing" class="mobile-panel-nav-link" data-i18n="nav.pricing">Pricing</a>
+      <a href="/use-cases/" class="mobile-panel-nav-link" data-i18n="nav.useCases">Use Cases</a>
+      <a href="/solutions/" class="mobile-panel-nav-link">Compliance</a>
+      <a href="/blog/" class="mobile-panel-nav-link" data-i18n="nav.blog">Blog</a>
+      <a href="/docs/" class="mobile-panel-nav-link" data-i18n="nav.api">API</a>
+      <a href="/app/login" class="mobile-panel-nav-link" data-i18n="nav.signIn">Sign in</a>
+      <a href="/app/" class="mobile-panel-nav-link" data-i18n="nav.tryFree">Try free</a>
+  </nav>
+  <div class="mobile-panel-ctas">
+    <a href="/app/" class="mobile-panel-cta-primary" data-i18n="nav.tryFree">Try free</a>
+    <a href="/app/login" class="mobile-panel-cta-secondary" data-i18n="nav.signIn">Sign in</a>
+    <!--email_off-->
+    <a href="#contact-sales" class="mobile-panel-cta-secondary" data-sales-mail data-sales-subject="Chasa sales" data-i18n="nav.contactSales">Contact sales</a>
+    <!--/email_off-->
+  </div>
+</div>
+<main class="wrap page-main">
+<article>
+
+  <div style="margin-bottom: 40px; text-align: center;">
+    <span style="font-size: 13px; font-weight: 700; text-transform: uppercase; color: var(--accent, #f97316); letter-spacing: 0.05em;">Compliance / Roadmap</span>
+    <h1 style="font-family: 'Fraunces', serif; font-size: 38px; font-weight: 700; margin: 12px 0 16px;">Automated Microsoft Entra ID evidence collection</h1>
+    <p style="font-size: 18px; color: #4b5563; line-height: 1.6; max-width: 720px; margin: 0 auto;">Auditors don't just want a policy document — they want proof: who has access, what permissions they hold, whether MFA is actually enforced, and what your configuration looked like on a given date. Pulling that out of Entra ID by hand, every audit cycle, is slow and easy to get wrong. This is on our roadmap, not shipped today — here's exactly what that means.</p>
+  </div>
+
+  <section style="background: #fff; border: 1px solid #e5e7eb; border-radius: 12px; padding: 32px; margin-bottom: 32px;">
+    <h2 style="font-size: 24px; font-weight: 700; margin-bottom: 16px;">The problem with manual Entra evidence</h2>
+    <ul style="font-size: 16px; line-height: 1.8; color: #374151; padding-left: 20px;">
+      <li><strong>Screenshot-driven audits:</strong> Conditional Access policies, sign-in logs, and role assignments get captured as static screenshots that are stale the moment they're taken.</li>
+      <li><strong>Spreadsheet group membership:</strong> exporting who belongs to which security group, and cross-checking it against who should still have access, is a manual reconciliation exercise every quarter.</li>
+      <li><strong>No point-in-time MFA proof:</strong> "MFA is enforced" is a policy statement, not evidence — auditors want to see enforcement state at a specific date, not just today.</li>
+      <li><strong>Evidence rots between cycles:</strong> admin turnover, ticket sprawl, and undocumented changes mean last quarter's export often can't be reproduced or verified later.</li>
+      <li><strong>It repeats every cycle:</strong> SOC2, ISO 27001, and vendor security reviews all ask overlapping questions about the same Entra tenant, so the manual work gets redone from scratch each time.</li>
+    </ul>
+  </section>
+
+  <section style="background: #fff; border: 1px solid #e5e7eb; border-radius: 12px; padding: 32px; margin-bottom: 32px;">
+    <h2 style="font-size: 24px; font-weight: 700; margin-bottom: 8px;">What we're building — roadmap, not live</h2>
+    <p style="font-size: 15px; color: #6b7280; margin-bottom: 16px;">None of the items below exist in Chasa today. This is a planned connector, and we're publishing the plan early rather than waiting to announce it as finished. Track live status on our <a href="/security">Trust Center</a>.</p>
+    <ul style="font-size: 16px; line-height: 1.8; color: #374151; padding-left: 20px;">
+      <li><strong>User access exports:</strong> pulling a full list of Entra ID users and their assigned roles into a structured, exportable record.</li>
+      <li><strong>Group membership evidence:</strong> a point-in-time snapshot of security group membership, so "who had access when" is answerable months later.</li>
+      <li><strong>Permission mapping:</strong> tying role assignments back to the systems and data they actually grant access to, not just the role name.</li>
+      <li><strong>MFA enforcement proof:</strong> evidence that Conditional Access / MFA policies were active and applied to the relevant users at a given date — not just a policy toggle.</li>
+      <li><strong>Configuration snapshots:</strong> periodic captures of tenant-level security settings, so drift between audit cycles is visible instead of assumed away.</li>
+      <li><strong>Audit-ready PDF/JSON exports:</strong> evidence packaged in a format an auditor or security reviewer can consume directly, instead of a folder of screenshots.</li>
+    </ul>
+  </section>
+
+  <section style="background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 12px; padding: 32px; margin-bottom: 40px;">
+    <h2 style="font-size: 22px; font-weight: 700; margin-bottom: 12px;">Why Chasa, and why now</h2>
+    <p style="font-size: 16px; line-height: 1.7; color: #374151;">This isn't a cold start. Chasa already runs an evidence-automation model in production today, just scoped to accounts receivable: every AI-drafted invoice chase requires a human to review and hit send, and that approval step creates a timestamped, auditable record — which is exactly the pattern financial controllers use for <a href="/use-cases/sox-evidence-automation">SOX AR evidence automation</a> right now. Microsoft Entra ID is the next connector we plan to build using that same approach — human-verified, timestamped, exportable evidence — extended from AR audits into general access and identity evidence for SaaS compliance. See the full category context on our <a href="/solutions/evidence-automation">evidence automation</a> page, and how it lines up against <a href="/solutions/soc2-evidence-automation">SOC2</a> and <a href="/solutions/iso27001-evidence-automation">ISO 27001</a> evidence needs.</p>
+  </section>
+
+  <section style="background: #fff; border: 1px solid #e5e7eb; border-radius: 12px; padding: 32px; text-align: center; margin-bottom: 32px;">
+    <h3 style="font-size: 20px; font-weight: 700; margin-bottom: 8px;">Use the part of Chasa that's live today</h3>
+    <p style="font-size: 15px; color: #4b5563; margin-bottom: 20px;">Chasa's AI-drafted, human-approved invoice follow-ups — with QuickBooks/Xero/CSV sync, HMAC-signed webhooks, and role-based workspace access — are live right now. Entra ID evidence is what we're building next.</p>
+    <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+      <a href="/app/" style="display: inline-block; padding: 12px 24px; background: #111827; color: #fff; border-radius: 8px; text-decoration: none; font-weight: 600;">Try Chasa free</a>
+      <!--email_off-->
+      <a href="#contact-sales" data-sales-mail data-sales-subject="Entra ID evidence automation waitlist" style="display: inline-block; padding: 12px 24px; background: #fff; color: #111827; border: 1px solid #d1d5db; border-radius: 8px; text-decoration: none; font-weight: 600;">Get notified when Entra evidence ships</a>
+      <!--/email_off-->
+    </div>
+    <p style="font-size: 13px; color: #9ca3af; margin-top: 16px;">Auditing on a deadline? <!--email_off--><a href="#contact-sales" data-sales-mail data-sales-subject="Entra ID audit timeline">Talk to us about your audit timeline</a><!--/email_off--> and we'll tell you honestly whether our roadmap fits it.</p>
+  </section>
+
+  <section style="margin-bottom: 40px;">
+    <h3 style="font-size: 20px; font-weight: 700; margin-bottom: 16px;">Related reading</h3>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px;">
+      <a href="/security" style="display: block; padding: 16px; border: 1px solid #e5e7eb; border-radius: 8px; text-decoration: none; color: inherit;">
+        <strong style="display: block; font-size: 15px; color: #111827;">Trust Center →</strong>
+        <span style="font-size: 13px; color: #6b7280;">What's live vs. roadmap across Chasa's security posture.</span>
+      </a>
+      <a href="/solutions/" style="display: block; padding: 16px; border: 1px solid #e5e7eb; border-radius: 8px; text-decoration: none; color: inherit;">
+        <strong style="display: block; font-size: 15px; color: #111827;">Compliance roadmap hub →</strong>
+        <span style="font-size: 13px; color: #6b7280;">All the frameworks and connectors we're planning for.</span>
+      </a>
+      <a href="/solutions/soc2-evidence-automation" style="display: block; padding: 16px; border: 1px solid #e5e7eb; border-radius: 8px; text-decoration: none; color: inherit;">
+        <strong style="display: block; font-size: 15px; color: #111827;">SOC2 evidence automation →</strong>
+        <span style="font-size: 13px; color: #6b7280;">Our plan to remove the manual evidence grind from SOC2 audits.</span>
+      </a>
+      <a href="/use-cases/sox-evidence-automation" style="display: block; padding: 16px; border: 1px solid #e5e7eb; border-radius: 8px; text-decoration: none; color: inherit;">
+        <strong style="display: block; font-size: 15px; color: #111827;">SOX AR evidence automation →</strong>
+        <span style="font-size: 13px; color: #6b7280;">The live model we're extending into Entra ID evidence.</span>
+      </a>
+    </div>
+  </section>
+
+</article>
+</main>
+<footer class="site-footer">
+  <div class="wrap site-footer-inner">
+    <div class="site-footer-brand">
+      <a href="/" class="logo" aria-label="Chasa home"><img class="logo-mark" src="/brand/chasa-icon.png" alt="" width="24" height="24" /><span class="logo-word">chasa</span></a>
+      <p data-i18n="footer.tagline">Free AI invoice follow-ups — paste unpaid invoices, get the reminder email already written.</p>
+    </div>
+    <div class="site-footer-col">
+      <h4 data-i18n="footer.product">Product</h4>
+      <a href="/" data-i18n="footer.home">Homepage</a>
+      <a href="/#pricing" data-i18n="footer.pricing">Pricing</a>
+      <a href="/features/" data-i18n="footer.features">Features</a>
+      <a href="/use-cases/" data-i18n="footer.useCases">Use Cases</a>
+      <a href="/blog/" data-i18n="footer.blog">Blog</a>
+      <a href="/docs/" data-i18n="footer.docs">API & Docs</a>
+      <a href="/free-templates/" data-i18n="footer.templates">Free templates</a>
+      <a href="/tools/" data-i18n="footer.calculators">Calculators</a>
+    </div>
+    <div class="site-footer-col">
+      <h4>Compliance</h4>
+      <a href="/security">Security</a>
+      <a href="/solutions/">Evidence automation</a>
+      <a href="/solutions/soc2-evidence-automation">SOC2 evidence</a>
+      <a href="/solutions/iso27001-evidence-automation">ISO27001 evidence</a>
+      <a href="/solutions/entra-evidence-automation">Entra evidence</a>
+    </div>
+    <div class="site-footer-col">
+      <h4 data-i18n="footer.compareCol">Compare</h4>
+      <a href="/chasa-vs-chaser" data-i18n="footer.vsChaser">vs Chaser</a>
+      <a href="/chasa-vs-paidnice" data-i18n="footer.vsPaidnice">vs Paidnice</a>
+      <a href="/chasa-vs-duefy" data-i18n="footer.vsDuefy">vs Duefy</a>
+      <a href="/chasa-vs-satago" data-i18n="footer.vsSatago">vs Satago</a>
+      <a href="/chasa-vs-chaseai" data-i18n="footer.vsChaseai">vs ChaseAI</a>
+      <a href="/compare/">All comparisons</a>
+    </div>
+    <div class="site-footer-col">
+      <h4 data-i18n="footer.company">Company</h4>
+      <a href="/about" data-i18n="footer.about">About</a>
+      <a href="/press" data-i18n="footer.press">Press</a>
+      <a href="/imprint" data-i18n="footer.imprint">Imprint</a>
+      <a href="mailto:founder@chasa.io" data-i18n="footer.contact">Contact</a>
+    </div>
+    <div class="site-footer-col">
+      <h4 data-i18n="footer.legal">Legal</h4>
+      <a href="/privacy" data-i18n="footer.privacy">Privacy</a>
+      <a href="/terms" data-i18n="footer.terms">Terms</a>
+      <a href="/sitemap.xml" data-i18n="footer.sitemap">Sitemap</a>
+      <a href="/blog/feed.xml" data-i18n="footer.rss">RSS</a>
+    </div>
+  </div>
+  <div class="site-footer-bottom" data-i18n-year="footer.copyright">© 2026 Chasa — a product of RELACON GmbH</div>
+</footer>
+<script src="/site-lang.js?v=20260807a" defer></script>
+<script src="/site-nav.js?v=20260807a" defer></script>
+<script src="/cookie-consent.js" defer></script>
+<script src="/analytics.js" defer></script>
+<script>
+/* Contact sales → Chasa Assistant (Docracy pattern). */
+(function () {
+  document.addEventListener("click", function (e) {
+    var el = e.target && e.target.closest
+      ? e.target.closest("[data-sales-mail], .header-nav-sales, a[data-i18n='nav.contactSales'], a[data-i18n='home.pricing.contactSales']")
+      : null;
+    if (!el) return;
+    e.preventDefault();
+    window.dispatchEvent(new CustomEvent("chasa:open-chat", { detail: { intent: "sales" } }));
+  }, true);
+})();
+</script>
+</body>
+</html>
