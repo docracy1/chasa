@@ -551,6 +551,18 @@
 };
 
   function detectLocale() {
+    // A real, statically-generated /es/ page sets <html lang="es"> server-side — that's
+    // authoritative for THIS page and must win over a stale stored preference, or the
+    // client-side swap would flip already-Spanish markup back to English on load. A plain
+    // "en" doc-lang is NOT given the same authority — most pages are still English markup
+    // with a client-side Spanish overlay, and a stored "es" preference should keep applying
+    // as the user navigates between those.
+    if (document.documentElement.getAttribute("lang") === "es") {
+      try {
+        localStorage.setItem(STORAGE_KEY, "es");
+      } catch (e) {}
+      return "es";
+    }
     try {
       var stored = localStorage.getItem(STORAGE_KEY);
       if (stored === "en" || stored === "es") return stored;
@@ -725,6 +737,14 @@
       wrap.querySelectorAll("button[data-locale]").forEach(function (btn) {
         btn.addEventListener("click", function () {
           var loc = btn.getAttribute("data-locale");
+          if (loc === "es" && wrap.hasAttribute("data-es-href")) {
+            window.location.href = wrap.getAttribute("data-es-href");
+            return;
+          }
+          if (loc === "en" && wrap.hasAttribute("data-en-href")) {
+            window.location.href = wrap.getAttribute("data-en-href");
+            return;
+          }
           if (loc === "en" || loc === "es") applyLocale(loc);
           closeAllLocaleMenus();
         });

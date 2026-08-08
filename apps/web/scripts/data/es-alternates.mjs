@@ -16,8 +16,11 @@ export const EN_TO_ES = {
   "/#faq": "/es/#faq",
   "/privacy": "/es/privacy",
   "/terms": "/es/terms",
-  "/free-templates/": "/es/free-templates/",
   "/blog/": "/es/blog/",
+  // free-templates/index.html's body copy is hand-authored English with no data-i18n
+  // coverage yet (only its chrome — header/footer — is i18n-driven). Add it here once
+  // the page content itself is translatable, not before — a hreflang/sitemap entry
+  // pointing at a page that's still mostly English would be worse than no entry.
 };
 
 export const ES_TO_EN = Object.fromEntries(Object.entries(EN_TO_ES).map(([en, es]) => [es, en]));

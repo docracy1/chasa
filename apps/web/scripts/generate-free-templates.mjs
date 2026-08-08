@@ -6,6 +6,7 @@
 import { mkdirSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { chrome, escapeHtml } from "./lib/chrome.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const outDir = join(__dirname, "../public/free-templates");
@@ -408,133 +409,6 @@ Appreciate you,
 [Your name]`,
   },
 ];
-
-const YEAR = new Date().getFullYear();
-
-function escapeHtml(s) {
-  return s
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;");
-}
-
-function chrome({ title, description, canonical, activeNav, mainHtml, jsonLd }) {
-  return `<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>${escapeHtml(title)}</title>
-<meta name="description" content="${escapeHtml(description)}">
-<link rel="canonical" href="${canonical}">
-<meta property="og:type" content="website">
-<meta property="og:title" content="${escapeHtml(title)}">
-<meta property="og:description" content="${escapeHtml(description)}">
-<meta property="og:url" content="${canonical}">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="${escapeHtml(title)}">
-<meta name="twitter:description" content="${escapeHtml(description)}">
-${jsonLd ? `<script type="application/ld+json">\n${jsonLd}\n</script>` : ""}
-<link rel="icon" href="/favicon.png" type="image/png">
-<link rel="icon" href="/favicon.svg" type="image/svg+xml">
-<link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<link rel="stylesheet" href="/site.css?v=${ASSET_V}">
-</head>
-<body>
-<header class="site-header">
-  <div class="wrap site-header-inner">
-    <a href="/" class="logo" aria-label="Chasa home"><img class="logo-mark" src="/brand/chasa-icon.png" alt="" width="28" height="28" /><span class="logo-word">chasa</span></a>
-    <div class="header-nav-right">
-      <a href="/#pricing" class="header-nav-link header-nav-collapse">Pricing</a>
-      <a href="/free-templates/" class="header-nav-link header-nav-collapse${activeNav === "templates" ? " header-nav-strong" : ""}">Free templates</a>
-      <a href="/tools/" class="header-nav-link header-nav-collapse">Tools</a>
-      <a href="/ai" class="header-nav-link header-nav-collapse${activeNav === "ai" ? " header-nav-strong" : ""}">AI</a>
-      <a href="/about" class="header-nav-link header-nav-collapse">About</a>
-      <a href="#contact-sales" class="header-nav-sales header-nav-collapse" data-sales-mail data-sales-subject="Chasa sales">Contact sales</a>
-      <a href="/app/" class="nav-cta">Try free</a>
-      <a href="/app/login" class="header-login-btn header-nav-collapse">Sign in</a>
-      <button class="header-menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" data-menu-toggle>
-        <span></span><span></span><span></span>
-      </button>
-    </div>
-  </div>
-</header>
-<div class="mobile-panel-backdrop" data-mobile-backdrop></div>
-<div class="mobile-panel" data-mobile-panel>
-  <button class="mobile-panel-close" type="button" aria-label="Close menu" data-mobile-close>✕</button>
-  <nav class="mobile-panel-nav">
-      <a href="/#pricing" class="mobile-panel-nav-link">Pricing</a>
-      <a href="/free-templates/" class="mobile-panel-nav-link">Free templates</a>
-      <a href="/tools/" class="mobile-panel-nav-link">Tools</a>
-      <a href="/ai" class="mobile-panel-nav-link">AI</a>
-      <a href="/about" class="mobile-panel-nav-link">About</a>
-      <a href="/app/login" class="mobile-panel-nav-link">Sign in</a>
-      <a href="/app/" class="mobile-panel-nav-link">Try free</a>
-  </nav>
-  <div class="mobile-panel-ctas">
-    <a href="/app/" class="mobile-panel-cta-primary">Try free</a>
-    <a href="/app/login" class="mobile-panel-cta-secondary">Sign in</a>
-    <a href="#contact-sales" class="mobile-panel-cta-secondary" data-sales-mail data-sales-subject="Chasa sales">Contact sales</a>
-  </div>
-</div>
-${mainHtml}
-<footer class="site-footer">
-  <div class="wrap site-footer-inner">
-    <div class="site-footer-brand">
-      <a href="/" class="logo" aria-label="Chasa home"><img class="logo-mark" src="/brand/chasa-icon.png" alt="" width="24" height="24" /><span class="logo-word">chasa</span></a>
-      <p>Free AI invoice follow-ups — paste unpaid invoices, get the reminder email already written.</p>
-    </div>
-    <div class="site-footer-col">
-      <h4>Product</h4>
-      <a href="/app/">Try free</a>
-      <a href="/#pricing">Pricing</a>
-      <a href="/free-templates/">Free templates</a>
-      <a href="/tools/">Calculators</a>
-      <a href="/ai">AI</a>
-      <a href="/#faq">FAQ</a>
-    </div>
-    <div class="site-footer-col">
-      <h4>Compare</h4>
-      <a href="/chasa-vs-chaser">vs Chaser</a>
-      <a href="/chasa-vs-paidnice">vs Paidnice</a>
-      <a href="/chasa-vs-duefy">vs Duefy</a>
-      <a href="/chasa-vs-satago">vs Satago</a>
-      <a href="/chasa-vs-chaseai">vs ChaseAI</a>
-      <a href="/switch-to-chasa">Switch to Chasa</a>
-      <a href="/blog/invoice-chase-software-comparison/">See full comparison</a>
-    </div>
-    <div class="site-footer-col">
-      <h4>Company</h4>
-      <a href="/about">About</a>
-      <a href="/imprint">Imprint</a>
-      <a href="mailto:founder@chasa.io">Contact</a>
-    </div>
-    <div class="site-footer-col">
-      <h4>Legal</h4>
-      <a href="/privacy">Privacy</a>
-      <a href="/terms">Terms</a>
-    </div>
-  </div>
-  <div class="site-footer-bottom">© ${YEAR} Chasa — a product of RELACON GmbH</div>
-</footer>
-<script src="/site-nav.js?v=${ASSET_V}"></script>
-<script src="/analytics.js"></script>
-<script src="/assistant.js?v=${ASSET_V}"></script>
-<script>
-(function () {
-  document.addEventListener("click", function (e) {
-    var el = e.target && e.target.closest ? e.target.closest("[data-sales-mail], .header-nav-sales") : null;
-    if (!el) return;
-    e.preventDefault();
-    window.dispatchEvent(new CustomEvent("chasa:open-chat", { detail: { intent: "sales" } }));
-  }, true);
-})();
-</script>
-</body>
-</html>
-`;
-}
 
 mkdirSync(outDir, { recursive: true });
 
