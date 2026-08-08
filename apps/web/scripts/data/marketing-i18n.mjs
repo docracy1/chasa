@@ -617,6 +617,9 @@ export const es = {
   "privacy.rights.title": "Tus derechos (RGPD)",
   "privacy.rights.body":
     'Si estás en la UE/EEE/Reino Unido, puedes pedirnos acceder, corregir, eliminar o exportar (portabilidad) los datos personales que tenemos sobre ti, y puedes oponerte o restringir el tratamiento, o retirar tu consentimiento para el análisis en cualquier momento — nada de esto afecta la legalidad del tratamiento anterior a la retirada. Escríbenos a <a href="mailto:founder@chasa.io">founder@chasa.io</a> y responderemos en un plazo razonable. También tienes derecho a presentar una reclamación ante tu autoridad local de protección de datos — en Austria, la <a href="https://www.dsb.gv.at/" rel="noopener noreferrer" target="_blank">Datenschutzbehörde (DSB)</a>.',
+  "privacy.marketing.title": "Correos de novedades y actualizaciones del producto",
+  "privacy.marketing.body":
+    "Si activas esta opción en Configuración de la cuenta, te enviamos correos ocasionales sobre nuevas funciones y novedades del producto. Esto es independiente de — y, a diferencia de ellos, desactivado por defecto frente a — los correos transaccionales (enlaces de acceso, recibos, resúmenes que hayas activado): se basa en tu consentimiento (RGPD Art. 6(1)(a)), y cada correo incluye un enlace de baja que lo desactiva de inmediato, sin necesidad de iniciar sesión.",
   "privacy.children.title": "Menores",
   "privacy.children.body":
     "Chasa es una herramienta de negocio y no está dirigida a, ni la usan a sabiendas, menores de 16 años.",
