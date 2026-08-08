@@ -28,7 +28,6 @@ export const MARKETING_PAGES = [
   { file: "use-cases/index.html", depth: 1, activeNav: "use-cases" },
   { file: "use-cases/risk-scoring-automation.html", depth: 1, activeNav: "use-cases" },
   { file: "use-cases/audit-ready-workflows.html", depth: 1, activeNav: "use-cases" },
-  { file: "use-cases/sox-evidence-automation.html", depth: 1, activeNav: "use-cases" },
   { file: "use-cases/compliance-dashboard.html", depth: 1, activeNav: "use-cases" },
   { file: "use-cases/chasa-certificate-monitoring.html", depth: 1, activeNav: "use-cases" },
   { file: "use-cases/document-signing-api.html", depth: 1, activeNav: "use-cases" },

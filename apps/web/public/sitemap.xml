@@ -68,13 +68,13 @@
   </url>
   <url>
     <loc>https://chasa.io/chasa-vs-auditboard</loc>
-    <lastmod>2026-08-07</lastmod>
+    <lastmod>2026-08-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.60</priority>
   </url>
   <url>
     <loc>https://chasa.io/chasa-vs-aws-security-hub</loc>
-    <lastmod>2026-08-07</lastmod>
+    <lastmod>2026-08-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.60</priority>
   </url>
@@ -92,7 +92,7 @@
   </url>
   <url>
     <loc>https://chasa.io/chasa-vs-drata</loc>
-    <lastmod>2026-08-07</lastmod>
+    <lastmod>2026-08-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.60</priority>
   </url>
@@ -104,13 +104,13 @@
   </url>
   <url>
     <loc>https://chasa.io/chasa-vs-google-workspace</loc>
-    <lastmod>2026-08-07</lastmod>
+    <lastmod>2026-08-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.60</priority>
   </url>
   <url>
     <loc>https://chasa.io/chasa-vs-hyperproof</loc>
-    <lastmod>2026-08-07</lastmod>
+    <lastmod>2026-08-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.60</priority>
   </url>
@@ -122,7 +122,7 @@
   </url>
   <url>
     <loc>https://chasa.io/chasa-vs-purview</loc>
-    <lastmod>2026-08-07</lastmod>
+    <lastmod>2026-08-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.60</priority>
   </url>
@@ -134,25 +134,25 @@
   </url>
   <url>
     <loc>https://chasa.io/chasa-vs-secureframe</loc>
-    <lastmod>2026-08-07</lastmod>
+    <lastmod>2026-08-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.60</priority>
   </url>
   <url>
     <loc>https://chasa.io/chasa-vs-thoropass</loc>
-    <lastmod>2026-08-07</lastmod>
+    <lastmod>2026-08-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.60</priority>
   </url>
   <url>
     <loc>https://chasa.io/chasa-vs-tugboat</loc>
-    <lastmod>2026-08-07</lastmod>
+    <lastmod>2026-08-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.60</priority>
   </url>
   <url>
     <loc>https://chasa.io/chasa-vs-vanta</loc>
-    <lastmod>2026-08-07</lastmod>
+    <lastmod>2026-08-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.60</priority>
   </url>
@@ -164,7 +164,43 @@
   </url>
   <url>
     <loc>https://chasa.io/compare/</loc>
-    <lastmod>2026-08-07</lastmod>
+    <lastmod>2026-08-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.60</priority>
+  </url>
+  <url>
+    <loc>https://chasa.io/compliance/</loc>
+    <lastmod>2026-08-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.60</priority>
+  </url>
+  <url>
+    <loc>https://chasa.io/compliance/gdpr</loc>
+    <lastmod>2026-08-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.60</priority>
+  </url>
+  <url>
+    <loc>https://chasa.io/compliance/iso27001</loc>
+    <lastmod>2026-08-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.60</priority>
+  </url>
+  <url>
+    <loc>https://chasa.io/compliance/soc1</loc>
+    <lastmod>2026-08-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.60</priority>
+  </url>
+  <url>
+    <loc>https://chasa.io/compliance/soc2</loc>
+    <lastmod>2026-08-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.60</priority>
+  </url>
+  <url>
+    <loc>https://chasa.io/compliance/sox</loc>
+    <lastmod>2026-08-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.60</priority>
   </url>
@@ -410,43 +446,25 @@
   </url>
   <url>
     <loc>https://chasa.io/security</loc>
-    <lastmod>2026-08-07</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.60</priority>
-  </url>
-  <url>
-    <loc>https://chasa.io/solutions/</loc>
-    <lastmod>2026-08-07</lastmod>
+    <lastmod>2026-08-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.60</priority>
   </url>
   <url>
     <loc>https://chasa.io/solutions/entra-evidence-automation</loc>
-    <lastmod>2026-08-07</lastmod>
+    <lastmod>2026-08-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.60</priority>
   </url>
   <url>
     <loc>https://chasa.io/solutions/evidence-automation</loc>
-    <lastmod>2026-08-07</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.60</priority>
-  </url>
-  <url>
-    <loc>https://chasa.io/solutions/iso27001-evidence-automation</loc>
-    <lastmod>2026-08-07</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.60</priority>
-  </url>
-  <url>
-    <loc>https://chasa.io/solutions/soc2-evidence-automation</loc>
     <lastmod>2026-08-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.60</priority>
   </url>
   <url>
     <loc>https://chasa.io/switch-to-chasa</loc>
-    <lastmod>2026-08-04</lastmod>
+    <lastmod>2026-08-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
@@ -512,12 +530,6 @@
   </url>
   <url>
     <loc>https://chasa.io/use-cases/risk-scoring-automation</loc>
-    <lastmod>2026-08-08</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.60</priority>
-  </url>
-  <url>
-    <loc>https://chasa.io/use-cases/sox-evidence-automation</loc>
     <lastmod>2026-08-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.60</priority>
