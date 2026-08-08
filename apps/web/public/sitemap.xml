@@ -175,6 +175,30 @@
     <priority>0.75</priority>
   </url>
   <url>
+    <loc>https://chasa.io/es/</loc>
+    <lastmod>2026-08-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.60</priority>
+  </url>
+  <url>
+    <loc>https://chasa.io/es/blog/</loc>
+    <lastmod>2026-08-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.60</priority>
+  </url>
+  <url>
+    <loc>https://chasa.io/es/privacy</loc>
+    <lastmod>2026-08-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.60</priority>
+  </url>
+  <url>
+    <loc>https://chasa.io/es/terms</loc>
+    <lastmod>2026-08-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.60</priority>
+  </url>
+  <url>
     <loc>https://chasa.io/features/</loc>
     <lastmod>2026-08-08</lastmod>
     <changefreq>monthly</changefreq>

@@ -1,0 +1,1871 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="alternate" type="application/rss+xml" title="Chasa Blog" href="/blog/feed.xml">
+<link rel="me" href="https://www.linkedin.com/company/chasa-io">
+<link rel="me" href="https://x.com/chasaHQ">
+<title>Chasa — Recordatorios de facturas con IA para autónomos</title>
+<meta name="description" content="Herramienta gratuita de seguimiento de facturas con IA para autónomos y pequeños negocios. Pega tus facturas impagas y obtén el correo de recordatorio con el tono adecuado — amable la primera semana, firme a partir de 30 días. Compatible con QuickBooks y FreshBooks.">
+<meta name="keywords" content="invoice follow-up, payment reminder, freelancer invoicing, AI email generator, overdue invoice, collections email">
+<link rel="canonical" href="https://chasa.io/es/">
+<link rel="alternate" hreflang="en" href="https://chasa.io/">
+<link rel="alternate" hreflang="es" href="https://chasa.io/es/">
+<link rel="alternate" hreflang="x-default" href="https://chasa.io/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Chasa — Recordatorios de facturas con IA para autónomos">
+<meta property="og:description" content="Herramienta gratuita de seguimiento de facturas con IA para autónomos y pequeños negocios. Pega tus facturas impagas y obtén el correo de recordatorio con el tono adecuado — amable la primera semana, firme a partir de 30 días. Compatible con QuickBooks y FreshBooks.">
+<meta property="og:url" content="https://chasa.io/">
+<meta property="og:image" content="https://chasa.io/brand/og/chasa-og-1200x630.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Chasa — Recordatorios de facturas con IA para autónomos">
+<meta name="twitter:description" content="Herramienta gratuita de seguimiento de facturas con IA para autónomos y pequeños negocios. Pega tus facturas impagas y obtén el correo de recordatorio con el tono adecuado — amable la primera semana, firme a partir de 30 días. Compatible con QuickBooks y FreshBooks.">
+<meta name="twitter:image" content="https://chasa.io/brand/og/chasa-og-1200x630.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "name": "Chasa",
+      "url": "https://chasa.io",
+      "description": "AI invoice follow-up emails for freelancers"
+    },
+    {
+      "@type": "Organization",
+      "name": "Chasa",
+      "url": "https://chasa.io",
+      "logo": "https://chasa.io/brand/chasa-logo.svg",
+      "sameAs": [
+        "https://www.linkedin.com/company/chasa-io",
+        "https://x.com/chasaHQ"
+      ],
+      "parentOrganization": {
+        "@type": "Organization",
+        "name": "RELACON GmbH"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is Chasa?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "An AI invoice follow-up tool. Paste unpaid invoices and get payment reminder emails written in the right tone for how late each one is."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need an account?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No — Free works without signup (5 AI drafts per month plus templates). Sign in to upgrade to Solo or Pro. Enterprise is custom yearly pricing — email sales@chasa.io."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does Chasa send emails for me?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. You copy the draft into your own inbox or open a mailto link. Clients hear from you, not from us."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does Chasa connect to QuickBooks, FreshBooks, or Xero?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes for QuickBooks Online and Xero on Solo and up via native OAuth. FreshBooks and Wave: use our Zapier template or CSV upload."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How does the tone work?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Friendly under a week overdue, professional at 8–30 days, direct past 30 days."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Who's behind Chasa?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Chasa is a product of RELACON GmbH in Vienna, Austria."
+          }
+        }
+      ]
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "Chasa",
+      "url": "https://chasa.io",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Web",
+      "description": "Free AI invoice follow-up tool for freelancers. Paste unpaid invoices and get payment reminder emails in the right tone for how late each one is.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD",
+        "description": "Free tier: 5 AI drafts per month"
+      }
+    }
+  ]
+}
+</script>
+<link rel="stylesheet" href="/site.css?v=20260804k">
+<style>
+  html { scroll-behavior: smooth; }
+
+  /* subtle ledger rule texture on the whole page */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background-image: repeating-linear-gradient(
+      to bottom,
+      transparent 0,
+      transparent 38px,
+      color-mix(in srgb, var(--accent) 5%, transparent) 39px
+    );
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  header, main, footer { position: relative; z-index: 1; }
+
+  /* ---------- HERO (Docracy split layout, Chasa orange — no blue) ---------- */
+  .hero-band {
+    --hero-body: rgba(255, 255, 255, 0.9);
+    background: linear-gradient(135deg, var(--hero-from) 0%, var(--accent) 42%, var(--hero-to) 100%);
+    color: #fff;
+    padding: 64px 24px 72px;
+    overflow: hidden;
+  }
+  .hero-inner {
+    max-width: 1080px;
+    margin: 0 auto;
+  }
+  .hero-split {
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 48px;
+    align-items: center;
+  }
+  .hero-band h1 {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-weight: 800;
+    font-size: clamp(34px, 4.6vw, 56px);
+    line-height: 1.12;
+    letter-spacing: -0.025em;
+    color: #fff;
+    margin: 0 0 18px;
+    max-width: 14em;
+    white-space: pre-line;
+  }
+  .hero-sub {
+    font-size: 17px;
+    line-height: 1.45;
+    color: var(--hero-body);
+    margin: 0 0 22px;
+    max-width: 34em;
+  }
+  .hero-cta-row {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 18px 22px;
+    margin-top: 8px;
+  }
+  .hero-signup {
+    display: flex;
+    align-items: stretch;
+    flex: 1 1 320px;
+    max-width: 480px;
+    border-radius: 999px;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.18);
+  }
+  .hero-signup-input {
+    flex: 1;
+    min-width: 0;
+    border: none;
+    outline: none;
+    padding: 14px 18px;
+    font: inherit;
+    font-size: 15px;
+    color: var(--ink);
+    background: transparent;
+  }
+  .hero-signup-input::placeholder { color: #8a96a8; }
+  .hero-signup-btn {
+    flex-shrink: 0;
+    border: none;
+    cursor: pointer;
+    padding: 14px 22px;
+    font: inherit;
+    font-size: 15px;
+    font-weight: 800;
+    letter-spacing: 0.01em;
+    /* Hardcoded fallbacks — button must stay visible even if site.css vars lag CDN cache */
+    background: var(--signal, #00E8A8);
+    color: var(--on-signal, #04241C);
+    white-space: nowrap;
+    transition: background 0.15s ease;
+  }
+  .hero-signup-btn:hover { background: var(--signal-hover, #2AFFC0); }
+  .hero-watch-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    border: none;
+    background: transparent;
+    color: #fff;
+    font: inherit;
+    font-size: 15px;
+    font-weight: 700;
+    text-decoration: none;
+    padding: 6px 0;
+  }
+  .hero-watch-btn:hover { opacity: 0.88; }
+  .hero-watch-icon { display: inline-flex; line-height: 0; }
+  .hero-cta-hint {
+    margin: 12px 0 0;
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.65);
+  }
+  .hero-secondary-link {
+    margin: 14px 0 0;
+    font-size: 14px;
+  }
+  .hero-secondary-link a {
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .hero-secondary-link a:hover { color: #fff; }
+
+  .doc-mockup-glow {
+    position: relative;
+    padding: 20px;
+  }
+  .doc-mockup-glow::before {
+    content: "";
+    position: absolute;
+    inset: -20px;
+    background: radial-gradient(closest-side, rgba(236, 104, 60, 0.22), transparent 70%);
+    z-index: 0;
+  }
+  .doc-mockup-card {
+    position: relative;
+    z-index: 1;
+    background: #fff;
+    border-radius: 18px;
+    box-shadow: 0 24px 48px rgba(0, 0, 0, 0.28);
+    overflow: hidden;
+    aspect-ratio: 4 / 3;
+    transform: rotate(2.5deg);
+    animation: mockup-float 6s ease-in-out infinite;
+  }
+  @keyframes mockup-float {
+    0%, 100% { transform: rotate(2.5deg) translateY(0); }
+    50% { transform: rotate(1.5deg) translateY(-6px); }
+  }
+  .chase-mockup {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    padding: 28px 28px 24px;
+    box-sizing: border-box;
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+  .chase-mockup-title {
+    height: 14px;
+    width: 42%;
+    border-radius: 4px;
+    background: color-mix(in srgb, var(--accent) 45%, #c9b0a4);
+    margin-bottom: 22px;
+  }
+  .chase-mockup-line {
+    height: 8px;
+    border-radius: 4px;
+    background: #f0e6e1;
+    margin-bottom: 12px;
+  }
+  .chase-mockup-line.w80 { width: 80%; }
+  .chase-mockup-line.w95 { width: 95%; }
+  .chase-mockup-line.w60 { width: 60%; }
+  .chase-mockup-line.w70 { width: 70%; }
+  .chase-mockup-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 28px;
+  }
+  .chase-mockup-tag {
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: #fff0ea;
+    padding: 5px 10px;
+    border-radius: 999px;
+  }
+  .chase-mockup-check {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--accent);
+    display: grid;
+    place-items: center;
+    box-shadow: 0 6px 16px rgba(236, 104, 60, 0.35);
+  }
+  .chase-mockup-check svg { display: block; }
+  .chase-mockup-snippet {
+    margin-top: 18px;
+    padding: 14px 14px 12px;
+    border-radius: 10px;
+    background: #f7f8fb;
+    border: 1px solid #e6ebf2;
+  }
+  .chase-mockup-snippet-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+  .chase-mockup-snippet .chase-mockup-line { background: #d7dde7; margin-bottom: 8px; }
+
+  @media (max-width: 760px) {
+    .hero-split { grid-template-columns: 1fr; }
+    .hero-band { padding: 36px 20px 40px; }
+    .hero-band h1 {
+      font-size: clamp(26px, 7.2vw, 34px);
+      margin: 0 0 12px;
+      max-width: none;
+    }
+    .hero-sub { font-size: 15px; margin: 0 0 16px; }
+    .doc-mockup-glow { display: none; }
+    .hero-signup { flex: 1 1 100%; max-width: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .doc-mockup-card { animation: none; }
+  }
+
+  .how-modal-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 800;
+    background: rgba(6, 16, 32, 0.78);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  .how-modal-backdrop.is-open { display: flex; }
+  .how-modal-backdrop[hidden] { display: none !important; }
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+  .how-modal {
+    position: relative;
+    width: min(940px, 100%);
+    background: #000;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.45);
+  }
+  .how-modal-close {
+    position: absolute;
+    top: 10px;
+    right: 12px;
+    z-index: 2;
+    width: 36px;
+    height: 36px;
+    border: none;
+    border-radius: 999px;
+    background: rgba(0, 0, 0, 0.55);
+    color: #fff;
+    font-size: 22px;
+    line-height: 1;
+    cursor: pointer;
+  }
+  .how-modal-close:hover { background: rgba(0, 0, 0, 0.75); }
+  .how-modal-video {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    background: #000;
+  }
+
+  .btn-primary {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    background: var(--accent);
+    color: var(--white);
+    padding: 14px 28px;
+    border-radius: 4px;
+    text-decoration: none;
+    border: 1.5px solid var(--accent);
+    transition: transform 0.12s ease;
+    display: inline-block;
+  }
+  .btn-primary:hover { transform: translateY(-1px); }
+
+  /* ---------- SHARED SECTION ---------- */
+  .section {
+    padding: 80px 0;
+    border-top: 1px solid var(--line);
+  }
+  .section-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: clamp(26px, 3.4vw, 34px);
+    text-align: center;
+    margin-bottom: 12px;
+  }
+  .section-sub {
+    text-align: center;
+    color: var(--ink-soft);
+    font-size: 16px;
+    max-width: 520px;
+    margin: 0 auto 40px;
+    line-height: 1.55;
+  }
+
+  /* ---------- HOW IT WORKS ---------- */
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  .step-num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    color: var(--accent);
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+  .step h3 {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .step p {
+    font-size: 14.5px;
+    color: var(--ink-soft);
+    line-height: 1.5;
+  }
+
+  /* ---------- AUDIENCE / WHY ---------- */
+  .feature-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    max-width: 960px;
+    margin: 0 auto;
+  }
+  .feature-grid.five {
+    grid-template-columns: repeat(5, 1fr);
+    gap: 14px;
+  }
+  .feature-item {
+    text-align: center;
+    padding: 8px 6px;
+  }
+  .feature-item h3 {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .feature-item p {
+    font-size: 14px;
+    color: var(--ink-soft);
+    line-height: 1.5;
+  }
+
+  /* ---------- TEMPLATES PREVIEW ---------- */
+  .tpl-preview-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px 28px;
+    max-width: 900px;
+    margin: 0 auto 28px;
+    list-style: none;
+  }
+  .tpl-preview-list a {
+    display: block;
+    font-size: 14.5px;
+    font-weight: 600;
+    text-decoration: none;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--line);
+    color: var(--ink);
+  }
+  .tpl-preview-list a:hover { color: var(--accent); }
+  .tpl-preview-cta { text-align: center; }
+
+  /* ---------- PRICING (eversign-style: features first, sticky prices) ---------- */
+  .pricing {
+    padding: 48px 0 24px;
+  }
+  .pricing-compare {
+    position: relative;
+    /* Shared column math so sticky prices line up under Free / Solo / Pro / Enterprise. */
+    --pricing-feature-col: 28%;
+    --pricing-plan-col: calc((100% - var(--pricing-feature-col)) / 4);
+  }
+  .price-table-wrap {
+    /* No overflow-x by default — it breaks sticky. Enable only on narrow screens. */
+  }
+  .price-table {
+    width: 100%;
+    min-width: 640px;
+    table-layout: fixed;
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: 14px;
+    background: var(--white);
+  }
+  .price-table th,
+  .price-table td {
+    padding: 12px 14px;
+    text-align: center;
+    border-bottom: 1px solid var(--line);
+    vertical-align: middle;
+  }
+  .price-table th:first-child,
+  .price-table td:first-child {
+    text-align: left;
+    color: var(--ink);
+    font-weight: 500;
+    width: var(--pricing-feature-col);
+    position: sticky;
+    left: 0;
+    background: var(--white);
+    z-index: 1;
+  }
+  .price-table th:not(:first-child),
+  .price-table td:not(:first-child) {
+    width: var(--pricing-plan-col);
+  }
+  .price-table thead th {
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: var(--ink);
+    background: var(--white);
+    padding-top: 18px;
+    padding-bottom: 14px;
+    position: sticky;
+    top: 64px;
+    z-index: 4;
+    box-shadow: 0 1px 0 var(--line);
+  }
+  .price-table thead th:first-child {
+    z-index: 5;
+  }
+  .price-table .col-pro {
+    background: color-mix(in srgb, var(--accent) 8%, var(--white));
+  }
+  .price-table thead th.col-pro {
+    background: color-mix(in srgb, var(--accent) 8%, var(--white));
+    color: var(--accent);
+  }
+  .price-table tbody tr:last-child td {
+    border-bottom: none;
+  }
+  .price-table .plan-cell-text {
+    color: var(--ink);
+    font-weight: 700;
+    font-size: 15px;
+    line-height: 1.25;
+    font-family: 'Fraunces', serif;
+  }
+  .price-table .muted {
+    color: var(--ink);
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.25;
+    font-family: 'Fraunces', serif;
+  }
+  .price-table .check {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: var(--white);
+    line-height: 0;
+    vertical-align: middle;
+    position: relative;
+  }
+  .price-table .check::after {
+    content: "";
+    width: 5px;
+    height: 9px;
+    border: solid var(--white);
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg) translateY(-1px);
+    box-sizing: border-box;
+  }
+  .price-table .check svg {
+    display: none;
+  }
+  .price-table .cross {
+    color: color-mix(in srgb, var(--ink) 28%, var(--white));
+    font-weight: 600;
+  }
+  .price-table thead th.col-pro {
+    white-space: normal;
+    line-height: 1.25;
+  }
+  .popular-tag {
+    display: block;
+    width: fit-content;
+    max-width: 100%;
+    margin: 6px auto 0;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    background: var(--accent);
+    color: var(--white);
+    padding: 2px 8px;
+    border-radius: 999px;
+    white-space: nowrap;
+  }
+
+  .pricing-sticky-bar {
+    position: sticky;
+    bottom: 0;
+    z-index: 6;
+    display: grid;
+    grid-template-columns:
+      var(--pricing-feature-col)
+      var(--pricing-plan-col)
+      var(--pricing-plan-col)
+      var(--pricing-plan-col)
+      var(--pricing-plan-col);
+    gap: 0;
+    margin-top: 0;
+    width: 100%;
+    box-sizing: border-box;
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    box-shadow: 0 -8px 28px color-mix(in srgb, var(--ink) 12%, transparent);
+    overflow: hidden;
+  }
+  .pricing-sticky-spacer {
+    border-right: 1px solid var(--line);
+    background: var(--white);
+  }
+  .pricing-sticky-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 10px 16px;
+    text-align: center;
+    border-right: 1px solid var(--line);
+  }
+  .pricing-sticky-col:last-child {
+    border-right: none;
+  }
+  .pricing-sticky-col.is-pro {
+    background: color-mix(in srgb, var(--accent) 8%, var(--white));
+  }
+  .pricing-sticky-name {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .pricing-sticky-col.is-pro .pricing-sticky-name {
+    color: var(--accent);
+  }
+  .pricing-sticky-price {
+    font-family: 'Fraunces', serif;
+    font-size: 26px;
+    font-weight: 600;
+    color: var(--ink);
+    line-height: 1.1;
+  }
+  .pricing-sticky-note {
+    display: block;
+    margin-top: 2px;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--ink-soft);
+    line-height: 1.3;
+    text-transform: none;
+    letter-spacing: 0;
+  }
+  .pricing-sticky-cta {
+    display: block;
+    width: 100%;
+    max-width: 140px;
+    box-sizing: border-box;
+    text-align: center;
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 12.5px;
+    text-decoration: none;
+    padding: 8px 10px;
+    border-radius: 4px;
+    border: 1.5px solid var(--accent);
+    color: var(--accent);
+    background: transparent;
+    white-space: nowrap;
+  }
+  .pricing-sticky-cta:hover {
+    background: var(--accent);
+    color: var(--white);
+  }
+  .pricing-sticky-cta.featured {
+    background: var(--accent);
+    color: var(--white);
+  }
+  .pricing-sticky-cta.signal {
+    background: var(--signal);
+    border-color: var(--signal);
+    color: var(--on-signal);
+  }
+  .pricing-sticky-cta.signal:hover {
+    background: var(--signal-hover);
+    border-color: var(--signal-hover);
+    color: var(--on-signal);
+  }
+
+  @media (max-width: 900px) {
+    .price-table-wrap {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+    }
+    .price-table thead th {
+      position: static;
+      top: auto;
+      box-shadow: none;
+    }
+    .pricing-sticky-bar {
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+    }
+    .pricing-sticky-spacer {
+      display: none;
+    }
+    .pricing-sticky-price {
+      font-size: 18px;
+    }
+    .pricing-sticky-note {
+      font-size: 10px;
+    }
+    .pricing-sticky-cta {
+      max-width: none;
+      padding: 8px 4px;
+      font-size: 11.5px;
+    }
+  }
+
+  /* Phones: fixed stacked plan rows (4 plans → taller bar than Docracy) */
+  @media (max-width: 720px) {
+    .pricing {
+      padding-bottom: calc(340px + env(safe-area-inset-bottom, 0px));
+    }
+    .pricing-compare {
+      padding-top: 12px;
+    }
+    .pricing-sticky-bar {
+      position: fixed;
+      left: 12px;
+      right: 12px;
+      bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+      z-index: 20;
+      grid-template-columns: 1fr;
+      border-radius: 10px;
+      box-shadow: 0 -4px 28px color-mix(in srgb, var(--ink) 14%, transparent);
+    }
+    .pricing-sticky-spacer {
+      display: none;
+    }
+    .pricing-sticky-col {
+      flex-direction: row;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px 12px;
+      padding: 12px 14px;
+      border-right: none;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+    }
+    .pricing-sticky-col:last-child {
+      border-bottom: none;
+    }
+    .pricing-sticky-name {
+      flex: 0 0 72px;
+      font-size: 10px;
+    }
+    .pricing-sticky-price {
+      flex: 1 1 80px;
+      font-size: 20px;
+      text-align: left;
+    }
+    .pricing-sticky-note {
+      display: inline;
+      margin-top: 0;
+      margin-left: 4px;
+      font-size: 10px;
+      white-space: normal;
+    }
+    .pricing-sticky-cta {
+      flex: 0 0 auto;
+      width: auto;
+      min-width: 108px;
+      max-width: 46%;
+      padding: 8px 10px;
+      font-size: 11.5px;
+      white-space: normal;
+      line-height: 1.2;
+    }
+    /* Keep chat launcher above the fixed pricing bar */
+    body:has(.pricing) .chasa-asst {
+      bottom: calc(340px + env(safe-area-inset-bottom, 0px));
+      right: 16px;
+    }
+  }
+
+  @media (max-width: 900px) {
+    .steps { grid-template-columns: 1fr 1fr; }
+    .feature-grid.five { grid-template-columns: 1fr 1fr; }
+    .tpl-preview-list { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 720px) {
+    .steps, .feature-grid, .feature-grid.five, .tpl-preview-list { grid-template-columns: 1fr; }
+    .pc-row { flex-direction: column; align-items: flex-start; }
+    .pc-row-nums { align-self: flex-end; }
+  }
+
+  /* Locale switcher (marketing) */
+  .locale-switch {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: var(--ink-soft);
+    user-select: none;
+  }
+  .locale-switch button {
+    font: inherit;
+    letter-spacing: inherit;
+    background: none;
+    border: 0;
+    padding: 2px 3px;
+    cursor: pointer;
+    color: inherit;
+    opacity: 0.55;
+  }
+  .locale-switch button:hover { opacity: 0.9; color: var(--ink); }
+  .locale-switch button.is-active {
+    opacity: 1;
+    color: var(--ink);
+  }
+  .locale-switch-sep { opacity: 0.35; }
+
+  /* ---------- FAQ ---------- */
+  .faq {
+    padding: 80px 0 40px;
+    border-top: 1px solid var(--line);
+  }
+  .faq h2 {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: clamp(26px, 3.4vw, 34px);
+    text-align: center;
+    margin-bottom: 36px;
+  }
+  .faq-list {
+    max-width: 680px;
+    margin: 0 auto;
+  }
+  .faq-item {
+    border-bottom: 1px solid var(--line);
+  }
+  .faq-item summary {
+    list-style: none;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 15.5px;
+    padding: 18px 0;
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .faq-item summary::-webkit-details-marker { display: none; }
+  .faq-item summary::after {
+    content: "+";
+    font-family: 'IBM Plex Mono', monospace;
+    color: var(--accent);
+    flex-shrink: 0;
+  }
+  .faq-item[open] summary::after { content: "–"; }
+  .faq-item p {
+    font-size: 14.5px;
+    color: var(--ink-soft);
+    padding: 0 0 18px;
+    line-height: 1.6;
+  }
+
+  /* ---------- FINAL CTA ---------- */
+  .final-cta {
+    padding: 90px 0 100px;
+    text-align: center;
+    border-top: 1px solid var(--line);
+  }
+  .final-cta h2 {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: clamp(28px, 4vw, 42px);
+    max-width: 560px;
+    margin: 0 auto 28px;
+    line-height: 1.15;
+  }
+</style>
+  <link rel="icon" href="/favicon.png" type="image/png" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+</head>
+<body class="page-home">
+
+<header class="site-header">
+  <div class="wrap site-header-inner">
+    <a href="/es/" class="logo" aria-label="Chasa home"><img class="logo-mark" src="/brand/chasa-icon.png" alt="Chasa" width="28" height="28" /><span class="logo-word">chasa</span></a>
+    <nav class="header-nav-right">
+      <div class="nav-megamenu header-nav-collapse" data-mega-menu>
+        <button type="button" class="nav-megamenu-trigger header-nav-link" aria-haspopup="true" aria-expanded="false" data-mega-trigger>
+          <span data-i18n="nav.features">Funciones</span>
+          <svg class="nav-megamenu-chevron" width="10" height="10" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5L6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
+        </button>
+        <div class="nav-megamenu-panel" data-mega-panel hidden>
+          <div class="nav-megamenu-grid" style="grid-template-columns: repeat(2, 1fr)">
+            <a href="/features/ai-tone" class="nav-megamenu-item">
+              <span class="nav-megamenu-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8L12 3z" /></svg></span>
+              <span><span class="nav-megamenu-item-title" data-i18n="nav.mega.feature.ai.title">IA que ajusta el tono</span><span class="nav-megamenu-item-desc" data-i18n="nav.mega.feature.ai.desc">Amable, profesional o directo — según los días de retraso.</span></span>
+            </a>
+            <a href="/features/templates" class="nav-megamenu-item">
+              <span class="nav-megamenu-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8" y="8" width="12" height="13" rx="1.5" /><path d="M4 15V4.5A1.5 1.5 0 0 1 5.5 3H15" /></svg></span>
+              <span><span class="nav-megamenu-item-title" data-i18n="nav.mega.feature.templates.title">18 plantillas de correo gratis</span><span class="nav-megamenu-item-desc" data-i18n="nav.mega.feature.templates.desc">Recordatorios listos para copiar, sin necesidad de cuenta.</span></span>
+            </a>
+            <a href="/features/" class="nav-megamenu-item">
+              <span class="nav-megamenu-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.5 2.5L4 14h6l-1 7.5L20 10h-6l-1.5-7.5z" /></svg></span>
+              <span><span class="nav-megamenu-item-title" data-i18n="nav.mega.feature.chasePlans.title">Planes de seguimiento con IA</span><span class="nav-megamenu-item-desc" data-i18n="nav.mega.feature.chasePlans.desc">Secuencias de 3 pasos redactadas automáticamente.</span></span>
+            </a>
+            <a href="/features/" class="nav-megamenu-item">
+              <span class="nav-megamenu-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7.5" width="18" height="12" rx="1.5" /><path d="M8 7.5V6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v1.5" /><path d="M3 12.5h18" /></svg></span>
+              <span><span class="nav-megamenu-item-title" data-i18n="nav.mega.feature.sync.title">Sincronización contable</span><span class="nav-megamenu-item-desc" data-i18n="nav.mega.feature.sync.desc">CSV, QuickBooks, Xero, FreshBooks, Wave, Zoho.</span></span>
+            </a>
+            <a href="/es/#pricing" class="nav-megamenu-item">
+              <span class="nav-megamenu-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3" /><path d="M3.5 19.5c0-3 2.5-5.5 5.5-5.5s5.5 2.5 5.5 5.5" /><circle cx="17" cy="9" r="2.25" /><path d="M15.5 14.2c2.3.4 4 2.4 4 5.3" /></svg></span>
+              <span><span class="nav-megamenu-item-title" data-i18n="nav.mega.feature.team.title">Acceso en equipo</span><span class="nav-megamenu-item-desc" data-i18n="nav.mega.feature.team.desc">Comparte seguimientos y plantillas en tu espacio de trabajo.</span></span>
+            </a>
+            <a href="/es/privacy" class="nav-megamenu-item">
+              <span class="nav-megamenu-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v5.5c0 5-3.5 8-7 9.5-3.5-1.5-7-4.5-7-9.5V6l7-3z" /><path d="M9 12l2 2 4-4" /></svg></span>
+              <span><span class="nav-megamenu-item-title" data-i18n="nav.mega.feature.storage.title">Seguro y privado</span><span class="nav-megamenu-item-desc" data-i18n="nav.mega.feature.storage.desc">Almacenamiento cifrado, retención automática breve.</span></span>
+            </a>
+          </div>
+          <div class="nav-megamenu-side">
+            <h4 data-i18n="footer.compareCol">Comparar</h4>
+            <a href="/chasa-vs-chaser" class="nav-megamenu-item nav-megamenu-side-item">
+              <span class="nav-megamenu-icon nav-megamenu-icon-sm"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v18M7 8H3l3 6a3 3 0 0 0 4 0l-3-6zM21 8h-4l3 6a3 3 0 0 0 4 0l-3-6z" /><path d="M8 21h8" /></svg></span>
+              <span><span class="nav-megamenu-item-title" data-i18n="footer.vsChaser">vs Chaser</span><span class="nav-megamenu-item-desc" data-i18n="nav.mega.compare.chaser.desc">Más simple, sin precio por asiento.</span></span>
+            </a>
+            <a href="/chasa-vs-paidnice" class="nav-megamenu-item nav-megamenu-side-item">
+              <span class="nav-megamenu-icon nav-megamenu-icon-sm"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v18M7 8H3l3 6a3 3 0 0 0 4 0l-3-6zM21 8h-4l3 6a3 3 0 0 0 4 0l-3-6z" /><path d="M8 21h8" /></svg></span>
+              <span><span class="nav-megamenu-item-title" data-i18n="footer.vsPaidnice">vs Paidnice</span><span class="nav-megamenu-item-desc" data-i18n="nav.mega.compare.paidnice.desc">Borradores de IA gratis, no solo recordatorios de Shopify.</span></span>
+            </a>
+            <a href="/chasa-vs-duefy" class="nav-megamenu-item nav-megamenu-side-item">
+              <span class="nav-megamenu-icon nav-megamenu-icon-sm"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v18M7 8H3l3 6a3 3 0 0 0 4 0l-3-6zM21 8h-4l3 6a3 3 0 0 0 4 0l-3-6z" /><path d="M8 21h8" /></svg></span>
+              <span><span class="nav-megamenu-item-title" data-i18n="footer.vsDuefy">vs Duefy</span><span class="nav-megamenu-item-desc" data-i18n="nav.mega.compare.duefy.desc">IA que ajusta el tono, no solo plantillas fijas.</span></span>
+            </a>
+            <a href="/blog/invoice-chase-software-comparison/" class="nav-megamenu-side-footer" data-i18n="footer.compare">Ver comparación completa</a>
+          </div>
+        </div>
+      </div>
+      <a href="/es/#pricing" class="header-nav-link header-nav-collapse" data-i18n="nav.pricing">Precios</a>
+      <div class="nav-megamenu header-nav-collapse" data-mega-menu>
+        <button type="button" class="nav-megamenu-trigger header-nav-link" aria-haspopup="true" aria-expanded="false" data-mega-trigger>
+          <span data-i18n="nav.useCases">Casos de uso</span>
+          <svg class="nav-megamenu-chevron" width="10" height="10" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5L6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
+        </button>
+        <div class="nav-megamenu-panel" data-mega-panel hidden>
+          <div class="nav-megamenu-grid" style="grid-template-columns: repeat(2, 1fr)">
+            <a href="/use-cases/risk-scoring-automation" class="nav-megamenu-item">
+              <span class="nav-megamenu-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8L12 3z" /></svg></span>
+              <span><span class="nav-megamenu-item-title" data-i18n="nav.mega.useCase.risk.title">Puntuación de riesgo automática</span><span class="nav-megamenu-item-desc" data-i18n="nav.mega.useCase.risk.desc">Detecta el riesgo de impago antes de que la factura sea morosa.</span></span>
+            </a>
+            <a href="/use-cases/audit-ready-workflows" class="nav-megamenu-item">
+              <span class="nav-megamenu-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v18M7 8H3l3 6a3 3 0 0 0 4 0l-3-6zM21 8h-4l3 6a3 3 0 0 0 4 0l-3-6z" /><path d="M8 21h8" /></svg></span>
+              <span><span class="nav-megamenu-item-title" data-i18n="nav.mega.useCase.audit.title">Flujos listos para auditoría</span><span class="nav-megamenu-item-desc" data-i18n="nav.mega.useCase.audit.desc">Paquetes de evidencia con fecha y hora, y cartas de reclamación.</span></span>
+            </a>
+            <a href="/use-cases/sox-evidence-automation" class="nav-megamenu-item">
+              <span class="nav-megamenu-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v5.5c0 5-3.5 8-7 9.5-3.5-1.5-7-4.5-7-9.5V6l7-3z" /><path d="M9 12l2 2 4-4" /></svg></span>
+              <span><span class="nav-megamenu-item-title" data-i18n="nav.mega.useCase.sox.title">Evidencia SOX automatizada</span><span class="nav-megamenu-item-desc" data-i18n="nav.mega.useCase.sox.desc">Registros de actividad inmutables para auditores.</span></span>
+            </a>
+            <a href="/use-cases/compliance-dashboard" class="nav-megamenu-item">
+              <span class="nav-megamenu-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7.5" width="18" height="12" rx="1.5" /><path d="M8 7.5V6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v1.5" /><path d="M3 12.5h18" /></svg></span>
+              <span><span class="nav-megamenu-item-title" data-i18n="nav.mega.useCase.compliance.title">Panel de cumplimiento</span><span class="nav-megamenu-item-desc" data-i18n="nav.mega.useCase.compliance.desc">Antigüedad de saldos y estado de seguimiento de un vistazo.</span></span>
+            </a>
+            <a href="/use-cases/chasa-certificate-monitoring" class="nav-megamenu-item">
+              <span class="nav-megamenu-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5.5" width="18" height="13" rx="1.5" /><path d="M3.5 6.5L12 13l8.5-6.5" /></svg></span>
+              <span><span class="nav-megamenu-item-title" data-i18n="nav.mega.useCase.certificate.title">Monitoreo de certificados</span><span class="nav-megamenu-item-desc" data-i18n="nav.mega.useCase.certificate.desc">Prueba de entrega y verificación del historial de seguimiento.</span></span>
+            </a>
+            <a href="/use-cases/document-signing-api" class="nav-megamenu-item">
+              <span class="nav-megamenu-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8" y="8" width="12" height="13" rx="1.5" /><path d="M4 15V4.5A1.5 1.5 0 0 1 5.5 3H15" /></svg></span>
+              <span><span class="nav-megamenu-item-title" data-i18n="nav.mega.useCase.api.title">API de seguimiento</span><span class="nav-megamenu-item-desc" data-i18n="nav.mega.useCase.api.desc">Integra los borradores de seguimiento en tu propio sistema.</span></span>
+            </a>
+            <a href="/use-cases/flat-fee-esign" class="nav-megamenu-item">
+              <span class="nav-megamenu-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3" /><path d="M3.5 19.5c0-3 2.5-5.5 5.5-5.5s5.5 2.5 5.5 5.5" /><circle cx="17" cy="9" r="2.25" /><path d="M15.5 14.2c2.3.4 4 2.4 4 5.3" /></svg></span>
+              <span><span class="nav-megamenu-item-title" data-i18n="nav.mega.useCase.flatFee.title">Precio fijo</span><span class="nav-megamenu-item-desc" data-i18n="nav.mega.useCase.flatFee.desc">Sin cargos por documento — seguimientos ilimitados desde $7/mes.</span></span>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="nav-megamenu header-nav-collapse" data-mega-menu>
+        <button type="button" class="nav-megamenu-trigger header-nav-link" aria-haspopup="true" aria-expanded="false" data-mega-trigger>
+          <span data-i18n="nav.resources">Recursos</span>
+          <svg class="nav-megamenu-chevron" width="10" height="10" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5L6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
+        </button>
+        <div class="nav-megamenu-panel" data-mega-panel hidden>
+          <div class="nav-megamenu-grid" style="grid-template-columns: repeat(2, 1fr)">
+            <a href="/es/blog/" class="nav-megamenu-item">
+              <span class="nav-megamenu-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5.5A1.5 1.5 0 0 1 5.5 4H12v16H5.5A1.5 1.5 0 0 1 4 18.5v-13z" /><path d="M20 5.5A1.5 1.5 0 0 0 18.5 4H12v16h6.5a1.5 1.5 0 0 0 1.5-1.5v-13z" /></svg></span>
+              <span><span class="nav-megamenu-item-title" data-i18n="nav.mega.resource.blog.title">Blog</span><span class="nav-megamenu-item-desc" data-i18n="nav.mega.resource.blog.desc">Novedades del producto y guías prácticas.</span></span>
+            </a>
+            <a href="/docs/" class="nav-megamenu-item">
+              <span class="nav-megamenu-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5" /><circle cx="12" cy="12" r="3.5" /><path d="M6.1 6.1l3.3 3.3M17.9 6.1l-3.3 3.3M6.1 17.9l3.3-3.3M17.9 17.9l-3.3-3.3" /></svg></span>
+              <span><span class="nav-megamenu-item-title" data-i18n="nav.mega.resource.docs.title">Documentación y API</span><span class="nav-megamenu-item-desc" data-i18n="nav.mega.resource.docs.desc">Cada función, endpoint e integración.</span></span>
+            </a>
+            <a href="/about" class="nav-megamenu-item">
+              <span class="nav-megamenu-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5" /><path d="M12 11v5.5M12 8v.01" /></svg></span>
+              <span><span class="nav-megamenu-item-title" data-i18n="nav.mega.resource.about.title">Nosotros</span><span class="nav-megamenu-item-desc" data-i18n="nav.mega.resource.about.desc">Por qué existe Chasa y quién lo dirige.</span></span>
+            </a>
+            <a href="mailto:founder@chasa.io" class="nav-megamenu-item">
+              <span class="nav-megamenu-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5.5" width="18" height="13" rx="1.5" /><path d="M3.5 6.5L12 13l8.5-6.5" /></svg></span>
+              <span><span class="nav-megamenu-item-title" data-i18n="nav.mega.resource.contact.title">Contacto</span><span class="nav-megamenu-item-desc" data-i18n="nav.mega.resource.contact.desc">¿Dudas antes de registrarte? Pregúntanos.</span></span>
+            </a>
+          </div>
+        </div>
+      </div>
+      <a href="/free-templates/" class="header-nav-link header-nav-collapse" data-i18n="nav.templates">Plantillas gratis</a>
+      <div class="locale-switch" data-locale-switch role="group" data-en-href="/" data-i18n-aria="nav.language" aria-label="Idioma"></div>
+      <!--email_off-->
+      <a href="#contact-sales" class="header-nav-sales header-nav-collapse" data-sales-mail data-sales-subject="Chasa sales" data-i18n="nav.contactSales">Contactar ventas</a>
+      <!--/email_off-->
+      <a href="/app/" class="nav-cta" data-i18n="nav.tryFree">Probar gratis</a>
+      <a href="/app/login" class="header-login-btn header-nav-collapse" data-i18n="nav.signIn">Iniciar sesión</a>
+      <button class="header-menu-toggle" type="button" aria-expanded="false" data-menu-toggle data-i18n-aria="nav.openMenu" aria-label="Abrir menú">
+        <span></span><span></span><span></span>
+      </button>
+    </nav>
+  </div>
+</header>
+
+<div class="mobile-panel-backdrop" data-mobile-backdrop></div>
+<div class="mobile-panel" data-mobile-panel>
+  <button class="mobile-panel-close" type="button" data-mobile-close data-i18n-aria="nav.closeMenu" aria-label="Cerrar menú">✕</button>
+  <nav class="mobile-panel-nav">
+      <a href="/features/" class="mobile-panel-nav-link" data-i18n="nav.features">Funciones</a>
+      <a href="/es/#pricing" class="mobile-panel-nav-link" data-i18n="nav.pricing">Precios</a>
+      <a href="/use-cases/" class="mobile-panel-nav-link" data-i18n="nav.useCases">Casos de uso</a>
+      <a href="/es/blog/" class="mobile-panel-nav-link" data-i18n="nav.blog">Blog</a>
+      <a href="/docs/" class="mobile-panel-nav-link" data-i18n="nav.api">API</a>
+      <a href="/free-templates/" class="mobile-panel-nav-link" data-i18n="nav.templates">Plantillas gratis</a>
+      <a href="/tools/" class="mobile-panel-nav-link" data-i18n="nav.tools">Herramientas</a>
+      <a href="/app/login" class="mobile-panel-nav-link" data-i18n="nav.signIn">Iniciar sesión</a>
+      <a href="/app/" class="mobile-panel-nav-link" data-i18n="nav.tryFree">Probar gratis</a>
+  </nav>
+  <div class="mobile-panel-ctas">
+    <a href="/app/" class="mobile-panel-cta-primary" data-i18n="nav.tryFree">Probar gratis</a>
+    <a href="/app/login" class="mobile-panel-cta-secondary" data-i18n="nav.signIn">Iniciar sesión</a>
+    <!--email_off-->
+    <a href="#contact-sales" class="mobile-panel-cta-secondary" data-sales-mail data-sales-subject="Chasa sales" data-i18n="nav.contactSales">Contactar ventas</a>
+    <!--/email_off-->
+  </div>
+</div>
+
+<main>
+  <!-- [Hero] -->
+  <section class="hero-band">
+    <div class="hero-inner hero-split">
+      <div>
+        <h1 data-i18n="home.hero.title">Cobra más rápido.
+La IA escribe el seguimiento — tú mantienes el control.</h1>
+        <p class="hero-sub" data-i18n="home.hero.sub">Pega una factura vencida. Chasa redacta un seguimiento según el retraso — amable al inicio, más firme después — para que suenes profesional, no desesperado. Copia, ajusta y envía desde tu bandeja.</p>
+        <div class="hero-cta-row" data-cta-source="home_hero">
+          <form class="hero-signup" id="hero-signup" action="/app/login" method="get">
+            <input
+              class="hero-signup-input"
+              type="email"
+              name="email"
+              autocomplete="email"
+              placeholder="Enter your work email"
+              data-i18n-placeholder="home.hero.emailPlaceholder"
+             
+             data-i18n-aria="home.hero.emailPlaceholder" aria-label="Tu email de trabajo"/>
+            <button type="submit" class="hero-signup-btn" data-cta data-i18n="home.hero.startFree">Empezar gratis →</button>
+          </form>
+          <button type="button" class="hero-watch-btn" id="watch-how-it-works" data-cta data-open-how-video>
+            <span class="hero-watch-icon" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                <circle cx="12" cy="12" r="10" fill="rgba(255,255,255,0.18)" />
+                <path d="M10 8.5v7l6-3.5-6-3.5z" fill="#fff" />
+              </svg>
+            </span>
+            <span data-i18n="home.hero.watchHow">Míralo en 60 segundos</span>
+          </button>
+        </div>
+        <p class="hero-cta-hint" data-i18n="home.hero.note">Empieza gratis · sin tarjeta · tu cuenta en un clic</p>
+        <p class="hero-secondary-link">
+          <a href="/free-templates/" data-cta data-i18n="home.hero.ctaSecondary">o ver plantillas gratis</a>
+        </p>
+      </div>
+      <div class="doc-mockup-glow" aria-hidden="true">
+        <div class="doc-mockup-card">
+          <div class="chase-mockup">
+            <div class="chase-mockup-title"></div>
+            <div class="chase-mockup-line w95"></div>
+            <div class="chase-mockup-line w80"></div>
+            <div class="chase-mockup-line w70"></div>
+            <div class="chase-mockup-snippet">
+              <div class="chase-mockup-snippet-label">Friendly · 12 days overdue</div>
+              <div class="chase-mockup-line w95"></div>
+              <div class="chase-mockup-line w80"></div>
+              <div class="chase-mockup-line w60"></div>
+            </div>
+            <div class="chase-mockup-meta">
+              <span class="chase-mockup-tag">Draft ready</span>
+              <span class="chase-mockup-check">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                  <path d="M5 12.5l4.2 4.2L19 7.5" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- [How it works] -->
+  <section class="section wrap" id="how">
+    <h2 class="section-title" data-i18n="home.how.title">Cómo funciona</h2>
+    <p class="section-sub" data-i18n="home.how.sub">Cuatro pasos de factura vencida a seguimiento enviado.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">01</div>
+        <h3 data-i18n="home.how.step1.title">Agrega tus facturas</h3>
+        <p data-i18n="home.how.step1.body">Cliente, monto, fecha de vencimiento — escríbelos o sube un CSV.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <h3 data-i18n="home.how.step2.title">Chasa redacta el seguimiento</h3>
+        <p data-i18n="home.how.step2.body">El tono coincide con los días de retraso: amable al inicio, más firme después.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <h3 data-i18n="home.how.step3.title">Ajusta si quieres</h3>
+        <p data-i18n="home.how.step3.body">Edita el borrador o usa Suavizar / Endurecer / Acortar en planes de pago.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">04</div>
+        <h3 data-i18n="home.how.step4.title">Envía desde tu bandeja</h3>
+        <p data-i18n="home.how.step4.body">Copia o abre mailto — tus clientes te escuchan a ti, no a un bot.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- [Built for…] -->
+  <section class="section wrap" id="built-for">
+    <h2 class="section-title" data-i18n="home.builtFor.title">Hecho para cobrar — no para teatro de cobranza</h2>
+    <p class="section-sub" data-i18n="home.builtFor.sub">Cuando la factura está tarde y aún quieres mantener la relación.</p>
+    <div class="feature-grid">
+      <div class="feature-item">
+        <h3 data-i18n="home.builtFor.freelancers.title">Freelancers</h3>
+        <p data-i18n="home.builtFor.freelancers.body">Operadores solos que odian reescribir el mismo recordatorio cuatro veces.</p>
+      </div>
+      <div class="feature-item">
+        <h3 data-i18n="home.builtFor.teams.title">Equipos pequeños</h3>
+        <p data-i18n="home.builtFor.teams.body">Unas pocas personas compartiendo seguimientos sin un stack de cobranza.</p>
+      </div>
+      <div class="feature-item">
+        <h3 data-i18n="home.builtFor.oneOff.title">Clientes puntuales</h3>
+        <p data-i18n="home.builtFor.oneOff.body">Trabajo por proyecto donde una factura vencida no debería armar un conflicto.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- [Why Chasa] -->
+  <section class="section wrap" id="why">
+    <h2 class="section-title" data-i18n="home.why.title">Por qué Chasa</h2>
+    <p class="section-sub" data-i18n="home.why.sub">Lo bastante simple para hoy. Lo bastante serio para cada mes.</p>
+    <div class="feature-grid five">
+      <div class="feature-item">
+        <h3 data-i18n="home.why.noAccount.title">Sin cuenta obligatoria</h3>
+        <p data-i18n="home.why.noAccount.body">Empieza gratis con 5 borradores con IA. Inicia sesión solo cuando mejores de plan.</p>
+      </div>
+      <div class="feature-item">
+        <h3 data-i18n="home.why.fastSetup.title">Configuración rápida</h3>
+        <p data-i18n="home.why.fastSetup.body">Pega facturas o suelta un CSV — borradores en segundos.</p>
+      </div>
+      <div class="feature-item">
+        <h3 data-i18n="home.why.simpleUi.title">Interfaz simple</h3>
+        <p data-i18n="home.why.simpleUi.body">Un solo trabajo: escribir el correo de seguimiento. Nada más estorbando.</p>
+      </div>
+      <div class="feature-item">
+        <h3 data-i18n="home.why.templates.title">Plantillas incluidas</h3>
+        <p data-i18n="home.why.templates.body">18 plantillas gratis de recordatorio de pago que puedes copiar cuando quieras.</p>
+      </div>
+      <div class="feature-item">
+        <h3 data-i18n="home.why.control.title">Tú tienes el control</h3>
+        <p data-i18n="home.why.control.body">Nunca enviamos correos a tus clientes. Tú envías cada mensaje.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- [Template Library Preview] -->
+  <section class="section wrap" id="templates">
+    <h2 class="section-title" data-i18n="home.templates.title">Plantillas listas para seguimientos de facturas</h2>
+    <p class="section-sub" data-i18n="home.templates.sub">Correos simples de recordatorio de pago que puedes enviar en minutos — sin formato, sin configuración, sin cuenta.</p>
+    <ul class="tpl-preview-list">
+      <li><a href="/free-templates/payment-reminder-before-due-date" data-i18n="home.templates.beforeDue">Recordatorio de pago — antes del vencimiento</a></li>
+      <li><a href="/free-templates/gentle-overdue-invoice-reminder" data-i18n="home.templates.gentleOverdue">Vencida suave — 1–3 días</a></li>
+      <li><a href="/free-templates/overdue-invoice-reminder-7-days" data-i18n="home.templates.sevenDays">Segundo recordatorio — 7 días</a></li>
+      <li><a href="/free-templates/formal-overdue-notice-30-days" data-i18n="home.templates.thirtyDays">Aviso formal — 30 días</a></li>
+      <li><a href="/free-templates/final-notice-before-collections" data-i18n="home.templates.ninetyDays">Aviso final — 90 días</a></li>
+      <li><a href="/free-templates/thank-you-for-payment-email" data-i18n="home.templates.thankYou">Gracias por el pago</a></li>
+    </ul>
+    <div class="tpl-preview-cta">
+      <a href="/free-templates/" class="btn-secondary" data-i18n="home.templates.seeAll">Ver las 18 plantillas gratis</a>
+    </div>
+  </section>
+
+  <!-- Integrations (real connectors — official brand SVGs) -->
+  <section class="integrations-band wrap" id="integrations" aria-labelledby="integrations-heading">
+    <div class="integrations-inner">
+      <h2 id="integrations-heading" data-i18n="home.integrations.title">Conecta Chasa con las herramientas que ya usas</h2>
+      <p class="integrations-lede" data-i18n="home.integrations.lede">Integra las plataformas que ya usas — contabilidad, almacenamiento en la nube, automatización y asistentes de IA. Solo y Pro desbloquean conectores nativos; todo lo listado aquí existe hoy.</p>
+      <div class="integrations-grid" role="list">
+        <div class="integrations-tile" role="listitem">
+          <img src="/integrations/quickbooks.svg" alt="" width="32" height="32" class="integrations-tile-logo" />
+          <span class="integrations-tile-name">QuickBooks</span>
+        </div>
+        <div class="integrations-tile" role="listitem">
+          <img src="/integrations/xero.svg" alt="" width="32" height="32" class="integrations-tile-logo" />
+          <span class="integrations-tile-name">Xero</span>
+        </div>
+        <div class="integrations-tile" role="listitem">
+          <img src="/integrations/dropbox.svg" alt="" width="32" height="32" class="integrations-tile-logo" />
+          <span class="integrations-tile-name">Dropbox</span>
+        </div>
+        <div class="integrations-tile" role="listitem">
+          <img src="/integrations/onedrive.svg" alt="" width="32" height="32" class="integrations-tile-logo" />
+          <span class="integrations-tile-name">OneDrive</span>
+        </div>
+        <div class="integrations-tile" role="listitem">
+          <img src="/integrations/box.svg" alt="" width="32" height="32" class="integrations-tile-logo" />
+          <span class="integrations-tile-name">Box</span>
+        </div>
+        <div class="integrations-tile" role="listitem">
+          <img src="/integrations/google.svg" alt="" width="32" height="32" class="integrations-tile-logo" />
+          <span class="integrations-tile-name">Google</span>
+        </div>
+        <div class="integrations-tile" role="listitem">
+          <img src="/integrations/zapier.svg" alt="" width="32" height="32" class="integrations-tile-logo" />
+          <span class="integrations-tile-name">Zapier</span>
+        </div>
+        <div class="integrations-tile" role="listitem">
+          <img src="/integrations/claude.svg" alt="" width="32" height="32" class="integrations-tile-logo" />
+          <span class="integrations-tile-name">Claude</span>
+        </div>
+        <div class="integrations-tile" role="listitem">
+          <img src="/integrations/openai.svg" alt="" width="32" height="32" class="integrations-tile-logo" />
+          <span class="integrations-tile-name">ChatGPT</span>
+        </div>
+        <div class="integrations-tile" role="listitem">
+          <img src="/integrations/grok.svg" alt="" width="32" height="32" class="integrations-tile-logo" />
+          <span class="integrations-tile-name">Grok</span>
+        </div>
+        <div class="integrations-tile" role="listitem">
+          <img src="/integrations/perplexity.svg" alt="" width="32" height="32" class="integrations-tile-logo" />
+          <span class="integrations-tile-name">Perplexity</span>
+        </div>
+        <div class="integrations-tile" role="listitem">
+          <img src="/integrations/cursor.svg" alt="" width="32" height="32" class="integrations-tile-logo" />
+          <span class="integrations-tile-name">Cursor</span>
+        </div>
+      </div>
+      <p class="integrations-footnote" data-i18n="home.integrations.footnote">QuickBooks Online y Xero importan facturas vencidas al aging. Dropbox, OneDrive, Box y Google importan PDFs de facturas (Google también desbloquea borradores de Gmail). Zapier y webhooks envían facturas vencidas. MCP conecta Claude, ChatGPT, Grok, Perplexity y Cursor a borradores de seguimiento.</p>
+      <div class="integrations-cta-wrap">
+        <a href="/docs/" class="integrations-cta" data-i18n="home.integrations.cta">Más información →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing (product) — eversign-style: features first, sticky prices -->
+  <section class="pricing wrap" id="pricing" data-cta-source="home_pricing">
+    <div class="pricing-compare">
+      <div class="price-table-wrap">
+        <table class="price-table">
+          <thead>
+            <tr>
+              <th scope="col"></th>
+              <th scope="col" data-i18n="home.pricing.planFree">Gratis</th>
+              <th scope="col" data-i18n="home.pricing.planSolo">Solo</th>
+              <th scope="col" class="col-pro">Pro<span class="popular-tag" data-i18n="home.pricing.popularTag">Más popular</span></th>
+              <th scope="col" data-i18n="home.pricing.planEnterprise">Enterprise</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td data-i18n="home.pricing.row.aiDrafts">Borradores con IA / mes</td>
+              <td><span class="plan-cell-text">5</span></td>
+              <td><span class="plan-cell-text">100</span></td>
+              <td class="col-pro"><span class="plan-cell-text" data-i18n="home.pricing.unlimited">Ilimitado</span></td>
+              <td><span class="plan-cell-text" data-i18n="home.pricing.unlimited">Ilimitado</span></td>
+            </tr>
+            <tr>
+              <td data-i18n="home.pricing.row.freeTemplates">Plantillas de correo gratis</td>
+              <td><span class="check" data-i18n-aria="a11y.included" aria-label="Incluido"></span></td>
+              <td><span class="check" data-i18n-aria="a11y.included" aria-label="Incluido"></span></td>
+              <td class="col-pro"><span class="check" data-i18n-aria="a11y.included" aria-label="Incluido"></span></td>
+              <td><span class="check" data-i18n-aria="a11y.included" aria-label="Incluido"></span></td>
+            </tr>
+            <tr>
+              <td data-i18n="home.pricing.row.toneMatched">Borradores con tono ajustado</td>
+              <td><span class="check" data-i18n-aria="a11y.included" aria-label="Incluido"></span></td>
+              <td><span class="check" data-i18n-aria="a11y.included" aria-label="Incluido"></span></td>
+              <td class="col-pro"><span class="check" data-i18n-aria="a11y.included" aria-label="Incluido"></span></td>
+              <td><span class="check" data-i18n-aria="a11y.included" aria-label="Incluido"></span></td>
+            </tr>
+            <tr>
+              <td data-i18n="home.pricing.row.toneAdjust">Suavizar / endurecer / acortar</td>
+              <td><span class="cross" data-i18n-aria="a11y.notIncluded" aria-label="No incluido">—</span></td>
+              <td><span class="check" data-i18n-aria="a11y.included" aria-label="Incluido"></span></td>
+              <td class="col-pro"><span class="check" data-i18n-aria="a11y.included" aria-label="Incluido"></span></td>
+              <td><span class="check" data-i18n-aria="a11y.included" aria-label="Incluido"></span></td>
+            </tr>
+            <tr>
+              <td data-i18n="home.pricing.row.thankYouReply">Borradores de agradecimiento y respuesta con IA</td>
+              <td><span class="cross" data-i18n-aria="a11y.notIncluded" aria-label="No incluido">—</span></td>
+              <td><span class="check" data-i18n-aria="a11y.included" aria-label="Incluido"></span></td>
+              <td class="col-pro"><span class="check" data-i18n-aria="a11y.included" aria-label="Incluido"></span></td>
+              <td><span class="check" data-i18n-aria="a11y.included" aria-label="Incluido"></span></td>
+            </tr>
+            <tr>
+              <td data-i18n="home.pricing.row.chasePlans">Planes de seguimiento en 3 pasos con IA</td>
+              <td><span class="cross" data-i18n-aria="a11y.notIncluded" aria-label="No incluido">—</span></td>
+              <td><span class="check" data-i18n-aria="a11y.included" aria-label="Incluido"></span></td>
+              <td class="col-pro"><span class="check" data-i18n-aria="a11y.included" aria-label="Incluido"></span></td>
+              <td><span class="check" data-i18n-aria="a11y.included" aria-label="Incluido"></span></td>
+            </tr>
+            <tr>
+              <td data-i18n="home.pricing.row.reminderCalendar">Calendario de recordatorios (copiar siguiente / marcar hecho)</td>
+              <td><span class="cross" data-i18n-aria="a11y.notIncluded" aria-label="No incluido">—</span></td>
+              <td><span class="check" data-i18n-aria="a11y.included" aria-label="Incluido"></span></td>
+              <td class="col-pro"><span class="check" data-i18n-aria="a11y.included" aria-label="Incluido"></span></td>
+              <td><span class="check" data-i18n-aria="a11y.included" aria-label="Incluido"></span></td>
+            </tr>
+            <tr>
+              <td data-i18n="home.pricing.row.emailTracking">Seguimiento de apertura / clic (HTML rastreado)</td>
+              <td><span class="cross" data-i18n-aria="a11y.notIncluded" aria-label="No incluido">—</span></td>
+              <td><span class="check" data-i18n-aria="a11y.included" aria-label="Incluido"></span></td>
+              <td class="col-pro"><span class="check" data-i18n-aria="a11y.included" aria-label="Incluido"></span></td>
+              <td><span class="check" data-i18n-aria="a11y.included" aria-label="Incluido"></span></td>
+            </tr>
+            <tr>
+              <td data-i18n="home.pricing.row.smsWhatsapp">Borradores SMS / WhatsApp (copiar / abrir enlace)</td>
+              <td><span class="cross" data-i18n-aria="a11y.notIncluded" aria-label="No incluido">—</span></td>
+              <td><span class="check" data-i18n-aria="a11y.included" aria-label="Incluido"></span></td>
+              <td class="col-pro"><span class="check" data-i18n-aria="a11y.included" aria-label="Incluido"></span></td>
+              <td><span class="check" data-i18n-aria="a11y.included" aria-label="Incluido"></span></td>
+            </tr>
+            <tr>
+              <td data-i18n="home.pricing.row.qboXero">OAuth nativo QuickBooks Online + Xero</td>
+              <td><span class="cross" data-i18n-aria="a11y.notIncluded" aria-label="No incluido">—</span></td>
+              <td><span class="check" data-i18n-aria="a11y.included" aria-label="Incluido"></span></td>
+              <td class="col-pro"><span class="check" data-i18n-aria="a11y.included" aria-label="Incluido"></span></td>
+              <td><span class="check" data-i18n-aria="a11y.included" aria-label="Incluido"></span></td>
+            </tr>
+            <tr>
+              <td data-i18n="home.pricing.row.teamSeats">Usuarios del equipo / roles</td>
+              <td><span class="cross" data-i18n-aria="a11y.notIncluded" aria-label="No incluido">—</span></td>
+              <td><span class="plan-cell-text" data-i18n="home.pricing.seats3">3 usuarios</span></td>
+              <td class="col-pro"><span class="plan-cell-text" data-i18n="home.pricing.seats5">5 usuarios</span></td>
+              <td><span class="plan-cell-text" data-i18n="home.pricing.unlimited">Ilimitado</span></td>
+            </tr>
+            <tr>
+              <td data-i18n="home.pricing.row.lateFeeHint">Sugerencia de recargo por mora en borradores</td>
+              <td><span class="cross" data-i18n-aria="a11y.notIncluded" aria-label="No incluido">—</span></td>
+              <td><span class="check" data-i18n-aria="a11y.included" aria-label="Incluido"></span></td>
+              <td class="col-pro"><span class="check" data-i18n-aria="a11y.included" aria-label="Incluido"></span></td>
+              <td><span class="check" data-i18n-aria="a11y.included" aria-label="Incluido"></span></td>
+            </tr>
+            <tr>
+              <td data-i18n="home.pricing.row.csvUpload">Carga CSV (QBO, FreshBooks, Xero, Wave, Zoho, sevDesk…)</td>
+              <td><span class="check" data-i18n-aria="a11y.included" aria-label="Incluido"></span></td>
+              <td><span class="check" data-i18n-aria="a11y.included" aria-label="Incluido"></span></td>
+              <td class="col-pro"><span class="check" data-i18n-aria="a11y.included" aria-label="Incluido"></span></td>
+              <td><span class="check" data-i18n-aria="a11y.included" aria-label="Incluido"></span></td>
+            </tr>
+            <tr>
+              <td data-i18n="home.pricing.row.agingBoard">Tablero de antigüedad</td>
+              <td><span class="check" data-i18n-aria="a11y.included" aria-label="Incluido"></span></td>
+              <td><span class="check" data-i18n-aria="a11y.included" aria-label="Incluido"></span></td>
+              <td class="col-pro"><span class="check" data-i18n-aria="a11y.included" aria-label="Incluido"></span></td>
+              <td><span class="check" data-i18n-aria="a11y.included" aria-label="Incluido"></span></td>
+            </tr>
+            <tr>
+              <td data-i18n="home.pricing.row.multiInvoice">Borrador de seguimiento multi-factura</td>
+              <td><span class="check" data-i18n-aria="a11y.included" aria-label="Incluido"></span></td>
+              <td><span class="check" data-i18n-aria="a11y.included" aria-label="Incluido"></span></td>
+              <td class="col-pro"><span class="check" data-i18n-aria="a11y.included" aria-label="Incluido"></span></td>
+              <td><span class="check" data-i18n-aria="a11y.included" aria-label="Incluido"></span></td>
+            </tr>
+            <tr>
+              <td data-i18n="home.pricing.row.paymentLink">Enlace de pago en borradores</td>
+              <td><span class="plan-cell-text" data-i18n="home.pricing.session">Sesión</span></td>
+              <td><span class="plan-cell-text" data-i18n="home.pricing.accountDefault">Predeterminado de cuenta</span></td>
+              <td class="col-pro"><span class="check" data-i18n-aria="a11y.included" aria-label="Incluido"></span></td>
+              <td><span class="check" data-i18n-aria="a11y.included" aria-label="Incluido"></span></td>
+            </tr>
+            <tr>
+              <td data-i18n="home.pricing.row.clientMgmt">Gestión de clientes</td>
+              <td><span class="cross" data-i18n-aria="a11y.notIncluded" aria-label="No incluido">—</span></td>
+              <td><span class="check" data-i18n-aria="a11y.included" aria-label="Incluido"></span></td>
+              <td class="col-pro"><span class="check" data-i18n-aria="a11y.included" aria-label="Incluido"></span></td>
+              <td><span class="check" data-i18n-aria="a11y.included" aria-label="Incluido"></span></td>
+            </tr>
+            <tr>
+              <td data-i18n="home.pricing.row.csvExport">Exportación CSV de borradores</td>
+              <td><span class="cross" data-i18n-aria="a11y.notIncluded" aria-label="No incluido">—</span></td>
+              <td><span class="check" data-i18n-aria="a11y.included" aria-label="Incluido"></span></td>
+              <td class="col-pro"><span class="check" data-i18n-aria="a11y.included" aria-label="Incluido"></span></td>
+              <td><span class="check" data-i18n-aria="a11y.included" aria-label="Incluido"></span></td>
+            </tr>
+            <tr>
+              <td data-i18n="home.pricing.row.scheduleTips">Consejos de calendario de seguimiento</td>
+              <td><span class="check" data-i18n-aria="a11y.included" aria-label="Incluido"></span></td>
+              <td><span class="check" data-i18n-aria="a11y.included" aria-label="Incluido"></span></td>
+              <td class="col-pro"><span class="check" data-i18n-aria="a11y.included" aria-label="Incluido"></span></td>
+              <td><span class="check" data-i18n-aria="a11y.included" aria-label="Incluido"></span></td>
+            </tr>
+            <tr>
+              <td data-i18n="home.pricing.row.prioritySupport">Soporte prioritario</td>
+              <td><span class="cross" data-i18n-aria="a11y.notIncluded" aria-label="No incluido">—</span></td>
+              <td><span class="cross" data-i18n-aria="a11y.notIncluded" aria-label="No incluido">—</span></td>
+              <td class="col-pro"><span class="check" data-i18n-aria="a11y.included" aria-label="Incluido"></span></td>
+              <td><span class="check" data-i18n-aria="a11y.included" aria-label="Incluido"></span></td>
+            </tr>
+            <tr>
+              <td data-i18n="home.pricing.row.zapierApi">API Zapier / Make (QBO, FreshBooks, Xero, Wave, Zoho…)</td>
+              <td><span class="cross" data-i18n-aria="a11y.notIncluded" aria-label="No incluido">—</span></td>
+              <td><span class="check" data-i18n-aria="a11y.included" aria-label="Incluido"></span></td>
+              <td class="col-pro"><span class="check" data-i18n-aria="a11y.included" aria-label="Incluido"></span></td>
+              <td><span class="check" data-i18n-aria="a11y.included" aria-label="Incluido"></span></td>
+            </tr>
+            <tr>
+              <td data-i18n="home.pricing.row.cloudStorage">Almacenamiento en la nube — Dropbox, OneDrive, Box · importación PDF</td>
+              <td><span class="cross" data-i18n-aria="a11y.notIncluded" aria-label="No incluido">—</span></td>
+              <td><span class="check" data-i18n-aria="a11y.included" aria-label="Incluido"></span></td>
+              <td class="col-pro"><span class="check" data-i18n-aria="a11y.included" aria-label="Incluido"></span></td>
+              <td><span class="check" data-i18n-aria="a11y.included" aria-label="Incluido"></span></td>
+            </tr>
+            <tr>
+              <td data-i18n="home.pricing.row.dedicatedDashboard">Panel de seguimiento dedicado</td>
+              <td><span class="cross" data-i18n-aria="a11y.notIncluded" aria-label="No incluido">—</span></td>
+              <td><span class="cross" data-i18n-aria="a11y.notIncluded" aria-label="No incluido">—</span></td>
+              <td class="col-pro"><span class="cross" data-i18n-aria="a11y.notIncluded" aria-label="No incluido">—</span></td>
+              <td><span class="check" data-i18n-aria="a11y.included" aria-label="Incluido"></span></td>
+            </tr>
+            <tr>
+              <td data-i18n="home.pricing.row.customTone">Tono / volumen personalizado</td>
+              <td><span class="cross" data-i18n-aria="a11y.notIncluded" aria-label="No incluido">—</span></td>
+              <td><span class="cross" data-i18n-aria="a11y.notIncluded" aria-label="No incluido">—</span></td>
+              <td class="col-pro"><span class="cross" data-i18n-aria="a11y.notIncluded" aria-label="No incluido">—</span></td>
+              <td><span class="muted" data-i18n="home.pricing.customScoped">Sí — definido contigo</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="pricing-sticky-bar" data-i18n-aria="home.pricing.planPrices" aria-label="Precios de planes">
+        <div class="pricing-sticky-spacer" aria-hidden="true"></div>
+        <div class="pricing-sticky-col">
+          <div class="pricing-sticky-name" data-i18n="home.pricing.planFree">Gratis</div>
+          <div class="pricing-sticky-price">$0<span class="pricing-sticky-note" data-i18n="home.pricing.forever">para siempre</span></div>
+          <a class="pricing-sticky-cta signal" href="/app/" data-i18n="home.pricing.startFree">Empezar gratis</a>
+        </div>
+        <div class="pricing-sticky-col">
+          <div class="pricing-sticky-name" data-i18n="home.pricing.planSolo">Solo</div>
+          <div class="pricing-sticky-price">$7<span class="pricing-sticky-note" data-i18n="home.pricing.perMonth">al mes</span></div>
+          <a class="pricing-sticky-cta" href="/app/account" data-i18n="home.pricing.getSolo">Obtener Solo</a>
+        </div>
+        <div class="pricing-sticky-col is-pro">
+          <div class="pricing-sticky-name" data-i18n="home.pricing.planPro">Pro</div>
+          <div class="pricing-sticky-price">$17<span class="pricing-sticky-note" data-i18n="home.pricing.perMonth">al mes</span></div>
+          <a class="pricing-sticky-cta featured" href="/app/account" data-i18n="home.pricing.getPro">Obtener Pro</a>
+        </div>
+        <div class="pricing-sticky-col">
+          <div class="pricing-sticky-name" data-i18n="home.pricing.planEnterprise">Enterprise</div>
+          <div class="pricing-sticky-price">Custom<span class="pricing-sticky-note" data-i18n="home.pricing.billedYearly">facturación anual</span></div>
+          <a class="pricing-sticky-cta" href="#contact-sales" data-sales-mail data-sales-subject="Chasa Enterprise" data-i18n="home.pricing.contactSales">Contactar ventas</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+<!-- [COMPARE] -->
+  <section class="section wrap" id="compare">
+    <h2 id="price-comparison">Price comparison</h2>
+    <p>Chasa Solo is a flat <strong>$7/mo</strong> per workspace (Pro $17). Use the slider to estimate what the same team size costs on entry plans from each competitor.</p>
+    <div class="pc-panel" data-price-compare>
+      <div class="pc-slider-card">
+        <div class="pc-slider-label">Team size</div>
+        <div class="pc-slider-value"><strong data-pc-count>5</strong><span>people</span></div>
+        <input class="pc-range" data-pc-slider type="range" min="1" max="20" value="5" aria-label="Team size" />
+        <div class="pc-range-ends"><span>1</span><span>20</span></div>
+      </div>
+
+      <div class="pc-row pc-row-chasa">
+        <div class="pc-row-main">
+          <div class="pc-row-name">Chasa Solo</div>
+          <div class="pc-row-formula">Flat workspace fee · Pro is $17/mo, also flat</div>
+        </div>
+        <div class="pc-row-nums">
+          <div class="pc-total">$7<small>/mo</small></div>
+        </div>
+      </div>
+
+      <div class="pc-row" data-pc-comp="chaser">
+        <div class="pc-row-main">
+          <div class="pc-row-name">
+            <span data-pc-title>Chaser Compact</span>
+            <a class="pc-row-link" href="/blog/invoice-chase-software-comparison/#compare-chaser">vs Chaser →</a>
+          </div>
+          <div class="pc-row-formula" data-pc-formula></div>
+        </div>
+        <div class="pc-row-nums">
+          <span class="pc-delta" data-pc-delta></span>
+          <div class="pc-total" data-pc-total></div>
+        </div>
+      </div>
+
+      <div class="pc-row" data-pc-comp="paidnice">
+        <div class="pc-row-main">
+          <div class="pc-row-name">
+            <span data-pc-title>Paidnice Essentials</span>
+            <a class="pc-row-link" href="/blog/invoice-chase-software-comparison/#compare-paidnice">vs Paidnice →</a>
+          </div>
+          <div class="pc-row-formula" data-pc-formula></div>
+        </div>
+        <div class="pc-row-nums">
+          <span class="pc-delta" data-pc-delta></span>
+          <div class="pc-total" data-pc-total></div>
+        </div>
+      </div>
+
+      <div class="pc-row" data-pc-comp="duefy">
+        <div class="pc-row-main">
+          <div class="pc-row-name">
+            <span data-pc-title>Duefy Solo</span>
+            <a class="pc-row-link" href="/blog/invoice-chase-software-comparison/#compare-duefy">vs Duefy →</a>
+          </div>
+          <div class="pc-row-formula" data-pc-formula></div>
+        </div>
+        <div class="pc-row-nums">
+          <span class="pc-delta" data-pc-delta></span>
+          <div class="pc-total" data-pc-total></div>
+        </div>
+      </div>
+
+      <div class="pc-row" data-pc-comp="satago">
+        <div class="pc-row-main">
+          <div class="pc-row-name">
+            <span data-pc-title>Satago Basic</span>
+            <a class="pc-row-link" href="/blog/invoice-chase-software-comparison/#compare-satago">vs Satago →</a>
+          </div>
+          <div class="pc-row-formula" data-pc-formula></div>
+        </div>
+        <div class="pc-row-nums">
+          <span class="pc-delta" data-pc-delta></span>
+          <div class="pc-total" data-pc-total></div>
+        </div>
+      </div>
+
+      <div class="pc-row" data-pc-comp="chaseai">
+        <div class="pc-row-main">
+          <div class="pc-row-name">
+            <span data-pc-title>ChaseAI Starter</span>
+            <a class="pc-row-link" href="/blog/invoice-chase-software-comparison/#compare-chaseai">vs ChaseAI →</a>
+          </div>
+          <div class="pc-row-formula" data-pc-formula></div>
+        </div>
+        <div class="pc-row-nums">
+          <span class="pc-delta" data-pc-delta></span>
+          <div class="pc-total" data-pc-total></div>
+        </div>
+      </div>
+    </div>
+    <p class="pc-note">Figures use published list prices (USD where available; Satago converted from GBP at ~$1.28). Competitors often include auto-send, SMS, or payment portals Chasa does not. Chasa never emails your clients — you send every draft yourself. <a href="/blog/invoice-chase-software-comparison/">See the full comparison →</a></p>
+  </section>
+
+<!-- [FAQ] -->
+  <section class="faq wrap" id="faq">
+    <h2 data-i18n="home.faq.title">Preguntas frecuentes</h2>
+    <div class="faq-list">
+      <details class="faq-item">
+        <summary data-i18n="home.faq.q1">¿Qué es Chasa?</summary>
+        <p data-i18n="home.faq.a1">Una herramienta de seguimiento de facturas con IA. Pega facturas impagas y recibe correos de recordatorio de pago redactados con el tono correcto según cuánto llevan de retraso.</p>
+      </details>
+      <details class="faq-item">
+        <summary data-i18n="home.faq.q2">¿Necesito una cuenta?</summary>
+        <p data-i18n-html="home.faq.a2">No — Gratis funciona sin registro (5 borradores con IA al mes + plantillas). Inicia sesión para pasar a Solo ($7) o Pro ($17). Para Enterprise (personalizado, facturación anual), escribe a <a href="mailto:sales@chasa.io">sales@chasa.io</a>.</p>
+      </details>
+      <details class="faq-item">
+        <summary data-i18n="home.faq.q3">¿Chasa envía correos por mí?</summary>
+        <p data-i18n="home.faq.a3">No. Copias el borrador en tu propia bandeja (o abres un enlace mailto). Tus clientes te escuchan a ti, no a nosotros.</p>
+      </details>
+      <details class="faq-item">
+        <summary data-i18n="home.faq.q4">¿Chasa se conecta con QuickBooks, FreshBooks o Xero?</summary>
+        <p data-i18n-html="home.faq.a4">Sí para <strong>QuickBooks Online</strong> y <strong>Xero</strong> en Solo y superiores — OAuth nativo en <a href="/app/connector">Connector</a> importa facturas vencidas al tablero de antigüedad. <strong>FreshBooks</strong> y Wave: crea una clave API y usa nuestra plantilla de Zapier, o exporta CSV y súbelo en la Herramienta (encabezados mapeados automáticamente, también en Gratis). Importación de PDF desde almacenamiento en la nube (Dropbox, OneDrive, Box) también es Solo+.</p>
+      </details>
+      <details class="faq-item">
+        <summary data-i18n="home.faq.q5">¿Cómo funciona el tono?</summary>
+        <p data-i18n="home.faq.a5">Amable con menos de una semana de retraso, profesional de 8 a 30 días, directo después de 30 días. Misma factura, tono escalonado — sin elegir plantilla.</p>
+      </details>
+      <details class="faq-item">
+        <summary data-i18n="home.faq.q6">¿Quién está detrás de Chasa?</summary>
+        <p data-i18n-html="home.faq.a6">Chasa es un producto de RELACON GmbH en Viena. Consulta <a href="/about">Nosotros</a> y el <a href="/imprint">Aviso legal</a>.</p>
+      </details>
+    </div>
+  </section>
+</main>
+
+<div class="how-modal-backdrop" id="how-modal" hidden>
+  <div class="how-modal" role="dialog" aria-modal="true" aria-labelledby="how-modal-title">
+    <h2 id="how-modal-title" class="sr-only" data-i18n="home.hero.videoTitle">Cómo funciona Chasa — cobra facturas en menos de un minuto</h2>
+    <button type="button" class="how-modal-close" data-close-how-video data-i18n-aria="home.hero.videoClose" aria-label="Cerrar video">×</button>
+    <video
+      id="how-modal-video"
+      class="how-modal-video"
+      src="/videos/how-it-works.webm?v=20260804e"
+<section class="next-steps-band">
+  <div class="wrap next-steps-inner">
+    <h3 class="next-steps-title">Next Steps</h3>
+    <div class="next-steps-grid">
+      <a href="/es/#pricing" class="next-step-card">
+        <h4>See pricing →</h4>
+        <p>Transparent flat pricing starting at $0/mo for freelancers and teams.</p>
+      </a>
+      <a href="/features/" class="next-step-card">
+        <h4>See features →</h4>
+        <p>Discover AI tone escalations, QuickBooks & Xero sync, and CRM tools.</p>
+      </a>
+      <a href="/use-cases/" class="next-step-card">
+        <h4>See use cases →</h4>
+        <p>Explore high-intent workflows for risk scoring, audits, and compliance.</p>
+      </a>
+      <a href="/app/" class="next-step-card next-step-primary">
+        <h4>Signup & try free →</h4>
+        <p>Get your unpaid invoice follow-up drafted in seconds without signup.</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="wrap site-footer-inner">
+    <div class="site-footer-brand">
+      <a href="/es/" class="logo" aria-label="Chasa home"><img class="logo-mark" src="/brand/chasa-icon.png" alt="Chasa" width="24" height="24" /><span class="logo-word">chasa</span></a>
+      <p data-i18n="footer.tagline">Seguimientos de facturas con IA gratis — pega facturas impagas y recibe el correo de recordatorio ya redactado.</p>
+    </div>
+    <div class="site-footer-col">
+      <h4 data-i18n="footer.product">Producto</h4>
+      <a href="/es/" data-i18n="footer.home">Homepage</a>
+      <a href="/es/#pricing" data-i18n="footer.pricing">Precios</a>
+      <a href="/features/" data-i18n="footer.features">Funciones</a>
+      <a href="/use-cases/" data-i18n="footer.useCases">Use Cases</a>
+      <a href="/es/blog/" data-i18n="footer.blog">Blog</a>
+      <a href="/docs/" data-i18n="footer.docs">Docs</a>
+      <a href="/free-templates/" data-i18n="footer.templates">Plantillas gratis</a>
+      <a href="/tools/" data-i18n="footer.calculators">Calculadoras</a>
+      <a href="/ai" data-i18n="footer.ai">IA</a>
+    </div>
+    <div class="site-footer-col">
+      <h4 data-i18n="footer.useCasesHeader">Use Cases</h4>
+      <a href="/use-cases/risk-scoring-automation">Risk Scoring</a>
+      <a href="/use-cases/audit-ready-workflows">Audit Workflows</a>
+      <a href="/use-cases/sox-evidence-automation">SOX AR Evidence</a>
+      <a href="/use-cases/compliance-dashboard">Compliance Board</a>
+      <a href="/use-cases/chasa-certificate-monitoring">Certificate Proof</a>
+      <a href="/use-cases/document-signing-api">Follow-up API</a>
+    </div>
+    <div class="site-footer-col">
+      <h4 data-i18n="footer.compareCol">Comparar</h4>
+      <a href="/chasa-vs-chaser" data-i18n="footer.vsChaser">vs Chaser</a>
+      <a href="/chasa-vs-paidnice" data-i18n="footer.vsPaidnice">vs Paidnice</a>
+      <a href="/chasa-vs-duefy" data-i18n="footer.vsDuefy">vs Duefy</a>
+      <a href="/chasa-vs-satago" data-i18n="footer.vsSatago">vs Satago</a>
+      <a href="/chasa-vs-chaseai" data-i18n="footer.vsChaseai">vs ChaseAI</a>
+      <a href="/switch-to-chasa" data-i18n="footer.switch">Cambiarse a Chasa</a>
+    </div>
+    <div class="site-footer-col">
+      <h4 data-i18n="footer.company">Empresa</h4>
+      <a href="/about">About</a>
+      <a href="/press" data-i18n="footer.press">Prensa</a>
+      <a href="/imprint">Imprint</a>
+      <a href="mailto:founder@chasa.io" data-i18n="footer.contact">Contacto</a>
+      <a href="https://www.linkedin.com/company/chasa-io" target="_blank" rel="noopener noreferrer" data-i18n="footer.linkedin">LinkedIn</a>
+    </div>
+    <div class="site-footer-col">
+      <h4 data-i18n="footer.legal">Legal</h4>
+      <a href="/es/privacy" data-i18n="footer.privacy">Privacidad</a>
+      <a href="/es/terms" data-i18n="footer.terms">Términos</a>
+      <a href="/sitemap.xml" data-i18n="footer.sitemap">Mapa del sitio</a>
+      <a href="/blog/feed.xml" data-i18n="footer.rss">RSS</a>
+    </div>
+  </div>
+  <div class="site-footer-bottom" data-i18n-year="footer.copyright">© 2026 Chasa — a product of RELACON GmbH</div>
+</footer>
+
+<div class="how-modal-backdrop" id="how-modal" hidden>
+  <div class="how-modal" role="dialog" aria-modal="true" aria-labelledby="how-modal-title">
+    <h2 id="how-modal-title" class="sr-only" data-i18n="home.hero.videoTitle">Cómo funciona Chasa — cobra facturas en menos de un minuto</h2>
+    <button type="button" class="how-modal-close" data-close-how-video data-i18n-aria="home.hero.videoClose" aria-label="Cerrar video">×</button>
+    <video
+      id="how-modal-video"
+      class="how-modal-video"
+      src="/videos/how-it-works.webm?v=20260804e"
+      poster="/videos/how-it-works-poster.jpg?v=20260804e"
+      controls
+      playsinline
+      preload="metadata"
+    >
+      <track kind="captions" src="/videos/how-it-works.en.vtt" srclang="en" label="English" default />
+      <track kind="captions" src="/videos/how-it-works.es.vtt" srclang="es" label="Español" />
+    </video>
+  </div>
+</div>
+
+<script src="/site-lang.js?v=20260804k" defer></script>
+<script src="/site-nav.js?v=20260804k" defer></script>
+<script src="/price-compare.js" defer></script>
+<script src="/cookie-consent.js"></script>
+<script src="/assistant.js?v=20260804k"></script>
+<script>
+  (function () {
+    /* Contact sales → Chasa Assistant with sales intent (Docracy pattern). */
+    document.addEventListener("click", function (e) {
+      var el = e.target && e.target.closest
+        ? e.target.closest("[data-sales-mail], .header-nav-sales, a[data-i18n='nav.contactSales'], a[data-i18n='home.pricing.contactSales']")
+        : null;
+      if (!el) return;
+      e.preventDefault();
+      window.dispatchEvent(new CustomEvent("chasa:open-chat", { detail: { intent: "sales" } }));
+    }, true);
+
+    var form = document.getElementById("hero-signup");
+    if (form) {
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        var input = form.querySelector('input[name="email"]');
+        var email = input && input.value ? String(input.value).trim() : "";
+        if (!email) {
+          if (input) input.focus();
+          return;
+        }
+        var next = encodeURIComponent("/app/");
+        // Prefill login + auto-send magic link (account is created when they click the email).
+        window.location.href =
+          "/app/login?email=" + encodeURIComponent(email) + "&start=1&next=" + next;
+      });
+    }
+
+    var modal = document.getElementById("how-modal");
+    var video = document.getElementById("how-modal-video");
+    if (!modal || !video) return;
+
+    function openHow() {
+      modal.hidden = false;
+      modal.classList.add("is-open");
+      document.body.style.overflow = "hidden";
+      if (window.location.hash !== "#watch-how-it-works") {
+        history.replaceState(null, "", "#watch-how-it-works");
+      }
+      video.currentTime = 0;
+      var play = video.play();
+      if (play && play.catch) play.catch(function () {});
+    }
+
+    function closeHow() {
+      video.pause();
+      modal.classList.remove("is-open");
+      modal.hidden = true;
+      document.body.style.overflow = "";
+      if (window.location.hash === "#watch-how-it-works") {
+        history.replaceState(null, "", window.location.pathname + window.location.search);
+      }
+    }
+
+    document.querySelectorAll("[data-open-how-video]").forEach(function (btn) {
+      btn.addEventListener("click", openHow);
+    });
+    document.querySelectorAll("[data-close-how-video]").forEach(function (btn) {
+      btn.addEventListener("click", closeHow);
+    });
+    modal.addEventListener("click", function (e) {
+      if (e.target === modal) closeHow();
+    });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && modal.classList.contains("is-open")) closeHow();
+    });
+    if (window.location.hash === "#watch-how-it-works") openHow();
+    window.addEventListener("hashchange", function () {
+      if (window.location.hash === "#watch-how-it-works") openHow();
+    });
+  })();
+</script>
+
+</body>
+</html>
