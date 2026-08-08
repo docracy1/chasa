@@ -1872,6 +1872,7 @@ textarea {
   border-radius: 12px;
   background: color-mix(in srgb, var(--paper) 70%, var(--white));
   padding: 18px 20px;
+  box-shadow: 0 1px 3px rgba(42, 20, 16, 0.06);
 }
 .dash-stat-label {
   display: block;
@@ -1883,9 +1884,10 @@ textarea {
   margin-bottom: 8px;
 }
 .dash-stat strong {
-  font-family: 'Fraunces', serif;
-  font-size: 36px;
-  font-weight: 600;
+  /* Plain sans, not the marketing site's Fraunces display serif — this is a data
+     dashboard, not a landing page, and the serif read inconsistent next to it. */
+  font-size: 28px;
+  font-weight: 700;
   line-height: 1;
 }
 .dash-card {
@@ -1894,6 +1896,7 @@ textarea {
   background: color-mix(in srgb, var(--paper) 55%, var(--white));
   padding: 20px 22px;
   margin-bottom: 16px;
+  box-shadow: 0 1px 3px rgba(42, 20, 16, 0.06);
 }
 .dash-card-title {
   font-size: 17px;
