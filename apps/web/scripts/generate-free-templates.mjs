@@ -9,7 +9,7 @@ import { fileURLToPath } from "node:url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const outDir = join(__dirname, "../public/free-templates");
-const ASSET_V = "20260804d";
+const ASSET_V = "20260804k";
 
 /** Category order controls both the "Categories" jump menu and section order on the page. */
 const CATEGORIES = [
@@ -451,7 +451,7 @@ ${jsonLd ? `<script type="application/ld+json">\n${jsonLd}\n</script>` : ""}
       <a href="/tools/" class="header-nav-link header-nav-collapse">Tools</a>
       <a href="/ai" class="header-nav-link header-nav-collapse${activeNav === "ai" ? " header-nav-strong" : ""}">AI</a>
       <a href="/about" class="header-nav-link header-nav-collapse">About</a>
-      <a href="mailto:sales@chasa.io?subject=Chasa%20sales" class="header-nav-sales header-nav-collapse">Contact sales</a>
+      <a href="#contact-sales" class="header-nav-sales header-nav-collapse" data-sales-mail data-sales-subject="Chasa sales">Contact sales</a>
       <a href="/app/" class="nav-cta">Try free</a>
       <a href="/app/login" class="header-login-btn header-nav-collapse">Sign in</a>
       <button class="header-menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" data-menu-toggle>
@@ -475,7 +475,7 @@ ${jsonLd ? `<script type="application/ld+json">\n${jsonLd}\n</script>` : ""}
   <div class="mobile-panel-ctas">
     <a href="/app/" class="mobile-panel-cta-primary">Try free</a>
     <a href="/app/login" class="mobile-panel-cta-secondary">Sign in</a>
-    <a href="mailto:sales@chasa.io?subject=Chasa%20sales" class="mobile-panel-cta-secondary">Contact sales</a>
+    <a href="#contact-sales" class="mobile-panel-cta-secondary" data-sales-mail data-sales-subject="Chasa sales">Contact sales</a>
   </div>
 </div>
 ${mainHtml}
@@ -520,6 +520,17 @@ ${mainHtml}
 </footer>
 <script src="/site-nav.js?v=${ASSET_V}"></script>
 <script src="/analytics.js"></script>
+<script src="/assistant.js?v=${ASSET_V}"></script>
+<script>
+(function () {
+  document.addEventListener("click", function (e) {
+    var el = e.target && e.target.closest ? e.target.closest("[data-sales-mail], .header-nav-sales") : null;
+    if (!el) return;
+    e.preventDefault();
+    window.dispatchEvent(new CustomEvent("chasa:open-chat", { detail: { intent: "sales" } }));
+  }, true);
+})();
+</script>
 </body>
 </html>
 `;

@@ -35,6 +35,7 @@ export interface Account {
   lateFeeEnabled?: boolean;
   lateFeeHint?: string | null;
   digestEnabled?: boolean;
+  marketingOptIn?: boolean;
   role?: "admin" | "member";
   workspaceId?: string;
   /** True when email matches ADMIN_EMAIL — show Admin in the account menu. */
@@ -705,6 +706,13 @@ export function updateDigestSettings(digestEnabled: boolean) {
   return jsonFetch<{ digestEnabled: boolean }>("/account/digest", {
     method: "PATCH",
     body: JSON.stringify({ digestEnabled }),
+  });
+}
+
+export function updateMarketingOptIn(marketingOptIn: boolean) {
+  return jsonFetch<{ marketingOptIn: boolean }>("/account/marketing-opt-in", {
+    method: "PATCH",
+    body: JSON.stringify({ marketingOptIn }),
   });
 }
 

@@ -5,6 +5,7 @@ import {
   openBillingPortal,
   startCheckout,
   updateDigestSettings,
+  updateMarketingOptIn,
   type Account as AccountType,
 } from "../lib/api";
 import { track } from "../lib/analytics";
@@ -26,7 +27,7 @@ export default function Account({
   refresh: () => Promise<void>;
 }) {
   const t = useT();
-  const [busy, setBusy] = useState<"solo" | "pro" | "portal" | "digest" | null>(null);
+  const [busy, setBusy] = useState<"solo" | "pro" | "portal" | "digest" | "marketing" | null>(null);
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -117,6 +118,19 @@ export default function Account({
     }
   }
 
+  async function toggleMarketingOptIn() {
+    setBusy("marketing");
+    setError(null);
+    try {
+      await updateMarketingOptIn(!acc.marketingOptIn);
+      await refresh();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : t("common.error"));
+    } finally {
+      setBusy(null);
+    }
+  }
+
   return (
     <div className="panel account-panel">
       <h1>{t("account.title")}</h1>
@@ -171,6 +185,18 @@ export default function Account({
           </button>
         </section>
       )}
+
+      <section className="account-plan-section">
+        <h2 className="account-section-title">{t("account.marketingTitle")}</h2>
+        <p className="page-sub">{t("account.marketingBody")}</p>
+        <button className="btn-secondary" onClick={toggleMarketingOptIn} disabled={busy === "marketing"}>
+          {busy === "marketing"
+            ? t("common.saving")
+            : acc.marketingOptIn
+              ? t("account.marketingOn")
+              : t("account.marketingOff")}
+        </button>
+      </section>
 
       <section className="account-plan-section">
         <h2 className="account-section-title">{t("account.whatYouGet")}</h2>

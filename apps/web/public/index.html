@@ -115,7 +115,7 @@
   ]
 }
 </script>
-<link rel="stylesheet" href="/site.css?v=20260804d">
+<link rel="stylesheet" href="/site.css?v=20260804k">
 <style>
   html { scroll-behavior: smooth; }
 
@@ -210,12 +210,13 @@
     font-size: 15px;
     font-weight: 800;
     letter-spacing: 0.01em;
-    background: var(--accent);
-    color: #fff;
+    /* Hardcoded fallbacks — button must stay visible even if site.css vars lag CDN cache */
+    background: var(--signal, #00E8A8);
+    color: var(--on-signal, #04241C);
     white-space: nowrap;
-    transition: filter 0.15s ease;
+    transition: background 0.15s ease;
   }
-  .hero-signup-btn:hover { filter: brightness(0.95); }
+  .hero-signup-btn:hover { background: var(--signal-hover, #2AFFC0); }
   .hero-watch-btn {
     display: inline-flex;
     align-items: center;
@@ -749,6 +750,16 @@
     background: var(--accent);
     color: var(--white);
   }
+  .pricing-sticky-cta.signal {
+    background: var(--signal);
+    border-color: var(--signal);
+    color: var(--on-signal);
+  }
+  .pricing-sticky-cta.signal:hover {
+    background: var(--signal-hover);
+    border-color: var(--signal-hover);
+    color: var(--on-signal);
+  }
 
   @media (max-width: 900px) {
     .price-table-wrap {
@@ -957,24 +968,133 @@
 <header class="site-header">
   <div class="wrap site-header-inner">
     <a href="/" class="logo" aria-label="Chasa home"><img class="logo-mark" src="/brand/chasa-icon.png" alt="Chasa" width="28" height="28" /><span class="logo-word">chasa</span></a>
-    <div class="header-nav-right">
-      <a href="/#pricing" class="header-nav-link header-nav-collapse" data-i18n="nav.pricing">Pricing</a>
-      <a href="/blog/invoice-chase-software-comparison/" class="header-nav-link header-nav-collapse" data-i18n="nav.compare">Compare</a>
-      <a href="/free-templates/" class="header-nav-link header-nav-collapse" data-i18n="nav.templates">Free templates</a>
-      <a href="/tools/" class="header-nav-link header-nav-collapse" data-i18n="nav.tools">Tools</a>
-      <a href="/ai" class="header-nav-link header-nav-collapse" data-i18n="nav.ai">AI</a>
-      <div class="locale-switch" role="group" data-i18n-aria="nav.language">
-        <button type="button" data-locale="en" class="is-active">EN</button>
-        <span class="locale-switch-sep" aria-hidden="true">|</span>
-        <button type="button" data-locale="es">ES</button>
+    <nav class="header-nav-right">
+      <div class="nav-megamenu header-nav-collapse" data-mega-menu>
+        <button type="button" class="nav-megamenu-trigger header-nav-link" aria-haspopup="true" aria-expanded="false" data-mega-trigger>
+          <span data-i18n="nav.features">Features</span>
+          <svg class="nav-megamenu-chevron" width="10" height="10" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5L6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
+        </button>
+        <div class="nav-megamenu-panel" data-mega-panel hidden>
+          <div class="nav-megamenu-grid" style="grid-template-columns: repeat(2, 1fr)">
+            <a href="/features/ai-tone" class="nav-megamenu-item">
+              <span class="nav-megamenu-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8L12 3z" /></svg></span>
+              <span><span class="nav-megamenu-item-title" data-i18n="nav.mega.feature.ai.title">AI tone matching</span><span class="nav-megamenu-item-desc" data-i18n="nav.mega.feature.ai.desc">Friendly, professional, or direct — matched to days overdue.</span></span>
+            </a>
+            <a href="/features/templates" class="nav-megamenu-item">
+              <span class="nav-megamenu-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8" y="8" width="12" height="13" rx="1.5" /><path d="M4 15V4.5A1.5 1.5 0 0 1 5.5 3H15" /></svg></span>
+              <span><span class="nav-megamenu-item-title" data-i18n="nav.mega.feature.templates.title">18 free email templates</span><span class="nav-megamenu-item-desc" data-i18n="nav.mega.feature.templates.desc">Copy-paste reminders, no account required.</span></span>
+            </a>
+            <a href="/features/" class="nav-megamenu-item">
+              <span class="nav-megamenu-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.5 2.5L4 14h6l-1 7.5L20 10h-6l-1.5-7.5z" /></svg></span>
+              <span><span class="nav-megamenu-item-title" data-i18n="nav.mega.feature.chasePlans.title">AI chase plans</span><span class="nav-megamenu-item-desc" data-i18n="nav.mega.feature.chasePlans.desc">3-step follow-up sequences drafted automatically.</span></span>
+            </a>
+            <a href="/features/" class="nav-megamenu-item">
+              <span class="nav-megamenu-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7.5" width="18" height="12" rx="1.5" /><path d="M8 7.5V6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v1.5" /><path d="M3 12.5h18" /></svg></span>
+              <span><span class="nav-megamenu-item-title" data-i18n="nav.mega.feature.sync.title">Accounting sync</span><span class="nav-megamenu-item-desc" data-i18n="nav.mega.feature.sync.desc">CSV, QuickBooks, Xero, FreshBooks, Wave, Zoho.</span></span>
+            </a>
+            <a href="/#pricing" class="nav-megamenu-item">
+              <span class="nav-megamenu-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3" /><path d="M3.5 19.5c0-3 2.5-5.5 5.5-5.5s5.5 2.5 5.5 5.5" /><circle cx="17" cy="9" r="2.25" /><path d="M15.5 14.2c2.3.4 4 2.4 4 5.3" /></svg></span>
+              <span><span class="nav-megamenu-item-title" data-i18n="nav.mega.feature.team.title">Team access</span><span class="nav-megamenu-item-desc" data-i18n="nav.mega.feature.team.desc">Share chases and templates across your workspace.</span></span>
+            </a>
+            <a href="/privacy" class="nav-megamenu-item">
+              <span class="nav-megamenu-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v5.5c0 5-3.5 8-7 9.5-3.5-1.5-7-4.5-7-9.5V6l7-3z" /><path d="M9 12l2 2 4-4" /></svg></span>
+              <span><span class="nav-megamenu-item-title" data-i18n="nav.mega.feature.storage.title">Secure &amp; private</span><span class="nav-megamenu-item-desc" data-i18n="nav.mega.feature.storage.desc">Encrypted storage, short automatic retention.</span></span>
+            </a>
+          </div>
+          <div class="nav-megamenu-side">
+            <h4 data-i18n="footer.compareCol">Compare</h4>
+            <a href="/chasa-vs-chaser" class="nav-megamenu-item nav-megamenu-side-item">
+              <span class="nav-megamenu-icon nav-megamenu-icon-sm"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v18M7 8H3l3 6a3 3 0 0 0 4 0l-3-6zM21 8h-4l3 6a3 3 0 0 0 4 0l-3-6z" /><path d="M8 21h8" /></svg></span>
+              <span><span class="nav-megamenu-item-title" data-i18n="footer.vsChaser">vs Chaser</span><span class="nav-megamenu-item-desc" data-i18n="nav.mega.compare.chaser.desc">Lighter, no per-seat pricing.</span></span>
+            </a>
+            <a href="/chasa-vs-paidnice" class="nav-megamenu-item nav-megamenu-side-item">
+              <span class="nav-megamenu-icon nav-megamenu-icon-sm"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v18M7 8H3l3 6a3 3 0 0 0 4 0l-3-6zM21 8h-4l3 6a3 3 0 0 0 4 0l-3-6z" /><path d="M8 21h8" /></svg></span>
+              <span><span class="nav-megamenu-item-title" data-i18n="footer.vsPaidnice">vs Paidnice</span><span class="nav-megamenu-item-desc" data-i18n="nav.mega.compare.paidnice.desc">Free AI drafts, not just Shopify dunning.</span></span>
+            </a>
+            <a href="/chasa-vs-duefy" class="nav-megamenu-item nav-megamenu-side-item">
+              <span class="nav-megamenu-icon nav-megamenu-icon-sm"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v18M7 8H3l3 6a3 3 0 0 0 4 0l-3-6zM21 8h-4l3 6a3 3 0 0 0 4 0l-3-6z" /><path d="M8 21h8" /></svg></span>
+              <span><span class="nav-megamenu-item-title" data-i18n="footer.vsDuefy">vs Duefy</span><span class="nav-megamenu-item-desc" data-i18n="nav.mega.compare.duefy.desc">Tone-matched AI, not template-only reminders.</span></span>
+            </a>
+            <a href="/blog/invoice-chase-software-comparison/" class="nav-megamenu-side-footer" data-i18n="footer.compare">See all comparisons →</a>
+          </div>
+        </div>
       </div>
-      <a href="mailto:sales@chasa.io?subject=Chasa%20sales" class="header-nav-sales header-nav-collapse" data-i18n="nav.contactSales">Contact sales</a>
+      <a href="/#pricing" class="header-nav-link header-nav-collapse" data-i18n="nav.pricing">Pricing</a>
+      <div class="nav-megamenu header-nav-collapse" data-mega-menu>
+        <button type="button" class="nav-megamenu-trigger header-nav-link" aria-haspopup="true" aria-expanded="false" data-mega-trigger>
+          <span data-i18n="nav.useCases">Use Cases</span>
+          <svg class="nav-megamenu-chevron" width="10" height="10" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5L6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
+        </button>
+        <div class="nav-megamenu-panel" data-mega-panel hidden>
+          <div class="nav-megamenu-grid" style="grid-template-columns: repeat(2, 1fr)">
+            <a href="/use-cases/risk-scoring-automation" class="nav-megamenu-item">
+              <span class="nav-megamenu-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8L12 3z" /></svg></span>
+              <span><span class="nav-megamenu-item-title" data-i18n="nav.mega.useCase.risk.title">Risk scoring automation</span><span class="nav-megamenu-item-desc" data-i18n="nav.mega.useCase.risk.desc">Flag late-payment risk before invoices go delinquent.</span></span>
+            </a>
+            <a href="/use-cases/audit-ready-workflows" class="nav-megamenu-item">
+              <span class="nav-megamenu-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v18M7 8H3l3 6a3 3 0 0 0 4 0l-3-6zM21 8h-4l3 6a3 3 0 0 0 4 0l-3-6z" /><path d="M8 21h8" /></svg></span>
+              <span><span class="nav-megamenu-item-title" data-i18n="nav.mega.useCase.audit.title">Audit-ready workflows</span><span class="nav-megamenu-item-desc" data-i18n="nav.mega.useCase.audit.desc">Timestamped evidence packs and demand letters.</span></span>
+            </a>
+            <a href="/use-cases/sox-evidence-automation" class="nav-megamenu-item">
+              <span class="nav-megamenu-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v5.5c0 5-3.5 8-7 9.5-3.5-1.5-7-4.5-7-9.5V6l7-3z" /><path d="M9 12l2 2 4-4" /></svg></span>
+              <span><span class="nav-megamenu-item-title" data-i18n="nav.mega.useCase.sox.title">SOX evidence automation</span><span class="nav-megamenu-item-desc" data-i18n="nav.mega.useCase.sox.desc">Immutable AR activity logs for auditors.</span></span>
+            </a>
+            <a href="/use-cases/compliance-dashboard" class="nav-megamenu-item">
+              <span class="nav-megamenu-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7.5" width="18" height="12" rx="1.5" /><path d="M8 7.5V6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v1.5" /><path d="M3 12.5h18" /></svg></span>
+              <span><span class="nav-megamenu-item-title" data-i18n="nav.mega.useCase.compliance.title">Compliance dashboard</span><span class="nav-megamenu-item-desc" data-i18n="nav.mega.useCase.compliance.desc">Aging buckets and follow-up status at a glance.</span></span>
+            </a>
+            <a href="/use-cases/chasa-certificate-monitoring" class="nav-megamenu-item">
+              <span class="nav-megamenu-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5.5" width="18" height="13" rx="1.5" /><path d="M3.5 6.5L12 13l8.5-6.5" /></svg></span>
+              <span><span class="nav-megamenu-item-title" data-i18n="nav.mega.useCase.certificate.title">Certificate monitoring</span><span class="nav-megamenu-item-desc" data-i18n="nav.mega.useCase.certificate.desc">Proof of delivery and chase-history verification.</span></span>
+            </a>
+            <a href="/use-cases/document-signing-api" class="nav-megamenu-item">
+              <span class="nav-megamenu-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8" y="8" width="12" height="13" rx="1.5" /><path d="M4 15V4.5A1.5 1.5 0 0 1 5.5 3H15" /></svg></span>
+              <span><span class="nav-megamenu-item-title" data-i18n="nav.mega.useCase.api.title">Follow-up API</span><span class="nav-megamenu-item-desc" data-i18n="nav.mega.useCase.api.desc">Integrate chase drafts into your own stack.</span></span>
+            </a>
+            <a href="/use-cases/flat-fee-esign" class="nav-megamenu-item">
+              <span class="nav-megamenu-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3" /><path d="M3.5 19.5c0-3 2.5-5.5 5.5-5.5s5.5 2.5 5.5 5.5" /><circle cx="17" cy="9" r="2.25" /><path d="M15.5 14.2c2.3.4 4 2.4 4 5.3" /></svg></span>
+              <span><span class="nav-megamenu-item-title" data-i18n="nav.mega.useCase.flatFee.title">Flat-fee pricing</span><span class="nav-megamenu-item-desc" data-i18n="nav.mega.useCase.flatFee.desc">No per-document fees — unlimited chases from $7/mo.</span></span>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="nav-megamenu header-nav-collapse" data-mega-menu>
+        <button type="button" class="nav-megamenu-trigger header-nav-link" aria-haspopup="true" aria-expanded="false" data-mega-trigger>
+          <span data-i18n="nav.resources">Resources</span>
+          <svg class="nav-megamenu-chevron" width="10" height="10" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5L6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
+        </button>
+        <div class="nav-megamenu-panel" data-mega-panel hidden>
+          <div class="nav-megamenu-grid" style="grid-template-columns: repeat(2, 1fr)">
+            <a href="/blog/" class="nav-megamenu-item">
+              <span class="nav-megamenu-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5.5A1.5 1.5 0 0 1 5.5 4H12v16H5.5A1.5 1.5 0 0 1 4 18.5v-13z" /><path d="M20 5.5A1.5 1.5 0 0 0 18.5 4H12v16h6.5a1.5 1.5 0 0 0 1.5-1.5v-13z" /></svg></span>
+              <span><span class="nav-megamenu-item-title" data-i18n="nav.mega.resource.blog.title">Blog</span><span class="nav-megamenu-item-desc" data-i18n="nav.mega.resource.blog.desc">Product updates and how-to guides.</span></span>
+            </a>
+            <a href="/docs/" class="nav-megamenu-item">
+              <span class="nav-megamenu-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5" /><circle cx="12" cy="12" r="3.5" /><path d="M6.1 6.1l3.3 3.3M17.9 6.1l-3.3 3.3M6.1 17.9l3.3-3.3M17.9 17.9l-3.3-3.3" /></svg></span>
+              <span><span class="nav-megamenu-item-title" data-i18n="nav.mega.resource.docs.title">Docs &amp; API</span><span class="nav-megamenu-item-desc" data-i18n="nav.mega.resource.docs.desc">Every feature, endpoint, and integration.</span></span>
+            </a>
+            <a href="/about" class="nav-megamenu-item">
+              <span class="nav-megamenu-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5" /><path d="M12 11v5.5M12 8v.01" /></svg></span>
+              <span><span class="nav-megamenu-item-title" data-i18n="nav.mega.resource.about.title">About</span><span class="nav-megamenu-item-desc" data-i18n="nav.mega.resource.about.desc">Why Chasa exists and who runs it.</span></span>
+            </a>
+            <a href="mailto:founder@chasa.io" class="nav-megamenu-item">
+              <span class="nav-megamenu-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5.5" width="18" height="13" rx="1.5" /><path d="M3.5 6.5L12 13l8.5-6.5" /></svg></span>
+              <span><span class="nav-megamenu-item-title" data-i18n="nav.mega.resource.contact.title">Contact</span><span class="nav-megamenu-item-desc" data-i18n="nav.mega.resource.contact.desc">Questions before you sign up? Ask us.</span></span>
+            </a>
+          </div>
+        </div>
+      </div>
+      <a href="/free-templates/" class="header-nav-link header-nav-collapse" data-i18n="nav.templates">Free templates</a>
+      <div class="locale-switch" data-locale-switch role="group" data-i18n-aria="nav.language"></div>
+      <!--email_off-->
+      <a href="#contact-sales" class="header-nav-sales header-nav-collapse" data-sales-mail data-sales-subject="Chasa sales" data-i18n="nav.contactSales">Contact sales</a>
+      <!--/email_off-->
       <a href="/app/" class="nav-cta" data-i18n="nav.tryFree">Try free</a>
       <a href="/app/login" class="header-login-btn header-nav-collapse" data-i18n="nav.signIn">Sign in</a>
       <button class="header-menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" data-menu-toggle data-i18n-aria="nav.openMenu">
         <span></span><span></span><span></span>
       </button>
-    </div>
+    </nav>
   </div>
 </header>
 
@@ -982,18 +1102,22 @@
 <div class="mobile-panel" data-mobile-panel>
   <button class="mobile-panel-close" type="button" aria-label="Close menu" data-mobile-close data-i18n-aria="nav.closeMenu">✕</button>
   <nav class="mobile-panel-nav">
+      <a href="/features/" class="mobile-panel-nav-link" data-i18n="nav.features">Features</a>
       <a href="/#pricing" class="mobile-panel-nav-link" data-i18n="nav.pricing">Pricing</a>
-      <a href="/blog/invoice-chase-software-comparison/" class="mobile-panel-nav-link" data-i18n="nav.compare">Compare</a>
+      <a href="/use-cases/" class="mobile-panel-nav-link" data-i18n="nav.useCases">Use Cases</a>
+      <a href="/blog/" class="mobile-panel-nav-link" data-i18n="nav.blog">Blog</a>
+      <a href="/docs/" class="mobile-panel-nav-link" data-i18n="nav.api">API</a>
       <a href="/free-templates/" class="mobile-panel-nav-link" data-i18n="nav.templates">Free templates</a>
       <a href="/tools/" class="mobile-panel-nav-link" data-i18n="nav.tools">Tools</a>
-      <a href="/ai" class="mobile-panel-nav-link" data-i18n="nav.ai">AI</a>
       <a href="/app/login" class="mobile-panel-nav-link" data-i18n="nav.signIn">Sign in</a>
       <a href="/app/" class="mobile-panel-nav-link" data-i18n="nav.tryFree">Try free</a>
   </nav>
   <div class="mobile-panel-ctas">
     <a href="/app/" class="mobile-panel-cta-primary" data-i18n="nav.tryFree">Try free</a>
     <a href="/app/login" class="mobile-panel-cta-secondary" data-i18n="nav.signIn">Sign in</a>
-    <a href="mailto:sales@chasa.io?subject=Chasa%20sales" class="mobile-panel-cta-secondary" data-i18n="nav.contactSales">Contact sales</a>
+    <!--email_off-->
+    <a href="#contact-sales" class="mobile-panel-cta-secondary" data-sales-mail data-sales-subject="Chasa sales" data-i18n="nav.contactSales">Contact sales</a>
+    <!--/email_off-->
   </div>
 </div>
 
@@ -1002,9 +1126,9 @@
   <section class="hero-band">
     <div class="hero-inner hero-split">
       <div>
-        <h1 data-i18n="home.hero.title">Get unpaid invoices paid.
-AI drafts the chase in the right tone.</h1>
-        <p class="hero-sub" data-i18n="home.hero.sub">Paste overdue invoices. Chasa writes the follow-up for how late each one is — you copy, edit, and send from your inbox.</p>
+        <h1 data-i18n="home.hero.title">Get paid faster.
+AI writes the chase — you stay in control.</h1>
+        <p class="hero-sub" data-i18n="home.hero.sub">Paste an overdue invoice. Chasa drafts a follow-up matched to how late it is — warm early, firmer later — so you sound professional, not desperate. Copy, tweak, send from your own inbox.</p>
         <div class="hero-cta-row" data-cta-source="home_hero">
           <form class="hero-signup" id="hero-signup" action="/app/login" method="get">
             <input
@@ -1012,8 +1136,8 @@ AI drafts the chase in the right tone.</h1>
               type="email"
               name="email"
               autocomplete="email"
-              placeholder="What's your email?"
-              aria-label="What's your email?"
+              placeholder="Enter your work email"
+              aria-label="Enter your work email"
               data-i18n-placeholder="home.hero.emailPlaceholder"
               data-i18n-aria="home.hero.emailPlaceholder"
             />
@@ -1026,10 +1150,10 @@ AI drafts the chase in the right tone.</h1>
                 <path d="M10 8.5v7l6-3.5-6-3.5z" fill="#fff" />
               </svg>
             </span>
-            <span data-i18n="home.hero.watchHow">Watch how it works</span>
+            <span data-i18n="home.hero.watchHow">See it in 60 seconds</span>
           </button>
         </div>
-        <p class="hero-cta-hint" data-i18n="home.hero.note">No credit card required · no account needed to start.</p>
+        <p class="hero-cta-hint" data-i18n="home.hero.note">Free to start · no credit card · your account in one click</p>
         <p class="hero-secondary-link">
           <a href="/free-templates/" data-cta data-i18n="home.hero.ctaSecondary">or browse free templates</a>
         </p>
@@ -1415,7 +1539,7 @@ AI drafts the chase in the right tone.</h1>
         <div class="pricing-sticky-col">
           <div class="pricing-sticky-name" data-i18n="home.pricing.planFree">Free</div>
           <div class="pricing-sticky-price">$0<span class="pricing-sticky-note" data-i18n="home.pricing.forever">forever</span></div>
-          <a class="pricing-sticky-cta" href="/app/" data-i18n="home.pricing.startFree">Start free</a>
+          <a class="pricing-sticky-cta signal" href="/app/" data-i18n="home.pricing.startFree">Start free</a>
         </div>
         <div class="pricing-sticky-col">
           <div class="pricing-sticky-name" data-i18n="home.pricing.planSolo">Solo</div>
@@ -1430,7 +1554,7 @@ AI drafts the chase in the right tone.</h1>
         <div class="pricing-sticky-col">
           <div class="pricing-sticky-name" data-i18n="home.pricing.planEnterprise">Enterprise</div>
           <div class="pricing-sticky-price">Custom<span class="pricing-sticky-note" data-i18n="home.pricing.billedYearly">billed yearly</span></div>
-          <a class="pricing-sticky-cta" href="mailto:sales@chasa.io?subject=Chasa%20Enterprise" data-i18n="home.pricing.contactSales">Contact sales</a>
+          <a class="pricing-sticky-cta" href="#contact-sales" data-sales-mail data-sales-subject="Chasa Enterprise" data-i18n="home.pricing.contactSales">Contact sales</a>
         </div>
       </div>
     </div>
@@ -1571,17 +1695,29 @@ AI drafts the chase in the right tone.</h1>
       id="how-modal-video"
       class="how-modal-video"
       src="/videos/how-it-works.webm?v=20260804e"
-      poster="/videos/how-it-works-poster.jpg?v=20260804e"
-      controls
-      playsinline
-      preload="metadata"
-    >
-      <track kind="captions" src="/videos/how-it-works.en.vtt" srclang="en" label="English" default />
-      <track kind="captions" src="/videos/how-it-works.es.vtt" srclang="es" label="Español" />
-    </video>
+<section class="next-steps-band">
+  <div class="wrap next-steps-inner">
+    <h3 class="next-steps-title">Next Steps</h3>
+    <div class="next-steps-grid">
+      <a href="/#pricing" class="next-step-card">
+        <h4>See pricing →</h4>
+        <p>Transparent flat pricing starting at $0/mo for freelancers and teams.</p>
+      </a>
+      <a href="/features/" class="next-step-card">
+        <h4>See features →</h4>
+        <p>Discover AI tone escalations, QuickBooks & Xero sync, and CRM tools.</p>
+      </a>
+      <a href="/use-cases/" class="next-step-card">
+        <h4>See use cases →</h4>
+        <p>Explore high-intent workflows for risk scoring, audits, and compliance.</p>
+      </a>
+      <a href="/app/" class="next-step-card next-step-primary">
+        <h4>Signup & try free →</h4>
+        <p>Get your unpaid invoice follow-up drafted in seconds without signup.</p>
+      </a>
+    </div>
   </div>
-</div>
-
+</section>
 
 <footer class="site-footer">
   <div class="wrap site-footer-inner">
@@ -1591,14 +1727,24 @@ AI drafts the chase in the right tone.</h1>
     </div>
     <div class="site-footer-col">
       <h4 data-i18n="footer.product">Product</h4>
-      <a href="/app/" data-i18n="footer.tryFree">Try free</a>
+      <a href="/" data-i18n="footer.home">Homepage</a>
       <a href="/#pricing" data-i18n="footer.pricing">Pricing</a>
+      <a href="/features/" data-i18n="footer.features">Features</a>
+      <a href="/use-cases/" data-i18n="footer.useCases">Use Cases</a>
+      <a href="/blog/" data-i18n="footer.blog">Blog</a>
+      <a href="/docs/" data-i18n="footer.docs">API & Docs</a>
       <a href="/free-templates/" data-i18n="footer.templates">Free templates</a>
       <a href="/tools/" data-i18n="footer.calculators">Calculators</a>
-      <a href="/features/" data-i18n="footer.features">Features</a>
-      <a href="/docs/" data-i18n="footer.docs">Docs</a>
       <a href="/ai" data-i18n="footer.ai">AI</a>
-      <a href="/#faq" data-i18n="footer.faq">FAQ</a>
+    </div>
+    <div class="site-footer-col">
+      <h4 data-i18n="footer.useCasesHeader">Use Cases</h4>
+      <a href="/use-cases/risk-scoring-automation">Risk Scoring</a>
+      <a href="/use-cases/audit-ready-workflows">Audit Workflows</a>
+      <a href="/use-cases/sox-evidence-automation">SOX AR Evidence</a>
+      <a href="/use-cases/compliance-dashboard">Compliance Board</a>
+      <a href="/use-cases/chasa-certificate-monitoring">Certificate Proof</a>
+      <a href="/use-cases/document-signing-api">Follow-up API</a>
     </div>
     <div class="site-footer-col">
       <h4 data-i18n="footer.compareCol">Compare</h4>
@@ -1608,7 +1754,6 @@ AI drafts the chase in the right tone.</h1>
       <a href="/chasa-vs-satago" data-i18n="footer.vsSatago">vs Satago</a>
       <a href="/chasa-vs-chaseai" data-i18n="footer.vsChaseai">vs ChaseAI</a>
       <a href="/switch-to-chasa" data-i18n="footer.switch">Switch to Chasa</a>
-      <a href="/blog/invoice-chase-software-comparison/" data-i18n="footer.compare">See full comparison</a>
     </div>
     <div class="site-footer-col">
       <h4 data-i18n="footer.company">Company</h4>
@@ -1617,7 +1762,6 @@ AI drafts the chase in the right tone.</h1>
       <a href="/imprint">Imprint</a>
       <a href="mailto:founder@chasa.io" data-i18n="footer.contact">Contact</a>
       <a href="https://www.linkedin.com/company/chasa-io" target="_blank" rel="noopener noreferrer" data-i18n="footer.linkedin">LinkedIn</a>
-      <a href="https://x.com/chasaHQ" target="_blank" rel="noopener noreferrer" data-i18n="footer.x">X</a>
     </div>
     <div class="site-footer-col">
       <h4 data-i18n="footer.legal">Legal</h4>
@@ -1630,25 +1774,56 @@ AI drafts the chase in the right tone.</h1>
   <div class="site-footer-bottom" data-i18n-year="footer.copyright">© 2026 Chasa — a product of RELACON GmbH</div>
 </footer>
 
-<script src="/site-lang.js?v=20260804d" defer></script>
-<script src="/site-nav.js" defer></script>
+<div class="how-modal-backdrop" id="how-modal" hidden>
+  <div class="how-modal" role="dialog" aria-modal="true" aria-labelledby="how-modal-title">
+    <h2 id="how-modal-title" class="sr-only" data-i18n="home.hero.videoTitle">How Chasa works — chase unpaid invoices in under a minute</h2>
+    <button type="button" class="how-modal-close" data-close-how-video data-i18n-aria="home.hero.videoClose" aria-label="Close video">×</button>
+    <video
+      id="how-modal-video"
+      class="how-modal-video"
+      src="/videos/how-it-works.webm?v=20260804e"
+      poster="/videos/how-it-works-poster.jpg?v=20260804e"
+      controls
+      playsinline
+      preload="metadata"
+    >
+      <track kind="captions" src="/videos/how-it-works.en.vtt" srclang="en" label="English" default />
+      <track kind="captions" src="/videos/how-it-works.es.vtt" srclang="es" label="Español" />
+    </video>
+  </div>
+</div>
+
+<script src="/site-lang.js?v=20260804k" defer></script>
+<script src="/site-nav.js?v=20260804k" defer></script>
 <script src="/price-compare.js" defer></script>
 <script src="/cookie-consent.js"></script>
-<script src="/assistant.js"></script>
+<script src="/assistant.js?v=20260804k"></script>
 <script>
   (function () {
+    /* Contact sales → Chasa Assistant with sales intent (Docracy pattern). */
+    document.addEventListener("click", function (e) {
+      var el = e.target && e.target.closest
+        ? e.target.closest("[data-sales-mail], .header-nav-sales, a[data-i18n='nav.contactSales'], a[data-i18n='home.pricing.contactSales']")
+        : null;
+      if (!el) return;
+      e.preventDefault();
+      window.dispatchEvent(new CustomEvent("chasa:open-chat", { detail: { intent: "sales" } }));
+    }, true);
+
     var form = document.getElementById("hero-signup");
     if (form) {
       form.addEventListener("submit", function (e) {
         e.preventDefault();
         var input = form.querySelector('input[name="email"]');
         var email = input && input.value ? String(input.value).trim() : "";
-        var next = encodeURIComponent("/app/");
-        if (email) {
-          window.location.href = "/app/login?email=" + encodeURIComponent(email) + "&next=" + next;
+        if (!email) {
+          if (input) input.focus();
           return;
         }
-        window.location.href = "/app/";
+        var next = encodeURIComponent("/app/");
+        // Prefill login + auto-send magic link (account is created when they click the email).
+        window.location.href =
+          "/app/login?email=" + encodeURIComponent(email) + "&start=1&next=" + next;
       });
     }
 

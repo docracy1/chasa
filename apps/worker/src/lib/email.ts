@@ -412,6 +412,54 @@ export async function sendTemplatesPackWelcomeEmail(
   }).catch(() => {});
 }
 
+const MARKETING_UNSUB_TEXT: Record<Locale, string> = {
+  en: "Unsubscribe from product news",
+  es: "Darse de baja de novedades del producto",
+};
+
+/** Admin-composed product news/update email — only sent to accounts.marketing_opt_in accounts,
+ *  each with their own unsubscribe token. Subject/body are free text from the admin broadcast
+ *  form (routes/admin.ts); this just wraps them in the branded shell with a locale-aware
+ *  unsubscribe footer. */
+export async function sendMarketingEmail(
+  env: Env,
+  to: string,
+  opts: { subject: string; bodyHtml: string; unsubUrl: string },
+  locale: Locale = "en"
+): Promise<{ ok: boolean; status?: number }> {
+  if (!env.RESEND_API_KEY) {
+    console.log(`[dev] marketing email queued for ${to}: ${opts.subject}`);
+    return { ok: true };
+  }
+
+  const body = `
+    ${opts.bodyHtml}
+    ${signOff(locale)}
+    <p style="margin:20px 0 0 0;font-size:11px;color:${MUTED_HEX};line-height:1.5;text-align:center;">
+      <a href="${opts.unsubUrl}" style="color:${MUTED_HEX};text-decoration:underline;">${MARKETING_UNSUB_TEXT[locale]}</a>
+    </p>
+  `;
+
+  const res = await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${env.RESEND_API_KEY}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      from: `Chasa <login@chasa.io>`,
+      to: [to],
+      subject: opts.subject,
+      html: emailShell(appUrl(env), body, locale),
+    }),
+  });
+  if (!res.ok) {
+    console.error(`Resend marketing email failed (${res.status}) to=${to}: ${await res.text()}`);
+    return { ok: false, status: res.status };
+  }
+  return { ok: true };
+}
+
 /** SPA hydrate failure (Sign in / Start free) — recipient is usually FEEDBACK_EMAIL / founder@chasa.io. */
 export async function sendSpaSmokeAlert(
   env: Env,
@@ -455,4 +503,50 @@ export async function sendSpaSmokeAlert(
   if (!res.ok) {
     console.error(`Resend spa smoke alert failed (${res.status}): ${await res.text()}`);
   }
+}
+
+/** Marketing assistant “Contact sales” form — forward to sales@chasa.io. */
+export async function sendContactInquiryEmail(
+  env: Env,
+  fromEmail: string,
+  message: string
+): Promise<void> {
+  const to = "sales@chasa.io";
+  const body = `
+    ${emailHeadline("New sales inquiry")}
+    <p style="margin:0 0 12px 0;font-size:15px;color:${INK};line-height:1.55;">
+      <strong>From:</strong> ${escapeHtml(fromEmail)}
+    </p>
+    <p style="margin:0;font-size:15px;color:${INK};line-height:1.55;white-space:pre-wrap;">${escapeHtml(message)}</p>
+    ${signOff()}
+  `;
+
+  if (!env.RESEND_API_KEY) {
+    console.log(`[dev] contact inquiry to=${to} from=${fromEmail}\n${message}\n`);
+    return;
+  }
+
+  const res = await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${env.RESEND_API_KEY}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      from: `Chasa <hello@chasa.io>`,
+      to: [to],
+      reply_to: fromEmail,
+      subject: `Chasa sales inquiry from ${fromEmail}`,
+      html: emailShell(appUrl(env), body),
+    }),
+  });
+  if (!res.ok) {
+    throw new Error(`Resend contact inquiry failed (${res.status}): ${await res.text()}`);
+  }
+
+  trackEvent(env, {
+    name: "contact_inquiry_sent",
+    properties: { type: "sales_assistant" },
+    path: "/api/leads/contact",
+  }).catch(() => {});
 }

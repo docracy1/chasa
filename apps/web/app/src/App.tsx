@@ -32,8 +32,11 @@ function AppRoutes() {
     setUnauthorizedHandler(() => {
       // A 401 here is the normal "not signed in yet" state while already on the login page — not an
       // expired session to bounce out of. Redirecting to the page we're already on still triggers a
-      // full reload, which re-fires the same 401 forever.
-      if (window.location.pathname !== "/app/login") {
+      // full reload, which re-fires the same 401 forever. Admin has its own password-gated login
+      // (Admin.tsx) and manages its own auth state — AccountProvider's background /account/me check
+      // still 401s there for a logged-out visitor, and this handler used to hijack that into the
+      // regular user login before Admin's own gate ever rendered.
+      if (window.location.pathname !== "/app/login" && !window.location.pathname.startsWith("/app/admin")) {
         window.location.href = "/app/login";
       }
     });

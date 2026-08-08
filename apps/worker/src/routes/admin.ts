@@ -14,10 +14,13 @@ import { SESSION_COOKIE_NAME } from "../lib/auth";
 import { getFunnelStats, getOutreachStats, getTrafficSources, getTrafficStats } from "../lib/analytics";
 import { getCachedClaritySnapshot, refreshClaritySnapshot } from "../lib/clarityApi";
 import { createPost, deletePost, listPosts, updatePost } from "../lib/blog";
+import { sendMarketingEmail } from "../lib/email";
+import { normalizeLocale } from "../lib/locale";
 import { clientIp, verifyTurnstile } from "../lib/turnstile";
 import {
   adminBlogPatchSchema,
   adminBlogPostSchema,
+  adminBroadcastSchema,
   adminGrantEnterpriseSchema,
   adminLoginSchema,
   parseJsonBody,
@@ -195,6 +198,48 @@ admin.patch("/blog/:id", requireAdmin, async (c) => {
 admin.delete("/blog/:id", requireAdmin, async (c) => {
   await deletePost(c.env, c.req.param("id"));
   return c.json({ ok: true });
+});
+
+/** Product news/update broadcast — only to accounts.marketing_opt_in accounts. dryRun just
+ *  returns the recipient count so the admin UI can show "send to N people" before confirming. */
+admin.post("/broadcast", requireAdmin, async (c) => {
+  const parsed = await parseJsonBody(c.req, adminBroadcastSchema);
+  if (!parsed.ok) return c.json({ error: parsed.error }, 400);
+  const { subject, bodyHtml, dryRun } = parsed.data;
+
+  const { results } = await c.env.CHASA_DB.prepare(
+    `SELECT id, email, locale, marketing_unsub_token FROM accounts WHERE marketing_opt_in = 1`
+  ).all<{ id: string; email: string; locale: string | null; marketing_unsub_token: string | null }>();
+  const recipients = results ?? [];
+
+  if (dryRun) {
+    return c.json({ recipientCount: recipients.length });
+  }
+
+  const workerBase = (c.env.PUBLIC_WORKER_URL || "https://api.chasa.io").replace(/\/$/, "");
+  let sent = 0;
+  let failed = 0;
+
+  for (const r of recipients) {
+    let token = r.marketing_unsub_token;
+    if (!token) {
+      token = crypto.randomUUID();
+      await c.env.CHASA_DB.prepare(`UPDATE accounts SET marketing_unsub_token = ? WHERE id = ?`)
+        .bind(token, r.id)
+        .run();
+    }
+    const unsubUrl = `${workerBase}/api/account/marketing-unsubscribe?token=${encodeURIComponent(token)}`;
+    const result = await sendMarketingEmail(
+      c.env,
+      r.email,
+      { subject, bodyHtml, unsubUrl },
+      normalizeLocale(r.locale)
+    );
+    if (result.ok) sent++;
+    else failed++;
+  }
+
+  return c.json({ recipientCount: recipients.length, sent, failed });
 });
 
 export default admin;

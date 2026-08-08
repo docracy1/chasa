@@ -18,6 +18,11 @@ export const templatesPackLeadSchema = z.object({
   lang: z.enum(["en", "es"]).optional(),
 });
 
+export const contactLeadSchema = z.object({
+  email: z.string().trim().email().max(254),
+  message: z.string().trim().min(1).max(4000),
+});
+
 export const analyticsTrackSchema = z.object({
   name: z.string().min(1).max(80),
   properties: z
@@ -68,6 +73,16 @@ export const agingMarkPaidSchema = z.object({
 
 export const digestSettingsSchema = z.object({
   digestEnabled: z.boolean(),
+});
+
+export const marketingOptInSchema = z.object({
+  marketingOptIn: z.boolean(),
+});
+
+export const adminBroadcastSchema = z.object({
+  subject: z.string().trim().min(1).max(150),
+  bodyHtml: z.string().trim().min(1).max(20_000),
+  dryRun: z.boolean().optional(),
 });
 
 export const replyClassifySchema = z.object({

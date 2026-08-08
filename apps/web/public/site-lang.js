@@ -5,6 +5,11 @@
   "en": {
     "nav.pricing": "Pricing",
     "nav.compare": "Compare",
+    "nav.features": "Features",
+    "nav.useCases": "Use Cases",
+    "nav.resources": "Resources",
+    "nav.blog": "Blog",
+    "nav.api": "API",
     "nav.templates": "Free templates",
     "nav.tools": "Tools",
     "nav.ai": "AI",
@@ -15,6 +20,45 @@
     "nav.openMenu": "Open menu",
     "nav.closeMenu": "Close menu",
     "nav.language": "Language",
+    "lang.english": "English",
+    "lang.spanish": "Español",
+    "nav.mega.feature.ai.title": "AI tone matching",
+    "nav.mega.feature.ai.desc": "Friendly, professional, or direct — matched to days overdue.",
+    "nav.mega.feature.templates.title": "18 free email templates",
+    "nav.mega.feature.templates.desc": "Copy-paste reminders, no account required.",
+    "nav.mega.feature.chasePlans.title": "AI chase plans",
+    "nav.mega.feature.chasePlans.desc": "3-step follow-up sequences drafted automatically.",
+    "nav.mega.feature.sync.title": "Accounting sync",
+    "nav.mega.feature.sync.desc": "CSV, QuickBooks, Xero, FreshBooks, Wave, Zoho.",
+    "nav.mega.feature.team.title": "Team access",
+    "nav.mega.feature.team.desc": "Share chases and templates across your workspace.",
+    "nav.mega.feature.storage.title": "Secure & private",
+    "nav.mega.feature.storage.desc": "Encrypted storage, short automatic retention.",
+    "nav.mega.compare.chaser.desc": "Lighter, no per-seat pricing.",
+    "nav.mega.compare.paidnice.desc": "Free AI drafts, not just Shopify dunning.",
+    "nav.mega.compare.duefy.desc": "Tone-matched AI, not template-only reminders.",
+    "nav.mega.useCase.risk.title": "Risk scoring automation",
+    "nav.mega.useCase.risk.desc": "Flag late-payment risk before invoices go delinquent.",
+    "nav.mega.useCase.audit.title": "Audit-ready workflows",
+    "nav.mega.useCase.audit.desc": "Timestamped evidence packs and demand letters.",
+    "nav.mega.useCase.sox.title": "SOX evidence automation",
+    "nav.mega.useCase.sox.desc": "Immutable AR activity logs for auditors.",
+    "nav.mega.useCase.compliance.title": "Compliance dashboard",
+    "nav.mega.useCase.compliance.desc": "Aging buckets and follow-up status at a glance.",
+    "nav.mega.useCase.certificate.title": "Certificate monitoring",
+    "nav.mega.useCase.certificate.desc": "Proof of delivery and chase-history verification.",
+    "nav.mega.useCase.api.title": "Follow-up API",
+    "nav.mega.useCase.api.desc": "Integrate chase drafts into your own stack.",
+    "nav.mega.useCase.flatFee.title": "Flat-fee pricing",
+    "nav.mega.useCase.flatFee.desc": "No per-document fees — unlimited chases from $7/mo.",
+    "nav.mega.resource.blog.title": "Blog",
+    "nav.mega.resource.blog.desc": "Product updates and how-to guides.",
+    "nav.mega.resource.docs.title": "Docs & API",
+    "nav.mega.resource.docs.desc": "Every feature, endpoint, and integration.",
+    "nav.mega.resource.about.title": "About",
+    "nav.mega.resource.about.desc": "Why Chasa exists and who runs it.",
+    "nav.mega.resource.contact.title": "Contact",
+    "nav.mega.resource.contact.desc": "Questions before you sign up? Ask us.",
     "footer.tagline": "Free AI invoice follow-ups — paste unpaid invoices, get the reminder email already written.",
     "footer.product": "Product",
     "footer.company": "Company",
@@ -48,16 +92,37 @@
     "footer.copyright": "© {{year}} Chasa — a product of RELACON GmbH",
     "a11y.included": "Included",
     "a11y.notIncluded": "Not included",
-    "home.hero.title": "Get unpaid invoices paid.\nAI drafts the chase in the right tone.",
-    "home.hero.sub": "Paste overdue invoices. Chasa writes the follow-up for how late each one is — you copy, edit, and send from your inbox.",
+    "home.hero.title": "Get paid faster.\nAI writes the chase — you stay in control.",
+    "home.hero.sub": "Paste an overdue invoice. Chasa drafts a follow-up matched to how late it is — warm early, firmer later — so you sound professional, not desperate. Copy, tweak, send from your own inbox.",
     "home.hero.ctaPrimary": "Try free",
     "home.hero.startFree": "Start free →",
-    "home.hero.emailPlaceholder": "What's your email?",
-    "home.hero.watchHow": "Watch how it works",
+    "home.hero.emailPlaceholder": "Enter your work email",
+    "home.hero.watchHow": "See it in 60 seconds",
     "home.hero.ctaSecondary": "or browse free templates",
-    "home.hero.note": "No credit card required · no account needed to start.",
+    "home.hero.note": "Free to start · no credit card · your account in one click",
     "home.hero.videoTitle": "How Chasa works — chase unpaid invoices in under a minute",
     "home.hero.videoClose": "Close video",
+    "chat.title": "Chasa Assistant",
+    "chat.greeting": "Hey there 👋 I can help you find the right thing:",
+    "chat.sales": "I want to talk to sales",
+    "chat.support": "I need customer support",
+    "chat.joke": "Tell me a joke",
+    "chat.other": "I need something else",
+    "chat.salesReply": "Reach the team directly and we'll get back to you fast:",
+    "chat.formReply": "Sure — leave your email and what's up, and we'll get back to you.",
+    "chat.thanks": "Thanks — got it. We'll reply by email.",
+    "chat.emailPlaceholder": "you@email.com",
+    "chat.messagePlaceholder": "What's on your mind",
+    "chat.yourEmail": "Your email",
+    "chat.yourMessage": "Your message",
+    "chat.send": "Send message",
+    "chat.sending": "Sending…",
+    "chat.error": "Something went wrong.",
+    "chat.anotherJoke": "Another joke",
+    "chat.back": "Back to menu",
+    "chat.tryFree": "Try Chasa free",
+    "chat.open": "Open chat",
+    "chat.close": "Close chat",
     "home.how.title": "How it works",
     "home.how.sub": "Four steps from overdue invoice to sent follow-up.",
     "home.how.step1.title": "Add your invoices",
@@ -179,6 +244,8 @@
     "privacy.transfers.body": "Some subprocessors above process data outside the EU/EEA (notably the US). Where that happens, we rely on the provider's Standard Contractual Clauses or equivalent safeguards — see each provider's own privacy documentation (<a href=\"https://www.cloudflare.com/privacypolicy/\" rel=\"noopener noreferrer\" target=\"_blank\">Cloudflare</a>, <a href=\"https://resend.com/legal/privacy-policy\" rel=\"noopener noreferrer\" target=\"_blank\">Resend</a>, <a href=\"https://stripe.com/privacy\" rel=\"noopener noreferrer\" target=\"_blank\">Stripe</a>, <a href=\"https://privacy.microsoft.com/privacystatement\" rel=\"noopener noreferrer\" target=\"_blank\">Microsoft</a>) for the specifics of their transfer mechanism.",
     "privacy.rights.title": "Your rights (GDPR)",
     "privacy.rights.body": "If you're in the EU/EEA/UK, you can ask us to access, correct, delete, or export (portability) the personal data we hold on you, and you can object to or restrict processing, or withdraw consent for analytics at any time — none of this affects the lawfulness of processing before the withdrawal. Email <a href=\"mailto:founder@chasa.io\">founder@chasa.io</a> and we'll respond within a reasonable time. You also have the right to lodge a complaint with your local data protection authority — in Austria, the <a href=\"https://www.dsb.gv.at/\" rel=\"noopener noreferrer\" target=\"_blank\">Datenschutzbehörde (DSB)</a>.",
+    "privacy.marketing.title": "Product news & update emails",
+    "privacy.marketing.body": "If you opt in under Account settings, we send occasional emails about new features and product news. This is separate from — and off by default unlike — transactional email (sign-in links, receipts, digests you've enabled): it runs on your consent (GDPR Art. 6(1)(a)), and every email includes an unsubscribe link that turns it off immediately, no sign-in required.",
     "privacy.children.title": "Children",
     "privacy.children.body": "Chasa is a business tool and isn't directed at, or knowingly used by, children under 16.",
     "privacy.changes.title": "Changes to this policy",
@@ -211,6 +278,11 @@
   "es": {
     "nav.pricing": "Precios",
     "nav.compare": "Comparar",
+    "nav.features": "Funciones",
+    "nav.useCases": "Casos de uso",
+    "nav.resources": "Recursos",
+    "nav.blog": "Blog",
+    "nav.api": "API",
     "nav.templates": "Plantillas gratis",
     "nav.tools": "Herramientas",
     "nav.ai": "IA",
@@ -221,6 +293,45 @@
     "nav.openMenu": "Abrir menú",
     "nav.closeMenu": "Cerrar menú",
     "nav.language": "Idioma",
+    "lang.english": "English",
+    "lang.spanish": "Español",
+    "nav.mega.feature.ai.title": "IA que ajusta el tono",
+    "nav.mega.feature.ai.desc": "Amable, profesional o directo — según los días de retraso.",
+    "nav.mega.feature.templates.title": "18 plantillas de correo gratis",
+    "nav.mega.feature.templates.desc": "Recordatorios listos para copiar, sin necesidad de cuenta.",
+    "nav.mega.feature.chasePlans.title": "Planes de seguimiento con IA",
+    "nav.mega.feature.chasePlans.desc": "Secuencias de 3 pasos redactadas automáticamente.",
+    "nav.mega.feature.sync.title": "Sincronización contable",
+    "nav.mega.feature.sync.desc": "CSV, QuickBooks, Xero, FreshBooks, Wave, Zoho.",
+    "nav.mega.feature.team.title": "Acceso en equipo",
+    "nav.mega.feature.team.desc": "Comparte seguimientos y plantillas en tu espacio de trabajo.",
+    "nav.mega.feature.storage.title": "Seguro y privado",
+    "nav.mega.feature.storage.desc": "Almacenamiento cifrado, retención automática breve.",
+    "nav.mega.compare.chaser.desc": "Más simple, sin precio por asiento.",
+    "nav.mega.compare.paidnice.desc": "Borradores de IA gratis, no solo recordatorios de Shopify.",
+    "nav.mega.compare.duefy.desc": "IA que ajusta el tono, no solo plantillas fijas.",
+    "nav.mega.useCase.risk.title": "Puntuación de riesgo automática",
+    "nav.mega.useCase.risk.desc": "Detecta el riesgo de impago antes de que la factura sea morosa.",
+    "nav.mega.useCase.audit.title": "Flujos listos para auditoría",
+    "nav.mega.useCase.audit.desc": "Paquetes de evidencia con fecha y hora, y cartas de reclamación.",
+    "nav.mega.useCase.sox.title": "Evidencia SOX automatizada",
+    "nav.mega.useCase.sox.desc": "Registros de actividad inmutables para auditores.",
+    "nav.mega.useCase.compliance.title": "Panel de cumplimiento",
+    "nav.mega.useCase.compliance.desc": "Antigüedad de saldos y estado de seguimiento de un vistazo.",
+    "nav.mega.useCase.certificate.title": "Monitoreo de certificados",
+    "nav.mega.useCase.certificate.desc": "Prueba de entrega y verificación del historial de seguimiento.",
+    "nav.mega.useCase.api.title": "API de seguimiento",
+    "nav.mega.useCase.api.desc": "Integra los borradores de seguimiento en tu propio sistema.",
+    "nav.mega.useCase.flatFee.title": "Precio fijo",
+    "nav.mega.useCase.flatFee.desc": "Sin cargos por documento — seguimientos ilimitados desde $7/mes.",
+    "nav.mega.resource.blog.title": "Blog",
+    "nav.mega.resource.blog.desc": "Novedades del producto y guías prácticas.",
+    "nav.mega.resource.docs.title": "Documentación y API",
+    "nav.mega.resource.docs.desc": "Cada función, endpoint e integración.",
+    "nav.mega.resource.about.title": "Nosotros",
+    "nav.mega.resource.about.desc": "Por qué existe Chasa y quién lo dirige.",
+    "nav.mega.resource.contact.title": "Contacto",
+    "nav.mega.resource.contact.desc": "¿Dudas antes de registrarte? Pregúntanos.",
     "footer.tagline": "Seguimientos de facturas con IA gratis — pega facturas impagas y recibe el correo de recordatorio ya redactado.",
     "footer.product": "Producto",
     "footer.company": "Empresa",
@@ -254,16 +365,37 @@
     "footer.copyright": "© {{year}} Chasa — un producto de RELACON GmbH",
     "a11y.included": "Incluido",
     "a11y.notIncluded": "No incluido",
-    "home.hero.title": "Cobra facturas impagas.\nLa IA redacta el seguimiento con el tono correcto.",
-    "home.hero.sub": "Pega facturas vencidas. Chasa redacta el seguimiento según cuánto llevan de retraso — tú copias, editas y envías desde tu bandeja.",
+    "home.hero.title": "Cobra más rápido.\nLa IA escribe el seguimiento — tú mantienes el control.",
+    "home.hero.sub": "Pega una factura vencida. Chasa redacta un seguimiento según el retraso — amable al inicio, más firme después — para que suenes profesional, no desesperado. Copia, ajusta y envía desde tu bandeja.",
     "home.hero.ctaPrimary": "Probar gratis",
     "home.hero.startFree": "Empezar gratis →",
-    "home.hero.emailPlaceholder": "¿Cuál es tu email?",
-    "home.hero.watchHow": "Ver cómo funciona",
+    "home.hero.emailPlaceholder": "Tu email de trabajo",
+    "home.hero.watchHow": "Míralo en 60 segundos",
     "home.hero.ctaSecondary": "o ver plantillas gratis",
-    "home.hero.note": "Sin tarjeta · no hace falta cuenta para empezar.",
+    "home.hero.note": "Empieza gratis · sin tarjeta · tu cuenta en un clic",
     "home.hero.videoTitle": "Cómo funciona Chasa — cobra facturas en menos de un minuto",
     "home.hero.videoClose": "Cerrar video",
+    "chat.title": "Asistente Chasa",
+    "chat.greeting": "Hola 👋 Puedo ayudarte a encontrar lo que necesitas:",
+    "chat.sales": "Quiero hablar con ventas",
+    "chat.support": "Necesito soporte",
+    "chat.joke": "Cuéntame un chiste",
+    "chat.other": "Necesito otra cosa",
+    "chat.salesReply": "Escríbenos directamente y te responderemos pronto:",
+    "chat.formReply": "Claro — deja tu correo y cuéntanos, y te responderemos.",
+    "chat.thanks": "Gracias — listo. Te respondemos por email.",
+    "chat.emailPlaceholder": "tu@email.com",
+    "chat.messagePlaceholder": "¿Qué tienes en mente?",
+    "chat.yourEmail": "Tu correo",
+    "chat.yourMessage": "Tu mensaje",
+    "chat.send": "Enviar mensaje",
+    "chat.sending": "Enviando…",
+    "chat.error": "Algo salió mal.",
+    "chat.anotherJoke": "Otro chiste",
+    "chat.back": "Volver al menú",
+    "chat.tryFree": "Probar Chasa gratis",
+    "chat.open": "Abrir chat",
+    "chat.close": "Cerrar chat",
     "home.how.title": "Cómo funciona",
     "home.how.sub": "Cuatro pasos de factura vencida a seguimiento enviado.",
     "home.how.step1.title": "Agrega tus facturas",
@@ -490,49 +622,118 @@
     });
 
     document.querySelectorAll(".locale-switch").forEach(function (wrap) {
+      var code = wrap.querySelector("[data-locale-code]");
+      if (code) code.textContent = currentLocale.toUpperCase();
       wrap.querySelectorAll("button[data-locale]").forEach(function (btn) {
         var active = btn.getAttribute("data-locale") === currentLocale;
         btn.classList.toggle("is-active", active);
-        btn.setAttribute("aria-pressed", active ? "true" : "false");
+        btn.setAttribute("aria-selected", active ? "true" : "false");
       });
     });
   }
 
+  var LOCALE_NAMES = { en: "lang.english", es: "lang.spanish" };
+  var GLOBE_SVG =
+    '<svg class="locale-switch-globe" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true">' +
+    '<circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.6" />' +
+    '<path d="M3 12h18M12 3c2.5 2.8 3.8 5.8 3.8 9s-1.3 6.2-3.8 9c-2.5-2.8-3.8-5.8-3.8-9S9.5 5.8 12 3z" fill="none" stroke="currentColor" stroke-width="1.6" /></svg>';
+  var CHEVRON_SVG =
+    '<svg class="locale-switch-chevron" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true">' +
+    '<path d="M2.5 4.5L6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg>';
+
   function renderLocaleSwitcher(container) {
-    if (!container || container.querySelector("button[data-locale]")) return;
+    if (!container || container.querySelector("[data-locale-trigger]")) return;
     container.setAttribute("role", "group");
     container.setAttribute("data-i18n-aria", "nav.language");
 
-    var enBtn = document.createElement("button");
-    enBtn.type = "button";
-    enBtn.setAttribute("data-locale", "en");
-    enBtn.textContent = "EN";
+    var trigger = document.createElement("button");
+    trigger.type = "button";
+    trigger.className = "locale-switch-trigger";
+    trigger.setAttribute("data-locale-trigger", "");
+    trigger.setAttribute("aria-haspopup", "listbox");
+    trigger.setAttribute("aria-expanded", "false");
+    trigger.innerHTML =
+      GLOBE_SVG + '<span class="locale-switch-code" data-locale-code>EN</span>' + CHEVRON_SVG;
 
-    var sep = document.createElement("span");
-    sep.className = "locale-switch-sep";
-    sep.setAttribute("aria-hidden", "true");
-    sep.textContent = "|";
+    var menu = document.createElement("ul");
+    menu.className = "locale-switch-menu";
+    menu.setAttribute("role", "listbox");
+    menu.setAttribute("data-locale-menu", "");
+    menu.hidden = true;
 
-    var esBtn = document.createElement("button");
-    esBtn.type = "button";
-    esBtn.setAttribute("data-locale", "es");
-    esBtn.textContent = "ES";
+    ["en", "es"].forEach(function (code) {
+      var li = document.createElement("li");
+      li.setAttribute("role", "option");
+      var opt = document.createElement("button");
+      opt.type = "button";
+      opt.className = "locale-switch-option";
+      opt.setAttribute("data-locale", code);
+      var codeSpan = document.createElement("span");
+      codeSpan.className = "locale-switch-option-code";
+      codeSpan.textContent = code.toUpperCase();
+      var nameSpan = document.createElement("span");
+      nameSpan.className = "locale-switch-option-name";
+      nameSpan.setAttribute("data-i18n", LOCALE_NAMES[code]);
+      nameSpan.textContent = code === "en" ? "English" : "Español";
+      opt.appendChild(codeSpan);
+      opt.appendChild(nameSpan);
+      li.appendChild(opt);
+      menu.appendChild(li);
+    });
 
-    container.appendChild(enBtn);
-    container.appendChild(sep);
-    container.appendChild(esBtn);
+    container.appendChild(trigger);
+    container.appendChild(menu);
+  }
+
+  function closeAllLocaleMenus(except) {
+    document.querySelectorAll(".locale-switch").forEach(function (wrap) {
+      if (wrap === except) return;
+      var menu = wrap.querySelector("[data-locale-menu]");
+      var trigger = wrap.querySelector("[data-locale-trigger]");
+      var chevron = wrap.querySelector(".locale-switch-chevron");
+      if (menu) menu.hidden = true;
+      if (trigger) trigger.setAttribute("aria-expanded", "false");
+      if (chevron) chevron.classList.remove("is-open");
+      wrap.classList.remove("is-open");
+    });
   }
 
   function wireLocaleSwitchers() {
     document.querySelectorAll("[data-locale-switch]").forEach(renderLocaleSwitcher);
 
-    document.querySelectorAll(".locale-switch button[data-locale]").forEach(function (btn) {
-      if (btn.__chasaLocaleWired) return;
-      btn.__chasaLocaleWired = true;
-      btn.addEventListener("click", function () {
-        var loc = btn.getAttribute("data-locale");
-        if (loc === "en" || loc === "es") applyLocale(loc);
+    document.querySelectorAll(".locale-switch").forEach(function (wrap) {
+      if (wrap.__chasaLocaleWired) return;
+      wrap.__chasaLocaleWired = true;
+
+      var trigger = wrap.querySelector("[data-locale-trigger]");
+      var menu = wrap.querySelector("[data-locale-menu]");
+      var chevron = wrap.querySelector(".locale-switch-chevron");
+      if (!trigger || !menu) return;
+
+      trigger.addEventListener("click", function (e) {
+        e.stopPropagation();
+        var open = !menu.hidden;
+        closeAllLocaleMenus(wrap);
+        menu.hidden = open;
+        trigger.setAttribute("aria-expanded", open ? "false" : "true");
+        if (chevron) chevron.classList.toggle("is-open", !open);
+        wrap.classList.toggle("is-open", !open);
       });
+
+      wrap.querySelectorAll("button[data-locale]").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          var loc = btn.getAttribute("data-locale");
+          if (loc === "en" || loc === "es") applyLocale(loc);
+          closeAllLocaleMenus();
+        });
+      });
+    });
+
+    document.addEventListener("click", function () {
+      closeAllLocaleMenus();
+    });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape") closeAllLocaleMenus();
     });
   }
 

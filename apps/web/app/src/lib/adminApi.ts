@@ -173,4 +173,13 @@ export function adminBlogDelete(id: string) {
   return adminFetch<{ ok: true }>(`/blog/${id}`, { method: "DELETE" });
 }
 
+export type BroadcastResult = { recipientCount: number; sent?: number; failed?: number };
+
+export function adminBroadcast(input: { subject: string; bodyHtml: string; dryRun?: boolean }) {
+  return adminFetch<BroadcastResult>("/broadcast", {
+    method: "POST",
+    body: JSON.stringify(input),
+  });
+}
+
 export { track, isExcludeSelf, setExcludeSelf };

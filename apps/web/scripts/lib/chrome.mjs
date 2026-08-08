@@ -4,7 +4,94 @@ import { ORG_JSON_LD, SOCIAL } from "../data/seo-config.mjs";
 import { renderSeoHead } from "./seo-head.mjs";
 
 /** Bump when site.css / site-nav.js / site-lang.js change so Pages edge caches refresh. */
-export const ASSET_V = "20260804d";
+export const ASSET_V = "20260807a";
+
+/** Small inline icon set for the header mega-menus (mirrors the app's NavIcon component). */
+const ICON_PATHS = {
+  sparkles: '<path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8L12 3z" />',
+  duplicate: '<rect x="8" y="8" width="12" height="13" rx="1.5" /><path d="M4 15V4.5A1.5 1.5 0 0 1 5.5 3H15" />',
+  bolt: '<path d="M12.5 2.5L4 14h6l-1 7.5L20 10h-6l-1.5-7.5z" />',
+  briefcase:
+    '<rect x="3" y="7.5" width="18" height="12" rx="1.5" /><path d="M8 7.5V6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v1.5" /><path d="M3 12.5h18" />',
+  users:
+    '<circle cx="9" cy="8" r="3" /><path d="M3.5 19.5c0-3 2.5-5.5 5.5-5.5s5.5 2.5 5.5 5.5" /><circle cx="17" cy="9" r="2.25" /><path d="M15.5 14.2c2.3.4 4 2.4 4 5.3" />',
+  shield: '<path d="M12 3l7 3v5.5c0 5-3.5 8-7 9.5-3.5-1.5-7-4.5-7-9.5V6l7-3z" /><path d="M9 12l2 2 4-4" />',
+  book: '<path d="M4 5.5A1.5 1.5 0 0 1 5.5 4H12v16H5.5A1.5 1.5 0 0 1 4 18.5v-13z" /><path d="M20 5.5A1.5 1.5 0 0 0 18.5 4H12v16h6.5a1.5 1.5 0 0 0 1.5-1.5v-13z" />',
+  lifering:
+    '<circle cx="12" cy="12" r="8.5" /><circle cx="12" cy="12" r="3.5" /><path d="M6.1 6.1l3.3 3.3M17.9 6.1l-3.3 3.3M6.1 17.9l3.3-3.3M17.9 17.9l-3.3-3.3" />',
+  info: '<circle cx="12" cy="12" r="8.5" /><path d="M12 11v5.5M12 8v.01" />',
+  mail: '<rect x="3" y="5.5" width="18" height="13" rx="1.5" /><path d="M3.5 6.5L12 13l8.5-6.5" />',
+  scale: '<path d="M12 3v18M7 8H3l3 6a3 3 0 0 0 4 0l-3-6zM21 8h-4l3 6a3 3 0 0 0 4 0l-3-6z" /><path d="M8 21h8" />',
+};
+
+function navIcon(name, small = false) {
+  const size = small ? 20 : 22;
+  return `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICON_PATHS[name] || ""}</svg>`;
+}
+
+function megaMenuItem({ href, icon, titleKey, title, descKey, desc, small = false }) {
+  return `<a href="${href}" class="nav-megamenu-item${small ? " nav-megamenu-side-item" : ""}">
+    <span class="nav-megamenu-icon${small ? " nav-megamenu-icon-sm" : ""}">${navIcon(icon, small)}</span>
+    <span>
+      <span class="nav-megamenu-item-title" data-i18n="${titleKey}">${title}</span>
+      <span class="nav-megamenu-item-desc" data-i18n="${descKey}">${desc}</span>
+    </span>
+  </a>`;
+}
+
+/** Hover/click dropdown with an icon+title+desc grid — Docracy's NavMegaMenu pattern, static-site version. */
+function megaMenu({ triggerKey, triggerLabel, items, panel, columns = 2 }) {
+  const itemsHtml = items.map((it) => megaMenuItem(it)).join("\n");
+  const panelHtml = panel
+    ? `<div class="nav-megamenu-side">
+        <h4 data-i18n="${panel.titleKey}">${panel.title}</h4>
+        ${panel.items.map((it) => megaMenuItem({ ...it, small: true })).join("\n")}
+        <a href="${panel.footerHref}" class="nav-megamenu-side-footer" data-i18n="${panel.footerKey}">${panel.footerLabel} →</a>
+      </div>`
+    : "";
+  return `<div class="nav-megamenu header-nav-collapse" data-mega-menu>
+    <button type="button" class="nav-megamenu-trigger header-nav-link" aria-haspopup="true" aria-expanded="false" data-mega-trigger>
+      <span data-i18n="${triggerKey}">${triggerLabel}</span>
+      <svg class="nav-megamenu-chevron" width="10" height="10" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5L6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
+    </button>
+    <div class="nav-megamenu-panel" data-mega-panel hidden>
+      <div class="nav-megamenu-grid" style="grid-template-columns: repeat(${columns}, 1fr)">${itemsHtml}</div>
+      ${panelHtml}
+    </div>
+  </div>`;
+}
+
+const FEATURE_ITEMS = [
+  { path: "/features/ai-tone", icon: "sparkles", titleKey: "nav.mega.feature.ai.title", title: "AI tone matching", descKey: "nav.mega.feature.ai.desc", desc: "Friendly, professional, or direct — matched to days overdue." },
+  { path: "/features/templates", icon: "duplicate", titleKey: "nav.mega.feature.templates.title", title: "18 free email templates", descKey: "nav.mega.feature.templates.desc", desc: "Copy-paste reminders, no account required." },
+  { path: "/features/", icon: "bolt", titleKey: "nav.mega.feature.chasePlans.title", title: "AI chase plans", descKey: "nav.mega.feature.chasePlans.desc", desc: "3-step follow-up sequences drafted automatically." },
+  { path: "/features/", icon: "briefcase", titleKey: "nav.mega.feature.sync.title", title: "Accounting sync", descKey: "nav.mega.feature.sync.desc", desc: "CSV, QuickBooks, Xero, FreshBooks, Wave, Zoho." },
+  { path: "/#pricing", icon: "users", titleKey: "nav.mega.feature.team.title", title: "Team access", descKey: "nav.mega.feature.team.desc", desc: "Share chases and templates across your workspace." },
+  { path: "/privacy", icon: "shield", titleKey: "nav.mega.feature.storage.title", title: "Secure & private", descKey: "nav.mega.feature.storage.desc", desc: "Encrypted storage, short automatic retention." },
+];
+
+const COMPARE_ITEMS = [
+  { path: "/chasa-vs-chaser", icon: "scale", titleKey: "footer.vsChaser", title: "vs Chaser", descKey: "nav.mega.compare.chaser.desc", desc: "Lighter, no per-seat pricing." },
+  { path: "/chasa-vs-paidnice", icon: "scale", titleKey: "footer.vsPaidnice", title: "vs Paidnice", descKey: "nav.mega.compare.paidnice.desc", desc: "Free AI drafts, not just Shopify dunning." },
+  { path: "/chasa-vs-duefy", icon: "scale", titleKey: "footer.vsDuefy", title: "vs Duefy", descKey: "nav.mega.compare.duefy.desc", desc: "Tone-matched AI, not template-only reminders." },
+];
+
+const USE_CASE_ITEMS = [
+  { path: "/use-cases/risk-scoring-automation", icon: "sparkles", titleKey: "nav.mega.useCase.risk.title", title: "Risk scoring automation", descKey: "nav.mega.useCase.risk.desc", desc: "Flag late-payment risk before invoices go delinquent." },
+  { path: "/use-cases/audit-ready-workflows", icon: "scale", titleKey: "nav.mega.useCase.audit.title", title: "Audit-ready workflows", descKey: "nav.mega.useCase.audit.desc", desc: "Timestamped evidence packs and demand letters." },
+  { path: "/use-cases/sox-evidence-automation", icon: "shield", titleKey: "nav.mega.useCase.sox.title", title: "SOX evidence automation", descKey: "nav.mega.useCase.sox.desc", desc: "Immutable AR activity logs for auditors." },
+  { path: "/use-cases/compliance-dashboard", icon: "briefcase", titleKey: "nav.mega.useCase.compliance.title", title: "Compliance dashboard", descKey: "nav.mega.useCase.compliance.desc", desc: "Aging buckets and follow-up status at a glance." },
+  { path: "/use-cases/chasa-certificate-monitoring", icon: "mail", titleKey: "nav.mega.useCase.certificate.title", title: "Certificate monitoring", descKey: "nav.mega.useCase.certificate.desc", desc: "Proof of delivery and chase-history verification." },
+  { path: "/use-cases/document-signing-api", icon: "duplicate", titleKey: "nav.mega.useCase.api.title", title: "Follow-up API", descKey: "nav.mega.useCase.api.desc", desc: "Integrate chase drafts into your own stack." },
+  { path: "/use-cases/flat-fee-esign", icon: "users", titleKey: "nav.mega.useCase.flatFee.title", title: "Flat-fee pricing", descKey: "nav.mega.useCase.flatFee.desc", desc: "No per-document fees — unlimited chases from $7/mo." },
+];
+
+const RESOURCE_ITEMS = [
+  { path: "/blog/", icon: "book", titleKey: "nav.mega.resource.blog.title", title: "Blog", descKey: "nav.mega.resource.blog.desc", desc: "Product updates and how-to guides." },
+  { path: "/docs/", icon: "lifering", titleKey: "nav.mega.resource.docs.title", title: "Docs & API", descKey: "nav.mega.resource.docs.desc", desc: "Every feature, endpoint, and integration." },
+  { path: "/about", icon: "info", titleKey: "nav.mega.resource.about.title", title: "About", descKey: "nav.mega.resource.about.desc", desc: "Why Chasa exists and who runs it." },
+  { path: "mailto:founder@chasa.io", icon: "mail", titleKey: "nav.mega.resource.contact.title", title: "Contact", descKey: "nav.mega.resource.contact.desc", desc: "Questions before you sign up? Ask us." },
+];
 
 export function escapeHtml(s) {
   return s
@@ -54,38 +141,68 @@ ${jsonLd ? `<script type="application/ld+json">\n${jsonLd}\n</script>` : `<scrip
 <header class="site-header">
   <div class="wrap site-header-inner">
     <a href="${link("/")}" class="logo" aria-label="Chasa home"><img class="logo-mark" src="${link("/brand/chasa-icon.png")}" alt="" width="28" height="28" /><span class="logo-word">chasa</span></a>
-    <div class="header-nav-right">
+    <nav class="header-nav-right">
+      ${megaMenu({
+        triggerKey: "nav.features",
+        triggerLabel: "Features",
+        items: FEATURE_ITEMS.map((it) => ({ ...it, href: link(it.path) })),
+        columns: 2,
+        panel: {
+          titleKey: "footer.compareCol",
+          title: "Compare",
+          items: COMPARE_ITEMS.map((it) => ({ ...it, href: link(it.path) })),
+          footerKey: "footer.compare",
+          footerLabel: "See all comparisons",
+          footerHref: link("/blog/invoice-chase-software-comparison/"),
+        },
+      })}
       <a href="${link("/#pricing")}" class="header-nav-link header-nav-collapse" data-i18n="nav.pricing">Pricing</a>
-      <a href="${link("/blog/invoice-chase-software-comparison/")}" class="header-nav-link header-nav-collapse" data-i18n="nav.compare">Compare</a>
+      ${megaMenu({
+        triggerKey: "nav.useCases",
+        triggerLabel: "Use Cases",
+        items: USE_CASE_ITEMS.map((it) => ({ ...it, href: link(it.path) })),
+        columns: 2,
+      })}
+      ${megaMenu({
+        triggerKey: "nav.resources",
+        triggerLabel: "Resources",
+        items: RESOURCE_ITEMS.map((it) => ({ ...it, href: it.path.startsWith("mailto:") ? it.path : link(it.path) })),
+        columns: 2,
+      })}
       <a href="${link("/free-templates/")}" class="header-nav-link header-nav-collapse${activeNav === "templates" ? " header-nav-strong" : ""}" data-i18n="nav.templates">Free templates</a>
-      <a href="${link("/tools/")}" class="header-nav-link header-nav-collapse${activeNav === "tools" ? " header-nav-strong" : ""}" data-i18n="nav.tools">Tools</a>
-      <a href="${link("/ai")}" class="header-nav-link header-nav-collapse${activeNav === "ai" ? " header-nav-strong" : ""}" data-i18n="nav.ai">AI</a>
       <div class="locale-switch" data-locale-switch role="group" data-i18n-aria="nav.language"></div>
-      <a href="mailto:sales@chasa.io?subject=Chasa%20sales" class="header-nav-sales header-nav-collapse" data-i18n="nav.contactSales">Contact sales</a>
+      <!--email_off-->
+      <a href="#contact-sales" class="header-nav-sales header-nav-collapse" data-sales-mail data-sales-subject="Chasa sales" data-i18n="nav.contactSales">Contact sales</a>
+      <!--/email_off-->
       <a href="${link("/app/")}" class="nav-cta" data-i18n="nav.tryFree">Try free</a>
       <a href="${link("/app/login")}" class="header-login-btn header-nav-collapse" data-i18n="nav.signIn">Sign in</a>
       <button class="header-menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" data-menu-toggle data-i18n-aria="nav.openMenu">
         <span></span><span></span><span></span>
       </button>
-    </div>
+    </nav>
   </div>
 </header>
 <div class="mobile-panel-backdrop" data-mobile-backdrop></div>
 <div class="mobile-panel" data-mobile-panel>
   <button class="mobile-panel-close" type="button" aria-label="Close menu" data-mobile-close data-i18n-aria="nav.closeMenu">✕</button>
   <nav class="mobile-panel-nav">
+      <a href="${link("/features/")}" class="mobile-panel-nav-link" data-i18n="nav.features">Features</a>
       <a href="${link("/#pricing")}" class="mobile-panel-nav-link" data-i18n="nav.pricing">Pricing</a>
-      <a href="${link("/blog/invoice-chase-software-comparison/")}" class="mobile-panel-nav-link" data-i18n="nav.compare">Compare</a>
+      <a href="${link("/use-cases/")}" class="mobile-panel-nav-link" data-i18n="nav.useCases">Use Cases</a>
+      <a href="${link("/blog/")}" class="mobile-panel-nav-link" data-i18n="nav.blog">Blog</a>
+      <a href="${link("/docs/")}" class="mobile-panel-nav-link" data-i18n="nav.api">API</a>
+      <a href="${link("/about")}" class="mobile-panel-nav-link" data-i18n="nav.about">About</a>
       <a href="${link("/free-templates/")}" class="mobile-panel-nav-link" data-i18n="nav.templates">Free templates</a>
       <a href="${link("/tools/")}" class="mobile-panel-nav-link" data-i18n="nav.tools">Tools</a>
-      <a href="${link("/ai")}" class="mobile-panel-nav-link" data-i18n="nav.ai">AI</a>
       <a href="${link("/app/login")}" class="mobile-panel-nav-link" data-i18n="nav.signIn">Sign in</a>
       <a href="${link("/app/")}" class="mobile-panel-nav-link" data-i18n="nav.tryFree">Try free</a>
   </nav>
   <div class="mobile-panel-ctas">
     <a href="${link("/app/")}" class="mobile-panel-cta-primary" data-i18n="nav.tryFree">Try free</a>
     <a href="${link("/app/login")}" class="mobile-panel-cta-secondary" data-i18n="nav.signIn">Sign in</a>
-    <a href="mailto:sales@chasa.io?subject=Chasa%20sales" class="mobile-panel-cta-secondary" data-i18n="nav.contactSales">Contact sales</a>
+    <!--email_off-->
+    <a href="#contact-sales" class="mobile-panel-cta-secondary" data-sales-mail data-sales-subject="Chasa sales" data-i18n="nav.contactSales">Contact sales</a>
+    <!--/email_off-->
   </div>
 </div>
 <main class="wrap page-main">
@@ -99,14 +216,24 @@ ${mainHtml}
     </div>
     <div class="site-footer-col">
       <h4 data-i18n="footer.product">Product</h4>
-      <a href="${link("/app/")}" data-i18n="footer.tryFree">Try free</a>
+      <a href="${link("/")}" data-i18n="footer.home">Homepage</a>
       <a href="${link("/#pricing")}" data-i18n="footer.pricing">Pricing</a>
+      <a href="${link("/features/")}" data-i18n="footer.features">Features</a>
+      <a href="${link("/use-cases/")}" data-i18n="footer.useCases">Use Cases</a>
+      <a href="${link("/blog/")}" data-i18n="footer.blog">Blog</a>
+      <a href="${link("/docs/")}" data-i18n="footer.docs">API & Docs</a>
       <a href="${link("/free-templates/")}" data-i18n="footer.templates">Free templates</a>
       <a href="${link("/tools/")}" data-i18n="footer.calculators">Calculators</a>
-      <a href="${link("/features/")}" data-i18n="footer.features">Features</a>
-      <a href="${link("/docs/")}" data-i18n="footer.docs">Docs</a>
       <a href="${link("/ai")}" data-i18n="footer.ai">AI</a>
-      <a href="${link("/#faq")}" data-i18n="footer.faq">FAQ</a>
+    </div>
+    <div class="site-footer-col">
+      <h4 data-i18n="footer.useCasesHeader">Use Cases</h4>
+      <a href="${link("/use-cases/risk-scoring-automation")}">Risk Scoring</a>
+      <a href="${link("/use-cases/audit-ready-workflows")}">Audit Workflows</a>
+      <a href="${link("/use-cases/sox-evidence-automation")}">SOX AR Evidence</a>
+      <a href="${link("/use-cases/compliance-dashboard")}">Compliance Board</a>
+      <a href="${link("/use-cases/chasa-certificate-monitoring")}">Certificate Proof</a>
+      <a href="${link("/use-cases/document-signing-api")}">Follow-up API</a>
     </div>
     <div class="site-footer-col">
       <h4 data-i18n="footer.compareCol">Compare</h4>
@@ -116,7 +243,6 @@ ${mainHtml}
       <a href="${link("/chasa-vs-satago")}" data-i18n="footer.vsSatago">vs Satago</a>
       <a href="${link("/chasa-vs-chaseai")}" data-i18n="footer.vsChaseai">vs ChaseAI</a>
       <a href="${link("/switch-to-chasa")}" data-i18n="footer.switch">Switch to Chasa</a>
-      <a href="${link("/blog/invoice-chase-software-comparison/")}" data-i18n="footer.compare">See full comparison</a>
     </div>
     <div class="site-footer-col">
       <h4 data-i18n="footer.company">Company</h4>
@@ -124,8 +250,6 @@ ${mainHtml}
       <a href="${link("/press")}" data-i18n="footer.press">Press</a>
       <a href="${link("/imprint")}" data-i18n="footer.imprint">Imprint</a>
       <a href="mailto:founder@chasa.io" data-i18n="footer.contact">Contact</a>
-      <a href="${SOCIAL.linkedin}" target="_blank" rel="noopener noreferrer" data-i18n="footer.linkedin">LinkedIn</a>
-      <a href="${SOCIAL.x}" target="_blank" rel="noopener noreferrer" data-i18n="footer.x">X</a>
     </div>
     <div class="site-footer-col">
       <h4 data-i18n="footer.legal">Legal</h4>
@@ -141,6 +265,19 @@ ${mainHtml}
 <script src="${link(`/site-nav.js?v=${ASSET_V}`)}" defer></script>
 <script src="${link("/cookie-consent.js")}" defer></script>
 <script src="${link("/analytics.js")}" defer></script>
+<script>
+/* Contact sales → Chasa Assistant (Docracy pattern). */
+(function () {
+  document.addEventListener("click", function (e) {
+    var el = e.target && e.target.closest
+      ? e.target.closest("[data-sales-mail], .header-nav-sales, a[data-i18n='nav.contactSales'], a[data-i18n='home.pricing.contactSales']")
+      : null;
+    if (!el) return;
+    e.preventDefault();
+    window.dispatchEvent(new CustomEvent("chasa:open-chat", { detail: { intent: "sales" } }));
+  }, true);
+})();
+</script>
 </body>
 </html>`;
 }

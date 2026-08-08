@@ -4,7 +4,13 @@ import { isAdminEmail } from "../lib/adminAuth";
 import cloudConnectors from "./cloudConnectors";
 import googleIntegrations from "./googleIntegrations";
 import { importLocalPdfBytes } from "../lib/pdfInvoiceHints";
-import { brandingUpdateSchema, digestSettingsSchema, parseJsonBody, validateWorkspaceName } from "../lib/schemas";
+import {
+  brandingUpdateSchema,
+  digestSettingsSchema,
+  marketingOptInSchema,
+  parseJsonBody,
+  validateWorkspaceName,
+} from "../lib/schemas";
 
 const account = new Hono<AuthEnv>();
 
@@ -14,7 +20,7 @@ account.route("/google", googleIntegrations);
 account.get("/me", requireAccount, async (c) => {
   const acc = c.get("account")!;
   const row = await c.env.CHASA_DB.prepare(
-    `SELECT workspace_name, logo_data, payment_link, late_fee_enabled, late_fee_hint, digest_enabled FROM accounts WHERE id = ?`
+    `SELECT workspace_name, logo_data, payment_link, late_fee_enabled, late_fee_hint, digest_enabled, marketing_opt_in FROM accounts WHERE id = ?`
   )
     .bind(acc.workspaceId)
     .first<{
@@ -24,6 +30,7 @@ account.get("/me", requireAccount, async (c) => {
       late_fee_enabled: number | null;
       late_fee_hint: string | null;
       digest_enabled: number | null;
+      marketing_opt_in: number | null;
     }>();
 
   return c.json({
@@ -35,6 +42,7 @@ account.get("/me", requireAccount, async (c) => {
     lateFeeEnabled: !!(row?.late_fee_enabled),
     lateFeeHint: row?.late_fee_hint ?? null,
     digestEnabled: row?.digest_enabled !== 0,
+    marketingOptIn: !!row?.marketing_opt_in,
     role: acc.role,
     workspaceId: acc.workspaceId,
     isAdmin: isAdminEmail(c.env, acc.email),
@@ -184,6 +192,43 @@ account.patch("/digest", requireAccount, async (c) => {
     .bind(parsed.data.digestEnabled ? 1 : 0, acc.workspaceId)
     .run();
   return c.json({ digestEnabled: parsed.data.digestEnabled });
+});
+
+account.patch("/marketing-opt-in", requireAccount, async (c) => {
+  const acc = c.get("account")!;
+  const parsed = await parseJsonBody(c.req, marketingOptInSchema);
+  if (!parsed.ok) return c.json({ error: parsed.error }, 400);
+
+  if (parsed.data.marketingOptIn) {
+    // Set-once: an account that already has a token keeps it, so a previously emailed unsubscribe
+    // link never goes stale just because they opted back in later.
+    await c.env.CHASA_DB.prepare(
+      `UPDATE accounts SET marketing_opt_in = 1, marketing_unsub_token = COALESCE(marketing_unsub_token, ?) WHERE id = ?`
+    )
+      .bind(crypto.randomUUID(), acc.workspaceId)
+      .run();
+  } else {
+    await c.env.CHASA_DB.prepare(`UPDATE accounts SET marketing_opt_in = 0 WHERE id = ?`)
+      .bind(acc.workspaceId)
+      .run();
+  }
+  return c.json({ marketingOptIn: parsed.data.marketingOptIn });
+});
+
+/** Public, token-based — same one-click pattern as the templates-pack unsubscribe link. */
+account.get("/marketing-unsubscribe", async (c) => {
+  const token = c.req.query("token")?.trim();
+  if (!token) return c.text("Missing token", 400);
+  const result = await c.env.CHASA_DB.prepare(
+    `UPDATE accounts SET marketing_opt_in = 0 WHERE marketing_unsub_token = ?`
+  )
+    .bind(token)
+    .run();
+  if (!result.meta.changes) return c.text("That unsubscribe link is invalid or already used.", 404);
+  return c.html(`<!DOCTYPE html><html><body style="font-family:system-ui,sans-serif;max-width:480px;margin:80px auto;text-align:center;color:#1B3155">
+    <h1 style="font-size:22px">You're unsubscribed</h1>
+    <p>You won't receive further product news/update emails. Transactional emails (sign-in links, receipts, digests you've enabled) are unaffected.</p>
+  </body></html>`);
 });
 
 /** Local PDF upload from New chase — same hint shape as cloud connector import. */

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { adminPasswordLogin, requestMagicLink, type AuthConfig } from "../lib/api";
 import { track } from "../lib/analytics";
 import { useT } from "../lib/i18n";
@@ -16,19 +16,24 @@ async function loadAuthConfig(): Promise<AuthConfig | null> {
 
 export default function Login() {
   const t = useT();
-  const [email, setEmail] = useState("");
+  const params = new URLSearchParams(window.location.search);
+  const emailFromUrl = (params.get("email") || "").trim();
+  const autoStart = params.get("start") === "1" && Boolean(emailFromUrl);
+
+  const [email, setEmail] = useState(emailFromUrl);
   const [password, setPassword] = useState("");
   const [sent, setSent] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
   const [turnstileRequired, setTurnstileRequired] = useState(false);
+  const [configLoaded, setConfigLoaded] = useState(false);
   const [googleLoginEnabled, setGoogleLoginEnabled] = useState(false);
   const [adminEmail, setAdminEmail] = useState<string | null>(null);
+  const autoStartedRef = useRef(false);
 
   useEffect(() => {
     track("signup_started");
-    const params = new URLSearchParams(window.location.search);
     const err = params.get("error");
     if (err === "google_auth" || err === "google_unavailable") {
       setError("google_auth");
@@ -37,7 +42,9 @@ export default function Login() {
       setTurnstileRequired(Boolean(cfg?.turnstileRequired));
       setGoogleLoginEnabled(Boolean(cfg?.googleLoginEnabled));
       setAdminEmail(cfg?.adminEmail?.trim().toLowerCase() || null);
+      setConfigLoaded(true);
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- read URL once on mount
   }, []);
 
   const isAdminEmail =
@@ -45,6 +52,21 @@ export default function Login() {
 
   const displayError =
     error === "google_auth" ? t("login.googleFailed") : error;
+
+  async function sendMagicLink(currentEmail: string, token: string | null) {
+    setSubmitting(true);
+    setError(null);
+    try {
+      await requestMagicLink(currentEmail, token);
+      setSent(true);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : t("login.genericError"));
+      setTurnstileToken(null);
+      resetTurnstile();
+    } finally {
+      setSubmitting(false);
+    }
+  }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -71,18 +93,39 @@ export default function Login() {
     }
   }
 
+  // Hero "Start free" lands here with ?email=&start=1 — send the magic link once ready.
+  useEffect(() => {
+    if (!autoStart || !configLoaded || autoStartedRef.current || sent || submitting) return;
+    if (isAdminEmail) return;
+    if (turnstileRequired && !turnstileToken) return;
+    autoStartedRef.current = true;
+    void sendMagicLink(email, turnstileToken);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    autoStart,
+    configLoaded,
+    email,
+    isAdminEmail,
+    sent,
+    submitting,
+    turnstileRequired,
+    turnstileToken,
+  ]);
+
   if (sent) {
     return (
       <div className="panel">
         <h1>{t("login.sentTitle")}</h1>
-        <p className="page-sub">{t("login.sentBody", { email })}</p>
+        <p className="page-sub">
+          {autoStart ? t("login.sentBodySignup", { email }) : t("login.sentBody", { email })}
+        </p>
       </div>
     );
   }
 
   return (
     <div className="panel">
-      <h1>{t("login.title")}</h1>
+      <h1>{autoStart ? t("login.titleSignup") : t("login.title")}</h1>
       {googleLoginEnabled ? (
         <>
           <a
@@ -115,7 +158,13 @@ export default function Login() {
           </div>
         </>
       ) : (
-        <p className="page-sub">{isAdminEmail ? t("login.subAdmin") : t("login.sub")}</p>
+        <p className="page-sub">
+          {isAdminEmail
+            ? t("login.subAdmin")
+            : autoStart
+              ? t("login.subSignup")
+              : t("login.sub")}
+        </p>
       )}
       <form onSubmit={handleSubmit}>
         <div
@@ -136,7 +185,11 @@ export default function Login() {
               className="btn-primary"
               disabled={submitting || (turnstileRequired && !turnstileToken)}
             >
-              {submitting ? t("login.sending") : t("login.cta")}
+              {submitting
+                ? t("login.sending")
+                : autoStart
+                  ? t("login.ctaSignup")
+                  : t("login.cta")}
             </button>
           )}
         </div>

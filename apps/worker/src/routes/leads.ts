@@ -1,7 +1,7 @@
 import { Hono } from "hono";
 import type { AuthEnv } from "../lib/auth";
 import { trackEvent } from "../lib/analytics";
-import { sendTemplatesPackWelcomeEmail } from "../lib/email";
+import { sendTemplatesPackWelcomeEmail, sendContactInquiryEmail } from "../lib/email";
 import { detectLocaleFromHeader, normalizeLocale } from "../lib/locale";
 import {
   markWelcomeSent,
@@ -9,7 +9,7 @@ import {
   upsertTemplatesPackLead,
 } from "../lib/leads";
 import { checkRateLimit, clientIpFromHeaders } from "../lib/rateLimit";
-import { parseJsonBody, templatesPackLeadSchema } from "../lib/schemas";
+import { parseJsonBody, templatesPackLeadSchema, contactLeadSchema } from "../lib/schemas";
 import { configuredAppOrigin, requestAppOrigin } from "../lib/appUrl";
 import { clientIp, turnstileSiteKey, verifyTurnstile } from "../lib/turnstile";
 
@@ -23,6 +23,26 @@ leads.get("/config", (c) => {
     turnstileRequired: Boolean(c.env.TURNSTILE_SECRET_KEY?.trim()),
     pdfPath: PDF_PATH,
   });
+});
+
+leads.post("/contact", async (c) => {
+  const parsed = await parseJsonBody(c.req, contactLeadSchema);
+  if (!parsed.ok) return c.json({ error: parsed.error }, 400);
+
+  const ip = clientIp(c) || clientIpFromHeaders(c.req.raw.headers);
+  const rl = await checkRateLimit(c.env, `leads:contact:${ip}`, 6, 3600);
+  if (!rl.ok) {
+    return c.json({ error: "Too many requests. Try again later." }, 429);
+  }
+
+  try {
+    await sendContactInquiryEmail(c.env, parsed.data.email, parsed.data.message);
+  } catch (err) {
+    console.error("[leads] contact inquiry failed", err);
+    return c.json({ error: "Could not send your message. Try emailing sales@chasa.io." }, 502);
+  }
+
+  return c.json({ ok: true });
 });
 
 leads.post("/templates-pack", async (c) => {

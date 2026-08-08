@@ -4,6 +4,8 @@
   --accent: #EC683C;
   --paper: #F2F4F8;
   --white: #FFFFFF;
+  /* Same deep orange as the marketing site's header (site.css --header-bg) */
+  --header-bg: #C24A28;
 
   --ink-soft: color-mix(in srgb, var(--ink) 58%, var(--white));
   --line: color-mix(in srgb, var(--ink) 14%, var(--white));
@@ -55,11 +57,12 @@ a { color: inherit; }
   top: 0;
   z-index: 100;
   padding: 14px 20px;
-  background: var(--ink);
+  background: var(--header-bg);
   color: var(--white);
 }
 .app-topbar-brand {
-  display: inline-flex;
+  /* Desktop: brand lives in the sidebar only — avoid double “chasa”. */
+  display: none;
   align-items: center;
   gap: 10px;
   text-decoration: none;
@@ -85,7 +88,7 @@ a { color: inherit; }
   white-space: nowrap;
 }
 .app-topbar-title {
-  display: none;
+  display: block;
   font-size: 15px;
   font-weight: 700;
   color: var(--white);
@@ -588,8 +591,8 @@ a { color: inherit; }
   .app-sidebar {
     display: none;
   }
-  .app-topbar-title {
-    display: block;
+  .app-topbar-brand {
+    display: inline-flex;
   }
   .app-main {
     padding: 20px 16px calc(24px + env(safe-area-inset-bottom, 0px));
@@ -2047,6 +2050,10 @@ textarea {
   margin: 0;
   flex: 1;
   min-width: 200px;
+}
+.admin-day-filter-top {
+  display: inline-block;
+  margin-left: 8px;
 }
 .admin-day-filter select {
   font: inherit;

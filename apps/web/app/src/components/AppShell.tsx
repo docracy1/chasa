@@ -160,29 +160,27 @@ export default function AppShell({
     { pathname: "/", search: "?view=paid", view: "paid" as const, label: t("nav.chasesPaid") },
   ];
 
+  // Docracy keeps Tools to admin-only workspace settings — Contacts/Team live outside it
+  // (Contacts gets its own sidebar slot, Team lives in the account popover).
   const toolsNav = (
     [
       workspaceAdmin
         ? { to: "/connector", hash: "api-key", label: t("nav.connectorApi") }
         : null,
       workspaceAdmin ? { to: "/webhooks", hash: undefined, label: t("nav.webhooks") } : null,
-      { to: "/clients", hash: undefined, label: t("nav.clients") },
       workspaceAdmin
         ? { to: "/connector", hash: "cloud", label: t("nav.connectors") }
         : null,
       workspaceAdmin ? { to: "/branding", hash: undefined, label: t("nav.branding") } : null,
-      { to: "/team", hash: undefined, label: t("nav.team") },
     ] as const
   ).filter(Boolean) as Array<{ to: string; hash: string | undefined; label: string }>;
 
   const chasesPathActive = onDashboard && (view === "overdue" || view === "waiting" || view === "paid");
   const toolsPathActive =
-    location.pathname.startsWith("/clients") ||
-    location.pathname.startsWith("/team") ||
-    (workspaceAdmin &&
-      (location.pathname.startsWith("/connector") ||
-        location.pathname.startsWith("/webhooks") ||
-        location.pathname.startsWith("/branding")));
+    workspaceAdmin &&
+    (location.pathname.startsWith("/connector") ||
+      location.pathname.startsWith("/webhooks") ||
+      location.pathname.startsWith("/branding"));
 
   useEffect(() => {
     if (chasesPathActive) setChasesExpanded(true);
@@ -245,10 +243,8 @@ export default function AppShell({
     pageTitles.find((entry) => entry.match(location.pathname, location.search))?.title ?? "chasa";
 
   function toolItemActive(to: string, hash?: string): boolean {
-    if (to === "/clients") return location.pathname.startsWith("/clients");
     if (to === "/webhooks") return location.pathname.startsWith("/webhooks");
     if (to === "/branding") return location.pathname.startsWith("/branding");
-    if (to === "/team") return location.pathname.startsWith("/team");
     if (!location.pathname.startsWith("/connector")) return false;
     const current = location.hash.replace(/^#/, "") || "api-key";
     return current === (hash || "api-key");
@@ -273,12 +269,11 @@ export default function AppShell({
           className="app-topbar-brand"
           aria-label={t("nav.home")}
           onClick={(e) => {
+            e.preventDefault();
             setMoreSheetOpen(false);
-            // Force a clean start page even when already on / with ?view=
-            if (location.pathname === "/" || location.pathname === "") {
-              e.preventDefault();
-              navigate("/", { replace: true });
-            }
+            // Always return to the clean dashboard (drop ?view= / ?focus=).
+            navigate({ pathname: "/", search: "" }, { replace: true });
+            window.scrollTo(0, 0);
           }}
         >
           <img src={logoSrc} alt="" width="24" height="24" />
@@ -294,11 +289,10 @@ export default function AppShell({
           className="app-brand"
           aria-label={t("nav.home")}
           onClick={(e) => {
+            e.preventDefault();
             setMoreSheetOpen(false);
-            if (location.pathname === "/" || location.pathname === "") {
-              e.preventDefault();
-              navigate("/", { replace: true });
-            }
+            navigate({ pathname: "/", search: "" }, { replace: true });
+            window.scrollTo(0, 0);
           }}
         >
           <img src={logoSrc} alt="" width="28" height="28" />
@@ -329,6 +323,16 @@ export default function AppShell({
             <span className="dash-nav-item-label">
               <NavIcon name="templates" />
               <span>{t("nav.templates")}</span>
+            </span>
+          </NavLink>
+
+          <NavLink
+            to="/clients"
+            className={({ isActive }) => (isActive ? "dash-nav-item is-active" : "dash-nav-item")}
+          >
+            <span className="dash-nav-item-label">
+              <NavIcon name="clients" />
+              <span>{t("nav.clients")}</span>
             </span>
           </NavLink>
 

@@ -3,6 +3,7 @@ import {
   adminBlogDelete,
   adminBlogList,
   adminBlogUpdate,
+  adminBroadcast,
   adminFunnels,
   adminGrantEnterprise,
   adminLogin,
@@ -15,6 +16,7 @@ import {
   isExcludeSelf,
   setExcludeSelf,
   type BlogPost,
+  type BroadcastResult,
   type FunnelStats,
   type OutreachStats,
   type SignupLists,
@@ -38,7 +40,8 @@ type NavId =
   | "errors"
   | "blog"
   | "signups"
-  | "analytics";
+  | "analytics"
+  | "broadcast";
 
 function FunnelTable({
   title,
@@ -435,6 +438,9 @@ export default function Admin() {
     body: "",
     published: false,
   });
+  const [broadcastForm, setBroadcastForm] = useState({ subject: "", bodyHtml: "" });
+  const [broadcastResult, setBroadcastResult] = useState<BroadcastResult | null>(null);
+  const [broadcastBusy, setBroadcastBusy] = useState(false);
 
   async function loadAll(d = days, h = humansOnly, day = trafficDay) {
     const [f, tr, sources, o, s, b] = await Promise.all([
@@ -581,6 +587,35 @@ export default function Admin() {
     setPosts(b.posts);
   }
 
+  async function previewBroadcast(e: React.FormEvent) {
+    e.preventDefault();
+    setBroadcastBusy(true);
+    setError(null);
+    try {
+      const result = await adminBroadcast({ ...broadcastForm, dryRun: true });
+      setBroadcastResult(result);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : t("admin.broadcastFailed"));
+    } finally {
+      setBroadcastBusy(false);
+    }
+  }
+
+  async function sendBroadcast() {
+    const count = broadcastResult?.recipientCount ?? 0;
+    if (!confirm(t("admin.broadcastConfirm", { count }))) return;
+    setBroadcastBusy(true);
+    setError(null);
+    try {
+      const result = await adminBroadcast({ ...broadcastForm });
+      setBroadcastResult(result);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : t("admin.broadcastFailed"));
+    } finally {
+      setBroadcastBusy(false);
+    }
+  }
+
   async function grantEnterprise(e: React.FormEvent) {
     e.preventDefault();
     setBusy(true);
@@ -678,6 +713,7 @@ export default function Admin() {
                 ["analytics", "admin.nav.analytics"],
                 ["growth", "admin.nav.growth"],
                 ["blog", "admin.nav.blog"],
+                ["broadcast", "admin.nav.broadcast"],
                 ["signups", "admin.nav.signups"],
                 ["activation", "admin.nav.activation"],
                 ["completion", "admin.nav.completion"],
@@ -711,7 +747,9 @@ export default function Admin() {
           <h1>
             {nav === "blog"
               ? t("admin.nav.blog")
-              : nav === "signups"
+              : nav === "broadcast"
+                ? t("admin.nav.broadcast")
+                : nav === "signups"
                 ? t("admin.nav.signups")
                 : nav === "analytics"
                   ? t("admin.nav.analytics")
@@ -771,6 +809,26 @@ export default function Admin() {
                 />
                 {t("admin.excludeSelf")}
               </label>
+              {nav === "analytics" && traffic && (
+                <label className="admin-day-filter admin-day-filter-top">
+                  <span className="sr-only">{t("admin.filterByDay")}</span>
+                  <select
+                    value={trafficDay ?? "all"}
+                    onChange={(e) => void changeTrafficDay(e.target.value === "all" ? null : e.target.value)}
+                    aria-label={t("admin.filterByDay")}
+                  >
+                    <option value="all">{t("admin.allDays")}</option>
+                    {traffic.byDay
+                      .map((r) => r.day)
+                      .sort((a, b) => b.localeCompare(a))
+                      .map((d) => (
+                        <option key={d} value={d}>
+                          {d}
+                        </option>
+                      ))}
+                  </select>
+                </label>
+              )}
             </>
           )}
 
@@ -1109,6 +1167,50 @@ export default function Admin() {
                   {t("admin.createPost")}
                 </button>
               </form>
+            </section>
+          )}
+
+          {nav === "broadcast" && (
+            <section className="dash-card">
+              <h2 className="dash-card-title">{t("admin.broadcastTitle")}</h2>
+              <p className="dash-muted">{t("admin.broadcastMuted")}</p>
+              <form
+                className="dash-blog-form"
+                onSubmit={previewBroadcast}
+              >
+                <input
+                  placeholder={t("admin.broadcastSubject")}
+                  value={broadcastForm.subject}
+                  onChange={(e) => setBroadcastForm({ ...broadcastForm, subject: e.target.value })}
+                  required
+                />
+                <textarea
+                  rows={10}
+                  placeholder={t("admin.broadcastBody")}
+                  value={broadcastForm.bodyHtml}
+                  onChange={(e) => setBroadcastForm({ ...broadcastForm, bodyHtml: e.target.value })}
+                  required
+                />
+                <button type="submit" className="btn-secondary" disabled={broadcastBusy}>
+                  {broadcastBusy ? t("common.loading") : t("admin.broadcastPreview")}
+                </button>
+              </form>
+              {broadcastResult && (
+                <div className="dash-note" style={{ marginTop: 16 }}>
+                  {broadcastResult.sent != null ? (
+                    <p>{t("admin.broadcastSent", { sent: broadcastResult.sent, failed: broadcastResult.failed ?? 0 })}</p>
+                  ) : (
+                    <>
+                      <p>{t("admin.broadcastRecipients", { count: broadcastResult.recipientCount })}</p>
+                      {broadcastResult.recipientCount > 0 && (
+                        <button type="button" className="btn-primary" onClick={sendBroadcast} disabled={broadcastBusy}>
+                          {broadcastBusy ? t("common.loading") : t("admin.broadcastSend")}
+                        </button>
+                      )}
+                    </>
+                  )}
+                </div>
+              )}
             </section>
           )}
 
