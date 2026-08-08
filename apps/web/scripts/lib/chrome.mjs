@@ -2,6 +2,7 @@
 
 import { ORG_JSON_LD, SOCIAL } from "../data/seo-config.mjs";
 import { renderSeoHead } from "./seo-head.mjs";
+import { EN_TO_ES, ES_TO_EN } from "../data/es-alternates.mjs";
 
 /** Bump when site.css / site-nav.js / site-lang.js change so Pages edge caches refresh. */
 export const ASSET_V = "20260807a";
@@ -101,7 +102,7 @@ export function escapeHtml(s) {
     .replaceAll('"', "&quot;");
 }
 
-export function chrome({ title, description, canonical, activeNav = "", mainHtml, jsonLd, depth = 0, extraHead = "" }) {
+export function chrome({ title, description, canonical, activeNav = "", mainHtml, jsonLd, depth = 0, extraHead = "", lang = "en" }) {
   const prefix = depth > 0 ? "../".repeat(depth) : "";
   const root = depth > 0 ? "../".repeat(depth).slice(0, -1) || "." : "";
   const base = depth === 0 ? "" : "../".repeat(depth).replace(/\/$/, "") || ".";
@@ -112,14 +113,31 @@ export function chrome({ title, description, canonical, activeNav = "", mainHtml
   const defaultJsonLd = JSON.stringify(ORG_JSON_LD, null, 2);
   const seoHead = renderSeoHead({ link });
 
+  // Only pages with a REAL generated counterpart (see es-alternates.mjs) get hreflang tags —
+  // claiming an alternate that doesn't exist would send crawlers into a 404.
+  const enPath = EN_TO_ES[canonical] ? canonical : ES_TO_EN[canonical];
+  const esPath = EN_TO_ES[canonical] || canonical;
+  const hasAlternate = Boolean(EN_TO_ES[canonical] || ES_TO_EN[canonical]);
+  const hreflangHead = hasAlternate
+    ? `<link rel="alternate" hreflang="en" href="https://chasa.io${enPath}">
+<link rel="alternate" hreflang="es" href="https://chasa.io${esPath}">
+<link rel="alternate" hreflang="x-default" href="https://chasa.io${enPath}">`
+    : "";
+  const localeSwitchAttrs = hasAlternate
+    ? lang === "es"
+      ? ` data-en-href="${enPath}"`
+      : ` data-es-href="${esPath}"`
+    : "";
+
   return `<!DOCTYPE html>
-<html lang="en">
+<html lang="${lang}">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>${escapeHtml(title)}</title>
 <meta name="description" content="${escapeHtml(description)}">
 <link rel="canonical" href="${canonicalUrl}">
+${hreflangHead}
 <meta property="og:type" content="website">
 <meta property="og:title" content="${escapeHtml(title)}">
 <meta property="og:description" content="${escapeHtml(description)}">
@@ -170,7 +188,7 @@ ${jsonLd ? `<script type="application/ld+json">\n${jsonLd}\n</script>` : `<scrip
         columns: 2,
       })}
       <a href="${link("/free-templates/")}" class="header-nav-link header-nav-collapse${activeNav === "templates" ? " header-nav-strong" : ""}" data-i18n="nav.templates">Free templates</a>
-      <div class="locale-switch" data-locale-switch role="group" data-i18n-aria="nav.language"></div>
+      <div class="locale-switch" data-locale-switch role="group" data-i18n-aria="nav.language"${localeSwitchAttrs}></div>
       <!--email_off-->
       <a href="#contact-sales" class="header-nav-sales header-nav-collapse" data-sales-mail data-sales-subject="Chasa sales" data-i18n="nav.contactSales">Contact sales</a>
       <!--/email_off-->
