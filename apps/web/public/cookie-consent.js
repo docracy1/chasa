@@ -25,14 +25,24 @@
     document.body.appendChild(s);
   }
 
+  // analytics.js's own pageview() call is unconditional (aggregate page-view counting doesn't
+  // need consent), so it's always loaded — its consent-gated parts (Clarity, event tracking) are
+  // internally gated and only run once consent actually exists. See analytics.js for that split.
   function loadAnalytics() {
-    loadClarity();
     if (document.querySelector('script[data-chasa-analytics]')) return;
     var s = document.createElement("script");
     s.src = "/analytics.js";
     s.async = true;
     s.setAttribute("data-chasa-analytics", "1");
     document.body.appendChild(s);
+  }
+
+  /** Called once consent is granted — either at load time (already accepted) or from the
+   *  Accept button mid-session. analytics.js is already loaded either way; this just triggers
+   *  its consent-gated half (Clarity + event tracking) without re-injecting the script tag. */
+  function onConsentGranted() {
+    loadClarity();
+    if (typeof window.chasaInitAnalytics === "function") window.chasaInitAnalytics();
   }
 
   function injectStyles() {
@@ -78,7 +88,7 @@
     banner.querySelector(".chasa-cookie-accept").addEventListener("click", function () {
       setConsent("accepted");
       banner.remove();
-      loadAnalytics();
+      onConsentGranted();
     });
     banner.querySelector(".chasa-cookie-decline").addEventListener("click", function () {
       setConsent("declined");
@@ -87,8 +97,9 @@
   }
 
   var consent = getConsent();
+  loadAnalytics();
   if (consent === "accepted") {
-    loadAnalytics();
+    onConsentGranted();
   } else if (!consent) {
     if (document.readyState === "loading") {
       document.addEventListener("DOMContentLoaded", showBanner);

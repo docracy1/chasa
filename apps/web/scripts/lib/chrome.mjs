@@ -5,7 +5,7 @@ import { renderSeoHead } from "./seo-head.mjs";
 import { EN_TO_ES, ES_TO_EN } from "../data/es-alternates.mjs";
 
 /** Bump when site.css / site-nav.js / site-lang.js change so Pages edge caches refresh. */
-export const ASSET_V = "20260807a";
+export const ASSET_V = "20260809a";
 
 /** Small inline icon set for the header mega-menus (mirrors the app's NavIcon component). */
 const ICON_PATHS = {
@@ -306,8 +306,8 @@ ${mainHtml}
 </footer>
 <script src="${link(`/site-lang.js?v=${ASSET_V}`)}" defer></script>
 <script src="${link(`/site-nav.js?v=${ASSET_V}`)}" defer></script>
-<script src="${link("/cookie-consent.js")}" defer></script>
-<script src="${link("/analytics.js")}" defer></script>
+<script src="${link(`/cookie-consent.js?v=${ASSET_V}`)}" defer></script>
+<script src="${link(`/analytics.js?v=${ASSET_V}`)}" defer></script>
 <script>
 /* Contact sales → Chasa Assistant (Docracy pattern). */
 (function () {
