@@ -292,6 +292,14 @@ export async function getTrafficStats(env: Env, days = 30, day?: string | null) 
   // click another bar without losing the series.
   const breakdownWhere = dayFilter ? `day = ?` : `day >= ?`;
   const breakdownBind = dayFilter ?? sinceDay;
+  // The KPI cards need to respect the same day pin as the breakdown tables — without an
+  // upper bound, picking a single day still summed chases across the whole `days` window.
+  const kpiSinceIso = dayFilter ? `${dayFilter}T00:00:00.000Z` : sinceIso;
+  const kpiUntilIso = dayFilter
+    ? new Date(new Date(`${dayFilter}T00:00:00.000Z`).getTime() + 24 * 60 * 60 * 1000).toISOString()
+    : null;
+  const kpiWhere = kpiUntilIso ? `created_at >= ? AND created_at < ?` : `created_at >= ?`;
+  const kpiBind = kpiUntilIso ? [kpiSinceIso, kpiUntilIso] : [kpiSinceIso];
 
   const [totals, byDay, byRoute, byBot, byCountry, kpis] = await Promise.all([
     env.CHASA_DB.prepare(
@@ -337,11 +345,11 @@ export async function getTrafficStats(env: Env, days = 30, day?: string | null) 
       .all<{ country: string; c: number }>(),
     env.CHASA_DB.prepare(
       `SELECT
-         (SELECT COUNT(*) FROM analytics_events WHERE name = 'chase_sent' AND created_at >= ?) as chases_sent,
-         (SELECT COUNT(*) FROM analytics_events WHERE name = 'chase_completed' AND created_at >= ?) as chases_completed
+         (SELECT COUNT(*) FROM analytics_events WHERE name = 'chase_sent' AND ${kpiWhere}) as chases_sent,
+         (SELECT COUNT(*) FROM analytics_events WHERE name = 'chase_completed' AND ${kpiWhere}) as chases_completed
        `
     )
-      .bind(sinceIso, sinceIso)
+      .bind(...kpiBind, ...kpiBind)
       .first<{ chases_sent: number; chases_completed: number }>(),
   ]);
 
