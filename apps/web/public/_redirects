@@ -25,9 +25,11 @@
 /go/templates  /free-templates/?utm_source=templates&utm_medium=shortlink&utm_campaign=templates  302
 
 # Compliance pages consolidated under /compliance/ — preserve any indexing/link
-# equity the old URLs picked up rather than letting them 404.
+# equity the old URLs picked up rather than letting them 404. Both the bare and
+# trailing-slash forms go straight to the destination — chaining bare -> slash -> dest
+# is what Search Console flags as a "Redirect error".
 /compliance  /compliance/  301
-/solutions  /solutions/  301
+/solutions  /compliance/  301
 /solutions/  /compliance/  301
 /solutions/soc2-evidence-automation  /compliance/soc2  301
 /solutions/iso27001-evidence-automation  /compliance/iso27001  301

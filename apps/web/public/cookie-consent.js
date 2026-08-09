@@ -68,6 +68,7 @@
     banner.className = "chasa-cookie-banner";
     banner.setAttribute("role", "dialog");
     banner.setAttribute("aria-modal", "true");
+    banner.setAttribute("aria-label", "Cookie consent");
     banner.innerHTML =
       '<div class="chasa-cookie-inner">' +
       '<p>We use cookies for anonymous analytics to improve Chasa. See our <a href="/privacy">Privacy policy</a>.</p>' +
