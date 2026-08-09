@@ -7,6 +7,12 @@
     <priority>1.00</priority>
   </url>
   <url>
+    <loc>https://chasa.io/30-day-overdue-invoice-email</loc>
+    <lastmod>2026-08-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
     <loc>https://chasa.io/about</loc>
     <lastmod>2026-08-09</lastmod>
     <changefreq>monthly</changefreq>
@@ -379,6 +385,12 @@
     <priority>0.85</priority>
   </url>
   <url>
+    <loc>https://chasa.io/freelancer-invoice-reminder-tool</loc>
+    <lastmod>2026-08-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
     <loc>https://chasa.io/imprint</loc>
     <lastmod>2026-08-09</lastmod>
     <changefreq>yearly</changefreq>
@@ -463,6 +475,12 @@
     <priority>0.85</priority>
   </url>
   <url>
+    <loc>https://chasa.io/polite-payment-reminder-email</loc>
+    <lastmod>2026-08-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
     <loc>https://chasa.io/press</loc>
     <lastmod>2026-08-09</lastmod>
     <changefreq>monthly</changefreq>
@@ -521,6 +539,12 @@
     <lastmod>2026-08-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.90</priority>
+  </url>
+  <url>
+    <loc>https://chasa.io/unpaid-invoice-follow-up-templates</loc>
+    <lastmod>2026-08-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
   </url>
   <url>
     <loc>https://chasa.io/use-cases/</loc>
