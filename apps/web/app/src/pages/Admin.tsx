@@ -123,7 +123,7 @@ function DayChart({
               key={r.day}
               type="button"
               className={`dash-chart-col${selected ? " is-selected" : ""}`}
-              title={t("admin.chartTitle", { day: r.day, human: r.human, bot: r.bot })}
+              title={t("admin.chartTitle", { day: fmtDate(r.day), human: r.human, bot: r.bot })}
               onClick={() => onSelectDay(selected ? null : r.day)}
             >
               <div className="dash-chart-stack">
@@ -230,7 +230,7 @@ function TrafficSourcesTable({
             <option value="all">{t("admin.allDays")}</option>
             {days.map((d) => (
               <option key={d} value={d}>
-                {d}
+                {fmtDate(d)}
               </option>
             ))}
           </select>
@@ -823,7 +823,7 @@ export default function Admin() {
                       .sort((a, b) => b.localeCompare(a))
                       .map((d) => (
                         <option key={d} value={d}>
-                          {d}
+                          {fmtDate(d)}
                         </option>
                       ))}
                   </select>
@@ -872,7 +872,7 @@ export default function Admin() {
                   {t("admin.pageViewsByDay")}
                   {trafficDay ? (
                     <button type="button" className="btn-secondary" onClick={() => void changeTrafficDay(null)}>
-                      {t("admin.clearDayFilter", { day: trafficDay })}
+                      {t("admin.clearDayFilter", { day: fmtDate(trafficDay) })}
                     </button>
                   ) : null}
                 </h2>
@@ -1008,7 +1008,7 @@ export default function Admin() {
                 <section className="dash-card">
                   <h2 className="dash-card-title">
                     {t("admin.byRoute")}
-                    {trafficDay ? <span className="dash-kpi-tag">{trafficDay}</span> : null}
+                    {trafficDay ? <span className="dash-kpi-tag">{fmtDate(trafficDay)}</span> : null}
                   </h2>
                   <table className="admin-table">
                     <thead>
@@ -1042,7 +1042,7 @@ export default function Admin() {
                 <section className="dash-card">
                   <h2 className="dash-card-title">
                     {t("admin.byBot")}
-                    {trafficDay ? <span className="dash-kpi-tag">{trafficDay}</span> : null}
+                    {trafficDay ? <span className="dash-kpi-tag">{fmtDate(trafficDay)}</span> : null}
                   </h2>
                   <table className="admin-table">
                     <thead>
@@ -1070,7 +1070,7 @@ export default function Admin() {
                 <section className="dash-card">
                   <h2 className="dash-card-title">
                     {t("admin.byCountry")}
-                    {trafficDay ? <span className="dash-kpi-tag">{trafficDay}</span> : null}
+                    {trafficDay ? <span className="dash-kpi-tag">{fmtDate(trafficDay)}</span> : null}
                   </h2>
                   <table className="admin-table">
                     <thead>
