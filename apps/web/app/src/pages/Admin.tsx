@@ -179,16 +179,14 @@ function hostLabel(host: string): string {
 
 function TrafficSourcesTable({
   rows,
+  windowDays,
   t,
 }: {
   rows: TrafficSourceRow[];
+  windowDays: number;
   t: (key: string, vars?: Record<string, string | number>) => string;
 }) {
-  const days = useMemo(() => {
-    const set = new Set<string>();
-    for (const r of rows) set.add(r.day);
-    return [...set].sort((a, b) => b.localeCompare(a));
-  }, [rows]);
+  const days = useMemo(() => lastNDays(windowDays), [windowDays]);
   const [selectedDay, setSelectedDay] = useState("all");
 
   const { referrers, campaigns, selfReferralCount } = useMemo(() => {
@@ -405,6 +403,19 @@ function fmtDate(iso: string): string {
   } catch {
     return iso.slice(0, 10);
   }
+}
+
+/** Every calendar day in the window, today first — not just the days that happen to already
+ *  have a row. A day with zero events should still be pickable and show 0, not disappear. */
+function lastNDays(n: number): string[] {
+  const out: string[] = [];
+  const now = new Date();
+  for (let i = 0; i < n; i++) {
+    const d = new Date(now);
+    d.setUTCDate(d.getUTCDate() - i);
+    out.push(d.toISOString().slice(0, 10));
+  }
+  return out;
 }
 
 export default function Admin() {
@@ -818,9 +829,7 @@ export default function Admin() {
                     aria-label={t("admin.filterByDay")}
                   >
                     <option value="all">{t("admin.allDays")}</option>
-                    {traffic.byDay
-                      .map((r) => r.day)
-                      .sort((a, b) => b.localeCompare(a))
+                    {lastNDays(days)
                       .map((d) => (
                         <option key={d} value={d}>
                           {fmtDate(d)}
@@ -863,7 +872,7 @@ export default function Admin() {
                 <section className="dash-card admin-traffic-sources-card">
                   <h2 className="dash-card-title">{t("admin.externalTrafficTitle")}</h2>
                   <p className="dash-note">{t("admin.externalTrafficSub")}</p>
-                  <TrafficSourcesTable rows={trafficSources.rows} t={t} />
+                  <TrafficSourcesTable rows={trafficSources.rows} windowDays={days} t={t} />
                 </section>
               )}
 
