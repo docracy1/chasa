@@ -261,6 +261,8 @@ ${mainHtml}
       <a href="${link("/#pricing")}" data-i18n="footer.pricing">Pricing</a>
       <a href="${link("/features/")}" data-i18n="footer.features">Features</a>
       <a href="${link("/use-cases/")}" data-i18n="footer.useCases">Use Cases</a>
+      <a href="${link("/compliance/")}">Compliance</a>
+      <a href="${link("/integrations/")}">Integrations</a>
       <a href="${link("/blog/")}" data-i18n="footer.blog">Blog</a>
       <a href="${link("/docs/")}" data-i18n="footer.docs">API & Docs</a>
       <a href="${link("/free-templates/")}" data-i18n="footer.templates">Free templates</a>
