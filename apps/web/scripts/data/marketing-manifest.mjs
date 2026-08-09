@@ -8,6 +8,11 @@ export const MARKETING_PAGES = [
   { file: "invoice-follow-up.html" },
   { file: "freelancer-invoice-follow-up.html" },
   { file: "chase-invoices.html" },
+  // SEO capture long-tail landings (see generate-seo-capture-pages.mjs)
+  { file: "unpaid-invoice-follow-up-templates.html" },
+  { file: "polite-payment-reminder-email.html" },
+  { file: "30-day-overdue-invoice-email.html" },
+  { file: "freelancer-invoice-reminder-tool.html" },
   // Vs-competitor SEO landings (see generate-vs-pages.mjs)
   { file: "chasa-vs-chaser.html" },
   { file: "chasa-vs-paidnice.html" },

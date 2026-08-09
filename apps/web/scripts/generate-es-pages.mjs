@@ -26,20 +26,22 @@ const SEO_ES = {
   "/": {
     title: "Chasa — Recordatorios de facturas con IA para autónomos",
     description:
-      "Herramienta gratuita de seguimiento de facturas con IA para autónomos y pequeños negocios. Pega tus facturas impagas y obtén el correo de recordatorio con el tono adecuado — amable la primera semana, firme a partir de 30 días. Compatible con QuickBooks y FreshBooks.",
+      "Herramienta gratuita con IA para seguimiento de facturas. Pega tu factura impaga y recibe el recordatorio con el tono adecuado, de amable a firme.",
   },
   "/privacy": {
     title: "Privacidad — Chasa",
-    description: "Qué hace Chasa con tus datos.",
+    description:
+      "Qué hace Chasa con tus datos: qué recopilamos, por qué, qué subencargados lo tratan, cuánto tiempo se conserva y cómo pedir su eliminación o exportación.",
   },
   "/terms": {
     title: "Términos — Chasa",
-    description: "Cómo funciona Chasa — descripción sencilla del servicio.",
+    description:
+      "Cómo funciona Chasa, explicado en lenguaje sencillo: qué hace el servicio, qué cuesta, tus responsabilidades y las condiciones de tu cuenta.",
   },
   "/blog/": {
-    title: "Guías de seguimiento de facturas y recordatorios de pago | Blog de Chasa",
+    title: "Guías de facturas y recordatorios de pago | Blog Chasa",
     description:
-      "Guías prácticas para hacer seguimiento de facturas vencidas, escribir recordatorios de pago y construir una política de cuentas por cobrar — para autónomos y pequeños equipos que gestionan sus cobros ellos mismos.",
+      "Guías prácticas para hacer seguimiento de facturas vencidas, escribir recordatorios de pago y construir una política de cuentas por cobrar.",
   },
 };
 

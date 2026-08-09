@@ -288,7 +288,7 @@ const blogIndexJsonLd = JSON.stringify(
 const indexHtml = chrome({
   title: "Invoice Chasing & Payment Reminder Guides | Chasa Blog",
   description:
-    "Practical guides on chasing overdue invoices, writing payment reminder emails, and building an AR policy — for freelancers and small teams who chase payment themselves.",
+    "Practical guides on chasing overdue invoices, writing payment reminder emails, and building an AR policy for freelancers and small teams.",
   canonical: "/blog/",
   activeNav: "blog",
   mainHtml: buildIndexMain(posts),
