@@ -43,11 +43,14 @@
 /site-nav.js
   Cache-Control: public, max-age=0, must-revalidate
 
-/analytics.js
-  Cache-Control: public, max-age=86400
-
 /clarity.js
   Cache-Control: public, max-age=86400
 
+/analytics.js
+  Cache-Control: public, max-age=31536000, immutable
+
 /assistant.js
-  Cache-Control: public, max-age=86400
+  Cache-Control: public, max-age=31536000, immutable
+
+/cookie-consent.js
+  Cache-Control: public, max-age=31536000, immutable

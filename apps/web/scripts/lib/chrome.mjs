@@ -167,6 +167,8 @@ ${jsonLd ? `<script type="application/ld+json">\n${jsonLd}\n</script>` : `<scrip
 <link rel="icon" href="${link("/favicon.png")}" type="image/png">
 <link rel="icon" href="${link("/favicon.svg")}" type="image/svg+xml">
 <link rel="apple-touch-icon" href="${link("/apple-touch-icon.png")}">
+<link rel="preload" href="${link("/fonts/inter-400.woff2")}" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="${link("/fonts/inter-700.woff2")}" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="${link(`/site.css?v=${ASSET_V}`)}">
 </head>
 <body>
