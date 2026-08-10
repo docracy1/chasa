@@ -198,6 +198,12 @@ export const en = {
   "home.testimonials.3.quote":
     "“Chasa makes late-invoice follow-ups painless. I paste the invoice, choose how overdue it is, and get a message that's clear, respectful, and effective. It saves time, reduces stress, and keeps client communication professional. A simple tool that delivers real value for SMEs.”",
   "home.testimonials.3.title": "· owner, Hellocash",
+  "home.testimonials.4.quote":
+    "“This service has been a game-changer for my workflow. I went from juggling messy processes to having a clean, automated system that saves me hours every week. What impressed me most was how quickly I saw value — the setup was straightforward, and the support was genuinely helpful. I recommend it to anyone who wants to streamline operations without adding complexity.”",
+  "home.testimonials.4.title": "· CFO, AKG Smart Polymer",
+  "home.testimonials.5.quote":
+    "“I didn't expect such a big improvement so quickly. The tool removed a lot of the manual work I used to do, and suddenly my weekly operations became predictable instead of chaotic. What stood out most was how intuitive everything felt — no steep learning curve, just immediate value. I'd recommend it to any founder who wants reliability without extra overhead.”",
+  "home.testimonials.5.title": "· CEO, AE Entsorgungssysteme",
 
   "home.integrations.title": "Connect Chasa with the tools you already use",
   "home.integrations.lede":
@@ -554,6 +560,12 @@ export const es = {
   "home.testimonials.3.quote":
     "«Chasa hace que el seguimiento de facturas vencidas sea sencillo. Pego la factura, elijo cuánto retraso tiene y obtengo un mensaje claro, respetuoso y eficaz. Ahorra tiempo, reduce el estrés y mantiene profesional la comunicación con los clientes. Una herramienta simple que aporta valor real a las pymes.»",
   "home.testimonials.3.title": "· propietario, Hellocash",
+  "home.testimonials.4.quote":
+    "«Este servicio ha cambiado por completo mi forma de trabajar. Pasé de manejar procesos desordenados a tener un sistema limpio y automatizado que me ahorra horas cada semana. Lo que más me impresionó fue lo rápido que vi resultados: la configuración fue sencilla y el soporte realmente útil. Lo recomiendo a cualquiera que quiera optimizar sus operaciones sin añadir complejidad.»",
+  "home.testimonials.4.title": "· CFO, AKG Smart Polymer",
+  "home.testimonials.5.quote":
+    "«No esperaba una mejora tan grande tan rápido. La herramienta eliminó gran parte del trabajo manual que solía hacer, y de repente mis operaciones semanales pasaron de ser caóticas a predecibles. Lo que más destacó fue lo intuitivo que resultó todo: sin curva de aprendizaje, solo valor inmediato. Lo recomendaría a cualquier fundador que busque fiabilidad sin complicaciones adicionales.»",
+  "home.testimonials.5.title": "· CEO, AE Entsorgungssysteme",
 
   "home.integrations.title": "Conecta Chasa con las herramientas que ya usas",
   "home.integrations.lede":
