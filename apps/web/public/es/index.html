@@ -184,6 +184,12 @@
     gap: 18px 22px;
     margin-top: 8px;
   }
+  .hero-cta-links {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px 22px;
+  }
   .hero-signup {
     display: flex;
     align-items: stretch;
@@ -237,6 +243,16 @@
   }
   .hero-watch-btn:hover { opacity: 0.88; }
   .hero-watch-icon { display: inline-flex; line-height: 0; }
+  .hero-calc-link {
+    display: inline-flex;
+    align-items: center;
+    font-size: 15px;
+    font-weight: 700;
+    color: #fff;
+    text-decoration: underline;
+    padding: 6px 0;
+  }
+  .hero-calc-link:hover { opacity: 0.88; }
   .hero-cta-hint {
     margin: 12px 0 0;
     font-size: 13px;
@@ -1211,17 +1227,20 @@ La IA escribe el seguimiento — tú mantienes el control.</h1>
              data-i18n-aria="home.hero.emailPlaceholder" aria-label="Tu email de trabajo"/>
             <button type="submit" class="hero-signup-btn" data-cta data-i18n="home.hero.startFree">Empezar gratis →</button>
           </form>
-          <button type="button" class="hero-watch-btn" id="watch-how-it-works" data-cta data-open-how-video>
-            <span class="hero-watch-icon" aria-hidden="true">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-                <circle cx="12" cy="12" r="10" fill="rgba(255,255,255,0.18)" />
-                <path d="M10 8.5v7l6-3.5-6-3.5z" fill="#fff" />
-              </svg>
-            </span>
-            <span data-i18n="home.hero.watchHow">Míralo en 60 segundos</span>
-          </button>
+          <div class="hero-cta-links">
+            <button type="button" class="hero-watch-btn" id="watch-how-it-works" data-cta data-open-how-video>
+              <span class="hero-watch-icon" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                  <circle cx="12" cy="12" r="10" fill="rgba(255,255,255,0.18)" />
+                  <path d="M10 8.5v7l6-3.5-6-3.5z" fill="#fff" />
+                </svg>
+              </span>
+              <span data-i18n="home.hero.watchHow">Míralo en 60 segundos</span>
+            </button>
+            <a href="/tools/chase-savings-calculator" class="hero-calc-link" data-cta data-i18n="home.hero.calcSavings">Calcula tu ahorro</a>
+          </div>
         </div>
-        <p class="hero-cta-hint" data-i18n="home.hero.note">Empieza gratis · sin tarjeta · tu cuenta en un clic</p>
+        <p class="hero-cta-hint" data-i18n="home.hero.note">Sin tarjeta de crédito · tu cuenta en un clic</p>
         <p class="hero-secondary-link">
           <a href="/free-templates/" data-cta data-i18n="home.hero.ctaSecondary">o ver plantillas gratis</a>
         </p>
