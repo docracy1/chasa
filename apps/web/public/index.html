@@ -146,7 +146,7 @@
     --hero-body: rgba(255, 255, 255, 0.9);
     background: linear-gradient(135deg, var(--hero-from) 0%, var(--accent) 42%, var(--hero-to) 100%);
     color: #fff;
-    padding: 64px 24px 72px;
+    padding: 44px 24px 72px;
     overflow: hidden;
   }
   .hero-inner {
@@ -166,7 +166,7 @@
     line-height: 1.12;
     letter-spacing: -0.025em;
     color: #fff;
-    margin: 0 0 18px;
+    margin: 0 0 14px;
     max-width: 14em;
     white-space: pre-line;
   }
@@ -174,7 +174,7 @@
     font-size: 17px;
     line-height: 1.45;
     color: var(--hero-body);
-    margin: 0 0 22px;
+    margin: 0 0 16px;
     max-width: 34em;
   }
   .hero-cta-row {
@@ -375,10 +375,10 @@
     .hero-sub { font-size: 15px; margin: 0 0 16px; }
     .doc-mockup-glow { display: none; }
     .hero-signup { flex: 1 1 100%; max-width: none; }
-    .hero-trustbar { margin: 32px -20px -40px; }
-    .hero-trustbar-chip { height: 44px; padding: 6px 14px; }
-    .hero-trustbar-logo { height: 20px; max-width: 88px; }
-    .hero-trustbar-row { gap: 14px; }
+    .hero-trustbar { margin: 24px -20px -40px; }
+    .hero-trustbar-chip { height: 56px; padding: 8px 16px; }
+    .hero-trustbar-logo { height: 34px; max-width: 110px; }
+    .hero-trustbar-row { gap: 16px; }
   }
   @media (prefers-reduced-motion: reduce) {
     .doc-mockup-card { animation: none; }
@@ -387,31 +387,32 @@
 
   /* ---------- HERO TRUST BAR (customer logos) ---------- */
   .hero-trustbar {
-    margin: 48px -24px -72px;
-    padding: 22px 0 26px;
-    border-top: 1px solid rgba(255, 255, 255, 0.16);
+    margin: 22px -24px -72px;
+    padding: 20px 0 24px;
+    background: var(--header-bg, #C24A28);
   }
   .hero-trustbar-label {
-    margin: 0 0 16px;
+    margin: 0 0 14px;
     text-align: center;
     font-size: 12.5px;
     font-weight: 700;
     letter-spacing: 0.06em;
     text-transform: uppercase;
-    color: rgba(255, 255, 255, 0.62);
+    color: rgba(255, 255, 255, 0.68);
   }
   .hero-trustbar-track {
     display: flex;
     overflow: hidden;
-    mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+    max-width: 100%;
+    mask-image: linear-gradient(90deg, transparent, #000 48px, #000 calc(100% - 48px), transparent);
   }
   .hero-trustbar-row {
     display: flex;
     align-items: center;
     flex-shrink: 0;
-    gap: 20px;
-    padding: 0 28px;
-    animation: hero-trustbar-scroll 28s linear infinite;
+    gap: 24px;
+    padding-right: 24px;
+    animation: hero-trustbar-scroll 45s linear infinite;
   }
   @keyframes hero-trustbar-scroll {
     from { transform: translateX(0); }
@@ -421,16 +422,16 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 52px;
-    padding: 8px 18px;
-    background: rgba(255, 255, 255, 0.96);
+    height: 72px;
+    padding: 10px 22px;
+    background: #fff;
     border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    flex-shrink: 0;
   }
   .hero-trustbar-logo {
-    height: 26px;
+    height: 44px;
     width: auto;
-    max-width: 110px;
+    max-width: 150px;
     object-fit: contain;
   }
 
@@ -1335,8 +1336,32 @@ AI writes the chase — you stay in control.</h1>
           <div class="hero-trustbar-chip"><img src="/testimonials/akg-smart-polymer-logo.webp" onerror="this.onerror=null;this.src='/testimonials/akg-smart-polymer-logo.png'" alt="AKG Smart Polymer" width="222" height="96" loading="lazy" class="hero-trustbar-logo"></div>
           <div class="hero-trustbar-chip"><img src="/testimonials/ae-entsorgungssysteme-logo.webp" onerror="this.onerror=null;this.src='/testimonials/ae-entsorgungssysteme-logo.png'" alt="AE Entsorgungssysteme" width="159" height="96" loading="lazy" class="hero-trustbar-logo"></div>
           <div class="hero-trustbar-chip"><img src="/testimonials/kapsch-logo.webp" onerror="this.onerror=null;this.src='/testimonials/kapsch-logo.png'" alt="Kapsch" width="96" height="96" loading="lazy" class="hero-trustbar-logo"></div>
+          <div class="hero-trustbar-chip"><img src="/testimonials/robust-plastics-logo.webp" alt="" width="135" height="48" loading="lazy" class="hero-trustbar-logo"></div>
+          <div class="hero-trustbar-chip"><img src="/testimonials/volpini-verpackung-logo.webp" alt="" width="94" height="96" loading="lazy" class="hero-trustbar-logo"></div>
+          <div class="hero-trustbar-chip"><img src="/testimonials/hellocash-logo.webp" alt="" width="148" height="96" loading="lazy" class="hero-trustbar-logo"></div>
+          <div class="hero-trustbar-chip"><img src="/testimonials/akg-smart-polymer-logo.webp" alt="" width="222" height="96" loading="lazy" class="hero-trustbar-logo"></div>
+          <div class="hero-trustbar-chip"><img src="/testimonials/ae-entsorgungssysteme-logo.webp" alt="" width="159" height="96" loading="lazy" class="hero-trustbar-logo"></div>
+          <div class="hero-trustbar-chip"><img src="/testimonials/kapsch-logo.webp" alt="" width="96" height="96" loading="lazy" class="hero-trustbar-logo"></div>
+          <div class="hero-trustbar-chip"><img src="/testimonials/robust-plastics-logo.webp" alt="" width="135" height="48" loading="lazy" class="hero-trustbar-logo"></div>
+          <div class="hero-trustbar-chip"><img src="/testimonials/volpini-verpackung-logo.webp" alt="" width="94" height="96" loading="lazy" class="hero-trustbar-logo"></div>
+          <div class="hero-trustbar-chip"><img src="/testimonials/hellocash-logo.webp" alt="" width="148" height="96" loading="lazy" class="hero-trustbar-logo"></div>
+          <div class="hero-trustbar-chip"><img src="/testimonials/akg-smart-polymer-logo.webp" alt="" width="222" height="96" loading="lazy" class="hero-trustbar-logo"></div>
+          <div class="hero-trustbar-chip"><img src="/testimonials/ae-entsorgungssysteme-logo.webp" alt="" width="159" height="96" loading="lazy" class="hero-trustbar-logo"></div>
+          <div class="hero-trustbar-chip"><img src="/testimonials/kapsch-logo.webp" alt="" width="96" height="96" loading="lazy" class="hero-trustbar-logo"></div>
         </div>
         <div class="hero-trustbar-row" aria-hidden="true">
+          <div class="hero-trustbar-chip"><img src="/testimonials/robust-plastics-logo.webp" alt="" width="135" height="48" loading="lazy" class="hero-trustbar-logo"></div>
+          <div class="hero-trustbar-chip"><img src="/testimonials/volpini-verpackung-logo.webp" alt="" width="94" height="96" loading="lazy" class="hero-trustbar-logo"></div>
+          <div class="hero-trustbar-chip"><img src="/testimonials/hellocash-logo.webp" alt="" width="148" height="96" loading="lazy" class="hero-trustbar-logo"></div>
+          <div class="hero-trustbar-chip"><img src="/testimonials/akg-smart-polymer-logo.webp" alt="" width="222" height="96" loading="lazy" class="hero-trustbar-logo"></div>
+          <div class="hero-trustbar-chip"><img src="/testimonials/ae-entsorgungssysteme-logo.webp" alt="" width="159" height="96" loading="lazy" class="hero-trustbar-logo"></div>
+          <div class="hero-trustbar-chip"><img src="/testimonials/kapsch-logo.webp" alt="" width="96" height="96" loading="lazy" class="hero-trustbar-logo"></div>
+          <div class="hero-trustbar-chip"><img src="/testimonials/robust-plastics-logo.webp" alt="" width="135" height="48" loading="lazy" class="hero-trustbar-logo"></div>
+          <div class="hero-trustbar-chip"><img src="/testimonials/volpini-verpackung-logo.webp" alt="" width="94" height="96" loading="lazy" class="hero-trustbar-logo"></div>
+          <div class="hero-trustbar-chip"><img src="/testimonials/hellocash-logo.webp" alt="" width="148" height="96" loading="lazy" class="hero-trustbar-logo"></div>
+          <div class="hero-trustbar-chip"><img src="/testimonials/akg-smart-polymer-logo.webp" alt="" width="222" height="96" loading="lazy" class="hero-trustbar-logo"></div>
+          <div class="hero-trustbar-chip"><img src="/testimonials/ae-entsorgungssysteme-logo.webp" alt="" width="159" height="96" loading="lazy" class="hero-trustbar-logo"></div>
+          <div class="hero-trustbar-chip"><img src="/testimonials/kapsch-logo.webp" alt="" width="96" height="96" loading="lazy" class="hero-trustbar-logo"></div>
           <div class="hero-trustbar-chip"><img src="/testimonials/robust-plastics-logo.webp" alt="" width="135" height="48" loading="lazy" class="hero-trustbar-logo"></div>
           <div class="hero-trustbar-chip"><img src="/testimonials/volpini-verpackung-logo.webp" alt="" width="94" height="96" loading="lazy" class="hero-trustbar-logo"></div>
           <div class="hero-trustbar-chip"><img src="/testimonials/hellocash-logo.webp" alt="" width="148" height="96" loading="lazy" class="hero-trustbar-logo"></div>
