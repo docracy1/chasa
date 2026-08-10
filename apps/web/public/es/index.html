@@ -529,6 +529,37 @@
   .tpl-preview-list a:hover { color: var(--accent); }
   .tpl-preview-cta { text-align: center; }
 
+  /* ---------- TESTIMONIALS ---------- */
+  .testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+  }
+  .testimonial-card {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 24px;
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+  }
+  .testimonial-quote {
+    font-size: 15px;
+    font-style: italic;
+    color: var(--ink);
+    line-height: 1.55;
+    margin: 0;
+    flex: 1;
+  }
+  .testimonial-attrib { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; }
+  .testimonial-logo { height: 40px; width: auto; max-width: 140px; object-fit: contain; margin-bottom: 6px; }
+  .testimonial-name { font-size: 13.5px; font-weight: 700; color: var(--ink); margin: 0; }
+  .testimonial-name span { font-weight: 400; color: var(--ink-soft); }
+  .testimonial-linkedin { font-size: 12.5px; font-weight: 600; color: var(--accent); text-decoration: none; }
+  .testimonial-linkedin:hover { text-decoration: underline; }
+
   /* ---------- PRICING (eversign-style: features first, sticky prices) ---------- */
   .pricing {
     padding: 48px 0 24px;
@@ -1373,6 +1404,37 @@ La IA escribe el seguimiento — tú mantienes el control.</h1>
       <p class="integrations-footnote" data-i18n="home.integrations.footnote">QuickBooks Online y Xero importan facturas vencidas al aging. Dropbox, OneDrive, Box y Google importan PDFs de facturas (Google también desbloquea borradores de Gmail). Zapier y webhooks envían facturas vencidas. MCP conecta Claude, ChatGPT, Grok, Perplexity y Cursor a borradores de seguimiento.</p>
       <div class="integrations-cta-wrap">
         <a href="/docs/" class="integrations-cta" data-i18n="home.integrations.cta">Más información →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials (real customers) -->
+  <section class="section wrap" id="testimonials">
+    <h2 class="section-title" data-i18n="home.testimonials.title">Lo que dicen las pymes sobre Chasa</h2>
+    <div class="testimonials-grid">
+      <div class="testimonial-card">
+        <p class="testimonial-quote" data-i18n="home.testimonials.1.quote">«Chasa hace que el seguimiento de facturas vencidas sea sencillo. Pego mi factura, elijo cuánto retraso tiene y obtengo un mensaje con el tono perfecto cada vez. Se mantiene cortés, firme cuando es necesario, y siempre tengo el control. Simple, rápido y realmente útil para las pymes.»</p>
+        <div class="testimonial-attrib">
+          <img src="/testimonials/robust-plastics-logo.webp" onerror="this.onerror=null;this.src='/testimonials/robust-plastics-logo.png'" alt="Robust Plastics" width="135" height="48" loading="lazy" class="testimonial-logo">
+          <p class="testimonial-name">Thomas Hörhahn <span data-i18n="home.testimonials.1.title">· propietario, Robust Plastics</span></p>
+          <a href="https://www.linkedin.com/in/thomas-h%C3%B6hrhan-219a07176/" class="testimonial-linkedin" rel="noopener" target="_blank" aria-label="Thomas Hörhahn on LinkedIn">LinkedIn ↗</a>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <p class="testimonial-quote" data-i18n="home.testimonials.2.quote">«Chasa elimina el estrés de reclamar pagos atrasados. Cargo mi factura y obtengo al instante un seguimiento claro y profesional que se ajusta a la situación. Es rápido, preciso y mantiene fluidas las relaciones con los clientes. Una pequeña herramienta que marca una gran diferencia para las pymes.»</p>
+        <div class="testimonial-attrib">
+          <img src="/testimonials/volpini-verpackung-logo.webp" onerror="this.onerror=null;this.src='/testimonials/volpini-verpackung-logo.png'" alt="Volpini Verpackung GmbH" width="94" height="96" loading="lazy" class="testimonial-logo">
+          <p class="testimonial-name">Otto Schweinzer <span data-i18n="home.testimonials.2.title">· CEO, Volpini Verpackung GmbH</span></p>
+          <a href="https://www.linkedin.com/in/otto-schweinzer-8a3394213/" class="testimonial-linkedin" rel="noopener" target="_blank" aria-label="Otto Schweinzer on LinkedIn">LinkedIn ↗</a>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <p class="testimonial-quote" data-i18n="home.testimonials.3.quote">«Chasa hace que el seguimiento de facturas vencidas sea sencillo. Pego la factura, elijo cuánto retraso tiene y obtengo un mensaje claro, respetuoso y eficaz. Ahorra tiempo, reduce el estrés y mantiene profesional la comunicación con los clientes. Una herramienta simple que aporta valor real a las pymes.»</p>
+        <div class="testimonial-attrib">
+          <img src="/testimonials/hellocash-logo.webp" onerror="this.onerror=null;this.src='/testimonials/hellocash-logo.png'" alt="Hellocash" width="148" height="96" loading="lazy" class="testimonial-logo">
+          <p class="testimonial-name">Laurenz Gröbner <span data-i18n="home.testimonials.3.title">· propietario, Hellocash</span></p>
+          <a href="https://www.linkedin.com/in/laurenz-gr%C3%B6bner-87179566/" class="testimonial-linkedin" rel="noopener" target="_blank" aria-label="Laurenz Gröbner on LinkedIn">LinkedIn ↗</a>
+        </div>
       </div>
     </div>
   </section>

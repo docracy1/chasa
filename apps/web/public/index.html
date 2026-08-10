@@ -529,6 +529,37 @@
   .tpl-preview-list a:hover { color: var(--accent); }
   .tpl-preview-cta { text-align: center; }
 
+  /* ---------- TESTIMONIALS ---------- */
+  .testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+  }
+  .testimonial-card {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 24px;
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+  }
+  .testimonial-quote {
+    font-size: 15px;
+    font-style: italic;
+    color: var(--ink);
+    line-height: 1.55;
+    margin: 0;
+    flex: 1;
+  }
+  .testimonial-attrib { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; }
+  .testimonial-logo { height: 40px; width: auto; max-width: 140px; object-fit: contain; margin-bottom: 6px; }
+  .testimonial-name { font-size: 13.5px; font-weight: 700; color: var(--ink); margin: 0; }
+  .testimonial-name span { font-weight: 400; color: var(--ink-soft); }
+  .testimonial-linkedin { font-size: 12.5px; font-weight: 600; color: var(--accent); text-decoration: none; }
+  .testimonial-linkedin:hover { text-decoration: underline; }
+
   /* ---------- PRICING (eversign-style: features first, sticky prices) ---------- */
   .pricing {
     padding: 48px 0 24px;
@@ -1381,6 +1412,37 @@ AI writes the chase — you stay in control.</h1>
       </p>
       <div class="integrations-cta-wrap">
         <a href="/docs/" class="integrations-cta" data-i18n="home.integrations.cta">Learn more →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials (real customers) -->
+  <section class="section wrap" id="testimonials">
+    <h2 class="section-title" data-i18n="home.testimonials.title">What SMEs say about Chasa</h2>
+    <div class="testimonials-grid">
+      <div class="testimonial-card">
+        <p class="testimonial-quote" data-i18n="home.testimonials.1.quote">&ldquo;Chasa makes overdue invoice follow-ups effortless. I paste my invoice, pick how late it is, and get a perfectly toned message every time. It stays polite, firm when needed, and I always stay in control. Simple, fast, and genuinely helpful for SMEs.&rdquo;</p>
+        <div class="testimonial-attrib">
+          <img src="/testimonials/robust-plastics-logo.webp" onerror="this.onerror=null;this.src='/testimonials/robust-plastics-logo.png'" alt="Robust Plastics" width="135" height="48" loading="lazy" class="testimonial-logo">
+          <p class="testimonial-name">Thomas Hörhahn <span data-i18n="home.testimonials.1.title">· owner, Robust Plastics</span></p>
+          <a href="https://www.linkedin.com/in/thomas-h%C3%B6hrhan-219a07176/" class="testimonial-linkedin" rel="noopener" target="_blank" aria-label="Thomas Hörhahn on LinkedIn">LinkedIn ↗</a>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <p class="testimonial-quote" data-i18n="home.testimonials.2.quote">&ldquo;Chasa takes the stress out of chasing late payments. I drop in my invoice and instantly get a clear, professional follow-up that fits the situation. It's quick, accurate, and keeps client relationships smooth. A small tool that makes a big difference for SMEs.&rdquo;</p>
+        <div class="testimonial-attrib">
+          <img src="/testimonials/volpini-verpackung-logo.webp" onerror="this.onerror=null;this.src='/testimonials/volpini-verpackung-logo.png'" alt="Volpini Verpackung GmbH" width="94" height="96" loading="lazy" class="testimonial-logo">
+          <p class="testimonial-name">Otto Schweinzer <span data-i18n="home.testimonials.2.title">· CEO, Volpini Verpackung GmbH</span></p>
+          <a href="https://www.linkedin.com/in/otto-schweinzer-8a3394213/" class="testimonial-linkedin" rel="noopener" target="_blank" aria-label="Otto Schweinzer on LinkedIn">LinkedIn ↗</a>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <p class="testimonial-quote" data-i18n="home.testimonials.3.quote">&ldquo;Chasa makes late-invoice follow-ups painless. I paste the invoice, choose how overdue it is, and get a message that's clear, respectful, and effective. It saves time, reduces stress, and keeps client communication professional. A simple tool that delivers real value for SMEs.&rdquo;</p>
+        <div class="testimonial-attrib">
+          <img src="/testimonials/hellocash-logo.webp" onerror="this.onerror=null;this.src='/testimonials/hellocash-logo.png'" alt="Hellocash" width="148" height="96" loading="lazy" class="testimonial-logo">
+          <p class="testimonial-name">Laurenz Gröbner <span data-i18n="home.testimonials.3.title">· owner, Hellocash</span></p>
+          <a href="https://www.linkedin.com/in/laurenz-gr%C3%B6bner-87179566/" class="testimonial-linkedin" rel="noopener" target="_blank" aria-label="Laurenz Gröbner on LinkedIn">LinkedIn ↗</a>
+        </div>
       </div>
     </div>
   </section>

@@ -188,6 +188,17 @@ export const en = {
   "home.templates.thankYou": "Thank you for payment",
   "home.templates.seeAll": "See all 18 free templates",
 
+  "home.testimonials.title": "What SMEs say about Chasa",
+  "home.testimonials.1.quote":
+    "“Chasa makes overdue invoice follow-ups effortless. I paste my invoice, pick how late it is, and get a perfectly toned message every time. It stays polite, firm when needed, and I always stay in control. Simple, fast, and genuinely helpful for SMEs.”",
+  "home.testimonials.1.title": "· owner, Robust Plastics",
+  "home.testimonials.2.quote":
+    "“Chasa takes the stress out of chasing late payments. I drop in my invoice and instantly get a clear, professional follow-up that fits the situation. It's quick, accurate, and keeps client relationships smooth. A small tool that makes a big difference for SMEs.”",
+  "home.testimonials.2.title": "· CEO, Volpini Verpackung GmbH",
+  "home.testimonials.3.quote":
+    "“Chasa makes late-invoice follow-ups painless. I paste the invoice, choose how overdue it is, and get a message that's clear, respectful, and effective. It saves time, reduces stress, and keeps client communication professional. A simple tool that delivers real value for SMEs.”",
+  "home.testimonials.3.title": "· owner, Hellocash",
+
   "home.integrations.title": "Connect Chasa with the tools you already use",
   "home.integrations.lede":
     "Plug into the platforms you already use — accounting, cloud storage, automation, and AI assistants. Solo and Pro unlock native connectors; everything listed here is real today.",
@@ -532,6 +543,17 @@ export const es = {
   "home.templates.ninetyDays": "Aviso final — 90 días",
   "home.templates.thankYou": "Gracias por el pago",
   "home.templates.seeAll": "Ver las 18 plantillas gratis",
+
+  "home.testimonials.title": "Lo que dicen las pymes sobre Chasa",
+  "home.testimonials.1.quote":
+    "«Chasa hace que el seguimiento de facturas vencidas sea sencillo. Pego mi factura, elijo cuánto retraso tiene y obtengo un mensaje con el tono perfecto cada vez. Se mantiene cortés, firme cuando es necesario, y siempre tengo el control. Simple, rápido y realmente útil para las pymes.»",
+  "home.testimonials.1.title": "· propietario, Robust Plastics",
+  "home.testimonials.2.quote":
+    "«Chasa elimina el estrés de reclamar pagos atrasados. Cargo mi factura y obtengo al instante un seguimiento claro y profesional que se ajusta a la situación. Es rápido, preciso y mantiene fluidas las relaciones con los clientes. Una pequeña herramienta que marca una gran diferencia para las pymes.»",
+  "home.testimonials.2.title": "· CEO, Volpini Verpackung GmbH",
+  "home.testimonials.3.quote":
+    "«Chasa hace que el seguimiento de facturas vencidas sea sencillo. Pego la factura, elijo cuánto retraso tiene y obtengo un mensaje claro, respetuoso y eficaz. Ahorra tiempo, reduce el estrés y mantiene profesional la comunicación con los clientes. Una herramienta simple que aporta valor real a las pymes.»",
+  "home.testimonials.3.title": "· propietario, Hellocash",
 
   "home.integrations.title": "Conecta Chasa con las herramientas que ya usas",
   "home.integrations.lede":
