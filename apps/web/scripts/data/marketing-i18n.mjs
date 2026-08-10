@@ -209,6 +209,9 @@ export const en = {
   "home.testimonials.6.quote":
     "“What impressed me most was how quickly this became part of my daily workflow. Instead of fighting with scattered documents and manual steps, everything finally runs smoothly. The reliability alone is worth it — I don't have to double-check every detail anymore. It's one of those tools you adopt once and then wonder how you ever worked without it.”",
   "home.testimonials.6.title": "· Product Owner, Kapsch",
+  "home.testimonials.7.quote":
+    "“Our company uses Chasa, and we've saved time, improved our cash flow, and reduced personal costs. I highly recommend Chasa.”",
+  "home.testimonials.7.title": "· CEO and owner, FAUN Austria",
 
   "home.integrations.title": "Connect Chasa with the tools you already use",
   "home.integrations.lede":
@@ -576,6 +579,9 @@ export const es = {
   "home.testimonials.6.quote":
     "«Lo que más me impresionó fue lo rápido que esto se integró en mi flujo de trabajo diario. En lugar de lidiar con documentos dispersos y pasos manuales, ahora todo funciona sin problemas. Solo la fiabilidad ya vale la pena — ya no tengo que revisar cada detalle. Es una de esas herramientas que adoptas una vez y luego te preguntas cómo trabajabas sin ella.»",
   "home.testimonials.6.title": "· Product Owner, Kapsch",
+  "home.testimonials.7.quote":
+    "«Nuestra empresa usa Chasa, y hemos ahorrado tiempo, mejorado nuestro flujo de caja y reducido costes personales. Recomiendo Chasa totalmente.»",
+  "home.testimonials.7.title": "· CEO y propietario, FAUN Austria",
 
   "home.integrations.title": "Conecta Chasa con las herramientas que ya usas",
   "home.integrations.lede":
