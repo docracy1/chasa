@@ -253,6 +253,18 @@
     padding: 6px 0;
   }
   .hero-calc-link:hover { opacity: 0.88; }
+  .hero-personalized-greeting {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 0 14px;
+    padding: 6px 14px;
+    font-size: 13.5px;
+    font-weight: 700;
+    color: #fff;
+    background: rgba(255, 255, 255, 0.16);
+    border-radius: 999px;
+  }
   .hero-cta-hint {
     margin: 12px 0 0;
     font-size: 13px;
@@ -550,6 +562,69 @@
     font-size: 14.5px;
     color: var(--ink-soft);
     line-height: 1.5;
+  }
+
+  /* ---------- LIVE DEMO (no signup) ---------- */
+  .demo-panel {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+    max-width: 1000px;
+    margin: 0 auto;
+    align-items: start;
+  }
+  .demo-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 24px;
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+  }
+  .demo-field { display: flex; flex-direction: column; gap: 6px; }
+  .demo-field label { font-size: 13px; font-weight: 700; color: var(--ink); }
+  .demo-field input[type="text"],
+  .demo-field input[type="number"] {
+    font: inherit;
+    font-size: 15px;
+    padding: 10px 12px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    color: var(--ink);
+    background: var(--white);
+  }
+  .demo-field input[type="range"] { width: 100%; }
+  .demo-field-days label span { color: var(--accent); font-weight: 700; }
+  .demo-submit { width: 100%; text-align: center; }
+  .demo-submit:disabled { opacity: 0.6; cursor: default; }
+  .demo-output {
+    min-height: 220px;
+    padding: 24px;
+    background: var(--canvas-soft, #FBF6F1);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .demo-output-placeholder { color: var(--ink-soft); font-size: 14.5px; text-align: center; }
+  .demo-output-error { color: var(--accent); font-size: 14.5px; text-align: center; }
+  .demo-output-draft { width: 100%; text-align: left; }
+  .demo-output-subject { font-size: 15px; font-weight: 700; color: var(--ink); margin: 0 0 10px; }
+  .demo-output-body { font-size: 14.5px; color: var(--ink); line-height: 1.55; white-space: pre-wrap; margin: 0 0 16px; }
+  .demo-output-cta {
+    display: inline-flex;
+    font-size: 13.5px;
+    font-weight: 700;
+    color: #fff;
+    background: var(--accent);
+    padding: 10px 16px;
+    border-radius: 8px;
+    text-decoration: none;
+  }
+  @media (max-width: 760px) {
+    .demo-panel { grid-template-columns: 1fr; }
   }
 
   /* ---------- AUDIENCE / WHY ---------- */
@@ -1266,6 +1341,7 @@
   <section class="hero-band">
     <div class="hero-inner hero-split">
       <div>
+        <p class="hero-personalized-greeting" id="hero-personalized-greeting" hidden></p>
         <h1 data-i18n="home.hero.title">Get paid faster.
 AI writes the chase — you stay in control.</h1>
         <p class="hero-sub" data-i18n="home.hero.sub">Paste an overdue invoice. Chasa drafts a follow-up matched to how late it is — warm early, firmer later — so you sound professional, not desperate. Copy, tweak, send from your own inbox.</p>
@@ -1403,6 +1479,32 @@ AI writes the chase — you stay in control.</h1>
         <div class="step-num">04</div>
         <h3 data-i18n="home.how.step4.title">Send from your inbox</h3>
         <p data-i18n="home.how.step4.body">Copy or open mailto — clients hear from you, not a bot.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- [Live demo — no signup] -->
+  <section class="section wrap demo-section" id="demo">
+    <h2 class="section-title" data-i18n="home.demo.title">See your own draft — no signup</h2>
+    <p class="section-sub" data-i18n="home.demo.sub">Enter a sample invoice and Chasa writes the follow-up email live, right here.</p>
+    <div class="demo-panel">
+      <form class="demo-form" id="demo-form">
+        <div class="demo-field">
+          <label for="demo-client" data-i18n="home.demo.clientLabel">Client name</label>
+          <input type="text" id="demo-client" placeholder="Acme Co" maxlength="80" />
+        </div>
+        <div class="demo-field">
+          <label for="demo-amount" data-i18n="home.demo.amountLabel">Invoice amount</label>
+          <input type="number" id="demo-amount" placeholder="450" min="1" max="999999" />
+        </div>
+        <div class="demo-field demo-field-days">
+          <label for="demo-days"><span data-i18n="home.demo.daysLabel">Days overdue</span>: <span id="demo-days-value">14</span></label>
+          <input type="range" id="demo-days" min="0" max="90" value="14" />
+        </div>
+        <button type="submit" class="btn-primary demo-submit" id="demo-submit" data-i18n="home.demo.cta">Draft my follow-up →</button>
+      </form>
+      <div class="demo-output" id="demo-output" aria-live="polite">
+        <p class="demo-output-placeholder" id="demo-output-placeholder" data-i18n="home.demo.placeholder">Your draft will appear here.</p>
       </div>
     </div>
   </section>
@@ -2067,6 +2169,21 @@ AI writes the chase — you stay in control.</h1>
       window.dispatchEvent(new CustomEvent("chasa:open-chat", { detail: { intent: "sales" } }));
     }, true);
 
+    /* Personalize the hero for outreach clicks — /go/dm?who=sarah forwards ?who= here. */
+    (function () {
+      var who = "";
+      try {
+        who = new URLSearchParams(window.location.search).get("who") || "";
+      } catch (e) {}
+      if (!/^[a-z]{2,30}$/i.test(who)) return;
+      var name = who.charAt(0).toUpperCase() + who.slice(1).toLowerCase();
+      var greeting = document.getElementById("hero-personalized-greeting");
+      if (!greeting) return;
+      var isEs = (document.documentElement.lang || "").toLowerCase().indexOf("es") === 0;
+      greeting.textContent = isEs ? ("👋 Hola " + name + ", bienvenido/a a Chasa") : ("👋 Hi " + name + ", welcome to Chasa");
+      greeting.hidden = false;
+    })();
+
     var form = document.getElementById("hero-signup");
     if (form) {
       form.addEventListener("submit", function (e) {
@@ -2083,6 +2200,102 @@ AI writes the chase — you stay in control.</h1>
           "/app/login?email=" + encodeURIComponent(email) + "&start=1&next=" + next;
       });
     }
+
+    /* Live no-signup demo — real draft, same generation path as the product. */
+    (function () {
+      var demoForm = document.getElementById("demo-form");
+      var daysInput = document.getElementById("demo-days");
+      var daysValue = document.getElementById("demo-days-value");
+      var output = document.getElementById("demo-output");
+      var submitBtn = document.getElementById("demo-submit");
+      if (!demoForm || !daysInput || !output || !submitBtn) return;
+
+      daysInput.addEventListener("input", function () {
+        if (daysValue) daysValue.textContent = daysInput.value;
+      });
+
+      var isEs = (document.documentElement.lang || "").toLowerCase().indexOf("es") === 0;
+      var COPY = {
+        subjectLabel: isEs ? "Asunto: " : "Subject: ",
+        errorGeneric: isEs ? "No se pudo generar el borrador. Inténtalo de nuevo." : "Couldn't generate a draft. Try again.",
+        sending: isEs ? "Generando…" : "Drafting…",
+        cta: isEs ? "Me gusta — empezar gratis →" : "Like it — start free →",
+        idle: submitBtn.textContent,
+      };
+
+      demoForm.addEventListener("submit", function (e) {
+        e.preventDefault();
+        var clientEl = document.getElementById("demo-client");
+        var amountEl = document.getElementById("demo-amount");
+        var clientName = clientEl && clientEl.value ? clientEl.value.trim() : "";
+        var amountRaw = amountEl && amountEl.value ? parseFloat(amountEl.value) : NaN;
+        var daysOverdue = parseInt(daysInput.value, 10) || 0;
+
+        submitBtn.disabled = true;
+        submitBtn.textContent = COPY.sending;
+        output.innerHTML = '<p class="demo-output-placeholder">' + COPY.sending + "</p>";
+
+        fetch("/api/demo/draft", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            client_name: clientName || undefined,
+            invoice_amount: isNaN(amountRaw) ? undefined : amountRaw,
+            days_overdue: daysOverdue,
+          }),
+        })
+          .then(function (res) {
+            return res
+              .json()
+              .catch(function () {
+                return null;
+              })
+              .then(function (data) {
+                if (!res.ok || !data) throw new Error(data && data.error ? data.error : COPY.errorGeneric);
+                return data;
+              });
+          })
+          .then(function (draft) {
+            var subjectEl = document.createElement("p");
+            subjectEl.className = "demo-output-subject";
+            subjectEl.textContent = COPY.subjectLabel + (draft.subject || "");
+
+            var bodyEl = document.createElement("p");
+            bodyEl.className = "demo-output-body";
+            bodyEl.textContent = draft.body || "";
+
+            var cta = document.createElement("a");
+            cta.className = "demo-output-cta";
+            cta.href = "#hero-signup";
+            cta.textContent = COPY.cta;
+            cta.addEventListener("click", function (evt) {
+              evt.preventDefault();
+              var heroInput = document.querySelector(".hero-signup-input");
+              if (heroInput) {
+                heroInput.scrollIntoView({ behavior: "smooth", block: "center" });
+                heroInput.focus();
+              }
+            });
+
+            var wrap = document.createElement("div");
+            wrap.className = "demo-output-draft";
+            wrap.appendChild(subjectEl);
+            wrap.appendChild(bodyEl);
+            wrap.appendChild(cta);
+
+            output.innerHTML = "";
+            output.appendChild(wrap);
+          })
+          .catch(function (err) {
+            output.innerHTML =
+              '<p class="demo-output-error">' + (err && err.message ? err.message : COPY.errorGeneric) + "</p>";
+          })
+          .finally(function () {
+            submitBtn.disabled = false;
+            submitBtn.textContent = COPY.idle;
+          });
+      });
+    })();
 
     var modal = document.getElementById("how-modal");
     var video = document.getElementById("how-modal-video");

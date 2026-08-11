@@ -114,6 +114,12 @@ export const demandLetterSchema = z.object({
 /** @deprecated Use demandLetterSchema */
 export const mahnungSchema = demandLetterSchema;
 
+export const demoDraftSchema = z.object({
+  client_name: z.string().max(80).optional(),
+  invoice_amount: z.coerce.number().finite().min(1).max(999_999).optional(),
+  days_overdue: z.coerce.number().finite().min(0).max(120),
+});
+
 export const generateEmailSchema = z.object({
   client_name: z.string().max(120).optional(),
   invoice_amount: z.coerce.number().finite().min(0).max(999_999_999).optional(),

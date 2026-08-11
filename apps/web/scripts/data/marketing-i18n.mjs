@@ -156,6 +156,14 @@ export const en = {
   "home.how.step4.title": "Send from your inbox",
   "home.how.step4.body": "Copy or open mailto — clients hear from you, not a bot.",
 
+  "home.demo.title": "See your own draft — no signup",
+  "home.demo.sub": "Enter a sample invoice and Chasa writes the follow-up email live, right here.",
+  "home.demo.clientLabel": "Client name",
+  "home.demo.amountLabel": "Invoice amount",
+  "home.demo.daysLabel": "Days overdue",
+  "home.demo.cta": "Draft my follow-up →",
+  "home.demo.placeholder": "Your draft will appear here.",
+
   "home.builtFor.title": "Built for chasing payment — not collections theater",
   "home.builtFor.sub": "When the invoice is late and you still want the relationship.",
   "home.builtFor.freelancers.title": "Freelancers",
@@ -521,6 +529,14 @@ export const es = {
     "Edita el borrador o usa Suavizar / Endurecer / Acortar en planes de pago.",
   "home.how.step4.title": "Envía desde tu bandeja",
   "home.how.step4.body": "Copia o abre mailto — tus clientes te escuchan a ti, no a un bot.",
+
+  "home.demo.title": "Mira tu propio borrador — sin registrarte",
+  "home.demo.sub": "Ingresa una factura de ejemplo y Chasa escribe el seguimiento en vivo, aquí mismo.",
+  "home.demo.clientLabel": "Nombre del cliente",
+  "home.demo.amountLabel": "Importe de la factura",
+  "home.demo.daysLabel": "Días de retraso",
+  "home.demo.cta": "Redactar mi seguimiento →",
+  "home.demo.placeholder": "Tu borrador aparecerá aquí.",
 
   "home.builtFor.title": "Hecho para cobrar — no para teatro de cobranza",
   "home.builtFor.sub": "Cuando la factura está tarde y aún quieres mantener la relación.",
