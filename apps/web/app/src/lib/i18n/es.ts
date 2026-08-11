@@ -165,6 +165,8 @@ const es: Messages = {
   "consent.accept": "Aceptar",
 
   "turnstile.failed": "No se pudo cargar la verificación de seguridad. Actualiza la página.",
+  "turnstile.errorRetry": "La verificación de seguridad no se cargó — esto puede pasar con bloqueadores de anuncios estrictos o redes corporativas. Inténtalo de nuevo.",
+  "turnstile.retry": "Reintentar",
 
   "account.notSignedIn": "No has iniciado sesión",
   "account.notSignedInSub": "Inicia sesión para gestionar tu suscripción y ver tu cuenta.",

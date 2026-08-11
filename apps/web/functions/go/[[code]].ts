@@ -44,10 +44,25 @@ function resolveEntry(code: string | undefined): { code: string; entry: GoEntry 
   };
 }
 
+// Matches any nested sub-path under /go/<code>/... — mail-security scanners that fetch a page
+// and then crawl its same-origin script/asset tags sometimes do so relative to the *scanned*
+// link, landing here instead of at the real asset. Those aren't opens and shouldn't count.
+const ASSET_EXT = /\.(js|css|png|jpe?g|gif|svg|ico|map|json|xml|txt|webp|woff2?)$/i;
+
+function isNoiseRequest(codeRaw: string): boolean {
+  return codeRaw.includes("/") || ASSET_EXT.test(codeRaw);
+}
+
 export const onRequest: PagesFunction<{ WORKER_URL: string }> = async (context) => {
   const url = new URL(context.request.url);
   const codeParam = context.params.code;
   const codeRaw = Array.isArray(codeParam) ? codeParam.join("/") : codeParam || "";
+
+  // Sub-resource probe, not a real click — redirect (so nothing breaks) without logging it.
+  if (isNoiseRequest(codeRaw)) {
+    return Response.redirect(new URL("/", url.origin).toString(), 302);
+  }
+
   const { code, entry } = resolveEntry(codeRaw);
 
   const who =

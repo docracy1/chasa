@@ -163,6 +163,8 @@ const en: Messages = {
   "consent.accept": "Accept",
 
   "turnstile.failed": "Security check failed to load. Refresh the page.",
+  "turnstile.errorRetry": "Security check didn't load — this can happen with strict ad blockers or corporate networks. Try again.",
+  "turnstile.retry": "Try again",
 
   "account.notSignedIn": "You're not signed in",
   "account.notSignedInSub": "Sign in to manage your subscription and see your account.",

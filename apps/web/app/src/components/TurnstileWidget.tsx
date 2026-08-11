@@ -12,6 +12,7 @@ declare global {
           "expired-callback"?: () => void;
           "error-callback"?: () => void;
           theme?: "light" | "dark" | "auto";
+          appearance?: "always" | "execute" | "interaction-only";
         }
       ) => string;
       reset: (widgetId?: string) => void;
@@ -82,6 +83,8 @@ export default function TurnstileWidget({ onToken }: Props) {
   onTokenRef.current = onToken;
   const [siteKey, setSiteKey] = useState<string | null | undefined>(undefined);
   const [loadError, setLoadError] = useState<string | null>(null);
+  const [challengeError, setChallengeError] = useState(false);
+  const [attempt, setAttempt] = useState(0);
 
   useEffect(() => {
     let cancelled = false;
@@ -113,9 +116,21 @@ export default function TurnstileWidget({ onToken }: Props) {
         widgetIdRef.current = window.turnstile.render(containerRef.current, {
           sitekey: siteKey,
           theme: "light",
-          callback: (token) => onTokenRef.current(token),
+          // Stays invisible for the vast majority of real visitors — only shows an interactive
+          // challenge when Turnstile can't otherwise confirm they're human. Cuts visible friction
+          // on the outreach one-click signup path without weakening the check itself.
+          appearance: "interaction-only",
+          callback: (token) => {
+            setChallengeError(false);
+            onTokenRef.current(token);
+          },
           "expired-callback": () => onTokenRef.current(null),
-          "error-callback": () => onTokenRef.current(null),
+          // Ad blockers / corporate proxies can silently break the challenge after the script
+          // itself loads fine — that used to leave the submit button dead with zero explanation.
+          "error-callback": () => {
+            onTokenRef.current(null);
+            if (!cancelled) setChallengeError(true);
+          },
         });
       } catch {
         if (!cancelled) setLoadError(t("turnstile.failed"));
@@ -133,7 +148,7 @@ export default function TurnstileWidget({ onToken }: Props) {
         widgetIdRef.current = null;
       }
     };
-  }, [siteKey]);
+  }, [siteKey, attempt]);
 
   if (siteKey === undefined) return null;
   if (!siteKey) return null;
@@ -142,6 +157,21 @@ export default function TurnstileWidget({ onToken }: Props) {
     <div className="turnstile-wrap">
       <div ref={containerRef} />
       {loadError && <div className="error-msg">{loadError}</div>}
+      {challengeError && !loadError && (
+        <div className="error-msg">
+          {t("turnstile.errorRetry")}{" "}
+          <button
+            type="button"
+            className="turnstile-retry-link"
+            onClick={() => {
+              setChallengeError(false);
+              setAttempt((n) => n + 1);
+            }}
+          >
+            {t("turnstile.retry")}
+          </button>
+        </div>
+      )}
     </div>
   );
 }
