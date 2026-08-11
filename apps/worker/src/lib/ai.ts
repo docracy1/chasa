@@ -174,13 +174,14 @@ ${input.body}`;
   return parseEmail(text);
 }
 
-function parseEmail(text: string): GeneratedEmail {
+export function parseEmail(text: string): GeneratedEmail {
   const subjectMatch = text.match(/^Subject:\s*(.+)$/m);
   const bodyMatch = text.match(/Body:\s*([\s\S]+)$/);
-  return {
-    subject: subjectMatch?.[1]?.trim() || "Following up on your invoice",
-    body: bodyMatch?.[1]?.trim() || text.trim(),
-  };
+  const subject = subjectMatch?.[1]?.trim() || "Following up on your invoice";
+  // The model occasionally skips the literal "Body:" marker despite the format instruction —
+  // falling back to the raw text then duplicates the subject line inside the body. Strip it.
+  const body = bodyMatch?.[1]?.trim() || text.replace(/^Subject:\s*.+\n?/m, "").trim() || text.trim();
+  return { subject, body };
 }
 
 export async function generateThankYouEmail(
