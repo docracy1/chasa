@@ -93,32 +93,14 @@ ${body}
 }
 
 function writeRobots() {
+  // Deliberately NOT an allowlist (no "Allow:" lines): a robots.txt built only from narrow
+  // "Allow: /specific-path$" rules reads, to Bing's crawler at least, as "only these paths are
+  // cleared to crawl" — everything else (compliance/, use-cases/, industry/, chasa-vs-*, security,
+  // es/*, ...) got flagged as "Blocked by robots.txt" in Bing Webmaster Tools even though none of
+  // it was ever explicitly disallowed. Per spec a path with no matching rule is allowed by
+  // default, so the fix is to only list what's genuinely private and let everything else fall
+  // through to that default instead of trying to enumerate every public path.
   const txt = `User-agent: *
-Allow: /$
-Allow: /app/$
-Allow: /app/login$
-Allow: /free-templates/$
-Allow: /free-templates/
-Allow: /ai$
-Allow: /about$
-Allow: /press$
-Allow: /imprint$
-Allow: /privacy$
-Allow: /terms$
-Allow: /llms.txt$
-Allow: /blog
-Allow: /blog/
-Allow: /invoice-follow-up$
-Allow: /payment-reminder$
-Allow: /overdue-invoice$
-Allow: /chase-invoices$
-Allow: /freelancer-invoice-follow-up$
-Allow: /features$
-Allow: /features/
-Allow: /docs$
-Allow: /docs/
-Allow: /tools$
-Allow: /tools/
 Disallow: /app/account
 Disallow: /app/admin
 Disallow: /app/team
