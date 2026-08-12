@@ -266,6 +266,7 @@ ${mainHtml}
       <a href="${link("/compliance/")}">Compliance</a>
       <a href="${link("/integrations/")}">Integrations</a>
       <a href="${link("/blog/")}" data-i18n="footer.blog">Blog</a>
+      <a href="${link("/overdue-invoices-guide")}">Overdue Invoices Guide</a>
       <a href="${link("/docs/")}" data-i18n="footer.docs">API & Docs</a>
       <a href="${link("/free-templates/")}" data-i18n="footer.templates">Free templates</a>
       <a href="${link("/tools/")}" data-i18n="footer.calculators">Calculators</a>
