@@ -23,6 +23,7 @@ const publicDir = join(__dirname, "../public");
 const COMPETITORS = [
   {
     slug: "chaser",
+    blogLinked: true,
     name: "Chaser",
     pricingUrl: "https://www.chaserhq.com/chaser-pricing",
     bestFit: "SMB / mid-market AR",
@@ -56,6 +57,7 @@ const COMPETITORS = [
   },
   {
     slug: "paidnice",
+    blogLinked: true,
     name: "Paidnice",
     pricingUrl: "https://www.paidnice.com/pricing",
     bestFit: "Xero / QuickBooks SMBs",
@@ -89,6 +91,7 @@ const COMPETITORS = [
   },
   {
     slug: "duefy",
+    blogLinked: true,
     name: "Duefy",
     pricingUrl: "https://duefy.ai/",
     bestFit: "Solo & small teams",
@@ -122,6 +125,7 @@ const COMPETITORS = [
   },
   {
     slug: "satago",
+    blogLinked: true,
     name: "Satago",
     pricingUrl: "https://www.satago.com/pricing/",
     bestFit: "UK credit control",
@@ -155,6 +159,7 @@ const COMPETITORS = [
   },
   {
     slug: "chaseai",
+    blogLinked: true,
     name: "ChaseAI",
     pricingUrl: "https://chaseai.app/pricing",
     bestFit: "Freelancers (auto-send)",
@@ -183,6 +188,369 @@ const COMPETITORS = [
       {
         q: "Does ChaseAI connect to QuickBooks or Xero?",
         a: "Not natively — ChaseAI relies on PDF or manual invoice import. Chasa has native OAuth sync to QuickBooks Online and Xero from Solo up.",
+      },
+    ],
+  },
+  {
+    slug: "upflow",
+    name: "Upflow",
+    pricingUrl: "https://upflow.io/pricing",
+    bestFit: "Mid-market / enterprise AR",
+    entryPrice: "Custom (sales-led)",
+    pricingModel: "ARR-tiered · contact sales",
+    autoSend: "✓ auto-sends",
+    ownInbox: "Not publicly disclosed",
+    aiDrafts: "Templates (no AI drafting disclosed)",
+    toneAdjust: "Manual tone control",
+    tracking: "Aging/DSO analytics (no open/click tracking disclosed)",
+    qboXero: "✓ (+ NetSuite, Sage Intacct)",
+    sms: "Not disclosed",
+    paymentPortal: "✓ branded portal",
+    freeTier: `Free "Discover" tier (analytics only)`,
+    summary:
+      "Upflow targets mid-market and enterprise AR teams with automated multi-step reminder workflows and a branded payment portal, but every paid tier is sales-led — there's no public per-month price for Grow, Scale, or Strategic. Chasa is $7/mo flat, listed publicly, and never auto-sends: every AI draft waits for you to review and send it yourself.",
+    faq: [
+      {
+        q: "Is Chasa an Upflow alternative?",
+        a: "For freelancers and small teams, yes — Chasa is $7/mo flat with a public price, while Upflow is built for mid-market/enterprise AR and requires a sales call for pricing on every paid tier.",
+      },
+      {
+        q: "Does Upflow publish its pricing?",
+        a: "No. Upflow's Grow, Scale, and Strategic tiers are all \"contact sales,\" tiered by your company's ARR. Chasa Solo is a published $7/mo flat rate.",
+      },
+      {
+        q: "Does Chasa auto-send reminders like Upflow?",
+        a: "No. Upflow schedules multi-step reminder workflows automatically. Chasa always drafts the email and waits for you to send it — nothing goes out without your review.",
+      },
+    ],
+  },
+  {
+    slug: "invoicesherpa",
+    name: "InvoiceSherpa",
+    pricingUrl: "https://www.invoicesherpa.com/pricing",
+    bestFit: "SMBs on QuickBooks/Xero/Clio",
+    entryPrice: "$49/mo (Sole Proprietor)",
+    pricingModel: "Flat · tiered by open invoices",
+    autoSend: "✓ auto-sends",
+    ownInbox: "✓ domain-validated",
+    aiDrafts: "Templates",
+    toneAdjust: "—",
+    tracking: "—",
+    qboXero: "✓ (+ Clio)",
+    sms: "✓ all plans",
+    paymentPortal: "✓ + autopay",
+    freeTier: "14-day trial",
+    summary:
+      "InvoiceSherpa auto-sends trigger-based reminders — due-soon, past-due, paid confirmation — from your own domain once validated, starting at $49/mo for up to 100 open invoices. It's template-based, not AI-drafted, and the wording doesn't change tone as an invoice gets later. Chasa is $7/mo flat, AI-drafts fresh wording matched to how overdue each invoice is, and leaves every send to you.",
+    faq: [
+      {
+        q: "Is Chasa an InvoiceSherpa alternative?",
+        a: "If you want AI-drafted wording and full control over what's sent, yes. InvoiceSherpa is a stronger fit if you specifically want fully automatic, trigger-based sending and SMS on every plan.",
+      },
+      {
+        q: "Does Chasa cost less than InvoiceSherpa?",
+        a: "Yes — Chasa Solo is $7/mo flat. InvoiceSherpa starts at $49/mo (or $41/mo billed annually) for up to 100 open invoices, and scales up from there by invoice volume.",
+      },
+      {
+        q: "Does Chasa auto-send like InvoiceSherpa?",
+        a: "No. InvoiceSherpa sends automatically once a trigger fires. Chasa writes the draft and waits for you to copy it in and send it yourself.",
+      },
+    ],
+  },
+  {
+    slug: "gaviti",
+    name: "Gaviti",
+    pricingUrl: "https://gaviti.com/pricing/",
+    bestFit: "Mid-market / enterprise AR",
+    entryPrice: "Custom (sales-led)",
+    pricingModel: "Usage-based · contact sales",
+    autoSend: "✓ auto-sends",
+    ownInbox: "Not publicly disclosed",
+    aiDrafts: "✓ AI-generated",
+    toneAdjust: "Not disclosed",
+    tracking: "General dashboard tracking (no open/click specifics disclosed)",
+    qboXero: "✓ (+ NetSuite, Sage Intacct)",
+    sms: "✓ multi-channel",
+    paymentPortal: "✓ zero-fee ACH",
+    freeTier: "No trial — demo only",
+    summary:
+      "Gaviti is an enterprise AR platform with AI-generated collection emails and multi-channel (email, SMS, portal) chasing, priced per invoice volume with no public rate and no free trial — only a sales demo. Chasa is $7/mo flat with a published price, a free tier (5 AI drafts/month), and every message stays a draft until you send it.",
+    faq: [
+      {
+        q: "Is Chasa a Gaviti alternative?",
+        a: "For freelancers and small teams, yes — Chasa has a free tier and a published $7/mo price. Gaviti is built for enterprise AR teams and requires a sales demo, with no public pricing or free trial.",
+      },
+      {
+        q: "Does Gaviti use AI like Chasa?",
+        a: "Yes — Gaviti generates collection emails with AI, similar in spirit to Chasa. The difference is price and audience: Gaviti is quote-based for enterprise AR teams, Chasa is $7/mo flat for freelancers and small teams.",
+      },
+      {
+        q: "Can I try Gaviti for free?",
+        a: "No — Gaviti doesn't offer a free trial, only a sales demo. Chasa has a free tier (18 templates + 5 AI drafts/month) with no credit card required.",
+      },
+    ],
+  },
+  {
+    slug: "yaypay",
+    name: "Quadient AR",
+    pricingUrl: "https://www.quadient.com/en/ar-automation",
+    bestFit: "Regulated mid-market / enterprise finance teams",
+    entryPrice: "~$500+/mo (reported, sales-led)",
+    pricingModel: "Custom · contact sales",
+    autoSend: "✓ auto-sends",
+    ownInbox: "Not publicly disclosed",
+    aiDrafts: "Rules + payment-behavior prediction (not drafting)",
+    toneAdjust: "—",
+    tracking: "Dashboard status (no open/click tracking disclosed)",
+    qboXero: "✓ (+ SAP, NetSuite, Dynamics, Sage)",
+    sms: "Not disclosed",
+    paymentPortal: "✓ self-service portal",
+    freeTier: "None disclosed",
+    summary:
+      "YayPay was acquired by Quadient and rebranded to Quadient Accounts Receivable in 2022. It targets regulated mid-market and enterprise finance teams with rule-based auto-send workflows, and its AI is focused on predicting payment behavior rather than writing the email itself. Pricing isn't public — third-party trackers report quotes starting around $500/mo. Chasa is $7/mo flat, published, and its AI drafts the actual wording of each follow-up.",
+    faq: [
+      {
+        q: "Is YayPay still called YayPay?",
+        a: `No — YayPay was acquired by Quadient in 2020 and formally rebranded to "Quadient Accounts Receivable" (Quadient AR) in November 2022. It's the same product and support team under a new name.`,
+      },
+      {
+        q: "Is Chasa a Quadient AR / YayPay alternative?",
+        a: "For freelancers and small teams, yes. Quadient AR targets regulated mid-market and enterprise finance teams with custom, sales-led pricing reported to start around $500/mo — a different market than Chasa's $7/mo flat plan.",
+      },
+      {
+        q: "Does Quadient AR write AI drafts like Chasa?",
+        a: "Not in the same sense — Quadient AR's AI is used to predict payment behavior and prioritize collections, not to draft the wording of each reminder. Chasa's AI writes the actual email, matched to how overdue the invoice is.",
+      },
+    ],
+  },
+  {
+    slug: "freshbooks",
+    name: "FreshBooks",
+    pricingUrl: "https://www.freshbooks.com/pricing",
+    bestFit: "Full invoicing / accounting suite",
+    entryPrice: "$23/mo (Lite)",
+    pricingModel: "Flat tiers",
+    autoSend: "✓ auto-sends",
+    ownInbox: "FreshBooks-hosted (branded)",
+    aiDrafts: "Fixed / customizable templates",
+    toneAdjust: "—",
+    tracking: "Invoice view status (not reminder-specific)",
+    qboXero: "✗ own accounting suite",
+    sms: "—",
+    paymentPortal: "✓ via FreshBooks Payments",
+    freeTier: "30-day trial (no free plan)",
+    summary:
+      "FreshBooks is a full accounting suite — invoicing, time tracking, expenses, double-entry books — with automated late-payment reminders bundled into every paid tier starting at $23/mo. Reminders are fixed templates sent through FreshBooks' own system, not AI-drafted or matched to how late an invoice is. Chasa doesn't do accounting at all; it's a $7/mo, AI-drafted follow-up layer you can run alongside FreshBooks or any invoicing tool you already use.",
+    faq: [
+      {
+        q: "Is Chasa a FreshBooks alternative?",
+        a: "Not for accounting — Chasa doesn't invoice, track time, or do bookkeeping. For the specific job of writing overdue-payment follow-ups, Chasa's AI drafts wording matched to lateness; FreshBooks sends one fixed template regardless of how overdue an invoice is.",
+      },
+      {
+        q: "Can I use Chasa alongside FreshBooks?",
+        a: "Yes. Chasa isn't an accounting suite — it's built to sit on top of whatever invoicing tool you already use, including FreshBooks, and draft the follow-up email when a client goes quiet.",
+      },
+      {
+        q: "Does FreshBooks have a free plan?",
+        a: "No — FreshBooks only offers a 30-day trial, then requires a paid plan starting at $23/mo. Chasa has an ongoing free tier: 18 templates plus 5 AI drafts per month.",
+      },
+    ],
+  },
+  {
+    slug: "wave",
+    name: "Wave",
+    pricingUrl: "https://www.waveapps.com/pricing",
+    bestFit: "Free invoicing suite",
+    entryPrice: "$19/mo (Pro) — reminders need Payments or Pro",
+    pricingModel: "Free suite + $19/mo Pro",
+    autoSend: "✓ auto-sends (3/7/14 days)",
+    ownInbox: "Wave-hosted",
+    aiDrafts: "Fixed template",
+    toneAdjust: "—",
+    tracking: "Invoice view status",
+    qboXero: "✗ own accounting suite",
+    sms: "—",
+    paymentPortal: "✓ via Wave Payments",
+    freeTier: "✓ free invoicing (reminders gated)",
+    summary:
+      "Wave's core invoicing is genuinely free, but automated payment reminders only unlock once you enable Wave Payments or upgrade to Pro ($19/mo) — and even then it's one fixed template on a fixed 3/7/14-day schedule, not AI-written or escalating in tone. Chasa adds AI-drafted, lateness-matched wording for $7/mo on top of whatever invoicing tool you use, including Wave.",
+    faq: [
+      {
+        q: "Is Chasa a Wave alternative?",
+        a: "Not for invoicing — Wave's free invoicing suite is hard to beat on price. For overdue-payment follow-ups specifically, Wave's free tier doesn't include reminders at all; Chasa gives you AI-drafted, lateness-matched wording starting at a free tier of its own.",
+      },
+      {
+        q: "Does Wave's free plan include payment reminders?",
+        a: "No — on Wave, automated reminders require either enabling Wave Payments or upgrading to Pro at $19/mo. Chasa's free tier includes 18 templates and 5 AI drafts per month with no payment processor required.",
+      },
+      {
+        q: "Can I use Chasa with Wave?",
+        a: "Yes. Chasa isn't an invoicing tool — it drafts the follow-up email for whatever invoice you paste in, whether it came from Wave or anywhere else.",
+      },
+    ],
+  },
+  {
+    slug: "zoho-invoice",
+    name: "Zoho Invoice",
+    pricingUrl: "https://www.zoho.com/us/invoice/pricing/",
+    bestFit: "Free invoicing suite",
+    entryPrice: "Free (no paid tier)",
+    pricingModel: "Free — no paid plan",
+    autoSend: "✓ auto-sends",
+    ownInbox: "Not publicly disclosed",
+    aiDrafts: "Templates with merge fields",
+    toneAdjust: "—",
+    tracking: "—",
+    qboXero: "✗ own accounting suite",
+    sms: "—",
+    paymentPortal: "✓ client portal",
+    freeTier: "✓ fully free (2 users, 500 invoices/yr)",
+    summary:
+      "Zoho Invoice is entirely free — there's no paid tier at all — and includes scheduled, template-based reminders with merge fields, capped at 500 invoices/year and 2 users, with \"Powered by Zoho\" branding. Reminders aren't AI-drafted or adjusted in tone for how overdue an invoice is. Chasa adds that AI-drafted, lateness-matched layer for $7/mo once you outgrow fixed templates.",
+    faq: [
+      {
+        q: "Is Chasa a Zoho Invoice alternative?",
+        a: "Not for invoicing — Zoho Invoice is free and full-featured for creating invoices. For the follow-up wording specifically, Zoho sends the same template regardless of lateness; Chasa's AI drafts fresh wording matched to how overdue each invoice is.",
+      },
+      {
+        q: "Does Zoho Invoice have a paid plan?",
+        a: "No — Zoho Invoice has no paid tier; it's free with limits (2 users, 500 invoices/year, Zoho branding). Chasa's paid plans start at $7/mo and remove Chasa's own limits on AI drafts.",
+      },
+      {
+        q: "Can I use Chasa alongside Zoho Invoice?",
+        a: "Yes. Chasa doesn't create invoices — it drafts the follow-up email once one goes overdue, regardless of which invoicing tool you used to send it.",
+      },
+    ],
+  },
+  {
+    slug: "quickbooks",
+    name: "QuickBooks Online",
+    pricingUrl: "https://quickbooks.intuit.com/pricing/",
+    bestFit: "Full accounting suite",
+    entryPrice: "$38/mo (Simple Start)",
+    pricingModel: "Flat tiers",
+    autoSend: "✓ auto-sends",
+    ownInbox: "Intuit no-reply (yours is reply-to only)",
+    aiDrafts: "Fixed template",
+    toneAdjust: "—",
+    tracking: `Invoice "Viewed" status (not reminder-specific)`,
+    qboXero: "— it is QuickBooks; Chasa syncs to it ✓ Solo+",
+    sms: "✗",
+    paymentPortal: "✓ via QuickBooks Payments",
+    freeTier: "30-day trial (no free plan)",
+    summary:
+      "QuickBooks Online auto-sends up to three scheduled reminders per invoice, but from an Intuit no-reply address — your email is only the reply-to — with one static template regardless of how late the invoice is. Chasa connects to your QuickBooks Online account by OAuth (Solo+), drafts fresh wording matched to how overdue each invoice is, and sends from your own inbox.",
+    faq: [
+      {
+        q: "Is Chasa a QuickBooks Online alternative?",
+        a: "Not for accounting — Chasa doesn't replace QuickBooks. Chasa connects to your existing QuickBooks Online account and adds AI-drafted, lateness-matched follow-up wording that QuickBooks' own fixed-template reminders don't have.",
+      },
+      {
+        q: "Do QuickBooks payment reminders come from my own email address?",
+        a: "No — QuickBooks Online sends reminders from an Intuit no-reply address, with your business email set only as the reply-to. Chasa's drafts are written for you to send from your own inbox directly.",
+      },
+      {
+        q: "Does Chasa sync with QuickBooks Online?",
+        a: "Yes — Chasa has native OAuth sync to QuickBooks Online from the Solo plan up, so you can pull invoices in and draft AI follow-ups without re-entering data.",
+      },
+    ],
+  },
+  {
+    slug: "xero",
+    name: "Xero",
+    pricingUrl: "https://www.xero.com/us/pricing-plans/",
+    bestFit: "Full accounting suite",
+    entryPrice: "$25/mo (Early)",
+    pricingModel: "Flat tiers",
+    autoSend: "✓ auto-sends (default 7/14/21 days)",
+    ownInbox: "noreply@xero.com (yours is reply-to only)",
+    aiDrafts: "Fixed template with merge fields",
+    toneAdjust: "—",
+    tracking: "—",
+    qboXero: "— it is Xero; Chasa syncs to it ✓ Solo+",
+    sms: "✗ manual only, no automated sequence",
+    paymentPortal: "Via connected payment services",
+    freeTier: "30-day trial (no free plan)",
+    summary:
+      "Xero auto-sends reminders on a default 7/14/21-day schedule from noreply@xero.com — not your own address — using an editable template that doesn't change tone as an invoice ages. Chasa connects to your Xero account by OAuth (Solo+), drafts fresh wording matched to how overdue each invoice is, and sends from your own inbox.",
+    faq: [
+      {
+        q: "Is Chasa a Xero alternative?",
+        a: "Not for accounting — Chasa doesn't replace Xero. Chasa connects to your existing Xero account and adds AI-drafted, lateness-matched follow-up wording that Xero's own fixed-template reminders don't have.",
+      },
+      {
+        q: "Do Xero payment reminders come from my own email address?",
+        a: "No — Xero sends reminders from noreply@xero.com, with your email set only as the reply-to, which some inboxes flag as a deliverability risk. Chasa's drafts are written for you to send from your own inbox directly.",
+      },
+      {
+        q: "Does Chasa sync with Xero?",
+        a: "Yes — Chasa has native OAuth sync to Xero from the Solo plan up, so you can pull invoices in and draft AI follow-ups without re-entering data.",
+      },
+    ],
+  },
+  {
+    slug: "zervant",
+    name: "Zervant",
+    pricingUrl: "https://www.zervant.com/en/pricing/",
+    bestFit: "EU freelancers / small business invoicing",
+    entryPrice: "£10.99/mo (Starter)",
+    pricingModel: "Flat tiers",
+    autoSend: "✓ auto + manual",
+    ownInbox: "Not publicly disclosed",
+    aiDrafts: "Scheduled templates",
+    toneAdjust: "—",
+    tracking: "—",
+    qboXero: "✗ own invoicing suite",
+    sms: "—",
+    paymentPortal: "Not publicly disclosed",
+    freeTier: "✓ free plan (reminders need Starter+)",
+    summary:
+      "Zervant is an EU invoicing tool (part of the Ageras group); free-tier users don't get payment reminders at all — that requires the Starter plan (£10.99/mo) and up, and reminders are scheduled templates rather than AI-written. Chasa is EU-based and EU-hosted too, adds AI-drafted, lateness-matched wording for $7/mo, and works alongside whatever invoicing tool you already use.",
+    faq: [
+      {
+        q: "Is Chasa a Zervant alternative?",
+        a: "Not for invoicing — for the follow-up wording specifically, Zervant's free plan has no reminders at all, and paid reminders are fixed schedules. Chasa's free tier includes AI-drafted follow-ups from day one.",
+      },
+      {
+        q: "Is Chasa EU-based like Zervant?",
+        a: "Yes — Chasa is built and hosted in the EU (RELACON GmbH, Austria), the same regional footprint as Zervant.",
+      },
+      {
+        q: "Can I use Chasa alongside Zervant?",
+        a: "Yes. Chasa doesn't create invoices — paste a Zervant invoice's details in and Chasa drafts the follow-up email matched to how overdue it is.",
+      },
+    ],
+  },
+  {
+    slug: "billomat",
+    name: "Billomat",
+    pricingUrl: "https://www.billomat.com/",
+    bestFit: "German / EU invoicing + dunning",
+    entryPrice: "€29/mo (Professional)",
+    pricingModel: "Flat tiers",
+    autoSend: "✓ auto / semi / manual modes",
+    ownInbox: "Not publicly disclosed",
+    aiDrafts: "Fixed dunning-stage templates",
+    toneAdjust: "—",
+    tracking: "—",
+    qboXero: "✗ own invoicing suite",
+    sms: "—",
+    paymentPortal: "Not publicly disclosed",
+    freeTier: "14-day trial (no free plan)",
+    summary:
+      "Billomat (by aifinyo AG) handles German-style dunning (Mahnwesen) with escalating fixed stages, but full automation only unlocks on the Business tier and up — there's no free plan, only a 14-day trial. It's template/stage-based, not AI-written or matched dynamically to how late an invoice is. Chasa is $7/mo flat with a free tier, AI-drafts fresh wording for each stage of lateness, and always leaves the send to you.",
+    faq: [
+      {
+        q: "Is Chasa a Billomat alternative?",
+        a: "Not for invoicing — for follow-up wording specifically, Billomat's dunning stages are fixed templates and full automation needs the Business tier. Chasa's AI drafts fresh wording matched to lateness on a $7/mo flat plan with a free tier included.",
+      },
+      {
+        q: "Does Billomat have a free plan?",
+        a: "No — Billomat offers only a 14-day trial, then requires a paid plan starting at €29/mo. Chasa has an ongoing free tier: 18 templates plus 5 AI drafts per month.",
+      },
+      {
+        q: "Can I use Chasa alongside Billomat?",
+        a: "Yes. Chasa doesn't create invoices or handle dunning fees — it drafts the follow-up email itself, which you can send alongside whatever invoicing or dunning tool you already use.",
       },
     ],
   },
@@ -274,7 +642,11 @@ ${tableRows}
       </tbody>
     </table>
   </div>
-  <p class="pc-note">Figures are the same published-price comparison as <a href="/blog/invoice-chase-software-comparison/">the full Chasa vs Chaser, Paidnice, Duefy, Satago &amp; ChaseAI comparison</a> — check <a href="${c.pricingUrl}" target="_blank" rel="noopener noreferrer">${escapeHtml(c.name)}'s pricing page</a> directly before you buy, as plans change.</p>
+  <p class="pc-note">${
+    c.blogLinked
+      ? `Figures are the same published-price comparison as <a href="/blog/invoice-chase-software-comparison/">the full Chasa vs Chaser, Paidnice, Duefy, Satago &amp; ChaseAI comparison</a> — check`
+      : `Figures reflect publicly available pricing and feature information as of August 2026 — check`
+  } <a href="${c.pricingUrl}" target="_blank" rel="noopener noreferrer">${escapeHtml(c.name)}'s pricing page</a> directly before you buy, as plans change.</p>
 
   <p style="margin-top:28px"><a href="/app/" class="nav-cta">Try Chasa free</a></p>
 
