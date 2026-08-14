@@ -280,7 +280,7 @@ export const en = {
     "An AI invoice follow-up tool. Paste unpaid invoices and get payment reminder emails written in the right tone for how late each one is.",
   "home.faq.q2": "Do I need an account?",
   "home.faq.a2":
-    'No — Free works without signup (5 AI drafts per month + templates). Sign in to upgrade to Solo ($7) or Pro ($17). For Enterprise (custom, billed yearly), email <a href="mailto:sales@chasa.io">sales@chasa.io</a>.',
+    'No — Free works without signup (5 AI drafts per month + templates). Sign in to upgrade to Solo ($7) or Pro ($17). For Enterprise (custom, billed yearly), email <!--email_off--><a href="mailto:sales@chasa.io">sales@chasa.io</a><!--/email_off-->.',
   "home.faq.q3": "Does Chasa send emails for me?",
   "home.faq.a3":
     "No. You copy the draft into your own inbox (or open a mailto link). Clients hear from you, not from us.",
@@ -326,7 +326,7 @@ export const en = {
     'Some subprocessors above process data outside the EU/EEA (notably the US). Where that happens, we rely on the provider\'s Standard Contractual Clauses or equivalent safeguards — see each provider\'s own privacy documentation (<a href="https://www.cloudflare.com/privacypolicy/" rel="noopener noreferrer" target="_blank">Cloudflare</a>, <a href="https://resend.com/legal/privacy-policy" rel="noopener noreferrer" target="_blank">Resend</a>, <a href="https://stripe.com/privacy" rel="noopener noreferrer" target="_blank">Stripe</a>, <a href="https://privacy.microsoft.com/privacystatement" rel="noopener noreferrer" target="_blank">Microsoft</a>) for the specifics of their transfer mechanism.',
   "privacy.rights.title": "Your rights (GDPR)",
   "privacy.rights.body":
-    "If you're in the EU/EEA/UK, you can ask us to access, correct, delete, or export (portability) the personal data we hold on you, and you can object to or restrict processing, or withdraw consent for analytics at any time — none of this affects the lawfulness of processing before the withdrawal. Email <a href=\"mailto:founder@chasa.io\">founder@chasa.io</a> and we'll respond within a reasonable time. You also have the right to lodge a complaint with your local data protection authority — in Austria, the <a href=\"https://www.dsb.gv.at/\" rel=\"noopener noreferrer\" target=\"_blank\">Datenschutzbehörde (DSB)</a>.",
+    "If you're in the EU/EEA/UK, you can ask us to access, correct, delete, or export (portability) the personal data we hold on you, and you can object to or restrict processing, or withdraw consent for analytics at any time — none of this affects the lawfulness of processing before the withdrawal. Email <!--email_off--><a href=\"mailto:founder@chasa.io\">founder@chasa.io</a><!--/email_off--> and we'll respond within a reasonable time. You also have the right to lodge a complaint with your local data protection authority — in Austria, the <a href=\"https://www.dsb.gv.at/\" rel=\"noopener noreferrer\" target=\"_blank\">Datenschutzbehörde (DSB)</a>.",
   "privacy.marketing.title": "Product news & update emails",
   "privacy.marketing.body":
     "If you opt in under Account settings, we send occasional emails about new features and product news. This is separate from — and off by default unlike — transactional email (sign-in links, receipts, digests you've enabled): it runs on your consent (GDPR Art. 6(1)(a)), and every email includes an unsubscribe link that turns it off immediately, no sign-in required.",
@@ -338,7 +338,7 @@ export const en = {
     "If what we collect or why changes materially, we'll update this page and, for signed-in accounts, note it in-app.",
   "privacy.contact.title": "Contact",
   "privacy.contact.body":
-    'Questions about your data, or want to exercise any of the rights above? Reach out at <a href="mailto:founder@chasa.io">founder@chasa.io</a>.',
+    'Questions about your data, or want to exercise any of the rights above? Reach out at <!--email_off--><a href="mailto:founder@chasa.io">founder@chasa.io</a><!--/email_off-->.',
 
   "terms.title": "Terms",
   "terms.lede":
@@ -658,7 +658,7 @@ export const es = {
     "Una herramienta de seguimiento de facturas con IA. Pega facturas impagas y recibe correos de recordatorio de pago redactados con el tono correcto según cuánto llevan de retraso.",
   "home.faq.q2": "¿Necesito una cuenta?",
   "home.faq.a2":
-    'No — Gratis funciona sin registro (5 borradores con IA al mes + plantillas). Inicia sesión para pasar a Solo ($7) o Pro ($17). Para Enterprise (personalizado, facturación anual), escribe a <a href="mailto:sales@chasa.io">sales@chasa.io</a>.',
+    'No — Gratis funciona sin registro (5 borradores con IA al mes + plantillas). Inicia sesión para pasar a Solo ($7) o Pro ($17). Para Enterprise (personalizado, facturación anual), escribe a <!--email_off--><a href="mailto:sales@chasa.io">sales@chasa.io</a><!--/email_off-->.',
   "home.faq.q3": "¿Chasa envía correos por mí?",
   "home.faq.a3":
     "No. Copias el borrador en tu propia bandeja (o abres un enlace mailto). Tus clientes te escuchan a ti, no a nosotros.",
@@ -704,7 +704,7 @@ export const es = {
     'Algunos de los subencargados anteriores procesan datos fuera de la UE/EEE (notablemente EE. UU.). Cuando eso ocurre, nos apoyamos en las Cláusulas Contractuales Tipo del proveedor o garantías equivalentes — consulta la documentación de privacidad de cada proveedor (<a href="https://www.cloudflare.com/privacypolicy/" rel="noopener noreferrer" target="_blank">Cloudflare</a>, <a href="https://resend.com/legal/privacy-policy" rel="noopener noreferrer" target="_blank">Resend</a>, <a href="https://stripe.com/privacy" rel="noopener noreferrer" target="_blank">Stripe</a>, <a href="https://privacy.microsoft.com/privacystatement" rel="noopener noreferrer" target="_blank">Microsoft</a>) para conocer los detalles de su mecanismo de transferencia.',
   "privacy.rights.title": "Tus derechos (RGPD)",
   "privacy.rights.body":
-    'Si estás en la UE/EEE/Reino Unido, puedes pedirnos acceder, corregir, eliminar o exportar (portabilidad) los datos personales que tenemos sobre ti, y puedes oponerte o restringir el tratamiento, o retirar tu consentimiento para el análisis en cualquier momento — nada de esto afecta la legalidad del tratamiento anterior a la retirada. Escríbenos a <a href="mailto:founder@chasa.io">founder@chasa.io</a> y responderemos en un plazo razonable. También tienes derecho a presentar una reclamación ante tu autoridad local de protección de datos — en Austria, la <a href="https://www.dsb.gv.at/" rel="noopener noreferrer" target="_blank">Datenschutzbehörde (DSB)</a>.',
+    'Si estás en la UE/EEE/Reino Unido, puedes pedirnos acceder, corregir, eliminar o exportar (portabilidad) los datos personales que tenemos sobre ti, y puedes oponerte o restringir el tratamiento, o retirar tu consentimiento para el análisis en cualquier momento — nada de esto afecta la legalidad del tratamiento anterior a la retirada. Escríbenos a <!--email_off--><a href="mailto:founder@chasa.io">founder@chasa.io</a><!--/email_off--> y responderemos en un plazo razonable. También tienes derecho a presentar una reclamación ante tu autoridad local de protección de datos — en Austria, la <a href="https://www.dsb.gv.at/" rel="noopener noreferrer" target="_blank">Datenschutzbehörde (DSB)</a>.',
   "privacy.marketing.title": "Correos de novedades y actualizaciones del producto",
   "privacy.marketing.body":
     "Si activas esta opción en Configuración de la cuenta, te enviamos correos ocasionales sobre nuevas funciones y novedades del producto. Esto es independiente de — y, a diferencia de ellos, desactivado por defecto frente a — los correos transaccionales (enlaces de acceso, recibos, resúmenes que hayas activado): se basa en tu consentimiento (RGPD Art. 6(1)(a)), y cada correo incluye un enlace de baja que lo desactiva de inmediato, sin necesidad de iniciar sesión.",
@@ -716,7 +716,7 @@ export const es = {
     "Si lo que recopilamos o por qué cambia de forma importante, actualizaremos esta página y, para cuentas con sesión iniciada, lo indicaremos dentro de la app.",
   "privacy.contact.title": "Contacto",
   "privacy.contact.body":
-    '¿Preguntas sobre tus datos o quieres ejercer alguno de los derechos anteriores? Escríbenos a <a href="mailto:founder@chasa.io">founder@chasa.io</a>.',
+    '¿Preguntas sobre tus datos o quieres ejercer alguno de los derechos anteriores? Escríbenos a <!--email_off--><a href="mailto:founder@chasa.io">founder@chasa.io</a><!--/email_off-->.',
 
   "terms.title": "Términos",
   "terms.lede":

@@ -37,13 +37,17 @@ function navIcon(name, small = false) {
 }
 
 function megaMenuItem({ href, icon, titleKey, title, descKey, desc, small = false }) {
-  return `<a href="${href}" class="nav-megamenu-item${small ? " nav-megamenu-side-item" : ""}">
+  const isMailto = href.startsWith("mailto:");
+  const anchor = `<a href="${href}" class="nav-megamenu-item${small ? " nav-megamenu-side-item" : ""}">
     <span class="nav-megamenu-icon${small ? " nav-megamenu-icon-sm" : ""}">${navIcon(icon, small)}</span>
     <span>
       <span class="nav-megamenu-item-title" data-i18n="${titleKey}">${title}</span>
       <span class="nav-megamenu-item-desc" data-i18n="${descKey}">${desc}</span>
     </span>
   </a>`;
+  // Opt this one mailto out of Cloudflare's email obfuscation, same as the footer Contact link —
+  // otherwise it gets rewritten to /cdn-cgi/l/email-protection, which crawlers then flag as a 4XX.
+  return isMailto ? `<!--email_off-->${anchor}<!--/email_off-->` : anchor;
 }
 
 /** Hover/click dropdown with an icon+title+desc grid — Docracy's NavMegaMenu pattern, static-site version. */
