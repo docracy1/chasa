@@ -44,6 +44,17 @@ export default function Login() {
       setAdminEmail(cfg?.adminEmail?.trim().toLowerCase() || null);
       setConfigLoaded(true);
     });
+    // The static SPA shell (index.html) carries one shared title/description for every /app/*
+    // route — differentiate /app/login here so it isn't a duplicate of the /app/ shell in title
+    // and description reported by crawlers that don't wait on the rest of the app to render.
+    document.title = "Sign in — Chasa";
+    const descTag = document.querySelector('meta[name="description"]');
+    if (descTag) {
+      descTag.setAttribute(
+        "content",
+        "Sign in to Chasa or start free — get a magic link emailed to you, no password required."
+      );
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps -- read URL once on mount
   }, []);
 
