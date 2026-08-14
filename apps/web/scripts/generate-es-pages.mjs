@@ -29,12 +29,12 @@ const SEO_ES = {
       "Herramienta gratuita con IA para seguimiento de facturas. Pega tu factura impaga y recibe el recordatorio con el tono adecuado, de amable a firme.",
   },
   "/privacy": {
-    title: "Privacidad — Chasa",
+    title: "Política de Privacidad — Chasa | Protección de Datos",
     description:
       "Qué hace Chasa con tus datos: qué recopilamos, por qué, qué subencargados lo tratan, cuánto tiempo se conserva y cómo pedir su eliminación o exportación.",
   },
   "/terms": {
-    title: "Términos — Chasa",
+    title: "Términos de Servicio — Chasa | Condiciones de Uso",
     description:
       "Cómo funciona Chasa, explicado en lenguaje sencillo: qué hace el servicio, qué cuesta, tus responsabilidades y las condiciones de tu cuenta.",
   },
