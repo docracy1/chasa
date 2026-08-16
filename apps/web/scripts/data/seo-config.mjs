@@ -7,8 +7,12 @@ export const SOCIAL = {
   x: "https://x.com/chasaHQ",
 };
 
-/** Stable IndexNow key (file must exist at /{key}.txt containing this value). */
-export const INDEXNOW_KEY = "chasa-indexnow-20260727";
+/** Stable IndexNow key (file must exist at /{key}.txt containing this value).
+ *  Rotated 2026-08-16 — the prior key (chasa-indexnow-20260727) got a persistent 403
+ *  UserForbiddedToAccessSite from IndexNow despite the key file resolving correctly, with
+ *  Cloudflare/DNS/TLS/Bing-verification confirmed identical to a working sibling domain; likely
+ *  a stale negative-verification state tied to that specific key from early failed attempts. */
+export const INDEXNOW_KEY = "chasa-1147d08d3dc28194daa8601445655ba4";
 
 /** Injected at build when set: GOOGLE_SITE_VERIFICATION=… npm run build */
 export const GOOGLE_SITE_VERIFICATION = process.env.GOOGLE_SITE_VERIFICATION?.trim() || "";
