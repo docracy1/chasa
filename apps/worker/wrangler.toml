@@ -85,6 +85,12 @@ GOOGLE_INTEGRATIONS_CLIENT_ID = "111635541806-ie2hbeub99831tl1q610mt6kmjl7r00v.a
 # clarity.microsoft.com -> Settings -> Data Export -> API tokens. Token is project-scoped, no
 # separate project id needed.
 # Set with: wrangler secret put CLARITY_API_TOKEN
+# Cloudflare Analytics (optional — admin dashboard's Traffic tab reads real edge-level request/bot
+# data straight from Cloudflare instead of only self-tracked JS-beacon data, which structurally
+# misses most non-JS-executing bots and crawlers). Create at dash.cloudflare.com -> My Profile ->
+# API Tokens -> Create Token -> custom token with ONLY "Zone > Analytics > Read", Zone Resources
+# scoped to chasa.io. Do not reuse a broader personal/OAuth token here.
+# Set with: wrangler secret put CF_ANALYTICS_TOKEN
 # Price IDs are non-secret — set above as STRIPE_PRICE_SOLO / PRO / ENTERPRISE.
 
 # --- Staging: isolated D1 so testing never touches production data ---

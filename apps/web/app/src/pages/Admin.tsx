@@ -12,11 +12,13 @@ import {
   adminOutreach,
   adminSignups,
   adminTraffic,
+  adminTrafficCloudflare,
   adminTrafficSources,
   isExcludeSelf,
   setExcludeSelf,
   type BlogPost,
   type BroadcastResult,
+  type CfTrafficStats,
   type FunnelStats,
   type OutreachStats,
   type SignupLists,
@@ -426,6 +428,7 @@ export default function Admin() {
   const [authedEmail, setAuthedEmail] = useState<string | null>(null);
   const [stats, setStats] = useState<FunnelStats | null>(null);
   const [traffic, setTraffic] = useState<TrafficStats | null>(null);
+  const [cfTraffic, setCfTraffic] = useState<CfTrafficStats | null>(null);
   const [trafficSources, setTrafficSources] = useState<TrafficSourcesStats | null>(null);
   const [outreach, setOutreach] = useState<OutreachStats | null>(null);
   const [signups, setSignups] = useState<SignupLists | null>(null);
@@ -454,9 +457,10 @@ export default function Admin() {
   const [broadcastBusy, setBroadcastBusy] = useState(false);
 
   async function loadAll(d = days, h = humansOnly, day = trafficDay) {
-    const [f, tr, sources, o, s, b] = await Promise.all([
+    const [f, tr, cf, sources, o, s, b] = await Promise.all([
       adminFunnels(d, h),
       adminTraffic(d, day),
+      adminTrafficCloudflare(d, day),
       adminTrafficSources(d, h),
       adminOutreach(d),
       adminSignups(),
@@ -464,6 +468,7 @@ export default function Admin() {
     ]);
     setStats(f);
     setTraffic(tr);
+    setCfTraffic(cf);
     setTrafficSources(sources);
     setOutreach(o);
     setSignups(s);
@@ -513,6 +518,7 @@ export default function Admin() {
     setAuthedEmail(null);
     setStats(null);
     setTraffic(null);
+    setCfTraffic(null);
     setTrafficSources(null);
     setOutreach(null);
     setSignups(null);
@@ -525,14 +531,16 @@ export default function Admin() {
     setTrafficDay(null);
     setBusy(true);
     try {
-      const [f, tr, sources, o] = await Promise.all([
+      const [f, tr, cf, sources, o] = await Promise.all([
         adminFunnels(d, humansOnly),
         adminTraffic(d, null),
+        adminTrafficCloudflare(d, null),
         adminTrafficSources(d, humansOnly),
         adminOutreach(d),
       ]);
       setStats(f);
       setTraffic(tr);
+      setCfTraffic(cf);
       setTrafficSources(sources);
       setOutreach(o);
     } finally {
@@ -544,7 +552,9 @@ export default function Admin() {
     setTrafficDay(day);
     setBusy(true);
     try {
-      setTraffic(await adminTraffic(days, day));
+      const [tr, cf] = await Promise.all([adminTraffic(days, day), adminTrafficCloudflare(days, day)]);
+      setTraffic(tr);
+      setCfTraffic(cf);
     } finally {
       setBusy(false);
     }
@@ -867,6 +877,127 @@ export default function Admin() {
                   <strong>{traffic.conversion}</strong>
                 </div>
               </div>
+
+              <section className="dash-card">
+                <h2 className="dash-card-title">{t("admin.cfTrafficTitle")}</h2>
+                <p className="dash-note">{t("admin.cfTrafficSub")}</p>
+                {!cfTraffic || !cfTraffic.configured ? (
+                  <p className="dash-muted">{t("admin.cfNotConfigured")}</p>
+                ) : !cfTraffic.ok ? (
+                  <p className="dash-muted">{t("admin.cfError", { error: cfTraffic.error })}</p>
+                ) : (
+                  <>
+                    <div className="dash-stat-row dash-stat-row-4">
+                      <div className="dash-stat">
+                        <span className="dash-stat-label">{t("admin.cfRequests")}</span>
+                        <strong>{cfTraffic.eyeballRequests}</strong>
+                        <em>{t("admin.cfBotPct", { pct: cfTraffic.botPct })}</em>
+                      </div>
+                      <div className="dash-stat">
+                        <span className="dash-stat-label">{t("admin.cfHuman")}</span>
+                        <strong>{cfTraffic.humanCount}</strong>
+                      </div>
+                      <div className="dash-stat">
+                        <span className="dash-stat-label">{t("admin.cfBots")}</span>
+                        <strong>{cfTraffic.botCount}</strong>
+                      </div>
+                      <div className="dash-stat">
+                        <span className="dash-stat-label">{t("admin.cfPageViews")}</span>
+                        <strong>{cfTraffic.totals.pageViews}</strong>
+                        <em>{t("admin.lastDays", { days: cfTraffic.days })}</em>
+                      </div>
+                    </div>
+                    <p className="dash-note" style={{ marginTop: 4 }}>
+                      {t("admin.cfBreakdownDay", { day: fmtDate(cfTraffic.day) })}
+                    </p>
+                    <div className="dash-grid-3" style={{ marginTop: 12 }}>
+                      <div>
+                        <h3 className="dash-card-title" style={{ fontSize: 14 }}>
+                          {t("admin.byBot")}
+                        </h3>
+                        <table className="admin-table">
+                          <thead>
+                            <tr>
+                              <th>{t("admin.colBotName")}</th>
+                              <th>{t("admin.colViews")}</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {cfTraffic.byBot.length === 0 ? (
+                              <tr>
+                                <td colSpan={2}>{t("admin.noBotsYet")}</td>
+                              </tr>
+                            ) : (
+                              cfTraffic.byBot.map((r) => (
+                                <tr key={r.bot}>
+                                  <td>{r.bot}</td>
+                                  <td>{r.count}</td>
+                                </tr>
+                              ))
+                            )}
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h3 className="dash-card-title" style={{ fontSize: 14 }}>
+                          {t("admin.byRoute")}
+                        </h3>
+                        <table className="admin-table">
+                          <thead>
+                            <tr>
+                              <th>{t("admin.colRoute")}</th>
+                              <th>{t("admin.colViews")}</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {cfTraffic.byRoute.length === 0 ? (
+                              <tr>
+                                <td colSpan={2}>{t("admin.noTrafficDay")}</td>
+                              </tr>
+                            ) : (
+                              cfTraffic.byRoute.map((r) => (
+                                <tr key={r.path}>
+                                  <td>
+                                    <code>{r.path}</code>
+                                  </td>
+                                  <td>{r.count}</td>
+                                </tr>
+                              ))
+                            )}
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h3 className="dash-card-title" style={{ fontSize: 14 }}>
+                          {t("admin.byCountry")}
+                        </h3>
+                        <table className="admin-table">
+                          <thead>
+                            <tr>
+                              <th>{t("admin.colCountry")}</th>
+                              <th>{t("admin.colViews")}</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {cfTraffic.byCountry.length === 0 ? (
+                              <tr>
+                                <td colSpan={2}>{t("admin.noTrafficDay")}</td>
+                              </tr>
+                            ) : (
+                              cfTraffic.byCountry.map((r) => (
+                                <tr key={r.country}>
+                                  <td>{r.country}</td>
+                                  <td>{r.count}</td>
+                                </tr>
+                              ))
+                            )}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </>
+                )}
+              </section>
 
               {trafficSources && (
                 <section className="dash-card admin-traffic-sources-card">

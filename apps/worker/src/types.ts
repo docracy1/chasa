@@ -29,6 +29,9 @@ export interface Env {
   XERO_CLIENT_SECRET?: string;
   /** Microsoft Clarity Data Export API token (project-scoped) — see lib/clarityApi.ts */
   CLARITY_API_TOKEN?: string;
+  /** Cloudflare API token, "Zone > Analytics > Read" scoped to the chasa.io zone only —
+   *  see lib/cloudflareAnalytics.ts */
+  CF_ANALYTICS_TOKEN?: string;
 
   // Non-secret config ([vars] in wrangler.toml)
   WORKERS_AI_MODEL?: string;

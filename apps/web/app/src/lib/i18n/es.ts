@@ -735,6 +735,18 @@ const es: Messages = {
   "admin.chasesCompleted": "Seguimientos completados",
   "admin.chasesCompletedSub": "eventos marcados como pagados",
   "admin.sentToCompleted": "Enviado → completado",
+  "admin.cfTrafficTitle": "Tráfico (borde de Cloudflare — cada solicitud)",
+  "admin.cfTrafficSub":
+    "Obtenido directamente de las analíticas propias de Cloudflare, no de nuestro script — esto ve cada solicitud que llega al borde, incluidos los bots y rastreadores que nunca ejecutan analytics.js, así que es la cifra de referencia frente a las tarjetas de páginas vistas de abajo al comparar con el panel de Cloudflare.",
+  "admin.cfNotConfigured":
+    "No conectado. Crea un token de API de Cloudflare (Mi perfil → Tokens de API → Zone → Analytics → Read, limitado a chasa.io) y configúralo con: wrangler secret put CF_ANALYTICS_TOKEN",
+  "admin.cfError": "Error al obtener Cloudflare Analytics: {{error}}",
+  "admin.cfRequests": "Solicitudes reales",
+  "admin.cfBotPct": "{{pct}}% bots",
+  "admin.cfHuman": "Humano",
+  "admin.cfBots": "Bots",
+  "admin.cfPageViews": "Páginas vistas",
+  "admin.cfBreakdownDay": "Desglose de bots / rutas / países para {{day}} (los datos detallados de Cloudflare están limitados a un día por consulta)",
   "admin.externalTrafficTitle": "Fuentes de tráfico externo reales",
   "admin.externalTrafficSub":
     "De dónde vienen los visitantes reales — el sitio enlazándose a sí mismo no cuenta.",

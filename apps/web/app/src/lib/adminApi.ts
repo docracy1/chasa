@@ -37,6 +37,26 @@ export type TrafficStats = {
   note: string;
 };
 
+export type CfTrafficStats =
+  | { configured: false }
+  | { configured: true; ok: false; error: string }
+  | {
+      configured: true;
+      ok: true;
+      days: number;
+      byDay: { day: string; requests: number; pageViews: number; uniques: number }[];
+      totals: { requests: number; pageViews: number; uniques: number };
+      day: string;
+      eyeballRequests: number;
+      botCount: number;
+      humanCount: number;
+      botPct: number;
+      byBot: { bot: string; count: number }[];
+      byRoute: { path: string; count: number }[];
+      byCountry: { country: string; count: number }[];
+      byDevice: { device: string; count: number }[];
+    };
+
 export type TrafficSourceRow = {
   event: "referral_source_detected" | "campaign_click";
   source: string;
@@ -119,6 +139,12 @@ export function adminTraffic(days = 30, day?: string | null) {
   const params = new URLSearchParams({ days: String(days) });
   if (day) params.set("day", day);
   return adminFetch<TrafficStats>(`/traffic?${params.toString()}`);
+}
+
+export function adminTrafficCloudflare(days = 30, day?: string | null) {
+  const params = new URLSearchParams({ days: String(days) });
+  if (day) params.set("day", day);
+  return adminFetch<CfTrafficStats>(`/traffic-cloudflare?${params.toString()}`);
 }
 
 export function adminTrafficSources(days = 30, humansOnly = true) {

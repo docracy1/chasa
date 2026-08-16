@@ -236,7 +236,7 @@ const BOT_PATTERNS: { name: string; re: RegExp }[] = [
   { name: "GPTBot", re: /gptbot|oai-searchbot|chatgpt-user/i },
   { name: "ClaudeBot", re: /claudebot|anthropic|claude-user/i },
   { name: "PerplexityBot", re: /perplexity/i },
-  { name: "facebookexternalhit", re: /facebookexternalhit|facebot/i },
+  { name: "facebookexternalhit", re: /facebookexternalhit|facebot|meta-externalagent/i },
   { name: "Twitterbot", re: /twitterbot/i },
   { name: "LinkedInBot", re: /linkedinbot/i },
   { name: "Slackbot", re: /slackbot|slack-imgproxy/i },

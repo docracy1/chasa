@@ -723,6 +723,18 @@ const en: Messages = {
   "admin.chasesCompleted": "Chases completed",
   "admin.chasesCompletedSub": "chase events marked paid",
   "admin.sentToCompleted": "Sent → completed",
+  "admin.cfTrafficTitle": "Traffic (Cloudflare edge — every request)",
+  "admin.cfTrafficSub":
+    "Sourced directly from Cloudflare's own analytics, not our JS beacon — this sees every request that hits the edge, including bots and crawlers that never run analytics.js, so it's the number to trust over the page-view tiles below when comparing against the Cloudflare dashboard.",
+  "admin.cfNotConfigured":
+    "Not connected. Create a Cloudflare API token (My Profile → API Tokens → Zone → Analytics → Read, scoped to chasa.io only) and set it with: wrangler secret put CF_ANALYTICS_TOKEN",
+  "admin.cfError": "Cloudflare Analytics fetch failed: {{error}}",
+  "admin.cfRequests": "Real requests",
+  "admin.cfBotPct": "{{pct}}% bots",
+  "admin.cfHuman": "Human",
+  "admin.cfBots": "Bots",
+  "admin.cfPageViews": "Page views",
+  "admin.cfBreakdownDay": "Bot / route / country breakdown for {{day}} (Cloudflare's row-level data is capped at one day per query)",
   "admin.externalTrafficTitle": "Real external traffic sources",
   "admin.externalTrafficSub":
     "Where genuine visitors actually come from — the site linking to itself doesn't count.",

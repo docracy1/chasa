@@ -13,6 +13,7 @@ import {
 import { SESSION_COOKIE_NAME } from "../lib/auth";
 import { getFunnelStats, getOutreachStats, getTrafficSources, getTrafficStats } from "../lib/analytics";
 import { getCachedClaritySnapshot, refreshClaritySnapshot } from "../lib/clarityApi";
+import { getCloudflareTrafficStats } from "../lib/cloudflareAnalytics";
 import { createPost, deletePost, listPosts, updatePost } from "../lib/blog";
 import { sendMarketingEmail } from "../lib/email";
 import { normalizeLocale } from "../lib/locale";
@@ -72,6 +73,14 @@ admin.get("/traffic", requireAdmin, async (c) => {
   const days = Number.isFinite(daysRaw) ? Math.min(Math.max(daysRaw, 1), 90) : 30;
   const day = c.req.query("day") || null;
   const stats = await getTrafficStats(c.env, days, day);
+  return c.json(stats);
+});
+
+admin.get("/traffic-cloudflare", requireAdmin, async (c) => {
+  const daysRaw = Number(c.req.query("days") || "30");
+  const days = Number.isFinite(daysRaw) ? Math.min(Math.max(daysRaw, 1), 90) : 30;
+  const day = c.req.query("day") || null;
+  const stats = await getCloudflareTrafficStats(c.env, days, day);
   return c.json(stats);
 });
 
