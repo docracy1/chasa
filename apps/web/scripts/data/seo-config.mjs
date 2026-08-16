@@ -5,6 +5,7 @@ export const SITE_URL = "https://chasa.io";
 export const SOCIAL = {
   linkedin: "https://www.linkedin.com/company/chasa-io",
   x: "https://x.com/chasaHQ",
+  facebook: "https://www.facebook.com/profile.php?id=61593311134413",
 };
 
 /** Stable IndexNow key (file must exist at /{key}.txt containing this value).
@@ -65,7 +66,7 @@ export const ORG_JSON_LD = {
   name: "Chasa",
   url: SITE_URL,
   logo: `${SITE_URL}/brand/chasa-logo.svg`,
-  sameAs: [SOCIAL.linkedin, SOCIAL.x],
+  sameAs: [SOCIAL.linkedin, SOCIAL.x, SOCIAL.facebook],
   parentOrganization: {
     "@type": "Organization",
     name: "RELACON GmbH",
