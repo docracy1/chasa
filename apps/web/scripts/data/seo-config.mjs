@@ -16,6 +16,11 @@ export const SOCIAL = {
  *  Bing Webmaster Tools itself (IndexNow page) and registered there directly. */
 export const INDEXNOW_KEY = "448a3e880045468692c13c5028ea49cf";
 
+/** Public Turnstile site key (safe to embed client-side — same value as wrangler.toml's
+ *  TURNSTILE_SITE_KEY var). Used on hand-authored static pages that need the widget without going
+ *  through the React app's /api/auth/config fetch. */
+export const TURNSTILE_SITE_KEY = "0x4AAAAAAD-e9VZ4OPi8EPWM";
+
 /** Injected at build when set: GOOGLE_SITE_VERIFICATION=… npm run build */
 export const GOOGLE_SITE_VERIFICATION = process.env.GOOGLE_SITE_VERIFICATION?.trim() || "";
 
@@ -29,6 +34,7 @@ export const SITEMAP_ROUTES = [
   { path: "/app/login", priority: 0.5, changefreq: "monthly" },
   { path: "/free-templates/", priority: 0.9, changefreq: "weekly" },
   { path: "/free-templates/download", priority: 0.85, changefreq: "monthly" },
+  { path: "/free-templates/submit", priority: 0.6, changefreq: "monthly" },
   { path: "/ai", priority: 0.85, changefreq: "weekly" },
   { path: "/invoice-follow-up", priority: 0.85, changefreq: "monthly" },
   { path: "/payment-reminder", priority: 0.85, changefreq: "monthly" },

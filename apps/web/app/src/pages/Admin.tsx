@@ -8,6 +8,9 @@ import {
   adminGrantEnterprise,
   adminLogin,
   adminLogout,
+  adminMarketplaceApprove,
+  adminMarketplacePending,
+  adminMarketplaceReject,
   adminMe,
   adminOutreach,
   adminSignups,
@@ -20,6 +23,7 @@ import {
   type BroadcastResult,
   type CfTrafficStats,
   type FunnelStats,
+  type MarketplaceSubmission,
   type OutreachStats,
   type SignupLists,
   type TrafficSourceRow,
@@ -43,7 +47,8 @@ type NavId =
   | "blog"
   | "signups"
   | "analytics"
-  | "broadcast";
+  | "broadcast"
+  | "marketplace";
 
 function FunnelTable({
   title,
@@ -432,6 +437,8 @@ export default function Admin() {
   const [trafficSources, setTrafficSources] = useState<TrafficSourcesStats | null>(null);
   const [outreach, setOutreach] = useState<OutreachStats | null>(null);
   const [signups, setSignups] = useState<SignupLists | null>(null);
+  const [marketplacePending, setMarketplacePending] = useState<MarketplaceSubmission[]>([]);
+  const [marketplaceError, setMarketplaceError] = useState<string | null>(null);
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
@@ -484,6 +491,41 @@ export default function Admin() {
       .catch(() => setAuthedEmail(null))
       .finally(() => setLoading(false));
   }, []);
+
+  useEffect(() => {
+    if (nav !== "marketplace" || !authedEmail) return;
+    adminMarketplacePending()
+      .then((res) => {
+        setMarketplacePending(res.templates);
+        setMarketplaceError(null);
+      })
+      .catch((err) => setMarketplaceError(err instanceof Error ? err.message : "Failed to load"));
+  }, [nav, authedEmail]);
+
+  async function approveMarketplace(id: string) {
+    setBusy(true);
+    try {
+      await adminMarketplaceApprove(id);
+      setMarketplacePending((rows) => rows.filter((r) => r.id !== id));
+    } catch (err) {
+      setMarketplaceError(err instanceof Error ? err.message : "Failed to approve");
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function rejectMarketplace(id: string) {
+    const reason = window.prompt("Rejection reason (optional):") ?? undefined;
+    setBusy(true);
+    try {
+      await adminMarketplaceReject(id, reason);
+      setMarketplacePending((rows) => rows.filter((r) => r.id !== id));
+    } catch (err) {
+      setMarketplaceError(err instanceof Error ? err.message : "Failed to reject");
+    } finally {
+      setBusy(false);
+    }
+  }
 
   async function handleLogin(e: React.FormEvent) {
     e.preventDefault();
@@ -735,6 +777,7 @@ export default function Admin() {
                 ["growth", "admin.nav.growth"],
                 ["blog", "admin.nav.blog"],
                 ["broadcast", "admin.nav.broadcast"],
+                ["marketplace", "admin.nav.marketplace"],
                 ["signups", "admin.nav.signups"],
                 ["activation", "admin.nav.activation"],
                 ["completion", "admin.nav.completion"],
@@ -770,6 +813,8 @@ export default function Admin() {
               ? t("admin.nav.blog")
               : nav === "broadcast"
                 ? t("admin.nav.broadcast")
+                : nav === "marketplace"
+                  ? t("admin.nav.marketplace")
                 : nav === "signups"
                 ? t("admin.nav.signups")
                 : nav === "analytics"
@@ -1349,6 +1394,68 @@ export default function Admin() {
                       )}
                     </>
                   )}
+                </div>
+              )}
+            </section>
+          )}
+
+          {nav === "marketplace" && (
+            <section className="dash-card">
+              <h2 className="dash-card-title">{t("admin.marketplaceTitle")}</h2>
+              <p className="dash-muted">{t("admin.marketplaceSub")}</p>
+              {marketplaceError && <p className="dash-muted">{marketplaceError}</p>}
+              {marketplacePending.length === 0 ? (
+                <p className="dash-muted">{t("admin.marketplaceEmpty")}</p>
+              ) : (
+                <div className="dash-grid-3">
+                  {marketplacePending.map((row) => (
+                    <div key={row.id} className="dash-card" style={{ margin: 0 }}>
+                      <h3 className="dash-card-title" style={{ fontSize: 14 }}>
+                        {row.name}
+                      </h3>
+                      <p className="dash-note" style={{ marginTop: -4 }}>
+                        {[row.category, row.stage, row.tone].filter(Boolean).join(" · ") || "—"}
+                      </p>
+                      {row.description && <p className="dash-note">{row.description}</p>}
+                      <p style={{ fontSize: 13, fontWeight: 600, marginTop: 8 }}>{row.subject}</p>
+                      <pre
+                        style={{
+                          whiteSpace: "pre-wrap",
+                          fontSize: 12,
+                          background: "var(--dash-bg-soft, #f6f7fb)",
+                          padding: 8,
+                          borderRadius: 6,
+                          maxHeight: 200,
+                          overflow: "auto",
+                        }}
+                      >
+                        {row.body}
+                      </pre>
+                      {row.submitterEmail && (
+                        <p className="dash-note" style={{ fontSize: 11 }}>
+                          {t("admin.marketplaceSubmitter", { email: row.submitterEmail })}
+                        </p>
+                      )}
+                      <div style={{ display: "flex", gap: 8, marginTop: 8 }}>
+                        <button
+                          type="button"
+                          className="btn-primary"
+                          disabled={busy}
+                          onClick={() => void approveMarketplace(row.id)}
+                        >
+                          {t("admin.marketplaceApprove")}
+                        </button>
+                        <button
+                          type="button"
+                          className="btn-secondary"
+                          disabled={busy}
+                          onClick={() => void rejectMarketplace(row.id)}
+                        >
+                          {t("admin.marketplaceReject")}
+                        </button>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               )}
             </section>

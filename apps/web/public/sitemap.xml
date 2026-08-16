@@ -433,6 +433,12 @@
     <priority>0.70</priority>
   </url>
   <url>
+    <loc>https://chasa.io/free-templates/submit</loc>
+    <lastmod>2026-08-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.60</priority>
+  </url>
+  <url>
     <loc>https://chasa.io/free-templates/thank-you-for-payment-email</loc>
     <lastmod>2026-08-16</lastmod>
     <changefreq>monthly</changefreq>

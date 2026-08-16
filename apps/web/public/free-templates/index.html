@@ -490,6 +490,10 @@
     <a class="tpl-pack-strip-btn" href="/free-templates/download">Download</a>
   </aside>
 
+  <p class="tpl-index-note" style="margin-top:8px">
+    Got a template that's worked for you? <a href="/free-templates/submit">Submit it</a> — reviewed, then published free for everyone.
+  </p>
+
   <p class="tpl-index-note">
     Eighteen copy-paste emails for every stage of getting paid — on send, before the due date through final notice,
     plus thank-yous, disputes, and multi-invoice summaries. Original Chasa wording; use as-is or let the
@@ -620,6 +624,12 @@
   </div>
   <p class="tpl-no-results" id="tpl-no-results" hidden>No templates match &ldquo;<span id="tpl-no-results-q"></span>&rdquo;. <a href="/app/">Try the AI tool</a> instead?</p>
 
+  <section class="tpl-cat-section" id="tpl-community" hidden>
+    <h2 class="tpl-cat-title">Community templates</h2>
+    <p class="tpl-index-note">Submitted by other Chasa users, reviewed before publishing. <a href="/free-templates/submit">Share your own</a>.</p>
+    <div class="tpl-grid" id="tpl-community-grid"></div>
+  </section>
+
   <h2 id="faq">FAQ</h2>
   <details class="faq-item"><summary>Are these invoice templates really free?</summary>
   <p>Yes — all templates are free to view, copy, and edit with no account or signup required. Chasa never emails your clients for you; you copy the draft into your own inbox.</p>
@@ -712,6 +722,46 @@
     document.addEventListener("keydown", function (e) {
       if (e.key === "Escape") closeCatMenu();
     });
+  }
+
+  // Community templates — approved user submissions, fetched live (not build-time static like the
+  // rest of this page) since they can appear the moment an admin approves them.
+  var communitySection = document.getElementById("tpl-community");
+  var communityGrid = document.getElementById("tpl-community-grid");
+  if (communitySection && communityGrid) {
+    fetch("/api/marketplace")
+      .then(function (r) {
+        return r.json();
+      })
+      .then(function (data) {
+        var rows = (data && data.templates) || [];
+        if (!rows.length) return;
+        rows.forEach(function (t) {
+          var card = document.createElement("div");
+          card.className = "tpl-card tpl-card-community";
+          var meta = (t.stage || "") + (t.stage && t.tone ? " · " : "") + (t.tone || "");
+          card.innerHTML =
+            '<div class="tpl-meta"><span>' + meta.replace(/</g, "&lt;") + "</span></div>" +
+            "<h3>" + String(t.name || "").replace(/</g, "&lt;") + "</h3>" +
+            "<p>" + String(t.description || "").replace(/</g, "&lt;") + "</p>" +
+            '<button type="button" class="btn-copy" data-subject="' + encodeURIComponent(t.subject || "") + '" data-body="' + encodeURIComponent(t.body || "") + '">Copy subject + body</button>';
+          communityGrid.appendChild(card);
+        });
+        communitySection.hidden = false;
+        communityGrid.querySelectorAll(".btn-copy").forEach(function (btn) {
+          btn.addEventListener("click", function () {
+            var subject = decodeURIComponent(btn.getAttribute("data-subject"));
+            var body = decodeURIComponent(btn.getAttribute("data-body"));
+            navigator.clipboard.writeText("Subject: " + subject + "\n\n" + body).then(function () {
+              btn.textContent = "Copied";
+              setTimeout(function () {
+                btn.textContent = "Copy subject + body";
+              }, 1500);
+            });
+          });
+        });
+      })
+      .catch(function () {});
   }
 })();
 </script>

@@ -114,6 +114,18 @@ export const demandLetterSchema = z.object({
 /** @deprecated Use demandLetterSchema */
 export const mahnungSchema = demandLetterSchema;
 
+export const marketplaceSubmitSchema = z.object({
+  name: z.string().trim().min(1).max(100),
+  description: z.string().trim().max(400).optional(),
+  stage: z.string().trim().max(60).optional(),
+  tone: z.string().trim().max(40).optional(),
+  category: z.string().trim().max(60).optional(),
+  subject: z.string().trim().min(1).max(200),
+  body: z.string().trim().min(1).max(4000),
+  submitterEmail: z.string().trim().email().max(254).optional(),
+  turnstileToken: z.string().optional(),
+});
+
 export const demoDraftSchema = z.object({
   client_name: z.string().max(80).optional(),
   invoice_amount: z.coerce.number().finite().min(1).max(999_999).optional(),

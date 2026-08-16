@@ -537,6 +537,10 @@ ${CATEGORIES.map((c) => `        <a href="#${slugifyCategory(c)}" class="tpl-cat
     <a class="tpl-pack-strip-btn" href="/free-templates/download">Download</a>
   </aside>
 
+  <p class="tpl-index-note" style="margin-top:8px">
+    Got a template that's worked for you? <a href="/free-templates/submit">Submit it</a> — reviewed, then published free for everyone.
+  </p>
+
   <p class="tpl-index-note">
     ${tplCountWord} copy-paste emails for every stage of getting paid — on send, before the due date through final notice,
     plus thank-yous, disputes, and multi-invoice summaries. Original Chasa wording; use as-is or let the
@@ -547,6 +551,12 @@ ${CATEGORIES.map((c) => `        <a href="#${slugifyCategory(c)}" class="tpl-cat
 ${categorySections}
   </div>
   <p class="tpl-no-results" id="tpl-no-results" hidden>No templates match &ldquo;<span id="tpl-no-results-q"></span>&rdquo;. <a href="/app/">Try the AI tool</a> instead?</p>
+
+  <section class="tpl-cat-section" id="tpl-community" hidden>
+    <h2 class="tpl-cat-title">Community templates</h2>
+    <p class="tpl-index-note">Submitted by other Chasa users, reviewed before publishing. <a href="/free-templates/submit">Share your own</a>.</p>
+    <div class="tpl-grid" id="tpl-community-grid"></div>
+  </section>
 
   <h2 id="faq">FAQ</h2>
 ${TEMPLATES_INDEX_FAQ.map((item) => `  <details class="faq-item"><summary>${escapeHtml(item.q)}</summary>
@@ -631,6 +641,46 @@ ${TEMPLATES_INDEX_FAQ.map((item) => `  <details class="faq-item"><summary>${esca
     document.addEventListener("keydown", function (e) {
       if (e.key === "Escape") closeCatMenu();
     });
+  }
+
+  // Community templates — approved user submissions, fetched live (not build-time static like the
+  // rest of this page) since they can appear the moment an admin approves them.
+  var communitySection = document.getElementById("tpl-community");
+  var communityGrid = document.getElementById("tpl-community-grid");
+  if (communitySection && communityGrid) {
+    fetch("/api/marketplace")
+      .then(function (r) {
+        return r.json();
+      })
+      .then(function (data) {
+        var rows = (data && data.templates) || [];
+        if (!rows.length) return;
+        rows.forEach(function (t) {
+          var card = document.createElement("div");
+          card.className = "tpl-card tpl-card-community";
+          var meta = (t.stage || "") + (t.stage && t.tone ? " · " : "") + (t.tone || "");
+          card.innerHTML =
+            '<div class="tpl-meta"><span>' + meta.replace(/</g, "&lt;") + "</span></div>" +
+            "<h3>" + String(t.name || "").replace(/</g, "&lt;") + "</h3>" +
+            "<p>" + String(t.description || "").replace(/</g, "&lt;") + "</p>" +
+            '<button type="button" class="btn-copy" data-subject="' + encodeURIComponent(t.subject || "") + '" data-body="' + encodeURIComponent(t.body || "") + '">Copy subject + body</button>';
+          communityGrid.appendChild(card);
+        });
+        communitySection.hidden = false;
+        communityGrid.querySelectorAll(".btn-copy").forEach(function (btn) {
+          btn.addEventListener("click", function () {
+            var subject = decodeURIComponent(btn.getAttribute("data-subject"));
+            var body = decodeURIComponent(btn.getAttribute("data-body"));
+            navigator.clipboard.writeText("Subject: " + subject + "\\n\\n" + body).then(function () {
+              btn.textContent = "Copied";
+              setTimeout(function () {
+                btn.textContent = "Copy subject + body";
+              }, 1500);
+            });
+          });
+        });
+      })
+      .catch(function () {});
   }
 })();
 </script>`,
@@ -763,6 +813,127 @@ ${downloadJsonLd}
 
 writeFileSync(join(outDir, "download.html"), downloadHtml);
 console.log(`Wrote download landing → ${join(outDir, "download.html")}`);
+
+const submitJsonLd = JSON.stringify(
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    name: "Submit your own invoice follow-up template — Chasa",
+    description:
+      "Share a payment reminder or invoice follow-up email that's worked for you. Reviewed by Chasa, then published free for everyone.",
+    url: "https://chasa.io/free-templates/submit",
+    isPartOf: { "@type": "WebSite", name: "Chasa", url: "https://chasa.io" },
+  },
+  null,
+  2
+);
+
+const submitHtml = `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Submit Your Invoice Follow-Up Template — Chasa</title>
+<meta name="description" content="Share a payment reminder or invoice follow-up email that's worked for you. Reviewed by Chasa, then published free on our template library.">
+<link rel="canonical" href="https://chasa.io/free-templates/submit">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Submit Your Invoice Follow-Up Template — Chasa">
+<meta property="og:description" content="Share a payment reminder or invoice follow-up email that's worked for you. Reviewed by Chasa, then published free on our template library.">
+<meta property="og:url" content="https://chasa.io/free-templates/submit">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Submit Your Invoice Follow-Up Template — Chasa">
+<meta name="twitter:description" content="Share a payment reminder or invoice follow-up email that's worked for you. Reviewed by Chasa, then published free on our template library.">
+<script type="application/ld+json">
+${submitJsonLd}
+</script>
+<link rel="icon" href="/favicon.png" type="image/png">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="stylesheet" href="/site.css?v=${ASSET_V}">
+</head>
+<body class="lead-pack-page">
+  <header class="lead-pack-topbar">
+    <a href="/" class="lead-pack-brand" aria-label="Chasa home">
+      <img src="/brand/chasa-icon.png" alt="" width="28" height="28" />
+      <span>chasa</span>
+    </a>
+    <a href="/free-templates/" class="lead-pack-top-link">Browse templates</a>
+  </header>
+
+  <main class="lead-pack-shell">
+    <section class="lead-pack-copy">
+      <h1>Share a template that's worked for you</h1>
+      <p>
+        Every freelancer eventually writes a chase email that just works — the wording that gets a
+        client to pay without the relationship turning awkward. Share yours here.
+      </p>
+      <p>
+        No sign-in required. We review every submission before it goes live — nothing publishes
+        automatically — and it'll sit alongside our own ${tplCount} templates at
+        <a href="/free-templates/">/free-templates</a>, free for anyone to copy.
+      </p>
+    </section>
+
+    <section class="lead-pack-card" aria-labelledby="mkt-form-title">
+      <h2 id="mkt-form-title">Submit your template</h2>
+      <form id="marketplace-submit-form" class="lead-pack-form" novalidate>
+        <label class="lead-pack-label" for="mkt-name">Template name <span aria-hidden="true">*</span></label>
+        <input id="mkt-name" name="name" type="text" required maxlength="100" placeholder="e.g. Friendly nudge for repeat clients" />
+
+        <label class="lead-pack-label" for="mkt-description">Short description</label>
+        <input id="mkt-description" name="description" type="text" maxlength="400" placeholder="When would someone use this?" />
+
+        <label class="lead-pack-label" for="mkt-category">Category</label>
+        <select id="mkt-category" name="category">
+          <option value="">Please select</option>
+${CATEGORIES.map((c) => `          <option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`).join("\n")}
+        </select>
+
+        <label class="lead-pack-label" for="mkt-stage">Stage (how overdue is it?)</label>
+        <input id="mkt-stage" name="stage" type="text" maxlength="60" placeholder="e.g. 14 days overdue" />
+
+        <label class="lead-pack-label" for="mkt-tone">Tone</label>
+        <input id="mkt-tone" name="tone" type="text" maxlength="40" placeholder="e.g. Firm, Friendly, Warm" />
+
+        <label class="lead-pack-label" for="mkt-subject">Email subject <span aria-hidden="true">*</span></label>
+        <input id="mkt-subject" name="subject" type="text" required maxlength="200" placeholder="Invoice [Invoice #] — following up" />
+
+        <label class="lead-pack-label" for="mkt-body">Email body <span aria-hidden="true">*</span></label>
+        <textarea id="mkt-body" name="body" required maxlength="4000" rows="10" placeholder="Hi [Client name], ..."></textarea>
+
+        <label class="lead-pack-label" for="mkt-email">Your email (optional)</label>
+        <input id="mkt-email" name="submitterEmail" type="email" maxlength="254" placeholder="Only if you want us to follow up with you" />
+
+        <div id="mkt-turnstile" class="tpl-pack-turnstile"></div>
+        <p id="mkt-status" class="tpl-pack-status" role="status" aria-live="polite"></p>
+
+        <p class="lead-pack-fine">
+          Use placeholders like [Client name], [Invoice #], and [Amount] instead of real client details.
+          We review every submission and may lightly edit wording before publishing. See our
+          <a href="/privacy">Privacy Policy</a>.
+        </p>
+
+        <button type="submit" class="lead-pack-submit" id="mkt-submit">Submit template</button>
+      </form>
+
+      <div id="mkt-done" class="lead-pack-fine" hidden>
+        <p><strong>Thanks — your template is in for review.</strong> If it's approved, it'll show up at
+        <a href="/free-templates/">/free-templates/</a> soon.</p>
+      </div>
+    </section>
+  </main>
+
+  <p class="lead-pack-foot">
+    Just want to browse? <a href="/free-templates/">See all ${tplCount} templates</a> — no email required.
+  </p>
+  <script src="/marketplace-submit.js?v=${ASSET_V}" defer></script>
+  <script src="/site-nav.js?v=${ASSET_V}" defer></script>
+</body>
+</html>
+`;
+
+writeFileSync(join(outDir, "submit.html"), submitHtml);
+console.log(`Wrote submit-a-template landing → ${join(outDir, "submit.html")}`);
 
 for (const t of TEMPLATES) {
   const jsonLd = JSON.stringify(

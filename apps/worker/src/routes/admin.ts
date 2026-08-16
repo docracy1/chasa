@@ -14,6 +14,7 @@ import { SESSION_COOKIE_NAME } from "../lib/auth";
 import { getFunnelStats, getOutreachStats, getTrafficSources, getTrafficStats } from "../lib/analytics";
 import { getCachedClaritySnapshot, refreshClaritySnapshot } from "../lib/clarityApi";
 import { getCloudflareTrafficStats } from "../lib/cloudflareAnalytics";
+import { listPending, reviewSubmission } from "../lib/marketplaceTemplates";
 import { createPost, deletePost, listPosts, updatePost } from "../lib/blog";
 import { sendMarketingEmail } from "../lib/email";
 import { normalizeLocale } from "../lib/locale";
@@ -113,6 +114,27 @@ admin.post("/clarity/refresh", requireAdmin, async (c) => {
     return c.json({ error: result.error }, status);
   }
   return c.json({ snapshot: result.snapshot });
+});
+
+admin.get("/marketplace/pending", requireAdmin, async (c) => {
+  const rows = await listPending(c.env);
+  return c.json({ templates: rows });
+});
+
+admin.post("/marketplace/:id/approve", requireAdmin, async (c) => {
+  const admin = c.get("admin");
+  const result = await reviewSubmission(c.env, c.req.param("id"), "approved", admin!.email);
+  if (!result.ok) return c.json({ error: result.error }, 400);
+  return c.json({ ok: true });
+});
+
+admin.post("/marketplace/:id/reject", requireAdmin, async (c) => {
+  const admin = c.get("admin");
+  const body = await c.req.json().catch(() => ({}));
+  const reason = typeof body.reason === "string" ? body.reason.slice(0, 400) : null;
+  const result = await reviewSubmission(c.env, c.req.param("id"), "rejected", admin!.email, reason);
+  if (!result.ok) return c.json({ error: result.error }, 400);
+  return c.json({ ok: true });
 });
 
 admin.get("/signups", requireAdmin, async (c) => {

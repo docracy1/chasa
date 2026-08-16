@@ -71,6 +71,40 @@ export type TrafficSourcesStats = {
   rows: TrafficSourceRow[];
 };
 
+export type MarketplaceSubmission = {
+  id: string;
+  slug: string;
+  name: string;
+  description: string;
+  stage: string;
+  tone: string;
+  category: string;
+  subject: string;
+  body: string;
+  submittedAt: string;
+  accountId: string | null;
+  submitterEmail: string | null;
+  status: "pending" | "approved" | "rejected";
+  rejectionReason: string | null;
+  reviewedAt: string | null;
+  reviewedBy: string | null;
+};
+
+export function adminMarketplacePending() {
+  return adminFetch<{ templates: MarketplaceSubmission[] }>("/marketplace/pending");
+}
+
+export function adminMarketplaceApprove(id: string) {
+  return adminFetch<{ ok: true }>(`/marketplace/${id}/approve`, { method: "POST" });
+}
+
+export function adminMarketplaceReject(id: string, reason?: string) {
+  return adminFetch<{ ok: true }>(`/marketplace/${id}/reject`, {
+    method: "POST",
+    body: JSON.stringify({ reason: reason || undefined }),
+  });
+}
+
 export type SignupLists = {
   total: number;
   free: { email: string; plan: string; createdAt: string }[];
