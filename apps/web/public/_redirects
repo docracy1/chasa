@@ -16,6 +16,10 @@
 /docs  /docs/  301
 /free-templates  /free-templates/  301
 
+# Short, shareable marketplace URLs
+/marketplace  /free-templates/  301
+/submit  /free-templates/submit  301
+
 # Outreach short links are handled by functions/go/[[code]].ts (logs open, then 302).
 # These static redirects are a fallback if the Function is unavailable.
 /go/dm  /?utm_source=outreach&utm_medium=dm&utm_campaign=dm  302
