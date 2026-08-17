@@ -267,6 +267,28 @@
     background: rgba(255, 255, 255, 0.16);
     border-radius: 999px;
   }
+  .hero-trust-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 18px;
+    list-style: none;
+    margin: 0 0 18px;
+    padding: 0;
+  }
+  .hero-trust-badges li {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--hero-body);
+  }
+  .hero-trust-badges svg {
+    width: 15px;
+    height: 15px;
+    flex-shrink: 0;
+    opacity: 0.85;
+  }
   .hero-cta-hint {
     margin: 12px 0 0;
     font-size: 13px;
@@ -1347,6 +1369,11 @@
         <h1 data-i18n="home.hero.title">Get paid faster.
 AI writes the chase — you stay in control.</h1>
         <p class="hero-sub" data-i18n="home.hero.sub">Paste an overdue invoice. Chasa drafts a follow-up matched to how late it is — warm early, firmer later — so you sound professional, not desperate. Copy, tweak, send from your own inbox.</p>
+        <ul class="hero-trust-badges">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v18M8 21h8"/><path d="M5 7h5M14 7h5"/><path d="M2 7l3 6a3 3 0 0 0 6 0L8 7"/><path d="M13 7l3 6a3 3 0 0 0 6 0l-3-6"/></svg><span data-i18n="home.hero.badgeAccountant">Checked by a chartered accountant</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v5.5c0 5-3.5 8-7 9.5-3.5-1.5-7-4.5-7-9.5V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg><span data-i18n="home.hero.badgeSsl">SSL-secured</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 4l5 5-9.5 9.5H6v-4.5L15 4z"/><path d="M4 20c2-1.2 4-1.2 6 0"/></svg><span data-i18n="home.hero.badgeNoSignup">No signup required</span></li>
+        </ul>
         <div class="hero-cta-row" data-cta-source="home_hero">
           <form class="hero-signup" id="hero-signup" action="/app/login" method="get">
             <input

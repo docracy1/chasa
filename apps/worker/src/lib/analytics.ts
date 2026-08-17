@@ -247,6 +247,10 @@ const BOT_PATTERNS: { name: string; re: RegExp }[] = [
   { name: "HeadlessChrome", re: /headlesschrome/i },
   { name: "curl", re: /\bcurl\//i },
   { name: "python-requests", re: /python-requests|python-urllib|aiohttp/i },
+  { name: "Go-http-client", re: /go-http-client/i },
+  // Security/uptime/domain scanners — self-descriptive UAs found auditing real Cloudflare edge
+  // traffic (Palo Alto's scanner literally says "find out more about our scans" in the UA string).
+  { name: "Scanner/probe", re: /paloaltonetworks|-probe\b|checker\b|domainscores|\bscan(ner)?\b/i },
   // Catch-all last — LinkedInBot/Twitterbot already matched above; this covers misc SEO scrapers.
   { name: "Other bot", re: /bot|crawler|spider|slurp/i },
 ];
