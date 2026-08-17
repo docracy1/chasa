@@ -20,7 +20,7 @@
   </url>
   <url>
     <loc>https://chasa.io/ai</loc>
-    <lastmod>2026-08-16</lastmod>
+    <lastmod>2026-08-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
@@ -331,13 +331,49 @@
     <priority>0.90</priority>
   </url>
   <url>
+    <loc>https://chasa.io/free-templates/agency-final-invoice-follow-up</loc>
+    <lastmod>2026-08-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.70</priority>
+  </url>
+  <url>
+    <loc>https://chasa.io/free-templates/agency-milestone-invoice-follow-up</loc>
+    <lastmod>2026-08-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.70</priority>
+  </url>
+  <url>
+    <loc>https://chasa.io/free-templates/agency-retainer-invoice-follow-up</loc>
+    <lastmod>2026-08-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.70</priority>
+  </url>
+  <url>
     <loc>https://chasa.io/free-templates/broken-payment-promise-follow-up</loc>
     <lastmod>2026-08-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.70</priority>
   </url>
   <url>
+    <loc>https://chasa.io/free-templates/client-ghosted-me-template</loc>
+    <lastmod>2026-08-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.70</priority>
+  </url>
+  <url>
     <loc>https://chasa.io/free-templates/confirm-invoice-received-email</loc>
+    <lastmod>2026-08-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.70</priority>
+  </url>
+  <url>
+    <loc>https://chasa.io/free-templates/corporate-finance-department-reminder</loc>
+    <lastmod>2026-08-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.70</priority>
+  </url>
+  <url>
+    <loc>https://chasa.io/free-templates/corporate-overdue-invoice-escalation</loc>
     <lastmod>2026-08-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.70</priority>
@@ -361,6 +397,12 @@
     <priority>0.70</priority>
   </url>
   <url>
+    <loc>https://chasa.io/free-templates/final-notice-before-legal-action</loc>
+    <lastmod>2026-08-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.70</priority>
+  </url>
+  <url>
     <loc>https://chasa.io/free-templates/first-invoice-new-client-reminder</loc>
     <lastmod>2026-08-17</lastmod>
     <changefreq>monthly</changefreq>
@@ -368,6 +410,24 @@
   </url>
   <url>
     <loc>https://chasa.io/free-templates/formal-overdue-notice-30-days</loc>
+    <lastmod>2026-08-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.70</priority>
+  </url>
+  <url>
+    <loc>https://chasa.io/free-templates/freelancer-30-days-overdue-reminder</loc>
+    <lastmod>2026-08-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.70</priority>
+  </url>
+  <url>
+    <loc>https://chasa.io/free-templates/freelancer-firm-payment-reminder</loc>
+    <lastmod>2026-08-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.70</priority>
+  </url>
+  <url>
+    <loc>https://chasa.io/free-templates/freelancer-polite-payment-reminder</loc>
     <lastmod>2026-08-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.70</priority>
@@ -401,6 +461,12 @@
     <lastmod>2026-08-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.70</priority>
+  </url>
+  <url>
+    <loc>https://chasa.io/free-templates/new</loc>
+    <lastmod>2026-08-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
   </url>
   <url>
     <loc>https://chasa.io/free-templates/overdue-invoice-reminder-7-days</loc>

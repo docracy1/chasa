@@ -196,5 +196,115 @@
     "category": "Payments received",
     "subject": "Thanks — payments received ([Total amount])",
     "body": "Hi [Client name],\n\nConfirming we've received your payment covering:\n\n• [Invoice #1] — [Amount 1]\n• [Invoice #2] — [Amount 2]\n\nTotal applied: [Total amount]. Thank you — that clears the open balance on our side.\n\nIf you need remittance details or receipts for your records, just say the word.\n\nAppreciate you,\n[Your name]"
+  },
+  {
+    "slug": "freelancer-polite-payment-reminder",
+    "name": "Freelancer polite reminder",
+    "seoTitle": "Free Freelancer Polite Payment Reminder Email Template",
+    "description": "Free polite payment reminder template written for freelancers and solo consultants — casual enough for a direct client relationship, clear enough to get a real answer.",
+    "stage": "Early overdue",
+    "tone": "Polite",
+    "category": "By industry",
+    "subject": "Quick one — invoice [Invoice #]",
+    "body": "Hi [Client name],\n\nHope things are good on your end! Just a quick nudge that invoice [Invoice #] for [Amount] (sent [Send date]) hasn't come through yet.\n\nNo rush if it's just sitting in a queue — could you let me know when it's likely to clear? Invoice attached again in case it got buried.\n\nThanks so much,\n[Your name]"
+  },
+  {
+    "slug": "freelancer-firm-payment-reminder",
+    "name": "Freelancer firm reminder",
+    "seoTitle": "Free Freelancer Firm Payment Reminder Email Template",
+    "description": "Free firmer follow-up template for freelancers after a first reminder went unanswered — direct about the impact on your business without burning the relationship.",
+    "stage": "After first reminder",
+    "tone": "Firm",
+    "category": "By industry",
+    "subject": "Following up again — invoice [Invoice #] still open",
+    "body": "Hi [Client name],\n\nI reached out last week about invoice [Invoice #] for [Amount] and haven't heard back yet. As a freelancer, unpaid invoices like this one directly affect my ability to take on new work, so I wanted to follow up directly.\n\nCould you confirm a payment date this week? Happy to jump on a quick call if something's holding it up.\n\nPay here: [Payment link]\n\nThanks,\n[Your name]"
+  },
+  {
+    "slug": "freelancer-30-days-overdue-reminder",
+    "name": "Freelancer overdue — 30 days",
+    "seoTitle": "Free Freelancer 30-Day Overdue Invoice Email Template",
+    "description": "Free template for freelancers when an invoice hits 30 days overdue — states the facts plainly and asks for a concrete plan, one professional to another.",
+    "stage": "30 days overdue",
+    "tone": "Direct",
+    "category": "By industry",
+    "subject": "Invoice [Invoice #] — 30 days overdue, need a plan",
+    "body": "Hi [Client name],\n\nInvoice [Invoice #] for [Amount], sent [Send date], is now a full month overdue with no response to my last two follow-ups.\n\nI get that things get busy, but I need a concrete payment date to keep this from becoming a bigger issue for either of us. Can you confirm by [date] when this will be settled — in full or as a plan?\n\n[Payment link or bank details]\n\n[Your name]"
+  },
+  {
+    "slug": "agency-retainer-invoice-follow-up",
+    "name": "Agency follow-up — retainer invoice",
+    "seoTitle": "Free Agency Retainer Invoice Follow-Up Email Template",
+    "description": "Free follow-up template for agencies chasing an overdue monthly retainer invoice — flags the ongoing-work angle without sounding like a threat.",
+    "stage": "Overdue",
+    "tone": "Professional",
+    "category": "By industry",
+    "subject": "[Month] retainer invoice [Invoice #] — following up",
+    "body": "Hi [Client name],\n\nFollowing up on invoice [Invoice #] for your [Month] retainer ([Amount]), due [Due date].\n\nSince this covers work we're actively delivering this month, I wanted to flag it before it affects the schedule on our end. Could you confirm when it'll be paid?\n\nInvoice attached — pay here: [Payment link].\n\nBest,\n[Your name]\n[Agency name]"
+  },
+  {
+    "slug": "agency-milestone-invoice-follow-up",
+    "name": "Agency follow-up — project milestone",
+    "seoTitle": "Free Agency Milestone Invoice Follow-Up Email Template",
+    "description": "Free follow-up template for agencies chasing payment on a completed project milestone — ties the ask directly to delivered, approved work.",
+    "stage": "Overdue",
+    "tone": "Professional",
+    "category": "By industry",
+    "subject": "Milestone invoice [Invoice #] — [Milestone name]",
+    "body": "Hi [Client name],\n\nInvoice [Invoice #] for [Amount] was issued on completion and sign-off of [Milestone name], due [Due date]. It's still showing as unpaid on our side.\n\nSince the next milestone is scheduled to kick off [Next milestone date], could you confirm payment status so we can plan accordingly?\n\nPay here: [Payment link]. Invoice attached.\n\nBest,\n[Your name]\n[Agency name]"
+  },
+  {
+    "slug": "agency-final-invoice-follow-up",
+    "name": "Agency follow-up — unpaid final invoice",
+    "seoTitle": "Free Agency Final Invoice Follow-Up Email Template",
+    "description": "Free template for agencies chasing the last invoice on a wrapped-up project — useful when there's no more upcoming work to tie the reminder to.",
+    "stage": "Overdue",
+    "tone": "Firm",
+    "category": "By industry",
+    "subject": "Final invoice [Invoice #] — project closeout",
+    "body": "Hi [Client name],\n\nWith [Project name] wrapped, invoice [Invoice #] for [Amount] (final invoice, due [Due date]) is still outstanding.\n\nSince there's no further work scheduled to flag this against, I'd appreciate a specific payment date so we can close this out cleanly on both sides.\n\n[Payment link or bank details]. Invoice attached for reference.\n\nRegards,\n[Your name]\n[Agency name]"
+  },
+  {
+    "slug": "corporate-overdue-invoice-escalation",
+    "name": "Corporate overdue invoice escalation",
+    "seoTitle": "Free Corporate Overdue Invoice Escalation Email Template",
+    "description": "Free escalation template for vendors chasing a corporate client whose standard reminders haven't landed — addressed for routing into a larger organization's process.",
+    "stage": "Overdue, escalating",
+    "tone": "Formal",
+    "category": "By industry",
+    "subject": "Escalation: invoice [Invoice #] — [Amount], PO [PO #]",
+    "body": "Dear [Contact name],\n\nWe're escalating invoice [Invoice #] ([Amount], PO reference [PO #]), due [Due date], as it remains unpaid despite two prior reminders sent to [Original contact].\n\nIf this needs to be routed to a different contact or approval step on your side, please point us to the right person — otherwise, please confirm an expected payment date by [Deadline date].\n\nInvoice and PO reference attached.\n\nRegards,\n[Your name]\n[Your company]"
+  },
+  {
+    "slug": "corporate-finance-department-reminder",
+    "name": "Corporate finance department reminder",
+    "seoTitle": "Free Corporate Finance Department Payment Reminder Template",
+    "description": "Free reminder template addressed directly to a client's accounts payable / finance team, with the reference numbers AP departments typically need to process payment.",
+    "stage": "Overdue",
+    "tone": "Formal",
+    "category": "By industry",
+    "subject": "AP follow-up: invoice [Invoice #] — vendor [Your company]",
+    "body": "Dear Accounts Payable Team,\n\nWe're following up on invoice [Invoice #] for [Amount], due [Due date], issued to [Client company] under PO [PO #] / vendor ID [Vendor ID].\n\nPlease let us know if any documentation is missing on your end that's holding up processing, or confirm the expected payment date.\n\nInvoice attached, along with the original PO for reference.\n\nBest regards,\n[Your name]\n[Your company]"
+  },
+  {
+    "slug": "final-notice-before-legal-action",
+    "name": "Final notice before legal action",
+    "seoTitle": "Free Final Notice Before Legal Action Email Template",
+    "description": "Free, seriously-worded final notice template for use before considering legal or collections action on a long-overdue invoice. Not legal advice — check local requirements before sending a real pre-action letter.",
+    "stage": "Severely overdue",
+    "tone": "Legal",
+    "category": "By industry",
+    "subject": "Final notice before legal action: invoice [Invoice #]",
+    "body": "Dear [Client name],\n\nThis is a final notice regarding invoice [Invoice #] for [Amount], originally due [Due date] and now [Days overdue] days overdue, despite prior reminders sent on [Prior reminder dates].\n\nIf payment in full is not received by [Final deadline date], we will have no choice but to consider further collection action, which may include referring this matter to a collections agency or pursuing legal remedies available to us, without further notice.\n\nWe would prefer to resolve this directly — please contact us immediately if you dispute this invoice or wish to arrange payment.\n\n[Payment link or bank details]\n\nRegards,\n[Your name]\n[Your company]"
+  },
+  {
+    "slug": "client-ghosted-me-template",
+    "name": "Client ghosted me",
+    "seoTitle": "Free Email Template for When a Client Goes Silent (Ghosted)",
+    "description": "Free template for the specific, common freelance nightmare: a client who was responsive, went quiet, and now isn't replying to anything — invoices or messages.",
+    "stage": "No response at all",
+    "tone": "Direct, low-drama",
+    "category": "By industry",
+    "subject": "Still there? Invoice [Invoice #] + a few messages unanswered",
+    "body": "Hi [Client name],\n\nI haven't heard back on invoice [Invoice #] for [Amount] or my last couple of messages, which isn't like you — so first, I hope everything's okay.\n\nIf something's changed on your end, just let me know, even briefly. Otherwise, I need to treat this as unresponsive and will follow up once more before [next step, e.g. \"pausing further work\" or \"escalating to a formal notice\"] on [date].\n\n[Payment link or bank details]\n\n[Your name]"
   }
 ]

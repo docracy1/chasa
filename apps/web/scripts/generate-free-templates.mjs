@@ -14,6 +14,7 @@ const ASSET_V = "20260804k";
 
 /** Category order controls both the "Categories" jump menu and section order on the page. */
 const CATEGORIES = [
+  "By industry",
   "Before due",
   "Due & early overdue",
   "Overdue follow-ups",
@@ -408,6 +409,220 @@ If you need remittance details or receipts for your records, just say the word.
 Appreciate you,
 [Your name]`,
   },
+  {
+    slug: "freelancer-polite-payment-reminder",
+    name: "Freelancer polite reminder",
+    seoTitle: "Free Freelancer Polite Payment Reminder Email Template",
+    description:
+      "Free polite payment reminder template written for freelancers and solo consultants — casual enough for a direct client relationship, clear enough to get a real answer.",
+    stage: "Early overdue",
+    tone: "Polite",
+    category: "By industry",
+    subject: "Quick one — invoice [Invoice #]",
+    body: `Hi [Client name],
+
+Hope things are good on your end! Just a quick nudge that invoice [Invoice #] for [Amount] (sent [Send date]) hasn't come through yet.
+
+No rush if it's just sitting in a queue — could you let me know when it's likely to clear? Invoice attached again in case it got buried.
+
+Thanks so much,
+[Your name]`,
+  },
+  {
+    slug: "freelancer-firm-payment-reminder",
+    name: "Freelancer firm reminder",
+    seoTitle: "Free Freelancer Firm Payment Reminder Email Template",
+    description:
+      "Free firmer follow-up template for freelancers after a first reminder went unanswered — direct about the impact on your business without burning the relationship.",
+    stage: "After first reminder",
+    tone: "Firm",
+    category: "By industry",
+    subject: "Following up again — invoice [Invoice #] still open",
+    body: `Hi [Client name],
+
+I reached out last week about invoice [Invoice #] for [Amount] and haven't heard back yet. As a freelancer, unpaid invoices like this one directly affect my ability to take on new work, so I wanted to follow up directly.
+
+Could you confirm a payment date this week? Happy to jump on a quick call if something's holding it up.
+
+Pay here: [Payment link]
+
+Thanks,
+[Your name]`,
+  },
+  {
+    slug: "freelancer-30-days-overdue-reminder",
+    name: "Freelancer overdue — 30 days",
+    seoTitle: "Free Freelancer 30-Day Overdue Invoice Email Template",
+    description:
+      "Free template for freelancers when an invoice hits 30 days overdue — states the facts plainly and asks for a concrete plan, one professional to another.",
+    stage: "30 days overdue",
+    tone: "Direct",
+    category: "By industry",
+    subject: "Invoice [Invoice #] — 30 days overdue, need a plan",
+    body: `Hi [Client name],
+
+Invoice [Invoice #] for [Amount], sent [Send date], is now a full month overdue with no response to my last two follow-ups.
+
+I get that things get busy, but I need a concrete payment date to keep this from becoming a bigger issue for either of us. Can you confirm by [date] when this will be settled — in full or as a plan?
+
+[Payment link or bank details]
+
+[Your name]`,
+  },
+  {
+    slug: "agency-retainer-invoice-follow-up",
+    name: "Agency follow-up — retainer invoice",
+    seoTitle: "Free Agency Retainer Invoice Follow-Up Email Template",
+    description:
+      "Free follow-up template for agencies chasing an overdue monthly retainer invoice — flags the ongoing-work angle without sounding like a threat.",
+    stage: "Overdue",
+    tone: "Professional",
+    category: "By industry",
+    subject: "[Month] retainer invoice [Invoice #] — following up",
+    body: `Hi [Client name],
+
+Following up on invoice [Invoice #] for your [Month] retainer ([Amount]), due [Due date].
+
+Since this covers work we're actively delivering this month, I wanted to flag it before it affects the schedule on our end. Could you confirm when it'll be paid?
+
+Invoice attached — pay here: [Payment link].
+
+Best,
+[Your name]
+[Agency name]`,
+  },
+  {
+    slug: "agency-milestone-invoice-follow-up",
+    name: "Agency follow-up — project milestone",
+    seoTitle: "Free Agency Milestone Invoice Follow-Up Email Template",
+    description:
+      "Free follow-up template for agencies chasing payment on a completed project milestone — ties the ask directly to delivered, approved work.",
+    stage: "Overdue",
+    tone: "Professional",
+    category: "By industry",
+    subject: "Milestone invoice [Invoice #] — [Milestone name]",
+    body: `Hi [Client name],
+
+Invoice [Invoice #] for [Amount] was issued on completion and sign-off of [Milestone name], due [Due date]. It's still showing as unpaid on our side.
+
+Since the next milestone is scheduled to kick off [Next milestone date], could you confirm payment status so we can plan accordingly?
+
+Pay here: [Payment link]. Invoice attached.
+
+Best,
+[Your name]
+[Agency name]`,
+  },
+  {
+    slug: "agency-final-invoice-follow-up",
+    name: "Agency follow-up — unpaid final invoice",
+    seoTitle: "Free Agency Final Invoice Follow-Up Email Template",
+    description:
+      "Free template for agencies chasing the last invoice on a wrapped-up project — useful when there's no more upcoming work to tie the reminder to.",
+    stage: "Overdue",
+    tone: "Firm",
+    category: "By industry",
+    subject: "Final invoice [Invoice #] — project closeout",
+    body: `Hi [Client name],
+
+With [Project name] wrapped, invoice [Invoice #] for [Amount] (final invoice, due [Due date]) is still outstanding.
+
+Since there's no further work scheduled to flag this against, I'd appreciate a specific payment date so we can close this out cleanly on both sides.
+
+[Payment link or bank details]. Invoice attached for reference.
+
+Regards,
+[Your name]
+[Agency name]`,
+  },
+  {
+    slug: "corporate-overdue-invoice-escalation",
+    name: "Corporate overdue invoice escalation",
+    seoTitle: "Free Corporate Overdue Invoice Escalation Email Template",
+    description:
+      "Free escalation template for vendors chasing a corporate client whose standard reminders haven't landed — addressed for routing into a larger organization's process.",
+    stage: "Overdue, escalating",
+    tone: "Formal",
+    category: "By industry",
+    subject: "Escalation: invoice [Invoice #] — [Amount], PO [PO #]",
+    body: `Dear [Contact name],
+
+We're escalating invoice [Invoice #] ([Amount], PO reference [PO #]), due [Due date], as it remains unpaid despite two prior reminders sent to [Original contact].
+
+If this needs to be routed to a different contact or approval step on your side, please point us to the right person — otherwise, please confirm an expected payment date by [Deadline date].
+
+Invoice and PO reference attached.
+
+Regards,
+[Your name]
+[Your company]`,
+  },
+  {
+    slug: "corporate-finance-department-reminder",
+    name: "Corporate finance department reminder",
+    seoTitle: "Free Corporate Finance Department Payment Reminder Template",
+    description:
+      "Free reminder template addressed directly to a client's accounts payable / finance team, with the reference numbers AP departments typically need to process payment.",
+    stage: "Overdue",
+    tone: "Formal",
+    category: "By industry",
+    subject: "AP follow-up: invoice [Invoice #] — vendor [Your company]",
+    body: `Dear Accounts Payable Team,
+
+We're following up on invoice [Invoice #] for [Amount], due [Due date], issued to [Client company] under PO [PO #] / vendor ID [Vendor ID].
+
+Please let us know if any documentation is missing on your end that's holding up processing, or confirm the expected payment date.
+
+Invoice attached, along with the original PO for reference.
+
+Best regards,
+[Your name]
+[Your company]`,
+  },
+  {
+    slug: "final-notice-before-legal-action",
+    name: "Final notice before legal action",
+    seoTitle: "Free Final Notice Before Legal Action Email Template",
+    description:
+      "Free, seriously-worded final notice template for use before considering legal or collections action on a long-overdue invoice. Not legal advice — check local requirements before sending a real pre-action letter.",
+    stage: "Severely overdue",
+    tone: "Legal",
+    category: "By industry",
+    subject: "Final notice before legal action: invoice [Invoice #]",
+    body: `Dear [Client name],
+
+This is a final notice regarding invoice [Invoice #] for [Amount], originally due [Due date] and now [Days overdue] days overdue, despite prior reminders sent on [Prior reminder dates].
+
+If payment in full is not received by [Final deadline date], we will have no choice but to consider further collection action, which may include referring this matter to a collections agency or pursuing legal remedies available to us, without further notice.
+
+We would prefer to resolve this directly — please contact us immediately if you dispute this invoice or wish to arrange payment.
+
+[Payment link or bank details]
+
+Regards,
+[Your name]
+[Your company]`,
+  },
+  {
+    slug: "client-ghosted-me-template",
+    name: "Client ghosted me",
+    seoTitle: "Free Email Template for When a Client Goes Silent (Ghosted)",
+    description:
+      "Free template for the specific, common freelance nightmare: a client who was responsive, went quiet, and now isn't replying to anything — invoices or messages.",
+    stage: "No response at all",
+    tone: "Direct, low-drama",
+    category: "By industry",
+    subject: "Still there? Invoice [Invoice #] + a few messages unanswered",
+    body: `Hi [Client name],
+
+I haven't heard back on invoice [Invoice #] for [Amount] or my last couple of messages, which isn't like you — so first, I hope everything's okay.
+
+If something's changed on your end, just let me know, even briefly. Otherwise, I need to treat this as unresponsive and will follow up once more before [next step, e.g. "pausing further work" or "escalating to a formal notice"] on [date].
+
+[Payment link or bank details]
+
+[Your name]`,
+  },
 ];
 
 mkdirSync(outDir, { recursive: true });
@@ -510,7 +725,7 @@ const indexHtml = chrome({
   mainHtml: `<section class="tpl-hero">
   <div class="wrap tpl-hero-inner">
     <h1>Send payment reminders that actually get paid</h1>
-    <p class="tpl-hero-lede">Use our library of ${tplCount} free, editable invoice templates to chase overdue payments without the awkwardness.</p>
+    <p class="tpl-hero-lede">${tplCount} free, editable invoice templates and counting — chase overdue payments without the awkwardness.</p>
     <div class="tpl-hero-search">
       <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="6.5" stroke="currentColor" stroke-width="1.6"/><path d="M14 14L18 18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
       <input type="search" id="tpl-search" placeholder="What template are you looking for?" autocomplete="off" aria-label="Search templates" />
@@ -668,6 +883,12 @@ ${TEMPLATES_INDEX_FAQ.map((item) => `  <details class="faq-item"><summary>${esca
           communityGrid.appendChild(card);
         });
         communitySection.hidden = false;
+        // Reflect community submissions in the hero/toolbar count so "and counting" stays literal.
+        var countEl2 = document.getElementById("tpl-count");
+        if (countEl2) {
+          var newTotal = ${tplCount} + rows.length;
+          countEl2.textContent = newTotal + " templates";
+        }
         communityGrid.querySelectorAll(".btn-copy").forEach(function (btn) {
           btn.addEventListener("click", function () {
             var subject = decodeURIComponent(btn.getAttribute("data-subject"));
@@ -935,6 +1156,114 @@ ${CATEGORIES.map((c) => `          <option value="${escapeHtml(c)}">${escapeHtml
 
 writeFileSync(join(outDir, "submit.html"), submitHtml);
 console.log(`Wrote submit-a-template landing → ${join(outDir, "submit.html")}`);
+
+/** Shareable announcement page for a batch of new templates — built for social (X/Facebook/
+ *  LinkedIn) posts, so it needs strong OG/Twitter meta and to work as a single link with no
+ *  context needed. Update NEW_BATCH_SLUGS when a future batch ships; older batches stay live at
+ *  their own URL, they just stop being "the" announcement page. */
+const NEW_BATCH_SLUGS = [
+  "freelancer-polite-payment-reminder",
+  "freelancer-firm-payment-reminder",
+  "freelancer-30-days-overdue-reminder",
+  "agency-retainer-invoice-follow-up",
+  "agency-milestone-invoice-follow-up",
+  "agency-final-invoice-follow-up",
+  "corporate-overdue-invoice-escalation",
+  "corporate-finance-department-reminder",
+  "final-notice-before-legal-action",
+  "client-ghosted-me-template",
+];
+const newBatch = NEW_BATCH_SLUGS.map((slug) => TEMPLATES.find((t) => t.slug === slug)).filter(Boolean);
+
+const newTemplatesJsonLd = JSON.stringify(
+  {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: "10 new free invoice follow-up templates — Chasa",
+    description: `${newBatch.length} new templates for freelancers, agencies, and corporate finance teams, plus a legal-tone final notice and a template for when a client goes silent.`,
+    url: "https://chasa.io/free-templates/new",
+    numberOfItems: newBatch.length,
+    itemListElement: newBatch.map((t, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      url: `https://chasa.io/free-templates/${t.slug}`,
+      name: t.name,
+    })),
+  },
+  null,
+  2
+);
+
+const newBatchCards = newBatch
+  .map(
+    (t) => `        <a class="tpl-card" href="/free-templates/${t.slug}">
+          <div class="tpl-meta"><span>${escapeHtml(t.stage)}</span><span>${escapeHtml(t.tone)}</span></div>
+          <h3>${escapeHtml(t.name)}</h3>
+          <p>${escapeHtml(t.description)}</p>
+        </a>`
+  )
+  .join("\n");
+
+const newTemplatesHtml = `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>10 New Free Invoice Follow-Up Templates | Chasa</title>
+<meta name="description" content="10 new free invoice follow-up templates for freelancers, agencies, and corporate finance teams — plus a legal-tone final notice and a template for when a client goes silent. Now ${tplCount} templates and counting.">
+<link rel="canonical" href="https://chasa.io/free-templates/new">
+<meta property="og:type" content="website">
+<meta property="og:title" content="10 New Free Invoice Follow-Up Templates">
+<meta property="og:description" content="Freelancer, agency, and corporate invoice follow-up templates — plus a legal-tone final notice and a template for when a client goes silent. Free, copy-paste ready.">
+<meta property="og:url" content="https://chasa.io/free-templates/new">
+<meta property="og:image" content="https://chasa.io/brand/og/chasa-og-1200x630.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="10 New Free Invoice Follow-Up Templates">
+<meta name="twitter:description" content="Freelancer, agency, and corporate invoice follow-up templates — plus a legal-tone final notice and a template for when a client goes silent. Free, copy-paste ready.">
+<meta name="twitter:image" content="https://chasa.io/brand/og/chasa-og-1200x630.png">
+<script type="application/ld+json">
+${newTemplatesJsonLd}
+</script>
+<link rel="icon" href="/favicon.png" type="image/png">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="stylesheet" href="/site.css?v=${ASSET_V}">
+</head>
+<body class="lead-pack-page">
+  <header class="lead-pack-topbar">
+    <a href="/" class="lead-pack-brand" aria-label="Chasa home">
+      <img src="/brand/chasa-icon.png" alt="" width="28" height="28" />
+      <span>chasa</span>
+    </a>
+    <a href="/free-templates/" class="lead-pack-top-link">Browse all ${tplCount} templates</a>
+  </header>
+
+  <main class="wrap templates-index" style="padding-top:32px">
+    <p class="crumb"><a href="/">Home</a> / <a href="/free-templates/">Free templates</a> / New</p>
+    <h1>10 new invoice follow-up templates just dropped</h1>
+    <p class="tpl-hero-lede">
+      Freelancer, agency, and corporate versions of the reminder you're already sending — plus a legal-tone
+      final notice and the one every freelancer eventually needs: what to send when a client just goes quiet.
+    </p>
+    <p class="tpl-toolbar-count" style="display:inline-block;margin:8px 0 24px;">${tplCount} templates and counting</p>
+
+    <div class="tpl-grid">
+${newBatchCards}
+    </div>
+
+    <p class="tpl-index-note" style="margin-top:32px">
+      Have one that's worked for you? <a href="/free-templates/submit">Submit it</a> — reviewed, then published
+      free for everyone, same as these. Or <a href="/free-templates/">browse the full library</a>.
+    </p>
+  </main>
+
+  <script src="/site-nav.js?v=${ASSET_V}" defer></script>
+</body>
+</html>
+`;
+
+writeFileSync(join(outDir, "new.html"), newTemplatesHtml);
+console.log(`Wrote new-templates announcement page → ${join(outDir, "new.html")}`);
 
 for (const t of TEMPLATES) {
   const jsonLd = JSON.stringify(
