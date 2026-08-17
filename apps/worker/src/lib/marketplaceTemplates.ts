@@ -13,6 +13,10 @@ export type MarketplaceTemplate = {
   category: string;
   subject: string;
   body: string;
+  tags: string[];
+  submitterName: string | null;
+  submitterUrl: string | null;
+  featured: boolean;
   submittedAt: string;
 };
 
@@ -62,6 +66,10 @@ type Row = {
   category: string;
   subject: string;
   body: string;
+  tags: string | null;
+  submitter_name: string | null;
+  submitter_url: string | null;
+  featured: number;
   submitter_email: string | null;
   status: string;
   rejection_reason: string | null;
@@ -69,6 +77,16 @@ type Row = {
   reviewed_at: string | null;
   reviewed_by: string | null;
 };
+
+function parseTags(raw: string | null): string[] {
+  if (!raw) return [];
+  try {
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? parsed.filter((t) => typeof t === "string") : [];
+  } catch {
+    return [];
+  }
+}
 
 function rowToTemplate(row: Row): MarketplaceTemplate {
   return {
@@ -81,6 +99,10 @@ function rowToTemplate(row: Row): MarketplaceTemplate {
     category: row.category,
     subject: row.subject,
     body: row.body,
+    tags: parseTags(row.tags),
+    submitterName: row.submitter_name,
+    submitterUrl: row.submitter_url,
+    featured: row.featured === 1,
     submittedAt: row.submitted_at,
   };
 }
@@ -99,8 +121,8 @@ function rowToSubmission(row: Row): MarketplaceSubmission {
 
 export async function listApproved(env: Env, category?: string | null): Promise<MarketplaceTemplate[]> {
   const query = category
-    ? `SELECT * FROM marketplace_templates WHERE status = 'approved' AND category = ? ORDER BY submitted_at DESC`
-    : `SELECT * FROM marketplace_templates WHERE status = 'approved' ORDER BY submitted_at DESC`;
+    ? `SELECT * FROM marketplace_templates WHERE status = 'approved' AND category = ? ORDER BY featured DESC, submitted_at DESC`
+    : `SELECT * FROM marketplace_templates WHERE status = 'approved' ORDER BY featured DESC, submitted_at DESC`;
   const stmt = category ? env.CHASA_DB.prepare(query).bind(category) : env.CHASA_DB.prepare(query);
   const { results } = await stmt.all<Row>();
   return (results ?? []).map(rowToTemplate);
@@ -135,6 +157,9 @@ export async function submitTemplate(
     category: string;
     subject: string;
     body: string;
+    tags: string[];
+    submitterName: string | null;
+    submitterUrl: string | null;
     submitterEmail: string | null;
   }
 ): Promise<{ ok: true; id: string; slug: string } | { ok: false; error: string }> {
@@ -154,8 +179,8 @@ export async function submitTemplate(
 
   await env.CHASA_DB.prepare(
     `INSERT INTO marketplace_templates
-       (id, account_id, slug, name, description, stage, tone, category, subject, body, submitter_email, status, submitted_at)
-     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending', ?)`
+       (id, account_id, slug, name, description, stage, tone, category, subject, body, tags, submitter_name, submitter_url, submitter_email, status, submitted_at)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending', ?)`
   )
     .bind(
       id,
@@ -168,6 +193,9 @@ export async function submitTemplate(
       input.category,
       input.subject,
       input.body,
+      input.tags.length ? JSON.stringify(input.tags) : null,
+      input.submitterName,
+      input.submitterUrl,
       input.submitterEmail,
       now
     )
@@ -183,21 +211,23 @@ export async function listPending(env: Env): Promise<MarketplaceSubmission[]> {
   return (results ?? []).map(rowToSubmission);
 }
 
-/** Only updates rows still `pending` — an already-decided submission can't be reviewed twice. */
+/** Only updates rows still `pending` — an already-decided submission can't be reviewed twice.
+ *  `featured` only matters on approval; ignored (and left false) for rejections. */
 export async function reviewSubmission(
   env: Env,
   id: string,
   decision: "approved" | "rejected",
   reviewedBy: string,
-  rejectionReason?: string | null
+  opts: { rejectionReason?: string | null; featured?: boolean } = {}
 ): Promise<{ ok: true } | { ok: false; error: string }> {
   const now = new Date().toISOString();
+  const featured = decision === "approved" && opts.featured ? 1 : 0;
   const result = await env.CHASA_DB.prepare(
     `UPDATE marketplace_templates
-     SET status = ?, reviewed_at = ?, reviewed_by = ?, rejection_reason = ?
+     SET status = ?, reviewed_at = ?, reviewed_by = ?, rejection_reason = ?, featured = ?
      WHERE id = ? AND status = 'pending'`
   )
-    .bind(decision, now, reviewedBy, rejectionReason ?? null, id)
+    .bind(decision, now, reviewedBy, opts.rejectionReason ?? null, featured, id)
     .run();
 
   if (!result.meta.changes) {

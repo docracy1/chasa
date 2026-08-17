@@ -536,7 +536,11 @@
         <svg class="tpl-cat-dropdown-chevron" viewBox="0 0 12 8" aria-hidden="true"><path d="M1 1l5 5 5-5" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </button>
       <div class="tpl-cat-dropdown-menu" id="tpl-cat-menu" role="menu" aria-labelledby="tpl-cat-btn" hidden>
-        <a href="#cat-by-industry" class="tpl-cat-dropdown-item" role="menuitem" data-cat-target="cat-by-industry">By industry</a>
+        <a href="#cat-freelancer" class="tpl-cat-dropdown-item" role="menuitem" data-cat-target="cat-freelancer">Freelancer</a>
+        <a href="#cat-agency" class="tpl-cat-dropdown-item" role="menuitem" data-cat-target="cat-agency">Agency</a>
+        <a href="#cat-corporate" class="tpl-cat-dropdown-item" role="menuitem" data-cat-target="cat-corporate">Corporate</a>
+        <a href="#cat-legal" class="tpl-cat-dropdown-item" role="menuitem" data-cat-target="cat-legal">Legal</a>
+        <a href="#cat-ghosted-client" class="tpl-cat-dropdown-item" role="menuitem" data-cat-target="cat-ghosted-client">Ghosted client</a>
         <a href="#cat-before-due" class="tpl-cat-dropdown-item" role="menuitem" data-cat-target="cat-before-due">Before due</a>
         <a href="#cat-due-early-overdue" class="tpl-cat-dropdown-item" role="menuitem" data-cat-target="cat-due-early-overdue">Due &amp; early overdue</a>
         <a href="#cat-overdue-follow-ups" class="tpl-cat-dropdown-item" role="menuitem" data-cat-target="cat-overdue-follow-ups">Overdue follow-ups</a>
@@ -563,8 +567,8 @@
   </p>
 
   <div id="tpl-sections">
-  <section class="tpl-cat-section" id="cat-by-industry">
-    <h2 class="tpl-cat-title">By industry</h2>
+  <section class="tpl-cat-section" id="cat-freelancer">
+    <h2 class="tpl-cat-title">Freelancer</h2>
     <div class="tpl-grid">
       <a class="tpl-card" href="/free-templates/freelancer-polite-payment-reminder" data-search="freelancer polite reminder free polite payment reminder template written for freelancers and solo consultants — casual enough for a direct client relationship, clear enough to get a real answer. early overdue polite">
         <div class="tpl-meta"><span>Early overdue</span><span>Polite</span></div>
@@ -581,6 +585,11 @@
         <h3>Freelancer overdue — 30 days</h3>
         <p>Free template for freelancers when an invoice hits 30 days overdue — states the facts plainly and asks for a concrete plan, one professional to another.</p>
       </a>
+    </div>
+  </section>
+  <section class="tpl-cat-section" id="cat-agency">
+    <h2 class="tpl-cat-title">Agency</h2>
+    <div class="tpl-grid">
       <a class="tpl-card" href="/free-templates/agency-retainer-invoice-follow-up" data-search="agency follow-up — retainer invoice free follow-up template for agencies chasing an overdue monthly retainer invoice — flags the ongoing-work angle without sounding like a threat. overdue professional">
         <div class="tpl-meta"><span>Overdue</span><span>Professional</span></div>
         <h3>Agency follow-up — retainer invoice</h3>
@@ -596,6 +605,11 @@
         <h3>Agency follow-up — unpaid final invoice</h3>
         <p>Free template for agencies chasing the last invoice on a wrapped-up project — useful when there's no more upcoming work to tie the reminder to.</p>
       </a>
+    </div>
+  </section>
+  <section class="tpl-cat-section" id="cat-corporate">
+    <h2 class="tpl-cat-title">Corporate</h2>
+    <div class="tpl-grid">
       <a class="tpl-card" href="/free-templates/corporate-overdue-invoice-escalation" data-search="corporate overdue invoice escalation free escalation template for vendors chasing a corporate client whose standard reminders haven't landed — addressed for routing into a larger organization's process. overdue, escalating formal">
         <div class="tpl-meta"><span>Overdue, escalating</span><span>Formal</span></div>
         <h3>Corporate overdue invoice escalation</h3>
@@ -606,11 +620,21 @@
         <h3>Corporate finance department reminder</h3>
         <p>Free reminder template addressed directly to a client's accounts payable / finance team, with the reference numbers AP departments typically need to process payment.</p>
       </a>
+    </div>
+  </section>
+  <section class="tpl-cat-section" id="cat-legal">
+    <h2 class="tpl-cat-title">Legal</h2>
+    <div class="tpl-grid">
       <a class="tpl-card" href="/free-templates/final-notice-before-legal-action" data-search="final notice before legal action free, seriously-worded final notice template for use before considering legal or collections action on a long-overdue invoice. not legal advice — check local requirements before sending a real pre-action letter. severely overdue legal">
         <div class="tpl-meta"><span>Severely overdue</span><span>Legal</span></div>
         <h3>Final notice before legal action</h3>
         <p>Free, seriously-worded final notice template for use before considering legal or collections action on a long-overdue invoice. Not legal advice — check local requirements before sending a real pre-action letter.</p>
       </a>
+    </div>
+  </section>
+  <section class="tpl-cat-section" id="cat-ghosted-client">
+    <h2 class="tpl-cat-title">Ghosted client</h2>
+    <div class="tpl-grid">
       <a class="tpl-card" href="/free-templates/client-ghosted-me-template" data-search="client ghosted me free template for the specific, common freelance nightmare: a client who was responsive, went quiet, and now isn't replying to anything — invoices or messages. no response at all direct, low-drama">
         <div class="tpl-meta"><span>No response at all</span><span>Direct, low-drama</span></div>
         <h3>Client ghosted me</h3>
@@ -853,14 +877,32 @@
       .then(function (data) {
         var rows = (data && data.templates) || [];
         if (!rows.length) return;
+        function esc(s) { return String(s || "").replace(/</g, "&lt;"); }
         rows.forEach(function (t) {
           var card = document.createElement("div");
           card.className = "tpl-card tpl-card-community";
           var meta = (t.stage || "") + (t.stage && t.tone ? " · " : "") + (t.tone || "");
+          var featuredBadge = t.featured ? '<span class="tpl-featured-badge">Featured</span>' : "";
+          var tagsHtml = (t.tags || []).length
+            ? '<div class="tpl-tags">' + t.tags.map(function (tag) {
+                return '<span class="tpl-tag">' + esc(tag) + "</span>";
+              }).join("") + "</div>"
+            : "";
+          var authorHtml = "";
+          if (t.submitterName) {
+            authorHtml =
+              '<p class="tpl-author">By ' +
+              (t.submitterUrl && /^https?:///i.test(t.submitterUrl)
+                ? '<a href="' + esc(t.submitterUrl) + '" target="_blank" rel="noopener ugc">' + esc(t.submitterName) + "</a>"
+                : esc(t.submitterName)) +
+              "</p>";
+          }
           card.innerHTML =
-            '<div class="tpl-meta"><span>' + meta.replace(/</g, "&lt;") + "</span></div>" +
-            "<h3>" + String(t.name || "").replace(/</g, "&lt;") + "</h3>" +
-            "<p>" + String(t.description || "").replace(/</g, "&lt;") + "</p>" +
+            '<div class="tpl-meta"><span>' + esc(meta) + "</span>" + featuredBadge + "</div>" +
+            "<h3>" + esc(t.name) + "</h3>" +
+            "<p>" + esc(t.description) + "</p>" +
+            tagsHtml +
+            authorHtml +
             '<button type="button" class="btn-copy" data-subject="' + encodeURIComponent(t.subject || "") + '" data-body="' + encodeURIComponent(t.body || "") + '">Copy subject + body</button>';
           communityGrid.appendChild(card);
         });

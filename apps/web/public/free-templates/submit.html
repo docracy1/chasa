@@ -67,7 +67,11 @@
         <label class="lead-pack-label" for="mkt-category">Category</label>
         <select id="mkt-category" name="category">
           <option value="">Please select</option>
-          <option value="By industry">By industry</option>
+          <option value="Freelancer">Freelancer</option>
+          <option value="Agency">Agency</option>
+          <option value="Corporate">Corporate</option>
+          <option value="Legal">Legal</option>
+          <option value="Ghosted client">Ghosted client</option>
           <option value="Before due">Before due</option>
           <option value="Due &amp; early overdue">Due &amp; early overdue</option>
           <option value="Overdue follow-ups">Overdue follow-ups</option>
@@ -88,7 +92,16 @@
         <label class="lead-pack-label" for="mkt-body">Email body <span aria-hidden="true">*</span></label>
         <textarea id="mkt-body" name="body" required maxlength="4000" rows="10" placeholder="Hi [Client name], ..."></textarea>
 
-        <label class="lead-pack-label" for="mkt-email">Your email (optional)</label>
+        <label class="lead-pack-label" for="mkt-tags">Tags (comma-separated, up to 10)</label>
+        <input id="mkt-tags" name="tags" type="text" maxlength="300" placeholder="overdue invoice, freelancer, firm email" />
+
+        <label class="lead-pack-label" for="mkt-author-name">Your name (optional — credited on the template)</label>
+        <input id="mkt-author-name" name="submitterName" type="text" maxlength="80" placeholder="Shown as the template's author" />
+
+        <label class="lead-pack-label" for="mkt-author-url">Your website (optional — linked from the template)</label>
+        <input id="mkt-author-url" name="submitterUrl" type="url" maxlength="300" placeholder="https://your-site.com" />
+
+        <label class="lead-pack-label" for="mkt-email">Your email (optional, kept private)</label>
         <input id="mkt-email" name="submitterEmail" type="email" maxlength="254" placeholder="Only if you want us to follow up with you" />
 
         <div id="mkt-turnstile" class="tpl-pack-turnstile"></div>

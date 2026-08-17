@@ -14,7 +14,11 @@ const ASSET_V = "20260804k";
 
 /** Category order controls both the "Categories" jump menu and section order on the page. */
 const CATEGORIES = [
-  "By industry",
+  "Freelancer",
+  "Agency",
+  "Corporate",
+  "Legal",
+  "Ghosted client",
   "Before due",
   "Due & early overdue",
   "Overdue follow-ups",
@@ -417,7 +421,7 @@ Appreciate you,
       "Free polite payment reminder template written for freelancers and solo consultants — casual enough for a direct client relationship, clear enough to get a real answer.",
     stage: "Early overdue",
     tone: "Polite",
-    category: "By industry",
+    category: "Freelancer",
     subject: "Quick one — invoice [Invoice #]",
     body: `Hi [Client name],
 
@@ -436,7 +440,7 @@ Thanks so much,
       "Free firmer follow-up template for freelancers after a first reminder went unanswered — direct about the impact on your business without burning the relationship.",
     stage: "After first reminder",
     tone: "Firm",
-    category: "By industry",
+    category: "Freelancer",
     subject: "Following up again — invoice [Invoice #] still open",
     body: `Hi [Client name],
 
@@ -457,7 +461,7 @@ Thanks,
       "Free template for freelancers when an invoice hits 30 days overdue — states the facts plainly and asks for a concrete plan, one professional to another.",
     stage: "30 days overdue",
     tone: "Direct",
-    category: "By industry",
+    category: "Freelancer",
     subject: "Invoice [Invoice #] — 30 days overdue, need a plan",
     body: `Hi [Client name],
 
@@ -477,7 +481,7 @@ I get that things get busy, but I need a concrete payment date to keep this from
       "Free follow-up template for agencies chasing an overdue monthly retainer invoice — flags the ongoing-work angle without sounding like a threat.",
     stage: "Overdue",
     tone: "Professional",
-    category: "By industry",
+    category: "Agency",
     subject: "[Month] retainer invoice [Invoice #] — following up",
     body: `Hi [Client name],
 
@@ -499,7 +503,7 @@ Best,
       "Free follow-up template for agencies chasing payment on a completed project milestone — ties the ask directly to delivered, approved work.",
     stage: "Overdue",
     tone: "Professional",
-    category: "By industry",
+    category: "Agency",
     subject: "Milestone invoice [Invoice #] — [Milestone name]",
     body: `Hi [Client name],
 
@@ -521,7 +525,7 @@ Best,
       "Free template for agencies chasing the last invoice on a wrapped-up project — useful when there's no more upcoming work to tie the reminder to.",
     stage: "Overdue",
     tone: "Firm",
-    category: "By industry",
+    category: "Agency",
     subject: "Final invoice [Invoice #] — project closeout",
     body: `Hi [Client name],
 
@@ -543,7 +547,7 @@ Regards,
       "Free escalation template for vendors chasing a corporate client whose standard reminders haven't landed — addressed for routing into a larger organization's process.",
     stage: "Overdue, escalating",
     tone: "Formal",
-    category: "By industry",
+    category: "Corporate",
     subject: "Escalation: invoice [Invoice #] — [Amount], PO [PO #]",
     body: `Dear [Contact name],
 
@@ -565,7 +569,7 @@ Regards,
       "Free reminder template addressed directly to a client's accounts payable / finance team, with the reference numbers AP departments typically need to process payment.",
     stage: "Overdue",
     tone: "Formal",
-    category: "By industry",
+    category: "Corporate",
     subject: "AP follow-up: invoice [Invoice #] — vendor [Your company]",
     body: `Dear Accounts Payable Team,
 
@@ -587,7 +591,7 @@ Best regards,
       "Free, seriously-worded final notice template for use before considering legal or collections action on a long-overdue invoice. Not legal advice — check local requirements before sending a real pre-action letter.",
     stage: "Severely overdue",
     tone: "Legal",
-    category: "By industry",
+    category: "Legal",
     subject: "Final notice before legal action: invoice [Invoice #]",
     body: `Dear [Client name],
 
@@ -611,7 +615,7 @@ Regards,
       "Free template for the specific, common freelance nightmare: a client who was responsive, went quiet, and now isn't replying to anything — invoices or messages.",
     stage: "No response at all",
     tone: "Direct, low-drama",
-    category: "By industry",
+    category: "Ghosted client",
     subject: "Still there? Invoice [Invoice #] + a few messages unanswered",
     body: `Hi [Client name],
 
@@ -871,14 +875,32 @@ ${TEMPLATES_INDEX_FAQ.map((item) => `  <details class="faq-item"><summary>${esca
       .then(function (data) {
         var rows = (data && data.templates) || [];
         if (!rows.length) return;
+        function esc(s) { return String(s || "").replace(/</g, "&lt;"); }
         rows.forEach(function (t) {
           var card = document.createElement("div");
           card.className = "tpl-card tpl-card-community";
           var meta = (t.stage || "") + (t.stage && t.tone ? " · " : "") + (t.tone || "");
+          var featuredBadge = t.featured ? '<span class="tpl-featured-badge">Featured</span>' : "";
+          var tagsHtml = (t.tags || []).length
+            ? '<div class="tpl-tags">' + t.tags.map(function (tag) {
+                return '<span class="tpl-tag">' + esc(tag) + "</span>";
+              }).join("") + "</div>"
+            : "";
+          var authorHtml = "";
+          if (t.submitterName) {
+            authorHtml =
+              '<p class="tpl-author">By ' +
+              (t.submitterUrl && /^https?:\/\//i.test(t.submitterUrl)
+                ? '<a href="' + esc(t.submitterUrl) + '" target="_blank" rel="noopener ugc">' + esc(t.submitterName) + "</a>"
+                : esc(t.submitterName)) +
+              "</p>";
+          }
           card.innerHTML =
-            '<div class="tpl-meta"><span>' + meta.replace(/</g, "&lt;") + "</span></div>" +
-            "<h3>" + String(t.name || "").replace(/</g, "&lt;") + "</h3>" +
-            "<p>" + String(t.description || "").replace(/</g, "&lt;") + "</p>" +
+            '<div class="tpl-meta"><span>' + esc(meta) + "</span>" + featuredBadge + "</div>" +
+            "<h3>" + esc(t.name) + "</h3>" +
+            "<p>" + esc(t.description) + "</p>" +
+            tagsHtml +
+            authorHtml +
             '<button type="button" class="btn-copy" data-subject="' + encodeURIComponent(t.subject || "") + '" data-body="' + encodeURIComponent(t.body || "") + '">Copy subject + body</button>';
           communityGrid.appendChild(card);
         });
@@ -1123,7 +1145,16 @@ ${CATEGORIES.map((c) => `          <option value="${escapeHtml(c)}">${escapeHtml
         <label class="lead-pack-label" for="mkt-body">Email body <span aria-hidden="true">*</span></label>
         <textarea id="mkt-body" name="body" required maxlength="4000" rows="10" placeholder="Hi [Client name], ..."></textarea>
 
-        <label class="lead-pack-label" for="mkt-email">Your email (optional)</label>
+        <label class="lead-pack-label" for="mkt-tags">Tags (comma-separated, up to 10)</label>
+        <input id="mkt-tags" name="tags" type="text" maxlength="300" placeholder="overdue invoice, freelancer, firm email" />
+
+        <label class="lead-pack-label" for="mkt-author-name">Your name (optional — credited on the template)</label>
+        <input id="mkt-author-name" name="submitterName" type="text" maxlength="80" placeholder="Shown as the template's author" />
+
+        <label class="lead-pack-label" for="mkt-author-url">Your website (optional — linked from the template)</label>
+        <input id="mkt-author-url" name="submitterUrl" type="url" maxlength="300" placeholder="https://your-site.com" />
+
+        <label class="lead-pack-label" for="mkt-email">Your email (optional, kept private)</label>
         <input id="mkt-email" name="submitterEmail" type="email" maxlength="254" placeholder="Only if you want us to follow up with you" />
 
         <div id="mkt-turnstile" class="tpl-pack-turnstile"></div>

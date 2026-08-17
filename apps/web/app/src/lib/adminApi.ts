@@ -81,6 +81,10 @@ export type MarketplaceSubmission = {
   category: string;
   subject: string;
   body: string;
+  tags: string[];
+  submitterName: string | null;
+  submitterUrl: string | null;
+  featured: boolean;
   submittedAt: string;
   accountId: string | null;
   submitterEmail: string | null;
@@ -94,8 +98,11 @@ export function adminMarketplacePending() {
   return adminFetch<{ templates: MarketplaceSubmission[] }>("/marketplace/pending");
 }
 
-export function adminMarketplaceApprove(id: string) {
-  return adminFetch<{ ok: true }>(`/marketplace/${id}/approve`, { method: "POST" });
+export function adminMarketplaceApprove(id: string, featured?: boolean) {
+  return adminFetch<{ ok: true }>(`/marketplace/${id}/approve`, {
+    method: "POST",
+    body: JSON.stringify({ featured: featured || undefined }),
+  });
 }
 
 export function adminMarketplaceReject(id: string, reason?: string) {

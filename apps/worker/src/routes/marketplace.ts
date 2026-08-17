@@ -58,6 +58,9 @@ marketplace.post("/submit", async (c) => {
     category: body.category ?? "",
     subject: body.subject,
     body: body.body,
+    tags: body.tags ?? [],
+    submitterName: body.submitterName ?? null,
+    submitterUrl: body.submitterUrl ?? null,
     submitterEmail: body.submitterEmail ?? null,
   });
 

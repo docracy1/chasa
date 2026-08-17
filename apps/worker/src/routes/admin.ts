@@ -123,7 +123,9 @@ admin.get("/marketplace/pending", requireAdmin, async (c) => {
 
 admin.post("/marketplace/:id/approve", requireAdmin, async (c) => {
   const admin = c.get("admin");
-  const result = await reviewSubmission(c.env, c.req.param("id"), "approved", admin!.email);
+  const body = await c.req.json().catch(() => ({}));
+  const featured = body.featured === true;
+  const result = await reviewSubmission(c.env, c.req.param("id"), "approved", admin!.email, { featured });
   if (!result.ok) return c.json({ error: result.error }, 400);
   return c.json({ ok: true });
 });
@@ -132,7 +134,9 @@ admin.post("/marketplace/:id/reject", requireAdmin, async (c) => {
   const admin = c.get("admin");
   const body = await c.req.json().catch(() => ({}));
   const reason = typeof body.reason === "string" ? body.reason.slice(0, 400) : null;
-  const result = await reviewSubmission(c.env, c.req.param("id"), "rejected", admin!.email, reason);
+  const result = await reviewSubmission(c.env, c.req.param("id"), "rejected", admin!.email, {
+    rejectionReason: reason,
+  });
   if (!result.ok) return c.json({ error: result.error }, 400);
   return c.json({ ok: true });
 });

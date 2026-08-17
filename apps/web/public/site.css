@@ -1283,6 +1283,40 @@ a { color: inherit; }
   background: var(--sage-bg);
   color: var(--sage);
 }
+.tpl-featured-badge {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  padding: 3px 8px;
+  border-radius: 3px;
+  background: var(--accent);
+  color: var(--white);
+}
+.tpl-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 8px 0 0;
+}
+.tpl-tag {
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--paper, #f4f2ee);
+  color: var(--ink-soft);
+  border: 1px solid var(--line);
+}
+.tpl-author {
+  font-size: 12px;
+  color: var(--ink-soft);
+  margin: 8px 0 0;
+}
+.tpl-author a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
 
 .tpl-box {
   background: var(--white);

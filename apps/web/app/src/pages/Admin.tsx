@@ -439,6 +439,7 @@ export default function Admin() {
   const [signups, setSignups] = useState<SignupLists | null>(null);
   const [marketplacePending, setMarketplacePending] = useState<MarketplaceSubmission[]>([]);
   const [marketplaceError, setMarketplaceError] = useState<string | null>(null);
+  const [marketplaceFeatureChoice, setMarketplaceFeatureChoice] = useState<Record<string, boolean>>({});
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
@@ -502,10 +503,10 @@ export default function Admin() {
       .catch((err) => setMarketplaceError(err instanceof Error ? err.message : "Failed to load"));
   }, [nav, authedEmail]);
 
-  async function approveMarketplace(id: string) {
+  async function approveMarketplace(id: string, featured: boolean) {
     setBusy(true);
     try {
-      await adminMarketplaceApprove(id);
+      await adminMarketplaceApprove(id, featured);
       setMarketplacePending((rows) => rows.filter((r) => r.id !== id));
     } catch (err) {
       setMarketplaceError(err instanceof Error ? err.message : "Failed to approve");
@@ -1417,6 +1418,27 @@ export default function Admin() {
                         {[row.category, row.stage, row.tone].filter(Boolean).join(" · ") || "—"}
                       </p>
                       {row.description && <p className="dash-note">{row.description}</p>}
+                      {row.tags.length > 0 && (
+                        <div className="tpl-tags" style={{ marginTop: 6 }}>
+                          {row.tags.map((tag) => (
+                            <span key={tag} className="tpl-tag">
+                              {tag}
+                            </span>
+                          ))}
+                        </div>
+                      )}
+                      {row.submitterName && (
+                        <p className="tpl-author">
+                          {t("admin.marketplaceBy")}{" "}
+                          {row.submitterUrl ? (
+                            <a href={row.submitterUrl} target="_blank" rel="noopener noreferrer">
+                              {row.submitterName}
+                            </a>
+                          ) : (
+                            row.submitterName
+                          )}
+                        </p>
+                      )}
                       <p style={{ fontSize: 13, fontWeight: 600, marginTop: 8 }}>{row.subject}</p>
                       <pre
                         style={{
@@ -1436,12 +1458,22 @@ export default function Admin() {
                           {t("admin.marketplaceSubmitter", { email: row.submitterEmail })}
                         </p>
                       )}
+                      <label className="dash-exclude" style={{ marginTop: 8 }}>
+                        <input
+                          type="checkbox"
+                          checked={!!marketplaceFeatureChoice[row.id]}
+                          onChange={(e) =>
+                            setMarketplaceFeatureChoice((prev) => ({ ...prev, [row.id]: e.target.checked }))
+                          }
+                        />
+                        {t("admin.marketplaceFeature")}
+                      </label>
                       <div style={{ display: "flex", gap: 8, marginTop: 8 }}>
                         <button
                           type="button"
                           className="btn-primary"
                           disabled={busy}
-                          onClick={() => void approveMarketplace(row.id)}
+                          onClick={() => void approveMarketplace(row.id, !!marketplaceFeatureChoice[row.id])}
                         >
                           {t("admin.marketplaceApprove")}
                         </button>

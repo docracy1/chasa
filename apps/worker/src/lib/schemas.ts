@@ -122,6 +122,18 @@ export const marketplaceSubmitSchema = z.object({
   category: z.string().trim().max(60).optional(),
   subject: z.string().trim().min(1).max(200),
   body: z.string().trim().min(1).max(4000),
+  tags: z.array(z.string().trim().min(1).max(30)).max(10).optional(),
+  submitterName: z.string().trim().max(80).optional(),
+  // z.url() accepts any syntactically valid URL, including javascript: — this is rendered as a
+  // clickable href on a public page, so restrict to http(s) explicitly rather than relying on
+  // client-side escaping alone.
+  submitterUrl: z
+    .string()
+    .trim()
+    .url()
+    .max(300)
+    .refine((url) => /^https?:\/\//i.test(url), "Must be an http:// or https:// URL")
+    .optional(),
   submitterEmail: z.string().trim().email().max(254).optional(),
   turnstileToken: z.string().optional(),
 });

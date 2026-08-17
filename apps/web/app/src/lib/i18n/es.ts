@@ -718,6 +718,8 @@ const es: Messages = {
   "admin.marketplaceApprove": "Aprobar",
   "admin.marketplaceReject": "Rechazar",
   "admin.marketplaceSubmitter": "Enviado por {{email}}",
+  "admin.marketplaceBy": "Por",
+  "admin.marketplaceFeature": "Destacar esta plantilla",
   "admin.nav.signups": "Registros",
   "admin.nav.activation": "Activación",
   "admin.nav.completion": "Finalización",

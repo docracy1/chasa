@@ -706,6 +706,8 @@ const en: Messages = {
   "admin.marketplaceApprove": "Approve",
   "admin.marketplaceReject": "Reject",
   "admin.marketplaceSubmitter": "Submitted by {{email}}",
+  "admin.marketplaceBy": "By",
+  "admin.marketplaceFeature": "Feature this template",
   "admin.nav.signups": "Signups",
   "admin.nav.activation": "Activation",
   "admin.nav.completion": "Completion",

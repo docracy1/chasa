@@ -15,6 +15,9 @@
   var descriptionInput = document.getElementById("mkt-description");
   var subjectInput = document.getElementById("mkt-subject");
   var bodyInput = document.getElementById("mkt-body");
+  var tagsInput = document.getElementById("mkt-tags");
+  var authorNameInput = document.getElementById("mkt-author-name");
+  var authorUrlInput = document.getElementById("mkt-author-url");
   var emailInput = document.getElementById("mkt-email");
   var statusEl = document.getElementById("mkt-status");
   var submitBtn = document.getElementById("mkt-submit");
@@ -110,6 +113,13 @@
         category: (categoryInput && categoryInput.value ? categoryInput.value : "").trim() || undefined,
         subject: subject,
         body: body,
+        tags: (tagsInput && tagsInput.value ? tagsInput.value : "")
+          .split(",")
+          .map(function (t) { return t.trim(); })
+          .filter(Boolean)
+          .slice(0, 10) || undefined,
+        submitterName: (authorNameInput && authorNameInput.value ? authorNameInput.value : "").trim() || undefined,
+        submitterUrl: (authorUrlInput && authorUrlInput.value ? authorUrlInput.value : "").trim() || undefined,
         submitterEmail: (emailInput && emailInput.value ? emailInput.value : "").trim() || undefined,
         turnstileToken: turnstileToken || undefined,
       }),
