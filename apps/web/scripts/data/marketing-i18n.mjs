@@ -222,6 +222,12 @@ export const en = {
   "home.testimonials.7.quote":
     "“Our company uses Chasa, and we've saved time, improved our cash flow, and reduced personal costs. I highly recommend Chasa.”",
   "home.testimonials.7.title": "· CEO and owner, FAUN Austria",
+  "home.testimonials.8.quote":
+    "“We've been using Chasa for a few months now and it's awesome — especially the templates. It's easy to use, with a lot of integrations.”",
+  "home.testimonials.8.title": "· chartered accountant and tax advisor, Grohmann Hienert Zierhut",
+  "home.testimonials.9.quote":
+    "“We started using Chasa a few weeks ago and it saves us a lot of time for our clients. Great tool, especially the templates.”",
+  "home.testimonials.9.title": "· tax advisor, Schaler und Authried",
 
   "home.integrations.title": "Connect Chasa with the tools you already use",
   "home.integrations.lede":
@@ -602,6 +608,12 @@ export const es = {
   "home.testimonials.7.quote":
     "«Nuestra empresa usa Chasa, y hemos ahorrado tiempo, mejorado nuestro flujo de caja y reducido costes personales. Recomiendo Chasa totalmente.»",
   "home.testimonials.7.title": "· CEO y propietario, FAUN Austria",
+  "home.testimonials.8.quote":
+    "«Llevamos unos meses usando Chasa y es genial — sobre todo las plantillas. Es fácil de usar y tiene muchas integraciones.»",
+  "home.testimonials.8.title": "· contador público y asesor fiscal, Grohmann Hienert Zierhut",
+  "home.testimonials.9.quote":
+    "«Empezamos a usar Chasa hace unas semanas y nos ahorra mucho tiempo con nuestros clientes. Gran herramienta, sobre todo las plantillas.»",
+  "home.testimonials.9.title": "· asesora fiscal, Schaler und Authried",
 
   "home.integrations.title": "Conecta Chasa con las herramientas que ya usas",
   "home.integrations.lede":
