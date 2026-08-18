@@ -18,7 +18,12 @@ export default function Login() {
   const t = useT();
   const params = new URLSearchParams(window.location.search);
   const emailFromUrl = (params.get("email") || "").trim();
-  const autoStart = params.get("start") === "1" && Boolean(emailFromUrl);
+  // Any "Try free" / "Start free" marketing CTA sets ?start=1, even without a prefilled email —
+  // that alone should be enough to show signup framing instead of the bare "Sign in" title.
+  // autoStart additionally requires an email, since only then is there anything to send the
+  // magic link to automatically.
+  const signupIntent = params.get("start") === "1";
+  const autoStart = signupIntent && Boolean(emailFromUrl);
 
   const [email, setEmail] = useState(emailFromUrl);
   const [password, setPassword] = useState("");
@@ -60,6 +65,11 @@ export default function Login() {
 
   const isAdminEmail =
     Boolean(adminEmail) && email.trim().toLowerCase() === adminEmail;
+  // Arriving via a "Try free" signup CTA should always mean "sign up," even if the visitor types
+  // the admin's own email while testing — the password-login special case is only for someone
+  // deliberately navigating to the bare /app/login screen, not a marketing CTA click. The admin
+  // can still reach password login anytime by visiting /app/login with no ?start= param.
+  const treatAsAdminLogin = isAdminEmail && !signupIntent;
 
   const displayError =
     error === "google_auth" ? t("login.googleFailed") : error;
@@ -88,7 +98,7 @@ export default function Login() {
     setSubmitting(true);
     setError(null);
     try {
-      if (isAdminEmail) {
+      if (treatAsAdminLogin) {
         await adminPasswordLogin(email, password, turnstileToken);
         window.location.href = "/app/account";
         return;
@@ -107,7 +117,7 @@ export default function Login() {
   // Hero "Start free" lands here with ?email=&start=1 — send the magic link once ready.
   useEffect(() => {
     if (!autoStart || !configLoaded || autoStartedRef.current || sent || submitting) return;
-    if (isAdminEmail) return;
+    if (treatAsAdminLogin) return;
     if (turnstileRequired && !turnstileToken) return;
     autoStartedRef.current = true;
     void sendMagicLink(email, turnstileToken);
@@ -116,7 +126,7 @@ export default function Login() {
     autoStart,
     configLoaded,
     email,
-    isAdminEmail,
+    treatAsAdminLogin,
     sent,
     submitting,
     turnstileRequired,
@@ -136,7 +146,7 @@ export default function Login() {
 
   return (
     <div className="panel">
-      <h1>{autoStart ? t("login.titleSignup") : t("login.title")}</h1>
+      <h1>{signupIntent ? t("login.titleSignup") : t("login.title")}</h1>
       {googleLoginEnabled ? (
         <>
           <a
@@ -170,9 +180,9 @@ export default function Login() {
         </>
       ) : (
         <p className="page-sub">
-          {isAdminEmail
+          {treatAsAdminLogin
             ? t("login.subAdmin")
-            : autoStart
+            : signupIntent
               ? t("login.subSignup")
               : t("login.sub")}
         </p>
@@ -180,7 +190,7 @@ export default function Login() {
       <form onSubmit={handleSubmit}>
         <div
           className="field-row"
-          style={{ gridTemplateColumns: isAdminEmail ? "1fr" : "1fr auto" }}
+          style={{ gridTemplateColumns: treatAsAdminLogin ? "1fr" : "1fr auto" }}
         >
           <input
             type="email"
@@ -190,7 +200,7 @@ export default function Login() {
             required
             autoComplete="email"
           />
-          {!isAdminEmail && (
+          {!treatAsAdminLogin && (
             <button
               type="submit"
               className="btn-primary"
@@ -198,13 +208,13 @@ export default function Login() {
             >
               {submitting
                 ? t("login.sending")
-                : autoStart
+                : signupIntent
                   ? t("login.ctaSignup")
                   : t("login.cta")}
             </button>
           )}
         </div>
-        {isAdminEmail && (
+        {treatAsAdminLogin && (
           <>
             <div className="field-row" style={{ gridTemplateColumns: "1fr", marginTop: 10 }}>
               <input

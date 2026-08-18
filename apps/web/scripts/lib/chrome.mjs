@@ -219,7 +219,7 @@ ${jsonLd ? `<script type="application/ld+json">\n${jsonLd}\n</script>` : `<scrip
       <!--email_off-->
       <a href="mailto:sales@chasa.io" class="header-nav-sales header-nav-collapse" data-sales-mail data-sales-subject="Chasa sales" data-i18n="nav.contactSales">Contact sales</a>
       <!--/email_off-->
-      <a href="${link("/app/")}" class="nav-cta" data-i18n="nav.tryFree">Try free</a>
+      <a href="${link("/app/")}login?start=1" class="nav-cta" data-i18n="nav.tryFree">Try free</a>
       <a href="${link("/app/login")}" class="header-login-btn header-nav-collapse" data-i18n="nav.signIn">Sign in</a>
       <button class="header-menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" data-menu-toggle data-i18n-aria="nav.openMenu">
         <span></span><span></span><span></span>
@@ -242,10 +242,10 @@ ${jsonLd ? `<script type="application/ld+json">\n${jsonLd}\n</script>` : `<scrip
       <a href="${link("/ai")}" class="mobile-panel-nav-link" data-i18n="nav.ai">AI</a>
       <a href="${link("/tools/")}" class="mobile-panel-nav-link" data-i18n="nav.tools">Tools</a>
       <a href="${link("/app/login")}" class="mobile-panel-nav-link" data-i18n="nav.signIn">Sign in</a>
-      <a href="${link("/app/")}" class="mobile-panel-nav-link" data-i18n="nav.tryFree">Try free</a>
+      <a href="${link("/app/")}login?start=1" class="mobile-panel-nav-link" data-i18n="nav.tryFree">Try free</a>
   </nav>
   <div class="mobile-panel-ctas">
-    <a href="${link("/app/")}" class="mobile-panel-cta-primary" data-i18n="nav.tryFree">Try free</a>
+    <a href="${link("/app/")}login?start=1" class="mobile-panel-cta-primary" data-i18n="nav.tryFree">Try free</a>
     <a href="${link("/app/login")}" class="mobile-panel-cta-secondary" data-i18n="nav.signIn">Sign in</a>
     <!--email_off-->
     <a href="mailto:sales@chasa.io" class="mobile-panel-cta-secondary" data-sales-mail data-sales-subject="Chasa sales" data-i18n="nav.contactSales">Contact sales</a>
