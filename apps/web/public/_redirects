@@ -20,7 +20,9 @@
 # admin-authored posts published since the last full site rebuild) — Cloudflare Pages resolves a
 # real static asset/directory first, so this only fires for genuinely unmatched /blog/<slug>
 # paths; blog-post.js reads the slug from the URL and fetches it from the API directly.
-/blog/*  /blog/post.html  200
+# Target must be extensionless (see the pretty-URL warning above) — /blog/post.html here caused
+# an infinite 308 loop against Cloudflare's own .html-stripping redirect.
+/blog/*  /blog/post  200
 
 # Short, shareable marketplace URLs
 /marketplace  /free-templates/  301
