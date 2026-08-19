@@ -28,6 +28,7 @@ import { purgeExpiredSessions } from "./lib/sessionCleanup";
 import { sendDailyChaseDigests } from "./lib/chaseDigest";
 import { runSpaSmokeAndAlert } from "./lib/spaSmoke";
 import { refreshClaritySnapshot } from "./lib/clarityApi";
+import { isWeeklyBlogMondayUtc, runWeeklyBlogPublish } from "./lib/blogWeekly";
 
 const app = new Hono<AuthEnv>();
 
@@ -85,6 +86,9 @@ export default {
         (async () => {
           await purgeExpiredSessions(env);
           await sendDailyChaseDigests(env);
+          if (isWeeklyBlogMondayUtc()) {
+            await runWeeklyBlogPublish(env).catch((err) => console.error("Weekly blog publish failed:", err));
+          }
           if (env.CLARITY_API_TOKEN) {
             await refreshClaritySnapshot(env, { force: true }).catch((err) =>
               console.error("Clarity snapshot refresh failed:", err)

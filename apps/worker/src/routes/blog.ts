@@ -1,8 +1,22 @@
 import { Hono } from "hono";
 import type { AuthEnv } from "../lib/auth";
 import { getPostBySlug, listPosts } from "../lib/blog";
+import { blogPostsSitemapXml } from "../lib/blogWeekly";
 
 const blog = new Hono<AuthEnv>();
+
+/** Live sitemap for D1-backed posts (weekly-cron + admin-authored) — listed as a second Sitemap:
+ *  line in robots.txt so a freshly-published Monday post is discoverable before the next full
+ *  site rebuild bakes it into the static sitemap.xml. */
+blog.get("/sitemap.xml", async (c) => {
+  const xml = await blogPostsSitemapXml(c.env);
+  return new Response(xml, {
+    headers: {
+      "content-type": "application/xml; charset=utf-8",
+      "cache-control": "public, max-age=3600",
+    },
+  });
+});
 
 blog.get("/posts", async (c) => {
   const posts = await listPosts(c.env, { publishedOnly: true });

@@ -109,6 +109,7 @@ Disallow: /app/branding
 Disallow: /app/webhooks
 
 Sitemap: ${SITE_URL}/sitemap.xml
+Sitemap: https://api.chasa.io/api/blog/sitemap.xml
 `;
   writeFileSync(join(publicDir, "robots.txt"), txt, "utf8");
   console.log("Wrote robots.txt");

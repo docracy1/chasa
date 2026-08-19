@@ -16,6 +16,12 @@
 /docs  /docs/  301
 /free-templates  /free-templates/  301
 
+# Dynamic fallback for blog posts not yet baked into a static directory (weekly-cron or
+# admin-authored posts published since the last full site rebuild) — Cloudflare Pages resolves a
+# real static asset/directory first, so this only fires for genuinely unmatched /blog/<slug>
+# paths; blog-post.js reads the slug from the URL and fetches it from the API directly.
+/blog/*  /blog/post.html  200
+
 # Short, shareable marketplace URLs
 /marketplace  /free-templates/  301
 /submit  /free-templates/submit  301

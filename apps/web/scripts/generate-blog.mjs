@@ -20,11 +20,87 @@ function extractMain(html) {
   return match ? match[1].trim() : null;
 }
 
-function bodyToHtml(body) {
-  return (body || "")
-    .split(/\n\s*\n/)
-    .map((t) => `<p>${escapeHtml(t).replace(/\n/g, "<br>")}</p>`)
-    .join("");
+function slugifyHeading(text) {
+  return String(text || "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, 80);
+}
+
+/** Structured parser for weekly-cron / admin-authored plain-text bodies: blank-line paragraphs,
+ *  "##"/"###" headings, "- " lists, plus a table of contents for 3+ H2 sections. Mirrors
+ *  blog-post.js's client-side renderer so a rebuild bakes the same structure statically instead
+ *  of falling back to one flat wall of paragraphs. */
+function structuredBodyToHtml(body) {
+  const lines = String(body || "").replace(/\r\n/g, "\n").split("\n");
+  const blocks = [];
+  let para = [];
+  let listItems = null;
+
+  const flushPara = () => {
+    const text = para.join(" ").trim();
+    if (text) blocks.push({ type: "p", text });
+    para = [];
+  };
+  const flushList = () => {
+    if (listItems && listItems.length) blocks.push({ type: "list", items: listItems });
+    listItems = null;
+  };
+
+  for (const raw of lines) {
+    const line = raw.replace(/\s+$/, "");
+    const trimmed = line.trim();
+    if (!trimmed) {
+      flushPara();
+      flushList();
+      continue;
+    }
+    if (trimmed.startsWith("## ")) {
+      flushPara();
+      flushList();
+      blocks.push({ type: "h2", text: trimmed.slice(3).trim() });
+      continue;
+    }
+    if (trimmed.startsWith("### ")) {
+      flushPara();
+      flushList();
+      blocks.push({ type: "h3", text: trimmed.slice(4).trim() });
+      continue;
+    }
+    if (/^[-*]\s+/.test(trimmed)) {
+      flushPara();
+      if (!listItems) listItems = [];
+      listItems.push(trimmed.replace(/^[-*]\s+/, "").trim());
+      continue;
+    }
+    flushList();
+    para.push(trimmed);
+  }
+  flushPara();
+  flushList();
+
+  const toc = blocks.filter((b) => b.type === "h2");
+  let html = "";
+  if (toc.length >= 3) {
+    html += `<nav class="blog-toc" aria-label="Table of contents"><div class="blog-toc-title">Table of contents</div><ol>${toc
+      .map((item) => `<li><a href="#${slugifyHeading(item.text)}">${escapeHtml(item.text)}</a></li>`)
+      .join("")}</ol></nav>`;
+  }
+  html += '<div class="blog-body">';
+  for (const block of blocks) {
+    if (block.type === "list") {
+      html += `<ul>${block.items.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>`;
+    } else if (block.type === "h2") {
+      html += `<h2 id="${slugifyHeading(block.text)}">${escapeHtml(block.text)}</h2>`;
+    } else if (block.type === "h3") {
+      html += `<h3>${escapeHtml(block.text)}</h3>`;
+    } else {
+      html += `<p>${escapeHtml(block.text)}</p>`;
+    }
+  }
+  html += "</div>";
+  return html;
 }
 
 function readFallbackPosts() {
@@ -141,7 +217,7 @@ function buildIndexMain(posts) {
 function renderBody(body) {
   if (!body) return "";
   if (/<[a-z][\s\S]*>/i.test(body)) return body;
-  return bodyToHtml(body);
+  return structuredBodyToHtml(body);
 }
 
 function buildPostMain(post, body, depth = 2) {

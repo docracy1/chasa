@@ -7,3 +7,4 @@ Disallow: /app/branding
 Disallow: /app/webhooks
 
 Sitemap: https://chasa.io/sitemap.xml
+Sitemap: https://api.chasa.io/api/blog/sitemap.xml
