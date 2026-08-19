@@ -240,6 +240,12 @@ export function adminBlogDelete(id: string) {
   return adminFetch<{ ok: true }>(`/blog/${id}`, { method: "DELETE" });
 }
 
+/** Runs the same weekly-cron publish step on demand — publishes an existing draft if one's
+ *  waiting, otherwise drafts and publishes the next queued SEO topic with Workers AI. */
+export function adminBlogPublishNext() {
+  return adminFetch<{ post: BlogPost }>("/blog/publish-next", { method: "POST" });
+}
+
 export type BroadcastResult = { recipientCount: number; sent?: number; failed?: number };
 
 export function adminBroadcast(input: { subject: string; bodyHtml: string; dryRun?: boolean }) {

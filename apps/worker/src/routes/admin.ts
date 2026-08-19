@@ -16,6 +16,7 @@ import { getCachedClaritySnapshot, refreshClaritySnapshot } from "../lib/clarity
 import { getCloudflareTrafficStats } from "../lib/cloudflareAnalytics";
 import { listPending, reviewSubmission } from "../lib/marketplaceTemplates";
 import { createPost, deletePost, listPosts, updatePost } from "../lib/blog";
+import { runWeeklyBlogPublish } from "../lib/blogWeekly";
 import { sendMarketingEmail } from "../lib/email";
 import { normalizeLocale } from "../lib/locale";
 import { clientIp, verifyTurnstile } from "../lib/turnstile";
@@ -233,6 +234,23 @@ admin.patch("/blog/:id", requireAdmin, async (c) => {
 admin.delete("/blog/:id", requireAdmin, async (c) => {
   await deletePost(c.env, c.req.param("id"));
   return c.json({ ok: true });
+});
+
+/** Manually run the weekly-cron publish step on demand — same function the Monday cron calls, so
+ *  the admin can catch up, test, or publish an already-drafted post right away instead of waiting. */
+admin.post("/blog/publish-next", requireAdmin, async (c) => {
+  const before = await listPosts(c.env);
+  await runWeeklyBlogPublish(c.env);
+  const after = await listPosts(c.env);
+  // Either a brand-new post (topic-queue path) or an existing draft that just got published
+  // (publish-oldest-draft path) — both are "what just happened" from this call's point of view.
+  const beforeById = new Map(before.map((p) => [p.id, p]));
+  const changed = after.find((p) => {
+    const prior = beforeById.get(p.id);
+    return !prior || (!prior.published && p.published);
+  });
+  if (!changed) return c.json({ error: "Nothing to publish — queue is empty and no draft is waiting." }, 400);
+  return c.json({ post: changed });
 });
 
 /** Product news/update broadcast — only to accounts.marketing_opt_in accounts. dryRun just

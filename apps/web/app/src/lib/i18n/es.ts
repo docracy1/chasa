@@ -837,6 +837,10 @@ const es: Messages = {
   "admin.blogPosts": "Entradas del blog",
   "admin.blogMuted":
     "Publica artículos tú mismo — sin despliegue de código. Las entradas nuevas aparecen en /blog al publicarlas.",
+  "admin.publishNextPost": "Publicar la siguiente entrada ahora",
+  "admin.publishNextPostHint":
+    "Publica un borrador existente si hay uno esperando; si no, redacta y publica el siguiente tema en cola con IA. Se ejecuta automáticamente cada lunes — esto solo lo activa bajo demanda.",
+  "admin.publishNextPostDone": "Publicado: {{title}}",
   "admin.noPosts": "Sin entradas aún — escribe la primera abajo.",
   "admin.published": "Publicado",
   "admin.draft": "Borrador",

@@ -2,6 +2,7 @@ import {
   adminBlogCreate,
   adminBlogDelete,
   adminBlogList,
+  adminBlogPublishNext,
   adminBlogUpdate,
   adminBroadcast,
   adminFunnels,
@@ -440,6 +441,8 @@ export default function Admin() {
   const [marketplacePending, setMarketplacePending] = useState<MarketplaceSubmission[]>([]);
   const [marketplaceError, setMarketplaceError] = useState<string | null>(null);
   const [marketplaceFeatureChoice, setMarketplaceFeatureChoice] = useState<Record<string, boolean>>({});
+  const [publishNextResult, setPublishNextResult] = useState<string | null>(null);
+  const [publishNextError, setPublishNextError] = useState<string | null>(null);
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
@@ -649,6 +652,22 @@ export default function Admin() {
     await adminBlogDelete(id);
     const b = await adminBlogList();
     setPosts(b.posts);
+  }
+
+  async function publishNextPost() {
+    setBusy(true);
+    setPublishNextError(null);
+    setPublishNextResult(null);
+    try {
+      const { post } = await adminBlogPublishNext();
+      setPublishNextResult(post.title);
+      const b = await adminBlogList();
+      setPosts(b.posts);
+    } catch (err) {
+      setPublishNextError(err instanceof Error ? err.message : "Failed to publish");
+    } finally {
+      setBusy(false);
+    }
   }
 
   async function previewBroadcast(e: React.FormEvent) {
@@ -1290,6 +1309,12 @@ export default function Admin() {
             <section className="dash-card">
               <h2 className="dash-card-title">{t("admin.blogPosts")}</h2>
               <p className="dash-muted">{t("admin.blogMuted")}</p>
+              <button type="button" className="btn-secondary" disabled={busy} onClick={() => void publishNextPost()}>
+                {t("admin.publishNextPost")}
+              </button>
+              <p className="dash-note">{t("admin.publishNextPostHint")}</p>
+              {publishNextResult && <p className="dash-note">{t("admin.publishNextPostDone", { title: publishNextResult })}</p>}
+              {publishNextError && <p className="dash-muted">{publishNextError}</p>}
               {posts.length === 0 ? (
                 <p className="dash-muted">{t("admin.noPosts")}</p>
               ) : (

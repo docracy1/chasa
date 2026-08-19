@@ -825,6 +825,10 @@ const en: Messages = {
   "admin.blogPosts": "Blog posts",
   "admin.blogMuted":
     "Publish articles yourself — no code deploy needed. New posts appear on /blog as soon as you publish them.",
+  "admin.publishNextPost": "Publish next post now",
+  "admin.publishNextPostHint":
+    "Publishes an existing draft if one's waiting, otherwise drafts and publishes the next queued SEO topic with AI. Runs automatically every Monday — this just triggers it on demand.",
+  "admin.publishNextPostDone": "Published: {{title}}",
   "admin.noPosts": "No posts yet — write your first one below.",
   "admin.published": "Published",
   "admin.draft": "Draft",
