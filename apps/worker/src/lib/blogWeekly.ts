@@ -26,33 +26,48 @@ interface DraftedPost {
   slug: string;
 }
 
-const SYSTEM_PROMPT = `
-You write SEO blog posts for Chasa (chasa.io) — a free, no-signup AI invoice follow-up tool for
-freelancers and small businesses. Paste an overdue invoice, Chasa drafts a tone-matched follow-up
-email (warm at 1-7 days overdue, firmer at 30+). Users copy the draft and send it from their own
-inbox — Chasa never sends on their behalf. Solo plan is a flat $7/mo per workspace (Pro $17/mo);
-free tier works with no signup (18 templates + 5 AI drafts/month).
+const CHASA_BLURB = `
+Chasa (chasa.io) is a free, no-signup AI invoice follow-up tool for freelancers and small
+businesses. Paste an overdue invoice, Chasa drafts a tone-matched follow-up email (warm at 1-7
+days overdue, firmer at 30+). Users copy the draft and send it from their own inbox — Chasa never
+sends on their behalf. Solo plan is a flat $7/mo per workspace (Pro $17/mo); free tier works with
+no signup (18 templates + 5 AI drafts/month). It drafts follow-up emails, it does not send them,
+and there's no accounting/invoicing feature — it's a chasing layer on top of whatever invoicing
+tool the reader already uses.
+`.trim();
 
+const META_SYSTEM_PROMPT = `
+You write SEO blog post metadata for Chasa (chasa.io), an AI invoice follow-up tool.
 Respond with ONLY a JSON object — no markdown fences, no prose outside JSON:
-{"title":"...","description":"...","body":"...","slug":"..."}
+{"title":"...","description":"...","slug":"..."}
 
 Rules:
 - title: clear how-to or question style, under 70 characters, include the main keyword naturally
 - description: meta description, 140-160 characters, compelling, includes keyword
 - slug: lowercase kebab-case, 3-80 chars, match the title topic (letters, numbers, hyphens only)
-- body: the FULL article as plain text using these markers only:
-  - Lines starting with "## " for H2 section titles
-  - Lines starting with "### " for FAQ questions
-  - Blank line between paragraphs
-  - Bullet lines starting with "- " for lists
-- Structure like a strong competitor SEO guide: intro, what-is / why-it-matters sections,
-  step-by-step or practical script, common mistakes list, FAQ (5-7 ### questions), short closing CTA
-- Mention Chasa naturally; do not invent features. It drafts follow-up emails, it does not send them,
-  and there's no accounting/invoicing feature — it's a chasing layer on top of whatever invoicing
-  tool the reader already uses.
-- Do NOT give legal, tax, or collections-enforceability advice — add a one-line disclaimer where relevant.
-- Do NOT use **, *, # (except ## / ###), or HTML.
-- Aim for roughly 900-1400 words of useful content.
+`.trim();
+
+/** Generated as its own plain-text call (not nested in JSON) — wrapping a 900-1400 word article
+ *  inside a single JSON string field is fragile for an 8B model: it reliably produces good prose
+ *  but frequently fails to close out the JSON envelope afterward (observed truncated/invalid JSON
+ *  well under the token budget, i.e. the model just loses track of the wrapper, not a length
+ *  limit). Plain text has no such failure mode — the response IS the body, nothing to parse. */
+const BODY_SYSTEM_PROMPT = `
+You write SEO blog post bodies for Chasa (chasa.io), an AI invoice follow-up tool for freelancers
+and small businesses. ${CHASA_BLURB}
+
+Respond with ONLY the article body as plain text — no JSON, no markdown fences, no title line.
+Use these markers only:
+- Lines starting with "## " for H2 section titles
+- Lines starting with "### " for FAQ questions
+- Blank line between paragraphs
+- Bullet lines starting with "- " for lists
+
+Structure like a strong competitor SEO guide: intro, why-it-matters section, practical script or
+step-by-step, common mistakes list, FAQ (5-7 ### questions), short closing mention of Chasa.
+Mention Chasa naturally; do not invent features. Do NOT give legal, tax, or collections-
+enforceability advice — add a one-line disclaimer where relevant. Do NOT use **, *, # (except
+## / ###), or HTML. Aim for roughly 900-1400 words of useful content.
 `.trim();
 
 function requireDb(env: Env) {
@@ -60,53 +75,92 @@ function requireDb(env: Env) {
   return env.CHASA_DB;
 }
 
-function parseDraft(raw: string, fallback: TopicRow): DraftedPost | null {
+function slugifyLoose(input: string): string {
+  return input
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, 80);
+}
+
+type Meta = { title: string; description: string; slug: string };
+
+function parseMeta(raw: string, fallback: TopicRow): Meta | null {
   const match = raw.match(/\{[\s\S]*\}/);
   if (!match) return null;
   try {
     const parsed = JSON.parse(sanitizeJsonStringNewlines(match[0])) as Record<string, unknown>;
     const title = typeof parsed.title === "string" ? parsed.title.trim().slice(0, 120) : "";
     const description = typeof parsed.description === "string" ? parsed.description.trim().slice(0, 200) : "";
-    const body = typeof parsed.body === "string" ? parsed.body.trim().slice(0, 20000) : "";
     const slugRaw = typeof parsed.slug === "string" && parsed.slug.trim() ? parsed.slug.trim() : fallback.slug;
-    const slug =
-      slugRaw
-        .toLowerCase()
-        .replace(/[^a-z0-9]+/g, "-")
-        .replace(/^-+|-+$/g, "")
-        .slice(0, 80) || fallback.slug;
-    if (!title || !body || body.length < 400) return null;
-    return { title, description: description || title, body, slug };
+    const slug = slugifyLoose(slugRaw) || fallback.slug;
+    if (!title) return null;
+    return { title, description: description || title, slug };
   } catch {
     return null;
   }
 }
 
-async function draftFromTopic(env: Env, topic: TopicRow): Promise<DraftedPost | null> {
+async function runAi(env: Env, messages: { role: string; content: string }[], maxTokens: number): Promise<string | null> {
   try {
     const result = await env.AI.run((env.WORKERS_AI_MODEL || DEFAULT_MODEL) as keyof AiModels, {
       temperature: 0.45,
-      max_tokens: 2800,
-      messages: [
-        { role: "system", content: SYSTEM_PROMPT },
-        {
-          role: "user",
-          content:
-            `Write the blog post for this queue item.\n` +
-            `Suggested title: ${topic.title}\n` +
-            `Preferred slug: ${topic.slug}\n` +
-            `Cluster: ${topic.cluster}\n` +
-            `Brief:\n${topic.angle}`,
-        },
-      ],
+      max_tokens: maxTokens,
+      messages,
     });
-    const raw = (result as { response?: string }).response?.trim();
-    if (!raw) return null;
-    return parseDraft(raw, topic);
+    return (result as { response?: string }).response?.trim() || null;
   } catch (err) {
-    console.error("Weekly blog AI draft failed:", err);
+    console.error("Weekly blog AI call failed:", err);
     return null;
   }
+}
+
+async function draftMeta(env: Env, topic: TopicRow): Promise<Meta | null> {
+  const messages = [
+    { role: "system", content: META_SYSTEM_PROMPT },
+    {
+      role: "user",
+      content: `Suggested title: ${topic.title}\nPreferred slug: ${topic.slug}\nBrief:\n${topic.angle}`,
+    },
+  ];
+  // Small, short JSON response — cheap to retry a couple of times if the model garbles it.
+  for (let attempt = 0; attempt < 3; attempt++) {
+    const raw = await runAi(env, messages, 300);
+    if (raw) {
+      const meta = parseMeta(raw, topic);
+      if (meta) return meta;
+    }
+  }
+  return null;
+}
+
+async function draftBody(env: Env, topic: TopicRow): Promise<string | null> {
+  const messages = [
+    { role: "system", content: BODY_SYSTEM_PROMPT },
+    {
+      role: "user",
+      content: `Topic: ${topic.title}\nCluster: ${topic.cluster}\nBrief:\n${topic.angle}`,
+    },
+  ];
+  for (let attempt = 0; attempt < 2; attempt++) {
+    const raw = await runAi(env, messages, 1800);
+    if (raw && raw.trim().length >= 400) return raw.trim().slice(0, 20000);
+  }
+  return null;
+}
+
+async function draftFromTopic(env: Env, topic: TopicRow): Promise<DraftedPost | null> {
+  const meta = await draftMeta(env, topic);
+  if (!meta) {
+    console.error(`Weekly blog: metadata draft failed for topic ${topic.slug}`);
+    return null;
+  }
+  const body = await draftBody(env, topic);
+  if (!body) {
+    console.error(`Weekly blog: body draft failed for topic ${topic.slug}`);
+    return null;
+  }
+  return { title: meta.title, description: meta.description, slug: meta.slug, body };
 }
 
 async function nextQueuedTopic(env: Env): Promise<TopicRow | null> {
