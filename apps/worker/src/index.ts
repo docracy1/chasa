@@ -77,7 +77,7 @@ export default {
   fetch: app.fetch.bind(app),
   scheduled: async (event: ScheduledEvent, env: Env, ctx: ExecutionContext) => {
     // Always: SPA Sign in / Start free smoke (fast outage signal).
-    ctx.waitUntil(runSpaSmokeAndAlert(env).catch((err) => console.error("SPA smoke sweep failed:", err)));
+    ctx.waitUntil(runSpaSmokeAndAlert(env, app).catch((err) => console.error("SPA smoke sweep failed:", err)));
 
     // Once daily at 08:00 UTC — same hourly trigger, gated by clock (no second cron; account limit).
     const hourUtc = new Date().getUTCHours();

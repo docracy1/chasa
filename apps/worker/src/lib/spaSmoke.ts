@@ -1,10 +1,15 @@
+import type { Hono } from "hono";
 import type { Env } from "../types";
+import type { AuthEnv } from "./auth";
 import { sendSpaSmokeAlert } from "./email";
 
 const PROBE_UA =
   "Mozilla/5.0 (compatible; ChasaSpaSmoke/1.0; +https://chasa.io) AppleWebKit/537.36 Chrome/131.0.0.0 Safari/537.36";
 
-const REMIND_AFTER_MS = 6 * 60 * 60 * 1000;
+// Widened from 6h to 24h, and now requires 2 consecutive hourly failures before ever alerting
+// (see runSpaSmokeAndAlert) — a single-run blip (e.g. a brief edge hiccup) no longer pages anyone;
+// only a failure that's still there an hour later does.
+const REMIND_AFTER_MS = 24 * 60 * 60 * 1000;
 const STATE_KEY = "spa-smoke";
 
 /** Sign in + Start free (app shell). Marketing homepage is static HTML — not this failure mode. */
@@ -19,6 +24,9 @@ interface AlertState {
   failing: boolean;
   lastAlertAt: number;
   fingerprint: string;
+  /** Consecutive hourly runs that saw this exact fingerprint, capped for readability. Alerting
+   *  only starts once this reaches 2 — see runSpaSmokeAndAlert. */
+  streak: number;
 }
 
 function appOrigin(env: Env): string {
@@ -26,10 +34,6 @@ function appOrigin(env: Env): string {
   // Smoke must hit the user-facing host, not a stale pages.dev PUBLIC_APP_URL.
   if (configured.includes("chasa.io") && !configured.includes("pages.dev")) return configured;
   return "https://chasa.io";
-}
-
-function workerOrigin(env: Env): string {
-  return (env.PUBLIC_WORKER_URL || "https://api.chasa.io").replace(/\/$/, "");
 }
 
 export function extractMainModuleSrc(html: string): string | null {
@@ -117,12 +121,18 @@ export async function checkSpaPage(pageUrl: string): Promise<SpaSmokeFailure | n
   return null;
 }
 
-async function checkAuthConfig(env: Env): Promise<SpaSmokeFailure | null> {
-  const url = `${workerOrigin(env)}/api/auth/config`;
+/** Calls the route directly in-process via Hono's app.request() instead of a real fetch() back to
+ *  our own custom domain — the latter observably 522s occasionally (Cloudflare's edge timing out
+ *  connecting to itself for a self-referential request from inside a scheduled Worker), which was
+ *  the actual cause of the recurring false-positive alerts, not a real outage. In-process means
+ *  there is no network hop for this specific check to fail on. */
+async function checkAuthConfig(env: Env, app: Hono<AuthEnv>): Promise<SpaSmokeFailure | null> {
   try {
-    const res = await fetch(url, {
-      headers: { "User-Agent": PROBE_UA, Accept: "application/json" },
-    });
+    const res = await app.request(
+      "/api/auth/config",
+      { headers: { Accept: "application/json" } },
+      env
+    );
     const ct = res.headers.get("content-type") ?? "";
     if (!res.ok) return { name: "API auth/config", detail: `HTTP ${res.status}` };
     if (!ct.toLowerCase().includes("application/json")) {
@@ -141,11 +151,11 @@ async function checkAuthConfig(env: Env): Promise<SpaSmokeFailure | null> {
   }
 }
 
-export async function runSpaSmokeChecks(env: Env): Promise<SpaSmokeFailure[]> {
+export async function runSpaSmokeChecks(env: Env, app: Hono<AuthEnv>): Promise<SpaSmokeFailure[]> {
   const base = appOrigin(env);
   const pageResults = await Promise.all(CRITICAL_PATHS.map((p) => checkSpaPage(`${base}${p}`)));
   const failures = pageResults.filter((f): f is SpaSmokeFailure => f !== null);
-  const apiFail = await checkAuthConfig(env);
+  const apiFail = await checkAuthConfig(env, app);
   if (apiFail) failures.push(apiFail);
   return failures;
 }
@@ -196,10 +206,13 @@ async function writeState(env: Env, state: AlertState | null): Promise<void> {
 
 /**
  * Hourly SPA smoke for Sign in (/app/login) + Start free (/app/).
- * Alerts FEEDBACK_EMAIL (founder@chasa.io) on transition to failing, then every 6h while down.
+ * A failure only starts a "streak"; alerting requires 2 consecutive hourly runs with the same
+ * fingerprint (i.e. still broken an hour later) before the first email, then reminds at most once
+ * per 24h while it stays down. This absorbs single-run blips (a brief edge hiccup, a deploy
+ * mid-flight) without ever silently swallowing a real, sustained outage.
  */
-export async function runSpaSmokeAndAlert(env: Env): Promise<void> {
-  const failures = await runSpaSmokeChecks(env);
+export async function runSpaSmokeAndAlert(env: Env, app: Hono<AuthEnv>): Promise<void> {
+  const failures = await runSpaSmokeChecks(env, app);
   const prev = await readState(env);
   const now = Date.now();
 
@@ -210,13 +223,22 @@ export async function runSpaSmokeAndAlert(env: Env): Promise<void> {
   }
 
   const fp = fingerprint(failures);
-  const shouldAlert =
-    !prev?.failing || prev.fingerprint !== fp || now - (prev.lastAlertAt ?? 0) >= REMIND_AFTER_MS;
+  const samePrevFingerprint = prev?.fingerprint === fp;
+  const streak = samePrevFingerprint ? (prev?.streak ?? 0) + 1 : 1;
+  const confirmed = streak >= 2;
+
+  if (!confirmed) {
+    await writeState(env, { failing: true, lastAlertAt: prev?.lastAlertAt ?? 0, fingerprint: fp, streak });
+    console.error(`[spa-smoke] failure seen once, awaiting confirmation next hour: ${failures.map((f) => f.name).join(", ")}`);
+    return;
+  }
+
+  const shouldAlert = !prev?.failing || !samePrevFingerprint || now - (prev.lastAlertAt ?? 0) >= REMIND_AFTER_MS;
 
   if (shouldAlert) {
     const to = env.FEEDBACK_EMAIL || "founder@chasa.io";
     await sendSpaSmokeAlert(env, to, failures);
-    await writeState(env, { failing: true, lastAlertAt: now, fingerprint: fp });
+    await writeState(env, { failing: true, lastAlertAt: now, fingerprint: fp, streak });
     console.error(`[spa-smoke] alerted ${to}: ${failures.map((f) => f.name).join(", ")}`);
   } else {
     console.error(`[spa-smoke] still failing (suppressed): ${failures.map((f) => f.name).join(", ")}`);

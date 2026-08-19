@@ -14,6 +14,19 @@ const HTML_OK = `<!doctype html><html><head>
 </head><body><div id="root"></div></body></html>`;
 const JS_OK = "import{x}from\"./chunk.js\";";
 
+/** checkAuthConfig calls app.request() in-process (no real fetch) — see spaSmoke.ts for why. A
+ *  fake app is enough since these tests only care about the page/asset checks, which still go
+ *  through real fetch() mocks below. */
+function fakeApp(): { request: () => Promise<Response> } {
+  return {
+    request: async () =>
+      new Response(JSON.stringify({ turnstileSiteKey: "0x" }), {
+        status: 200,
+        headers: { "Content-Type": "application/json" },
+      }),
+  };
+}
+
 type Query = { sql: string; args: unknown[] };
 
 function mockEnv(overrides: Partial<Env> = {}): { env: Env; queries: Query[] } {
@@ -84,47 +97,35 @@ describe("helpers", () => {
 
 describe("runSpaSmokeChecks", () => {
   it("fails when /assets/*.js returns text/html", async () => {
-    vi.spyOn(global, "fetch").mockImplementation(async (input) => {
-      const url = String(input);
-      if (url.includes("/api/auth/config")) {
-        return new Response(JSON.stringify({ turnstileSiteKey: "0x" }), {
-          status: 200,
-          headers: { "Content-Type": "application/json" },
-        });
-      }
-      if (url.endsWith(".js")) {
-        return new Response(HTML_OK, { status: 200, headers: { "Content-Type": "text/html" } });
-      }
+    vi.spyOn(global, "fetch").mockImplementation(async () => {
       return new Response(HTML_OK, { status: 200, headers: { "Content-Type": "text/html" } });
     });
     const { env } = mockEnv();
-    const failures = await runSpaSmokeChecks(env);
+    const failures = await runSpaSmokeChecks(env, fakeApp() as never);
     expect(failures.some((f) => f.detail.includes("text/html"))).toBe(true);
   });
 });
 
 describe("runSpaSmokeAndAlert", () => {
   function mockBroken() {
-    vi.spyOn(global, "fetch").mockImplementation(async (input) => {
-      const url = String(input);
-      if (url.includes("/api/auth/config")) {
-        return new Response(JSON.stringify({ turnstileSiteKey: "0x" }), {
-          status: 200,
-          headers: { "Content-Type": "application/json" },
-        });
-      }
-      if (url.endsWith(".js")) {
-        return new Response(HTML_OK, { status: 200, headers: { "Content-Type": "text/html" } });
-      }
+    vi.spyOn(global, "fetch").mockImplementation(async () => {
       return new Response(HTML_OK, { status: 200, headers: { "Content-Type": "text/html" } });
     });
   }
 
-  it("emails founder@chasa.io once then dedupes", async () => {
+  it("does not alert on a single failing run (needs 2 consecutive to confirm)", async () => {
     mockBroken();
     const { env } = mockEnv();
-    await runSpaSmokeAndAlert(env);
-    await runSpaSmokeAndAlert(env);
+    await runSpaSmokeAndAlert(env, fakeApp() as never);
+    expect(email.sendSpaSmokeAlert).not.toHaveBeenCalled();
+  });
+
+  it("emails founder@chasa.io once the same failure is confirmed on a second run, then dedupes", async () => {
+    mockBroken();
+    const { env } = mockEnv();
+    await runSpaSmokeAndAlert(env, fakeApp() as never);
+    await runSpaSmokeAndAlert(env, fakeApp() as never);
+    await runSpaSmokeAndAlert(env, fakeApp() as never);
     expect(email.sendSpaSmokeAlert).toHaveBeenCalledTimes(1);
     expect(vi.mocked(email.sendSpaSmokeAlert).mock.calls[0][1]).toBe("founder@chasa.io");
   });
