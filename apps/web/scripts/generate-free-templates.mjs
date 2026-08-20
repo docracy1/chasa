@@ -1296,17 +1296,164 @@ ${newBatchCards}
 writeFileSync(join(outDir, "new.html"), newTemplatesHtml);
 console.log(`Wrote new-templates announcement page → ${join(outDir, "new.html")}`);
 
+/** Real placeholders pulled straight from the template body (e.g. "[Client name]") — used in the
+ *  "What's included" list so that section reflects the actual template instead of generic filler. */
+function extractPlaceholders(body) {
+  const seen = new Set();
+  const out = [];
+  for (const m of body.matchAll(/\[([^\]]+)\]/g)) {
+    const label = m[1].trim();
+    if (!seen.has(label.toLowerCase())) {
+      seen.add(label.toLowerCase());
+      out.push(label);
+    }
+  }
+  return out;
+}
+
+/** Category-specific framing for the SEO intro + use cases — this is what keeps 29 pages from
+ *  reading like the same paragraph with the name swapped. */
+const CATEGORY_FRAMING = {
+  Freelancer: {
+    audience: "freelancers and solo consultants",
+    problem: "chasing a client for payment yourself, with no accounts-receivable team to lean on",
+    useCase4: { title: "First-time late payers", desc: "A regular client who's always paid on time but has gone quiet this once." },
+  },
+  Agency: {
+    audience: "agencies and small studios",
+    problem: "following up on retainers or project invoices without sounding like a collections agency",
+    useCase4: { title: "Retainer & milestone billing", desc: "Recurring or project-based invoices where the relationship needs to keep working." },
+  },
+  Corporate: {
+    audience: "vendors and finance teams billing larger companies",
+    problem: "getting a response from an accounts-payable department instead of one direct contact",
+    useCase4: { title: "Enterprise AP departments", desc: "Invoices routed through a formal approval process with PO numbers and vendor IDs." },
+  },
+  Legal: {
+    audience: "freelancers and small businesses at the end of the road with a client",
+    problem: "needing a clear, professional paper trail before considering further action",
+    useCase4: { title: "Before escalation", desc: "Documenting a final, serious attempt to resolve payment directly." },
+  },
+  "Ghosted client": {
+    audience: "freelancers dealing with a client who's stopped responding",
+    problem: "figuring out what to say when someone who used to reply promptly goes silent",
+    useCase4: { title: "Client went quiet", desc: "No response to invoices or messages — you need to know where you stand." },
+  },
+  "Before due": {
+    audience: "freelancers and small teams who invoice regularly",
+    problem: "reminding a client an invoice is coming due without sounding like a nag",
+    useCase4: { title: "Recurring clients", desc: "Regular billing where a quick heads-up keeps payments on schedule." },
+  },
+  "Due & early overdue": {
+    audience: "freelancers and small businesses",
+    problem: "sending that first nudge after an invoice is missed, before it becomes a real problem",
+    useCase4: { title: "One-off projects", desc: "A single invoice that just needs a gentle, well-timed reminder." },
+  },
+  "Overdue follow-ups": {
+    audience: "freelancers and small teams",
+    problem: "following up again after a first reminder went unanswered, without escalating too fast",
+    useCase4: { title: "Repeat follow-ups", desc: "When a polite first nudge didn't get a response and it's time to be clearer." },
+  },
+  "Formal notices": {
+    audience: "freelancers and small businesses with a seriously overdue invoice",
+    problem: "putting a firm, professional notice in writing once informal reminders haven't worked",
+    useCase4: { title: "Long-overdue invoices", desc: "Invoices 30+ days late where the tone needs to shift from reminder to notice." },
+  },
+  Disputes: {
+    audience: "freelancers and agencies",
+    problem: "responding to pushback on an invoice without the conversation turning adversarial",
+    useCase4: { title: "Invoice disputes", desc: "A client questions the amount, scope, or an invoice they say they never received." },
+  },
+  "Payments received": {
+    audience: "freelancers and small businesses",
+    problem: "closing the loop professionally once a client actually pays",
+    useCase4: { title: "Confirming payment", desc: "Acknowledging a payment so the client knows the account is settled." },
+  },
+};
+
+const SHARED_USE_CASES = [
+  { title: "Freelancers & solo consultants", desc: "Chasing payment yourself, directly from your own inbox, with no AR team behind you." },
+  { title: "Agencies & small teams", desc: "Following up on client invoices without it falling on one overworked person." },
+  { title: "Growing businesses", desc: "Managing follow-ups across multiple clients and payment stages without losing track." },
+];
+
+function buildSeoIntro(t) {
+  const framing = CATEGORY_FRAMING[t.category] || CATEGORY_FRAMING["Overdue follow-ups"];
+  return `Getting paid on time is hard enough without also having to write the follow-up email yourself. This free ${t.name.toLowerCase()} template is built specifically for ${framing.audience} ${framing.problem}. Instead of starting from a blank page or reusing a generic payment reminder email that doesn't quite match how late the invoice is, you get a ${t.tone.toLowerCase()}-toned, ready-to-send draft matched to this exact stage: ${t.stage.toLowerCase()}. Copy the subject and body as-is, swap in your invoice details, and send it from Gmail, Outlook, or Apple Mail — no account, no signup, and no software to install. It's one of 28 free invoice follow-up templates and payment reminder emails on Chasa, covering everything from a friendly nudge before an invoice is even due through a formal final notice. If you'd rather have the wording generated fresh for your exact invoice, amount, and client, Chasa's AI tool drafts that automatically — this template stays free either way, with or without an account.`;
+}
+
+function buildWhatsIncluded(t) {
+  const placeholders = extractPlaceholders(t.body);
+  const items = [
+    `A complete subject line, pre-written: "${t.subject}"`,
+    `Full email body matched to "${t.stage}"`,
+    `${t.tone} tone, calibrated for this exact situation — not one-size-fits-all`,
+    placeholders.length
+      ? `Placeholder fields for quick personalizing: ${placeholders.map((p) => `[${p}]`).join(", ")}`
+      : `Placeholder fields for quick personalizing (client name, invoice number, amount)`,
+    "Free to copy and use — no account or signup required",
+    "Works with any invoicing tool, spreadsheet, or none at all",
+    "Fully editable — adjust the wording to match your own voice",
+    "Part of a 28-template library covering every stage from before-due to final notice",
+  ];
+  return items;
+}
+
+function buildUseCases(t) {
+  const framing = CATEGORY_FRAMING[t.category] || CATEGORY_FRAMING["Overdue follow-ups"];
+  return [...SHARED_USE_CASES, framing.useCase4];
+}
+
+function buildTemplateFaq(t) {
+  const faq = [
+    {
+      q: `Is this ${t.name.toLowerCase()} template really free?`,
+      a: `Yes — every template in Chasa's library is free to view, copy, and edit with no account or signup required. Chasa never emails your clients on your behalf; you copy this draft into your own inbox and send it yourself, so there's nothing to sign up for just to use the wording.`,
+    },
+    {
+      q: "Can I edit the wording to match my own voice?",
+      a: `Absolutely. Copy the subject and body, then adjust the tone, swap in your invoice details, or rewrite any part of it — it's a starting point, not a rigid script. The placeholders like [Client name] and [Invoice #] make it quick to personalize before sending.`,
+    },
+    {
+      q: `When should I actually send this — is "${t.stage}" the right moment?`,
+      a: `This template is written for invoices at the "${t.stage}" stage specifically. Sending the right tone at the right time matters — too firm too early can feel aggressive, too soft too late can read as not serious. If your situation doesn't quite match, browse the full library for the closest stage.`,
+    },
+    {
+      q: "Does Chasa's AI tool improve on this template?",
+      a: "Yes. This page gives you the wording for free with no signup. Chasa's AI tool goes further on Solo and Pro plans — it drafts a version matched to your exact invoice amount, client name, and how many days overdue it is, and can soften, firm up, or shorten a draft on request.",
+    },
+    {
+      q: "What if the client still doesn't pay after I send this?",
+      a: "If this reminder doesn't get a response, the next step is usually a firmer follow-up or a formal notice, depending on how late the invoice becomes. Chasa's free library includes templates for every stage, from a gentle first nudge through a final notice before collections.",
+    },
+  ];
+  return faq;
+}
+
 for (const t of TEMPLATES) {
+  const faq = buildTemplateFaq(t);
   const jsonLd = JSON.stringify(
     {
       "@context": "https://schema.org",
-      "@type": "Article",
-      headline: t.seoTitle,
-      description: t.description,
-      url: `https://chasa.io/free-templates/${t.slug}`,
-      author: { "@type": "Organization", name: "Chasa" },
-      publisher: { "@type": "Organization", name: "RELACON GmbH" },
-      mainEntityOfPage: `https://chasa.io/free-templates/${t.slug}`,
+      "@graph": [
+        {
+          "@type": "Article",
+          headline: t.seoTitle,
+          description: t.description,
+          url: `https://chasa.io/free-templates/${t.slug}`,
+          author: { "@type": "Organization", name: "Chasa" },
+          publisher: { "@type": "Organization", name: "RELACON GmbH" },
+          mainEntityOfPage: `https://chasa.io/free-templates/${t.slug}`,
+        },
+        {
+          "@type": "FAQPage",
+          mainEntity: faq.map((item) => ({
+            "@type": "Question",
+            name: item.q,
+            acceptedAnswer: { "@type": "Answer", text: item.a },
+          })),
+        },
+      ],
     },
     null,
     2
@@ -1316,6 +1463,26 @@ for (const t of TEMPLATES) {
     .slice(0, 5)
     .map((x) => `<li><a href="/free-templates/${x.slug}">${escapeHtml(x.name)}</a></li>`)
     .join("\n");
+
+  const whatsIncluded = buildWhatsIncluded(t)
+    .map((item) => `<li>${escapeHtml(item)}</li>`)
+    .join("\n        ");
+
+  const useCases = buildUseCases(t)
+    .map(
+      (uc) => `<div class="tpl-usecase">
+          <h3>${escapeHtml(uc.title)}</h3>
+          <p>${escapeHtml(uc.desc)}</p>
+        </div>`
+    )
+    .join("\n        ");
+
+  const faqHtml = faq
+    .map(
+      (item) =>
+        `<details class="faq-item"><summary>${escapeHtml(item.q)}</summary>\n<p>${escapeHtml(item.a)}</p>\n</details>`
+    )
+    .join("\n      ");
 
   const page = chrome({
     title: `${t.seoTitle} | Chasa`,
@@ -1328,6 +1495,11 @@ for (const t of TEMPLATES) {
   <div class="tpl-meta"><span>${escapeHtml(t.stage)}</span><span>${escapeHtml(t.tone)}</span></div>
   <h1>${escapeHtml(t.name)}</h1>
   <p class="lede">${escapeHtml(t.description)}</p>
+  <div class="tpl-hero-cta">
+    <a class="nav-cta" href="/app/login?start=1">Try free — no signup, no card</a>
+  </div>
+
+  <p class="tpl-seo-intro">${buildSeoIntro(t)}</p>
 
   <div class="tpl-box">
     <div class="tpl-label">Subject</div>
@@ -1335,6 +1507,16 @@ for (const t of TEMPLATES) {
     <div class="tpl-label">Body</div>
     <pre class="tpl-body">${escapeHtml(t.body)}</pre>
     <button type="button" class="btn-copy" data-copy="${encodeURIComponent(`Subject: ${t.subject}\n\n${t.body}`)}">Copy subject + body</button>
+  </div>
+
+  <h2>What's included</h2>
+  <ul class="tpl-included">
+        ${whatsIncluded}
+  </ul>
+
+  <h2>Who this template is for</h2>
+  <div class="tpl-usecases">
+        ${useCases}
   </div>
 
   <div class="ai-tools-panel tpl-ai-teaser">
@@ -1367,9 +1549,18 @@ for (const t of TEMPLATES) {
     </div>
   </div>
 
+  <h2>FAQ</h2>
+  ${faqHtml}
+
   <h2>More free templates</h2>
   <ul class="tpl-more">${others}
   </ul>
+
+  <div class="tpl-cta-footer">
+    <h2>Get paid faster, without the awkward part</h2>
+    <p>Copy this template free, or let Chasa draft one matched to your exact invoice.</p>
+    <a class="nav-cta" href="/app/login?start=1">Try Chasa free — no signup, no card</a>
+  </div>
 </main>
 <script>
 if (window.chasaTrack) {

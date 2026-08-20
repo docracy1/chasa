@@ -1691,6 +1691,87 @@ a { color: inherit; }
 }
 .tpl-more a:hover { color: var(--accent); }
 
+/* ---------- Template detail: 7-section landing structure ---------- */
+.tpl-hero-cta { margin: 18px 0 8px; }
+
+.tpl-seo-intro {
+  font-size: 15.5px;
+  line-height: 1.65;
+  color: var(--ink-soft);
+  margin: 8px 0 28px;
+}
+
+.tpl-included {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 28px;
+  display: grid;
+  gap: 10px;
+}
+.tpl-included li {
+  position: relative;
+  padding-left: 26px;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--ink);
+}
+.tpl-included li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 7px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+.tpl-usecases {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin: 0 0 28px;
+}
+@media (max-width: 640px) {
+  .tpl-usecases { grid-template-columns: 1fr; }
+}
+.tpl-usecase {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 16px 18px;
+}
+.tpl-usecase h3 {
+  margin: 0 0 6px;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--ink);
+}
+.tpl-usecase p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--ink-soft);
+}
+
+.tpl-cta-footer {
+  background: var(--paper-deep);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 32px 28px;
+  margin: 40px 0 16px;
+  text-align: center;
+}
+.tpl-cta-footer h2 {
+  margin: 0 0 8px;
+  font-size: 20px;
+}
+.tpl-cta-footer p {
+  margin: 0 0 18px;
+  color: var(--ink-soft);
+  font-size: 15px;
+}
+
 /* ---------- AI PAGE / AI TOOL CARDS ---------- */
 .ai-page { padding: 40px 0 60px; max-width: 720px; }
 .ai-eyebrow {
@@ -2284,11 +2365,15 @@ a { color: inherit; }
 }
 
 /* ---------- Blog FAQ (details) ---------- */
-.page-main .faq-item {
+.page-main .faq-item,
+.template-detail .faq-item,
+.templates-index .faq-item {
   border-bottom: 1px solid var(--line);
   padding: 4px 0;
 }
-.page-main .faq-item summary {
+.page-main .faq-item summary,
+.template-detail .faq-item summary,
+.templates-index .faq-item summary {
   list-style: none;
   cursor: pointer;
   font-weight: 600;
@@ -2296,9 +2381,15 @@ a { color: inherit; }
   padding: 14px 0;
   color: var(--ink);
 }
-.page-main .faq-item summary::-webkit-details-marker { display: none; }
-.page-main .faq-item[open] summary { color: var(--accent); }
-.page-main .faq-item p {
+.page-main .faq-item summary::-webkit-details-marker,
+.template-detail .faq-item summary::-webkit-details-marker,
+.templates-index .faq-item summary::-webkit-details-marker { display: none; }
+.page-main .faq-item[open] summary,
+.template-detail .faq-item[open] summary,
+.templates-index .faq-item[open] summary { color: var(--accent); }
+.page-main .faq-item p,
+.template-detail .faq-item p,
+.templates-index .faq-item p {
   margin: 0 0 16px;
   color: var(--ink-soft);
   line-height: 1.6;
