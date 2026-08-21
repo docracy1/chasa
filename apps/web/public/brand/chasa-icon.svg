@@ -2,10 +2,10 @@
   <!-- Open C ring (chase cycle) -->
   <path
     d="M47.5 17.5 A 18 18 0 1 0 47.5 46.5"
-    stroke="#EC683C"
+    stroke="#F58025"
     stroke-width="12"
     stroke-linecap="butt"
   />
   <!-- Arrow head on the open top end -->
-  <path fill="#EC683C" d="M41.5 11.8 L57.8 14.2 L48.2 27.2 Z"/>
+  <path fill="#F58025" d="M41.5 11.8 L57.8 14.2 L48.2 27.2 Z"/>
 </svg>

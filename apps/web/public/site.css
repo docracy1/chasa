@@ -73,22 +73,22 @@
 /* Shared chrome — palette + header/footer (mirrored from docracy.io structure) */
 
 :root {
-  /* Chasa palette: warm ink + orange (no navy/blue) */
-  --ink: #2A1410;
-  --accent: #EC683C;
-  --paper: #F7F3F0;
+  /* Chasa palette: Docstoc-style — dark charcoal primary + orange accent + white/light-gray background */
+  --ink: #262626;
+  --accent: #F58025;
+  --paper: #F7F7F7;
   --white: #FFFFFF;
 
-  /* Marketing chrome — orange family, Docracy layout */
-  --header-bg: #C24A28;
-  --hero-from: #F48A5C;
-  --hero-to: #C24A28;
-  --on-orange: #2A1410;
+  /* Marketing chrome — dark charcoal header/footer/hero, orange pops as the accent on top */
+  --header-bg: #262626;
+  --hero-from: #333333;
+  --hero-to: #1A1A1A;
+  --on-orange: #FFFFFF;
 
-  /* Signal CTA (Docracy mint pattern) — pops on orange chrome for Try free / Start free */
-  --signal: #00E8A8;
-  --signal-hover: #2AFFC0;
-  --on-signal: #04241C;
+  /* Signal CTA — orange is the button color per the Docstoc-style guide (was mint on the old orange chrome) */
+  --signal: #F58025;
+  --signal-hover: #FF9A47;
+  --on-signal: #FFFFFF;
 
   --ink-soft: color-mix(in srgb, var(--ink) 58%, var(--white));
   --line: color-mix(in srgb, var(--ink) 12%, var(--white));
