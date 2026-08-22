@@ -1051,6 +1051,14 @@ a { color: inherit; }
   background: radial-gradient(120% 140% at 20% 0%, color-mix(in srgb, var(--accent) 55%, var(--ink) 10%), var(--ink) 65%);
   padding: 56px 0 44px;
   margin-bottom: 32px;
+  /* Full-bleed: this section sits inside <main class="wrap page-main"> (max-width: 1080px), so
+     without this it gets capped and padded like the rest of the page content. The banner should
+     stretch edge-to-edge on wide screens while .tpl-hero-inner (its own "wrap" class) still
+     centers the actual text/search box at a readable width. */
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  margin-left: -50vw;
 }
 .tpl-hero-inner {
   max-width: 760px;
@@ -1770,6 +1778,68 @@ a { color: inherit; }
   margin: 0 0 18px;
   color: var(--ink-soft);
   font-size: 15px;
+}
+
+/* ---------- Trust layer + "why us" conversion section (template/document detail pages) ---------- */
+.trust-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 22px;
+  list-style: none;
+  padding: 0;
+  margin: 14px 0 24px;
+}
+.trust-badges li {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--ink-soft);
+}
+.trust-badges svg {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  color: var(--accent);
+}
+
+.why-chasa {
+  margin: 40px 0;
+  padding: 32px 0;
+  border-top: 1px solid var(--line);
+}
+.why-chasa h2 {
+  margin: 0 0 20px;
+  font-size: 22px;
+}
+.why-chasa-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+@media (max-width: 720px) {
+  .why-chasa-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 480px) {
+  .why-chasa-grid { grid-template-columns: 1fr; }
+}
+.why-chasa-item h3 {
+  margin: 0 0 6px;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--ink);
+}
+.why-chasa-item p {
+  margin: 0;
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--ink-soft);
+}
+.why-chasa-item a {
+  color: var(--accent);
+  font-weight: 600;
+  text-decoration: none;
 }
 
 /* ---------- AI PAGE / AI TOOL CARDS ---------- */

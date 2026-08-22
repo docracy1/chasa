@@ -6,7 +6,7 @@
 import { mkdirSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { chrome, escapeHtml } from "./lib/chrome.mjs";
+import { chrome, escapeHtml, trustBadgesHtml, conversionSectionHtml } from "./lib/chrome.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const outDir = join(__dirname, "../public/free-templates");
@@ -631,6 +631,968 @@ If something's changed on your end, just let me know, even briefly. Otherwise, I
 
 mkdirSync(outDir, { recursive: true });
 
+// Docstoc-style business/legal document templates — a distinct content type from the chase-email
+// TEMPLATES above (Markdown body, no subject line, no compose flow). Own output directory so the
+// existing /free-templates/ URL and "chase email" branding stay untouched.
+const docOutDir = join(__dirname, "../public/document-templates");
+mkdirSync(docOutDir, { recursive: true });
+
+/** Docstoc-style category taxonomy — order controls the jump menu and section order. */
+const DOCUMENT_CATEGORIES = ["Business", "Legal", "Real Estate", "Finance", "HR"];
+
+/** @type {Array<{
+ *  slug: string;
+ *  name: string;
+ *  seoTitle: string;
+ *  description: string;
+ *  category: string;
+ *  bodyMarkdown: string;
+ * }>} */
+const DOCUMENT_TEMPLATES = [
+  {
+    slug: "llc-operating-agreement-single-member-template",
+    name: "Single-Member LLC Operating Agreement",
+    seoTitle: "Free Single-Member LLC Operating Agreement Template",
+    description:
+      "Free single-member LLC operating agreement template — defines ownership, management, and finances for a solo-owned LLC.",
+    category: "Business",
+    bodyMarkdown: `# Single-Member LLC Operating Agreement
+
+**Company:** [Company Name], a [State] limited liability company (the "Company")
+**Sole Member:** [Member Name] (the "Member")
+**Effective Date:** [Date]
+
+## 1. Formation
+The Company was formed under the laws of the State of [State] by filing Articles of Organization with the Secretary of State on [Formation Date]. This Agreement governs the Company's internal affairs.
+
+## 2. Purpose
+The Company may engage in any lawful business activity permitted under [State] law.
+
+## 3. Ownership
+The Member owns 100% of the membership interests in the Company.
+
+## 4. Capital Contributions
+The Member has contributed [Contribution Amount / Description] as initial capital.
+
+## 5. Management
+The Company is managed by its sole Member, who has full authority to bind the Company and make all decisions on its behalf.
+
+## 6. Distributions
+Distributions of available cash are made to the Member at such times and in such amounts as the Member determines.
+
+## 7. Liability
+The Member's liability is limited to the extent provided under [State] LLC law. The Member and Company agree to maintain separate finances (separate bank accounts, no commingling of funds) to preserve this liability protection.
+
+## 8. Dissolution
+The Company may be dissolved upon the Member's written decision, or as otherwise required by law.
+
+## 9. Amendments
+This Agreement may be amended only by a signed written instrument executed by the Member.
+
+---
+Signed: ______________________  Date: ____________
+[Member Name], Sole Member
+
+*This document is provided for informational and educational purposes only and does not constitute legal or tax advice. Consult a licensed attorney in your state before relying on it.*`,
+  },
+  {
+    slug: "one-page-business-plan-template",
+    name: "One-Page Business Plan",
+    seoTitle: "Free One-Page Business Plan Template",
+    description:
+      "Free one-page business plan template — a compact framework for pitching a new business or organizing your own thinking.",
+    category: "Business",
+    bodyMarkdown: `# One-Page Business Plan: [Business Name]
+
+## Problem
+[What problem does this business solve, and for whom?]
+
+## Solution
+[What is the product or service? How does it solve the problem?]
+
+## Target Customer
+[Who buys this? Be specific — demographics, industry, size, behavior.]
+
+## Revenue Model
+[How does the business make money — subscriptions, one-time sales, commission, other?]
+
+## Key Costs
+[What are the main costs to deliver the product/service and run the business?]
+
+## Competitive Advantage
+[Why you, and why now? What's hard to copy?]
+
+## Go-to-Market
+[How will the first 10, 100, and 1,000 customers be reached?]
+
+## Milestones (Next 12 Months)
+- [Milestone 1 — target date]
+- [Milestone 2 — target date]
+- [Milestone 3 — target date]
+
+## Funding Needs (if applicable)
+[Amount needed, and what it will be used for.]
+
+*This document is provided for informational and educational purposes only and does not constitute legal, tax, or investment advice.*`,
+  },
+  {
+    slug: "mutual-nda-template",
+    name: "Mutual Non-Disclosure Agreement (NDA)",
+    seoTitle: "Free Mutual Non-Disclosure Agreement (NDA) Template",
+    description:
+      "Free mutual NDA template for two parties sharing confidential information — covers what counts as confidential, permitted use, and term.",
+    category: "Legal",
+    bodyMarkdown: `# Mutual Non-Disclosure Agreement
+
+This Agreement is made on [Date] between [Party A Name] ("Party A") and [Party B Name] ("Party B"), together the "Parties."
+
+## 1. Purpose
+The Parties wish to discuss [Purpose of Discussion, e.g. a potential business relationship] (the "Purpose") and may disclose confidential information to each other in connection with it.
+
+## 2. Confidential Information
+"Confidential Information" means any non-public business, technical, or financial information disclosed by one Party (the "Disclosing Party") to the other (the "Receiving Party"), whether oral, written, or in any other form, that is designated confidential or that a reasonable person would understand to be confidential given its nature.
+
+## 3. Obligations
+The Receiving Party agrees to:
+- Use the Confidential Information only for the Purpose;
+- Protect it with at least the same care used for its own confidential information, and no less than reasonable care;
+- Not disclose it to any third party without the Disclosing Party's prior written consent, except to employees or advisors who need to know it for the Purpose and are bound by similar confidentiality obligations.
+
+## 4. Exclusions
+Confidential Information does not include information that: (a) is or becomes public through no fault of the Receiving Party; (b) was already known to the Receiving Party before disclosure; (c) is independently developed without use of the Confidential Information; or (d) is required to be disclosed by law or court order (with prompt notice to the Disclosing Party where legally permitted).
+
+## 5. Term
+This Agreement's confidentiality obligations remain in effect for [Term, e.g. 2 years] from the date of disclosure, or until the information no longer qualifies as confidential under Section 4.
+
+## 6. No License
+Nothing in this Agreement grants either Party any rights to the other's intellectual property beyond what's needed for the Purpose.
+
+## 7. Governing Law
+This Agreement is governed by the laws of [State/Country], without regard to conflict-of-laws principles.
+
+---
+Party A: ______________________  Date: ____________
+Party B: ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. Consult a licensed attorney before relying on it.*`,
+  },
+  {
+    slug: "demand-letter-unpaid-invoice-template",
+    name: "Demand Letter for Unpaid Invoice",
+    seoTitle: "Free Demand Letter for Unpaid Invoice Template",
+    description:
+      "Free formal demand letter template for a seriously overdue invoice — a firm final notice before considering collections or legal action.",
+    category: "Legal",
+    bodyMarkdown: `# Demand Letter for Unpaid Invoice
+
+[Your Name / Business Name]
+[Your Address]
+[Date]
+
+[Client Name]
+[Client Address]
+
+**RE: Formal Demand for Payment — Invoice [Invoice #]**
+
+Dear [Client Name],
+
+This letter is a formal demand for payment of invoice [Invoice #], issued on [Invoice Date] in the amount of [Amount], which was due on [Due Date] and remains unpaid as of the date of this letter — now [Days Overdue] days overdue.
+
+Despite [previous reminders sent on Date(s), if any], no payment or response has been received.
+
+**Please remit full payment of [Amount] within [Deadline, e.g. 10 days] of the date of this letter.** Payment can be made via [Payment Method / Link].
+
+If payment is not received by [Deadline Date], I may pursue further action, which could include referring this matter to a collections agency or pursuing a claim in small claims court, and may seek recovery of associated costs where permitted by law.
+
+I would prefer to resolve this directly and promptly. If there is a dispute about this invoice or a payment plan you'd like to propose, please contact me at [Phone/Email] before the deadline above.
+
+Sincerely,
+[Your Name]
+
+---
+*This document is provided for informational and educational purposes only and does not constitute legal advice. Requirements for demand letters and collections vary by state/country — consult a licensed attorney for your specific situation.*`,
+  },
+  {
+    slug: "residential-lease-agreement-template",
+    name: "Residential Lease Agreement",
+    seoTitle: "Free Residential Lease Agreement Template",
+    description:
+      "Free residential lease agreement template covering rent, deposit, term, and basic landlord/tenant obligations.",
+    category: "Real Estate",
+    bodyMarkdown: `# Residential Lease Agreement
+
+This Lease is made on [Date] between [Landlord Name] ("Landlord") and [Tenant Name] ("Tenant") for the property at [Property Address] (the "Premises").
+
+## 1. Term
+This lease begins on [Start Date] and ends on [End Date] (the "Term"), unless renewed or terminated earlier as provided herein.
+
+## 2. Rent
+Tenant agrees to pay rent of [Rent Amount] per month, due on the [Day, e.g. 1st] of each month, payable via [Payment Method].
+
+## 3. Security Deposit
+Tenant will pay a security deposit of [Deposit Amount] before move-in, refundable within [Number] days after the lease ends, less any deductions for damage beyond normal wear and tear, as permitted under [State] law.
+
+## 4. Use of Premises
+The Premises will be used solely as a residence for [Number] occupant(s): [Occupant Names]. No subletting without Landlord's prior written consent.
+
+## 5. Utilities
+[Landlord/Tenant] is responsible for: [List utilities and who pays for each].
+
+## 6. Maintenance
+Tenant will keep the Premises clean and promptly notify Landlord of needed repairs. Landlord is responsible for maintaining the Premises in habitable condition per applicable law.
+
+## 7. Termination
+Either party may terminate this lease at the end of the Term with [Notice Period] written notice. Early termination terms: [Describe, if any].
+
+## 8. Governing Law
+This lease is governed by the laws of the State of [State].
+
+---
+Landlord: ______________________  Date: ____________
+Tenant: ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. Landlord-tenant law varies significantly by state/locality — consult a licensed attorney or your local housing authority before using this template.*`,
+  },
+  {
+    slug: "lease-termination-notice-template",
+    name: "Notice to Vacate / Lease Termination Letter",
+    seoTitle: "Free Notice to Vacate / Lease Termination Letter Template",
+    description:
+      "Free lease termination notice template for landlords or tenants ending a residential lease at the end of its term.",
+    category: "Real Estate",
+    bodyMarkdown: `# Notice to Vacate / Lease Termination Letter
+
+[Your Name]
+[Your Address]
+[Date]
+
+[Recipient Name]
+[Recipient Address]
+
+**RE: Notice of Lease Termination — [Property Address]**
+
+Dear [Recipient Name],
+
+This letter serves as formal notice that the lease for the property at [Property Address], dated [Original Lease Date], will terminate on [Termination Date].
+
+[If tenant-initiated: I do not intend to renew this lease and will vacate the Premises on or before the termination date above.]
+[If landlord-initiated: The Landlord does not intend to renew this lease. Please vacate the Premises and return all keys by the termination date above.]
+
+Per the terms of the lease, this notice is being provided at least [Notice Period] before the termination date, as required.
+
+[Optional: Please advise on move-out inspection scheduling, and confirm the address for return of the security deposit.]
+
+Sincerely,
+[Your Name]
+
+---
+*This document is provided for informational and educational purposes only and does not constitute legal advice. Required notice periods vary by state/locality — confirm your jurisdiction's requirements before sending.*`,
+  },
+  {
+    slug: "simple-promissory-note-template",
+    name: "Simple Promissory Note",
+    seoTitle: "Free Simple Promissory Note Template",
+    description:
+      "Free promissory note template for a personal or business loan — documents the amount, repayment terms, and interest (if any).",
+    category: "Finance",
+    bodyMarkdown: `# Promissory Note
+
+**Principal Amount:** [Amount]
+**Date:** [Date]
+
+For value received, [Borrower Name] ("Borrower") promises to pay [Lender Name] ("Lender") the principal sum of [Amount], together with interest as set out below.
+
+## 1. Interest
+[Interest Rate]% per year, simple interest, calculated on the outstanding balance. [Or: "This note is interest-free," if applicable.]
+
+## 2. Repayment
+Borrower will repay the full amount according to the following schedule: [Describe — e.g. a single lump sum by a fixed date, or monthly installments of [Amount] starting [Date]].
+
+## 3. Prepayment
+Borrower may repay all or part of the outstanding balance at any time without penalty.
+
+## 4. Default
+If any payment is more than [Number] days late, the full remaining balance becomes due immediately at Lender's option, and may accrue interest at [Default Rate]% per year until paid.
+
+## 5. Governing Law
+This note is governed by the laws of [State/Country].
+
+---
+Borrower: ______________________  Date: ____________
+Lender: ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal or tax advice. Lending laws (including usury limits) vary by state/country — consult a licensed attorney for larger or commercial loans.*`,
+  },
+  {
+    slug: "expense-reimbursement-request-template",
+    name: "Expense Reimbursement Request",
+    seoTitle: "Free Expense Reimbursement Request Template",
+    description:
+      "Free expense reimbursement request template for employees or contractors submitting business expenses for repayment.",
+    category: "Finance",
+    bodyMarkdown: `# Expense Reimbursement Request
+
+**Submitted by:** [Name]
+**Department / Role:** [Department or Role]
+**Date submitted:** [Date]
+**Reimbursement period:** [Start Date] – [End Date]
+
+## Expense Summary
+
+| Date | Description | Category | Amount | Receipt attached? |
+|------|-------------|----------|--------|--------------------|
+| [Date] | [Description] | [Category, e.g. Travel] | [Amount] | [Yes/No] |
+| [Date] | [Description] | [Category] | [Amount] | [Yes/No] |
+| [Date] | [Description] | [Category] | [Amount] | [Yes/No] |
+
+**Total requested: [Total Amount]**
+
+## Notes
+[Business justification, project/client code, or any context the approver needs.]
+
+## Approval
+Approved by: ______________________  Date: ____________
+Payment method: [Direct deposit / Check / Other]
+
+*This document is provided for informational and educational purposes only. Confirm your organization's own expense policy for receipt requirements and reimbursable categories.*`,
+  },
+  {
+    slug: "employee-offer-letter-template",
+    name: "Employee Offer Letter",
+    seoTitle: "Free Employee Offer Letter Template",
+    description:
+      "Free job offer letter template covering role, compensation, start date, and standard at-will/contingency language.",
+    category: "HR",
+    bodyMarkdown: `# Offer of Employment
+
+[Date]
+
+Dear [Candidate Name],
+
+We are pleased to offer you the position of **[Job Title]** at [Company Name] ("Company"), reporting to [Manager Name].
+
+## Key Terms
+- **Start date:** [Start Date]
+- **Compensation:** [Salary/Hourly Rate], paid [Frequency, e.g. bi-weekly]
+- **Employment type:** [Full-time / Part-time], [Exempt / Non-exempt] (if applicable)
+- **Location:** [Office location / Remote]
+- **Benefits:** [Summary — health insurance, PTO, retirement plan, etc., or reference to a benefits summary document]
+- **Reporting manager:** [Manager Name]
+
+## At-Will Employment
+[If applicable to your jurisdiction:] Employment with the Company is at-will, meaning either you or the Company may end the employment relationship at any time, with or without cause or notice.
+
+## Contingencies
+This offer is contingent upon [background check / reference check / proof of eligibility to work, as applicable].
+
+Please confirm your acceptance by signing below and returning this letter by [Response Deadline].
+
+We're excited about the possibility of you joining the team.
+
+Sincerely,
+[Sender Name]
+[Sender Title]
+
+---
+Accepted: ______________________  Date: ____________
+[Candidate Name]
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. Employment law varies by jurisdiction — consult a licensed attorney or HR professional before using this template.*`,
+  },
+  {
+    slug: "employee-written-warning-template",
+    name: "Employee Written Warning / Disciplinary Notice",
+    seoTitle: "Free Employee Written Warning Template",
+    description:
+      "Free written warning template for documenting a performance or conduct issue as part of a formal disciplinary process.",
+    category: "HR",
+    bodyMarkdown: `# Written Warning
+
+**Employee:** [Employee Name]
+**Position:** [Job Title]
+**Date:** [Date]
+**Issued by:** [Manager Name]
+
+## Nature of the Issue
+[Describe the specific performance or conduct issue, with dates and factual details — avoid generalizations.]
+
+## Prior Discussion
+[Reference any prior verbal warning or coaching conversation, with date(s).]
+
+## Expectation Going Forward
+[Describe clearly what needs to change and by when.]
+
+## Consequences of Continued Issues
+Failure to improve within [Timeframe] may result in further disciplinary action, up to and including termination of employment.
+
+## Employee Comments
+[Space for the employee to add their own comments, if your process allows it.]
+
+---
+Manager signature: ______________________  Date: ____________
+Employee signature: ______________________  Date: ____________
+*(Employee signature acknowledges receipt, not necessarily agreement.)*
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. Disciplinary processes and documentation requirements vary by jurisdiction and company policy — consult HR or legal counsel before using this template.*`,
+  },
+  {
+    slug: "employment-agreement-template",
+    name: "Employment Agreement",
+    seoTitle: "Free Employment Agreement Template",
+    description:
+      "Free employment agreement template covering role, pay, benefits, and termination terms for a new hire.",
+    category: "HR",
+    bodyMarkdown: `# Employment Agreement
+
+**Employer:** [Company Name] (the "Company")
+**Employee:** [Employee Name] (the "Employee")
+**Start Date:** [Date]
+
+## 1. Position and Duties
+The Company employs the Employee as [Job Title], reporting to [Manager/Title]. The Employee will perform the duties customarily associated with this role and any other duties reasonably assigned.
+
+## 2. Compensation
+The Employee will be paid [Salary/Hourly Rate], paid [Pay Frequency, e.g. bi-weekly], subject to standard payroll deductions.
+
+## 3. Benefits
+The Employee is eligible for [Benefits — e.g. health insurance, paid time off, retirement plan] per the Company's policies, as they may change from time to time.
+
+## 4. Employment Type
+This is an [At-will / Fixed-term] employment relationship. [If at-will: Either party may end it at any time, with or without cause or notice, subject to applicable law.]
+
+## 5. Confidentiality
+The Employee agrees not to disclose the Company's confidential or proprietary information, during employment or after it ends.
+
+## 6. Termination
+Employment may be terminated by either party with [Notice Period] written notice, or immediately by the Company for cause.
+
+## 7. Governing Law
+This Agreement is governed by the laws of [State/Country].
+
+---
+Employer: ______________________  Date: ____________
+Employee: ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. Employment law varies significantly by state/country — consult a licensed attorney before using this template.*`,
+  },
+  {
+    slug: "general-power-of-attorney-template",
+    name: "General Power of Attorney",
+    seoTitle: "Free General Power of Attorney Template",
+    description:
+      "Free general power of attorney template — authorizes someone to act on your behalf for financial and legal matters.",
+    category: "Legal",
+    bodyMarkdown: `# General Power of Attorney
+
+I, [Principal Name], of [Address] (the "Principal"), appoint [Agent Name], of [Address] (the "Agent"), as my attorney-in-fact.
+
+## 1. Grant of Authority
+The Agent is authorized to act on my behalf in the following matters: [List — e.g. banking, real estate transactions, tax filings, business operations].
+
+## 2. Effective Date
+This Power of Attorney takes effect on [Date] and [is effective immediately / becomes effective only upon my incapacity, as certified by a physician].
+
+## 3. Duration
+This Power of Attorney remains in effect until [Date, or "revoked in writing," or "my death"], unless earlier revoked by me in writing.
+
+## 4. Revocation
+I may revoke this Power of Attorney at any time by providing written notice to the Agent and any third parties relying on it.
+
+## 5. Third-Party Reliance
+Any third party may rely on this document as evidence of the Agent's authority until they receive actual notice of its revocation.
+
+---
+Principal: ______________________  Date: ____________
+[Notarization block, if required in your state]
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. Power of attorney requirements (including notarization and witnessing) vary significantly by state — consult a licensed attorney before using this template.*`,
+  },
+  {
+    slug: "press-release-template",
+    name: "Press Release",
+    seoTitle: "Free Press Release Template",
+    description:
+      "Free press release template for announcing product launches, funding, partnerships, or other company news.",
+    category: "Business",
+    bodyMarkdown: `# Press Release Template
+
+**FOR IMMEDIATE RELEASE**
+
+## [Headline — clear, specific, under 15 words]
+
+**[City, State] — [Date]** — [Opening paragraph: the single most important fact of the announcement, in one or two sentences. Who, what, when, where, why it matters.]
+
+[Second paragraph: supporting details — background, context, or the problem this news addresses.]
+
+"[A quote from a founder, executive, or spokesperson, in their own voice — not a generic statement]," said [Name, Title].
+
+[Third paragraph: any additional detail — numbers, availability, pricing, or next steps.]
+
+## About [Company Name]
+[2-3 sentence company boilerplate — what you do, for whom, and any notable traction.]
+
+## Media Contact
+[Name]
+[Email]
+[Phone, if applicable]
+
+###`,
+  },
+  {
+    slug: "cover-letter-template",
+    name: "Cover Letter",
+    seoTitle: "Free Cover Letter Template",
+    description:
+      "Free cover letter template for a job application — structured to highlight fit without repeating your resume.",
+    category: "HR",
+    bodyMarkdown: `# Cover Letter
+
+[Your Name]
+[Your Email] · [Your Phone]
+[Date]
+
+[Hiring Manager Name]
+[Company Name]
+
+Dear [Hiring Manager Name / "Hiring Team"],
+
+## Opening
+[One or two sentences: the role you're applying for and a specific reason you're interested in this company — not a generic opener.]
+
+## Why you're a fit
+[One or two sentences on the most relevant experience or achievement for this specific role — a number or concrete result if you have one.]
+
+## Why this company
+[One sentence connecting something specific about the company/role to your own goals — shows you didn't send a form letter.]
+
+## Close
+I'd welcome the chance to talk about how I can contribute to [Team/Company Name]. Thank you for your time and consideration.
+
+Sincerely,
+[Your Name]
+
+*This document is a structural template only — the content in each section should be written specifically for the role and company, not copied verbatim.*`,
+  },
+  {
+    slug: "letter-of-intent-template",
+    name: "Letter of Intent",
+    seoTitle: "Free Letter of Intent (LOI) Template",
+    description:
+      "Free letter of intent template outlining preliminary terms before a formal contract — for a deal, purchase, or partnership.",
+    category: "Business",
+    bodyMarkdown: `# Letter of Intent
+
+**From:** [Party A Name]
+**To:** [Party B Name]
+**Date:** [Date]
+**Re: Letter of Intent — [Subject, e.g. "Proposed Acquisition of ___"]**
+
+This Letter of Intent ("LOI") outlines the preliminary understanding between [Party A] and [Party B] regarding [Transaction Description]. Except as noted in Section 5, this LOI is non-binding and intended only to guide negotiation of a definitive agreement.
+
+## 1. Proposed Transaction
+[Describe the deal — e.g. purchase price, assets/services involved, key terms.]
+
+## 2. Key Terms
+- [Term 1 — e.g. price/valuation]
+- [Term 2 — e.g. timeline]
+- [Term 3 — e.g. conditions to close]
+
+## 3. Due Diligence
+Each party will have [Number] days to complete due diligence before finalizing a definitive agreement.
+
+## 4. Exclusivity
+[Optional: For [Number] days from the date of this LOI, [Party] will not negotiate a similar transaction with any other party.]
+
+## 5. Binding Provisions
+Sections 4 (Exclusivity) and 6 (Confidentiality) are binding upon signature; all other provisions are non-binding statements of intent only.
+
+## 6. Confidentiality
+Both parties agree to keep the terms of this LOI and any information exchanged during negotiations confidential.
+
+---
+[Party A]: ______________________  Date: ____________
+[Party B]: ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. Consult a licensed attorney before relying on any binding provisions.*`,
+  },
+  {
+    slug: "executive-summary-template",
+    name: "Executive Summary",
+    seoTitle: "Free Executive Summary Template",
+    description:
+      "Free executive summary template for a business plan, pitch deck, or investor update — the one-page version of your plan.",
+    category: "Business",
+    bodyMarkdown: `# Executive Summary: [Company Name]
+
+## The Problem
+[What problem exists, for whom, and how big is it?]
+
+## The Solution
+[What you've built and why it solves the problem better than alternatives.]
+
+## Traction
+[Real numbers only — revenue, users, growth rate, notable customers. If pre-launch, say so rather than inventing numbers.]
+
+## Market
+[Size of the addressable market and why now is the right time.]
+
+## Business Model
+[How the company makes money.]
+
+## Team
+[Founders/key team members and the relevant experience that makes this team credible for this problem.]
+
+## The Ask
+[What you're raising, or what you're asking the reader to do — funding amount, partnership, introduction, etc.]
+
+*Keep this to one page. Every claim here should be something you can back up if asked — an executive summary that oversells traction or team credentials tends to cost more credibility than it buys.*`,
+  },
+  {
+    slug: "project-proposal-template",
+    name: "Project Proposal",
+    seoTitle: "Free Project Proposal Template",
+    description:
+      "Free project proposal template for pitching a new project to a client, manager, or stakeholder.",
+    category: "Business",
+    bodyMarkdown: `# Project Proposal: [Project Name]
+
+**Prepared for:** [Client/Stakeholder Name]
+**Prepared by:** [Your Name/Company]
+**Date:** [Date]
+
+## Background
+[Why this project — what problem or opportunity prompted it.]
+
+## Objectives
+[What success looks like — specific, measurable outcomes, not vague goals.]
+
+## Scope
+**Included:** [What's covered]
+**Not included:** [What's explicitly out of scope, to avoid later disputes]
+
+## Approach & Timeline
+| Phase | Description | Duration |
+|-------|-------------|----------|
+| [Phase 1] | [Description] | [Duration] |
+| [Phase 2] | [Description] | [Duration] |
+| [Phase 3] | [Description] | [Duration] |
+
+## Budget
+[Total cost, and how it's broken down — fixed fee, hourly, or milestone-based.]
+
+## Deliverables
+[Specific, concrete outputs — a list, not a description.]
+
+## Next Steps
+[What you need from the reader to move forward — a signature, a deposit, a kickoff date.]
+
+*A proposal that's specific about scope and what's excluded prevents more disputes than one that sounds impressive but stays vague.*`,
+  },
+  {
+    slug: "marketing-plan-template",
+    name: "Marketing Plan",
+    seoTitle: "Free Marketing Plan Template",
+    description:
+      "Free marketing plan template covering goals, target audience, channels, and budget for a product or campaign.",
+    category: "Business",
+    bodyMarkdown: `# Marketing Plan: [Product/Campaign Name]
+
+## Goals
+[Specific, measurable goals — e.g. "500 signups in Q2," not "grow awareness."]
+
+## Target Audience
+[Who exactly you're trying to reach — demographics, role, pain points, where they spend time online.]
+
+## Positioning
+[The one-sentence version of why this audience should care, and how it's different from alternatives.]
+
+## Channels
+| Channel | Purpose | Budget | Owner |
+|---------|---------|--------|-------|
+| [e.g. SEO/content] | [Why this channel] | [Budget] | [Who runs it] |
+| [e.g. Paid social] | [Why this channel] | [Budget] | [Who runs it] |
+| [e.g. Email] | [Why this channel] | [Budget] | [Who runs it] |
+
+## Timeline
+[Key dates — launch, campaign milestones, review points.]
+
+## Success Metrics
+[How you'll know it worked — the specific numbers you'll check against the goals above.]
+
+## Budget Summary
+**Total budget:** [Amount]
+**Breakdown:** [By channel, as above]
+
+*Revisit this plan against actual metrics on a fixed schedule (monthly is common) rather than only at the end — early signal is more useful than a postmortem.*`,
+  },
+  {
+    slug: "request-for-proposal-template",
+    name: "Request for Proposal (RFP)",
+    seoTitle: "Free Request for Proposal (RFP) Template",
+    description:
+      "Free RFP template for soliciting competitive bids from vendors or contractors on a defined project.",
+    category: "Business",
+    bodyMarkdown: `# Request for Proposal: [Project Name]
+
+**Issued by:** [Company Name]
+**Date issued:** [Date]
+**Proposal deadline:** [Date/Time]
+**Contact:** [Name, Email]
+
+## 1. Background
+[Why you're issuing this RFP — the problem or need behind it.]
+
+## 2. Scope of Work
+[What you need done — be specific enough that vendors can price it accurately.]
+
+## 3. Requirements
+- [Requirement 1]
+- [Requirement 2]
+- [Requirement 3]
+
+## 4. Timeline
+| Milestone | Date |
+|-----------|------|
+| RFP issued | [Date] |
+| Questions due | [Date] |
+| Proposals due | [Date] |
+| Vendor selected | [Date] |
+| Project start | [Date] |
+
+## 5. Proposal Format
+Proposals should include: [e.g. company overview, relevant experience, approach, timeline, pricing, references].
+
+## 6. Evaluation Criteria
+Proposals will be evaluated on: [e.g. price (X%), experience (X%), approach (X%), references (X%)].
+
+## 7. Submission
+Submit proposals to [Contact/Email] by [Deadline]. Questions accepted until [Date].
+
+*Specific requirements and clear evaluation criteria get you proposals that are actually comparable to each other — vague RFPs get vague, hard-to-compare bids back.*`,
+  },
+  {
+    slug: "memorandum-of-understanding-template",
+    name: "Memorandum of Understanding (MOU)",
+    seoTitle: "Free Memorandum of Understanding (MOU) Template",
+    description:
+      "Free MOU template documenting a mutual understanding between two parties before a formal contract.",
+    category: "Business",
+    bodyMarkdown: `# Memorandum of Understanding
+
+**Between:** [Party A Name]
+**And:** [Party B Name]
+**Date:** [Date]
+
+This Memorandum of Understanding ("MOU") sets out the mutual understanding between the parties regarding [Purpose]. This MOU is intended to reflect good-faith intentions and, except where noted, is not legally binding.
+
+## 1. Purpose
+[Why the parties are entering this understanding — the shared goal.]
+
+## 2. Roles and Responsibilities
+**[Party A] will:** [List]
+**[Party B] will:** [List]
+
+## 3. Resources
+[Any resources, funding, or personnel each party is contributing, if applicable.]
+
+## 4. Duration
+This MOU is effective from [Start Date] to [End Date], or until superseded by a formal agreement.
+
+## 5. Confidentiality
+[Optional: Both parties agree to keep shared information confidential during the term of this MOU.]
+
+## 6. No Binding Obligation
+Except for Section 5, nothing in this MOU creates a legally binding or enforceable obligation on either party.
+
+---
+[Party A]: ______________________  Date: ____________
+[Party B]: ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. If you intend any part of this to be enforceable, say so explicitly and consult a licensed attorney.*`,
+  },
+  {
+    slug: "employee-handbook-outline-template",
+    name: "Employee Handbook Outline",
+    seoTitle: "Free Employee Handbook Outline Template",
+    description:
+      "Free employee handbook outline template — the section structure a small business needs to get started.",
+    category: "HR",
+    bodyMarkdown: `# Employee Handbook: [Company Name]
+
+## Welcome
+[A short welcome note — company mission, values, and what this handbook covers.]
+
+## 1. Employment Basics
+- At-will employment statement (if applicable in your state)
+- Equal opportunity employment statement
+- Work hours and attendance expectations
+
+## 2. Compensation & Benefits
+- Pay schedule and method
+- Overtime policy (if applicable)
+- Benefits overview (health insurance, retirement, etc.)
+- Paid time off / sick leave policy
+
+## 3. Workplace Conduct
+- Code of conduct
+- Anti-harassment and non-discrimination policy
+- Dress code (if any)
+- Use of company equipment / acceptable use policy
+
+## 4. Leave Policies
+- Vacation and holidays
+- Sick leave
+- Parental/family leave
+- Bereavement/jury duty leave
+
+## 5. Performance & Discipline
+- Performance review process
+- Disciplinary process
+- Termination procedures
+
+## 6. Health & Safety
+- Workplace safety expectations
+- Emergency procedures
+- Reporting incidents
+
+## Acknowledgment
+I have received and read the Employee Handbook and understand its contents.
+
+Employee signature: ______________________  Date: ____________
+
+*This is a section outline, not a complete handbook — actual policy language must comply with your specific state/local employment laws. Have a licensed employment attorney review the final version before distributing it.*`,
+  },
+  {
+    slug: "one-way-nda-template",
+    name: "One-Way (Unilateral) NDA",
+    seoTitle: "Free One-Way (Unilateral) NDA Template",
+    description:
+      "Free one-way NDA template for when only one party is sharing confidential information — e.g. pitching to an investor or vendor.",
+    category: "Legal",
+    bodyMarkdown: `# One-Way (Unilateral) Non-Disclosure Agreement
+
+**Disclosing Party:** [Name] (the "Disclosing Party")
+**Receiving Party:** [Name] (the "Receiving Party")
+**Date:** [Date]
+
+The Disclosing Party may share certain confidential information with the Receiving Party for the purpose of [Purpose — e.g. "evaluating a potential investment"]. The parties agree as follows.
+
+## 1. Confidential Information
+Information disclosed by the Disclosing Party that is marked confidential, or that a reasonable person would understand to be confidential given the circumstances.
+
+## 2. Obligations of Receiving Party
+The Receiving Party will keep the Confidential Information confidential and use it only for the stated Purpose, using at least the same care it uses to protect its own confidential information.
+
+## 3. Exclusions
+This Agreement does not apply to information that: (a) is or becomes public through no fault of the Receiving Party; (b) the Receiving Party already knew before disclosure; (c) is independently developed without use of the Confidential Information; or (d) is required to be disclosed by law.
+
+## 4. Term
+This Agreement remains in effect for [Number] years from the date above, or until the information is no longer confidential under Section 3.
+
+## 5. No License
+Nothing in this Agreement grants the Receiving Party any rights to the Confidential Information beyond what's needed for the stated Purpose.
+
+## 6. Governing Law
+This Agreement is governed by the laws of [State/Country].
+
+---
+Disclosing Party: ______________________  Date: ____________
+Receiving Party: ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. Consult a licensed attorney for a higher-stakes disclosure.*`,
+  },
+  {
+    slug: "partnership-agreement-template",
+    name: "Partnership Agreement",
+    seoTitle: "Free Business Partnership Agreement Template",
+    description:
+      "Free general partnership agreement template covering ownership split, roles, profit sharing, and exit terms.",
+    category: "Business",
+    bodyMarkdown: `# General Partnership Agreement
+
+**Partners:** [Partner A Name] and [Partner B Name] (together, the "Partners")
+**Business Name:** [Business Name]
+**Effective Date:** [Date]
+
+## 1. Formation
+The Partners form a general partnership under the laws of [State] to conduct the business of [Business Description].
+
+## 2. Ownership & Capital Contributions
+| Partner | Ownership % | Initial Contribution |
+|---------|-------------|----------------------|
+| [Partner A] | [%] | [Amount/Description] |
+| [Partner B] | [%] | [Amount/Description] |
+
+## 3. Roles and Responsibilities
+**[Partner A] is responsible for:** [List]
+**[Partner B] is responsible for:** [List]
+
+## 4. Profit and Loss Sharing
+Profits and losses are shared in proportion to ownership percentage, unless otherwise agreed in writing.
+
+## 5. Decision-Making
+[Describe — e.g. "Decisions on X require unanimous agreement; day-to-day decisions may be made by either Partner."]
+
+## 6. Withdrawal or Death of a Partner
+[Describe what happens to that partner's share — buyout terms, valuation method, timeline.]
+
+## 7. Dispute Resolution
+Disputes will first be addressed through good-faith discussion, then [mediation/arbitration] before litigation.
+
+## 8. Dissolution
+The partnership may be dissolved by mutual written agreement, or as otherwise required by law.
+
+---
+[Partner A]: ______________________  Date: ____________
+[Partner B]: ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. Partnership law and liability exposure vary by state — consult a licensed attorney before forming a partnership.*`,
+  },
+  {
+    slug: "consulting-agreement-template",
+    name: "Consulting Agreement",
+    seoTitle: "Free Consulting Agreement Template",
+    description:
+      "Free consulting agreement template for an independent consultant engagement — scope, fees, and IP terms.",
+    category: "Business",
+    bodyMarkdown: `# Consulting Agreement
+
+**Client:** [Client Name]
+**Consultant:** [Consultant Name]
+**Effective Date:** [Date]
+
+## 1. Services
+The Consultant will provide the following services (the "Services"): [Describe scope of work specifically].
+
+## 2. Term
+This Agreement begins on [Start Date] and continues until [End Date / "the Services are complete"], unless terminated earlier under Section 6.
+
+## 3. Fees
+Client will pay Consultant [Rate — hourly/fixed/retainer], invoiced [Frequency], due within [Number] days of invoice.
+
+## 4. Independent Contractor Status
+The Consultant is an independent contractor, not an employee. The Consultant is responsible for their own taxes, insurance, and benefits.
+
+## 5. Intellectual Property
+[Choose one: "All work product created under this Agreement belongs to Client upon full payment." OR "Consultant retains ownership of pre-existing tools/methods used to deliver the Services."]
+
+## 6. Termination
+Either party may terminate this Agreement with [Notice Period] written notice. Client will pay for Services performed up to the termination date.
+
+## 7. Confidentiality
+Both parties agree to keep the other's confidential information private during and after the engagement.
+
+## 8. Governing Law
+This Agreement is governed by the laws of [State/Country].
+
+---
+Client: ______________________  Date: ____________
+Consultant: ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. Worker-classification rules (contractor vs. employee) vary by jurisdiction — consult a licensed attorney if you're unsure which applies.*`,
+  },
+];
+
 const TEMPLATES_INDEX_FAQ = [
   {
     q: "Are these invoice templates really free?",
@@ -868,7 +1830,7 @@ ${TEMPLATES_INDEX_FAQ.map((item) => `  <details class="faq-item"><summary>${esca
   var communitySection = document.getElementById("tpl-community");
   var communityGrid = document.getElementById("tpl-community-grid");
   if (communitySection && communityGrid) {
-    fetch("/api/marketplace")
+    fetch("/api/marketplace?type=email")
       .then(function (r) {
         return r.json();
       })
@@ -971,7 +1933,7 @@ ${downloadJsonLd}
 <body class="lead-pack-page">
   <header class="lead-pack-topbar">
     <a href="/" class="lead-pack-brand" aria-label="Chasa home">
-      <img src="/brand/chasa-icon.png" alt="" width="28" height="28" />
+      <img src="/brand/docstoc-icon.png" alt="" width="28" height="28" />
       <span>chasa</span>
     </a>
     <a href="/free-templates/" class="lead-pack-top-link">Browse templates</a>
@@ -1098,7 +2060,7 @@ ${submitJsonLd}
 <body class="lead-pack-page">
   <header class="lead-pack-topbar">
     <a href="/" class="lead-pack-brand" aria-label="Chasa home">
-      <img src="/brand/chasa-icon.png" alt="" width="28" height="28" />
+      <img src="/brand/docstoc-icon.png" alt="" width="28" height="28" />
       <span>chasa</span>
     </a>
     <a href="/free-templates/" class="lead-pack-top-link">Browse templates</a>
@@ -1263,7 +2225,7 @@ ${newTemplatesJsonLd}
 <body class="lead-pack-page">
   <header class="lead-pack-topbar">
     <a href="/" class="lead-pack-brand" aria-label="Chasa home">
-      <img src="/brand/chasa-icon.png" alt="" width="28" height="28" />
+      <img src="/brand/docstoc-icon.png" alt="" width="28" height="28" />
       <span>chasa</span>
     </a>
     <a href="/free-templates/" class="lead-pack-top-link">Browse all ${tplCount} templates</a>
@@ -1430,6 +2392,544 @@ function buildTemplateFaq(t) {
   return faq;
 }
 
+/** Category-specific framing for document template pages — mirrors CATEGORY_FRAMING's role for
+ *  chase emails, but with document/legal-document audience and use cases instead of invoicing. */
+const DOCUMENT_CATEGORY_FRAMING = {
+  Business: {
+    audience: "founders, freelancers, and small business owners",
+    problem: "formalizing a business decision or agreement without paying a lawyer to draft it from scratch",
+    useCase4: { title: "Early-stage businesses", desc: "Getting the basics documented before things get more complex." },
+  },
+  Legal: {
+    audience: "individuals and small businesses handling a straightforward legal document themselves",
+    problem: "needing a clear, professional document without commissioning custom legal drafting for a routine situation",
+    useCase4: { title: "Before involving a lawyer", desc: "A solid starting draft to review with counsel, or to use directly for a low-stakes situation." },
+  },
+  "Real Estate": {
+    audience: "landlords, tenants, and small property owners",
+    problem: "documenting a lease or tenancy change clearly, without guessing at the right structure",
+    useCase4: { title: "Independent landlords", desc: "Managing a rental directly, without a property management company's paperwork." },
+  },
+  Finance: {
+    audience: "small businesses and individuals documenting a loan or expense",
+    problem: "putting financial terms in writing so both sides have a clear, shared record",
+    useCase4: { title: "Informal lending & reimbursements", desc: "Money changing hands between people or a business and its team, without a bank's paperwork." },
+  },
+  HR: {
+    audience: "small business owners and first-time managers",
+    problem: "handling an HR moment professionally without a dedicated HR department to lean on",
+    useCase4: { title: "Growing teams", desc: "Formalizing hiring and performance processes as a company adds its first employees." },
+  },
+};
+
+const DOCUMENT_SHARED_USE_CASES = [
+  { title: "Freelancers & solo founders", desc: "Handling routine business paperwork without commissioning custom legal drafting for every document." },
+  { title: "Small businesses", desc: "Standardizing recurring documents — leases, agreements, notices — across a growing operation." },
+  { title: "Anyone reviewing before signing", desc: "Using a clear starting structure to understand what a document should cover, even if a lawyer finalizes it." },
+];
+
+function buildDocumentSeoIntro(t) {
+  const framing = DOCUMENT_CATEGORY_FRAMING[t.category] || DOCUMENT_CATEGORY_FRAMING.Business;
+  return `Drafting a ${t.name.toLowerCase()} from scratch is slow, and generic templates often miss the sections that actually matter. This free template is built for ${framing.audience} ${framing.problem}. It's structured with the standard sections a document like this needs, with clearly marked [placeholder] fields so you can fill in your own details quickly. Copy it into your own word processor, fill in the placeholders, and review it — or adapt it — before use. It's part of Chasa's free document template library, alongside business, legal, real estate, finance, and HR templates. Every template here is free to copy with no signup required, and each one carries a plain disclaimer: this is a starting point for informational purposes, not a substitute for advice from a licensed professional in your jurisdiction.`;
+}
+
+function buildDocumentWhatsIncluded(t) {
+  return [
+    "A complete, ready-to-copy document structure with all standard sections",
+    "Clearly marked [placeholder] fields for quick personalizing",
+    "Free to copy and use — no account or signup required",
+    "Plain-language sections instead of dense legal boilerplate",
+    "Fully editable — adjust any clause to match your actual situation",
+    "A clear disclaimer noting this is not legal or tax advice",
+  ];
+}
+
+function buildDocumentUseCases(t) {
+  const framing = DOCUMENT_CATEGORY_FRAMING[t.category] || DOCUMENT_CATEGORY_FRAMING.Business;
+  return [...DOCUMENT_SHARED_USE_CASES, framing.useCase4];
+}
+
+function buildDocumentFaq(t) {
+  return [
+    {
+      q: `Is this ${t.name.toLowerCase()} template really free?`,
+      a: "Yes — every document template on this page is free to view, copy, and edit with no account or signup required.",
+    },
+    {
+      q: "Is this legal advice?",
+      a: "No. This template is provided for informational and educational purposes only. Laws and requirements vary by state, country, and situation — review any document with a licensed attorney (or relevant professional) before relying on it for something important.",
+    },
+    {
+      q: "Can I edit the wording?",
+      a: "Yes — copy the template and adjust any section, clause, or placeholder to fit your actual situation. It's a starting structure, not a rigid script.",
+    },
+    {
+      q: "What do the [bracketed] placeholders mean?",
+      a: "Each [placeholder] marks a spot to fill in your own details — names, dates, amounts, or terms specific to your situation. Replace every bracketed field before using the document.",
+    },
+    {
+      q: "Where can I find more free templates like this?",
+      a: "This template is part of a growing library of free business, legal, real estate, finance, and HR document templates — browse the full collection for related documents.",
+    },
+  ];
+}
+
+for (const t of DOCUMENT_TEMPLATES) {
+  const faq = buildDocumentFaq(t);
+  const jsonLd = JSON.stringify(
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Article",
+          headline: t.seoTitle,
+          description: t.description,
+          url: `https://chasa.io/document-templates/${t.slug}`,
+          author: { "@type": "Organization", name: "Chasa" },
+          publisher: { "@type": "Organization", name: "RELACON GmbH" },
+          mainEntityOfPage: `https://chasa.io/document-templates/${t.slug}`,
+        },
+        {
+          "@type": "FAQPage",
+          mainEntity: faq.map((item) => ({
+            "@type": "Question",
+            name: item.q,
+            acceptedAnswer: { "@type": "Answer", text: item.a },
+          })),
+        },
+      ],
+    },
+    null,
+    2
+  );
+
+  const others = DOCUMENT_TEMPLATES.filter((x) => x.slug !== t.slug)
+    .slice(0, 5)
+    .map((x) => `<li><a href="/document-templates/${x.slug}">${escapeHtml(x.name)}</a></li>`)
+    .join("\n");
+
+  const whatsIncluded = buildDocumentWhatsIncluded(t)
+    .map((item) => `<li>${escapeHtml(item)}</li>`)
+    .join("\n        ");
+
+  const useCases = buildDocumentUseCases(t)
+    .map(
+      (uc) => `<div class="tpl-usecase">
+          <h3>${escapeHtml(uc.title)}</h3>
+          <p>${escapeHtml(uc.desc)}</p>
+        </div>`
+    )
+    .join("\n        ");
+
+  const faqHtml = faq
+    .map(
+      (item) =>
+        `<details class="faq-item"><summary>${escapeHtml(item.q)}</summary>\n<p>${escapeHtml(item.a)}</p>\n</details>`
+    )
+    .join("\n      ");
+
+  // Minimal Markdown-to-HTML: headings, bold, tables, hr, and paragraphs — enough for these
+  // templates' structure without adding a Markdown dependency to the build.
+  const bodyHtml = markdownToHtml(t.bodyMarkdown);
+
+  const page = chrome({
+    title: `${t.seoTitle} | Chasa`,
+    description: t.description,
+    canonical: `https://chasa.io/document-templates/${t.slug}`,
+    activeNav: "templates",
+    jsonLd,
+    mainHtml: `<main class="wrap template-detail">
+  <p class="crumb"><a href="/">Home</a> / <a href="/document-templates/">Document templates</a> / ${escapeHtml(t.name)}</p>
+  <div class="tpl-meta"><span>${escapeHtml(t.category)}</span></div>
+  <h1>${escapeHtml(t.name)}</h1>
+  <p class="lede">${escapeHtml(t.description)}</p>
+  <div class="tpl-hero-cta">
+    <a class="nav-cta" href="/app/certificates">Certify a document you draft →</a>
+  </div>
+  ${trustBadgesHtml()}
+
+  <p class="tpl-seo-intro">${buildDocumentSeoIntro(t)}</p>
+
+  <div class="tpl-box">
+    <div class="tpl-label">Template</div>
+    <div class="tpl-doc-body">${bodyHtml}</div>
+    <button type="button" class="btn-copy" data-copy="${encodeURIComponent(t.bodyMarkdown)}">Copy template</button>
+  </div>
+
+  <h2>What's included</h2>
+  <ul class="tpl-included">
+        ${whatsIncluded}
+  </ul>
+
+  <h2>Who this template is for</h2>
+  <div class="tpl-usecases">
+        ${useCases}
+  </div>
+
+  <h2>FAQ</h2>
+  ${faqHtml}
+
+  <h2>More free document templates</h2>
+  <ul class="tpl-more">${others}
+  </ul>
+
+  ${conversionSectionHtml()}
+
+  <div class="tpl-cta-footer">
+    <h2>Add tamper-evident proof once you've filled this in</h2>
+    <p>Hash your finished document for free and get a shareable link anyone can use to confirm it hasn't been altered.</p>
+    <a class="nav-cta" href="/app/certificates">Create a free certificate</a>
+  </div>
+</main>
+<script>
+document.querySelectorAll(".btn-copy").forEach(function (btn) {
+  btn.addEventListener("click", function () {
+    var text = decodeURIComponent(btn.getAttribute("data-copy"));
+    navigator.clipboard.writeText(text).then(function () {
+      btn.textContent = "Copied";
+      setTimeout(function () { btn.textContent = "Copy template"; }, 1500);
+    });
+  });
+});
+</script>`,
+  });
+
+  writeFileSync(join(docOutDir, `${t.slug}.html`), page);
+}
+
+writeFileSync(join(docOutDir, "templates.json"), JSON.stringify(DOCUMENT_TEMPLATES, null, 2));
+
+function docTemplateCard(t) {
+  const searchBlob = escapeHtml(`${t.name} ${t.description} ${t.category}`.toLowerCase());
+  return `      <a class="tpl-card" href="/document-templates/${t.slug}" data-search="${searchBlob}">
+        <div class="tpl-meta"><span>${escapeHtml(t.category)}</span></div>
+        <h3>${escapeHtml(t.name)}</h3>
+        <p>${escapeHtml(t.description)}</p>
+      </a>`;
+}
+
+const docCategorySections = DOCUMENT_CATEGORIES.map((cat) => {
+  const items = DOCUMENT_TEMPLATES.filter((t) => t.category === cat);
+  if (!items.length) return "";
+  return `  <section class="tpl-cat-section" id="${slugifyCategory(cat)}">
+    <h2 class="tpl-cat-title">${escapeHtml(cat)}</h2>
+    <div class="tpl-grid">
+${items.map(docTemplateCard).join("\n")}
+    </div>
+  </section>`;
+}).join("\n");
+
+const DOC_INDEX_FAQ = [
+  {
+    q: "Are these document templates really free?",
+    a: "Yes — every document template here is free to view, copy, and edit with no account or signup required.",
+  },
+  {
+    q: "Is this legal advice?",
+    a: "No. These templates are provided for informational and educational purposes only and are not a substitute for advice from a licensed attorney or other professional in your jurisdiction.",
+  },
+  {
+    q: "Can I add my own document to this library?",
+    a: "Yes — submit a template for review, including from a lawyer or accountant, and it can be published with a verified-expert credential once approved.",
+  },
+  {
+    q: "How is this different from Chasa's invoice email templates?",
+    a: "The free invoice templates are short chase-email copy for following up on unpaid invoices. These document templates are longer-form business, legal, real estate, finance, and HR documents — contracts, agreements, and notices, not emails.",
+  },
+];
+
+const docIndexJsonLd = JSON.stringify(
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "CollectionPage",
+        name: "Free Business & Legal Document Templates",
+        url: "https://chasa.io/document-templates/",
+        description: `${DOCUMENT_TEMPLATES.length} free business, legal, real estate, finance, and HR document templates.`,
+        isPartOf: { "@type": "WebSite", name: "Chasa", url: "https://chasa.io" },
+        mainEntity: {
+          "@type": "ItemList",
+          itemListElement: DOCUMENT_TEMPLATES.map((t, i) => ({
+            "@type": "ListItem",
+            position: i + 1,
+            url: `https://chasa.io/document-templates/${t.slug}`,
+            name: t.name,
+          })),
+        },
+      },
+      {
+        "@type": "FAQPage",
+        mainEntity: DOC_INDEX_FAQ.map((item) => ({
+          "@type": "Question",
+          name: item.q,
+          acceptedAnswer: { "@type": "Answer", text: item.a },
+        })),
+      },
+    ],
+  },
+  null,
+  2
+);
+
+const docIndexHtml = chrome({
+  title: `Free Business & Legal Document Templates (${DOCUMENT_TEMPLATES.length}) | Chasa`,
+  description: `${DOCUMENT_TEMPLATES.length} free business, legal, real estate, finance, and HR document templates. Copy, personalize, and certify — no signup required.`,
+  canonical: "https://chasa.io/document-templates/",
+  activeNav: "templates",
+  jsonLd: docIndexJsonLd,
+  mainHtml: `<section class="tpl-hero">
+  <div class="wrap tpl-hero-inner">
+    <h1>Free business & legal document templates</h1>
+    <p class="tpl-hero-lede">${DOCUMENT_TEMPLATES.length} free, editable templates across business, legal, real estate, finance, and HR — copy, fill in, and certify.</p>
+    <div class="tpl-hero-search">
+      <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="9" cy="9" r="6.5" stroke="currentColor" stroke-width="1.6"/><path d="M14 14L18 18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      <input type="search" id="tpl-search" placeholder="What document are you looking for?" autocomplete="off" aria-label="Search document templates" />
+    </div>
+  </div>
+</section>
+<main class="wrap templates-index">
+  <p class="crumb"><a href="/">Home</a> / Document templates</p>
+  <div class="tpl-toolbar">
+    <span class="tpl-toolbar-count" id="tpl-count">${DOCUMENT_TEMPLATES.length} templates</span>
+    <div class="tpl-cat-dropdown" id="tpl-cat-dropdown">
+      <button type="button" class="tpl-cat-dropdown-btn" id="tpl-cat-btn" aria-haspopup="true" aria-expanded="false" aria-controls="tpl-cat-menu">
+        Categories
+        <svg class="tpl-cat-dropdown-chevron" viewBox="0 0 12 8" aria-hidden="true"><path d="M1 1l5 5 5-5" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="tpl-cat-dropdown-menu" id="tpl-cat-menu" role="menu" aria-labelledby="tpl-cat-btn" hidden>
+${DOCUMENT_CATEGORIES.map((c) => `        <a href="#${slugifyCategory(c)}" class="tpl-cat-dropdown-item" role="menuitem" data-cat-target="${slugifyCategory(c)}">${escapeHtml(c)}</a>`).join("\n")}
+      </div>
+    </div>
+  </div>
+
+  <p class="tpl-index-note" style="margin-top:8px">
+    Have a template that's helped you? <a href="/free-templates/submit">Submit it</a> for review — lawyers and accountants can be published with a verified-expert credential.
+  </p>
+
+  <div id="tpl-sections">
+${docCategorySections}
+  </div>
+  <p class="tpl-no-results" id="tpl-no-results" hidden>No templates match &ldquo;<span id="tpl-no-results-q"></span>&rdquo;.</p>
+
+  <section class="tpl-cat-section" id="tpl-community" hidden>
+    <h2 class="tpl-cat-title">Community templates</h2>
+    <p class="tpl-index-note">Submitted by other Chasa users, reviewed before publishing.</p>
+    <div class="tpl-grid" id="tpl-community-grid"></div>
+  </section>
+
+  <h2 id="faq">FAQ</h2>
+${DOC_INDEX_FAQ.map((item) => `  <details class="faq-item"><summary>${escapeHtml(item.q)}</summary>
+  <p>${escapeHtml(item.a)}</p>
+  </details>`).join("\n")}
+</main>
+<script>
+(function () {
+  var search = document.getElementById("tpl-search");
+  var countEl = document.getElementById("tpl-count");
+  var noResults = document.getElementById("tpl-no-results");
+  var noResultsQ = document.getElementById("tpl-no-results-q");
+  var cards = Array.prototype.slice.call(document.querySelectorAll(".tpl-card"));
+  var sections = Array.prototype.slice.call(document.querySelectorAll(".tpl-cat-section"));
+
+  function applyFilter() {
+    var q = (search.value || "").trim().toLowerCase();
+    var visible = 0;
+    cards.forEach(function (card) {
+      var text = card.getAttribute("data-search") || "";
+      var match = !q || text.indexOf(q) !== -1;
+      card.hidden = !match;
+      if (match) visible++;
+    });
+    sections.forEach(function (section) {
+      var anyVisible = section.querySelectorAll(".tpl-card:not([hidden])").length > 0;
+      section.hidden = !anyVisible;
+    });
+    countEl.textContent = visible + (visible === 1 ? " template" : " templates");
+    if (noResults) {
+      noResults.hidden = visible !== 0;
+      if (noResultsQ) noResultsQ.textContent = search ? search.value : "";
+    }
+  }
+
+  if (search) search.addEventListener("input", applyFilter);
+
+  var dropdown = document.getElementById("tpl-cat-dropdown");
+  var catBtn = document.getElementById("tpl-cat-btn");
+  var catMenu = document.getElementById("tpl-cat-menu");
+
+  function closeCatMenu() {
+    if (!dropdown || !dropdown.classList.contains("is-open")) return;
+    dropdown.classList.remove("is-open");
+    catBtn.setAttribute("aria-expanded", "false");
+    setTimeout(function () {
+      if (!dropdown.classList.contains("is-open")) catMenu.hidden = true;
+    }, 160);
+  }
+
+  function openCatMenu() {
+    if (!dropdown) return;
+    catMenu.hidden = false;
+    void catMenu.offsetHeight;
+    dropdown.classList.add("is-open");
+    catBtn.setAttribute("aria-expanded", "true");
+  }
+
+  if (catBtn && catMenu) {
+    catBtn.addEventListener("click", function (e) {
+      e.stopPropagation();
+      if (dropdown.classList.contains("is-open")) closeCatMenu();
+      else openCatMenu();
+    });
+    catMenu.addEventListener("click", function (e) {
+      var item = e.target.closest("[data-cat-target]");
+      if (!item) return;
+      e.preventDefault();
+      var el = document.getElementById(item.getAttribute("data-cat-target"));
+      closeCatMenu();
+      if (el) el.scrollIntoView({ behavior: "auto", block: "start" });
+    });
+    document.addEventListener("click", function (e) {
+      if (dropdown.classList.contains("is-open") && !dropdown.contains(e.target)) closeCatMenu();
+    });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape") closeCatMenu();
+    });
+  }
+
+  // Community document submissions — fetched live so a newly approved template appears without
+  // a full rebuild, same pattern as the chase-email index page.
+  var communitySection = document.getElementById("tpl-community");
+  var communityGrid = document.getElementById("tpl-community-grid");
+  if (communitySection && communityGrid) {
+    fetch("/api/marketplace?type=document")
+      .then(function (r) { return r.json(); })
+      .then(function (data) {
+        var rows = (data && data.templates) || [];
+        if (!rows.length) return;
+        function esc(s) { return String(s || "").replace(/</g, "&lt;"); }
+        rows.forEach(function (t) {
+          var card = document.createElement("a");
+          card.className = "tpl-card tpl-card-community";
+          card.href = "#";
+          var expertBadge = t.verifiedExpert ? '<span class="tpl-featured-badge">Verified expert</span>' : (t.featured ? '<span class="tpl-featured-badge">Featured</span>' : "");
+          card.innerHTML =
+            '<div class="tpl-meta"><span>' + esc(t.category) + "</span>" + expertBadge + "</div>" +
+            "<h3>" + esc(t.name) + "</h3>" +
+            "<p>" + esc(t.description) + "</p>";
+          communityGrid.appendChild(card);
+        });
+        communitySection.hidden = false;
+        var countEl2 = document.getElementById("tpl-count");
+        if (countEl2) {
+          var newTotal = ${DOCUMENT_TEMPLATES.length} + rows.length;
+          countEl2.textContent = newTotal + " templates";
+        }
+      })
+      .catch(function () {});
+  }
+})();
+</script>`,
+});
+
+writeFileSync(join(docOutDir, "index.html"), docIndexHtml);
+console.log(`Wrote ${DOCUMENT_TEMPLATES.length} document templates + index → ${docOutDir}`);
+
+function markdownToHtml(md) {
+  const lines = md.split("\n");
+  const out = [];
+  let inTable = false;
+  let tableRowIndex = 0;
+  let inList = false;
+  let paragraph = [];
+
+  function flushParagraph() {
+    if (paragraph.length) {
+      out.push(`<p>${inlineMd(paragraph.join(" "))}</p>`);
+      paragraph = [];
+    }
+  }
+
+  function closeTable() {
+    if (inTable) {
+      out.push("</table>");
+      inTable = false;
+      tableRowIndex = 0;
+    }
+  }
+
+  function closeList() {
+    if (inList) {
+      out.push("</ul>");
+      inList = false;
+    }
+  }
+
+  for (const line of lines) {
+    const trimmed = line.trim();
+    if (!trimmed) {
+      flushParagraph();
+      closeTable();
+      closeList();
+      continue;
+    }
+    if (trimmed.startsWith("|")) {
+      flushParagraph();
+      closeList();
+      const cells = trimmed
+        .split("|")
+        .map((c) => c.trim())
+        .filter((c, i, arr) => !(i === 0 && c === "") && !(i === arr.length - 1 && c === ""));
+      if (cells.every((c) => /^-+$/.test(c))) continue; // header separator row
+      if (!inTable) {
+        out.push("<table>");
+        inTable = true;
+      }
+      const tag = tableRowIndex === 0 ? "th" : "td";
+      out.push(`<tr>${cells.map((c) => `<${tag}>${inlineMd(c)}</${tag}>`).join("")}</tr>`);
+      tableRowIndex += 1;
+      continue;
+    }
+    if (trimmed !== "---" && /^[-*]\s+/.test(trimmed)) {
+      flushParagraph();
+      closeTable();
+      if (!inList) {
+        out.push("<ul>");
+        inList = true;
+      }
+      out.push(`<li>${inlineMd(trimmed.replace(/^[-*]\s+/, ""))}</li>`);
+      continue;
+    }
+    closeTable();
+    closeList();
+    if (trimmed.startsWith("# ")) {
+      flushParagraph();
+      out.push(`<h1>${inlineMd(trimmed.slice(2))}</h1>`);
+    } else if (trimmed.startsWith("## ")) {
+      flushParagraph();
+      out.push(`<h2>${inlineMd(trimmed.slice(3))}</h2>`);
+    } else if (trimmed.startsWith("### ")) {
+      flushParagraph();
+      out.push(`<h3>${inlineMd(trimmed.slice(4))}</h3>`);
+    } else if (trimmed === "---") {
+      flushParagraph();
+      out.push("<hr>");
+    } else {
+      paragraph.push(trimmed);
+    }
+  }
+  flushParagraph();
+  closeTable();
+  closeList();
+  return out.join("\n");
+}
+
+function inlineMd(text) {
+  return escapeHtml(text)
+    .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
+    .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>');
+}
+
 for (const t of TEMPLATES) {
   const faq = buildTemplateFaq(t);
   const jsonLd = JSON.stringify(
@@ -1498,6 +2998,7 @@ for (const t of TEMPLATES) {
   <div class="tpl-hero-cta">
     <a class="nav-cta" href="/app/login?start=1">Try free — no signup, no card</a>
   </div>
+  ${trustBadgesHtml()}
 
   <p class="tpl-seo-intro">${buildSeoIntro(t)}</p>
 
@@ -1555,6 +3056,8 @@ for (const t of TEMPLATES) {
   <h2>More free templates</h2>
   <ul class="tpl-more">${others}
   </ul>
+
+  ${conversionSectionHtml()}
 
   <div class="tpl-cta-footer">
     <h2>Get paid faster, without the awkward part</h2>

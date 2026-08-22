@@ -7,12 +7,15 @@
 ## Primary services
 
 - [Invoice follow-up tool](https://chasa.io/app/): Upload a CSV or enter invoices manually. Chasa drafts a follow-up email for each one, tuned to how many days overdue it is (friendly at 1–7 days, firmer at 30+).
-- [Free templates](https://chasa.io/free-templates/): 18 copy-paste payment reminder email templates (pre-due through final notice, thank-yous, disputes, multi-invoice).
+- [Free payment-reminder templates](https://chasa.io/free-templates/): 28 copy-paste payment reminder email templates (pre-due through final notice, thank-yous, disputes, ghosted clients, multi-invoice).
+- [Free document templates](https://chasa.io/document-templates/): Free business, legal, real estate, finance, and HR document templates (NDAs, agreements, letters, notices) — copy, fill in, and certify.
+- [Business document kits](https://chasa.io/business-kits/): Bundled sets of related document templates for a common situation (e.g. starting an LLC, being an independent landlord).
+- [Template marketplace](https://chasa.io/marketplace) (redirects to /free-templates/): Community-submitted templates alongside the curated library.
 - [Free calculators](https://chasa.io/tools/): Late payment interest calculator and chase savings / DSO calculator (runs in-browser, no signup).
 - [AI tools](https://chasa.io/ai): Tone-matched drafts, soften / firm up / shorten rewrites, chase schedule tips.
 - [Landing page](https://chasa.io/): Product overview and how the tone bands work.
 - [SEO guides](https://chasa.io/invoice-follow-up): Invoice follow-up, payment reminders, overdue invoices, freelancer collections.
-- [Blog](https://chasa.io/blog/): Guides on overdue invoice follow-up, payment reminder templates, late payment policy.
+- [Blog](https://chasa.io/blog/): Guides on overdue invoice follow-up, payment reminder templates, late payment policy — new posts publish automatically most Mondays.
 - [Press kit](https://chasa.io/press): Logos, boilerplate, and suggested links for articles and directories.
 - [About](https://chasa.io/about): Why Chasa exists and who's behind it.
 - [Sign in / Account](https://chasa.io/app/login): Magic-link login. Paid plan removes the free-tier draft cap.
@@ -34,6 +37,14 @@
 Chasa generates payment reminder email drafts, not legal advice or debt-collection letters. Users
 review and send every email themselves. Chasa does not send emails on the user's behalf in v1 —
 drafts are copied or opened via mailto.
+
+Document templates (/document-templates/) are general business/legal templates (agreements,
+letters, notices) provided for informational purposes, not legal advice — each page says so.
+They are original text written for Chasa, not reproduced from any third-party source.
+
+Every template and document page follows the same structure: a plain-text preview of the actual
+content, a "What's included" bullet list, named use-cases, and an FAQ with direct Q&A pairs —
+written to be easy to extract and cite directly rather than requiring JS rendering.
 
 Contact: founder@chasa.io
 Sitemap: https://chasa.io/sitemap.xml

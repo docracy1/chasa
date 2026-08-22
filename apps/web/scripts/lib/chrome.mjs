@@ -108,7 +108,7 @@ const INDUSTRY_ITEMS = [
 const RESOURCE_ITEMS = [
   { path: "/blog/", icon: "book", titleKey: "nav.mega.resource.blog.title", title: "Blog", descKey: "nav.mega.resource.blog.desc", desc: "Product updates and how-to guides." },
   { path: "/docs/", icon: "lifering", titleKey: "nav.mega.resource.docs.title", title: "Docs & API", descKey: "nav.mega.resource.docs.desc", desc: "Every feature, endpoint, and integration." },
-  { path: "/about", icon: "info", titleKey: "nav.mega.resource.about.title", title: "About", descKey: "nav.mega.resource.about.desc", desc: "Why Chasa exists and who runs it." },
+  { path: "/about", icon: "info", titleKey: "nav.mega.resource.about.title", title: "About", descKey: "nav.mega.resource.about.desc", desc: "Why docstoc exists and who runs it." },
   { path: "mailto:founder@chasa.io", icon: "mail", titleKey: "nav.mega.resource.contact.title", title: "Contact", descKey: "nav.mega.resource.contact.desc", desc: "Questions before you sign up? Ask us." },
 ];
 
@@ -118,6 +118,54 @@ export function escapeHtml(s) {
     .replaceAll("<", "&lt;")
     .replaceAll(">", "&gt;")
     .replaceAll('"', "&quot;");
+}
+
+/** Truthful trust badges for template/document detail pages. Deliberately excludes unverified
+ *  claims (customer counts, certifications not actually held) — see conversionSectionHtml() note. */
+export function trustBadgesHtml() {
+  return `<ul class="trust-badges">
+    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v5.5c0 5-3.5 8-7 9.5-3.5-1.5-7-4.5-7-9.5V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg><span>SSL-secured</span></li>
+    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 4l5 5-9.5 9.5H6v-4.5L15 4z"/><path d="M4 20c2-1.2 4-1.2 6 0"/></svg><span>No signup required</span></li>
+    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v18M8 21h8"/><path d="M5 7h5M14 7h5"/><path d="M2 7l3 6a3 3 0 0 0 6 0L8 7"/><path d="M13 7l3 6a3 3 0 0 0 6 0l-3-6"/></svg><span>Free, always</span></li>
+  </ul>`;
+}
+
+/** "Why [product]" conversion section for template/document detail pages. Every claim here must
+ *  be true today — do not add customer counts, certifications, or testimonials that aren't real.
+ *  Placeholders are commented inline for whoever adds real numbers/testimonials later. */
+export function conversionSectionHtml() {
+  return `<section class="why-chasa">
+    <h2>Why use this instead of a generic template</h2>
+    <div class="why-chasa-grid">
+      <div class="why-chasa-item">
+        <h3>Security</h3>
+        <p>Served over SSL from Cloudflare's edge network — no ad trackers, no third-party scripts on template pages.</p>
+      </div>
+      <div class="why-chasa-item">
+        <h3>Legality</h3>
+        <p>Templates are drafted for general use, not a substitute for legal advice — check the note on each page for specifics.</p>
+      </div>
+      <div class="why-chasa-item">
+        <h3>Privacy</h3>
+        <p>No account or signup needed to copy a template — nothing you type here is stored unless you choose to sign up.</p>
+      </div>
+      <div class="why-chasa-item">
+        <h3>Speed</h3>
+        <p>Copy the subject and body directly — no form to fill in, no export step, no waiting on a download link.</p>
+      </div>
+      <div class="why-chasa-item">
+        <h3>Mobile-friendly</h3>
+        <p>Every template page works the same on a phone as a desktop — copy on the go, no app required.</p>
+      </div>
+      <div class="why-chasa-item">
+        <h3>API available</h3>
+        <p>Building your own tool? Chasa's <a href="/docs/">API</a> covers invoices, reminders, and templates directly.</p>
+      </div>
+    </div>
+  </section>`;
+  // TODO(real data): once there are real customer counts / a security cert / actual testimonials,
+  // add a <ul class="trust-badges"> entry or a <section class="testimonials"> here — do not
+  // fabricate placeholder numbers or quotes in the meantime.
 }
 
 export function chrome({ title, description, canonical, activeNav = "", mainHtml, jsonLd, depth = 0, extraHead = "", lang = "en" }) {
@@ -160,11 +208,11 @@ ${hreflangHead}
 <meta property="og:title" content="${escapeHtml(title)}">
 <meta property="og:description" content="${escapeHtml(description)}">
 <meta property="og:url" content="${canonicalUrl}">
-<meta property="og:image" content="https://chasa.io/brand/og/chasa-og-1200x630.png">
+<meta property="og:image" content="https://chasa.io/brand/og/docstoc-og-1200x630.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="${escapeHtml(title)}">
 <meta name="twitter:description" content="${escapeHtml(description)}">
-<meta name="twitter:image" content="https://chasa.io/brand/og/chasa-og-1200x630.png">
+<meta name="twitter:image" content="https://chasa.io/brand/og/docstoc-og-1200x630.png">
 ${seoHead}
 ${extraHead}
 ${jsonLd ? `<script type="application/ld+json">\n${jsonLd}\n</script>` : `<script type="application/ld+json">\n${defaultJsonLd}\n</script>`}
@@ -178,7 +226,7 @@ ${jsonLd ? `<script type="application/ld+json">\n${jsonLd}\n</script>` : `<scrip
 <body>
 <header class="site-header">
   <div class="wrap site-header-inner">
-    <a href="${link("/")}" class="logo" aria-label="Chasa home"><img class="logo-mark" src="${link("/brand/chasa-icon.png")}" alt="" width="28" height="28" /><span class="logo-word">chasa</span></a>
+    <a href="${link("/")}" class="logo" aria-label="docstoc home"><img class="logo-mark" src="${link("/brand/docstoc-icon.png")}" alt="" width="28" height="28" /><span class="logo-word">docstoc</span></a>
     <nav class="header-nav-right">
       ${megaMenu({
         triggerKey: "nav.features",
@@ -217,7 +265,7 @@ ${jsonLd ? `<script type="application/ld+json">\n${jsonLd}\n</script>` : `<scrip
       <a href="${link("/ai")}" class="header-nav-link header-nav-collapse${activeNav === "ai" ? " header-nav-strong" : ""}" data-i18n="nav.ai">AI</a>
       <div class="locale-switch" data-locale-switch role="group" data-i18n-aria="nav.language"${localeSwitchAttrs}></div>
       <!--email_off-->
-      <a href="mailto:sales@chasa.io" class="header-nav-sales header-nav-collapse" data-sales-mail data-sales-subject="Chasa sales" data-i18n="nav.contactSales">Contact sales</a>
+      <a href="mailto:sales@chasa.io" class="header-nav-sales header-nav-collapse" data-sales-mail data-sales-subject="docstoc sales" data-i18n="nav.contactSales">Contact sales</a>
       <!--/email_off-->
       <a href="${link("/app/")}login?start=1" class="nav-cta" data-i18n="nav.tryFree">Try free</a>
       <a href="${link("/app/login")}" class="header-login-btn header-nav-collapse" data-i18n="nav.signIn">Sign in</a>
@@ -248,7 +296,7 @@ ${jsonLd ? `<script type="application/ld+json">\n${jsonLd}\n</script>` : `<scrip
     <a href="${link("/app/")}login?start=1" class="mobile-panel-cta-primary" data-i18n="nav.tryFree">Try free</a>
     <a href="${link("/app/login")}" class="mobile-panel-cta-secondary" data-i18n="nav.signIn">Sign in</a>
     <!--email_off-->
-    <a href="mailto:sales@chasa.io" class="mobile-panel-cta-secondary" data-sales-mail data-sales-subject="Chasa sales" data-i18n="nav.contactSales">Contact sales</a>
+    <a href="mailto:sales@chasa.io" class="mobile-panel-cta-secondary" data-sales-mail data-sales-subject="docstoc sales" data-i18n="nav.contactSales">Contact sales</a>
     <!--/email_off-->
   </div>
 </div>
@@ -258,7 +306,7 @@ ${mainHtml}
 <footer class="site-footer">
   <div class="wrap site-footer-inner">
     <div class="site-footer-brand">
-      <a href="${link("/")}" class="logo" aria-label="Chasa home"><img class="logo-mark" src="${link("/brand/chasa-icon.png")}" alt="" width="24" height="24" /><span class="logo-word">chasa</span></a>
+      <a href="${link("/")}" class="logo" aria-label="docstoc home"><img class="logo-mark" src="${link("/brand/docstoc-icon.png")}" alt="" width="24" height="24" /><span class="logo-word">docstoc</span></a>
       <p data-i18n="footer.tagline">Free AI invoice follow-ups — paste unpaid invoices, get the reminder email already written.</p>
     </div>
     <div class="site-footer-col">
@@ -292,7 +340,7 @@ ${mainHtml}
       <a href="${link("/chasa-vs-duefy")}" data-i18n="footer.vsDuefy">vs Duefy</a>
       <a href="${link("/chasa-vs-satago")}" data-i18n="footer.vsSatago">vs Satago</a>
       <a href="${link("/chasa-vs-chaseai")}" data-i18n="footer.vsChaseai">vs ChaseAI</a>
-      <a href="${link("/switch-to-chasa")}" data-i18n="footer.switch">Switch to Chasa</a>
+      <a href="${link("/switch-to-chasa")}" data-i18n="footer.switch">Switch to docstoc</a>
     </div>
     <div class="site-footer-col">
       <h4 data-i18n="footer.company">Company</h4>
@@ -309,7 +357,7 @@ ${mainHtml}
       <a href="${link("/blog/feed.xml")}" data-i18n="footer.rss">RSS</a>
     </div>
   </div>
-  <div class="site-footer-bottom" data-i18n-year="footer.copyright">© ${new Date().getFullYear()} Chasa — a product of RELACON GmbH</div>
+  <div class="site-footer-bottom" data-i18n-year="footer.copyright">© ${new Date().getFullYear()} docstoc — a product of RELACON GmbH</div>
 </footer>
 <script src="${link(`/site-lang.js?v=${ASSET_V}`)}" defer></script>
 <script src="${link(`/site-nav.js?v=${ASSET_V}`)}" defer></script>
