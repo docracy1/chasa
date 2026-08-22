@@ -127,6 +127,18 @@
     <priority>0.60</priority>
   </url>
   <url>
+    <loc>https://chasa.io/chasa-vs-bonsai</loc>
+    <lastmod>2026-08-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.60</priority>
+  </url>
+  <url>
+    <loc>https://chasa.io/chasa-vs-certum</loc>
+    <lastmod>2026-08-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.60</priority>
+  </url>
+  <url>
     <loc>https://chasa.io/chasa-vs-chaseai</loc>
     <lastmod>2026-08-22</lastmod>
     <changefreq>monthly</changefreq>
@@ -137,6 +149,18 @@
     <lastmod>2026-08-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://chasa.io/chasa-vs-cloudflare-ssl</loc>
+    <lastmod>2026-08-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.60</priority>
+  </url>
+  <url>
+    <loc>https://chasa.io/chasa-vs-digicert</loc>
+    <lastmod>2026-08-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.60</priority>
   </url>
   <url>
     <loc>https://chasa.io/chasa-vs-drata</loc>
@@ -151,6 +175,12 @@
     <priority>0.80</priority>
   </url>
   <url>
+    <loc>https://chasa.io/chasa-vs-freessl-org</loc>
+    <lastmod>2026-08-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.60</priority>
+  </url>
+  <url>
     <loc>https://chasa.io/chasa-vs-freshbooks</loc>
     <lastmod>2026-08-22</lastmod>
     <changefreq>monthly</changefreq>
@@ -163,7 +193,25 @@
     <priority>0.60</priority>
   </url>
   <url>
+    <loc>https://chasa.io/chasa-vs-globalsign</loc>
+    <lastmod>2026-08-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.60</priority>
+  </url>
+  <url>
+    <loc>https://chasa.io/chasa-vs-godaddy-ssl</loc>
+    <lastmod>2026-08-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.60</priority>
+  </url>
+  <url>
     <loc>https://chasa.io/chasa-vs-google-workspace</loc>
+    <lastmod>2026-08-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.60</priority>
+  </url>
+  <url>
+    <loc>https://chasa.io/chasa-vs-honeybook</loc>
     <lastmod>2026-08-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.60</priority>
@@ -181,10 +229,28 @@
     <priority>0.60</priority>
   </url>
   <url>
+    <loc>https://chasa.io/chasa-vs-legalzoom</loc>
+    <lastmod>2026-08-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.60</priority>
+  </url>
+  <url>
+    <loc>https://chasa.io/chasa-vs-letsencrypt</loc>
+    <lastmod>2026-08-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.60</priority>
+  </url>
+  <url>
     <loc>https://chasa.io/chasa-vs-paidnice</loc>
     <lastmod>2026-08-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://chasa.io/chasa-vs-pandadoc</loc>
+    <lastmod>2026-08-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.60</priority>
   </url>
   <url>
     <loc>https://chasa.io/chasa-vs-purview</loc>
@@ -199,13 +265,37 @@
     <priority>0.60</priority>
   </url>
   <url>
+    <loc>https://chasa.io/chasa-vs-rocket-lawyer</loc>
+    <lastmod>2026-08-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.60</priority>
+  </url>
+  <url>
     <loc>https://chasa.io/chasa-vs-satago</loc>
     <lastmod>2026-08-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.80</priority>
   </url>
   <url>
+    <loc>https://chasa.io/chasa-vs-sectigo</loc>
+    <lastmod>2026-08-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.60</priority>
+  </url>
+  <url>
     <loc>https://chasa.io/chasa-vs-secureframe</loc>
+    <lastmod>2026-08-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.60</priority>
+  </url>
+  <url>
+    <loc>https://chasa.io/chasa-vs-ssl-com</loc>
+    <lastmod>2026-08-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.60</priority>
+  </url>
+  <url>
+    <loc>https://chasa.io/chasa-vs-sslforfree</loc>
     <lastmod>2026-08-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.60</priority>
@@ -248,6 +338,12 @@
   </url>
   <url>
     <loc>https://chasa.io/chasa-vs-yaypay</loc>
+    <lastmod>2026-08-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.60</priority>
+  </url>
+  <url>
+    <loc>https://chasa.io/chasa-vs-zerossl</loc>
     <lastmod>2026-08-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.60</priority>
@@ -331,7 +427,19 @@
     <priority>0.70</priority>
   </url>
   <url>
+    <loc>https://chasa.io/document-templates/acceptance-letter-template</loc>
+    <lastmod>2026-08-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.70</priority>
+  </url>
+  <url>
     <loc>https://chasa.io/document-templates/advertising-contract-template</loc>
+    <lastmod>2026-08-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.70</priority>
+  </url>
+  <url>
+    <loc>https://chasa.io/document-templates/affidavit-of-heirship-template</loc>
     <lastmod>2026-08-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.70</priority>
@@ -350,6 +458,12 @@
   </url>
   <url>
     <loc>https://chasa.io/document-templates/agency-agreement-template</loc>
+    <lastmod>2026-08-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.70</priority>
+  </url>
+  <url>
+    <loc>https://chasa.io/document-templates/amendment-to-lease-template</loc>
     <lastmod>2026-08-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.70</priority>
@@ -379,6 +493,12 @@
     <priority>0.70</priority>
   </url>
   <url>
+    <loc>https://chasa.io/document-templates/audit-plan-template</loc>
+    <lastmod>2026-08-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.70</priority>
+  </url>
+  <url>
     <loc>https://chasa.io/document-templates/audit-report-template</loc>
     <lastmod>2026-08-22</lastmod>
     <changefreq>monthly</changefreq>
@@ -392,6 +512,24 @@
   </url>
   <url>
     <loc>https://chasa.io/document-templates/basic-trust-agreement-template</loc>
+    <lastmod>2026-08-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.70</priority>
+  </url>
+  <url>
+    <loc>https://chasa.io/document-templates/behavior-contract-template</loc>
+    <lastmod>2026-08-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.70</priority>
+  </url>
+  <url>
+    <loc>https://chasa.io/document-templates/bid-form-template</loc>
+    <lastmod>2026-08-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.70</priority>
+  </url>
+  <url>
+    <loc>https://chasa.io/document-templates/bill-of-sale-template</loc>
     <lastmod>2026-08-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.70</priority>
@@ -553,6 +691,12 @@
     <priority>0.70</priority>
   </url>
   <url>
+    <loc>https://chasa.io/document-templates/company-profile-template</loc>
+    <lastmod>2026-08-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.70</priority>
+  </url>
+  <url>
     <loc>https://chasa.io/document-templates/confirmation-letter-template</loc>
     <lastmod>2026-08-22</lastmod>
     <changefreq>monthly</changefreq>
@@ -595,6 +739,12 @@
     <priority>0.70</priority>
   </url>
   <url>
+    <loc>https://chasa.io/document-templates/contract-for-deed-template</loc>
+    <lastmod>2026-08-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.70</priority>
+  </url>
+  <url>
     <loc>https://chasa.io/document-templates/convertible-promissory-note-template</loc>
     <lastmod>2026-08-22</lastmod>
     <changefreq>monthly</changefreq>
@@ -602,6 +752,24 @@
   </url>
   <url>
     <loc>https://chasa.io/document-templates/corporate-bylaws-template</loc>
+    <lastmod>2026-08-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.70</priority>
+  </url>
+  <url>
+    <loc>https://chasa.io/document-templates/corporate-resolution-template</loc>
+    <lastmod>2026-08-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.70</priority>
+  </url>
+  <url>
+    <loc>https://chasa.io/document-templates/corrective-action-form-template</loc>
+    <lastmod>2026-08-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.70</priority>
+  </url>
+  <url>
+    <loc>https://chasa.io/document-templates/cost-estimate-template</loc>
     <lastmod>2026-08-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.70</priority>
@@ -631,6 +799,12 @@
     <priority>0.70</priority>
   </url>
   <url>
+    <loc>https://chasa.io/document-templates/deed-of-donation-template</loc>
+    <lastmod>2026-08-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.70</priority>
+  </url>
+  <url>
     <loc>https://chasa.io/document-templates/deed-of-sale-template</loc>
     <lastmod>2026-08-22</lastmod>
     <changefreq>monthly</changefreq>
@@ -644,6 +818,12 @@
   </url>
   <url>
     <loc>https://chasa.io/document-templates/demand-letter-unpaid-invoice-template</loc>
+    <lastmod>2026-08-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.70</priority>
+  </url>
+  <url>
+    <loc>https://chasa.io/document-templates/disaster-recovery-plan-template</loc>
     <lastmod>2026-08-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.70</priority>
@@ -739,7 +919,19 @@
     <priority>0.70</priority>
   </url>
   <url>
+    <loc>https://chasa.io/document-templates/enrollment-form-template</loc>
+    <lastmod>2026-08-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.70</priority>
+  </url>
+  <url>
     <loc>https://chasa.io/document-templates/equipment-lease-agreement-template</loc>
+    <lastmod>2026-08-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.70</priority>
+  </url>
+  <url>
+    <loc>https://chasa.io/document-templates/equity-incentive-plan-template</loc>
     <lastmod>2026-08-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.70</priority>
@@ -764,6 +956,12 @@
   </url>
   <url>
     <loc>https://chasa.io/document-templates/event-schedule-template</loc>
+    <lastmod>2026-08-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.70</priority>
+  </url>
+  <url>
+    <loc>https://chasa.io/document-templates/eviction-notice-template</loc>
     <lastmod>2026-08-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.70</priority>
@@ -811,7 +1009,19 @@
     <priority>0.70</priority>
   </url>
   <url>
+    <loc>https://chasa.io/document-templates/financial-projections-template</loc>
+    <lastmod>2026-08-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.70</priority>
+  </url>
+  <url>
     <loc>https://chasa.io/document-templates/finders-fee-agreement-template</loc>
+    <lastmod>2026-08-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.70</priority>
+  </url>
+  <url>
+    <loc>https://chasa.io/document-templates/follow-up-letter-template</loc>
     <lastmod>2026-08-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.70</priority>
@@ -853,6 +1063,12 @@
     <priority>0.70</priority>
   </url>
   <url>
+    <loc>https://chasa.io/document-templates/hr-audit-checklist-template</loc>
+    <lastmod>2026-08-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.70</priority>
+  </url>
+  <url>
     <loc>https://chasa.io/document-templates/incident-report-template</loc>
     <lastmod>2026-08-22</lastmod>
     <changefreq>monthly</changefreq>
@@ -883,7 +1099,25 @@
     <priority>0.70</priority>
   </url>
   <url>
+    <loc>https://chasa.io/document-templates/insertion-order-template</loc>
+    <lastmod>2026-08-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.70</priority>
+  </url>
+  <url>
     <loc>https://chasa.io/document-templates/inspection-checklist-template</loc>
+    <lastmod>2026-08-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.70</priority>
+  </url>
+  <url>
+    <loc>https://chasa.io/document-templates/intellectual-property-assignment-agreement-template</loc>
+    <lastmod>2026-08-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.70</priority>
+  </url>
+  <url>
+    <loc>https://chasa.io/document-templates/internship-application-template</loc>
     <lastmod>2026-08-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.70</priority>
@@ -902,6 +1136,18 @@
   </url>
   <url>
     <loc>https://chasa.io/document-templates/introduction-letter-template</loc>
+    <lastmod>2026-08-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.70</priority>
+  </url>
+  <url>
+    <loc>https://chasa.io/document-templates/inventory-report-template</loc>
+    <lastmod>2026-08-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.70</priority>
+  </url>
+  <url>
+    <loc>https://chasa.io/document-templates/investment-proposal-template</loc>
     <lastmod>2026-08-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.70</priority>
@@ -997,6 +1243,12 @@
     <priority>0.70</priority>
   </url>
   <url>
+    <loc>https://chasa.io/document-templates/letter-of-undertaking-template</loc>
+    <lastmod>2026-08-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.70</priority>
+  </url>
+  <url>
     <loc>https://chasa.io/document-templates/license-agreement-template</loc>
     <lastmod>2026-08-22</lastmod>
     <changefreq>monthly</changefreq>
@@ -1058,6 +1310,12 @@
   </url>
   <url>
     <loc>https://chasa.io/document-templates/market-research-report-template</loc>
+    <lastmod>2026-08-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.70</priority>
+  </url>
+  <url>
+    <loc>https://chasa.io/document-templates/marketing-calendar-template</loc>
     <lastmod>2026-08-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.70</priority>
@@ -1129,6 +1387,12 @@
     <priority>0.70</priority>
   </url>
   <url>
+    <loc>https://chasa.io/document-templates/monthly-sales-report-template</loc>
+    <lastmod>2026-08-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.70</priority>
+  </url>
+  <url>
     <loc>https://chasa.io/document-templates/motivation-letter-template</loc>
     <lastmod>2026-08-22</lastmod>
     <changefreq>monthly</changefreq>
@@ -1153,6 +1417,12 @@
     <priority>0.70</priority>
   </url>
   <url>
+    <loc>https://chasa.io/document-templates/no-objection-certificate-template</loc>
+    <lastmod>2026-08-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.70</priority>
+  </url>
+  <url>
     <loc>https://chasa.io/document-templates/non-compete-agreement-template</loc>
     <lastmod>2026-08-22</lastmod>
     <changefreq>monthly</changefreq>
@@ -1172,6 +1442,12 @@
   </url>
   <url>
     <loc>https://chasa.io/document-templates/notice-of-intent-template</loc>
+    <lastmod>2026-08-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.70</priority>
+  </url>
+  <url>
+    <loc>https://chasa.io/document-templates/objection-letter-template</loc>
     <lastmod>2026-08-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.70</priority>
@@ -1243,6 +1519,12 @@
     <priority>0.70</priority>
   </url>
   <url>
+    <loc>https://chasa.io/document-templates/permit-to-work-template</loc>
+    <lastmod>2026-08-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.70</priority>
+  </url>
+  <url>
     <loc>https://chasa.io/document-templates/personal-financial-statement-template</loc>
     <lastmod>2026-08-22</lastmod>
     <changefreq>monthly</changefreq>
@@ -1303,6 +1585,12 @@
     <priority>0.70</priority>
   </url>
   <url>
+    <loc>https://chasa.io/document-templates/private-placement-memorandum-template</loc>
+    <lastmod>2026-08-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.70</priority>
+  </url>
+  <url>
     <loc>https://chasa.io/document-templates/professional-development-plan-template</loc>
     <lastmod>2026-08-22</lastmod>
     <changefreq>monthly</changefreq>
@@ -1321,6 +1609,12 @@
     <priority>0.70</priority>
   </url>
   <url>
+    <loc>https://chasa.io/document-templates/project-brief-template</loc>
+    <lastmod>2026-08-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.70</priority>
+  </url>
+  <url>
     <loc>https://chasa.io/document-templates/project-budget-template</loc>
     <lastmod>2026-08-22</lastmod>
     <changefreq>monthly</changefreq>
@@ -1328,6 +1622,12 @@
   </url>
   <url>
     <loc>https://chasa.io/document-templates/project-charter-template</loc>
+    <lastmod>2026-08-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.70</priority>
+  </url>
+  <url>
+    <loc>https://chasa.io/document-templates/project-initiation-document-template</loc>
     <lastmod>2026-08-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.70</priority>
@@ -1358,6 +1658,12 @@
   </url>
   <url>
     <loc>https://chasa.io/document-templates/property-condition-report-template</loc>
+    <lastmod>2026-08-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.70</priority>
+  </url>
+  <url>
+    <loc>https://chasa.io/document-templates/provider-agreement-template</loc>
     <lastmod>2026-08-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.70</priority>
@@ -1399,6 +1705,12 @@
     <priority>0.70</priority>
   </url>
   <url>
+    <loc>https://chasa.io/document-templates/referral-agreement-template</loc>
+    <lastmod>2026-08-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.70</priority>
+  </url>
+  <url>
     <loc>https://chasa.io/document-templates/referral-form-template</loc>
     <lastmod>2026-08-22</lastmod>
     <changefreq>monthly</changefreq>
@@ -1412,6 +1724,12 @@
   </url>
   <url>
     <loc>https://chasa.io/document-templates/rejection-letter-template</loc>
+    <lastmod>2026-08-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.70</priority>
+  </url>
+  <url>
+    <loc>https://chasa.io/document-templates/release-of-lien-template</loc>
     <lastmod>2026-08-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.70</priority>
@@ -1442,6 +1760,12 @@
   </url>
   <url>
     <loc>https://chasa.io/document-templates/request-for-quotation-template</loc>
+    <lastmod>2026-08-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.70</priority>
+  </url>
+  <url>
+    <loc>https://chasa.io/document-templates/request-for-reconsideration-template</loc>
     <lastmod>2026-08-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.70</priority>
@@ -1585,7 +1909,25 @@
     <priority>0.70</priority>
   </url>
   <url>
+    <loc>https://chasa.io/document-templates/site-visit-report-template</loc>
+    <lastmod>2026-08-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.70</priority>
+  </url>
+  <url>
     <loc>https://chasa.io/document-templates/smart-goals-worksheet-template</loc>
+    <lastmod>2026-08-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.70</priority>
+  </url>
+  <url>
+    <loc>https://chasa.io/document-templates/social-media-policy-template</loc>
+    <lastmod>2026-08-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.70</priority>
+  </url>
+  <url>
+    <loc>https://chasa.io/document-templates/software-development-agreement-template</loc>
     <lastmod>2026-08-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.70</priority>
@@ -1609,6 +1951,12 @@
     <priority>0.70</priority>
   </url>
   <url>
+    <loc>https://chasa.io/document-templates/special-power-of-attorney-healthcare-template</loc>
+    <lastmod>2026-08-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.70</priority>
+  </url>
+  <url>
     <loc>https://chasa.io/document-templates/sponsorship-agreement-template</loc>
     <lastmod>2026-08-22</lastmod>
     <changefreq>monthly</changefreq>
@@ -1622,6 +1970,12 @@
   </url>
   <url>
     <loc>https://chasa.io/document-templates/startup-business-plan-template</loc>
+    <lastmod>2026-08-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.70</priority>
+  </url>
+  <url>
+    <loc>https://chasa.io/document-templates/statement-of-qualifications-template</loc>
     <lastmod>2026-08-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.70</priority>
@@ -1669,6 +2023,18 @@
     <priority>0.70</priority>
   </url>
   <url>
+    <loc>https://chasa.io/document-templates/telecommuting-agreement-template</loc>
+    <lastmod>2026-08-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.70</priority>
+  </url>
+  <url>
+    <loc>https://chasa.io/document-templates/tender-notice-template</loc>
+    <lastmod>2026-08-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.70</priority>
+  </url>
+  <url>
     <loc>https://chasa.io/document-templates/termination-agreement-template</loc>
     <lastmod>2026-08-22</lastmod>
     <changefreq>monthly</changefreq>
@@ -1682,6 +2048,12 @@
   </url>
   <url>
     <loc>https://chasa.io/document-templates/time-off-request-form-template</loc>
+    <lastmod>2026-08-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.70</priority>
+  </url>
+  <url>
+    <loc>https://chasa.io/document-templates/timesheet-template</loc>
     <lastmod>2026-08-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.70</priority>
@@ -1711,6 +2083,18 @@
     <priority>0.70</priority>
   </url>
   <url>
+    <loc>https://chasa.io/document-templates/use-case-template</loc>
+    <lastmod>2026-08-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.70</priority>
+  </url>
+  <url>
+    <loc>https://chasa.io/document-templates/vacation-rental-agreement-template</loc>
+    <lastmod>2026-08-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.70</priority>
+  </url>
+  <url>
     <loc>https://chasa.io/document-templates/vendor-application-template</loc>
     <lastmod>2026-08-22</lastmod>
     <changefreq>monthly</changefreq>
@@ -1729,7 +2113,19 @@
     <priority>0.70</priority>
   </url>
   <url>
+    <loc>https://chasa.io/document-templates/web-hosting-agreement-template</loc>
+    <lastmod>2026-08-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.70</priority>
+  </url>
+  <url>
     <loc>https://chasa.io/document-templates/website-design-contract-template</loc>
+    <lastmod>2026-08-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.70</priority>
+  </url>
+  <url>
+    <loc>https://chasa.io/document-templates/whistleblower-policy-template</loc>
     <lastmod>2026-08-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.70</priority>
