@@ -10986,6 +10986,1706 @@ Issued by: ______________________  Date: ____________
 
 *NOCs are commonly required in international contexts (visa/immigration, property transfers, business registration) where a specific authority or party needs to confirm they don't object — check exactly what wording and format the requesting institution expects, since requirements vary widely by country and purpose.*`,
   },
+  {
+    slug: "gift-certificate-template",
+    name: "Gift Certificate",
+    seoTitle: "Free Gift Certificate Template",
+    description: "Free gift certificate template for a business to offer a prepaid credit toward products or services.",
+    category: "Business",
+    bodyMarkdown: `# Gift Certificate
+
+**[Business Name]**
+
+**Value: [Amount]**
+**Certificate #:** [Number]
+
+This certificate entitles the bearer to [Amount] toward any purchase at [Business Name].
+
+**Issue date:** [Date]
+**Expiration date:** [Date, if applicable — check your state's gift card expiration laws first]
+
+**Redeemable at:** [Location(s)/website]
+**Terms:** [e.g. "Not redeemable for cash. One certificate per transaction."]
+
+---
+Issued by: [Business Name]
+[Contact info / website]
+
+*Many US states restrict or ban gift certificate expiration dates and dormancy fees — check your state's specific gift card law before adding an expiration date or fee.*`,
+  },
+  {
+    slug: "announcement-letter-template",
+    name: "Announcement Letter",
+    seoTitle: "Free Announcement Letter Template",
+    description: "Free announcement letter template for sharing company news — a new hire, product launch, policy change, or milestone.",
+    category: "Business",
+    bodyMarkdown: `# Announcement Letter
+
+[Date]
+
+Dear [Recipient/Team/Customers],
+
+I'm writing to share [the news — e.g. "an exciting update" / "an important change"].
+
+## The Announcement
+[State the news clearly and directly in the first sentence or two — don't bury it.]
+
+## What This Means for You
+[Why the reader should care — how it affects them specifically.]
+
+## Next Steps / What to Expect
+[Any action needed, or what happens next.]
+
+Please reach out to [Contact] with any questions.
+
+Sincerely,
+[Your Name/Title]
+
+*Leading with the actual news (not a long windup) respects the reader's time and is more likely to actually get read to the end.*`,
+  },
+  {
+    slug: "balance-sheet-template",
+    name: "Balance Sheet",
+    seoTitle: "Free Balance Sheet Template",
+    description: "Free balance sheet template showing a company's assets, liabilities, and equity at a point in time.",
+    category: "Finance",
+    bodyMarkdown: `# Balance Sheet — [Company Name]
+
+**As of:** [Date]
+
+## Assets
+**Current Assets**
+| Item | Amount |
+|------|--------|
+| Cash and equivalents | [Amount] |
+| Accounts receivable | [Amount] |
+| Inventory | [Amount] |
+| **Total Current Assets** | **[Amount]** |
+
+**Fixed Assets**
+| Item | Amount |
+|------|--------|
+| Equipment | [Amount] |
+| Less: accumulated depreciation | ([Amount]) |
+| **Total Fixed Assets** | **[Amount]** |
+
+**Total Assets: [Amount]**
+
+## Liabilities
+**Current Liabilities**
+| Item | Amount |
+|------|--------|
+| Accounts payable | [Amount] |
+| Short-term debt | [Amount] |
+| **Total Current Liabilities** | **[Amount]** |
+
+**Long-Term Liabilities**
+| Item | Amount |
+|------|--------|
+| Long-term debt | [Amount] |
+
+**Total Liabilities: [Amount]**
+
+## Equity
+| Item | Amount |
+|------|--------|
+| Owner's equity / Retained earnings | [Amount] |
+
+**Total Liabilities + Equity: [Amount]** (should equal Total Assets)
+
+*If Total Assets doesn't equal Total Liabilities + Equity, something's off in the numbers — that equality is what "balance" sheet actually refers to, and it should hold exactly.*`,
+  },
+  {
+    slug: "delivery-note-template",
+    name: "Delivery Note",
+    seoTitle: "Free Delivery Note Template",
+    description: "Free delivery note template confirming goods delivered, for the recipient to sign upon receipt.",
+    category: "Business",
+    bodyMarkdown: `# Delivery Note
+
+**Delivery Note #:** [Number] · **Date:** [Date]
+**Delivered from:** [Sender Name/Company]
+**Delivered to:** [Recipient Name/Address]
+**Related Order/Invoice #:** [Number]
+
+## Items Delivered
+
+| Description | Quantity | Condition |
+|-------------|----------|-----------|
+| [Item] | [Qty] | [Good/Damaged — note any issues] |
+
+## Confirmation
+I confirm receipt of the item(s) listed above in the condition noted.
+
+Received by: ______________________  Date: ____________
+Delivered by: ______________________  Date: ____________
+
+*Noting condition and getting a signature at the moment of delivery — not after — is what actually protects you if a damage claim comes up later.*`,
+  },
+  {
+    slug: "artist-agreement-template",
+    name: "Artist Agreement",
+    seoTitle: "Free Artist Agreement Template",
+    description: "Free artist agreement template for booking a musician, performer, or visual artist for an event or commission.",
+    category: "Business",
+    bodyMarkdown: `# Artist Agreement
+
+**Client/Venue:** [Name]
+**Artist:** [Name]
+**Event/Project:** [Description]
+**Date:** [Date]
+
+## 1. Services
+Artist will [perform at / create a work for] [Event/Project], on [Date(s)], at [Location].
+
+## 2. Fee
+Total fee: [Amount], paid: [e.g. "50% deposit to confirm booking, balance on the day of performance"].
+
+## 3. Technical Requirements
+[Equipment/space/setup needs the Client must provide, if applicable.]
+
+## 4. Cancellation
+[Policy for cancellation by either party, and any deposit forfeiture.]
+
+## 5. Recording and Likeness
+[State whether Client may record/photograph the performance and how it may be used — e.g. promotional purposes only.]
+
+## 6. Ownership (for commissioned work)
+[If creating a physical/digital work: state who owns the final piece, and whether the Artist retains rights to reproduce it in their portfolio.]
+
+---
+Client: ______________________  Date: ____________
+Artist: ______________________  Date: ____________
+
+*Being explicit about recording/photography rights (Section 5) avoids a common friction point — many performers have specific limits on how footage of their work can be used.*`,
+  },
+  {
+    slug: "dealer-agreement-template",
+    name: "Dealer Agreement",
+    seoTitle: "Free Dealer Agreement Template",
+    description: "Free dealer agreement template appointing a business to sell your products through their own retail channel.",
+    category: "Business",
+    bodyMarkdown: `# Dealer Agreement
+
+**Manufacturer/Supplier:** [Company Name]
+**Dealer:** [Company Name]
+**Effective Date:** [Date]
+
+## 1. Appointment
+Manufacturer appoints Dealer as an authorized dealer of [Products] within [Territory], on a [exclusive/non-exclusive] basis.
+
+## 2. Pricing and Terms
+Dealer purchases at [Wholesale/dealer price], with payment terms of [e.g. Net 30].
+
+## 3. Minimum Purchase (if applicable)
+[Minimum order requirements to maintain dealer status/exclusivity, if any.]
+
+## 4. Marketing and Branding
+Dealer may use Manufacturer's trademarks and marketing materials only as authorized, and only during the term of this Agreement.
+
+## 5. Warranty and Support
+[Who handles warranty claims and customer support — typically Manufacturer honors the warranty, Dealer handles point-of-sale support.]
+
+## 6. Term and Termination
+This Agreement runs for [Term] and may be terminated by either party with [Notice Period] notice.
+
+## 7. Governing Law
+This Agreement is governed by the laws of [State/Country].
+
+---
+Manufacturer: ______________________  Date: ____________
+Dealer: ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. Clarify who's responsible for warranty claims up front — it's the most common source of friction between manufacturers and their dealer network.*`,
+  },
+  {
+    slug: "certificate-of-destruction-template",
+    name: "Certificate of Destruction",
+    seoTitle: "Free Certificate of Destruction Template",
+    description: "Free certificate of destruction template confirming that documents, data, or products were securely destroyed.",
+    category: "Business",
+    bodyMarkdown: `# Certificate of Destruction
+
+**Certificate #:** [Number] · **Date of Destruction:** [Date]
+**Destroyed by:** [Company/Individual Name]
+**Requested by:** [Client Name]
+
+## Items Destroyed
+Description: [e.g. "paper documents," "hard drives," "expired inventory"]
+Quantity/Volume: [Number/weight/volume]
+Method of destruction: [e.g. shredding, degaussing, incineration]
+
+## Certification
+We certify that the items described above were destroyed on the date listed, using the method specified, and are no longer recoverable or usable.
+
+---
+Certified by: ______________________  Date: ____________
+[Name, Title, Company]
+
+*For data destruction specifically (hard drives, devices with personal or financial information), keep this certificate as compliance evidence — it's often required to demonstrate compliance with data protection regulations.*`,
+  },
+  {
+    slug: "enquiry-form-template",
+    name: "Enquiry Form",
+    seoTitle: "Free Enquiry Form Template",
+    description: "Free customer enquiry form template for capturing a prospect's initial question or interest.",
+    category: "Business",
+    bodyMarkdown: `# Enquiry Form
+
+**Date:** [Date]
+
+## Contact Information
+Name: [Name] · Email: [Email] · Phone: [Phone]
+Company (if applicable): [Name]
+
+## Enquiry Details
+What are you interested in? [Description]
+How did you hear about us? [Source]
+Preferred contact method: [Email/Phone]
+Best time to reach you: [Time]
+
+## Additional Notes
+[Open field for the enquirer to add context]
+
+## For Internal Use
+Assigned to: [Name]
+Status: [ ] New  [ ] Contacted  [ ] Converted  [ ] Closed
+
+*Responding to enquiries within the first hour dramatically improves conversion compared to next-day follow-up — speed matters more for a cold enquiry than for almost any other stage of a sales process.*`,
+  },
+  {
+    slug: "quality-control-checklist-template",
+    name: "Quality Control Checklist",
+    seoTitle: "Free Quality Control Checklist Template",
+    description: "Free quality control checklist template for inspecting a product or process before it ships or is delivered.",
+    category: "Business",
+    bodyMarkdown: `# Quality Control Checklist
+
+**Product/Batch:** [Description] · **Date:** [Date]
+**Inspector:** [Name]
+
+## Inspection Items
+
+| Item | Standard | Pass/Fail | Notes |
+|------|----------|-----------|-------|
+| [Item 1] | [Standard/spec] | [ ] | |
+| [Item 2] | [Standard/spec] | [ ] | |
+| [Item 3] | [Standard/spec] | [ ] | |
+
+## Sample Size
+Units inspected: [Number] of [Total batch size]
+
+## Overall Result
+[ ] Pass — approved for release
+[ ] Fail — [describe corrective action needed]
+
+## Sign-off
+Inspector: ______________________  Date: ____________
+Approved by: ______________________  Date: ____________
+
+*Defining the specific standard/spec for each item (not just "looks OK") is what makes QC checks consistent across different inspectors and shifts.*`,
+  },
+  {
+    slug: "restricted-stock-unit-agreement-template",
+    name: "Restricted Stock Unit (RSU) Agreement",
+    seoTitle: "Free Restricted Stock Unit (RSU) Agreement Template",
+    description: "Free RSU agreement template — grants an employee the right to receive company shares once vesting conditions are met.",
+    category: "Finance",
+    bodyMarkdown: `# Restricted Stock Unit (RSU) Agreement
+
+**Company:** [Company Name]
+**Recipient:** [Name]
+**Grant Date:** [Date]
+**Number of RSUs:** [Number]
+
+## 1. Grant
+Company grants Recipient [Number] Restricted Stock Units, each representing the right to receive one share of Company's common stock upon vesting, subject to the terms below.
+
+## 2. Vesting Schedule
+[Typical structure: "25% vests on the first anniversary of the vesting start date, with the remainder vesting in equal quarterly installments over the following three years, subject to continued service."]
+
+## 3. Settlement
+Upon vesting, Company will issue the corresponding shares [immediately / on the next scheduled settlement date], subject to applicable tax withholding.
+
+## 4. Termination of Service
+Unvested RSUs are forfeited upon termination of service, except as otherwise provided [e.g. in an employment agreement or for specific termination scenarios].
+
+## 5. Taxes
+Recipient is responsible for all taxes due upon vesting/settlement. Company may withhold shares or require cash payment to cover withholding obligations.
+
+## 6. No Shareholder Rights Until Settlement
+Recipient has no voting or dividend rights until the underlying shares are actually issued.
+
+---
+Company: ______________________  Date: ____________
+Recipient: ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal, tax, or securities advice. RSUs are taxed as ordinary income upon vesting (not when granted) — recipients should understand the tax timing before accepting a grant, and companies need a licensed startup/securities attorney to actually issue these.*`,
+  },
+  {
+    slug: "csr-report-template",
+    name: "Corporate Social Responsibility (CSR) Report",
+    seoTitle: "Free Corporate Social Responsibility (CSR) Report Template",
+    description: "Free CSR report template summarizing a company's environmental, social, and governance activities and impact.",
+    category: "Business",
+    bodyMarkdown: `# Corporate Social Responsibility Report — [Company Name] [Year]
+
+## Message from Leadership
+[A short statement on why CSR matters to the company and this year's focus.]
+
+## Environmental
+[Initiatives and metrics — e.g. energy use, waste reduction, carbon footprint efforts. Use real numbers, not vague claims.]
+
+## Social
+[Community involvement, employee wellbeing initiatives, diversity and inclusion efforts, charitable giving.]
+
+## Governance
+[Ethics policies, board diversity, transparency practices.]
+
+## Key Metrics This Year
+| Metric | This Year | Last Year | Goal |
+|--------|-----------|-----------|------|
+| [Metric] | [Value] | [Value] | [Goal] |
+
+## Looking Ahead
+[Specific goals for the coming year.]
+
+*Only report metrics you can verify — vague or unsubstantiated CSR claims ("greenwashing") carry real reputational and, increasingly, regulatory risk in several jurisdictions.*`,
+  },
+  {
+    slug: "travel-checklist-template",
+    name: "Travel Checklist",
+    seoTitle: "Free Travel Checklist Template",
+    description: "Free business travel checklist template covering pre-trip prep, packing, and logistics.",
+    category: "Business",
+    bodyMarkdown: `# Business Travel Checklist: [Trip Name]
+
+**Dates:** [Start Date] – [End Date] · **Destination:** [Location]
+
+## Before You Go
+- [ ] Flights/transport booked
+- [ ] Accommodation booked
+- [ ] Meeting schedule confirmed
+- [ ] Travel approval/expense pre-authorization obtained (if required)
+- [ ] Out-of-office and coverage arranged
+
+## Documents
+- [ ] ID/passport valid
+- [ ] Visa (if required)
+- [ ] Travel insurance confirmed
+- [ ] Itinerary shared with team/emergency contact
+
+## Packing
+- [ ] Work materials/presentation
+- [ ] Chargers and adapters
+- [ ] Business cards
+- [ ] [Weather-appropriate items]
+
+## During the Trip
+- [ ] Keep receipts for expense report
+- [ ] Confirm return travel
+
+*Sharing the itinerary with someone at the office (not just having it on your own phone) is the step most often skipped and most useful if plans change unexpectedly.*`,
+  },
+  {
+    slug: "product-sheet-template",
+    name: "Product Sheet (Spec Sheet)",
+    seoTitle: "Free Product Sheet / Spec Sheet Template",
+    description: "Free product sheet template — a one-page overview of a product's features, specs, and pricing for sales or marketing use.",
+    category: "Business",
+    bodyMarkdown: `# Product Sheet: [Product Name]
+
+## Overview
+[1-2 sentences: what it is and who it's for.]
+
+## Key Features
+- [Feature 1]
+- [Feature 2]
+- [Feature 3]
+
+## Specifications
+| Spec | Value |
+|------|-------|
+| [Spec] | [Value] |
+| [Spec] | [Value] |
+
+## Pricing
+[Price/tiers, or "Contact us for pricing"]
+
+## Why [Product Name]
+[The one or two things that make it different from alternatives.]
+
+## Contact / Next Steps
+[How to buy, request a demo, or get more information]
+
+*Keep it to one page — a product sheet's job is to get someone interested enough to ask a question, not to answer every possible question upfront.*`,
+  },
+  {
+    slug: "tenants-handbook-template",
+    name: "Tenants Handbook",
+    seoTitle: "Free Tenants Handbook Template",
+    description: "Free tenants handbook template for a rental property — house rules, maintenance requests, and key contacts.",
+    category: "Real Estate",
+    bodyMarkdown: `# Tenants Handbook: [Property Name/Address]
+
+## Welcome
+[A short welcome note from the landlord/property manager.]
+
+## Key Contacts
+| Need | Contact | Phone/Email |
+|------|---------|---------------|
+| Property manager | [Name] | [Contact] |
+| Maintenance/emergency repairs | [Name] | [Contact] |
+| After-hours emergency | [Name] | [Contact] |
+
+## Rent Payment
+Due date: [Day] · Accepted methods: [Methods] · Late fee policy: [Policy]
+
+## Maintenance Requests
+[How to submit a request — portal, email, phone — and expected response time]
+
+## House Rules
+[Quiet hours, guest policy, pet policy, parking, trash/recycling schedule]
+
+## Move-Out Procedures
+[Notice required, condition expectations, security deposit return process]
+
+## Amenities
+[If applicable — laundry, gym, parking, storage]
+
+*A handbook that answers the questions tenants actually ask (maintenance process, who to call after hours) reduces routine calls to the property manager more than any other single document.*`,
+  },
+  {
+    slug: "counseling-intake-form-template",
+    name: "Counseling Intake Form",
+    seoTitle: "Free Counseling Intake Form Template",
+    description: "Free counseling/therapy intake form template for a new client's background and presenting concerns.",
+    category: "Business",
+    bodyMarkdown: `# Counseling Intake Form
+
+**Client Name:** [Name] · **Date:** [Date]
+
+## Contact Information
+Email: [Email] · Phone: [Phone]
+Emergency contact: [Name, Phone, Relationship]
+
+## Presenting Concern
+What brings you in today? [Answer]
+How long has this been a concern? [Answer]
+
+## Background
+Relevant history: [Family, medical, or prior counseling history relevant to treatment]
+Current medications: [List, or "None"]
+
+## Goals
+What would you like to get out of counseling? [Answer]
+
+## Consent
+[ ] I have received and understood the practice's confidentiality policy and consent to treatment.
+
+Signature: ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal, medical, or mental health advice. Licensed practitioners should ensure their intake process meets their profession's specific documentation, consent, and confidentiality (e.g. HIPAA) requirements — this is a general starting structure, not a compliance-ready form.*`,
+  },
+  {
+    slug: "moving-checklist-template",
+    name: "Moving Checklist",
+    seoTitle: "Free Moving Checklist Template",
+    description: "Free moving checklist template covering everything to do before, during, and after a move.",
+    category: "Real Estate",
+    bodyMarkdown: `# Moving Checklist
+
+## 8 Weeks Before
+- [ ] Research moving companies / reserve a truck
+- [ ] Start decluttering — sell/donate what you won't take
+- [ ] Notify landlord (if renting) per lease notice requirements
+
+## 4 Weeks Before
+- [ ] Book movers/truck
+- [ ] Start packing non-essentials
+- [ ] Order packing supplies
+
+## 2 Weeks Before
+- [ ] Submit change of address (postal service)
+- [ ] Transfer or schedule utility disconnect/connect at both addresses
+- [ ] Update address with bank, employer, subscriptions
+
+## 1 Week Before
+- [ ] Confirm moving day logistics with movers
+- [ ] Pack a "first day" box (essentials, documents, chargers)
+- [ ] Clean out fridge/perishables plan
+
+## Moving Day
+- [ ] Final walkthrough of old place
+- [ ] Take photos of both old and new unit's condition
+- [ ] Keep valuables/documents with you, not on the truck
+
+## After the Move
+- [ ] Register vehicle/driver's license (if moved states/countries)
+- [ ] Update voter registration
+- [ ] Confirm all utilities are active
+
+*Taking dated photos of both the old unit (for deposit protection) and the new one (for your own move-in record) at the actual moment of moving covers you either way if a dispute comes up later.*`,
+  },
+  {
+    slug: "budget-narrative-template",
+    name: "Budget Narrative",
+    seoTitle: "Free Budget Narrative Template",
+    description: "Free budget narrative template explaining and justifying each line item in a grant or project budget.",
+    category: "Finance",
+    bodyMarkdown: `# Budget Narrative: [Project/Grant Name]
+
+**Total Budget:** [Amount] · **Period:** [Start Date] – [End Date]
+
+## Personnel
+[Line item amount] — [Explain: role, % of time dedicated, rate basis]
+
+## Fringe Benefits
+[Line item amount] — [Explain calculation, e.g. "% of salary per standard benefits rate"]
+
+## Travel
+[Line item amount] — [Explain purpose and basis, e.g. "2 site visits at $X per trip"]
+
+## Equipment/Supplies
+[Line item amount] — [Explain what's needed and why]
+
+## Contractual/Consultants
+[Line item amount] — [Explain scope and rate]
+
+## Indirect Costs
+[Line item amount] — [Explain rate and basis, e.g. "X% federally negotiated indirect rate"]
+
+## Total: [Amount]
+
+*Every line item should answer "why this amount" specifically — a budget narrative that just restates the number in words (rather than justifying it) tends to draw more reviewer questions, not fewer.*`,
+  },
+  {
+    slug: "briefing-note-template",
+    name: "Briefing Note",
+    seoTitle: "Free Briefing Note Template",
+    description: "Free briefing note template for quickly informing a decision-maker on an issue, with a clear recommendation.",
+    category: "Business",
+    bodyMarkdown: `# Briefing Note: [Subject]
+
+**Prepared for:** [Decision-maker Name] · **Prepared by:** [Name] · **Date:** [Date]
+
+## Purpose
+[One sentence: what this briefing is for — decision, awareness, or approval.]
+
+## Background
+[The essential context — only what's needed to understand the issue.]
+
+## Key Considerations
+- [Consideration 1]
+- [Consideration 2]
+- [Consideration 3]
+
+## Options (if a decision is needed)
+| Option | Pros | Cons |
+|--------|------|------|
+| [Option A] | [Pros] | [Cons] |
+| [Option B] | [Pros] | [Cons] |
+
+## Recommendation
+[Your specific recommendation, stated clearly.]
+
+## Next Steps
+[What happens after this briefing, and by when.]
+
+*A briefing note that presents options without a recommendation puts the thinking-work back on the busy person it was meant to save time for — always include your actual recommendation.*`,
+  },
+  {
+    slug: "maintenance-schedule-template",
+    name: "Maintenance Schedule",
+    seoTitle: "Free Maintenance Schedule Template",
+    description: "Free maintenance schedule template for tracking recurring upkeep on equipment, a facility, or a property.",
+    category: "Business",
+    bodyMarkdown: `# Maintenance Schedule: [Facility/Equipment Name]
+
+| Item | Task | Frequency | Last Done | Next Due | Responsible |
+|------|------|-----------|-----------|----------|----------------|
+| [Item] | [Task] | [Daily/Weekly/Monthly/Annual] | [Date] | [Date] | [Name] |
+| [Item] | [Task] | [Frequency] | [Date] | [Date] | [Name] |
+
+## Notes
+[Vendor contacts for specialized maintenance, warranty expiration dates, or anything else relevant]
+
+*A schedule that tracks "last done" alongside "next due" (not just the frequency) is what actually prevents tasks from silently sliding — it's easy to think something's current when it isn't.*`,
+  },
+  {
+    slug: "account-statement-template",
+    name: "Account Statement",
+    seoTitle: "Free Account Statement Template",
+    description: "Free account statement template summarizing a customer's transaction history and balance over a period.",
+    category: "Finance",
+    bodyMarkdown: `# Account Statement
+
+**Account holder:** [Name] · **Account #:** [Number]
+**Statement Period:** [Start Date] – [End Date]
+
+## Transaction History
+
+| Date | Description | Charges | Payments | Balance |
+|------|-------------|---------|----------|---------|
+| [Date] | Opening balance | | | [Amount] |
+| [Date] | [Description] | [Amount] | | [Running balance] |
+| [Date] | [Description] | | [Amount] | [Running balance] |
+
+## Summary
+Opening balance: [Amount]
+Total charges: [Amount]
+Total payments: [Amount]
+**Closing balance: [Amount]**
+
+## Payment Due
+[Amount], due by [Date]
+
+*A running balance column (not just a list of transactions) is what lets a customer actually verify the statement matches their own records line by line.*`,
+  },
+  {
+    slug: "feasibility-study-template",
+    name: "Feasibility Study",
+    seoTitle: "Free Feasibility Study Template",
+    description: "Free feasibility study template for evaluating whether a proposed project or business idea is practical before committing resources.",
+    category: "Business",
+    bodyMarkdown: `# Feasibility Study: [Project/Idea Name]
+
+**Prepared by:** [Name] · **Date:** [Date]
+
+## Project Description
+[What's being proposed.]
+
+## Market Feasibility
+[Is there real demand? Evidence — market research, customer interviews, comparable products.]
+
+## Technical Feasibility
+[Can this actually be built/delivered with available resources, technology, and expertise?]
+
+## Financial Feasibility
+[Estimated costs, revenue potential, and payback period. Use conservative assumptions.]
+
+## Operational Feasibility
+[Can the organization actually run this — staffing, processes, capacity?]
+
+## Legal/Regulatory Feasibility
+[Any licensing, compliance, or regulatory hurdles?]
+
+## Risks
+[Key risks that could derail the project.]
+
+## Recommendation
+[ ] Proceed  [ ] Proceed with modifications  [ ] Do not proceed
+
+[Clear justification for the recommendation above.]
+
+*A feasibility study's value comes from being willing to conclude "don't proceed" when the evidence points that way — a study that always recommends yes isn't doing its job.*`,
+  },
+  {
+    slug: "direct-deposit-authorization-form-template",
+    name: "Direct Deposit Authorization Form",
+    seoTitle: "Free Direct Deposit Authorization Form Template",
+    description: "Free direct deposit authorization form template for an employee to set up payroll direct deposit.",
+    category: "Finance",
+    bodyMarkdown: `# Direct Deposit Authorization Form
+
+**Employee Name:** [Name] · **Employee ID:** [ID]
+**Date:** [Date]
+
+## Bank Account Information
+Bank name: [Name]
+Account type: [ ] Checking  [ ] Savings
+Routing number: [Number]
+Account number: [Number]
+
+[If splitting across multiple accounts, repeat the fields above for each account and specify % or fixed amount per account.]
+
+## Authorization
+I authorize [Company Name] to deposit my net pay directly into the account(s) listed above. This authorization remains in effect until I submit a written change or cancellation.
+
+Employee signature: ______________________  Date: ____________
+
+**Please attach a voided check or bank letter confirming the account details above.**
+
+*Requiring a voided check (not just handwritten numbers) catches transposition errors before the first payroll run — a wrong digit in a routing/account number is one of the most common payroll mistakes.*`,
+  },
+  {
+    slug: "debt-settlement-agreement-template",
+    name: "Debt Settlement Agreement",
+    seoTitle: "Free Debt Settlement Agreement Template",
+    description: "Free debt settlement agreement template — creditor agrees to accept a reduced lump-sum payment to fully resolve a debt.",
+    category: "Finance",
+    bodyMarkdown: `# Debt Settlement Agreement
+
+**Creditor:** [Name]
+**Debtor:** [Name]
+**Original Debt:** [Amount], per [Reference — invoice/loan/agreement]
+**Date:** [Date]
+
+## 1. Settlement Amount
+Creditor agrees to accept [Settlement Amount] as full and final settlement of the debt of [Original Amount] described above.
+
+## 2. Payment
+Debtor will pay the Settlement Amount as follows: [Lump sum by [Date] / installments per the schedule below].
+
+| Payment # | Due Date | Amount |
+|-----------|----------|--------|
+| 1 | [Date] | [Amount] |
+
+## 3. Release Upon Payment
+Upon receipt of the full Settlement Amount, Creditor releases Debtor from any further obligation related to the original debt, and will not pursue collection of the remaining balance.
+
+## 4. If Payment Is Not Made
+If Debtor fails to pay per the schedule above, this settlement is void and Creditor may pursue collection of the full original amount, less any payments actually received.
+
+## 5. No Admission
+This settlement is not an admission by either party regarding the validity of the original debt.
+
+---
+Creditor: ______________________  Date: ____________
+Debtor: ______________________  Date: ____________
+
+*Get the settlement agreement in writing BEFORE sending payment — a verbal agreement to "settle for less" is very hard to enforce if the creditor later claims the full amount is still owed.*`,
+  },
+  {
+    slug: "emergency-contact-form-template",
+    name: "Emergency Contact Form",
+    seoTitle: "Free Emergency Contact Form Template",
+    description: "Free emergency contact form template for collecting who to reach in a medical or urgent situation.",
+    category: "HR",
+    bodyMarkdown: `# Emergency Contact Form
+
+**Name:** [Name] · **Date:** [Date]
+
+## Primary Emergency Contact
+Name: [Name] · Relationship: [Relationship]
+Phone: [Phone] · Alternate phone: [Phone]
+
+## Secondary Emergency Contact
+Name: [Name] · Relationship: [Relationship]
+Phone: [Phone]
+
+## Medical Information (optional, if relevant to the setting)
+Known allergies: [List, or "None"]
+Medical conditions: [List, or "None"]
+Physician: [Name, Phone]
+
+## Additional Notes
+[Anything else relevant in an emergency]
+
+Signature: ______________________  Date: ____________
+
+*Update these forms at least annually — outdated emergency contact information is only discovered to be wrong at the worst possible moment.*`,
+  },
+  {
+    slug: "small-estate-affidavit-template",
+    name: "Small Estate Affidavit",
+    seoTitle: "Free Small Estate Affidavit Template",
+    description: "Free small estate affidavit template — allows heirs to collect a deceased person's assets without full probate, for estates under a state's threshold.",
+    category: "Legal",
+    bodyMarkdown: `# Small Estate Affidavit
+
+State of [State]
+County of [County]
+
+I, [Affiant Name], being first duly sworn, state as follows:
+
+## 1. Decedent
+[Decedent Name] died on [Date of Death], a resident of [County, State].
+
+## 2. Value of Estate
+The total value of the decedent's estate, excluding [exempt property per state law, e.g. real estate/vehicles handled separately], does not exceed [State's small estate threshold amount], the maximum allowed for this affidavit procedure under [State] law.
+
+## 3. No Pending Probate
+No petition for probate or administration of the decedent's estate is pending or has been granted in any jurisdiction.
+
+## 4. Entitlement
+I am entitled to the property described below as [heir / per the decedent's will, if any]: [Description of assets — bank accounts, personal property].
+
+## 5. Heirs
+[List all heirs/beneficiaries entitled to the estate, per state intestacy law or the will.]
+
+---
+Affiant signature: ______________________  Date: ____________
+
+**Notarization:**
+Subscribed and sworn to before me on [Date].
+Notary Public: ______________________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. Small estate affidavit dollar thresholds, waiting periods, and required procedures vary significantly by state — confirm your state's specific requirements (many states have an official statutory form) before relying on this, and consult a probate attorney if the estate is at all complicated.*`,
+  },
+  {
+    slug: "interior-design-contract-template",
+    name: "Interior Design Contract",
+    seoTitle: "Free Interior Design Contract Template",
+    description: "Free interior design contract template for a designer working with a residential or commercial client.",
+    category: "Business",
+    bodyMarkdown: `# Interior Design Contract
+
+**Designer:** [Name/Company]
+**Client:** [Name]
+**Project:** [Address/Description]
+**Date:** [Date]
+
+## 1. Scope of Services
+Designer will provide: [e.g. space planning, material/furniture selection, vendor coordination, project management] for [Rooms/areas].
+
+## 2. Fee Structure
+[Choose one: "Flat design fee of [Amount]" / "Hourly rate of [Amount]" / "Percentage of purchases, [%]" — or a combination.]
+
+## 3. Product Purchases
+[Describe how furniture/materials purchases are handled — Designer procures and marks up, or Client purchases directly per Designer's specifications.]
+
+## 4. Timeline
+Estimated project timeline: [Timeframe], acknowledging that lead times on custom items may extend this.
+
+## 5. Revisions
+This scope includes [Number] rounds of design revisions; additional revisions billed at [Rate].
+
+## 6. Payment Schedule
+[Deposit amount and timing, and remaining payment milestones.]
+
+## 7. Cancellation
+[What happens to fees/deposits paid, and any custom orders already placed, if the project is cancelled.]
+
+---
+Designer: ______________________  Date: ____________
+Client: ______________________  Date: ____________
+
+*Being explicit about how furniture/material purchases work (Section 3) — including any markup — avoids the single most common source of friction in design engagements.*`,
+  },
+  {
+    slug: "creative-brief-template",
+    name: "Creative Brief",
+    seoTitle: "Free Creative Brief Template",
+    description: "Free creative brief template for aligning a team or agency on a marketing, design, or content project before work begins.",
+    category: "Business",
+    bodyMarkdown: `# Creative Brief: [Project Name]
+
+**Client/Requester:** [Name] · **Date:** [Date]
+
+## Project Overview
+[What's being created and why.]
+
+## Objective
+[What this creative needs to achieve — awareness, conversion, engagement.]
+
+## Target Audience
+[Who this is for, specifically.]
+
+## Key Message
+[The single most important thing the audience should take away — one sentence.]
+
+## Tone and Style
+[Brand voice, mood, visual references if helpful.]
+
+## Deliverables
+[Exact formats and specs needed — e.g. "3 social posts, 1080x1080, plus 1 video, 30 seconds."]
+
+## Mandatories
+[Anything that must be included — logo, legal disclaimer, specific offer details.]
+
+## Timeline
+Draft due: [Date] · Final due: [Date]
+
+## Budget
+[If applicable]
+
+*A creative brief with one clear key message produces sharper work than one with five competing priorities — force the "if they remember only one thing" decision up front.*`,
+  },
+  {
+    slug: "field-trip-permission-form-template",
+    name: "Field Trip Permission Form",
+    seoTitle: "Free Field Trip Permission Form Template",
+    description: "Free field trip permission form template for a school or organization taking students/participants off-site.",
+    category: "Legal",
+    bodyMarkdown: `# Field Trip Permission Form
+
+**Trip:** [Destination] · **Date:** [Date] · **Time:** [Departure] – [Return]
+
+**Student/Participant Name:** [Name]
+
+## Trip Details
+Purpose: [Description]
+Transportation: [Method]
+Cost (if any): [Amount]
+
+## Permission
+I give permission for my child/dependent to participate in the field trip described above.
+
+## Emergency Contact
+Name: [Name] · Phone: [Phone]
+
+## Medical Information
+Allergies/conditions: [List, or "None"]
+Medications needed during the trip: [List, or "None"]
+
+## Emergency Medical Treatment
+I authorize [Organization] to seek emergency medical treatment if I cannot be reached.
+
+Parent/Guardian signature: ______________________  Date: ____________
+
+*Collect these forms before the trip is finalized (not the morning of) — a scramble to reach an unreachable parent on departure day is avoidable with an earlier deadline.*`,
+  },
+  {
+    slug: "public-notice-template",
+    name: "Public Notice",
+    seoTitle: "Free Public Notice Template",
+    description: "Free public notice template for a formal announcement required to be published or posted for legal or regulatory reasons.",
+    category: "Legal",
+    bodyMarkdown: `# Public Notice
+
+**PUBLIC NOTICE**
+
+[Organization/Individual Name] hereby gives notice that [description of the matter — e.g. "an application for a zoning variance has been filed for the property at ___" or "a public hearing will be held regarding ___"].
+
+## Details
+Date/time (if a hearing or deadline): [Date/Time]
+Location (if applicable): [Address]
+Matter reference #: [Number, if applicable]
+
+## How to Respond or Learn More
+[Contact information, or how to submit comments/objections, and any deadline for doing so.]
+
+[Name, Title, Organization]
+[Date of publication]
+
+*Many public notices (zoning, licensing, legal proceedings) have legally mandated content, publication method (a specific newspaper, a set number of times), and timing — check what your specific situation legally requires rather than relying solely on this general template.*`,
+  },
+  {
+    slug: "rescission-letter-template",
+    name: "Rescission Letter",
+    seoTitle: "Free Rescission Letter Template",
+    description: "Free rescission letter template for canceling a contract within a legal right-to-cancel period.",
+    category: "Legal",
+    bodyMarkdown: `# Rescission Letter
+
+[Your Name]
+[Date]
+
+[Company/Other Party Name]
+
+**RE: Notice of Rescission — [Contract/Order Reference]**
+
+Dear [Recipient Name],
+
+I am writing to exercise my right to cancel [the contract/order/agreement] dated [Date], referenced above.
+
+## Basis for Rescission
+[e.g. "This notice is provided within the applicable cooling-off period" or the specific right/reason relied upon.]
+
+## Details
+Contract/Order #: [Number]
+Original date: [Date]
+Amount paid (if any): [Amount]
+
+## Requested Action
+I request a full refund of any amount paid, and confirmation that this rescission has been processed, within [Number] days.
+
+Sincerely,
+[Your Name]
+[Contact Information]
+
+*Send rescission notices via a method that proves delivery (certified mail, or email with read receipt) — many right-to-cancel provisions are time-limited, and proving WHEN you sent notice can matter if there's a dispute.*`,
+  },
+  {
+    slug: "budget-justification-template",
+    name: "Budget Justification",
+    seoTitle: "Free Budget Justification Template",
+    description: "Free budget justification template — explains why each proposed expense is necessary, commonly used in grant applications.",
+    category: "Finance",
+    bodyMarkdown: `# Budget Justification: [Project/Grant Name]
+
+## Personnel
+**[Role], [%] FTE, [Amount]:** [Why this role/time commitment is necessary for the project.]
+
+## Equipment/Supplies
+**[Item], [Amount]:** [Why this specific item is needed and how it's used in the project.]
+
+## Travel
+**[Purpose], [Amount]:** [Why this travel is necessary — site visits, conferences, fieldwork.]
+
+## Contractual Services
+**[Service], [Amount]:** [Why this can't be done in-house and how the amount was determined.]
+
+## Other Direct Costs
+**[Item], [Amount]:** [Justification.]
+
+## Indirect Costs
+**[Amount]:** [Rate and basis used, per your organization's negotiated rate agreement if applicable.]
+
+*A justification that connects every dollar back to a specific project activity (not just restating the line item) is what actually satisfies a grant reviewer — "we need this because ___" every time.*`,
+  },
+  {
+    slug: "supplier-registration-form-template",
+    name: "Supplier Registration Form",
+    seoTitle: "Free Supplier Registration Form Template",
+    description: "Free supplier registration form template for onboarding a new vendor into your procurement system.",
+    category: "Business",
+    bodyMarkdown: `# Supplier Registration Form
+
+## Company Information
+Company name: [Name] · Tax ID/EIN: [Number]
+Address: [Address]
+Primary contact: [Name, Title, Email, Phone]
+
+## Business Details
+Business type: [Sole prop/LLC/Corp]
+Products/services offered: [Description]
+Years in business: [Number]
+
+## Payment Information
+Payment terms requested: [e.g. Net 30]
+Preferred payment method: [Method]
+Bank details (for ACH, if applicable): [Attach separately/securely — do not send account numbers over unsecured email]
+
+## Compliance
+[ ] W-9 (or local tax equivalent) attached
+[ ] Certificate of insurance attached (if required)
+[ ] References provided
+
+## Certification
+The undersigned certifies the above information is accurate.
+
+Signature: ______________________  Date: ____________
+
+*Collect banking details through a secure channel (a portal or encrypted form), never a plain email — vendor-payment fraud often starts with intercepted or spoofed banking-detail emails.*`,
+  },
+  {
+    slug: "revocation-of-power-of-attorney-template",
+    name: "Revocation of Power of Attorney",
+    seoTitle: "Free Revocation of Power of Attorney Template",
+    description: "Free revocation of power of attorney template — formally cancels a previously granted power of attorney.",
+    category: "Legal",
+    bodyMarkdown: `# Revocation of Power of Attorney
+
+I, [Principal Name], of [Address], hereby revoke the Power of Attorney dated [Date of Original POA], in which I appointed [Agent Name] as my attorney-in-fact.
+
+## Effective Date
+This revocation is effective immediately upon signing, [Date].
+
+## Notice to Third Parties
+Any person or institution that has relied on the revoked Power of Attorney should be considered notified as of the date they receive a copy of this revocation. I will provide copies of this revocation to [Agent Name] and to [any institutions that were relying on the original POA, e.g. banks].
+
+---
+Principal signature: ______________________  Date: ____________
+
+[Notarization block, if the original POA was notarized — matching formality is generally advisable]
+
+*Send a copy of this revocation directly to anyone who was relying on the original power of attorney (banks, agents, institutions) — revoking it doesn't automatically notify them, and they may continue to honor the old POA until they know it's revoked.*`,
+  },
+  {
+    slug: "beta-test-agreement-template",
+    name: "Beta Test Agreement",
+    seoTitle: "Free Beta Test Agreement Template",
+    description: "Free beta test agreement template for testers trying pre-release software in exchange for feedback.",
+    category: "Business",
+    bodyMarkdown: `# Beta Test Agreement
+
+**Company:** [Company Name]
+**Beta Tester:** [Name]
+**Product:** [Beta Product Name]
+**Date:** [Date]
+
+## 1. Beta Access
+Company grants Tester access to [Product] in its pre-release ("beta") state, for the purpose of testing and providing feedback.
+
+## 2. No Warranty
+The beta software is provided "as is," may contain bugs, and may change or be discontinued at any time without notice.
+
+## 3. Feedback
+Tester agrees to provide feedback on their experience. Company may use this feedback to improve the product without compensation to Tester, unless separately agreed.
+
+## 4. Confidentiality
+Tester agrees to keep [Product]'s existence, features, and any non-public information confidential until Company publicly announces or releases it.
+
+## 5. No Production Use
+Tester understands the beta is not intended for production/critical use and agrees not to rely on it for [critical business functions/data].
+
+## 6. Term
+This Agreement lasts for the duration of the beta program, or until either party ends Tester's participation.
+
+---
+Company: ______________________  Date: ____________
+Beta Tester: ______________________  Date: ____________
+
+*The confidentiality clause matters more than it might seem — an unreleased product's existence or feature set leaking early can undercut a planned launch.*`,
+  },
+  {
+    slug: "stock-transfer-form-template",
+    name: "Stock Transfer Form",
+    seoTitle: "Free Stock Transfer Form Template",
+    description: "Free stock transfer form template for transferring shares of a private company from one shareholder to another.",
+    category: "Finance",
+    bodyMarkdown: `# Stock Transfer Form
+
+**Company:** [Company Name]
+**Transferor (seller):** [Name]
+**Transferee (buyer):** [Name]
+**Date:** [Date]
+
+## Shares Being Transferred
+Class of stock: [e.g. Common]
+Number of shares: [Number]
+Certificate # (if certificated): [Number]
+
+## Consideration
+Transferor sells the shares described above to Transferee for [Amount].
+
+## Representations
+Transferor represents they are the lawful owner of the shares, free of liens, and that the transfer complies with any restrictions in the Company's bylaws or a shareholders' agreement (e.g. right of first refusal).
+
+## Company Acknowledgment
+The Company acknowledges this transfer and will update its stock ledger accordingly.
+
+---
+Transferor: ______________________  Date: ____________
+Transferee: ______________________  Date: ____________
+Company (acknowledged by): ______________________  Date: ____________
+
+*Check the company's bylaws or any shareholders' agreement BEFORE transferring — many private companies have a right of first refusal or board-approval requirement that must be satisfied for a transfer to be valid.*`,
+  },
+  {
+    slug: "position-statement-template",
+    name: "Position Statement",
+    seoTitle: "Free Position Statement Template",
+    description: "Free position statement template for formally stating your organization's stance on an issue.",
+    category: "Business",
+    bodyMarkdown: `# Position Statement: [Organization Name] on [Issue]
+
+**Date:** [Date]
+
+## Our Position
+[State the position clearly and directly, in one or two sentences.]
+
+## Background
+[Why this issue matters and the context behind it.]
+
+## Rationale
+[The reasoning and evidence supporting this position.]
+
+## What This Means in Practice
+[How this position translates into actual policy, action, or behavior — a position statement with no practical implication tends to read as empty.]
+
+## Contact
+For questions about this statement: [Name/Email]
+
+*A position statement that only states a value ("we care about X") without a concrete implication reads as PR rather than a genuine position — tie it to something you're actually doing.*`,
+  },
+  {
+    slug: "warning-letter-template",
+    name: "Warning Letter",
+    seoTitle: "Free Warning Letter Template",
+    description: "Free general warning letter template — formally puts someone on notice about a problem, before more serious action.",
+    category: "Business",
+    bodyMarkdown: `# Warning Letter
+
+[Your Name/Organization]
+[Date]
+
+[Recipient Name]
+
+**RE: Formal Warning — [Subject]**
+
+Dear [Recipient Name],
+
+This letter serves as formal warning regarding [the specific issue — conduct, a violation, non-compliance].
+
+## The Issue
+[Factual, specific description, with dates if relevant.]
+
+## Prior Notice (if applicable)
+[Reference any earlier informal warning or discussion about this issue.]
+
+## Required Action
+You are required to [specific action] by [Date].
+
+## Consequences
+Failure to [comply / correct this issue] may result in [specific consequence — further action, termination of the relationship, legal action].
+
+Sincerely,
+[Your Name]
+
+*A warning letter that's specific about both the issue AND the exact consequence of continuing carries far more weight than a vague "please improve" — and it creates a clearer record if further action is later needed.*`,
+  },
+  {
+    slug: "gift-letter-template",
+    name: "Gift Letter (Mortgage Down Payment)",
+    seoTitle: "Free Gift Letter Template for Mortgage Down Payment",
+    description: "Free gift letter template confirming that mortgage down payment funds are a genuine gift, not a loan, for the lender's file.",
+    category: "Finance",
+    bodyMarkdown: `# Gift Letter
+
+**Date:** [Date]
+
+**Lender:** [Lender Name]
+**Re: Mortgage Loan for:** [Borrower Name]
+**Property Address:** [Address]
+
+I, [Donor Name], am providing a gift of [Amount] to [Borrower Name], my [relationship — e.g. son/daughter], to be used toward the down payment and/or closing costs on the property referenced above.
+
+## Certification
+I certify that:
+- This is a bona fide gift, and no repayment is expected or implied.
+- These funds are not, and will not be, provided by any party with an interest in the sale of the property (seller, real estate agent, builder).
+- The source of these funds is: [Description — e.g. "personal savings account"].
+
+Donor name: [Name] · Donor address: [Address] · Donor phone: [Phone]
+Relationship to borrower: [Relationship]
+
+---
+Donor signature: ______________________  Date: ____________
+Borrower signature: ______________________  Date: ____________
+
+*Lenders require this exact "no repayment expected" language and typically want to see the funds actually transfer and "season" in the borrower's account before closing — check your specific lender's requirements, which vary by loan type (conventional, FHA, etc.).*`,
+  },
+  {
+    slug: "sustainability-report-template",
+    name: "Sustainability Report",
+    seoTitle: "Free Sustainability Report Template",
+    description: "Free sustainability report template summarizing a company's environmental impact and sustainability initiatives.",
+    category: "Business",
+    bodyMarkdown: `# Sustainability Report — [Company Name] [Year]
+
+## Overview
+[Brief statement on the company's sustainability commitment and approach.]
+
+## Environmental Impact
+| Metric | This Year | Last Year | Target |
+|--------|-----------|-----------|--------|
+| Energy consumption | [Value] | [Value] | [Target] |
+| Carbon emissions | [Value] | [Value] | [Target] |
+| Waste diverted from landfill | [Value] | [Value] | [Target] |
+| Water usage | [Value] | [Value] | [Target] |
+
+## Initiatives This Year
+[Specific programs undertaken — e.g. renewable energy sourcing, packaging reduction, supply chain audits.]
+
+## Supply Chain
+[Any sustainability requirements or audits applied to suppliers.]
+
+## Goals Going Forward
+[Specific, measurable targets for the coming year.]
+
+*Report metrics using a consistent methodology year over year — a metric that changes calculation method without disclosure looks like (or is) manipulation, even if unintentional.*`,
+  },
+  {
+    slug: "audit-committee-charter-template",
+    name: "Audit Committee Charter",
+    seoTitle: "Free Audit Committee Charter Template",
+    description: "Free audit committee charter template — defines the purpose, composition, and responsibilities of a board's audit committee.",
+    category: "Legal",
+    bodyMarkdown: `# Audit Committee Charter — [Company Name]
+
+## Purpose
+The Audit Committee assists the Board of Directors in overseeing the integrity of the Company's financial statements, internal controls, and compliance with legal and regulatory requirements.
+
+## Composition
+The Committee consists of at least [Number] members of the Board, [each of whom must be independent, per [applicable listing/governance standard]].
+
+## Responsibilities
+- Oversee the financial reporting process and review financial statements before release
+- Oversee the internal audit function, if any
+- Recommend the appointment (and, if needed, removal) of the external auditor
+- Review the scope and results of the external audit
+- Oversee compliance with legal and regulatory requirements
+- Review related-party transactions
+
+## Meetings
+The Committee meets at least [Frequency], and may meet in executive session with the external auditor without management present.
+
+## Authority
+The Committee has authority to engage independent advisors as needed, at the Company's expense.
+
+## Reporting
+The Committee reports to the full Board after each meeting.
+
+---
+Adopted by the Board on [Date].
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. Publicly traded companies have specific audit committee independence and composition requirements under securities exchange listing rules and Sarbanes-Oxley — this general template doesn't substitute for those specific compliance requirements if they apply to you.*`,
+  },
+  {
+    slug: "capability-statement-template",
+    name: "Capability Statement",
+    seoTitle: "Free Capability Statement Template",
+    description: "Free capability statement template — a one-page summary of what your company can do, commonly used for government/corporate contracting.",
+    category: "Business",
+    bodyMarkdown: `# Capability Statement — [Company Name]
+
+## Core Competencies
+[3-5 bullet points on what you do best.]
+
+## Differentiators
+[What sets you apart — certifications, unique methodology, track record.]
+
+## Past Performance
+| Client | Project | Value |
+|--------|---------|-------|
+| [Client] | [Project] | [Value/scope] |
+
+## Certifications
+[Relevant certifications — e.g. minority/women-owned business, ISO certifications, industry-specific credentials.]
+
+## Company Data
+Founded: [Year] · [Number] employees
+NAICS codes (if for US government contracting): [Codes]
+DUNS/UEI number (if applicable): [Number]
+
+## Contact
+[Name, Title, Email, Phone, Website]
+
+*Capability statements for government contracting specifically are expected to include NAICS codes and registration numbers (SAM.gov in the US) — check current requirements for the specific procurement process you're pursuing.*`,
+  },
+  {
+    slug: "fact-sheet-template",
+    name: "Fact Sheet",
+    seoTitle: "Free Fact Sheet Template",
+    description: "Free fact sheet template for summarizing key facts about your organization, product, or issue for press or reference.",
+    category: "Business",
+    bodyMarkdown: `# Fact Sheet: [Topic]
+
+**[Organization/Product Name]**
+
+## Quick Facts
+- [Fact 1]
+- [Fact 2]
+- [Fact 3]
+- [Fact 4]
+
+## Background
+[2-3 sentences of context.]
+
+## Key Numbers
+| Metric | Value |
+|--------|-------|
+| [Metric] | [Value] |
+| [Metric] | [Value] |
+
+## Quotes (if applicable)
+"[Quote]" — [Name, Title]
+
+## Contact
+[Name, Email, Phone]
+
+*A fact sheet is scannable by design — keep every point to one line, since it's meant to be referenced quickly (e.g. by a journalist writing on deadline), not read start to finish.*`,
+  },
+  {
+    slug: "gap-analysis-template",
+    name: "Gap Analysis",
+    seoTitle: "Free Gap Analysis Template",
+    description: "Free gap analysis template for comparing your current state to a target state and identifying what needs to change.",
+    category: "Business",
+    bodyMarkdown: `# Gap Analysis: [Area/Process/Capability]
+
+**Prepared by:** [Name] · **Date:** [Date]
+
+## Current State
+[Describe where things stand today, specifically.]
+
+## Target State
+[Describe the desired future state — as specific and measurable as possible.]
+
+## Gap Identification
+
+| Area | Current State | Target State | Gap | Priority |
+|------|-----------------|-----------------|-----|----------|
+| [Area] | [Description] | [Description] | [Description] | [High/Med/Low] |
+| [Area] | [Description] | [Description] | [Description] | [High/Med/Low] |
+
+## Root Causes
+[Why the gaps exist — resource constraints, skill gaps, process issues.]
+
+## Action Plan
+| Action | Owner | Target Date |
+|--------|-------|--------------|
+| [Action] | [Name] | [Date] |
+
+*A gap analysis without an action plan is just a description of a problem — always follow through to "here's what closes each gap and who owns it."*`,
+  },
+  {
+    slug: "cancellation-letter-template",
+    name: "Cancellation Letter",
+    seoTitle: "Free Cancellation Letter Template",
+    description: "Free cancellation letter template for canceling a subscription, membership, contract, or order.",
+    category: "Business",
+    bodyMarkdown: `# Cancellation Letter
+
+[Your Name]
+[Date]
+
+[Company Name]
+
+**RE: Cancellation of [Subscription/Membership/Contract/Order] — Account #[Number]**
+
+Dear [Recipient Name],
+
+I am writing to cancel my [subscription/membership/contract/order], effective [Date, or "immediately"].
+
+## Account Details
+Account/order number: [Number]
+Name on account: [Name]
+
+## Requested Action
+Please confirm this cancellation in writing and stop any further billing to my account. [If applicable: "Please also process a refund of [Amount] for ___."]
+
+Please confirm receipt of this cancellation request by [Date].
+
+Sincerely,
+[Your Name]
+[Contact Information]
+
+*Send cancellation requests in writing (email counts) even if you also call — a written record is what you need if the company continues billing after you cancelled.*`,
+  },
+  {
+    slug: "seo-checklist-template",
+    name: "SEO Checklist",
+    seoTitle: "Free SEO Checklist Template",
+    description: "Free SEO checklist template for optimizing a page or launching new content.",
+    category: "Business",
+    bodyMarkdown: `# SEO Checklist: [Page/Content Name]
+
+## On-Page
+- [ ] Target keyword in the title tag
+- [ ] Target keyword in the H1
+- [ ] Meta description written (under 160 characters)
+- [ ] Keyword used naturally in the first 100 words
+- [ ] Header structure (H2/H3) organizes content logically
+- [ ] Internal links to relevant pages
+- [ ] Images have descriptive alt text
+- [ ] URL is short and readable
+
+## Technical
+- [ ] Page loads quickly (checked with a speed test tool)
+- [ ] Mobile-friendly / responsive
+- [ ] Canonical tag set correctly (if needed)
+- [ ] Page is included in the sitemap
+
+## Content Quality
+- [ ] Content genuinely answers the search intent
+- [ ] No thin/duplicate content
+- [ ] Content is easy to scan (short paragraphs, bullet points)
+
+## Off-Page (ongoing)
+- [ ] Page submitted to search engines / IndexNow
+- [ ] Internal linking from related existing pages added
+
+*Search intent match matters more than any technical box on this list — a perfectly optimized page that doesn't actually answer what the searcher wanted still won't rank or convert.*`,
+  },
+  {
+    slug: "maintenance-agreement-template",
+    name: "Maintenance Agreement",
+    seoTitle: "Free Maintenance Agreement Template",
+    description: "Free maintenance agreement template for ongoing upkeep of equipment, software, or a property.",
+    category: "Business",
+    bodyMarkdown: `# Maintenance Agreement
+
+**Provider:** [Company Name]
+**Client:** [Name]
+**Equipment/System/Property:** [Description]
+**Effective Date:** [Date]
+
+## 1. Services
+Provider will perform the following maintenance: [Description — e.g. "quarterly inspection and servicing"].
+
+## 2. Schedule
+Maintenance visits occur: [Frequency], on a schedule coordinated with Client.
+
+## 3. Fees
+[Amount] per [period], covering the services above. [Repairs/parts beyond routine maintenance billed separately at [Rate].]
+
+## 4. Emergency Service
+[Describe response time and any additional charge for emergency/out-of-schedule service.]
+
+## 5. Client Responsibilities
+Client will provide access to the equipment/property and notify Provider promptly of any issues.
+
+## 6. Term and Renewal
+This Agreement runs for [Term] and renews automatically unless either party gives [Notice Period] notice of non-renewal.
+
+## 7. Limitation of Liability
+[Standard liability limitation appropriate to the type of maintenance being performed.]
+
+---
+Provider: ______________________  Date: ____________
+Client: ______________________  Date: ____________
+
+*Being explicit about what counts as "routine maintenance" (included) vs. a "repair" (extra charge) up front is what prevents billing disputes when something actually breaks.*`,
+  },
+  {
+    slug: "business-associate-agreement-template",
+    name: "Business Associate Agreement (BAA)",
+    seoTitle: "Free Business Associate Agreement (BAA) Template",
+    description: "Free HIPAA business associate agreement template — required when a vendor handles protected health information on behalf of a covered entity.",
+    category: "Legal",
+    bodyMarkdown: `# Business Associate Agreement
+
+**Covered Entity:** [Name]
+**Business Associate:** [Name]
+**Effective Date:** [Date]
+
+## 1. Purpose
+This Agreement ensures Business Associate appropriately safeguards Protected Health Information ("PHI") it creates, receives, maintains, or transmits on behalf of Covered Entity, per HIPAA and the HITECH Act.
+
+## 2. Permitted Uses and Disclosures
+Business Associate may use or disclose PHI only as necessary to perform the services described in [the underlying services agreement], or as required by law.
+
+## 3. Safeguards
+Business Associate will implement appropriate administrative, physical, and technical safeguards to protect PHI, consistent with the HIPAA Security Rule.
+
+## 4. Reporting
+Business Associate will report to Covered Entity any use or disclosure of PHI not permitted by this Agreement, including any breach of unsecured PHI, without unreasonable delay and no later than [required timeframe under HITECH].
+
+## 5. Subcontractors
+Business Associate will ensure any subcontractor that creates, receives, or transmits PHI on its behalf agrees to the same restrictions and conditions.
+
+## 6. Access and Amendment
+Business Associate will make PHI available to Covered Entity as needed to respond to an individual's request for access or amendment under HIPAA.
+
+## 7. Return or Destruction of PHI
+Upon termination of this Agreement, Business Associate will return or destroy all PHI, if feasible, or extend these protections if return/destruction is not feasible.
+
+## 8. Term and Termination
+Covered Entity may terminate this Agreement if Business Associate materially breaches its obligations and fails to cure.
+
+---
+Covered Entity: ______________________  Date: ____________
+Business Associate: ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. A BAA is a specific, legally required document under HIPAA when PHI is shared with a vendor — this general template covers the standard required elements, but have a healthcare-compliance attorney review it, since HIPAA enforcement carries real financial penalties for gaps.*`,
+  },
+  {
+    slug: "grant-agreement-template",
+    name: "Grant Agreement",
+    seoTitle: "Free Grant Agreement Template",
+    description: "Free grant agreement template between a funder and grantee, setting out the terms of a funded project.",
+    category: "Business",
+    bodyMarkdown: `# Grant Agreement
+
+**Funder:** [Organization Name]
+**Grantee:** [Organization Name]
+**Grant Amount:** [Amount]
+**Date:** [Date]
+
+## 1. Purpose
+Funder agrees to provide Grantee with [Amount] to support: [Description of the funded project/purpose].
+
+## 2. Disbursement
+Funds will be disbursed: [Schedule — e.g. "50% upon signing, 50% upon submission of a mid-project report"].
+
+## 3. Use of Funds
+Grantee will use the grant funds only for the purpose described above, per the budget attached as Exhibit A.
+
+## 4. Reporting Requirements
+Grantee will provide: [Progress reports, financial reports — describe frequency and content required].
+
+## 5. Records
+Grantee will maintain accurate financial records related to the grant for at least [Duration] and make them available to Funder upon reasonable request.
+
+## 6. Unused Funds
+Any grant funds not used for the described purpose by [Date] must be returned to Funder or reallocated with Funder's written approval.
+
+## 7. Publicity
+[Describe any expectations around acknowledging the Funder publicly, or restrictions on using Funder's name.]
+
+## 8. Termination
+Funder may terminate this Agreement and require return of unused funds if Grantee materially fails to comply with its terms.
+
+---
+Funder: ______________________  Date: ____________
+Grantee: ______________________  Date: ____________
+
+*Clear reporting requirements and deadlines (Section 4) are what actually protect a funder's ability to verify impact — vague "keep us posted" language tends to produce inconsistent, hard-to-compare updates.*`,
+  },
+  {
+    slug: "property-management-agreement-template",
+    name: "Property Management Agreement",
+    seoTitle: "Free Property Management Agreement Template",
+    description: "Free property management agreement template — an owner hires a property manager to handle a rental property's day-to-day operations.",
+    category: "Real Estate",
+    bodyMarkdown: `# Property Management Agreement
+
+**Owner:** [Name]
+**Property Manager:** [Name/Company, License # if required in your state]
+**Property:** [Address]
+**Effective Date:** [Date]
+
+## 1. Appointment
+Owner appoints Manager to manage the Property, including: [tenant screening, rent collection, maintenance coordination, lease enforcement — list what's included].
+
+## 2. Manager's Authority
+Manager may [approve expenses up to $[Amount] without prior approval / sign leases on Owner's behalf / other specific authority — define clearly].
+
+## 3. Compensation
+Owner will pay Manager [%] of monthly rent collected, or [Flat fee], plus [any leasing fee for placing a new tenant].
+
+## 4. Rent Collection and Disbursement
+Manager will collect rent and disburse net proceeds to Owner [Frequency], after deducting fees and approved expenses, with a statement of accounts.
+
+## 5. Maintenance
+Manager will coordinate repairs, [with Owner's approval required above $[Amount]].
+
+## 6. Insurance
+Owner will maintain property insurance; Manager will maintain [errors & omissions / general liability] insurance.
+
+## 7. Term and Termination
+This Agreement runs for [Term] and may be terminated by either party with [Notice Period] written notice.
+
+## 8. Governing Law
+This Agreement is governed by the laws of [State].
+
+---
+Owner: ______________________  Date: ____________
+Property Manager: ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. Property management often requires a real estate license in the manager's state — confirm the manager is properly licensed before signing.*`,
+  },
+  {
+    slug: "terms-of-service-agreement-template",
+    name: "Terms of Service Agreement",
+    seoTitle: "Free Terms of Service Agreement Template",
+    description: "Free terms of service template for a website or app — user obligations, limitations of liability, and account terms.",
+    category: "Legal",
+    bodyMarkdown: `# Terms of Service
+
+**Effective Date:** [Date]
+
+Welcome to [Company Name] ("we," "us"). By using [Website/App Name] (the "Service"), you agree to these Terms of Service.
+
+## 1. Using the Service
+You must be at least [Age] to use the Service. You're responsible for maintaining the confidentiality of your account and for all activity under it.
+
+## 2. Acceptable Use
+You agree not to: [violate any law, infringe others' rights, attempt to disrupt the Service, misuse others' data — list prohibited conduct relevant to your product].
+
+## 3. User Content (if applicable)
+[If users submit content: describe ownership — typically the user retains ownership, and grants you a license to display/use it in connection with the Service.]
+
+## 4. Payment (if applicable)
+[Describe billing, subscription terms, and refund policy, or reference a separate Refund Policy.]
+
+## 5. Intellectual Property
+The Service, excluding user content, is owned by [Company Name] and protected by intellectual property laws. You may not copy or reproduce it without permission.
+
+## 6. Disclaimer of Warranties
+THE SERVICE IS PROVIDED "AS IS," WITHOUT WARRANTIES OF ANY KIND.
+
+## 7. Limitation of Liability
+TO THE MAXIMUM EXTENT PERMITTED BY LAW, [COMPANY NAME]'S LIABILITY IS LIMITED TO THE AMOUNT YOU PAID US IN THE PAST 12 MONTHS.
+
+## 8. Termination
+We may suspend or terminate your access for violating these Terms.
+
+## 9. Governing Law and Disputes
+These Terms are governed by the laws of [State/Country]. [Optional: arbitration clause, if desired.]
+
+## 10. Changes to These Terms
+We may update these Terms; continued use after changes take effect constitutes acceptance.
+
+## Contact
+Questions: [Email]
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. If your service handles payments, health data, children's data, or operates across multiple countries (GDPR, CCPA, COPPA), you likely have additional legal obligations beyond a generic ToS — have a licensed attorney review your actual practices before publishing.*`,
+  },
 ];
 
 const TEMPLATES_INDEX_FAQ = [
