@@ -1591,6 +1591,562 @@ Consultant: ______________________  Date: ____________
 
 *This document is provided for informational and educational purposes only and does not constitute legal advice. Worker-classification rules (contractor vs. employee) vary by jurisdiction — consult a licensed attorney if you're unsure which applies.*`,
   },
+  {
+    slug: "resignation-letter-template",
+    name: "Resignation Letter",
+    seoTitle: "Free Resignation Letter Template",
+    description:
+      "Free resignation letter template — a short, professional letter giving notice you're leaving a job.",
+    category: "HR",
+    bodyMarkdown: `# Resignation Letter
+
+[Your Name]
+[Date]
+
+[Manager Name]
+[Company Name]
+
+Dear [Manager Name],
+
+I am writing to formally resign from my position as [Job Title] at [Company Name], effective [Last Working Day].
+
+[Optional: A brief, neutral reason — "to pursue a new opportunity" is enough; you don't owe more detail than you want to give.]
+
+I'm committed to making this transition as smooth as possible and am happy to help hand off my responsibilities over the next [Notice Period].
+
+Thank you for the opportunity to work here. I wish the team continued success.
+
+Sincerely,
+[Your Name]
+
+*Two weeks' notice is common in the US but not legally required in most states; check your contract or employee handbook for any notice period you agreed to.*`,
+  },
+  {
+    slug: "purchase-order-template",
+    name: "Purchase Order",
+    seoTitle: "Free Purchase Order (PO) Template",
+    description:
+      "Free purchase order template for ordering goods or services from a supplier, with itemized costs.",
+    category: "Finance",
+    bodyMarkdown: `# Purchase Order
+
+**PO Number:** [PO Number]
+**Date:** [Date]
+
+**Buyer:** [Your Company Name / Address]
+**Vendor:** [Vendor Name / Address]
+
+## Ship To
+[Delivery Address]
+
+## Items Ordered
+
+| Item # | Description | Quantity | Unit Price | Total |
+|--------|-------------|----------|------------|-------|
+| 1 | [Description] | [Qty] | [Price] | [Total] |
+| 2 | [Description] | [Qty] | [Price] | [Total] |
+
+**Subtotal:** [Amount]
+**Tax:** [Amount]
+**Shipping:** [Amount]
+**Total:** [Amount]
+
+## Terms
+- Payment terms: [e.g. Net 30]
+- Requested delivery date: [Date]
+- Special instructions: [Any notes for the vendor]
+
+---
+Authorized by: ______________________  Date: ____________
+
+*A purchase order becomes a binding contract once the vendor accepts it — keep a copy for your records and confirm receipt with the vendor before assuming the order is placed.*`,
+  },
+  {
+    slug: "independent-contractor-agreement-template",
+    name: "Independent Contractor Agreement",
+    seoTitle: "Free Independent Contractor Agreement Template",
+    description:
+      "Free independent contractor agreement template — for hiring a 1099 contractor, covering scope, pay, and IP.",
+    category: "Business",
+    bodyMarkdown: `# Independent Contractor Agreement
+
+**Client:** [Client Name]
+**Contractor:** [Contractor Name]
+**Effective Date:** [Date]
+
+## 1. Services
+Contractor will perform the following services: [Describe scope of work].
+
+## 2. Payment
+Client will pay Contractor [Rate — hourly/fixed/project], due [Payment Terms, e.g. "within 15 days of invoice"].
+
+## 3. Independent Contractor Status
+Contractor is not an employee of Client. Contractor is responsible for their own taxes (no withholding by Client), insurance, equipment, and work schedule. Nothing in this Agreement creates an employment, partnership, or agency relationship.
+
+## 4. Term and Termination
+This Agreement runs from [Start Date] until [End Date / completion of the Services], and may be terminated earlier by either party with [Notice Period] written notice.
+
+## 5. Intellectual Property
+Upon full payment, all work product created specifically for this engagement belongs to Client. Contractor retains rights to any pre-existing tools, code, or materials used to deliver the work.
+
+## 6. Confidentiality
+Contractor will keep Client's confidential information private during and after the engagement.
+
+## 7. No Exclusivity
+Unless stated otherwise, Contractor is free to perform services for other clients during the term of this Agreement.
+
+## 8. Governing Law
+This Agreement is governed by the laws of [State/Country].
+
+---
+Client: ______________________  Date: ____________
+Contractor: ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. Worker misclassification (treating an employee as a contractor) carries real penalties — confirm the relationship actually qualifies under your state/country's test before using this template.*`,
+  },
+  {
+    slug: "corporate-bylaws-template",
+    name: "Corporate Bylaws",
+    seoTitle: "Free Corporate Bylaws Template",
+    description:
+      "Free corporate bylaws template — the internal governance rules for a new corporation's board and shareholders.",
+    category: "Legal",
+    bodyMarkdown: `# Bylaws of [Company Name]
+
+## Article 1: Offices
+The corporation's principal office is located at [Address]. The corporation may have other offices as the board determines.
+
+## Article 2: Shareholders
+Annual shareholder meetings are held [Timing, e.g. "in the second quarter of each fiscal year"]. Special meetings may be called by [the Board / holders of at least X% of shares]. Notice must be given at least [Number] days in advance.
+
+## Article 3: Board of Directors
+The board consists of [Number] director(s), elected annually by shareholders. The board manages the corporation's business and affairs and may act by majority vote at a meeting, or by unanimous written consent.
+
+## Article 4: Officers
+The corporation's officers are: [President/CEO, Secretary, Treasurer/CFO — describe duties briefly]. Officers are appointed by the board and serve at its discretion.
+
+## Article 5: Stock
+The corporation is authorized to issue [Number] shares of [Class] stock. Shares are transferable per [State] law and any shareholder agreement then in effect.
+
+## Article 6: Indemnification
+The corporation will indemnify directors and officers to the fullest extent permitted by [State] law for actions taken in good faith on the corporation's behalf.
+
+## Article 7: Amendments
+These Bylaws may be amended by [board resolution / shareholder vote of X%].
+
+---
+Adopted by the Board of Directors on [Date].
+Secretary signature: ______________________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. Bylaw requirements vary by state — have a licensed attorney review the final version before adoption.*`,
+  },
+  {
+    slug: "articles-of-incorporation-template",
+    name: "Articles of Incorporation",
+    seoTitle: "Free Articles of Incorporation Template",
+    description:
+      "Free articles of incorporation template — the founding document filed with the state to form a corporation.",
+    category: "Legal",
+    bodyMarkdown: `# Articles of Incorporation of [Company Name]
+
+## Article 1: Name
+The name of the corporation is [Company Name, Inc.].
+
+## Article 2: Registered Agent
+The corporation's registered agent is [Agent Name], located at [Registered Agent Address] in the State of [State].
+
+## Article 3: Purpose
+The corporation is organized to engage in any lawful business activity for which corporations may be organized under [State] law.
+
+## Article 4: Authorized Shares
+The corporation is authorized to issue [Number] shares of [Class, e.g. "common stock"], with a par value of [Amount] per share.
+
+## Article 5: Incorporator
+The name and address of the incorporator is: [Name, Address].
+
+## Article 6: Directors (if required by your state)
+The initial director(s): [Name(s) and address(es)].
+
+---
+Executed by the incorporator on [Date].
+Signature: ______________________
+[Incorporator Name]
+
+*This is a template only, not a substitute for your state's official filing form. Requirements (registered agent rules, franchise tax, required articles) vary significantly by state — file using your Secretary of State's actual form, and consult a licensed attorney if your structure is anything but simple.*`,
+  },
+  {
+    slug: "meeting-minutes-template",
+    name: "Meeting Minutes",
+    seoTitle: "Free Meeting Minutes Template",
+    description:
+      "Free meeting minutes template for a board, team, or shareholder meeting — attendees, decisions, and action items.",
+    category: "Business",
+    bodyMarkdown: `# Meeting Minutes
+
+**Meeting:** [Meeting Name/Type]
+**Date:** [Date]
+**Time:** [Start Time] – [End Time]
+**Location:** [Location / video call link]
+
+## Attendees
+[List of attendees]
+
+**Absent:** [List, if relevant]
+
+## Agenda Items
+
+### 1. [Agenda Item]
+[Discussion summary — key points, not a full transcript]
+**Decision:** [What was decided, if anything]
+
+### 2. [Agenda Item]
+[Discussion summary]
+**Decision:** [What was decided, if anything]
+
+## Action Items
+
+| Action | Owner | Due Date |
+|--------|-------|----------|
+| [Action] | [Name] | [Date] |
+| [Action] | [Name] | [Date] |
+
+## Next Meeting
+[Date/time of next meeting, if scheduled]
+
+---
+Minutes recorded by: [Name]
+
+*For board/shareholder meetings that need to be legally sufficient (e.g. for corporate record-keeping), confirm the level of detail your state or bylaws require — some jurisdictions expect votes and quorum to be explicitly recorded.*`,
+  },
+  {
+    slug: "joint-venture-agreement-template",
+    name: "Joint Venture Agreement",
+    seoTitle: "Free Joint Venture Agreement Template",
+    description:
+      "Free joint venture agreement template for two businesses partnering on a specific project without forming a new company.",
+    category: "Business",
+    bodyMarkdown: `# Joint Venture Agreement
+
+**Party A:** [Company/Individual A]
+**Party B:** [Company/Individual B]
+**Effective Date:** [Date]
+
+## 1. Purpose
+The parties agree to jointly undertake the following project: [Project Description] (the "Venture"), while each remaining a separate, independent entity.
+
+## 2. Contributions
+**Party A will contribute:** [Capital, resources, expertise, etc.]
+**Party B will contribute:** [Capital, resources, expertise, etc.]
+
+## 3. Profit and Loss Sharing
+Profits and losses from the Venture are shared: Party A [%], Party B [%].
+
+## 4. Management
+[Describe how decisions about the Venture are made — jointly, by a designated lead, or by a management committee.]
+
+## 5. Term
+This Agreement continues until [the Venture is complete / a fixed end date], unless ended earlier by mutual agreement.
+
+## 6. Liability
+Each party remains responsible for its own obligations and is not liable for the other's separate business activities outside the Venture, except as expressly agreed here.
+
+## 7. Confidentiality
+Both parties will keep information shared for the Venture confidential, both during and after its term.
+
+## 8. Dispute Resolution
+Disputes will be addressed through good-faith negotiation, then [mediation/arbitration] before litigation.
+
+---
+[Party A]: ______________________  Date: ____________
+[Party B]: ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. Joint ventures can create shared liability depending on how they're structured — consult a licensed attorney before entering one.*`,
+  },
+  {
+    slug: "purchase-agreement-template",
+    name: "Purchase Agreement (Goods or Assets)",
+    seoTitle: "Free Purchase Agreement Template",
+    description:
+      "Free purchase agreement template for buying or selling goods, equipment, or business assets outside of a simple invoice.",
+    category: "Business",
+    bodyMarkdown: `# Purchase Agreement
+
+**Seller:** [Seller Name]
+**Buyer:** [Buyer Name]
+**Date:** [Date]
+
+## 1. Item(s) Sold
+Seller agrees to sell, and Buyer agrees to buy, the following: [Detailed description of goods/assets, including condition — e.g. "as-is" — and any serial/identification numbers].
+
+## 2. Purchase Price
+The total purchase price is [Amount], payable as: [Full payment on signing / deposit of [Amount] with balance due on delivery / installments — describe].
+
+## 3. Delivery
+[Description of delivery — date, location, method, and who pays shipping/transport costs.]
+
+## 4. Condition and Warranties
+[Choose one: "Item(s) are sold as-is, with no warranties of any kind." OR describe specific warranties made by Seller.]
+
+## 5. Risk of Loss
+Risk of loss or damage transfers to Buyer upon [delivery / payment in full — specify].
+
+## 6. Title
+Seller confirms they have the legal right to sell the item(s) and that they are free of liens or encumbrances, unless otherwise disclosed: [Disclose any liens, if applicable].
+
+## 7. Governing Law
+This Agreement is governed by the laws of [State/Country].
+
+---
+Seller: ______________________  Date: ____________
+Buyer: ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. For real estate, vehicles, or high-value assets, additional state-specific disclosures or title transfer paperwork may be legally required — confirm what applies before relying on this template alone.*`,
+  },
+  {
+    slug: "license-agreement-template",
+    name: "License Agreement",
+    seoTitle: "Free License Agreement Template",
+    description:
+      "Free license agreement template for granting someone else the right to use your intellectual property, software, or content.",
+    category: "Legal",
+    bodyMarkdown: `# License Agreement
+
+**Licensor:** [Licensor Name] (the "Licensor")
+**Licensee:** [Licensee Name] (the "Licensee")
+**Effective Date:** [Date]
+
+## 1. Grant of License
+Licensor grants Licensee a [exclusive/non-exclusive], [transferable/non-transferable] license to use [Description of the IP — e.g. software, trademark, content, patent] (the "Licensed Property") for the following purpose: [Purpose].
+
+## 2. Territory and Term
+This license applies to [Territory, e.g. "worldwide" or a specific country/region] for a term of [Duration], starting on the Effective Date.
+
+## 3. Fees
+Licensee will pay Licensor [Flat fee / royalty rate, e.g. "X% of net revenue from products using the Licensed Property"], payable [Frequency].
+
+## 4. Restrictions
+Licensee may not: [e.g. sublicense without consent, modify the Licensed Property beyond what's agreed, use it outside the stated purpose].
+
+## 5. Ownership
+Licensor retains all ownership rights in the Licensed Property. This Agreement grants only a license to use it, not an assignment of ownership.
+
+## 6. Termination
+Either party may terminate this Agreement with [Notice Period] written notice, or immediately if the other party materially breaches its terms and fails to cure within [Cure Period].
+
+## 7. Governing Law
+This Agreement is governed by the laws of [State/Country].
+
+---
+Licensor: ______________________  Date: ____________
+Licensee: ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. IP licensing terms (especially royalty structure and exclusivity) are often heavily negotiated — consult a licensed attorney for anything beyond a simple, low-value license.*`,
+  },
+  {
+    slug: "statement-of-work-template",
+    name: "Statement of Work (SOW)",
+    seoTitle: "Free Statement of Work (SOW) Template",
+    description:
+      "Free statement of work template defining deliverables, timeline, and payment for a specific project under a master agreement.",
+    category: "Business",
+    bodyMarkdown: `# Statement of Work
+
+**Client:** [Client Name]
+**Provider:** [Provider Name]
+**SOW Number:** [Number]
+**Effective Date:** [Date]
+**Related Agreement:** [Reference to the master services/consulting agreement this SOW falls under, if any]
+
+## 1. Project Overview
+[One or two sentences on what this project is and why.]
+
+## 2. Deliverables
+| Deliverable | Description | Due Date |
+|-------------|-------------|----------|
+| [Deliverable 1] | [Description] | [Date] |
+| [Deliverable 2] | [Description] | [Date] |
+
+## 3. Timeline
+Project start: [Date]
+Project completion: [Date]
+
+## 4. Acceptance Criteria
+[How each deliverable will be reviewed and accepted — e.g. "Client has 5 business days to request revisions before a deliverable is deemed accepted."]
+
+## 5. Fees and Payment Schedule
+| Milestone | Amount | Due |
+|-----------|--------|-----|
+| [Milestone 1] | [Amount] | [Date/trigger] |
+| [Milestone 2] | [Amount] | [Date/trigger] |
+
+## 6. Assumptions and Exclusions
+[What's explicitly NOT included, and any assumptions this SOW relies on — e.g. "Client will provide access to X by [date]."]
+
+## 7. Change Control
+Any change to scope, timeline, or fees requires a written change order signed by both parties.
+
+---
+Client: ______________________  Date: ____________
+Provider: ______________________  Date: ____________
+
+*A SOW works best alongside a separate master agreement covering IP, confidentiality, and liability — this document is meant to define scope and deliverables, not replace those broader terms.*`,
+  },
+  {
+    slug: "business-proposal-template",
+    name: "Business Proposal",
+    seoTitle: "Free Business Proposal Template",
+    description:
+      "Free business proposal template for pitching your product or service to a potential client.",
+    category: "Business",
+    bodyMarkdown: `# Business Proposal: [Your Company] for [Client Name]
+
+**Prepared by:** [Your Name/Company]
+**Date:** [Date]
+
+## Executive Summary
+[One paragraph: who you are, what you're proposing, and the key benefit to the client.]
+
+## Understanding Your Needs
+[Show you understand the client's specific situation — what problem they're trying to solve.]
+
+## Proposed Solution
+[What you're offering and how it solves the problem above — be concrete.]
+
+## Why Us
+[Relevant experience, past results, or differentiators — real, specific examples, not generic claims.]
+
+## Pricing
+| Package/Item | Description | Price |
+|---------------|-------------|-------|
+| [Item] | [Description] | [Price] |
+
+## Timeline
+[Key milestones from kickoff to completion.]
+
+## Terms
+[Payment terms, contract length, and anything else the client needs to know before signing.]
+
+## Next Steps
+To move forward, [sign the attached agreement / reply to confirm / schedule a call] by [Date].
+
+*A proposal that leads with the client's problem (not your company's history) tends to convert better — save the "About Us" section for the end, briefly.*`,
+  },
+  {
+    slug: "rental-application-template",
+    name: "Rental Application",
+    seoTitle: "Free Rental Application Template",
+    description:
+      "Free rental application template for landlords screening prospective tenants — income, rental history, and references.",
+    category: "Real Estate",
+    bodyMarkdown: `# Rental Application
+
+**Property Address:** [Address]
+**Monthly Rent:** [Amount]
+**Desired Move-in Date:** [Date]
+
+## Applicant Information
+Full Name: [Name]
+Date of Birth: [Date]
+Phone: [Phone] · Email: [Email]
+Current Address: [Address]
+Reason for moving: [Reason]
+
+## Employment & Income
+Employer: [Employer Name]
+Position: [Job Title]
+Monthly income: [Amount]
+Employer contact (for verification): [Phone/Email]
+
+## Rental History
+Current landlord: [Name/Contact]
+Length of current tenancy: [Duration]
+Previous landlord (if under 2 years at current address): [Name/Contact]
+
+## Additional Occupants
+[List anyone else who will live at the property]
+
+## Pets
+[Yes/No — type, breed, weight if applicable]
+
+## References
+1. [Name, relationship, contact]
+2. [Name, relationship, contact]
+
+## Authorization
+I authorize the landlord to verify the information above, including a credit and background check.
+
+Applicant signature: ______________________  Date: ____________
+
+*Fair housing law prohibits screening criteria based on protected characteristics (race, religion, familial status, disability, etc.) — apply the same questions and standards to every applicant.*`,
+  },
+  {
+    slug: "certificate-of-completion-template",
+    name: "Certificate of Completion",
+    seoTitle: "Free Certificate of Completion Template",
+    description:
+      "Free certificate of completion template for a training program, course, or project milestone.",
+    category: "Business",
+    bodyMarkdown: `# Certificate of Completion
+
+This certifies that
+
+## [Recipient Name]
+
+has successfully completed
+
+**[Course/Program/Project Name]**
+
+on [Completion Date]
+
+[Optional: brief description of what the program covered, or hours completed — e.g. "40 hours of on-the-job safety training."]
+
+---
+[Issuing Organization Name]
+Issued by: ______________________
+[Signatory Name, Title]
+Date: [Date]
+
+*Add your logo and adjust the layout for print if this is meant to be framed or displayed — the wording above works either as a printed certificate or a simple digital confirmation.*`,
+  },
+  {
+    slug: "letter-of-invitation-template",
+    name: "Letter of Invitation",
+    seoTitle: "Free Letter of Invitation Template",
+    description:
+      "Free letter of invitation template for inviting someone to an event, conference, or (for visa purposes) a visit.",
+    category: "Business",
+    bodyMarkdown: `# Letter of Invitation
+
+[Your Name / Organization]
+[Your Address]
+[Date]
+
+**RE: Invitation for [Invitee Name]**
+
+Dear [Recipient Name / "Visa Officer"],
+
+I am writing to formally invite [Invitee Name] to [attend Event Name / visit me in Country] from [Start Date] to [End Date].
+
+## Purpose of Visit
+[Describe the event, business meeting, or personal visit clearly and specifically.]
+
+## Relationship / Context
+[How you know the invitee, or their role at the event — relevant especially for visa-support letters.]
+
+## Details
+- Location: [Address/Venue]
+- Dates: [Start Date] – [End Date]
+- [If applicable: Accommodation/financial support arrangements]
+
+## Contact Information
+[Your phone, email, and address for any follow-up questions.]
+
+Sincerely,
+[Your Name]
+[Title/Organization, if applicable]
+
+*If this letter supports a visa application, check the destination country's specific requirements (notarization, exact wording, supporting documents) before sending — requirements vary by country and visa type.*`,
+  },
 ];
 
 const TEMPLATES_INDEX_FAQ = [
@@ -2209,11 +2765,11 @@ const newTemplatesHtml = `<!DOCTYPE html>
 <meta property="og:title" content="10 New Free Invoice Follow-Up Templates">
 <meta property="og:description" content="Freelancer, agency, and corporate invoice follow-up templates — plus a legal-tone final notice and a template for when a client goes silent. Free, copy-paste ready.">
 <meta property="og:url" content="https://chasa.io/free-templates/new">
-<meta property="og:image" content="https://chasa.io/brand/og/chasa-og-1200x630.png">
+<meta property="og:image" content="https://chasa.io/brand/og/docstoc-og-1200x630.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="10 New Free Invoice Follow-Up Templates">
 <meta name="twitter:description" content="Freelancer, agency, and corporate invoice follow-up templates — plus a legal-tone final notice and a template for when a client goes silent. Free, copy-paste ready.">
-<meta name="twitter:image" content="https://chasa.io/brand/og/chasa-og-1200x630.png">
+<meta name="twitter:image" content="https://chasa.io/brand/og/docstoc-og-1200x630.png">
 <script type="application/ld+json">
 ${newTemplatesJsonLd}
 </script>
