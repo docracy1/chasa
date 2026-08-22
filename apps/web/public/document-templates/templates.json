@@ -2702,5 +2702,405 @@
     "description": "Free terms of service template for a website or app — user obligations, limitations of liability, and account terms.",
     "category": "Legal",
     "bodyMarkdown": "# Terms of Service\n\n**Effective Date:** [Date]\n\nWelcome to [Company Name] (\"we,\" \"us\"). By using [Website/App Name] (the \"Service\"), you agree to these Terms of Service.\n\n## 1. Using the Service\nYou must be at least [Age] to use the Service. You're responsible for maintaining the confidentiality of your account and for all activity under it.\n\n## 2. Acceptable Use\nYou agree not to: [violate any law, infringe others' rights, attempt to disrupt the Service, misuse others' data — list prohibited conduct relevant to your product].\n\n## 3. User Content (if applicable)\n[If users submit content: describe ownership — typically the user retains ownership, and grants you a license to display/use it in connection with the Service.]\n\n## 4. Payment (if applicable)\n[Describe billing, subscription terms, and refund policy, or reference a separate Refund Policy.]\n\n## 5. Intellectual Property\nThe Service, excluding user content, is owned by [Company Name] and protected by intellectual property laws. You may not copy or reproduce it without permission.\n\n## 6. Disclaimer of Warranties\nTHE SERVICE IS PROVIDED \"AS IS,\" WITHOUT WARRANTIES OF ANY KIND.\n\n## 7. Limitation of Liability\nTO THE MAXIMUM EXTENT PERMITTED BY LAW, [COMPANY NAME]'S LIABILITY IS LIMITED TO THE AMOUNT YOU PAID US IN THE PAST 12 MONTHS.\n\n## 8. Termination\nWe may suspend or terminate your access for violating these Terms.\n\n## 9. Governing Law and Disputes\nThese Terms are governed by the laws of [State/Country]. [Optional: arbitration clause, if desired.]\n\n## 10. Changes to These Terms\nWe may update these Terms; continued use after changes take effect constitutes acceptance.\n\n## Contact\nQuestions: [Email]\n\n*This document is provided for informational and educational purposes only and does not constitute legal advice. If your service handles payments, health data, children's data, or operates across multiple countries (GDPR, CCPA, COPPA), you likely have additional legal obligations beyond a generic ToS — have a licensed attorney review your actual practices before publishing.*"
+  },
+  {
+    "slug": "cell-phone-policy-template",
+    "name": "Cell Phone Policy",
+    "seoTitle": "Free Cell Phone Policy Template",
+    "description": "Free cell phone / BYOD policy template for employee personal device use at work.",
+    "category": "HR",
+    "bodyMarkdown": "# Cell Phone Policy\n\n**Company:** [Company Name] · **Effective Date:** [Date]\n\n## Purpose\nThis policy sets expectations for personal cell phone use during work hours and, where applicable, use of personal devices for work purposes (BYOD).\n\n## Personal Use During Work Hours\nEmployees may use personal phones during breaks. During work time, phone use should be limited to [urgent personal matters / as needed for the role].\n\n## Using Personal Devices for Work (BYOD)\nIf employees access company email, files, or systems from a personal device, they must: [use a company-approved app, enable a passcode/biometric lock, allow remote wipe of company data if the device is lost].\n\n## Prohibited Use\nPhones may not be used to: record coworkers without consent, access confidential company data through unsecured connections, or violate the company's harassment/conduct policies.\n\n## Safety\n[If relevant — e.g. \"phone use is prohibited while operating machinery or driving company vehicles.\"]\n\n## Company-Issued Phones (if applicable)\n[Describe expectations for company-owned devices — primarily for business use, subject to monitoring, returned upon termination.]\n\n---\nAcknowledged by: ______________________  Date: ____________\n\n*BYOD policies need to balance security (remote wipe capability) with employee privacy (personal photos/data on the same device) — be clear about exactly what the company can and can't access or remove.*"
+  },
+  {
+    "slug": "support-letter-template",
+    "name": "Support Letter",
+    "seoTitle": "Free Support Letter Template",
+    "description": "Free letter of support template — backing an application, grant, project, or cause with your organization's endorsement.",
+    "category": "Business",
+    "bodyMarkdown": "# Letter of Support\n\n[Your Name/Organization]\n[Date]\n\n**RE: Letter of Support for [Project/Application Name]**\n\nTo Whom It May Concern,\n\nI am writing to express [my/our organization's] support for [Project/Applicant Name] and their [application/project/initiative].\n\n## Why We Support This\n[Specific reasons — how you know the applicant/project, and why it deserves support. Concrete examples carry more weight than general endorsement.]\n\n## Our Commitment (if applicable)\n[If your support includes a specific commitment — funding, resources, partnership — state it clearly. If it's endorsement only, say so.]\n\nWe believe this [project/application] deserves serious consideration, and are happy to answer any questions.\n\nSincerely,\n[Your Name, Title]\n[Organization Name]\n\n*A letter of support with a specific, concrete commitment (even a small one) is taken more seriously by reviewers than one offering only general encouragement.*"
+  },
+  {
+    "slug": "change-management-plan-template",
+    "name": "Change Management Plan",
+    "seoTitle": "Free Change Management Plan Template",
+    "description": "Free change management plan template for rolling out an organizational or process change smoothly.",
+    "category": "Business",
+    "bodyMarkdown": "# Change Management Plan: [Change Name]\n\n**Sponsor:** [Name] · **Date:** [Date]\n\n## The Change\n[What's changing, specifically.]\n\n## Why\n[The business reason driving this change.]\n\n## Who's Affected\n| Group | Impact | Level of Change |\n|-------|--------|--------------------|\n| [Group] | [How they're affected] | [Low/Med/High] |\n\n## Communication Plan\n| Audience | Message | Channel | Timing |\n|----------|---------|---------|--------|\n| [Audience] | [Message] | [Channel] | [Date] |\n\n## Training/Support Needed\n[What people need to succeed under the new way of working.]\n\n## Resistance Anticipated\n[Where you expect pushback, and how you'll address it.]\n\n## Success Metrics\n[How you'll know the change actually took hold — not just that it was announced.]\n\n## Timeline\n| Phase | Activities | Dates |\n|-------|-------------|-------|\n| [Phase] | [Activities] | [Dates] |\n\n*The \"Resistance Anticipated\" section is the one most change plans skip, but addressing likely objections before they surface publicly is what actually determines whether a change sticks.*"
+  },
+  {
+    "slug": "project-schedule-template",
+    "name": "Project Schedule",
+    "seoTitle": "Free Project Schedule Template",
+    "description": "Free project schedule template listing tasks, owners, and dates for a project timeline.",
+    "category": "Business",
+    "bodyMarkdown": "# Project Schedule: [Project Name]\n\n**Start Date:** [Date] · **Target Completion:** [Date]\n\n| Task | Owner | Start | Due | Dependencies | Status |\n|------|-------|-------|-----|----------------|--------|\n| [Task] | [Name] | [Date] | [Date] | [Dependency] | [Not started/In progress/Done] |\n| [Task] | [Name] | [Date] | [Date] | [Dependency] | [Status] |\n\n## Milestones\n| Milestone | Target Date |\n|-----------|--------------|\n| [Milestone] | [Date] |\n\n## Critical Path\n[Which tasks, if delayed, push out the entire project — worth calling out explicitly.]\n\n*Identifying dependencies (which tasks block which others) is what turns a to-do list into an actual schedule — without it, delays in one area silently derail the whole timeline.*"
+  },
+  {
+    "slug": "style-guide-template",
+    "name": "Style Guide",
+    "seoTitle": "Free Brand Style Guide Template",
+    "description": "Free brand style guide template covering logo usage, colors, typography, and voice for consistent branding.",
+    "category": "Business",
+    "bodyMarkdown": "# Style Guide: [Company Name]\n\n## Logo\n[Primary logo, acceptable variations, minimum size, clear space requirements, and misuse examples — what NOT to do.]\n\n## Colors\n| Color | Hex | Use |\n|-------|-----|-----|\n| Primary | [#Hex] | [Use] |\n| Secondary | [#Hex] | [Use] |\n| Accent | [#Hex] | [Use] |\n\n## Typography\nHeadings: [Font name] · Body text: [Font name]\n\n## Voice and Tone\n[3-5 words describing the brand voice — e.g. \"direct, warm, no jargon\" — with a short example of what fits and what doesn't.]\n\n## Imagery\n[Photography/illustration style guidelines, if applicable.]\n\n## Do's and Don'ts\n| Do | Don't |\n|----|-------|\n| [Example] | [Example] |\n\n*A style guide that shows \"don't do this\" examples alongside the rules is far more useful in practice than rules alone — people apply guidelines more consistently when they can see a concrete mistake to avoid.*"
+  },
+  {
+    "slug": "home-buyers-handbook-template",
+    "name": "Home Buyers Handbook",
+    "seoTitle": "Free Home Buyers Handbook Template",
+    "description": "Free home buyer's guide template — a step-by-step overview for a real estate agent to give new buyer clients.",
+    "category": "Real Estate",
+    "bodyMarkdown": "# Home Buyer's Handbook\n\n## Step 1: Get Pre-Approved\n[Why this comes first, and what a lender needs from the buyer.]\n\n## Step 2: Define Your Search\n[Budget, must-haves vs. nice-to-haves, target neighborhoods.]\n\n## Step 3: Start Viewing Homes\n[What to look for beyond the obvious — structural signs, neighborhood factors.]\n\n## Step 4: Make an Offer\n[How offers work, what's typically included — price, contingencies, earnest money.]\n\n## Step 5: Home Inspection\n[What an inspection covers and why it matters, even in a competitive market.]\n\n## Step 6: Appraisal and Financing\n[What happens between accepted offer and closing.]\n\n## Step 7: Closing\n[What to expect on closing day, what to bring.]\n\n## Key Terms Glossary\n[Escrow, contingency, earnest money, title insurance, etc. — defined in plain language.]\n\n## Your Team\nAgent: [Name, contact] · Lender: [Name, contact] · Title company: [Name, contact]\n\n*Buyers who understand the process ahead of time make faster decisions when it matters — a handbook given at the START of the relationship pays off throughout it.*"
+  },
+  {
+    "slug": "letter-of-compliance-template",
+    "name": "Letter of Compliance",
+    "seoTitle": "Free Letter of Compliance Template",
+    "description": "Free letter of compliance template confirming that a product, facility, or process meets a specific regulation or standard.",
+    "category": "Business",
+    "bodyMarkdown": "# Letter of Compliance\n\n[Company Name/Letterhead]\n[Date]\n\n**RE: Compliance Confirmation — [Regulation/Standard]**\n\nThis letter confirms that [Product/Facility/Process Name] complies with the requirements of [Specific regulation, standard, or code].\n\n## Basis for Compliance\n[How compliance was verified — internal testing, third-party audit, certification body — reference specific test reports or audit dates if available.]\n\n## Scope\nThis confirmation applies to: [Specific product/location/time period — be precise about what is and isn't covered].\n\n## Validity\nThis letter reflects compliance as of [Date]. [If applicable: \"Valid until [Date]\" or \"Subject to re-verification upon any material change.\"]\n\n---\nCertified by: ______________________  Date: ____________\n[Name, Title, Company]\n\n*Be precise about the exact scope and date of the compliance claim — an overly broad compliance letter (claiming more than was actually verified) can create real liability if something outside the tested scope fails.*"
+  },
+  {
+    "slug": "acceptable-use-policy-template",
+    "name": "Acceptable Use Policy",
+    "seoTitle": "Free Acceptable Use Policy (AUP) Template",
+    "description": "Free acceptable use policy template for a website, app, or company network — rules for what users/employees can and can't do.",
+    "category": "Legal",
+    "bodyMarkdown": "# Acceptable Use Policy\n\n**Effective Date:** [Date]\n\nThis Acceptable Use Policy (\"AUP\") governs use of [Service/Network/Platform Name]. By using it, you agree to the following.\n\n## Prohibited Activities\nYou may not use [Service/Network] to:\n- Violate any law or third party's rights\n- Distribute malware, spam, or unsolicited bulk communications\n- Attempt to gain unauthorized access to systems or data\n- Interfere with or disrupt the service's normal operation\n- Upload or transmit illegal, defamatory, or harassing content\n- Impersonate another person or entity\n\n## Resource Use (if applicable)\n[Any limits on bandwidth, storage, API calls, or similar resource use.]\n\n## Monitoring\n[State whether and how usage may be monitored for policy compliance.]\n\n## Reporting Violations\nReport suspected violations to: [Email/Contact].\n\n## Consequences\nViolations may result in [warning, suspension, termination of access], at [Company Name]'s discretion.\n\n## Changes to This Policy\nWe may update this AUP; continued use after changes constitutes acceptance.\n\n*An AUP works alongside Terms of Service, not instead of it — the AUP focuses specifically on prohibited behavior, while the ToS covers the broader legal relationship.*"
+  },
+  {
+    "slug": "expression-of-interest-letter-template",
+    "name": "Expression of Interest Letter",
+    "seoTitle": "Free Expression of Interest (EOI) Letter Template",
+    "description": "Free expression of interest letter template — signals interest in an opportunity before a full formal proposal or application.",
+    "category": "Business",
+    "bodyMarkdown": "# Expression of Interest\n\n[Date]\n\n[Recipient Name/Organization]\n\n**RE: Expression of Interest — [Opportunity Name/Reference #]**\n\nDear [Recipient Name],\n\n[Your Name/Company] would like to express interest in [the opportunity — a project, tender, partnership, or role].\n\n## Relevant Background\n[Brief overview of your organization/experience relevant to this opportunity.]\n\n## Why We're Interested\n[Specific reasons this opportunity fits your capabilities or goals.]\n\n## Next Steps\nWe would welcome the opportunity to discuss this further, or to submit a full proposal if invited to do so.\n\nPlease contact [Name] at [Email/Phone] with any questions.\n\nSincerely,\n[Your Name/Organization]\n\n*An EOI is meant to be lighter-weight than a full proposal — its job is to get you shortlisted or invited to the next stage, not to make the complete case.*"
+  },
+  {
+    "slug": "college-student-budget-template",
+    "name": "College Student Budget",
+    "seoTitle": "Free College Student Budget Template",
+    "description": "Free budget template for a college student managing tuition, living expenses, and limited income.",
+    "category": "Finance",
+    "bodyMarkdown": "# College Student Budget — [Semester/Month]\n\n## Income\n| Source | Amount |\n|--------|--------|\n| Financial aid/scholarships | [Amount] |\n| Family support | [Amount] |\n| Part-time job | [Amount] |\n| **Total Income** | **[Amount]** |\n\n## Fixed Expenses\n| Item | Amount |\n|------|--------|\n| Tuition/fees (if paid monthly) | [Amount] |\n| Housing/rent | [Amount] |\n| Meal plan/groceries | [Amount] |\n| Phone | [Amount] |\n\n## Variable Expenses\n| Item | Budgeted | Actual |\n|------|-----------|--------|\n| Textbooks/supplies | [Amount] | [Amount] |\n| Transportation | [Amount] | [Amount] |\n| Entertainment/social | [Amount] | [Amount] |\n| Personal care | [Amount] | [Amount] |\n\n## Summary\nTotal Income: [Amount] · Total Expenses: [Amount]\n**Remaining: [Amount]**\n\n*Budgeting textbooks and supplies as a lump sum at semester start (not monthly) avoids the common surprise of an unexpectedly large bill in week one.*"
+  },
+  {
+    "slug": "copyright-transfer-agreement-template",
+    "name": "Copyright Transfer Agreement",
+    "seoTitle": "Free Copyright Transfer Agreement Template",
+    "description": "Free copyright transfer agreement template — transfers copyright ownership of a creative work from the creator to another party.",
+    "category": "Legal",
+    "bodyMarkdown": "# Copyright Transfer Agreement\n\n**Author/Creator:** [Name] (the \"Assignor\")\n**Recipient:** [Name/Company] (the \"Assignee\")\n**Work:** [Title/description of the work]\n**Date:** [Date]\n\n## 1. Transfer of Copyright\nAssignor hereby transfers to Assignee all right, title, and interest in the copyright of the Work, including all rights to reproduce, distribute, publicly display, publicly perform, and create derivative works.\n\n## 2. Consideration\nIn exchange for this transfer, Assignor receives: [Amount / other consideration — specify].\n\n## 3. Warranty\nAssignor warrants they are the sole author/owner of the Work and that it does not infringe any third party's rights.\n\n## 4. Moral Rights\n[Where legally possible: \"Assignor waives any moral rights (e.g. right of attribution) in the Work.\"] [Note: some countries, particularly in the EU, do not allow full waiver of moral rights.]\n\n## 5. Retained Rights (if any)\n[If Assignor keeps any rights — e.g. \"Assignor retains the right to display the Work in their personal portfolio\" — state them here.]\n\n## 6. Governing Law\nThis Agreement is governed by the laws of [State/Country].\n\n---\nAssignor: ______________________  Date: ____________\nAssignee: ______________________  Date: ____________\n\n*This document is provided for informational and educational purposes only and does not constitute legal advice. Copyright transfers must be in writing to be valid under US law (17 U.S.C. § 204) — verbal agreements to transfer copyright generally aren't enforceable, which is exactly why this document matters.*"
+  },
+  {
+    "slug": "certificate-of-participation-template",
+    "name": "Certificate of Participation",
+    "seoTitle": "Free Certificate of Participation Template",
+    "description": "Free certificate of participation template for an event, workshop, or program attendee.",
+    "category": "Business",
+    "bodyMarkdown": "# Certificate of Participation\n\nThis certifies that\n\n## [Participant Name]\n\nparticipated in\n\n**[Event/Workshop/Program Name]**\n\nheld on [Date(s)], at [Location/Online]\n\n---\n[Issuing Organization Name]\nIssued by: ______________________\n[Signatory Name, Title]\n\n*Unlike a certificate of completion, this confirms attendance/participation rather than mastery of specific material — use whichever matches what actually happened.*"
+  },
+  {
+    "slug": "reference-letter-consent-form-template",
+    "name": "Reference Letter Consent Form",
+    "seoTitle": "Free Reference Letter Consent Form Template",
+    "description": "Free consent form template for a candidate to authorize an employer to contact their references.",
+    "category": "HR",
+    "bodyMarkdown": "# Reference Check Consent Form\n\n**Candidate Name:** [Name] · **Position Applied For:** [Title]\n**Date:** [Date]\n\nI authorize [Company Name] to contact the references listed below (and, where applicable, prior employers) to verify my employment history and discuss my qualifications for the position above.\n\n## References\n1. Name: [Name] · Relationship: [Relationship] · Contact: [Phone/Email]\n2. Name: [Name] · Relationship: [Relationship] · Contact: [Phone/Email]\n3. Name: [Name] · Relationship: [Relationship] · Contact: [Phone/Email]\n\n## Acknowledgment\nI understand that the information provided by my references will be used to evaluate my candidacy, and I release [Company Name] and my references from liability for information shared in good faith during this process.\n\nSignature: ______________________  Date: ____________\n\n*Getting written consent before contacting references — rather than assuming it's implied by applying — protects both the employer and the candidate's current employer relationship if they haven't yet told their current employer they're job-hunting.*"
+  },
+  {
+    "slug": "affidavit-of-domicile-template",
+    "name": "Affidavit of Domicile",
+    "seoTitle": "Free Affidavit of Domicile Template",
+    "description": "Free affidavit of domicile template — confirms a deceased person's state/country of legal residence, often needed to transfer securities.",
+    "category": "Legal",
+    "bodyMarkdown": "# Affidavit of Domicile\n\nState of [State]\nCounty of [County]\n\nI, [Affiant Name], being first duly sworn, state as follows:\n\n## 1. Decedent\n[Decedent Name] died on [Date of Death].\n\n## 2. Domicile\nAt the time of death, the decedent was legally domiciled at [Full Address], in the [City/County/State], and had been so domiciled since [Date/Duration].\n\n## 3. Basis of Knowledge\nI am familiar with this fact because I am the decedent's [relationship], and [additional basis — e.g. \"resided with the decedent\" or \"handled their affairs\"].\n\n## 4. Purpose\nThis affidavit is made in connection with [the transfer of securities / settlement of the estate / other purpose].\n\n---\nAffiant signature: ______________________  Date: ____________\n\n**Notarization:**\nSubscribed and sworn to before me on [Date].\nNotary Public: ______________________\n\n*This document is provided for informational and educational purposes only and does not constitute legal advice. Transfer agents and financial institutions often require this exact document (sometimes with a Medallion Signature Guarantee, not just a notary) before releasing securities from an estate — confirm the specific institution's exact requirements before submitting.*"
+  },
+  {
+    "slug": "bio-data-form-template",
+    "name": "Bio Data Form",
+    "seoTitle": "Free Bio Data Form Template",
+    "description": "Free bio data form template — a structured personal/professional background form, common for job or matrimonial applications internationally.",
+    "category": "HR",
+    "bodyMarkdown": "# Bio Data Form\n\n## Personal Information\nFull name: [Name]\nDate of birth: [Date] · Nationality: [Nationality]\nAddress: [Address]\nPhone: [Phone] · Email: [Email]\n\n## Educational Qualifications\n| Degree/Certificate | Institution | Year |\n|-----------------------|-------------|------|\n| [Degree] | [Institution] | [Year] |\n\n## Work Experience\n| Employer | Position | Duration |\n|----------|----------|----------|\n| [Employer] | [Position] | [Duration] |\n\n## Skills\n[List relevant skills]\n\n## References\n1. [Name, contact, relationship]\n2. [Name, contact, relationship]\n\n## Declaration\nI declare that the information provided above is true to the best of my knowledge.\n\nSignature: ______________________  Date: ____________\n\n*\"Bio data\" formats and expected content vary by country and purpose (job application vs. other contexts) — adjust the sections to match what the requesting party actually expects.*"
+  },
+  {
+    "slug": "course-schedule-template",
+    "name": "Course Schedule",
+    "seoTitle": "Free Course Schedule Template",
+    "description": "Free course schedule template for a training program, class series, or workshop.",
+    "category": "Business",
+    "bodyMarkdown": "# Course Schedule: [Course Name]\n\n**Instructor:** [Name] · **Dates:** [Start Date] – [End Date]\n\n| Session | Date | Topic | Materials Needed |\n|---------|------|-------|----------------------|\n| 1 | [Date] | [Topic] | [Materials] |\n| 2 | [Date] | [Topic] | [Materials] |\n| 3 | [Date] | [Topic] | [Materials] |\n\n## Assessment/Assignments\n| Item | Due Date | Weight |\n|------|----------|--------|\n| [Assignment] | [Date] | [%] |\n\n## Contact\nInstructor email: [Email] · Office hours: [Times]\n\n*Sharing the full schedule up front (not session by session) lets participants plan around it and reduces \"when is X due\" questions throughout the course.*"
+  },
+  {
+    "slug": "deposit-receipt-template",
+    "name": "Deposit Receipt",
+    "seoTitle": "Free Deposit Receipt Template",
+    "description": "Free deposit receipt template confirming a partial payment received toward a larger purchase or booking.",
+    "category": "Finance",
+    "bodyMarkdown": "# Deposit Receipt\n\n**Receipt #:** [Number] · **Date:** [Date]\n\n**Received from:** [Name]\n**Amount received:** [Amount]\n**For:** [Description — e.g. \"deposit on order #___\" or \"deposit for wedding photography services\"]\n\n**Total price:** [Amount]\n**Deposit received:** [Amount]\n**Balance remaining:** [Amount], due [Date/condition]\n\n**Payment method:** [Cash/Card/Bank transfer]\n\n---\nReceived by: ______________________\n[Business Name]\n\n*Stating the balance remaining and when it's due directly on the receipt (not just verbally) avoids any \"I thought that included everything\" confusion later.*"
+  },
+  {
+    "slug": "bank-guarantee-template",
+    "name": "Bank Guarantee",
+    "seoTitle": "Free Bank Guarantee Template",
+    "description": "Free bank guarantee outline template — a bank's commitment to cover a customer's obligation if they default.",
+    "category": "Finance",
+    "bodyMarkdown": "# Bank Guarantee\n\n**Issuing Bank:** [Bank Name]\n**Applicant (customer):** [Name]\n**Beneficiary:** [Name]\n**Guarantee Amount:** [Amount]\n**Date:** [Date]\n\n## 1. Guarantee\n[Bank Name] hereby unconditionally and irrevocably guarantees payment to [Beneficiary] of up to [Amount], in the event that [Applicant] fails to fulfill its obligations under [Reference the underlying contract].\n\n## 2. Term\nThis guarantee is valid from [Date] to [Expiration Date], after which it automatically expires.\n\n## 3. Claim Procedure\nBeneficiary may make a claim under this guarantee by submitting a written demand to [Bank Name], stating the nature of Applicant's default, before the expiration date.\n\n## 4. Governing Law\nThis guarantee is governed by the laws of [Country/State].\n\n---\nIssued by: ______________________  Date: ____________\n[Bank Name, Authorized Signatory]\n\n*This document is provided for informational and educational purposes only — a real bank guarantee must be issued and signed by the bank itself, not drafted independently by the customer. This outline shows the structure a business can expect when requesting one from their bank.*"
+  },
+  {
+    "slug": "asset-transfer-form-template",
+    "name": "Asset Transfer Form",
+    "seoTitle": "Free Asset Transfer Form Template",
+    "description": "Free asset transfer form template for moving a company asset from one owner, department, or location to another.",
+    "category": "Business",
+    "bodyMarkdown": "# Asset Transfer Form\n\n**Date:** [Date] · **Asset Tag/ID #:** [Number]\n\n## Asset Details\nDescription: [Description]\nSerial number: [Number]\nCurrent value/book value: [Amount]\n\n## Transfer Details\nTransferring from: [Person/Department/Location]\nTransferring to: [Person/Department/Location]\nReason for transfer: [Reason]\n\n## Condition at Transfer\n[Note condition, any existing damage]\n\n## Approval\nTransferring party: ______________________  Date: ____________\nReceiving party: ______________________  Date: ____________\nApproved by (if required): ______________________  Date: ____________\n\n*Keeping asset transfer records up to date is what makes an annual inventory audit fast instead of a scavenger hunt for \"who actually has the projector now.\"*"
+  },
+  {
+    "slug": "partnership-dissolution-agreement-template",
+    "name": "Partnership Dissolution Agreement",
+    "seoTitle": "Free Partnership Dissolution Agreement Template",
+    "description": "Free partnership dissolution agreement template for formally ending a business partnership and dividing assets.",
+    "category": "Business",
+    "bodyMarkdown": "# Partnership Dissolution Agreement\n\n**Partnership Name:** [Name]\n**Partners:** [Names]\n**Dissolution Date:** [Date]\n\n## 1. Dissolution\nThe partners agree to dissolve [Partnership Name], effective [Date].\n\n## 2. Winding Up\nThe partnership's affairs will be wound up as follows: [Describe process — collecting receivables, paying debts, selling assets if needed].\n\n## 3. Division of Assets\n| Asset | Value | Allocated To |\n|-------|-------|-----------------|\n| [Asset] | [Value] | [Partner] |\n\n## 4. Division of Debts and Liabilities\n[Who is responsible for outstanding debts, and in what proportion.]\n\n## 5. Client/Customer Relationships\n[How existing clients will be handled — e.g. \"each partner may continue serving clients they primarily worked with.\"]\n\n## 6. Use of Business Name\n[Whether either partner may continue using the partnership's name, or whether it's retired.]\n\n## 7. Release\nUpon completion of the above, each partner releases the other from further partnership obligations, except as stated in this Agreement.\n\n## 8. Notification\nPartners will jointly notify [clients, vendors, the state (if formally registered)] of the dissolution.\n\n---\n[Each partner signs:]\nPartner: ______________________  Date: ____________\n\n*This document is provided for informational and educational purposes only and does not constitute legal advice. If the partnership was formally registered with the state, formal dissolution paperwork (and often a final tax filing) is also required beyond this agreement between the partners themselves.*"
+  },
+  {
+    "slug": "in-kind-donation-receipt-template",
+    "name": "In-Kind Donation Receipt",
+    "seoTitle": "Free In-Kind Donation Receipt Template",
+    "description": "Free in-kind (non-cash) donation receipt template for a nonprofit acknowledging donated goods or services.",
+    "category": "Business",
+    "bodyMarkdown": "# In-Kind Donation Receipt\n\n**Organization:** [Organization Name] · [Tax ID/EIN]\n**Receipt #:** [Number] · **Date:** [Date]\n\n**Received from:** [Donor Name]\n\n## Description of Donated Item(s)\n[Detailed description — e.g. \"used office furniture: 3 desks, 6 chairs\" — do NOT state a dollar value; the donor is responsible for their own valuation for tax purposes.]\n\n**Estimated fair market value:** determined solely by the donor.\n\nNo goods or services were provided by [Organization Name] in exchange for this contribution.\n\n---\nIssued by: ______________________\n[Name, Title, Organization]\n\n*Never assign a dollar value to an in-kind donation yourself — under IRS rules, valuing non-cash gifts is the donor's responsibility, and for gifts over $5,000 they may need a qualified independent appraisal.*"
+  },
+  {
+    "slug": "out-of-stock-notice-template",
+    "name": "Out of Stock Notice",
+    "seoTitle": "Free Out of Stock Notice Template",
+    "description": "Free out-of-stock notice template for informing a customer their ordered item is delayed or unavailable.",
+    "category": "Business",
+    "bodyMarkdown": "# Out of Stock Notice\n\n[Date]\n\nDear [Customer Name],\n\nThank you for your order #[Number] for [Item Name]. Unfortunately, this item is currently out of stock.\n\n## Your Options\n- [ ] Wait for restock — expected [Date]\n- [ ] Substitute with [Alternative item]\n- [ ] Full refund of [Amount]\n\n## What We Need From You\nPlease let us know your preference by replying to this email, or by [Date] we will [default action — e.g. issue a full refund automatically].\n\nWe apologize for the inconvenience and appreciate your patience.\n\nSincerely,\n[Your Name/Business Name]\n\n*Giving the customer a clear default action (not just \"sorry, we'll be in touch\") respects their time if they don't respond right away.*"
+  },
+  {
+    "slug": "notice-to-proceed-template",
+    "name": "Notice to Proceed",
+    "seoTitle": "Free Notice to Proceed Template",
+    "description": "Free notice to proceed template formally authorizing a contractor to begin work on a construction or service project.",
+    "category": "Business",
+    "bodyMarkdown": "# Notice to Proceed\n\n[Date]\n\n[Contractor Name]\n\n**RE: Notice to Proceed — [Project Name/Contract #]**\n\nDear [Contractor Name],\n\nThis letter serves as official notice to proceed with work under the contract referenced above, dated [Contract Date].\n\n## Project Start Date\nWork is authorized to begin on [Date].\n\n## Contract Time\nPer the contract, [Number] calendar days are allowed for completion, making the contractual completion date [Date].\n\n## Conditions\n[Any conditions that must be satisfied before/during the work — e.g. permits obtained, insurance certificates on file.]\n\nPlease acknowledge receipt of this notice.\n\nSincerely,\n[Owner/Client Name]\n\n---\nAcknowledged by: ______________________  Date: ____________\n[Contractor Name]\n\n*The date on this notice is often what starts the contractual clock running toward the completion deadline — get the date right, since disputes about project delays frequently trace back to when work was actually \"authorized to proceed.\"*"
+  },
+  {
+    "slug": "relocation-letter-template",
+    "name": "Relocation Letter",
+    "seoTitle": "Free Employee Relocation Letter Template",
+    "description": "Free relocation letter template offering an employee assistance and terms for a job-related move.",
+    "category": "HR",
+    "bodyMarkdown": "# Relocation Letter\n\n[Date]\n\nDear [Employee Name],\n\nAs part of your [new role / transfer], [Company Name] is pleased to offer relocation assistance to support your move to [New Location].\n\n## Relocation Package\n- Moving expenses covered: up to [Amount]\n- Temporary housing: [Duration/details, if offered]\n- House-hunting trip: [Details, if offered]\n- Other assistance: [e.g. spouse job search support, school search assistance]\n\n## Terms\n[If applicable: \"This assistance is contingent on remaining employed with the Company for at least [Duration] after relocation, or repaying a prorated amount.\"]\n\n## Timeline\nAnticipated move date: [Date] · Reporting date at new location: [Date]\n\n## Next Steps\nPlease contact [HR Contact] to begin coordinating your move.\n\nCongratulations, and welcome to [New Location]!\n\nSincerely,\n[Name, Title]\n\n*A repayment clause tied to a minimum retention period (Section 2, if included) is standard for larger relocation packages — state it clearly upfront so it's not a surprise if the employee leaves soon after moving.*"
+  },
+  {
+    "slug": "co-branding-agreement-template",
+    "name": "Co-Branding Agreement",
+    "seoTitle": "Free Co-Branding Agreement Template",
+    "description": "Free co-branding agreement template for two companies jointly marketing a product or campaign under both brands.",
+    "category": "Business",
+    "bodyMarkdown": "# Co-Branding Agreement\n\n**Party A:** [Company Name]\n**Party B:** [Company Name]\n**Effective Date:** [Date]\n\n## 1. Purpose\nThe parties agree to jointly market [Product/Campaign Name] under both brands, as described below.\n\n## 2. Scope\n[Describe the specific co-branded product, content, or campaign, and its duration.]\n\n## 3. Brand Usage\nEach party may use the other's trademarks and logos only as approved and only in connection with the co-branded [product/campaign], per each party's brand guidelines.\n\n## 4. Approval Rights\nEach party has the right to review and approve any materials using its brand before publication.\n\n## 5. Revenue/Cost Sharing (if applicable)\n[Describe how costs and/or revenue from the co-branded initiative are shared.]\n\n## 6. Term and Termination\nThis Agreement runs for [Term] and may be terminated by either party with [Notice Period] notice; brand usage rights end upon termination.\n\n## 7. No Broader Partnership\nThis Agreement covers only the specific co-branded initiative described and does not create a broader partnership or exclusivity between the parties.\n\n---\nParty A: ______________________  Date: ____________\nParty B: ______________________  Date: ____________\n\n*Mutual approval rights over anything using each brand (Section 4) protects both parties' brand reputation — neither side wants the other publishing something off-brand under their logo.*"
+  },
+  {
+    "slug": "pitch-letter-template",
+    "name": "Pitch Letter",
+    "seoTitle": "Free Pitch Letter (Media/PR) Template",
+    "description": "Free pitch letter template for reaching out to a journalist, blogger, or media outlet with a story idea.",
+    "category": "Business",
+    "bodyMarkdown": "# Pitch Letter\n\nSubject: [Compelling, specific subject line — not \"Story idea\"]\n\nHi [Journalist/Editor Name],\n\n[Opening line referencing their recent work or beat — shows you're not mass-blasting this.]\n\nI wanted to share a story idea that might interest your readers: [One or two sentences on the pitch — lead with the most interesting angle, not your company background].\n\n## Why This Matters Now\n[Timeliness — why this story is relevant right now, not just \"our company exists.\"]\n\n## What I Can Offer\n[Data, an expert for interview, exclusive access, images — whatever makes this easy for them to say yes to.]\n\nI'm happy to send more details, connect you with [spokesperson], or answer any questions. Would [Day/Time] work for a quick call?\n\nBest,\n[Your Name]\n[Contact Information]\n\n*Journalists get dozens of pitches a day — lead with the story, not your company, and make it as easy as possible for them to say yes (data, quotes, images ready to go).*"
+  },
+  {
+    "slug": "nanny-application-template",
+    "name": "Nanny Application",
+    "seoTitle": "Free Nanny Application Template",
+    "description": "Free nanny/childcare application form template for screening candidates for household childcare.",
+    "category": "HR",
+    "bodyMarkdown": "# Nanny Application\n\n## Applicant Information\nName: [Name] · Phone: [Phone] · Email: [Email]\nAddress: [Address]\n\n## Experience\nYears of childcare experience: [Number]\nAges of children previously cared for: [Ages]\nCertifications (CPR, First Aid, etc.): [List]\n\n## Availability\nDays/hours available: [Schedule]\nStart date available: [Date]\nOwn transportation: [Yes/No]\n\n## References\n1. [Family name, contact, dates of employment]\n2. [Family name, contact, dates of employment]\n\n## Background Check Consent\n[ ] I consent to a background check as a condition of employment.\n\n## Additional Information\nDo you have any allergies (pets, food) we should be aware of? [Answer]\nAre you comfortable with [specific needs — swimming supervision, special dietary needs, etc.]? [Answer]\n\nSignature: ______________________  Date: ____________\n\n*Calling every reference directly (not just checking a box that they were \"provided\") is the single highest-value screening step for household childcare hiring.*"
+  },
+  {
+    "slug": "speaker-confirmation-letter-template",
+    "name": "Speaker Confirmation Letter",
+    "seoTitle": "Free Speaker Confirmation Letter Template",
+    "description": "Free speaker confirmation letter template for confirming a guest speaker's participation in an event.",
+    "category": "Business",
+    "bodyMarkdown": "# Speaker Confirmation Letter\n\n[Date]\n\nDear [Speaker Name],\n\nThank you for agreeing to speak at [Event Name]. This letter confirms the details of your participation.\n\n## Event Details\nDate: [Date] · Time: [Speaking slot time]\nLocation: [Venue/virtual link]\nTopic: [Confirmed talk title/topic]\nFormat: [Keynote/panel/workshop] · Duration: [Length]\n\n## Logistics\nArrival time requested: [Time]\nAV needs: [Confirm what you'll provide/what they should bring]\nTravel/accommodation: [If applicable, describe what's covered]\n\n## Compensation (if applicable)\nSpeaking fee: [Amount], paid [Timing]\nExpenses covered: [Description]\n\n## What We Need From You\nPlease send your bio, headshot, and any presentation materials by [Date].\n\nWe're looking forward to having you. Please reach out with any questions.\n\nSincerely,\n[Your Name]\n[Contact Information]\n\n*Confirming AV/technical needs in writing well before the event (not day-of) is what prevents the most common speaker-experience failure: a missing adapter or wrong screen format discovered five minutes before they go on.*"
+  },
+  {
+    "slug": "email-policy-template",
+    "name": "Email Policy",
+    "seoTitle": "Free Email Policy Template",
+    "description": "Free company email policy template — acceptable use, security expectations, and monitoring for employee email.",
+    "category": "HR",
+    "bodyMarkdown": "# Email Policy\n\n**Company:** [Company Name] · **Effective Date:** [Date]\n\n## Purpose\nThis policy sets expectations for use of company email accounts and systems.\n\n## Business Use\nCompany email is provided primarily for business purposes. Limited personal use is permitted as long as it doesn't interfere with work or violate this policy.\n\n## Security Practices\nEmployees must: use strong, unique passwords, enable multi-factor authentication where available, and report suspicious emails (phishing attempts) to [IT contact] rather than clicking links or attachments.\n\n## Prohibited Use\nCompany email may not be used to: send confidential information to unauthorized recipients, send harassing or discriminatory content, or conduct unauthorized business activities.\n\n## Confidentiality\nEmployees should assume email is not fully private and may be reviewed by the Company for legitimate business or legal reasons, [consistent with applicable law].\n\n## Retention\n[Describe how long emails are retained and any archiving requirements.]\n\n## Departure\nUpon termination, email access is [disabled immediately / forwarded for a limited period per manager approval].\n\n---\nAcknowledged by: ______________________  Date: ____________\n\n*Training employees to recognize phishing (not just having a policy about it) prevents far more incidents than the policy document alone — pair this with periodic simulated phishing tests if you can.*"
+  },
+  {
+    "slug": "marketing-request-form-template",
+    "name": "Marketing Request Form",
+    "seoTitle": "Free Marketing Request Form Template",
+    "description": "Free marketing request form template for internal teams to submit a request to the marketing department.",
+    "category": "Business",
+    "bodyMarkdown": "# Marketing Request Form\n\n**Requested by:** [Name/Department] · **Date submitted:** [Date]\n**Needed by:** [Date]\n\n## Request Type\n[ ] Design asset  [ ] Email campaign  [ ] Social post  [ ] Landing page  [ ] Other: ___\n\n## Description\n[What's needed, and the goal it supports.]\n\n## Target Audience\n[Who this is for]\n\n## Key Message\n[The one thing this needs to communicate]\n\n## Assets Provided\n[What you're providing — copy, images, brand assets — vs. what marketing needs to create]\n\n## Approval Needed From\n[Who signs off before this goes live]\n\n## For Marketing Team Use\nAssigned to: [Name] · Status: [ ] Received  [ ] In progress  [ ] Complete\n\n*Requiring a \"needed by\" date and key message up front (not just \"make something for X\") is what keeps a marketing team's intake queue from turning into a series of clarifying-question round trips.*"
+  },
+  {
+    "slug": "copyright-notice-template",
+    "name": "Copyright Notice",
+    "seoTitle": "Free Copyright Notice Template",
+    "description": "Free copyright notice template for a website, document, or creative work.",
+    "category": "Legal",
+    "bodyMarkdown": "# Copyright Notice\n\n© [Year] [Company/Author Name]. All rights reserved.\n\nNo part of this [website/publication/work] may be reproduced, distributed, or transmitted in any form or by any means, including photocopying, recording, or other electronic or mechanical methods, without the prior written permission of [Company/Author Name], except in the case of brief quotations used in reviews and certain other noncommercial uses permitted by copyright law.\n\nFor permission requests, contact: [Email]\n\n**[Optional, for websites]:** All trademarks, logos, and brand names displayed on this site are the property of their respective owners.\n\n*A copyright notice isn't strictly required for protection under US law (copyright exists automatically once a work is created), but it puts others on clear notice and can affect available remedies if your work is infringed — it's a low-effort, worthwhile addition to any published work.*"
+  },
+  {
+    "slug": "attendance-report-template",
+    "name": "Attendance Report",
+    "seoTitle": "Free Attendance Report Template",
+    "description": "Free attendance report template for tracking employee or participant attendance over a period.",
+    "category": "HR",
+    "bodyMarkdown": "# Attendance Report — [Period]\n\n**Department/Class/Program:** [Name]\n\n| Name | Days Present | Days Absent | Days Late | Attendance % |\n|------|-----------------|----------------|--------------|-------------------|\n| [Name] | [Number] | [Number] | [Number] | [%] |\n| [Name] | [Number] | [Number] | [Number] | [%] |\n\n## Notes\n[Patterns worth flagging — e.g. frequent Monday absences, or a specific individual trending down]\n\n## Summary\nOverall attendance rate: [%]\nIndividuals below [Threshold]% attendance: [List]\n\n*Tracking a rolling attendance percentage (not just raw absence counts) makes it much easier to spot a real pattern versus normal, occasional absence.*"
+  },
+  {
+    "slug": "domain-name-purchase-agreement-template",
+    "name": "Domain Name Purchase Agreement",
+    "seoTitle": "Free Domain Name Purchase Agreement Template",
+    "description": "Free domain name purchase agreement template for buying or selling a domain name outside of a marketplace's own terms.",
+    "category": "Business",
+    "bodyMarkdown": "# Domain Name Purchase Agreement\n\n**Seller:** [Name]\n**Buyer:** [Name]\n**Domain Name:** [domain.com]\n**Purchase Price:** [Amount]\n**Date:** [Date]\n\n## 1. Sale\nSeller agrees to sell, and Buyer agrees to buy, all right, title, and interest in the domain name [domain.com], for the purchase price stated above.\n\n## 2. Transfer Process\nSeller will [unlock the domain, provide the transfer/auth code, and initiate transfer at the registrar] within [Number] business days of receiving payment.\n\n## 3. Payment\n[Describe payment method and timing — an escrow service is strongly recommended for domain sales above a modest value.]\n\n## 4. Seller's Warranty\nSeller warrants they are the legitimate registrant of the domain, it is free of disputes (e.g. UDRP proceedings) or liens, and it will be transferred with a clean WHOIS history.\n\n## 5. Risk of Loss\nRisk transfers to Buyer once the domain is successfully transferred to Buyer's registrar account.\n\n## 6. Governing Law\nThis Agreement is governed by the laws of [State/Country].\n\n---\nSeller: ______________________  Date: ____________\nBuyer: ______________________  Date: ____________\n\n*Using a domain-specific escrow service (rather than direct payment) protects both sides — the buyer against paying for a domain that's never transferred, and the seller against transferring before payment clears.*"
+  },
+  {
+    "slug": "employee-stock-ownership-plan-template",
+    "name": "Employee Stock Ownership Plan (ESOP) Outline",
+    "seoTitle": "Free Employee Stock Ownership Plan (ESOP) Outline Template",
+    "description": "Free ESOP outline — a retirement plan structure where employees gain beneficial ownership in the company over time.",
+    "category": "Finance",
+    "bodyMarkdown": "# Employee Stock Ownership Plan (ESOP) — [Company Name]\n\n## 1. Purpose\nThis ESOP is a retirement benefit plan that invests primarily in [Company Name] stock, giving employees a beneficial ownership stake over time.\n\n## 2. Eligibility\nEmployees become eligible after [Service requirement, e.g. \"one year of service and 1,000 hours worked\"].\n\n## 3. Contributions\nThe Company contributes shares (or cash used to purchase shares) to the ESOP trust on behalf of eligible employees, [Frequency/formula].\n\n## 4. Vesting Schedule\n[Typical structure: \"20% per year over a 5- or 6-year graded schedule\" — or a cliff schedule, per plan design and applicable rules.]\n\n## 5. Allocation\nShares are allocated to individual employee accounts [based on compensation, per the plan's formula].\n\n## 6. Distribution\nVested benefits are distributed upon [retirement, death, disability, or termination of employment], per the plan's distribution rules and applicable tax law.\n\n## 7. Trustee\nThe ESOP trust is administered by [Trustee Name/Entity], who holds legal title to the shares on behalf of participants.\n\n---\nAdopted by the Board on [Date].\n\n*This document is provided for informational and educational purposes only and does not constitute legal, tax, or ERISA advice. ESOPs are among the most heavily regulated retirement plan structures in the US (subject to ERISA, specific IRS/DOL rules, and typically requiring an independent trustee and valuation) — this outline shows the structure only; use a specialized ESOP attorney and valuation firm to actually establish one.*"
+  },
+  {
+    "slug": "project-change-request-form-template",
+    "name": "Project Change Request Form",
+    "seoTitle": "Free Project Change Request Form Template",
+    "description": "Free change request form template for proposing and approving a scope, timeline, or budget change mid-project.",
+    "category": "Business",
+    "bodyMarkdown": "# Project Change Request\n\n**Project:** [Project Name] · **Request #:** [Number] · **Date:** [Date]\n**Requested by:** [Name]\n\n## Description of Change\n[What's being changed — scope, timeline, budget, or deliverables.]\n\n## Reason for Change\n[Why this change is needed.]\n\n## Impact\n\n| Area | Current | Proposed | Impact |\n|------|---------|----------|--------|\n| Scope | [Current] | [Proposed] | [Impact] |\n| Timeline | [Current] | [Proposed] | [Impact] |\n| Budget | [Current] | [Proposed] | [Impact] |\n\n## Alternatives Considered\n[Other options evaluated before proposing this change, if any.]\n\n## Approval\n\n| Role | Name | Decision | Date |\n|------|------|----------|------|\n| Project Sponsor | [Name] | [ ] Approved [ ] Rejected | [Date] |\n| Client (if applicable) | [Name] | [ ] Approved [ ] Rejected | [Date] |\n\n*Requiring sign-off on the specific impact to timeline/budget (not just the change itself) is what prevents \"small\" scope changes from silently accumulating into a project that's over budget with nobody quite sure why.*"
+  },
+  {
+    "slug": "credit-memo-template",
+    "name": "Credit Memo",
+    "seoTitle": "Free Credit Memo Template",
+    "description": "Free credit memo template for issuing a customer credit against a previous invoice — for a return, overcharge, or adjustment.",
+    "category": "Finance",
+    "bodyMarkdown": "# Credit Memo\n\n**Credit Memo #:** [Number] · **Date:** [Date]\n**Original Invoice #:** [Number], dated [Date]\n**Customer:** [Name]\n\n## Reason for Credit\n[e.g. \"returned merchandise,\" \"billing error,\" \"goodwill adjustment\"]\n\n## Items Credited\n\n| Description | Qty | Unit Price | Credit Amount |\n|-------------|-----|-------------|-------------------|\n| [Item] | [Qty] | [Price] | [Amount] |\n\n**Total Credit: [Amount]**\n\n## Application of Credit\n[ ] Applied to customer's account balance\n[ ] Refunded to original payment method\n[ ] Issued as store credit\n\n---\nIssued by: ______________________  Date: ____________\n\n*State clearly whether the credit is a refund, an account credit, or store credit — customers and your own bookkeeping both need this distinction to be unambiguous.*"
+  },
+  {
+    "slug": "safeguarding-policy-template",
+    "name": "Safeguarding Policy",
+    "seoTitle": "Free Safeguarding Policy Template",
+    "description": "Free safeguarding policy template for an organization working with children or vulnerable adults.",
+    "category": "HR",
+    "bodyMarkdown": "# Safeguarding Policy\n\n**Organization:** [Organization Name] · **Effective Date:** [Date]\n\n## Purpose\nThis policy sets out how [Organization Name] protects the welfare of children and/or vulnerable adults in its care, and how staff/volunteers should respond to concerns.\n\n## Scope\nThis policy applies to all staff, volunteers, and contractors who interact with [children/vulnerable adults] through [Organization Name]'s programs.\n\n## Recruitment Safeguards\n[e.g. background checks required for all staff/volunteers working directly with children/vulnerable adults, reference checks, safeguarding training required before starting.]\n\n## Code of Conduct\nStaff/volunteers must: [avoid one-on-one unsupervised situations where possible, never use physical discipline, maintain appropriate physical and digital boundaries].\n\n## Reporting a Concern\nAnyone with a concern about a child or vulnerable adult's welfare should immediately report it to [Designated Safeguarding Lead/Contact], who will [describe next steps — internal escalation, and when/how to contact external authorities].\n\n## Confidentiality\nConcerns are handled with appropriate confidentiality, shared only with those who need to know to keep the individual safe.\n\n## Training\nAll staff/volunteers receive safeguarding training [Frequency, e.g. annually].\n\n---\nAdopted by: ______________________  Date: ____________\n\n*This document is provided for informational and educational purposes only and does not constitute legal advice. Safeguarding legal requirements (mandatory reporting duties, required background check types) vary significantly by country and by the population served — have this reviewed against your specific jurisdiction's requirements, not just this general template.*"
+  },
+  {
+    "slug": "exclusive-right-to-sell-agreement-template",
+    "name": "Exclusive Right to Sell Agreement",
+    "seoTitle": "Free Exclusive Right to Sell Agreement Template",
+    "description": "Free exclusive right-to-sell listing agreement template between a property seller and their real estate agent.",
+    "category": "Real Estate",
+    "bodyMarkdown": "# Exclusive Right to Sell Agreement\n\n**Seller:** [Name]\n**Broker/Agent:** [Name/Brokerage, License #]\n**Property:** [Address]\n**Date:** [Date]\n\n## 1. Exclusive Right\nSeller grants Broker the exclusive right to sell the Property for a period of [Duration], beginning [Date].\n\n## 2. Listing Price\nInitial listing price: [Amount], subject to change by mutual agreement.\n\n## 3. Commission\nSeller will pay Broker a commission of [%] of the final sale price, due at closing, [regardless of who finds the buyer — that's what makes this \"exclusive right to sell\" rather than a simple exclusive agency listing].\n\n## 4. Broker's Duties\nBroker will market the Property, including [MLS listing, showings, marketing materials], and represent Seller's interests throughout the transaction.\n\n## 5. Seller's Duties\nSeller will make the Property available for showings and disclose all known material facts about the Property's condition.\n\n## 6. Protection Period\nIf a buyer who was introduced during the listing period ultimately purchases the Property within [Number] days after this Agreement ends, commission is still owed, unless the property is relisted with another broker.\n\n## 7. Termination\n[State whether/how this can be terminated early, and any conditions.]\n\n---\nSeller: ______________________  Date: ____________\nBroker: ______________________  Date: ____________\n\n*This document is provided for informational and educational purposes only and does not constitute legal advice. Most states require real estate listing agreements to use a state-specific licensed form — this is a structural reference, not a substitute for your state's required listing agreement.*"
+  },
+  {
+    "slug": "travel-policy-template",
+    "name": "Travel Policy",
+    "seoTitle": "Free Company Travel Policy Template",
+    "description": "Free company travel policy template covering booking, expenses, and approval for business travel.",
+    "category": "HR",
+    "bodyMarkdown": "# Company Travel Policy\n\n**Company:** [Company Name] · **Effective Date:** [Date]\n\n## Booking\n[Who books travel — employee or a designated travel coordinator/tool — and any preferred vendors.]\n\n## Approval\nTravel requiring [Amount threshold] or international travel requires prior approval from [Manager/Finance].\n\n## Class of Travel\n[Economy for flights under X hours, business class for longer flights, etc. — set your actual policy.]\n\n## Accommodation\n[Nightly rate guidelines or a per-city cap, if used.]\n\n## Meals\nPer diem: [Amount] per day, or actual reasonable expenses with receipts.\n\n## Ground Transportation\n[Rideshare/taxi/rental car guidelines.]\n\n## Expense Reporting\nSubmit expense reports within [Number] days of travel completion, with receipts for anything over [Amount].\n\n## Personal Travel Combined with Business\n[Policy on extending a business trip personally — who pays the cost difference.]\n\n*A per diem for meals (rather than requiring every receipt) meaningfully reduces expense-report friction for both travelers and whoever approves them.*"
+  },
+  {
+    "slug": "employee-information-form-template",
+    "name": "Employee Information Form",
+    "seoTitle": "Free Employee Information Form Template",
+    "description": "Free employee information form template for collecting a new hire's essential details for HR and payroll records.",
+    "category": "HR",
+    "bodyMarkdown": "# Employee Information Form\n\n## Personal Information\nFull legal name: [Name] · Preferred name: [Name]\nDate of birth: [Date] · SSN/national ID: [Number]\nAddress: [Address] · Phone: [Phone] · Personal email: [Email]\n\n## Employment Details\nJob title: [Title] · Department: [Department]\nStart date: [Date] · Manager: [Name]\n\n## Emergency Contact\nName: [Name] · Relationship: [Relationship] · Phone: [Phone]\n\n## Payroll Information\nBank account for direct deposit: [Attach separately/securely]\nTax withholding elections: [Attach appropriate tax form]\n\n## Benefits Elections (if applicable)\n[Health insurance, retirement plan enrollment choices]\n\nEmployee signature: ______________________  Date: ____________\n\n*Collect sensitive fields (SSN, bank details) through a secure HR system rather than a plain form or email — this data is a common target for identity theft and payroll fraud.*"
+  },
+  {
+    "slug": "sales-order-form-template",
+    "name": "Sales Order Form",
+    "seoTitle": "Free Sales Order Form Template",
+    "description": "Free sales order form template confirming an order's details before it's processed and invoiced.",
+    "category": "Finance",
+    "bodyMarkdown": "# Sales Order\n\n**Order #:** [Number] · **Date:** [Date]\n**Customer:** [Name, Address]\n**Sales Rep:** [Name]\n\n## Items Ordered\n\n| Item | Description | Qty | Unit Price | Total |\n|------|-------------|-----|-------------|-------|\n| [Item] | [Description] | [Qty] | [Price] | [Total] |\n\n**Subtotal:** [Amount]\n**Tax:** [Amount]\n**Shipping:** [Amount]\n**Total: [Amount]**\n\n## Delivery\nRequested delivery date: [Date]\nShipping address: [Address, if different from billing]\n\n## Payment Terms\n[e.g. Net 30, due on delivery]\n\n## Confirmation\nCustomer signature: ______________________  Date: ____________\n\n*A sales order confirms the deal before fulfillment/invoicing begins — catching a wrong quantity or address here is far cheaper than catching it after the item has shipped.*"
+  },
+  {
+    "slug": "statement-of-charges-template",
+    "name": "Statement of Charges",
+    "seoTitle": "Free Statement of Charges Template",
+    "description": "Free statement of charges template itemizing fees or costs billed to a client or account.",
+    "category": "Finance",
+    "bodyMarkdown": "# Statement of Charges\n\n**Account:** [Name] · **Statement Date:** [Date]\n**Period Covered:** [Start Date] – [End Date]\n\n## Charges\n\n| Date | Description | Amount |\n|------|-------------|--------|\n| [Date] | [Charge description] | [Amount] |\n| [Date] | [Charge description] | [Amount] |\n\n**Total Charges: [Amount]**\n\n## Payments/Credits Applied\n| Date | Description | Amount |\n|------|-------------|--------|\n| [Date] | [Payment/credit] | ([Amount]) |\n\n**Balance Due: [Amount]**\n\n## Payment Due Date\n[Date]\n\n*Breaking out each charge with a date and description (rather than one lump total) is what lets a client actually verify the statement rather than just trust it.*"
+  },
+  {
+    "slug": "backlink-report-template",
+    "name": "Backlink Report",
+    "seoTitle": "Free Backlink Report Template",
+    "description": "Free backlink report template for summarizing a website's inbound links and link-building progress.",
+    "category": "Business",
+    "bodyMarkdown": "# Backlink Report: [Website/Client Name]\n\n**Reporting Period:** [Date] – [Date]\n\n## Summary\nTotal backlinks: [Number] ([+/-] vs. last period)\nReferring domains: [Number]\nNew links this period: [Number]\n\n## New Links Acquired\n\n| Source | Target Page | Anchor Text | Domain Authority | Type (Follow/Nofollow) |\n|--------|--------------|---------------|----------------------|-----------------------------|\n| [Domain] | [URL] | [Anchor] | [Score] | [Type] |\n\n## Link-Building Activities This Period\n[Outreach done, guest posts published, resources created, etc.]\n\n## Lost Links (if any)\n[Links that disappeared this period, and any recovery outreach done]\n\n## Next Period Plan\n[Specific link-building activities planned]\n\n*Tracking referring DOMAINS (not just total link count) matters more for real authority — 50 links from 5 domains is worth much less than 20 links from 20 different domains.*"
+  },
+  {
+    "slug": "affidavit-of-residency-template",
+    "name": "Affidavit of Residency",
+    "seoTitle": "Free Affidavit of Residency Template",
+    "description": "Free affidavit of residency template confirming someone's current place of residence, often for school enrollment or ID purposes.",
+    "category": "Legal",
+    "bodyMarkdown": "# Affidavit of Residency\n\nState of [State]\nCounty of [County]\n\nI, [Affiant Name], being first duly sworn, state as follows:\n\n## 1. Residency\nI currently reside at [Full Address], and have resided there since [Date].\n\n## 2. Purpose\nThis affidavit is provided in connection with [purpose — e.g. \"school enrollment for my child\" or \"obtaining a state ID\"].\n\n## 3. Basis of Knowledge\n[If confirming someone else's residency, e.g. a landlord confirming a tenant: \"I am the landlord/property owner at this address and confirm the above-named individual resides there.\"]\n\n---\nAffiant signature: ______________________  Date: ____________\n\n**Notarization:**\nSubscribed and sworn to before me on [Date].\nNotary Public: ______________________\n\n*This document is provided for informational and educational purposes only and does not constitute legal advice. The institution requesting proof of residency (a school district, DMV, etc.) may have a specific required form or accept only certain supporting documents alongside it — confirm their exact requirements before submitting.*"
+  },
+  {
+    "slug": "emergency-action-plan-template",
+    "name": "Emergency Action Plan",
+    "seoTitle": "Free Emergency Action Plan Template",
+    "description": "Free emergency action plan template for a workplace — evacuation procedures, roles, and emergency contacts.",
+    "category": "Business",
+    "bodyMarkdown": "# Emergency Action Plan — [Location/Facility Name]\n\n**Last updated:** [Date] · **Plan Owner:** [Name]\n\n## Emergency Types Covered\n[Fire, severe weather, active threat, medical emergency, etc.]\n\n## Evacuation Procedures\nPrimary evacuation route: [Description]\nAssembly point: [Location]\nAlarm system: [Description of how it's activated/sounds]\n\n## Roles and Responsibilities\n| Role | Name | Responsibility |\n|------|------|-----------------|\n| Emergency coordinator | [Name] | [Responsibility] |\n| Floor wardens | [Name(s)] | [Responsibility] |\n| First aid responder | [Name] | [Responsibility] |\n\n## Emergency Contacts\n| Service | Number |\n|---------|--------|\n| Emergency services | 911 (or local equivalent) |\n| Building security | [Number] |\n| Facilities/maintenance | [Number] |\n\n## Special Considerations\n[Employees needing evacuation assistance, and the plan for helping them]\n\n## Drills\nThis plan is practiced via drill at least [Frequency].\n\n*A plan with a named person responsible for each role (not just \"someone will handle it\") is what actually functions during a real emergency, when people default to habit under stress.*"
+  },
+  {
+    "slug": "letter-of-recommendation-request-template",
+    "name": "Letter of Recommendation Request",
+    "seoTitle": "Free Letter of Recommendation Request Template",
+    "description": "Free template for asking someone to write you a letter of recommendation, with the context they need to write a strong one.",
+    "category": "HR",
+    "bodyMarkdown": "# Letter of Recommendation Request\n\nDear [Recommender Name],\n\nI hope you're doing well. I'm applying for [position/program/opportunity], and I would be grateful if you'd be willing to write a letter of recommendation on my behalf.\n\n## Context\nDeadline: [Date]\nWhere to send it: [Address/portal/email]\nWhat they're looking for: [Brief description of the opportunity and what qualities matter to the reviewer]\n\n## Reminder of Our Work Together\n[A brief reminder of the specific projects/time period you worked together, to help them write with specific examples.]\n\n## What Would Be Helpful to Mention\n[Optional: specific skills or experiences you'd appreciate them highlighting, if relevant.]\n\nI've attached my resume/CV for reference. Please let me know if you need anything else from me, and thank you so much for considering this.\n\nBest,\n[Your Name]\n\n*Giving your recommender specific context (the deadline, what the opportunity is looking for, reminders of shared work) results in a stronger, more specific letter than \"can you write me a recommendation?\" alone.*"
+  },
+  {
+    "slug": "payslip-template",
+    "name": "Payslip",
+    "seoTitle": "Free Payslip Template",
+    "description": "Free payslip (pay stub) template showing an employee's earnings, deductions, and net pay for a period.",
+    "category": "Finance",
+    "bodyMarkdown": "# Payslip\n\n**Employee:** [Name] · **Employee ID:** [ID]\n**Pay Period:** [Start Date] – [End Date] · **Pay Date:** [Date]\n\n## Earnings\n| Item | Hours/Rate | Amount |\n|------|-------------|--------|\n| Regular pay | [Hours × Rate] | [Amount] |\n| Overtime | [Hours × Rate] | [Amount] |\n| **Gross Pay** | | **[Amount]** |\n\n## Deductions\n| Item | Amount |\n|------|--------|\n| Income tax | [Amount] |\n| Social security / retirement contribution | [Amount] |\n| Health insurance | [Amount] |\n| **Total Deductions** | **[Amount]** |\n\n## Net Pay\n**[Amount]**\n\n## Year-to-Date\nGross YTD: [Amount] · Deductions YTD: [Amount] · Net YTD: [Amount]\n\n*Payslip content requirements (what must be itemized, in what format) are set by local labor law and vary by country/state — confirm your jurisdiction's specific requirements rather than relying on a generic format for actual payroll use.*"
+  },
+  {
+    "slug": "statement-of-need-template",
+    "name": "Statement of Need",
+    "seoTitle": "Free Statement of Need Template",
+    "description": "Free statement of need template — the section of a grant proposal that establishes why the problem matters and needs funding.",
+    "category": "Business",
+    "bodyMarkdown": "# Statement of Need: [Project/Program Name]\n\n## The Problem\n[Describe the problem clearly and specifically — who it affects, and how significantly.]\n\n## Evidence\n[Data, statistics, or documented evidence supporting the scope of the problem — cite sources.]\n\n## Gap in Current Solutions\n[What's currently being done, and why it's insufficient to address the problem.]\n\n## Community/Population Affected\n[Specifically who is affected, with relevant demographics if applicable.]\n\n## Consequences of Inaction\n[What happens if this problem isn't addressed — be specific and grounded in evidence, not alarmist.]\n\n## Why [Organization Name] Is Positioned to Address This\n[Brief transition into your organization's relevant capability — sets up the rest of the proposal.]\n\n*A statement of need grounded in specific, cited data is far more persuasive to a funder than one relying on general statements about how important an issue is — show, don't just assert.*"
+  },
+  {
+    "slug": "computer-repair-request-form-template",
+    "name": "Computer Repair Request Form",
+    "seoTitle": "Free Computer Repair Request Form Template",
+    "description": "Free IT repair request form template for an employee or customer to report a device issue.",
+    "category": "Business",
+    "bodyMarkdown": "# Computer Repair Request Form\n\n**Requested by:** [Name] · **Date:** [Date]\n**Device:** [Make/model, asset tag if applicable]\n\n## Issue Description\n[Describe the problem — what's happening, when it started, any error messages]\n\n## Troubleshooting Already Tried\n[What's already been attempted, if anything]\n\n## Urgency\n[ ] Critical — cannot work at all\n[ ] High — significantly impacts work\n[ ] Normal — inconvenience but workable\n\n## Data Backup Status\n[ ] Important files backed up\n[ ] Not sure / need help with backup first\n\n## For IT Use\nAssigned to: [Name] · Status: [ ] Received  [ ] In progress  [ ] Resolved\nResolution: [Description]\n\n*Asking about backup status before repair (not after something goes wrong during the fix) prevents the worst possible outcome of an IT repair — data loss on top of the original problem.*"
+  },
+  {
+    "slug": "testimonial-consent-and-release-template",
+    "name": "Testimonial Consent and Release",
+    "seoTitle": "Free Testimonial Consent and Release Template",
+    "description": "Free testimonial consent form template — gets a customer's written permission to use their quote, name, and likeness in marketing.",
+    "category": "Legal",
+    "bodyMarkdown": "# Testimonial Consent and Release\n\n**Customer/Participant Name:** [Name]\n**Company:** [Company Name]\n**Date:** [Date]\n\nI agree to provide the following testimonial and grant [Company Name] permission to use it for marketing purposes.\n\n## Testimonial\n\"[Insert the actual testimonial text, reviewed and approved by the customer]\"\n\n## Permitted Uses\n[Company Name] may use this testimonial, along with my [name / company name / job title / photo, as checked below], in:\n[ ] Website  [ ] Social media  [ ] Print marketing  [ ] Advertisements  [ ] Case studies\n\n## What May Be Used\n[ ] First name only  [ ] Full name  [ ] Company name  [ ] Photo/headshot  [ ] Video\n\n## No Compensation\n[Choose one: \"I understand I will not be compensated for this testimonial.\" OR describe any agreed compensation.]\n\n## Duration\nThis consent [has no expiration / is valid for [Duration], after which [Company Name] will seek renewed consent].\n\nSignature: ______________________  Date: ____________\n\n*Getting written sign-off on the EXACT testimonial text (not just verbal permission to \"use what I said\") avoids disputes if the customer's opinion changes later or they feel misquoted.*"
   }
 ]
