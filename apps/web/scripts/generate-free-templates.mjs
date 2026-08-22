@@ -2147,12 +2147,1779 @@ Sincerely,
 
 *If this letter supports a visa application, check the destination country's specific requirements (notarization, exact wording, supporting documents) before sending — requirements vary by country and visa type.*`,
   },
+  {
+    slug: "letter-of-recommendation-template",
+    name: "Letter of Recommendation",
+    seoTitle: "Free Letter of Recommendation Template",
+    description: "Free letter of recommendation template for a former employee, student, or colleague.",
+    category: "HR",
+    bodyMarkdown: `# Letter of Recommendation
+
+[Your Name]
+[Your Title/Organization]
+[Date]
+
+**RE: Recommendation for [Candidate Name]**
+
+Dear [Recipient Name / "Hiring Manager"],
+
+I am writing to recommend [Candidate Name] for [position/program/opportunity]. I worked with [Candidate Name] as their [your relationship — manager, colleague, professor] at [Company/Institution] for [Duration].
+
+## Why I'm recommending them
+[One or two specific examples of their work, skills, or character — concrete achievements, not generic praise.]
+
+## Their strengths
+[2-3 specific strengths relevant to what they're applying for.]
+
+I recommend [Candidate Name] without reservation and am happy to answer any further questions.
+
+Sincerely,
+[Your Name]
+[Contact Information]
+
+*A recommendation with specific, concrete examples carries far more weight than generic praise — take the time to include at least one real story or result.*`,
+  },
+  {
+    slug: "letter-of-agreement-template",
+    name: "Letter of Agreement",
+    seoTitle: "Free Letter of Agreement Template",
+    description: "Free letter of agreement template — a simple, letter-format contract for a straightforward arrangement.",
+    category: "Business",
+    bodyMarkdown: `# Letter of Agreement
+
+[Date]
+
+[Party B Name]
+[Party B Address]
+
+Dear [Party B Name],
+
+This letter confirms the agreement between [Party A Name] ("Party A") and [Party B Name] ("Party B") regarding [Subject of Agreement].
+
+## Terms
+1. [Term 1 — e.g. what will be delivered or done]
+2. [Term 2 — e.g. payment amount and schedule]
+3. [Term 3 — e.g. timeline]
+4. [Term 4 — e.g. what happens if either party doesn't follow through]
+
+If these terms are acceptable, please sign and return a copy of this letter to confirm your agreement.
+
+Sincerely,
+[Party A Name]
+
+---
+Agreed and accepted:
+[Party B Name]: ______________________  Date: ____________
+
+*A letter of agreement works well for straightforward, lower-stakes arrangements. For anything with significant money or risk involved, a full contract reviewed by an attorney is safer.*`,
+  },
+  {
+    slug: "meeting-agenda-template",
+    name: "Meeting Agenda",
+    seoTitle: "Free Meeting Agenda Template",
+    description: "Free meeting agenda template to keep a meeting focused and on time.",
+    category: "Business",
+    bodyMarkdown: `# Meeting Agenda
+
+**Meeting:** [Meeting Name]
+**Date:** [Date] · **Time:** [Start] – [End]
+**Location:** [Location / call link]
+**Attendees:** [List]
+
+## Objective
+[One sentence: what this meeting needs to accomplish.]
+
+## Agenda
+
+| # | Topic | Owner | Time |
+|---|-------|-------|------|
+| 1 | [Topic] | [Name] | [X min] |
+| 2 | [Topic] | [Name] | [X min] |
+| 3 | [Topic] | [Name] | [X min] |
+
+## Pre-reading
+[Any documents attendees should review beforehand, if applicable.]
+
+## Notes
+[Space to jot decisions/action items during the meeting, or move to a separate meeting-minutes doc.]
+
+*Sending the agenda at least a day ahead, with time estimates per topic, is what actually keeps a meeting on schedule — the format alone won't do it.*`,
+  },
+  {
+    slug: "business-memo-template",
+    name: "Business Memo",
+    seoTitle: "Free Business Memo Template",
+    description: "Free business memo template for internal announcements, updates, or requests.",
+    category: "Business",
+    bodyMarkdown: `# Memorandum
+
+**To:** [Recipient(s)]
+**From:** [Your Name]
+**Date:** [Date]
+**Re:** [Subject]
+
+## Purpose
+[One sentence: why this memo exists.]
+
+## Background
+[Brief context, if the reader needs it.]
+
+## Details
+[The actual content — announcement, update, or request, in as few words as does the job.]
+
+## Action Needed
+[What, if anything, the reader needs to do, and by when.]
+
+*Lead with the point in the first sentence — a memo that makes the reader hunt for the actual news gets skimmed, not read.*`,
+  },
+  {
+    slug: "income-statement-template",
+    name: "Income Statement",
+    seoTitle: "Free Income Statement (P&L) Template",
+    description: "Free income statement (profit & loss) template for tracking revenue, expenses, and net income over a period.",
+    category: "Finance",
+    bodyMarkdown: `# Income Statement — [Company Name]
+
+**Period:** [Start Date] – [End Date]
+
+## Revenue
+| Line Item | Amount |
+|-----------|--------|
+| [Revenue source 1] | [Amount] |
+| [Revenue source 2] | [Amount] |
+| **Total Revenue** | **[Amount]** |
+
+## Cost of Goods Sold (COGS)
+| Line Item | Amount |
+|-----------|--------|
+| [COGS item] | [Amount] |
+| **Total COGS** | **[Amount]** |
+
+**Gross Profit** = Total Revenue − Total COGS = **[Amount]**
+
+## Operating Expenses
+| Line Item | Amount |
+|-----------|--------|
+| [Rent/salaries/marketing/etc.] | [Amount] |
+| **Total Operating Expenses** | **[Amount]** |
+
+**Operating Income** = Gross Profit − Total Operating Expenses = **[Amount]**
+
+## Other Income/Expenses
+[Interest, taxes, one-time items]
+
+**Net Income** = **[Amount]**
+
+*This is a simplified format for a small business. If you need this for a loan application, investor, or tax filing, have a bookkeeper or accountant review it against your actual books.*`,
+  },
+  {
+    slug: "expense-report-template",
+    name: "Expense Report",
+    seoTitle: "Free Expense Report Template",
+    description: "Free expense report template for tracking and submitting business expenses over a period.",
+    category: "Finance",
+    bodyMarkdown: `# Expense Report
+
+**Employee:** [Name]
+**Period:** [Start Date] – [End Date]
+**Department:** [Department]
+
+| Date | Description | Category | Amount | Payment Method |
+|------|-------------|----------|--------|-----------------|
+| [Date] | [Description] | [Travel/Meals/Supplies/etc.] | [Amount] | [Personal card/Company card] |
+| [Date] | [Description] | [Category] | [Amount] | [Method] |
+
+**Total: [Amount]**
+
+## Notes
+[Business purpose, client/project code, or anything the approver needs to know.]
+
+## Approval
+Submitted by: ______________________  Date: ____________
+Approved by: ______________________  Date: ____________
+
+*Attach receipts for anything over your company's threshold (commonly $25-75) — most expense policies require it for reimbursement.*`,
+  },
+  {
+    slug: "startup-business-plan-template",
+    name: "Startup Business Plan",
+    seoTitle: "Free Startup Business Plan Template",
+    description: "Free multi-section startup business plan template — more detailed than a one-pager, for a bank loan or investor.",
+    category: "Business",
+    bodyMarkdown: `# Business Plan: [Company Name]
+
+## 1. Executive Summary
+[One-page overview — see docstoc's Executive Summary template for a standalone version of this section.]
+
+## 2. Company Description
+[Legal structure, location, mission, and history if any.]
+
+## 3. Market Analysis
+[Target market size, customer segments, competitive landscape.]
+
+## 4. Organization & Management
+[Ownership structure, key team members and their roles.]
+
+## 5. Products or Services
+[What you sell, and what makes it different from alternatives.]
+
+## 6. Marketing & Sales Strategy
+[How you'll reach customers and convert them — channels, pricing, positioning.]
+
+## 7. Financial Projections
+[Revenue projections, break-even analysis, and funding needed, if any. Use real assumptions you can defend, not optimistic guesses.]
+
+## 8. Funding Request (if applicable)
+[Amount needed, use of funds, and terms sought.]
+
+## Appendix
+[Supporting documents — resumes, licenses, market research, letters of intent.]
+
+*Lenders and investors read the executive summary and financials closely and skim the rest — make sure those two sections are airtight even if other sections stay brief.*`,
+  },
+  {
+    slug: "informed-consent-form-template",
+    name: "Informed Consent Form",
+    seoTitle: "Free Informed Consent Form Template",
+    description: "Free informed consent form template for a research study, medical procedure, or service involving risk.",
+    category: "Legal",
+    bodyMarkdown: `# Informed Consent Form
+
+**Study/Procedure/Service:** [Name]
+**Conducted by:** [Provider/Researcher Name]
+
+## Purpose
+[What this is, and why the participant is being asked to take part.]
+
+## What Will Happen
+[Describe the procedure, study activities, or service in plain language.]
+
+## Risks and Benefits
+**Risks:** [Describe honestly — even minor ones]
+**Benefits:** [Describe realistically — avoid overstating]
+
+## Confidentiality
+[How the participant's information will be used, stored, and protected.]
+
+## Voluntary Participation
+Participation is voluntary. You may withdraw at any time without penalty.
+
+## Questions
+Contact [Name/Email/Phone] with any questions before or after signing.
+
+## Consent
+I have read and understood the above and voluntarily agree to participate.
+
+Participant signature: ______________________  Date: ____________
+[If applicable] Witness signature: ______________________  Date: ____________
+
+*Consent form requirements are heavily regulated for medical and research settings (e.g. IRB approval, HIPAA) — this is a general template only; consult your institution's compliance office or a licensed attorney for anything regulated.*`,
+  },
+  {
+    slug: "cash-flow-statement-template",
+    name: "Cash Flow Statement",
+    seoTitle: "Free Cash Flow Statement Template",
+    description: "Free cash flow statement template tracking cash in and out of the business over a period.",
+    category: "Finance",
+    bodyMarkdown: `# Cash Flow Statement — [Company Name]
+
+**Period:** [Start Date] – [End Date]
+
+## Operating Activities
+| Item | Amount |
+|------|--------|
+| Cash received from customers | [Amount] |
+| Cash paid to suppliers/employees | [Amount] |
+| **Net Cash from Operating Activities** | **[Amount]** |
+
+## Investing Activities
+| Item | Amount |
+|------|--------|
+| Purchase/sale of equipment or assets | [Amount] |
+| **Net Cash from Investing Activities** | **[Amount]** |
+
+## Financing Activities
+| Item | Amount |
+|------|--------|
+| Loan proceeds/repayments | [Amount] |
+| Owner contributions/distributions | [Amount] |
+| **Net Cash from Financing Activities** | **[Amount]** |
+
+## Summary
+Net change in cash: **[Amount]**
+Cash at start of period: **[Amount]**
+Cash at end of period: **[Amount]**
+
+*A business can be profitable on paper (income statement) and still run out of cash — this statement is what actually tells you if you can pay your bills.*`,
+  },
+  {
+    slug: "medical-release-form-template",
+    name: "Medical Release Form",
+    seoTitle: "Free Medical Release Form Template",
+    description: "Free medical release form template authorizing treatment or release of medical information for a minor or dependent.",
+    category: "Legal",
+    bodyMarkdown: `# Medical Release Form
+
+**Child/Dependent Name:** [Name]
+**Date of Birth:** [Date]
+**Parent/Guardian:** [Name]
+
+I, [Parent/Guardian Name], authorize [Caregiver/Organization Name] to:
+
+- Seek emergency medical treatment for the above-named individual if I cannot be reached
+- Release relevant medical information to treating medical professionals as needed
+
+## Emergency Contacts
+1. [Name, Phone, Relationship]
+2. [Name, Phone, Relationship]
+
+## Medical Information
+Known allergies: [List, or "None"]
+Current medications: [List, or "None"]
+Physician: [Name, Phone]
+Insurance provider/policy #: [Details]
+
+## Authorization Period
+This authorization is valid from [Start Date] to [End Date].
+
+Parent/Guardian signature: ______________________  Date: ____________
+
+*This is a general-purpose template (camps, schools, sports teams, caregivers) — some states/organizations require notarization or a specific form. Confirm with the organization requesting it.*`,
+  },
+  {
+    slug: "commercial-invoice-template",
+    name: "Commercial Invoice",
+    seoTitle: "Free Commercial Invoice Template",
+    description: "Free commercial invoice template for international shipments — the customs-required version of a standard invoice.",
+    category: "Finance",
+    bodyMarkdown: `# Commercial Invoice
+
+**Invoice #:** [Number] · **Date:** [Date]
+
+**Shipper/Exporter:** [Name, Address]
+**Consignee/Importer:** [Name, Address]
+
+## Shipment Details
+Country of origin: [Country]
+Country of destination: [Country]
+Terms of sale (Incoterms): [e.g. FOB, CIF, DDP]
+Currency: [Currency]
+
+## Goods
+
+| Description | HS Code | Qty | Unit Price | Total | Country of Origin |
+|-------------|---------|-----|-------------|-------|---------------------|
+| [Description] | [Code] | [Qty] | [Price] | [Total] | [Country] |
+
+**Total Value: [Amount] [Currency]**
+
+## Declaration
+I declare that the information on this invoice is true and correct.
+
+Signature: ______________________  Date: ____________
+[Name, Title]
+
+*Customs requirements (HS codes, required declarations, number of copies) vary by country — check the destination country's customs authority or your freight forwarder before shipping.*`,
+  },
+  {
+    slug: "personal-statement-template",
+    name: "Personal Statement",
+    seoTitle: "Free Personal Statement Template",
+    description: "Free personal statement template for a school, scholarship, or program application.",
+    category: "Business",
+    bodyMarkdown: `# Personal Statement
+
+## Opening
+[A specific moment, experience, or realization that connects to why you're applying — not a generic opening line.]
+
+## Your story
+[What led you here — relevant experiences, challenges overcome, or work that shaped your interest in this field/program.]
+
+## Why this program/opportunity
+[Specific reasons this particular program or opportunity fits your goals — shows you did the research.]
+
+## Your goals
+[What you plan to do with this opportunity, and how it fits your longer-term direction.]
+
+## Closing
+[Tie it back to your opening, and end with a clear, confident statement of fit.]
+
+*The strongest personal statements are specific and honest rather than trying to sound impressive — one real, well-told story beats five generic accomplishments listed out.*`,
+  },
+  {
+    slug: "severance-agreement-template",
+    name: "Severance Agreement",
+    seoTitle: "Free Severance Agreement Template",
+    description: "Free severance agreement template for an employee departure, including severance pay and release of claims.",
+    category: "HR",
+    bodyMarkdown: `# Severance Agreement and Release
+
+**Employer:** [Company Name]
+**Employee:** [Employee Name]
+**Date:** [Date]
+
+## 1. Separation
+Employee's employment with the Company ends on [Date] (the "Separation Date").
+
+## 2. Severance Pay
+In exchange for the release below, the Company will pay Employee [Amount/Formula], less applicable withholdings, paid [Lump sum / over X pay periods].
+
+## 3. Benefits
+[Describe continuation of health insurance (e.g. COBRA), if applicable, and its duration.]
+
+## 4. Release of Claims
+In exchange for the severance pay above, Employee releases the Company from any claims related to their employment or its termination, to the fullest extent permitted by law.
+
+## 5. Confidentiality and Non-Disparagement
+[Optional: both parties agree not to disparage each other, and to keep the terms of this Agreement confidential.]
+
+## 6. Return of Property
+Employee will return all Company property (equipment, keys, access badges, confidential materials) by the Separation Date.
+
+## 7. Revocation Period
+[If required in your jurisdiction, e.g. under the US Older Workers Benefit Protection Act: "Employee has 21 days to consider this Agreement and 7 days after signing to revoke it."]
+
+---
+Employer: ______________________  Date: ____________
+Employee: ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. Severance/release agreements have specific legal requirements (especially for age-protected employees) — have a licensed employment attorney review before offering or signing one.*`,
+  },
+  {
+    slug: "indemnification-agreement-template",
+    name: "Indemnification Agreement",
+    seoTitle: "Free Indemnification Agreement Template",
+    description: "Free indemnification agreement template — one party agrees to cover losses the other incurs from specified risks.",
+    category: "Legal",
+    bodyMarkdown: `# Indemnification Agreement
+
+**Indemnifying Party:** [Name] (the "Indemnitor")
+**Indemnified Party:** [Name] (the "Indemnitee")
+**Date:** [Date]
+
+## 1. Indemnification
+The Indemnitor agrees to indemnify, defend, and hold harmless the Indemnitee from any claims, losses, damages, or expenses (including reasonable attorney's fees) arising from: [Describe the specific activity/risk — e.g. "the Indemnitor's performance of services under the attached agreement"].
+
+## 2. Exclusions
+This indemnification does not apply to claims arising from the Indemnitee's own negligence or willful misconduct.
+
+## 3. Notice and Defense
+The Indemnitee will promptly notify the Indemnitor of any claim, and the Indemnitor may control the defense of that claim using counsel of its choice, subject to the Indemnitee's reasonable approval.
+
+## 4. Term
+This indemnification survives for [Duration] after [the underlying agreement ends / the event described above].
+
+## 5. Governing Law
+This Agreement is governed by the laws of [State/Country].
+
+---
+Indemnitor: ______________________  Date: ____________
+Indemnitee: ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. Indemnification scope is often heavily negotiated in real contracts — consult a licensed attorney for anything beyond a low-stakes arrangement.*`,
+  },
+  {
+    slug: "security-agreement-template",
+    name: "Security Agreement",
+    seoTitle: "Free Security Agreement Template",
+    description: "Free security agreement template — pledges collateral to secure a loan or other obligation.",
+    category: "Finance",
+    bodyMarkdown: `# Security Agreement
+
+**Debtor:** [Name] (the "Debtor")
+**Secured Party:** [Name] (the "Secured Party")
+**Date:** [Date]
+
+## 1. Grant of Security Interest
+To secure repayment of [Reference the underlying loan/promissory note], Debtor grants Secured Party a security interest in the following collateral: [Describe collateral specifically — e.g. equipment, inventory, accounts receivable].
+
+## 2. Obligations Secured
+This security interest secures [Amount] owed under [Reference document, e.g. "the Promissory Note dated ___"], plus interest and any costs of enforcement.
+
+## 3. Debtor's Representations
+Debtor represents that it owns the collateral free of other liens, except as disclosed: [Disclose any existing liens].
+
+## 4. Default
+Debtor is in default if: [payment is missed, the collateral is damaged/sold without consent, etc.]. Upon default, Secured Party may exercise all rights available under [State] law, including repossession of the collateral.
+
+## 5. Filing
+Secured Party may file a UCC-1 financing statement to perfect this security interest.
+
+## 6. Governing Law
+This Agreement is governed by the laws of [State/Country].
+
+---
+Debtor: ______________________  Date: ____________
+Secured Party: ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. Perfecting a security interest correctly (UCC filings, priority rules) is technical — consult a licensed attorney for any loan of real size.*`,
+  },
+  {
+    slug: "deed-of-trust-template",
+    name: "Deed of Trust",
+    seoTitle: "Free Deed of Trust Template",
+    description: "Free deed of trust template — secures a real estate loan using a neutral trustee (used instead of a mortgage in some states).",
+    category: "Real Estate",
+    bodyMarkdown: `# Deed of Trust
+
+**Trustor (Borrower):** [Name]
+**Trustee:** [Name — often a title company]
+**Beneficiary (Lender):** [Name]
+**Property:** [Legal description/address]
+**Date:** [Date]
+
+## 1. Conveyance in Trust
+Trustor conveys the Property to Trustee, in trust, with power of sale, to secure repayment of the debt described below.
+
+## 2. Secured Debt
+This Deed of Trust secures repayment of [Amount] under a Promissory Note dated [Date], plus interest, according to its terms.
+
+## 3. Trustor's Covenants
+Trustor agrees to: maintain the property, keep it insured, pay property taxes when due, and not transfer the property without Beneficiary's consent (or as otherwise permitted).
+
+## 4. Default and Power of Sale
+If Trustor defaults on the underlying debt, Beneficiary may direct Trustee to sell the Property through the non-judicial foreclosure process available under [State] law.
+
+## 5. Reconveyance
+Once the debt is paid in full, Beneficiary will direct Trustee to reconvey the Property to Trustor, free of this Deed of Trust.
+
+---
+Trustor: ______________________  Date: ____________
+[Notarization block — required in essentially all states for this document]
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. Deed of trust vs. mortgage rules, notarization, and recording requirements vary significantly by state — this must be prepared and recorded correctly to be enforceable. Use a title company or real estate attorney.*`,
+  },
+  {
+    slug: "credit-card-authorization-form-template",
+    name: "Credit Card Authorization Form",
+    seoTitle: "Free Credit Card Authorization Form Template",
+    description: "Free credit card authorization form template for a customer to approve a one-time or recurring charge.",
+    category: "Finance",
+    bodyMarkdown: `# Credit Card Authorization Form
+
+**Business Name:** [Your Business Name]
+**Date:** [Date]
+
+## Cardholder Information
+Name on card: [Name]
+Billing address: [Address]
+Card type: [Visa/Mastercard/Amex/etc.]
+Card number: [Last 4 digits only — never collect/store full card numbers in a plain document]
+Expiration: [MM/YY]
+
+## Charge Authorization
+I authorize [Business Name] to charge my card:
+
+- [ ] One-time charge of [Amount] for [Description]
+- [ ] Recurring charge of [Amount] on [Frequency] for [Description], starting [Date]
+
+I understand this authorization remains valid until I cancel it in writing.
+
+Cardholder signature: ______________________  Date: ____________
+
+*Never actually write a full card number, CVV, or expiration on a paper or emailed form — collect card details only through a PCI-compliant payment processor. This form is for the authorization/consent record, not for capturing the card itself.*`,
+  },
+  {
+    slug: "photo-release-form-template",
+    name: "Photo Release Form",
+    seoTitle: "Free Photo Release Form Template",
+    description: "Free photo release form template granting permission to use someone's photo or likeness.",
+    category: "Legal",
+    bodyMarkdown: `# Photo/Video Release Form
+
+**Subject Name:** [Name] (or parent/guardian if a minor)
+**Photographer/Organization:** [Name]
+**Date:** [Date]
+
+I grant [Photographer/Organization Name] permission to use photographs and/or video of me taken on [Date(s)/Event] for the following purposes: [e.g. "marketing materials, website, and social media"].
+
+## Scope
+- [ ] Unlimited use, no time limit
+- [ ] Limited to: [Specific use/time period]
+
+## No Compensation
+[Choose one: "I understand I will not receive payment for this use." OR describe any agreed compensation.]
+
+## Credit
+[Choose one: "No credit is required." OR "I should be credited as: [Name/handle]."]
+
+Subject (or parent/guardian) signature: ______________________  Date: ____________
+[If minor] Parent/Guardian name: [Name]
+
+*If the subject is a minor, a parent or legal guardian must sign. Some states have specific rules for commercial use of a minor's likeness — check before using photos of children in paid advertising.*`,
+  },
+  {
+    slug: "sales-compensation-plan-template",
+    name: "Sales Compensation Plan",
+    seoTitle: "Free Sales Compensation Plan Template",
+    description: "Free sales compensation plan template — base pay, commission structure, and quota for a sales role.",
+    category: "HR",
+    bodyMarkdown: `# Sales Compensation Plan
+
+**Role:** [Job Title]
+**Effective Date:** [Date]
+**Plan Period:** [e.g. Annual, reviewed quarterly]
+
+## Base Compensation
+Base salary: [Amount] per [year/month]
+
+## Commission Structure
+| Tier | Threshold | Commission Rate |
+|------|-----------|-------------------|
+| Tier 1 | Up to [Quota Amount] | [%] |
+| Tier 2 | [Quota Amount] – [Amount] | [%] |
+| Tier 3 | Above [Amount] | [%] |
+
+## Quota
+Annual/quarterly quota: [Amount]
+Quota is set by: [Manager/Sales Leadership] and reviewed [Frequency].
+
+## Payout Timing
+Commissions are calculated and paid [Frequency, e.g. monthly] based on [closed deals/collected revenue].
+
+## Clawback / Adjustments
+[Describe what happens if a deal is cancelled or refunded after commission is paid.]
+
+## Plan Changes
+The Company reserves the right to modify this plan with [Notice Period] notice before a new plan period begins.
+
+---
+Employee acknowledgment: ______________________  Date: ____________
+
+*A comp plan people can actually calculate themselves builds more trust than a complex one that requires finance to explain each payout — simpler tiers usually outperform "clever" ones.*`,
+  },
+  {
+    slug: "lock-up-agreement-template",
+    name: "Lock-Up Agreement",
+    seoTitle: "Free Lock-Up Agreement Template",
+    description: "Free lock-up agreement template restricting a shareholder from selling shares for a set period (e.g. after a funding round or IPO).",
+    category: "Business",
+    bodyMarkdown: `# Lock-Up Agreement
+
+**Company:** [Company Name]
+**Shareholder:** [Name]
+**Date:** [Date]
+
+## 1. Lock-Up Period
+Shareholder agrees not to sell, transfer, or otherwise dispose of any shares of the Company's stock held as of the date above for a period of [Duration] following [Triggering Event — e.g. "the closing of the Company's Series A financing"].
+
+## 2. Exceptions
+This restriction does not apply to: [e.g. transfers to family members or trusts for estate planning, transfers approved in advance by the Board].
+
+## 3. Legend
+Shareholder agrees the Company may place a legend on stock certificates (or book-entry equivalent) referencing this restriction.
+
+## 4. Binding Effect
+This Agreement is binding on Shareholder's heirs, executors, and permitted transferees.
+
+## 5. Governing Law
+This Agreement is governed by the laws of [State/Country].
+
+---
+Company: ______________________  Date: ____________
+Shareholder: ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. Lock-up terms are typically part of a larger financing or IPO document set — have a licensed securities attorney review before using.*`,
+  },
+  {
+    slug: "privacy-policy-template",
+    name: "Privacy Policy",
+    seoTitle: "Free Privacy Policy Template",
+    description: "Free privacy policy template for a small business website — what data you collect and how you use it.",
+    category: "Legal",
+    bodyMarkdown: `# Privacy Policy
+
+**Effective Date:** [Date]
+
+[Company Name] ("we," "us") respects your privacy. This policy explains what information we collect on [Website URL] and how we use it.
+
+## Information We Collect
+- **Information you provide:** [e.g. name, email, when you fill out a form or create an account]
+- **Automatically collected:** [e.g. IP address, browser type, pages visited — via cookies/analytics]
+
+## How We Use Information
+[e.g. to provide our service, respond to inquiries, send updates you've opted into, improve our website.]
+
+## Sharing of Information
+We do not sell your personal information. We may share it with: [service providers who help us operate, e.g. hosting/email/payment processors — name categories, not necessarily each vendor].
+
+## Cookies
+[Describe cookie use, and link to a cookie preference tool if you have one.]
+
+## Your Rights
+Depending on your location, you may have the right to access, correct, or delete your personal information. Contact us at [Email] to make a request.
+
+## Data Retention
+[How long you keep personal data, generally.]
+
+## Changes to This Policy
+We may update this policy from time to time; the effective date above reflects the most recent version.
+
+## Contact
+Questions about this policy: [Email]
+
+*This is a general starting point, not a compliance guarantee. If you collect data from EU residents (GDPR), California residents (CCPA/CPRA), or handle health/financial/children's data, you likely have additional legal obligations — have a licensed attorney review your actual data practices.*`,
+  },
+  {
+    slug: "project-charter-template",
+    name: "Project Charter",
+    seoTitle: "Free Project Charter Template",
+    description: "Free project charter template formally authorizing a project and defining its objectives and scope.",
+    category: "Business",
+    bodyMarkdown: `# Project Charter: [Project Name]
+
+**Sponsor:** [Name] · **Project Manager:** [Name]
+**Date:** [Date]
+
+## Purpose
+[Why this project exists — the business need or opportunity driving it.]
+
+## Objectives
+[Specific, measurable goals this project must achieve.]
+
+## Scope
+**In scope:** [What's included]
+**Out of scope:** [What's explicitly excluded]
+
+## Stakeholders
+| Name | Role | Interest |
+|------|------|----------|
+| [Name] | [Role] | [What they care about] |
+
+## Timeline
+Start: [Date] · Target completion: [Date]
+
+## Budget
+[Approved budget, if applicable]
+
+## Risks
+[Key risks identified at the outset]
+
+## Authorization
+This charter authorizes the Project Manager to proceed with the resources and scope described above.
+
+Sponsor signature: ______________________  Date: ____________
+
+*A charter's job is to get everyone aligned on scope BEFORE work starts — most scope disputes later trace back to this document being too vague or skipped entirely.*`,
+  },
+  {
+    slug: "software-license-agreement-template",
+    name: "Software License Agreement",
+    seoTitle: "Free Software License Agreement Template",
+    description: "Free software license agreement template for licensing your software to a customer or partner.",
+    category: "Legal",
+    bodyMarkdown: `# Software License Agreement
+
+**Licensor:** [Company Name]
+**Licensee:** [Customer Name]
+**Effective Date:** [Date]
+
+## 1. Grant of License
+Licensor grants Licensee a [non-exclusive, non-transferable] license to use [Software Name] (the "Software") for [Purpose/Number of users/Internal business use only].
+
+## 2. Restrictions
+Licensee may not: reverse-engineer, decompile, sublicense, or resell the Software except as expressly permitted here.
+
+## 3. Fees
+Licensee will pay [License fee — one-time or subscription], due [Payment Terms].
+
+## 4. Support and Updates
+[Describe what's included — e.g. "Licensor will provide updates and email support during the license term."]
+
+## 5. Warranty Disclaimer
+THE SOFTWARE IS PROVIDED "AS IS," WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
+
+## 6. Limitation of Liability
+Licensor's total liability under this Agreement is limited to the fees paid by Licensee in the [12 months] preceding the claim.
+
+## 7. Term and Termination
+This license runs for [Term] and may be terminated by either party for material breach not cured within [Cure Period].
+
+## 8. Governing Law
+This Agreement is governed by the laws of [State/Country].
+
+---
+Licensor: ______________________  Date: ____________
+Licensee: ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. Liability caps and warranty disclaimers are the sections most likely to be negotiated or challenged — have a licensed attorney review before using this for a real commercial deal.*`,
+  },
+  {
+    slug: "hold-harmless-agreement-template",
+    name: "Hold Harmless Agreement (Release of Liability)",
+    seoTitle: "Free Hold Harmless Agreement Template",
+    description: "Free hold harmless agreement template — one party agrees not to hold the other liable for injury or loss from a specific activity.",
+    category: "Legal",
+    bodyMarkdown: `# Hold Harmless Agreement (Release of Liability)
+
+**Releasing Party:** [Name]
+**Released Party:** [Name/Organization]
+**Activity:** [Description — e.g. "use of the climbing wall at [Facility]"]
+**Date:** [Date]
+
+In consideration of being permitted to participate in [Activity], I, [Releasing Party Name], agree as follows:
+
+## 1. Assumption of Risk
+I understand that [Activity] involves inherent risks, including [briefly describe — e.g. "physical injury"], and I voluntarily assume these risks.
+
+## 2. Release
+I release [Released Party] from any claims, liability, or damages arising from my participation in [Activity], except for claims arising from [Released Party]'s gross negligence or willful misconduct.
+
+## 3. Indemnification
+I agree to indemnify [Released Party] for any claims brought by third parties arising from my own actions during [Activity].
+
+## 4. Medical Treatment
+[Optional: "I authorize [Released Party] to seek emergency medical treatment on my behalf if needed."]
+
+## 5. Governing Law
+This Agreement is governed by the laws of [State/Country].
+
+Signature: ______________________  Date: ____________
+[If minor] Parent/Guardian: ______________________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. Liability waivers are NOT enforceable in every state for every type of risk (some states limit or ban waivers for gross negligence, or for minors) — confirm enforceability in your state before relying on one.*`,
+  },
+  {
+    slug: "performance-improvement-plan-template",
+    name: "Performance Improvement Plan (PIP)",
+    seoTitle: "Free Performance Improvement Plan (PIP) Template",
+    description: "Free performance improvement plan template documenting specific performance gaps, expectations, and a review timeline.",
+    category: "HR",
+    bodyMarkdown: `# Performance Improvement Plan
+
+**Employee:** [Name] · **Role:** [Title]
+**Manager:** [Name]
+**Plan Start Date:** [Date] · **Review Date:** [Date, typically 30-90 days out]
+
+## Performance Concerns
+[Specific, factual description of the performance gap(s) — cite dates/examples, not generalizations like "bad attitude."]
+
+## Expectations Going Forward
+| Area | Current State | Expected State | Target Date |
+|------|----------------|-----------------|--------------|
+| [Area 1] | [Description] | [Description] | [Date] |
+| [Area 2] | [Description] | [Description] | [Date] |
+
+## Support Provided
+[What the manager/company will do to help — training, check-ins, resources.]
+
+## Check-in Schedule
+[Frequency of progress reviews during the plan — e.g. weekly 1:1s.]
+
+## Consequences
+If performance does not improve to the expected level by the review date, further action may be taken, up to and including termination of employment.
+
+---
+Manager signature: ______________________  Date: ____________
+Employee signature: ______________________  Date: ____________
+*(Signature acknowledges receipt, not necessarily agreement with the assessment.)*
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. A PIP that's vague or inconsistently applied can itself become evidence in a wrongful-termination claim — be specific, be consistent across employees, and involve HR or legal counsel for anything contentious.*`,
+  },
+  {
+    slug: "letter-of-authorization-template",
+    name: "Letter of Authorization",
+    seoTitle: "Free Letter of Authorization Template",
+    description: "Free letter of authorization template — grants someone else permission to act on your behalf for a specific, limited purpose.",
+    category: "Legal",
+    bodyMarkdown: `# Letter of Authorization
+
+[Your Name]
+[Date]
+
+**RE: Authorization for [Authorized Person Name]**
+
+To Whom It May Concern,
+
+I, [Your Name], authorize [Authorized Person Name] to [specific action — e.g. "pick up documents on my behalf," "discuss my account," "sign for a delivery"] with [Organization Name] on my behalf.
+
+## Scope
+This authorization is limited to: [Specific matter — be as narrow as the situation allows].
+
+## Duration
+This authorization is valid from [Start Date] to [End Date], or until revoked in writing.
+
+## Verification
+[Authorized Person Name]'s ID: [Type of ID they'll present]
+
+Signature: ______________________  Date: ____________
+[Your Name]
+
+*Unlike a power of attorney, this is meant for a single, narrow, low-stakes task — for anything involving finances or legal decisions on an ongoing basis, use a Power of Attorney instead.*`,
+  },
+  {
+    slug: "rent-receipt-template",
+    name: "Rent Receipt",
+    seoTitle: "Free Rent Receipt Template",
+    description: "Free rent receipt template for landlords to give tenants proof of payment.",
+    category: "Real Estate",
+    bodyMarkdown: `# Rent Receipt
+
+**Receipt #:** [Number]
+**Date:** [Date]
+
+**Received from:** [Tenant Name]
+**Property address:** [Address]
+**Amount received:** [Amount]
+**Payment period:** [e.g. "Rent for [Month/Year]"]
+**Payment method:** [Cash/Check/Bank transfer — include check # if applicable]
+
+**Balance due (if partial payment):** [Amount, or "None — paid in full"]
+
+---
+Received by: ______________________
+[Landlord/Property Manager Name]
+
+*Some jurisdictions require landlords to provide a receipt for cash payments, or on tenant request — check your local landlord-tenant law. Keeping copies protects both sides in a payment dispute.*`,
+  },
+  {
+    slug: "booking-form-template",
+    name: "Booking Form",
+    seoTitle: "Free Booking Form Template",
+    description: "Free booking form template for reserving a venue, service, or appointment.",
+    category: "Business",
+    bodyMarkdown: `# Booking Form
+
+**Booking for:** [Service/Venue/Event Name]
+**Date submitted:** [Date]
+
+## Client Information
+Name: [Name]
+Email: [Email] · Phone: [Phone]
+
+## Booking Details
+Date(s) requested: [Date(s)]
+Time: [Start] – [End]
+Number of guests/participants: [Number]
+Special requests: [Notes]
+
+## Pricing
+| Item | Cost |
+|------|------|
+| [Base rate] | [Amount] |
+| [Add-ons] | [Amount] |
+| **Total** | **[Amount]** |
+
+## Deposit & Payment
+Deposit required: [Amount], due by [Date]
+Balance due: [Amount], due by [Date]
+
+## Cancellation Policy
+[Your specific policy — e.g. "Full refund if cancelled 7+ days before the date; 50% refund within 7 days; no refund within 48 hours."]
+
+Client signature: ______________________  Date: ____________
+
+*Stating your cancellation policy clearly on the booking form itself (not just in fine print elsewhere) heads off most disputes before they start.*`,
+  },
+  {
+    slug: "market-research-report-template",
+    name: "Market Research Report",
+    seoTitle: "Free Market Research Report Template",
+    description: "Free market research report template for summarizing findings on a target market, competitor, or customer segment.",
+    category: "Business",
+    bodyMarkdown: `# Market Research Report: [Topic]
+
+**Prepared by:** [Name] · **Date:** [Date]
+
+## Objective
+[What question this research was meant to answer.]
+
+## Methodology
+[How the data was gathered — surveys, interviews, secondary research, sample size.]
+
+## Market Overview
+[Size, growth rate, and key trends in the market.]
+
+## Target Customer
+[Who they are, their needs, and their buying behavior — with data, not assumptions.]
+
+## Competitive Landscape
+| Competitor | Strengths | Weaknesses | Pricing |
+|------------|-----------|------------|---------|
+| [Competitor] | [Strengths] | [Weaknesses] | [Pricing] |
+
+## Key Findings
+[The 3-5 most important, specific takeaways — not a restatement of the data.]
+
+## Recommendations
+[What to actually do based on the findings above.]
+
+*A research report that ends without clear recommendations tends to get read once and filed away — always connect the data back to a decision.*`,
+  },
+  {
+    slug: "escrow-agreement-template",
+    name: "Escrow Agreement",
+    seoTitle: "Free Escrow Agreement Template",
+    description: "Free escrow agreement template — a neutral third party holds funds or documents until agreed conditions are met.",
+    category: "Business",
+    bodyMarkdown: `# Escrow Agreement
+
+**Depositor:** [Name]
+**Beneficiary:** [Name]
+**Escrow Agent:** [Neutral third party name]
+**Date:** [Date]
+
+## 1. Deposit
+Depositor will deposit [Amount/Description of items] with the Escrow Agent by [Date].
+
+## 2. Conditions for Release
+The Escrow Agent will release the deposited [funds/items] to Beneficiary upon: [Describe the specific triggering condition — e.g. "written confirmation from both parties that the goods have been delivered and accepted"].
+
+## 3. Return to Depositor
+If the condition above is not met by [Date], the Escrow Agent will return the deposit to Depositor.
+
+## 4. Escrow Agent's Role
+The Escrow Agent acts only as a neutral holder and is not liable for any dispute between Depositor and Beneficiary, except for its own negligence or misconduct in handling the deposit.
+
+## 5. Fees
+Escrow Agent's fee of [Amount] is paid by [Depositor/Beneficiary/split].
+
+## 6. Governing Law
+This Agreement is governed by the laws of [State/Country].
+
+---
+Depositor: ______________________  Date: ____________
+Beneficiary: ______________________  Date: ____________
+Escrow Agent: ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. For real estate or large-dollar transactions, use a licensed escrow company or title company rather than an informal arrangement.*`,
+  },
+  {
+    slug: "payment-plan-agreement-template",
+    name: "Payment Plan Agreement",
+    seoTitle: "Free Payment Plan Agreement Template",
+    description: "Free payment plan agreement template — a signed document (not just an email) documenting an installment arrangement for an unpaid balance.",
+    category: "Finance",
+    bodyMarkdown: `# Payment Plan Agreement
+
+**Creditor:** [Your Business Name]
+**Debtor:** [Client/Customer Name]
+**Date:** [Date]
+**Original Balance:** [Amount] (Invoice # [Number], dated [Date])
+
+## 1. Payment Schedule
+Debtor agrees to pay the outstanding balance of [Amount] according to the following schedule:
+
+| Payment # | Due Date | Amount |
+|-----------|----------|--------|
+| 1 | [Date] | [Amount] |
+| 2 | [Date] | [Amount] |
+| 3 | [Date] | [Amount] |
+
+## 2. Payment Method
+Payments will be made via [Method — e.g. bank transfer, card on file].
+
+## 3. Missed Payments
+If a payment is more than [Number] days late, [Creditor] may [charge a late fee of [Amount/%] / declare the full remaining balance due immediately / other consequence].
+
+## 4. No Further Charges
+Provided all payments are made on schedule, no additional interest or fees will be added to the original balance.
+
+## 5. Acknowledgment
+Debtor acknowledges this balance is valid and owed.
+
+---
+Creditor: ______________________  Date: ____________
+Debtor: ______________________  Date: ____________
+
+*Getting this signed (not just agreed over email) makes it far easier to enforce if a payment is missed — and having specific dates and amounts removes any "I thought it was different" ambiguity later.*`,
+  },
+  {
+    slug: "proforma-invoice-template",
+    name: "Proforma Invoice",
+    seoTitle: "Free Proforma Invoice Template",
+    description: "Free proforma invoice template — a preliminary bill of sale sent before goods/services are delivered, common in international trade.",
+    category: "Finance",
+    bodyMarkdown: `# Proforma Invoice
+
+**Proforma Invoice #:** [Number] · **Date:** [Date]
+**Valid until:** [Date — proforma invoices are typically only valid for a limited time]
+
+**Seller:** [Name, Address]
+**Buyer:** [Name, Address]
+
+## Goods/Services
+
+| Description | Qty | Unit Price | Total |
+|-------------|-----|-------------|-------|
+| [Description] | [Qty] | [Price] | [Total] |
+
+**Subtotal:** [Amount]
+**Shipping/Handling:** [Amount]
+**Estimated Total: [Amount]**
+
+## Terms
+Payment terms: [e.g. "50% deposit to confirm order, balance before shipment"]
+Estimated delivery: [Timeframe]
+Incoterms (if international): [e.g. FOB, CIF]
+
+**This is NOT a demand for payment and does not constitute a final invoice or tax document — actual amounts may change based on final order details.**
+
+*A proforma invoice is used to confirm order details and pricing before commitment (and often for customs/import estimates) — issue a final commercial invoice once the goods actually ship.*`,
+  },
+  {
+    slug: "general-demand-letter-template",
+    name: "General Demand Letter",
+    seoTitle: "Free General Demand Letter Template",
+    description: "Free general demand letter template for demanding payment, action, or resolution before pursuing further action.",
+    category: "Legal",
+    bodyMarkdown: `# Demand Letter
+
+[Your Name/Company]
+[Your Address]
+[Date]
+
+[Recipient Name]
+[Recipient Address]
+
+**RE: Demand for [Payment / Specific Performance / Resolution] — [Brief Subject]**
+
+Dear [Recipient Name],
+
+This letter serves as formal demand that you [specific demand — e.g. "pay the outstanding amount of $X" or "cease the conduct described below"].
+
+## Background
+[Factual, dated summary of what happened — the agreement, what was owed or promised, and what has (or hasn't) occurred since.]
+
+## Demand
+I demand that you [specific action] within [Number] days of the date of this letter, i.e. by [Date].
+
+## Consequences of Non-Compliance
+If this matter is not resolved by the date above, I will pursue all available remedies, which may include [small claims court / formal collections / legal action], without further notice.
+
+I am hopeful this can be resolved directly and would welcome your response.
+
+Sincerely,
+[Your Name]
+
+*A demand letter is most effective when it's specific (exact amount, exact date), factual (no exaggeration), and professional in tone — that combination is what makes it look credible if it's ever produced as evidence later.*`,
+  },
+  {
+    slug: "property-condition-report-template",
+    name: "Property Condition Report",
+    seoTitle: "Free Property Condition Report Template",
+    description: "Free property condition report (move-in/move-out) template documenting a rental's condition for the security deposit record.",
+    category: "Real Estate",
+    bodyMarkdown: `# Property Condition Report
+
+**Property Address:** [Address]
+**Inspection Type:** [ ] Move-in  [ ] Move-out
+**Date:** [Date]
+**Tenant(s):** [Name(s)]
+
+## Room-by-Room Condition
+
+| Room | Condition | Notes / Existing Damage |
+|------|-----------|---------------------------|
+| Living Room | [Good/Fair/Poor] | [Notes] |
+| Kitchen | [Good/Fair/Poor] | [Notes] |
+| Bedroom(s) | [Good/Fair/Poor] | [Notes] |
+| Bathroom(s) | [Good/Fair/Poor] | [Notes] |
+| Other | [Good/Fair/Poor] | [Notes] |
+
+## Appliances
+[List each appliance and its condition — stove, fridge, washer/dryer, etc.]
+
+## Keys/Access Devices Provided
+[Number of keys, fobs, garage remotes, etc.]
+
+## Photos
+[Note that photos were taken and attached, with date/timestamp — strongly recommended for both move-in and move-out.]
+
+## Acknowledgment
+Both parties agree this report accurately reflects the property's condition as of the date above.
+
+Landlord/Manager: ______________________  Date: ____________
+Tenant: ______________________  Date: ____________
+
+*Completing this together at both move-in and move-out — with photos — is the single best protection against security deposit disputes for both sides.*`,
+  },
+  {
+    slug: "conflict-of-interest-policy-template",
+    name: "Conflict of Interest Policy",
+    seoTitle: "Free Conflict of Interest Policy Template",
+    description: "Free conflict of interest policy template for a company or nonprofit board — disclosure and recusal process.",
+    category: "Business",
+    bodyMarkdown: `# Conflict of Interest Policy
+
+**Organization:** [Company/Organization Name]
+**Adopted:** [Date]
+
+## Purpose
+This policy ensures that decisions are made in the organization's best interest, free from undisclosed personal or financial conflicts.
+
+## What Counts as a Conflict
+A conflict of interest exists when a director, officer, or employee (or their family member) has a financial or personal interest that could influence their judgment on behalf of the organization — for example, a financial stake in a vendor being considered for a contract.
+
+## Disclosure
+Anyone covered by this policy must disclose a potential conflict as soon as they become aware of it, in writing, to [the Board Chair / designated compliance contact].
+
+## Recusal
+A person with a disclosed conflict must not participate in the discussion or vote on the matter, though they may be asked to provide relevant factual information first.
+
+## Annual Disclosure
+Covered individuals will complete an annual conflict-of-interest disclosure statement.
+
+## Violations
+Failure to disclose a known conflict may result in [consequences — e.g. removal from the board, disciplinary action].
+
+---
+Adopted by: ______________________  Date: ____________
+
+*This is a general template — nonprofit boards in particular should confirm this policy meets their state's requirements and, if seeking 501(c)(3) status, IRS Form 1023 expectations.*`,
+  },
+  {
+    slug: "settlement-agreement-template",
+    name: "Settlement Agreement",
+    seoTitle: "Free Settlement Agreement Template",
+    description: "Free settlement agreement template resolving a dispute between two parties without going to court.",
+    category: "Legal",
+    bodyMarkdown: `# Settlement Agreement
+
+**Party A:** [Name]
+**Party B:** [Name]
+**Date:** [Date]
+
+## 1. Background
+The parties were in dispute regarding: [Brief, neutral description of the dispute].
+
+## 2. Settlement Terms
+To resolve this dispute without further proceedings, the parties agree:
+1. [Term — e.g. "Party A will pay Party B $[Amount] within [X] days"]
+2. [Term — e.g. "Party B withdraws the claim/complaint referenced above"]
+3. [Any other specific terms]
+
+## 3. Release
+Upon full performance of the terms above, each party releases the other from any further claims related to this dispute.
+
+## 4. Confidentiality
+[Optional: "The parties agree to keep the terms and existence of this settlement confidential, except as required by law."]
+
+## 5. No Admission
+This Agreement is not an admission of liability or wrongdoing by either party.
+
+## 6. Governing Law
+This Agreement is governed by the laws of [State/Country].
+
+---
+Party A: ______________________  Date: ____________
+Party B: ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. If the dispute already involves a filed lawsuit or a lawyer on either side, have your own attorney review any settlement before signing.*`,
+  },
+  {
+    slug: "vendor-application-template",
+    name: "Vendor Application",
+    seoTitle: "Free Vendor Application Template",
+    description: "Free vendor application template for onboarding a new supplier or market/event vendor.",
+    category: "Business",
+    bodyMarkdown: `# Vendor Application
+
+**Business Name:** [Vendor's Business Name]
+**Contact Name:** [Name] · **Email:** [Email] · **Phone:** [Phone]
+
+## Business Information
+Business type: [Sole prop/LLC/Corp]
+Years in business: [Number]
+Tax ID / EIN: [Number]
+Products/services offered: [Description]
+
+## References
+1. [Client/reference name and contact]
+2. [Client/reference name and contact]
+
+## Insurance & Compliance
+Business insurance carrier: [Name] · Policy #: [Number]
+[If applicable: relevant licenses/permits/certifications]
+
+## Terms Requested
+Proposed payment terms: [e.g. Net 30]
+Proposed pricing: [Attach separately if applicable]
+
+## Acknowledgment
+Applicant certifies the above information is accurate.
+
+Signature: ______________________  Date: ____________
+
+*Checking at least one reference and confirming insurance/licensing before approval catches most problem vendors before they become a real issue.*`,
+  },
+  {
+    slug: "basic-franchise-agreement-outline-template",
+    name: "Basic Franchise Agreement Outline",
+    seoTitle: "Free Franchise Agreement Outline Template",
+    description: "Free franchise agreement outline template — the section structure a simple franchise arrangement needs (not a substitute for FDD compliance).",
+    category: "Business",
+    bodyMarkdown: `# Franchise Agreement Outline
+
+**Franchisor:** [Company Name]
+**Franchisee:** [Name]
+**Location:** [Territory/Address]
+**Date:** [Date]
+
+## 1. Grant of Franchise
+Franchisor grants Franchisee the right to operate a [Brand Name] business at/within [Location/Territory] using Franchisor's trademarks, systems, and methods.
+
+## 2. Term
+This franchise runs for [Duration], with [renewal terms, if any].
+
+## 3. Fees
+- Initial franchise fee: [Amount], due [Timing]
+- Ongoing royalty: [%] of gross revenue, paid [Frequency]
+- Marketing fund contribution: [%], if applicable
+
+## 4. Franchisor's Obligations
+[Training, initial support, ongoing support, use of the system's marketing materials.]
+
+## 5. Franchisee's Obligations
+[Operate per the brand's standards, maintain quality/branding, report sales, pay fees on time.]
+
+## 6. Territory
+[Exclusive or non-exclusive rights within the defined territory.]
+
+## 7. Termination
+[Grounds for termination by either party, and post-termination obligations — e.g. de-identification of the location.]
+
+## 8. Governing Law
+This Agreement is governed by the laws of [State/Country].
+
+---
+Franchisor: ______________________  Date: ____________
+Franchisee: ______________________  Date: ____________
+
+*Franchising is one of the most heavily regulated areas of US business law — in most states, a Franchise Disclosure Document (FDD) must be provided to prospective franchisees before signing anything, well before this outline would apply. This template is a structural starting point only; use a licensed franchise attorney for an actual franchise program.*`,
+  },
+  {
+    slug: "fee-schedule-template",
+    name: "Fee Schedule",
+    seoTitle: "Free Fee Schedule Template",
+    description: "Free fee schedule template for clearly listing your service prices for clients.",
+    category: "Business",
+    bodyMarkdown: `# Fee Schedule — [Business Name]
+
+**Effective:** [Date]
+
+| Service | Description | Fee |
+|---------|-------------|-----|
+| [Service 1] | [Brief description] | [Amount] |
+| [Service 2] | [Brief description] | [Amount] |
+| [Service 3] | [Brief description] | [Amount] |
+
+## Additional Fees
+- [e.g. "Rush service: +X%"]
+- [e.g. "Travel outside a X-mile radius: $Y"]
+
+## Payment Terms
+[e.g. "50% deposit required to book, balance due on completion. Prices subject to change with 30 days' notice to existing clients."]
+
+*Publishing a clear fee schedule up front reduces the "how much will this cost" back-and-forth and sets expectations before a client ever asks.*`,
+  },
+  {
+    slug: "thank-you-letter-template",
+    name: "Thank You Letter",
+    seoTitle: "Free Thank You Letter Template",
+    description: "Free thank you letter template for a client, interviewer, or business contact.",
+    category: "Business",
+    bodyMarkdown: `# Thank You Letter
+
+[Your Name]
+[Date]
+
+Dear [Recipient Name],
+
+Thank you for [specific reason — meeting with me, the opportunity, your business, your time]. I wanted to follow up and [express appreciation / reiterate interest / recap a key point].
+
+[One or two specific sentences referencing something from the actual interaction — shows this isn't a form letter.]
+
+[Optional: a next step — "I look forward to [next step]" or "Please don't hesitate to reach out if [anything]."]
+
+Thank you again,
+[Your Name]
+
+*A thank-you note that references something specific from the actual conversation is remembered; a generic one is forgotten just as fast as it was sent.*`,
+  },
+  {
+    slug: "management-agreement-template",
+    name: "Management Agreement",
+    seoTitle: "Free Management Agreement Template",
+    description: "Free management agreement template — for hiring a manager to run a property, business, or specific operation on your behalf.",
+    category: "Business",
+    bodyMarkdown: `# Management Agreement
+
+**Owner:** [Name]
+**Manager:** [Name]
+**Property/Business:** [Description]
+**Effective Date:** [Date]
+
+## 1. Appointment
+Owner appoints Manager to manage [Property/Business] and Manager accepts this appointment.
+
+## 2. Manager's Duties
+[Describe specifically — e.g. day-to-day operations, tenant relations, staffing, bookkeeping, maintenance coordination.]
+
+## 3. Manager's Authority
+Manager may [act on Owner's behalf up to $[Amount] without prior approval / requires approval for expenses over $[Amount]].
+
+## 4. Compensation
+Owner will pay Manager [Flat fee / % of revenue/rent collected], paid [Frequency].
+
+## 5. Reporting
+Manager will provide Owner with [financial reports/updates] on a [Monthly/Quarterly] basis.
+
+## 6. Term and Termination
+This Agreement runs for [Term] and may be terminated by either party with [Notice Period] written notice.
+
+## 7. Governing Law
+This Agreement is governed by the laws of [State/Country].
+
+---
+Owner: ______________________  Date: ____________
+Manager: ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. Property management specifically may require the Manager to hold a real estate or property management license depending on your state — confirm before signing.*`,
+  },
+  {
+    slug: "consignment-agreement-template",
+    name: "Consignment Agreement",
+    seoTitle: "Free Consignment Agreement Template",
+    description: "Free consignment agreement template — a consignor places goods with a consignee to sell on their behalf for a share of the proceeds.",
+    category: "Business",
+    bodyMarkdown: `# Consignment Agreement
+
+**Consignor:** [Name] (owns the goods)
+**Consignee:** [Name] (will sell the goods)
+**Date:** [Date]
+
+## 1. Goods Consigned
+Consignor delivers the following goods to Consignee for sale: [Description, quantity, and agreed value of each item].
+
+## 2. Consignee's Authority
+Consignee may sell the goods at a price of [Fixed price / Consignor's suggested price ± X%] and is authorized to negotiate within that range.
+
+## 3. Proceeds Split
+Upon sale, proceeds are split: Consignor receives [%], Consignee receives [%] as a commission.
+
+## 4. Payment
+Consignee will pay Consignor their share within [Number] days of each sale, along with an accounting of what sold.
+
+## 5. Unsold Goods
+Goods unsold after [Duration] will be [returned to Consignor / Consignor notified for pickup], at Consignor's expense unless agreed otherwise.
+
+## 6. Risk of Loss
+[Specify who bears the risk if goods are lost, stolen, or damaged while in Consignee's possession — commonly the Consignee, but state it explicitly.]
+
+## 7. Ownership
+Consignor retains ownership of the goods until they are sold to an end buyer.
+
+---
+Consignor: ______________________  Date: ____________
+Consignee: ______________________  Date: ____________
+
+*Being explicit about who bears the risk of loss/damage before a sale is the single most common source of consignment disputes — don't leave it unstated.*`,
+  },
+  {
+    slug: "vision-statement-template",
+    name: "Vision Statement",
+    seoTitle: "Free Vision Statement Template",
+    description: "Free vision statement template — a short, forward-looking statement of what your company is working toward.",
+    category: "Business",
+    bodyMarkdown: `# Vision Statement: [Company Name]
+
+## Draft your vision statement by answering:
+
+**What future are we working toward?**
+[The world/industry/outcome you're ultimately aiming for — bigger than any single product.]
+
+**Why does this matter?**
+[The change this future represents, and why it's worth pursuing.]
+
+## Example structure
+"[Company Name] envisions a world where [future state] — where [specific, tangible change from today]."
+
+## Draft
+[Write your one or two sentence vision statement here.]
+
+*A vision statement describes the future you're working toward (long-term, aspirational); a mission statement describes what you do today to get there. Keep them distinct rather than merging them into one vague sentence.*`,
+  },
+  {
+    slug: "business-continuity-plan-template",
+    name: "Business Continuity Plan",
+    seoTitle: "Free Business Continuity Plan Template",
+    description: "Free business continuity plan template — how your business keeps operating through a disruption (outage, disaster, key-person loss).",
+    category: "Business",
+    bodyMarkdown: `# Business Continuity Plan — [Company Name]
+
+**Last updated:** [Date] · **Owner:** [Name]
+
+## Purpose
+This plan describes how [Company Name] continues operating (or recovers quickly) through a significant disruption.
+
+## Key Risks Identified
+| Risk | Likelihood | Impact | Mitigation |
+|------|------------|--------|------------|
+| [e.g. Key supplier failure] | [Low/Med/High] | [Low/Med/High] | [Mitigation] |
+| [e.g. Office/site unavailable] | [Low/Med/High] | [Low/Med/High] | [Mitigation] |
+| [e.g. Key person unavailable] | [Low/Med/High] | [Low/Med/High] | [Mitigation] |
+
+## Critical Functions
+[List the 3-5 things that absolutely must keep running — e.g. "process customer payments," "respond to support tickets."]
+
+## Recovery Steps
+For each critical function above, describe: who's responsible, what resources/backups exist, and the target recovery time.
+
+## Communication Plan
+Who notifies whom, and how, when a disruption occurs — employees, customers, vendors.
+
+## Key Contacts
+| Role | Name | Contact |
+|------|------|---------|
+| [Role] | [Name] | [Phone/Email] |
+
+## Testing
+This plan should be reviewed and tested at least [annually].
+
+*A plan that only lives in a document, never tested, tends to fail exactly when needed — even a quick tabletop walkthrough once a year catches gaps a document review won't.*`,
+  },
+  {
+    slug: "communication-plan-template",
+    name: "Communication Plan",
+    seoTitle: "Free Communication Plan Template",
+    description: "Free communication plan template for a project or organizational change — who needs to know what, and when.",
+    category: "Business",
+    bodyMarkdown: `# Communication Plan: [Project/Initiative Name]
+
+**Owner:** [Name] · **Date:** [Date]
+
+## Objective
+[What this communication plan needs to achieve — awareness, buy-in, action.]
+
+## Audiences
+
+| Audience | What they need to know | Channel | Frequency | Owner |
+|----------|--------------------------|---------|-----------|-------|
+| [e.g. Employees] | [Key message] | [Email/meeting/Slack] | [Frequency] | [Name] |
+| [e.g. Customers] | [Key message] | [Email/website] | [Frequency] | [Name] |
+| [e.g. Leadership] | [Key message] | [Meeting/report] | [Frequency] | [Name] |
+
+## Key Messages
+[The 2-3 core messages that should stay consistent across every audience, worded once here so nobody improvises differently.]
+
+## Timeline
+| Date | Milestone | Communication |
+|------|-----------|-----------------|
+| [Date] | [Milestone] | [What goes out] |
+
+## Feedback Loop
+[How you'll collect and respond to questions/concerns as they come in.]
+
+*Writing the key messages once, in this document, and having everyone communicating pull from them is what keeps a rollout from turning into five slightly different versions of the same story.*`,
+  },
+  {
+    slug: "company-letterhead-template",
+    name: "Company Letterhead Template",
+    seoTitle: "Free Company Letterhead Template",
+    description: "Free company letterhead template — the header/footer structure for professional business correspondence.",
+    category: "Business",
+    bodyMarkdown: `# [Your Company Name]
+[Street Address, City, State ZIP]
+[Phone] · [Email] · [Website]
+
+---
+
+[Date]
+
+[Recipient Name]
+[Recipient Address]
+
+Dear [Recipient Name],
+
+[Body of your letter goes here.]
+
+Sincerely,
+
+[Your Name]
+[Your Title]
+[Your Company Name]
+
+---
+[Company Name] · [Website] · [Phone]
+
+*Keep the header simple enough to work in plain text email as well as print — logo and color styling can be layered on top in a word processor or design tool once the content structure above is set.*`,
+  },
+  {
+    slug: "multi-member-llc-operating-agreement-template",
+    name: "Multi-Member LLC Operating Agreement",
+    seoTitle: "Free Multi-Member LLC Operating Agreement Template",
+    description: "Free multi-member LLC operating agreement template — ownership splits, management, and voting for an LLC with more than one owner.",
+    category: "Business",
+    bodyMarkdown: `# Multi-Member LLC Operating Agreement
+
+**Company:** [Company Name], a [State] limited liability company
+**Members:** [List all members]
+**Effective Date:** [Date]
+
+## 1. Formation
+The Company was formed under [State] law by filing Articles of Organization on [Date].
+
+## 2. Ownership
+
+| Member | Ownership % | Initial Contribution |
+|--------|-------------|------------------------|
+| [Member 1] | [%] | [Amount/Description] |
+| [Member 2] | [%] | [Amount/Description] |
+
+## 3. Management
+[Choose one: "Member-managed — all Members participate in day-to-day decisions." OR "Manager-managed — [Name] is designated Manager with authority to bind the Company."]
+
+## 4. Voting
+Major decisions ([list — e.g. "taking on debt over $X, admitting new members, dissolving the Company"]) require approval of Members holding at least [%] of ownership. Routine decisions may be made by [Manager / majority vote].
+
+## 5. Distributions
+Distributions are made to Members in proportion to ownership percentage, at times determined by [Manager/Member vote].
+
+## 6. Transfer of Membership Interest
+A Member may not transfer their interest without [unanimous consent of other Members / right of first refusal for remaining Members].
+
+## 7. Withdrawal or Death of a Member
+[Describe buyout terms, valuation method, and timeline for the remaining Members to purchase the departing/deceased Member's interest.]
+
+## 8. Dissolution
+The Company may be dissolved by [vote of Members holding X% ownership], or as otherwise required by law.
+
+## 9. Amendments
+This Agreement may be amended only by written agreement of Members holding at least [%] of ownership.
+
+---
+[Repeat for each Member:]
+Member: ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. Multi-member LLCs have more room for future disputes than single-member ones — voting thresholds, buyout terms, and deadlock provisions deserve real attention from a licensed attorney before you need them.*`,
+  },
+  {
+    slug: "credit-application-template",
+    name: "Credit Application",
+    seoTitle: "Free Credit Application Template",
+    description: "Free credit application template for a business extending trade credit (e.g. Net 30 terms) to a new customer.",
+    category: "Finance",
+    bodyMarkdown: `# Credit Application
+
+**Applicant Business Name:** [Name]
+**Business Address:** [Address]
+**Tax ID / EIN:** [Number]
+**Years in business:** [Number]
+
+## Requested Terms
+Credit limit requested: [Amount]
+Payment terms requested: [e.g. Net 30]
+
+## Business References (Trade)
+1. [Company name, contact, phone] — Account since [Date]
+2. [Company name, contact, phone] — Account since [Date]
+
+## Bank Reference
+Bank name: [Name] · Account contact: [Name/Phone]
+
+## Authorized Signers
+[Name(s) authorized to make purchases on this account]
+
+## Authorization
+Applicant authorizes [Your Company Name] to verify the above references and check business/personal credit as applicable.
+
+Signature: ______________________  Date: ____________
+[Name, Title]
+
+*Checking at least the trade references before extending significant credit catches most bad-payer risk before it becomes your problem — docstoc's follow-up templates cover what to do if it doesn't.*`,
+  },
+  {
+    slug: "personal-financial-statement-template",
+    name: "Personal Financial Statement",
+    seoTitle: "Free Personal Financial Statement Template",
+    description: "Free personal financial statement template — assets, liabilities, and net worth, often required for a loan application.",
+    category: "Finance",
+    bodyMarkdown: `# Personal Financial Statement
+
+**Name:** [Name] · **Date:** [Date]
+
+## Assets
+| Item | Value |
+|------|-------|
+| Cash / bank accounts | [Amount] |
+| Investments (stocks, retirement accounts) | [Amount] |
+| Real estate (market value) | [Amount] |
+| Vehicles | [Amount] |
+| Business interests | [Amount] |
+| Other assets | [Amount] |
+| **Total Assets** | **[Amount]** |
+
+## Liabilities
+| Item | Value |
+|------|-------|
+| Mortgage(s) | [Amount] |
+| Auto loans | [Amount] |
+| Credit card debt | [Amount] |
+| Student loans | [Amount] |
+| Other debts | [Amount] |
+| **Total Liabilities** | **[Amount]** |
+
+## Net Worth
+**Total Assets − Total Liabilities = [Amount]**
+
+## Income Sources
+[Salary, business income, investment income — annual amounts]
+
+---
+I certify the above is accurate to the best of my knowledge.
+
+Signature: ______________________  Date: ____________
+
+*Lenders typically want this dated within the last 30-90 days and may ask for supporting documentation (statements, appraisals) — don't round numbers aggressively, as discrepancies can delay or sink an application.*`,
+  },
+  {
+    slug: "simple-last-will-and-testament-template",
+    name: "Simple Last Will and Testament",
+    seoTitle: "Free Simple Last Will and Testament Template",
+    description: "Free simple last will and testament template — a basic starting point for straightforward estates. Strongly consider an attorney.",
+    category: "Legal",
+    bodyMarkdown: `# Last Will and Testament of [Your Full Legal Name]
+
+I, [Your Full Legal Name], residing at [Address], being of sound mind, declare this to be my Last Will and Testament, revoking all prior wills and codicils.
+
+## 1. Executor
+I appoint [Executor Name] as Executor of this Will. If they are unable or unwilling to serve, I appoint [Alternate Executor Name] as alternate.
+
+## 2. Guardian (if applicable)
+If I have minor children at the time of my death, I appoint [Guardian Name] as their guardian.
+
+## 3. Distribution of Property
+I direct my Executor to distribute my property as follows:
+- To [Beneficiary Name]: [Specific item or % of estate]
+- To [Beneficiary Name]: [Specific item or % of estate]
+- Remainder of my estate to: [Beneficiary Name(s)]
+
+## 4. Specific Bequests
+[Any specific items you want to go to a specific person — e.g. "my [item] to [Name]."]
+
+## 5. Residuary Clause
+Any property not otherwise specifically disposed of above shall go to: [Name(s)/entity].
+
+## 6. Debts and Expenses
+I direct my Executor to pay my just debts, funeral expenses, and estate administration costs from my estate before distribution.
+
+---
+Signed: ______________________  Date: ____________
+[Your Full Legal Name]
+
+**Witnesses** (most states require at least 2 witnesses who are not beneficiaries, signing in your presence):
+Witness 1: ______________________  Date: ____________
+Witness 2: ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and is NOT a substitute for legal advice. Wills have strict, state-specific execution requirements (number of witnesses, notarization/self-proving affidavits, holographic will rules) — an improperly executed will can be thrown out entirely. For anything beyond the simplest estate, or if you have minor children, significant assets, or a blended family, use a licensed estate attorney.*`,
+  },
 ];
 
 const TEMPLATES_INDEX_FAQ = [
   {
     q: "Are these invoice templates really free?",
-    a: "Yes — all templates are free to view, copy, and edit with no account or signup required. Chasa never emails your clients for you; you copy the draft into your own inbox.",
+    a: "Yes — all templates are free to view, copy, and edit with no account or signup required. docstoc never emails your clients for you; you copy the draft into your own inbox.",
   },
   {
     q: "Can I edit these templates?",
@@ -2178,7 +3945,7 @@ const indexJsonLd = JSON.stringify(
         url: "https://chasa.io/free-templates/",
         description:
           `${TEMPLATES.length} free, copy-paste payment reminder email templates for freelancers — from pre-due nudges to final notices.`,
-        isPartOf: { "@type": "WebSite", name: "Chasa", url: "https://chasa.io" },
+        isPartOf: { "@type": "WebSite", name: "docstoc", url: "https://chasa.io" },
         mainEntity: {
           "@type": "ItemList",
           itemListElement: TEMPLATES.map((t, i) => ({
@@ -2239,8 +4006,8 @@ const tplCountWord =
   }[tplCount] ?? String(tplCount);
 
 const indexHtml = chrome({
-  title: `Free Invoice Payment Reminder Email Templates (${tplCount}) | Chasa`,
-  description: `${tplCount} free payment reminder and overdue invoice email templates for freelancers. Copy, personalize, and send — or generate a tone-matched draft in Chasa.`,
+  title: `Free Invoice Payment Reminder Email Templates (${tplCount}) | docstoc`,
+  description: `${tplCount} free payment reminder and overdue invoice email templates for freelancers. Copy, personalize, and send — or generate a tone-matched draft in docstoc.`,
   canonical: "https://chasa.io/free-templates/",
   activeNav: "templates",
   jsonLd: indexJsonLd,
@@ -2281,7 +4048,7 @@ ${CATEGORIES.map((c) => `        <a href="#${slugifyCategory(c)}" class="tpl-cat
 
   <p class="tpl-index-note">
     ${tplCountWord} copy-paste emails for every stage of getting paid — on send, before the due date through final notice,
-    plus thank-yous, disputes, and multi-invoice summaries. Original Chasa wording; use as-is or let the
+    plus thank-yous, disputes, and multi-invoice summaries. Original docstoc wording; use as-is or let the
     <a href="/app/">AI tool</a> draft a version matched to how late the invoice is.
   </p>
 
@@ -2292,7 +4059,7 @@ ${categorySections}
 
   <section class="tpl-cat-section" id="tpl-community" hidden>
     <h2 class="tpl-cat-title">Community templates</h2>
-    <p class="tpl-index-note">Submitted by other Chasa users, reviewed before publishing. <a href="/free-templates/submit">Share your own</a>.</p>
+    <p class="tpl-index-note">Submitted by other docstoc users, reviewed before publishing. <a href="/free-templates/submit">Share your own</a>.</p>
     <div class="tpl-grid" id="tpl-community-grid"></div>
   </section>
 
@@ -2454,10 +4221,10 @@ const downloadJsonLd = JSON.stringify(
   {
     "@context": "https://schema.org",
     "@type": "WebPage",
-    name: `Download ${tplCount} polite invoice templates — Chasa`,
+    name: `Download ${tplCount} polite invoice templates — docstoc`,
     description: `Free PDF pack of ${tplCount} politely worded payment reminder emails. Enter your details to download.`,
     url: "https://chasa.io/free-templates/download",
-    isPartOf: { "@type": "WebSite", name: "Chasa", url: "https://chasa.io" },
+    isPartOf: { "@type": "WebSite", name: "docstoc", url: "https://chasa.io" },
   },
   null,
   2
@@ -2468,15 +4235,15 @@ const downloadHtml = `<!DOCTYPE html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Download ${tplCount} polite invoice templates — Chasa</title>
-<meta name="description" content="Free PDF pack of ${tplCount} politely worded payment reminder emails for freelancers and small teams. Download with the Chasa logo.">
+<title>Download ${tplCount} polite invoice templates — docstoc</title>
+<meta name="description" content="Free PDF pack of ${tplCount} politely worded payment reminder emails for freelancers and small teams. Download with the docstoc logo.">
 <link rel="canonical" href="https://chasa.io/free-templates/download">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Download ${tplCount} polite invoice templates — Chasa">
+<meta property="og:title" content="Download ${tplCount} polite invoice templates — docstoc">
 <meta property="og:description" content="Free PDF pack of ${tplCount} politely worded payment reminder emails. Enter your details to download.">
 <meta property="og:url" content="https://chasa.io/free-templates/download">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Download ${tplCount} polite invoice templates — Chasa">
+<meta name="twitter:title" content="Download ${tplCount} polite invoice templates — docstoc">
 <meta name="twitter:description" content="Free PDF pack of ${tplCount} politely worded payment reminder emails. Enter your details to download.">
 <script type="application/ld+json">
 ${downloadJsonLd}
@@ -2488,7 +4255,7 @@ ${downloadJsonLd}
 </head>
 <body class="lead-pack-page">
   <header class="lead-pack-topbar">
-    <a href="/" class="lead-pack-brand" aria-label="Chasa home">
+    <a href="/" class="lead-pack-brand" aria-label="docstoc home">
       <img src="/brand/docstoc-icon.png" alt="" width="28" height="28" />
       <span>chasa</span>
     </a>
@@ -2503,7 +4270,7 @@ ${downloadJsonLd}
         Freelancers and small teams lose days to awkward follow-ups and inconsistent tone.
       </p>
       <p>
-        This free PDF packs every Chasa template into one branded guide: subjects, bodies, and stage notes
+        This free PDF packs every docstoc template into one branded guide: subjects, bodies, and stage notes
         from sending the invoice through final notice, thank-yous, disputes, and multi-invoice summaries.
       </p>
       <div class="lead-pack-mock" aria-hidden="true">
@@ -2555,7 +4322,7 @@ ${downloadJsonLd}
         <p id="templates-pack-status" class="tpl-pack-status" role="status" aria-live="polite"></p>
 
         <p class="lead-pack-fine">
-          Chasa will use the contact information you provide to send the PDF and occasional product tips.
+          docstoc will use the contact information you provide to send the PDF and occasional product tips.
           You can unsubscribe anytime. See our <a href="/privacy">Privacy Policy</a>.
         </p>
 
@@ -2580,11 +4347,11 @@ const submitJsonLd = JSON.stringify(
   {
     "@context": "https://schema.org",
     "@type": "WebPage",
-    name: "Submit your own invoice follow-up template — Chasa",
+    name: "Submit your own invoice follow-up template — docstoc",
     description:
-      "Share a payment reminder or invoice follow-up email that's worked for you. Reviewed by Chasa, then published free for everyone.",
+      "Share a payment reminder or invoice follow-up email that's worked for you. Reviewed by docstoc, then published free for everyone.",
     url: "https://chasa.io/free-templates/submit",
-    isPartOf: { "@type": "WebSite", name: "Chasa", url: "https://chasa.io" },
+    isPartOf: { "@type": "WebSite", name: "docstoc", url: "https://chasa.io" },
   },
   null,
   2
@@ -2595,16 +4362,16 @@ const submitHtml = `<!DOCTYPE html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Submit Your Invoice Follow-Up Template — Chasa</title>
-<meta name="description" content="Share a payment reminder or invoice follow-up email that's worked for you. Reviewed by Chasa, then published free on our template library.">
+<title>Submit Your Invoice Follow-Up Template — docstoc</title>
+<meta name="description" content="Share a payment reminder or invoice follow-up email that's worked for you. Reviewed by docstoc, then published free on our template library.">
 <link rel="canonical" href="https://chasa.io/free-templates/submit">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Submit Your Invoice Follow-Up Template — Chasa">
-<meta property="og:description" content="Share a payment reminder or invoice follow-up email that's worked for you. Reviewed by Chasa, then published free on our template library.">
+<meta property="og:title" content="Submit Your Invoice Follow-Up Template — docstoc">
+<meta property="og:description" content="Share a payment reminder or invoice follow-up email that's worked for you. Reviewed by docstoc, then published free on our template library.">
 <meta property="og:url" content="https://chasa.io/free-templates/submit">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Submit Your Invoice Follow-Up Template — Chasa">
-<meta name="twitter:description" content="Share a payment reminder or invoice follow-up email that's worked for you. Reviewed by Chasa, then published free on our template library.">
+<meta name="twitter:title" content="Submit Your Invoice Follow-Up Template — docstoc">
+<meta name="twitter:description" content="Share a payment reminder or invoice follow-up email that's worked for you. Reviewed by docstoc, then published free on our template library.">
 <script type="application/ld+json">
 ${submitJsonLd}
 </script>
@@ -2615,7 +4382,7 @@ ${submitJsonLd}
 </head>
 <body class="lead-pack-page">
   <header class="lead-pack-topbar">
-    <a href="/" class="lead-pack-brand" aria-label="Chasa home">
+    <a href="/" class="lead-pack-brand" aria-label="docstoc home">
       <img src="/brand/docstoc-icon.png" alt="" width="28" height="28" />
       <span>chasa</span>
     </a>
@@ -2728,7 +4495,7 @@ const newTemplatesJsonLd = JSON.stringify(
   {
     "@context": "https://schema.org",
     "@type": "ItemList",
-    name: "10 new free invoice follow-up templates — Chasa",
+    name: "10 new free invoice follow-up templates — docstoc",
     description: `${newBatch.length} new templates for freelancers, agencies, and corporate finance teams, plus a legal-tone final notice and a template for when a client goes silent.`,
     url: "https://chasa.io/free-templates/new",
     numberOfItems: newBatch.length,
@@ -2758,7 +4525,7 @@ const newTemplatesHtml = `<!DOCTYPE html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>10 New Free Invoice Follow-Up Templates | Chasa</title>
+<title>10 New Free Invoice Follow-Up Templates | docstoc</title>
 <meta name="description" content="10 new free invoice follow-up templates for freelancers, agencies, and corporate finance teams — plus a legal-tone final notice and a template for when a client goes silent. Now ${tplCount} templates and counting.">
 <link rel="canonical" href="https://chasa.io/free-templates/new">
 <meta property="og:type" content="website">
@@ -2780,7 +4547,7 @@ ${newTemplatesJsonLd}
 </head>
 <body class="lead-pack-page">
   <header class="lead-pack-topbar">
-    <a href="/" class="lead-pack-brand" aria-label="Chasa home">
+    <a href="/" class="lead-pack-brand" aria-label="docstoc home">
       <img src="/brand/docstoc-icon.png" alt="" width="28" height="28" />
       <span>chasa</span>
     </a>
@@ -2897,7 +4664,7 @@ const SHARED_USE_CASES = [
 
 function buildSeoIntro(t) {
   const framing = CATEGORY_FRAMING[t.category] || CATEGORY_FRAMING["Overdue follow-ups"];
-  return `Getting paid on time is hard enough without also having to write the follow-up email yourself. This free ${t.name.toLowerCase()} template is built specifically for ${framing.audience} ${framing.problem}. Instead of starting from a blank page or reusing a generic payment reminder email that doesn't quite match how late the invoice is, you get a ${t.tone.toLowerCase()}-toned, ready-to-send draft matched to this exact stage: ${t.stage.toLowerCase()}. Copy the subject and body as-is, swap in your invoice details, and send it from Gmail, Outlook, or Apple Mail — no account, no signup, and no software to install. It's one of 28 free invoice follow-up templates and payment reminder emails on Chasa, covering everything from a friendly nudge before an invoice is even due through a formal final notice. If you'd rather have the wording generated fresh for your exact invoice, amount, and client, Chasa's AI tool drafts that automatically — this template stays free either way, with or without an account.`;
+  return `Getting paid on time is hard enough without also having to write the follow-up email yourself. This free ${t.name.toLowerCase()} template is built specifically for ${framing.audience} ${framing.problem}. Instead of starting from a blank page or reusing a generic payment reminder email that doesn't quite match how late the invoice is, you get a ${t.tone.toLowerCase()}-toned, ready-to-send draft matched to this exact stage: ${t.stage.toLowerCase()}. Copy the subject and body as-is, swap in your invoice details, and send it from Gmail, Outlook, or Apple Mail — no account, no signup, and no software to install. It's one of 28 free invoice follow-up templates and payment reminder emails on docstoc, covering everything from a friendly nudge before an invoice is even due through a formal final notice. If you'd rather have the wording generated fresh for your exact invoice, amount, and client, docstoc's AI tool drafts that automatically — this template stays free either way, with or without an account.`;
 }
 
 function buildWhatsIncluded(t) {
@@ -2926,7 +4693,7 @@ function buildTemplateFaq(t) {
   const faq = [
     {
       q: `Is this ${t.name.toLowerCase()} template really free?`,
-      a: `Yes — every template in Chasa's library is free to view, copy, and edit with no account or signup required. Chasa never emails your clients on your behalf; you copy this draft into your own inbox and send it yourself, so there's nothing to sign up for just to use the wording.`,
+      a: `Yes — every template in docstoc's library is free to view, copy, and edit with no account or signup required. docstoc never emails your clients on your behalf; you copy this draft into your own inbox and send it yourself, so there's nothing to sign up for just to use the wording.`,
     },
     {
       q: "Can I edit the wording to match my own voice?",
@@ -2937,12 +4704,12 @@ function buildTemplateFaq(t) {
       a: `This template is written for invoices at the "${t.stage}" stage specifically. Sending the right tone at the right time matters — too firm too early can feel aggressive, too soft too late can read as not serious. If your situation doesn't quite match, browse the full library for the closest stage.`,
     },
     {
-      q: "Does Chasa's AI tool improve on this template?",
-      a: "Yes. This page gives you the wording for free with no signup. Chasa's AI tool goes further on Solo and Pro plans — it drafts a version matched to your exact invoice amount, client name, and how many days overdue it is, and can soften, firm up, or shorten a draft on request.",
+      q: "Does docstoc's AI tool improve on this template?",
+      a: "Yes. This page gives you the wording for free with no signup. docstoc's AI tool goes further on Solo and Pro plans — it drafts a version matched to your exact invoice amount, client name, and how many days overdue it is, and can soften, firm up, or shorten a draft on request.",
     },
     {
       q: "What if the client still doesn't pay after I send this?",
-      a: "If this reminder doesn't get a response, the next step is usually a firmer follow-up or a formal notice, depending on how late the invoice becomes. Chasa's free library includes templates for every stage, from a gentle first nudge through a final notice before collections.",
+      a: "If this reminder doesn't get a response, the next step is usually a firmer follow-up or a formal notice, depending on how late the invoice becomes. docstoc's free library includes templates for every stage, from a gentle first nudge through a final notice before collections.",
     },
   ];
   return faq;
@@ -2986,7 +4753,7 @@ const DOCUMENT_SHARED_USE_CASES = [
 
 function buildDocumentSeoIntro(t) {
   const framing = DOCUMENT_CATEGORY_FRAMING[t.category] || DOCUMENT_CATEGORY_FRAMING.Business;
-  return `Drafting a ${t.name.toLowerCase()} from scratch is slow, and generic templates often miss the sections that actually matter. This free template is built for ${framing.audience} ${framing.problem}. It's structured with the standard sections a document like this needs, with clearly marked [placeholder] fields so you can fill in your own details quickly. Copy it into your own word processor, fill in the placeholders, and review it — or adapt it — before use. It's part of Chasa's free document template library, alongside business, legal, real estate, finance, and HR templates. Every template here is free to copy with no signup required, and each one carries a plain disclaimer: this is a starting point for informational purposes, not a substitute for advice from a licensed professional in your jurisdiction.`;
+  return `Drafting a ${t.name.toLowerCase()} from scratch is slow, and generic templates often miss the sections that actually matter. This free template is built for ${framing.audience} ${framing.problem}. It's structured with the standard sections a document like this needs, with clearly marked [placeholder] fields so you can fill in your own details quickly. Copy it into your own word processor, fill in the placeholders, and review it — or adapt it — before use. It's part of docstoc's free document template library, alongside business, legal, real estate, finance, and HR templates. Every template here is free to copy with no signup required, and each one carries a plain disclaimer: this is a starting point for informational purposes, not a substitute for advice from a licensed professional in your jurisdiction.`;
 }
 
 function buildDocumentWhatsIncluded(t) {
@@ -3041,7 +4808,7 @@ for (const t of DOCUMENT_TEMPLATES) {
           headline: t.seoTitle,
           description: t.description,
           url: `https://chasa.io/document-templates/${t.slug}`,
-          author: { "@type": "Organization", name: "Chasa" },
+          author: { "@type": "Organization", name: "docstoc" },
           publisher: { "@type": "Organization", name: "RELACON GmbH" },
           mainEntityOfPage: `https://chasa.io/document-templates/${t.slug}`,
         },
@@ -3089,7 +4856,7 @@ for (const t of DOCUMENT_TEMPLATES) {
   const bodyHtml = markdownToHtml(t.bodyMarkdown);
 
   const page = chrome({
-    title: `${t.seoTitle} | Chasa`,
+    title: `${t.seoTitle} | docstoc`,
     description: t.description,
     canonical: `https://chasa.io/document-templates/${t.slug}`,
     activeNav: "templates",
@@ -3189,7 +4956,7 @@ const DOC_INDEX_FAQ = [
     a: "Yes — submit a template for review, including from a lawyer or accountant, and it can be published with a verified-expert credential once approved.",
   },
   {
-    q: "How is this different from Chasa's invoice email templates?",
+    q: "How is this different from docstoc's invoice email templates?",
     a: "The free invoice templates are short chase-email copy for following up on unpaid invoices. These document templates are longer-form business, legal, real estate, finance, and HR documents — contracts, agreements, and notices, not emails.",
   },
 ];
@@ -3203,7 +4970,7 @@ const docIndexJsonLd = JSON.stringify(
         name: "Free Business & Legal Document Templates",
         url: "https://chasa.io/document-templates/",
         description: `${DOCUMENT_TEMPLATES.length} free business, legal, real estate, finance, and HR document templates.`,
-        isPartOf: { "@type": "WebSite", name: "Chasa", url: "https://chasa.io" },
+        isPartOf: { "@type": "WebSite", name: "docstoc", url: "https://chasa.io" },
         mainEntity: {
           "@type": "ItemList",
           itemListElement: DOCUMENT_TEMPLATES.map((t, i) => ({
@@ -3229,7 +4996,7 @@ const docIndexJsonLd = JSON.stringify(
 );
 
 const docIndexHtml = chrome({
-  title: `Free Business & Legal Document Templates (${DOCUMENT_TEMPLATES.length}) | Chasa`,
+  title: `Free Business & Legal Document Templates (${DOCUMENT_TEMPLATES.length}) | docstoc`,
   description: `${DOCUMENT_TEMPLATES.length} free business, legal, real estate, finance, and HR document templates. Copy, personalize, and certify — no signup required.`,
   canonical: "https://chasa.io/document-templates/",
   activeNav: "templates",
@@ -3270,7 +5037,7 @@ ${docCategorySections}
 
   <section class="tpl-cat-section" id="tpl-community" hidden>
     <h2 class="tpl-cat-title">Community templates</h2>
-    <p class="tpl-index-note">Submitted by other Chasa users, reviewed before publishing.</p>
+    <p class="tpl-index-note">Submitted by other docstoc users, reviewed before publishing.</p>
     <div class="tpl-grid" id="tpl-community-grid"></div>
   </section>
 
@@ -3497,7 +5264,7 @@ for (const t of TEMPLATES) {
           headline: t.seoTitle,
           description: t.description,
           url: `https://chasa.io/free-templates/${t.slug}`,
-          author: { "@type": "Organization", name: "Chasa" },
+          author: { "@type": "Organization", name: "docstoc" },
           publisher: { "@type": "Organization", name: "RELACON GmbH" },
           mainEntityOfPage: `https://chasa.io/free-templates/${t.slug}`,
         },
@@ -3541,7 +5308,7 @@ for (const t of TEMPLATES) {
     .join("\n      ");
 
   const page = chrome({
-    title: `${t.seoTitle} | Chasa`,
+    title: `${t.seoTitle} | docstoc`,
     description: t.description,
     canonical: `https://chasa.io/free-templates/${t.slug}`,
     activeNav: "templates",
@@ -3617,8 +5384,8 @@ for (const t of TEMPLATES) {
 
   <div class="tpl-cta-footer">
     <h2>Get paid faster, without the awkward part</h2>
-    <p>Copy this template free, or let Chasa draft one matched to your exact invoice.</p>
-    <a class="nav-cta" href="/app/login?start=1">Try Chasa free — no signup, no card</a>
+    <p>Copy this template free, or let docstoc draft one matched to your exact invoice.</p>
+    <a class="nav-cta" href="/app/login?start=1">Try docstoc free — no signup, no card</a>
   </div>
 </main>
 <script>
