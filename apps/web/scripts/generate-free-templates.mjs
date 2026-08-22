@@ -5718,6 +5718,1813 @@ Client: ______________________  Date: ____________
 
 *Stating upfront whether unused retainer time rolls over (most don't) prevents an awkward conversation in month two when the client asks about "banking" hours they didn't use.*`,
   },
+  {
+    slug: "promissory-note-extension-agreement-template",
+    name: "Promissory Note Extension Agreement",
+    seoTitle: "Free Promissory Note Extension Agreement Template",
+    description: "Free promissory note extension agreement template — extends the repayment deadline on an existing loan.",
+    category: "Finance",
+    bodyMarkdown: `# Promissory Note Extension Agreement
+
+**Original Note:** [Reference — date and parties of the original promissory note]
+**Lender:** [Name]
+**Borrower:** [Name]
+**Date of Extension:** [Date]
+
+## 1. Extension
+The parties agree to extend the maturity date of the original promissory note from [Original Date] to [New Date].
+
+## 2. Remaining Balance
+As of this extension, the outstanding balance is [Amount], including any accrued interest.
+
+## 3. Terms During Extension
+[State whether the interest rate, payment schedule, or other terms change during the extension, or state "All other terms of the original note remain unchanged."]
+
+## 4. No Other Changes
+Except as stated above, all other terms of the original promissory note remain in full force and effect.
+
+---
+Lender: ______________________  Date: ____________
+Borrower: ______________________  Date: ____________
+
+*Getting an extension in writing — rather than an informal "take your time" — protects both sides if there's ever a dispute about whether the loan is actually in default.*`,
+  },
+  {
+    slug: "business-presentation-outline-template",
+    name: "Business Presentation Outline",
+    seoTitle: "Free Business Presentation Outline Template",
+    description: "Free business presentation outline template — the slide-by-slide structure for a pitch or company overview deck.",
+    category: "Business",
+    bodyMarkdown: `# Business Presentation Outline
+
+## Slide 1: Title
+Company name, tagline, presenter name/date.
+
+## Slide 2: Problem
+The problem you solve, stated simply.
+
+## Slide 3: Solution
+What you do about it.
+
+## Slide 4: Market
+Who you sell to, and how big that market is.
+
+## Slide 5: Product/Service
+What it actually looks like — screenshots, demo, or description.
+
+## Slide 6: Traction
+Real numbers — revenue, users, growth. If early-stage, say so honestly rather than filling this slide with vanity metrics.
+
+## Slide 7: Business Model
+How you make money.
+
+## Slide 8: Competition
+Who else solves this, and why you're different.
+
+## Slide 9: Team
+Who's building this, and why they're credible for it.
+
+## Slide 10: The Ask
+What you want from this audience — funding, a partnership, a decision.
+
+*Ten slides is a starting structure, not a rule — cut anything that doesn't serve the specific audience in the room, and never pad a deck with slides just to look more thorough.*`,
+  },
+  {
+    slug: "event-schedule-template",
+    name: "Event Schedule",
+    seoTitle: "Free Event Schedule Template",
+    description: "Free event schedule (run of show) template — the timed sequence of what happens during an event.",
+    category: "Business",
+    bodyMarkdown: `# Event Schedule: [Event Name]
+
+**Date:** [Date] · **Venue:** [Location]
+
+| Time | Activity | Owner/Speaker | Notes |
+|------|----------|-----------------|-------|
+| [Time] | Doors open / setup complete | [Name] | [Notes] |
+| [Time] | [Activity] | [Name] | [Notes] |
+| [Time] | [Activity] | [Name] | [Notes] |
+| [Time] | Event ends / breakdown | [Name] | [Notes] |
+
+## Key Contacts
+| Role | Name | Phone |
+|------|------|-------|
+| Event lead | [Name] | [Phone] |
+| Venue contact | [Name] | [Phone] |
+| [Other] | [Name] | [Phone] |
+
+*Build in buffer time between segments (5-10 minutes is common) — a schedule with zero slack falls apart the moment one thing runs long.*`,
+  },
+  {
+    slug: "tax-invoice-template",
+    name: "Tax Invoice",
+    seoTitle: "Free Tax Invoice Template",
+    description: "Free tax invoice template — includes the tax breakdown (VAT/GST/sales tax) required in many countries for a compliant invoice.",
+    category: "Finance",
+    bodyMarkdown: `# Tax Invoice
+
+**Invoice #:** [Number] · **Date:** [Date]
+**Seller:** [Name, Address, Tax/VAT/GST registration number]
+**Buyer:** [Name, Address]
+
+## Items
+
+| Description | Qty | Unit Price (ex. tax) | Tax Rate | Tax Amount | Total (incl. tax) |
+|-------------|-----|--------------------------|-----------|-------------|------------------------|
+| [Item] | [Qty] | [Price] | [%] | [Amount] | [Total] |
+
+**Subtotal (ex. tax):** [Amount]
+**Total Tax:** [Amount]
+**Total Due (incl. tax):** [Amount]
+
+## Payment Terms
+[e.g. Net 30, due on receipt]
+
+*Exact required fields for a "tax invoice" (VAT number format, mandatory wording, whether it must say "Tax Invoice" specifically) vary by country — check your local tax authority's requirements, especially if you're VAT/GST registered.*`,
+  },
+  {
+    slug: "trademark-license-agreement-template",
+    name: "Trademark License Agreement",
+    seoTitle: "Free Trademark License Agreement Template",
+    description: "Free trademark license agreement template — grants another party the right to use your brand name or logo.",
+    category: "Legal",
+    bodyMarkdown: `# Trademark License Agreement
+
+**Licensor:** [Name] (owns the trademark)
+**Licensee:** [Name]
+**Trademark:** [Description — name/logo, registration # if registered]
+**Effective Date:** [Date]
+
+## 1. Grant of License
+Licensor grants Licensee a [exclusive/non-exclusive], [territory]-limited license to use the Trademark in connection with [Specific use — e.g. "the sale of [Products]"].
+
+## 2. Quality Control
+Licensee agrees to maintain quality standards consistent with [Licensor's guidelines, attached], and Licensor may inspect Licensee's use of the mark to confirm compliance.
+
+## 3. Fees
+Licensee will pay [Royalty %/flat fee], due [Frequency].
+
+## 4. Restrictions
+Licensee may not: register the Trademark itself, use it outside the approved scope, or alter the mark without approval.
+
+## 5. Term and Termination
+This license runs for [Term] and may be terminated by Licensor if Licensee fails to meet quality standards or breaches this Agreement.
+
+## 6. Ownership
+Licensor retains all ownership of the Trademark; this Agreement grants only a license to use it.
+
+## 7. Governing Law
+This Agreement is governed by the laws of [State/Country].
+
+---
+Licensor: ______________________  Date: ____________
+Licensee: ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. Failing to actively control quality under a trademark license can weaken or even invalidate the trademark itself ("naked licensing") — the quality-control section here isn't boilerplate, it's legally important.*`,
+  },
+  {
+    slug: "seo-report-template",
+    name: "SEO Report",
+    seoTitle: "Free SEO Report Template",
+    description: "Free SEO report template for summarizing a website's search performance and recommended next steps for a client.",
+    category: "Business",
+    bodyMarkdown: `# SEO Report: [Client/Website Name]
+
+**Reporting Period:** [Date] – [Date]
+**Prepared by:** [Name]
+
+## Summary
+[One or two sentences: overall trend and the single most important takeaway.]
+
+## Key Metrics
+
+| Metric | This Period | Last Period | Change |
+|--------|-------------|-------------|--------|
+| Organic sessions | [Number] | [Number] | [%] |
+| Keyword rankings (top 10) | [Number] | [Number] | [Change] |
+| Organic conversions | [Number] | [Number] | [%] |
+| Backlinks (new) | [Number] | [Number] | [%] |
+
+## Top Performing Pages
+| Page | Sessions | Notes |
+|------|----------|-------|
+| [URL] | [Number] | [Notes] |
+
+## Work Completed This Period
+[What was actually done — content published, technical fixes, link building.]
+
+## Recommendations
+[Specific next actions, prioritized.]
+
+*Tie every recommendation back to a metric above — a report full of "we should also try X" ideas without data backing them tends to erode client trust over time.*`,
+  },
+  {
+    slug: "quarterly-report-template",
+    name: "Quarterly Report",
+    seoTitle: "Free Quarterly Report Template",
+    description: "Free quarterly report template summarizing performance, goals, and outlook for the quarter.",
+    category: "Business",
+    bodyMarkdown: `# Quarterly Report: [Company/Team Name] — Q[Number] [Year]
+
+## Executive Summary
+[2-3 sentences: how the quarter went, in plain language.]
+
+## Key Metrics
+| Metric | Target | Actual | Status |
+|--------|--------|--------|--------|
+| [Metric] | [Target] | [Actual] | [On track/Missed/Exceeded] |
+
+## Highlights
+[What went well — specific wins.]
+
+## Challenges
+[What didn't go as planned, and why — honesty here builds more credibility than a highlight-reel-only report.]
+
+## Next Quarter Priorities
+[Top 3-5 priorities for the coming quarter.]
+
+## Financial Summary (if applicable)
+Revenue: [Amount] · Expenses: [Amount] · [Other relevant figures]
+
+*Including a "Challenges" section alongside the wins is what makes a quarterly report feel credible rather than like a marketing document.*`,
+  },
+  {
+    slug: "donation-form-template",
+    name: "Donation Form",
+    seoTitle: "Free Donation Form Template",
+    description: "Free donation form template for collecting one-time or recurring donations for a nonprofit or cause.",
+    category: "Business",
+    bodyMarkdown: `# Donation Form
+
+**Organization:** [Organization Name] · [Tax ID/EIN if applicable]
+
+## Donor Information
+Name: [Name] · Email: [Email] · Phone: [Phone]
+Address (for tax receipt): [Address]
+
+## Donation Details
+Amount: [ ] $25  [ ] $50  [ ] $100  [ ] $[Other]
+Frequency: [ ] One-time  [ ] Monthly  [ ] Annually
+
+## Designation (if applicable)
+[ ] General fund  [ ] [Specific program/campaign]
+
+## Payment Method
+[ ] Credit/debit card  [ ] Bank transfer  [ ] Check
+
+## Acknowledgment
+[Organization Name] is a [501(c)(3) nonprofit / other status]. No goods or services were provided in exchange for this contribution unless otherwise noted, making it tax-deductible to the extent allowed by law.
+
+Donor signature (if physical form): ______________________  Date: ____________
+
+*Never collect full card numbers on a paper/PDF form — route actual card payments through a PCI-compliant processor; use this form for the donor's information and preferences only.*`,
+  },
+  {
+    slug: "character-reference-letter-template",
+    name: "Character Reference Letter",
+    seoTitle: "Free Character Reference Letter Template",
+    description: "Free character reference letter template — vouches for someone's personal character, for court, housing, or another personal context.",
+    category: "HR",
+    bodyMarkdown: `# Character Reference Letter
+
+[Your Name]
+[Your Address/Contact Info]
+[Date]
+
+**RE: Character Reference for [Person's Name]**
+
+To Whom It May Concern,
+
+I am writing to provide a character reference for [Person's Name], whom I have known for [Duration] as their [relationship — friend, neighbor, coworker].
+
+## What I know about them
+[Specific examples of their character — reliability, honesty, community involvement. Concrete stories carry more weight than adjectives.]
+
+## Context for this reference
+[Why you're writing this — e.g. "I understand this letter is being submitted in connection with [court proceeding/housing application/etc.]"]
+
+I believe [Person's Name] is a person of good character, and I'm happy to be contacted with any questions.
+
+Sincerely,
+[Your Name]
+[Contact Information]
+
+*For court-related character references specifically, ask the attorney involved what format and content the judge expects — requirements vary by jurisdiction and case type.*`,
+  },
+  {
+    slug: "end-user-license-agreement-template",
+    name: "End User License Agreement (EULA)",
+    seoTitle: "Free End User License Agreement (EULA) Template",
+    description: "Free EULA template — the terms an end user agrees to when installing or using your software.",
+    category: "Legal",
+    bodyMarkdown: `# End User License Agreement (EULA)
+
+**Software:** [Software Name]
+**Licensor:** [Company Name]
+
+By installing or using [Software Name], you agree to the following terms.
+
+## 1. License Grant
+Licensor grants you a [non-exclusive, non-transferable] license to use the Software for [personal/internal business] use, subject to this Agreement.
+
+## 2. Restrictions
+You may not: copy, modify, reverse-engineer, redistribute, or sublicense the Software, except as permitted by law.
+
+## 3. Ownership
+The Software is licensed, not sold. Licensor retains all intellectual property rights.
+
+## 4. Updates
+Licensor may provide updates, which are covered by this same Agreement unless accompanied by separate terms.
+
+## 5. Data Collection
+[Describe what data the software collects, if any, and link to your Privacy Policy.]
+
+## 6. Warranty Disclaimer
+THE SOFTWARE IS PROVIDED "AS IS," WITHOUT WARRANTY OF ANY KIND.
+
+## 7. Limitation of Liability
+Licensor's liability is limited to the amount paid for the Software, to the extent permitted by law.
+
+## 8. Termination
+This license terminates automatically if you violate its terms. Upon termination, you must stop using the Software.
+
+## 9. Governing Law
+This Agreement is governed by the laws of [State/Country].
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. If your software collects personal data, this EULA needs to work alongside a real Privacy Policy — see Chasa's separate Privacy Policy template — and possibly platform-specific terms if distributed via an app store.*`,
+  },
+  {
+    slug: "project-summary-template",
+    name: "Project Summary",
+    seoTitle: "Free Project Summary Template",
+    description: "Free project summary template — a short, high-level overview of a project's goals, status, and results.",
+    category: "Business",
+    bodyMarkdown: `# Project Summary: [Project Name]
+
+**Duration:** [Start Date] – [End Date] · **Team:** [Names/Roles]
+
+## Objective
+[What the project set out to achieve, in one or two sentences.]
+
+## Approach
+[Briefly, how the team went about it.]
+
+## Results
+[What was actually achieved — specific and measurable where possible.]
+
+## Key Learnings
+[What would be done differently next time, or what worked especially well.]
+
+## Status
+[ ] Complete  [ ] Ongoing  [ ] On hold
+
+*A one-page project summary written right after completion (while details are fresh) becomes genuinely useful reference material for the next similar project — most teams skip this and lose that knowledge.*`,
+  },
+  {
+    slug: "real-estate-purchase-contract-template",
+    name: "Real Estate Purchase Contract",
+    seoTitle: "Free Real Estate Purchase Contract Template",
+    description: "Free real estate purchase contract template — the fuller agreement following an accepted offer, before closing.",
+    category: "Real Estate",
+    bodyMarkdown: `# Real Estate Purchase Contract
+
+**Seller:** [Name]
+**Buyer:** [Name]
+**Property:** [Full legal description/address]
+**Date:** [Date]
+
+## 1. Purchase Price and Terms
+Purchase price: [Amount]. Buyer will pay via [financing/cash], with earnest money of [Amount] deposited with [Escrow/Title Company].
+
+## 2. Contingencies
+This contract is contingent on: [financing approval / satisfactory inspection / appraisal at or above purchase price / clear title], each to be satisfied by [Date].
+
+## 3. Closing
+Closing will occur on or before [Date], at which time Seller will deliver a [warranty] deed and Buyer will pay the remaining balance.
+
+## 4. Title
+Seller will provide clear, marketable title, free of liens except as disclosed: [List any known liens/easements].
+
+## 5. Property Condition
+Property is sold [as-is / subject to repairs described in Exhibit A]. Seller will maintain the property in its current condition until closing.
+
+## 6. Prorations
+Property taxes, HOA dues, and utilities will be prorated as of the closing date.
+
+## 7. Default
+[Describe remedies if either party fails to close — e.g. earnest money forfeiture or return, right to sue for specific performance.]
+
+---
+Seller: ______________________  Date: ____________
+Buyer: ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. Nearly every US state has its own required real estate contract form and disclosures — use your state's actual form (typically provided by a real estate agent, broker, or attorney) rather than a generic template for a real transaction.*`,
+  },
+  {
+    slug: "customer-information-form-template",
+    name: "Customer Information Form",
+    seoTitle: "Free Customer Information Form Template",
+    description: "Free customer information form template for capturing new client details when onboarding.",
+    category: "Business",
+    bodyMarkdown: `# Customer Information Form
+
+**Date:** [Date]
+
+## Contact Information
+Name/Company: [Name]
+Primary contact: [Name, Title]
+Email: [Email] · Phone: [Phone]
+Billing address: [Address]
+
+## Service Details
+Service(s) requested: [Description]
+Preferred communication method: [Email/Phone/Text]
+Referred by: [Name/Source, if applicable]
+
+## Billing Preferences
+Payment method: [Method]
+Billing frequency: [e.g. monthly, per project]
+Purchase order required: [Yes/No — PO #: ___]
+
+## Special Notes
+[Any specific requirements, accessibility needs, or preferences worth recording]
+
+## Consent
+[ ] I agree to receive communications about my account/service.
+
+*Capturing billing preferences and PO requirements at intake — not after the first invoice bounces — avoids a surprisingly common source of late payments.*`,
+  },
+  {
+    slug: "introduction-letter-template",
+    name: "Introduction Letter",
+    seoTitle: "Free Introduction Letter Template",
+    description: "Free business introduction letter template — for introducing your company, product, or yourself to a new contact.",
+    category: "Business",
+    bodyMarkdown: `# Introduction Letter
+
+[Date]
+
+Dear [Recipient Name],
+
+My name is [Your Name], and I'm [Your Title] at [Company Name]. I'm reaching out to introduce [yourself / our company / our product] because [specific, relevant reason — not a generic "I wanted to connect"].
+
+## What we do
+[1-2 sentences on your company/product/service.]
+
+## Why I'm reaching out
+[The specific reason this matters to the recipient — a shared connection, a relevant need you've noticed, an introduction from someone they know.]
+
+## Next step
+[What you'd like — a call, a meeting, simply keeping in touch.]
+
+I'd welcome the opportunity to [connect/discuss further]. Thank you for your time.
+
+Best regards,
+[Your Name]
+[Contact Information]
+
+*An introduction letter that leads with something specific to the recipient (not just your own pitch) gets read; a mass-blast version reads as one immediately.*`,
+  },
+  {
+    slug: "parental-consent-form-template",
+    name: "Parental Consent Form",
+    seoTitle: "Free Parental Consent Form Template",
+    description: "Free parental consent form template — permission for a minor to participate in an activity, trip, or program.",
+    category: "Legal",
+    bodyMarkdown: `# Parental Consent Form
+
+**Child's Name:** [Name] · **Date of Birth:** [Date]
+**Activity/Program:** [Description]
+**Date(s):** [Date(s)]
+
+I, [Parent/Guardian Name], am the parent/legal guardian of the above-named child and give permission for them to participate in [Activity/Program].
+
+## Emergency Contact
+Name: [Name] · Phone: [Phone] · Relationship: [Relationship]
+
+## Medical Information
+Known allergies/conditions: [List, or "None"]
+Medications: [List, or "None"]
+
+## Emergency Medical Treatment
+[Optional: "I authorize [Organization] to seek emergency medical treatment for my child if I cannot be reached."]
+
+## Acknowledgment of Risk (if applicable)
+[If the activity involves any risk — sports, water activities, travel — describe it briefly and note the parent acknowledges it.]
+
+Parent/Guardian signature: ______________________  Date: ____________
+
+*Some activities (especially higher-risk ones, or those involving photos/video of minors) may need a separate, more detailed liability waiver in addition to this consent — check what your specific activity/organization requires.*`,
+  },
+  {
+    slug: "fee-agreement-template",
+    name: "Fee Agreement",
+    seoTitle: "Free Fee Agreement Template",
+    description: "Free fee agreement template — a short document confirming the fee structure for professional services.",
+    category: "Business",
+    bodyMarkdown: `# Fee Agreement
+
+**Provider:** [Name/Company]
+**Client:** [Name]
+**Date:** [Date]
+
+## 1. Services
+Provider will provide: [Brief description of services].
+
+## 2. Fee Structure
+[Choose one: "Flat fee of [Amount]" / "Hourly rate of [Amount]/hour" / "Contingency fee of [%] of [outcome]" / "Retainer of [Amount] per [period]"]
+
+## 3. Payment Terms
+[When fees are due — e.g. "50% upfront, 50% on completion" or "Invoiced monthly, due within 15 days."]
+
+## 4. Additional Costs
+[Any expenses billed separately — e.g. filing fees, materials, travel — and how they're documented/approved.]
+
+## 5. What's Included / Excluded
+**Included:** [Scope]
+**Not included:** [What would require a separate fee/agreement]
+
+---
+Provider: ______________________  Date: ____________
+Client: ______________________  Date: ____________
+
+*Spelling out what's explicitly NOT included in the fee is what prevents "I thought that was covered" disputes down the line.*`,
+  },
+  {
+    slug: "limited-partnership-agreement-template",
+    name: "Limited Partnership Agreement",
+    seoTitle: "Free Limited Partnership Agreement Template",
+    description: "Free limited partnership agreement template — general partner manages the business, limited partners invest with limited liability.",
+    category: "Business",
+    bodyMarkdown: `# Limited Partnership Agreement
+
+**General Partner:** [Name] (manages the business, unlimited liability)
+**Limited Partner(s):** [Name(s)] (invest capital, limited liability)
+**Partnership Name:** [Name]
+**Effective Date:** [Date]
+
+## 1. Formation
+The parties form a limited partnership under [State] law by filing a Certificate of Limited Partnership.
+
+## 2. Capital Contributions
+| Partner | Type | Contribution | Ownership % |
+|---------|------|----------------|-------------|
+| [General Partner] | GP | [Amount] | [%] |
+| [Limited Partner] | LP | [Amount] | [%] |
+
+## 3. Management
+The General Partner has sole authority to manage the business. Limited Partners have no management authority and no right to bind the partnership.
+
+## 4. Liability
+The General Partner has unlimited personal liability for partnership obligations. Limited Partners' liability is limited to their capital contribution, provided they don't participate in management.
+
+## 5. Profit and Loss Allocation
+Profits and losses are allocated: [Describe — often General Partner gets a management fee/carried interest plus a share; Limited Partners get the remainder per their %].
+
+## 6. Distributions
+[Timing and priority of distributions to partners.]
+
+## 7. Transfer of Interests
+Limited Partners may not transfer their interest without [General Partner's consent].
+
+## 8. Dissolution
+[Events triggering dissolution, and how remaining assets are distributed.]
+
+---
+General Partner: ______________________  Date: ____________
+Limited Partner: ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. The liability protection for limited partners depends on them genuinely NOT participating in management — have a licensed attorney confirm your actual structure qualifies before relying on it.*`,
+  },
+  {
+    slug: "experience-certificate-template",
+    name: "Experience Certificate",
+    seoTitle: "Free Experience Certificate Template",
+    description: "Free experience certificate template — confirms an employee's role, dates of employment, and responsibilities.",
+    category: "HR",
+    bodyMarkdown: `# Experience Certificate
+
+**Company Name/Letterhead**
+**Date:** [Date]
+
+This is to certify that [Employee Name] was employed with [Company Name] as [Job Title] from [Start Date] to [End Date].
+
+## Role Summary
+During this period, [Employee Name] was responsible for [brief summary of key responsibilities].
+
+## Performance
+[Optional, if the company chooses to include: a brief, honest note on performance — e.g. "was a reliable and valued member of the team."]
+
+This certificate is issued at the employee's request for [purpose, if stated — e.g. future employment verification].
+
+Issued by: ______________________
+[Name, Title]
+[Company Name]
+
+*This is a factual confirmation of employment, not a full letter of recommendation — keep it neutral and verifiable if your company policy limits what can be said about former employees.*`,
+  },
+  {
+    slug: "warrant-to-purchase-common-stock-template",
+    name: "Warrant to Purchase Common Stock",
+    seoTitle: "Free Warrant to Purchase Common Stock Template",
+    description: "Free stock warrant template — gives the holder the right to purchase company shares at a fixed price within a set period.",
+    category: "Finance",
+    bodyMarkdown: `# Warrant to Purchase Common Stock
+
+**Company:** [Company Name]
+**Holder:** [Name]
+**Date of Issuance:** [Date]
+**Number of Shares:** [Number]
+**Exercise Price:** [Price per share]
+**Expiration Date:** [Date]
+
+## 1. Grant
+Company grants Holder the right to purchase up to [Number] shares of Company's Common Stock at the Exercise Price, subject to the terms below.
+
+## 2. Exercise
+Holder may exercise this warrant, in whole or in part, at any time before the Expiration Date by delivering written notice and payment of the Exercise Price.
+
+## 3. Adjustments
+The number of shares and Exercise Price will be adjusted proportionally for stock splits, stock dividends, or similar events.
+
+## 4. Expiration
+This warrant expires and becomes void if not exercised by the Expiration Date.
+
+## 5. Transferability
+[State whether the warrant can be transferred, and any conditions.]
+
+## 6. No Shareholder Rights Until Exercise
+Holder has no rights as a shareholder (voting, dividends) until the warrant is actually exercised.
+
+---
+Company: ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. Issuing warrants affects your cap table and has real tax implications for the recipient — use a licensed startup attorney for an actual issuance.*`,
+  },
+  {
+    slug: "deed-of-sale-template",
+    name: "Deed of Sale",
+    seoTitle: "Free Deed of Sale Template",
+    description: "Free deed of sale template transferring ownership of property or an asset from seller to buyer.",
+    category: "Real Estate",
+    bodyMarkdown: `# Deed of Sale
+
+**Seller:** [Name]
+**Buyer:** [Name]
+**Property/Asset:** [Description — full legal description if real estate]
+**Sale Price:** [Amount]
+**Date:** [Date]
+
+## 1. Sale and Transfer
+Seller sells, transfers, and conveys to Buyer all right, title, and interest in the property/asset described above, in exchange for the sale price stated.
+
+## 2. Payment
+Buyer has paid the full sale price, receipt of which Seller acknowledges. [Or describe payment terms if not paid in full at signing.]
+
+## 3. Seller's Warranty
+Seller warrants that they are the lawful owner of the property/asset, that it is free of liens or encumbrances except as disclosed, and that they have full authority to sell it.
+
+## 4. Delivery
+[When and how possession transfers — e.g. "upon signing" or a specific date/location.]
+
+## 5. Governing Law
+This Deed is governed by the laws of [State/Country].
+
+---
+Seller: ______________________  Date: ____________
+Buyer: ______________________  Date: ____________
+[Notarization block, if required for your asset type/jurisdiction]
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. For real property specifically, requirements (notarization, recording, exact legal description format) vary by state/country — confirm what's required for this deed to be valid and recordable.*`,
+  },
+  {
+    slug: "payment-request-template",
+    name: "Payment Request",
+    seoTitle: "Free Payment Request Template",
+    description: "Free payment request template for requesting a payment or reimbursement, internally or from a client.",
+    category: "Finance",
+    bodyMarkdown: `# Payment Request
+
+**Requested by:** [Name] · **Date:** [Date]
+**Payable to:** [Name/Company]
+
+## Details
+Amount requested: [Amount]
+Reason/purpose: [Description]
+Related invoice/PO #: [Number, if applicable]
+
+## Supporting Documentation
+[List attached receipts, invoices, or approvals]
+
+## Payment Method
+[ ] Check  [ ] Bank transfer  [ ] Other: ___
+
+## Approval
+Requested by: ______________________  Date: ____________
+Approved by: ______________________  Date: ____________
+
+*Attaching supporting documentation up front (not after someone asks) is what actually speeds up approval — an unsupported request is the most common reason a payment request sits unactioned.*`,
+  },
+  {
+    slug: "arbitration-agreement-template",
+    name: "Arbitration Agreement",
+    seoTitle: "Free Arbitration Agreement Template",
+    description: "Free arbitration agreement template — parties agree to resolve disputes through arbitration instead of court.",
+    category: "Legal",
+    bodyMarkdown: `# Arbitration Agreement
+
+**Party A:** [Name]
+**Party B:** [Name]
+**Date:** [Date]
+
+## 1. Agreement to Arbitrate
+Any dispute arising out of or related to [the underlying agreement/relationship — reference it] will be resolved through binding arbitration rather than litigation in court, except as stated below.
+
+## 2. Arbitration Rules
+Arbitration will be conducted under the rules of [Arbitration organization — e.g. AAA, JAMS], by [one arbitrator / a panel of three].
+
+## 3. Location
+Arbitration will take place in [City, State], or [remotely/by video, if agreed].
+
+## 4. Costs
+[Describe how arbitration costs and fees are split — commonly each party bears its own attorney fees, and splits the arbitrator's fee, unless the arbitrator decides otherwise.]
+
+## 5. Exceptions
+[State any disputes excluded from arbitration — e.g. "either party may seek injunctive relief in court for IP or confidentiality violations."]
+
+## 6. Binding Decision
+The arbitrator's decision is final and binding, and may be entered as a judgment in any court of competent jurisdiction.
+
+---
+Party A: ______________________  Date: ____________
+Party B: ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. Arbitration clauses waive your right to a jury trial and (usually) to a class action — this is a significant legal choice; understand the tradeoff before including one in a contract, especially in consumer-facing agreements where enforceability rules are stricter.*`,
+  },
+  {
+    slug: "advertising-contract-template",
+    name: "Advertising Contract",
+    seoTitle: "Free Advertising Contract Template",
+    description: "Free advertising contract template for placing ads with a publisher, platform, or media outlet.",
+    category: "Business",
+    bodyMarkdown: `# Advertising Contract
+
+**Advertiser:** [Company Name]
+**Publisher/Platform:** [Name]
+**Date:** [Date]
+
+## 1. Advertising Placement
+Publisher will run Advertiser's ad(s) as follows: [Placement/format — e.g. banner ad, sponsored post, print ad], on [Platform/Publication], from [Start Date] to [End Date].
+
+## 2. Creative
+Advertiser will provide creative materials by [Date]. Publisher may reject creative that violates its content standards, with notice.
+
+## 3. Fees
+Total cost: [Amount], payable [Terms — e.g. "50% upon signing, 50% upon campaign completion"].
+
+## 4. Performance (if applicable)
+[If pricing is performance-based — e.g. CPM/CPC — describe the rate and how it's measured/reported.]
+
+## 5. Cancellation
+[Notice required to cancel before the campaign starts, and any cancellation fee.]
+
+## 6. Reporting
+Publisher will provide [impressions/clicks/other metrics] within [Timeframe] after the campaign ends.
+
+---
+Advertiser: ______________________  Date: ____________
+Publisher: ______________________  Date: ____________
+
+*Get the exact placement, size/format, and duration specified in writing — "we'll feature you prominently" means something different to every publisher.*`,
+  },
+  {
+    slug: "service-request-form-template",
+    name: "Service Request Form",
+    seoTitle: "Free Service Request Form Template",
+    description: "Free service request form template for a customer or internal team to submit a request for service or support.",
+    category: "Business",
+    bodyMarkdown: `# Service Request Form
+
+**Requested by:** [Name] · **Date:** [Date]
+**Department/Company:** [Name]
+
+## Request Details
+Type of service needed: [Description]
+Priority: [ ] Low  [ ] Medium  [ ] High  [ ] Urgent
+Preferred completion date: [Date]
+
+## Description
+[Detailed description of what's needed and why.]
+
+## Contact for Follow-up
+[Name, phone/email]
+
+## For Internal Use
+Assigned to: [Name]
+Status: [ ] Open  [ ] In Progress  [ ] Complete
+Date completed: [Date]
+
+*A simple priority field with clear definitions (what actually counts as "urgent") keeps everything from getting marked urgent by default.*`,
+  },
+  {
+    slug: "funding-proposal-template",
+    name: "Funding Proposal",
+    seoTitle: "Free Funding Proposal Template",
+    description: "Free funding proposal template for requesting a grant or funding from a foundation, agency, or donor.",
+    category: "Business",
+    bodyMarkdown: `# Funding Proposal: [Project/Program Name]
+
+**Submitted by:** [Organization Name]
+**Amount requested:** [Amount]
+**Date:** [Date]
+
+## Organization Overview
+[Brief background on your organization and its mission.]
+
+## Statement of Need
+[The specific problem this funding addresses, with evidence — data, community input, or documented gaps.]
+
+## Project Description
+[What you'll do with the funding — activities, timeline, who it serves.]
+
+## Goals and Outcomes
+[Specific, measurable outcomes you expect, and how you'll measure them.]
+
+## Budget
+
+| Item | Amount |
+|------|--------|
+| [Item] | [Amount] |
+| **Total Requested** | **[Amount]** |
+
+## Sustainability
+[How the project continues after this funding, if relevant to the funder.]
+
+## Organizational Capacity
+[Why your organization is positioned to deliver this — relevant experience, track record.]
+
+*Match your language and structure to the specific funder's stated priorities and application format — a generic proposal sent to every funder converts far worse than one tailored to what each one actually cares about.*`,
+  },
+  {
+    slug: "catering-order-form-template",
+    name: "Catering Order Form",
+    seoTitle: "Free Catering Order Form Template",
+    description: "Free catering order form template for booking food service for an event.",
+    category: "Business",
+    bodyMarkdown: `# Catering Order Form
+
+**Event date:** [Date] · **Event time:** [Time]
+**Delivery/pickup:** [ ] Delivery  [ ] Pickup
+**Location:** [Address]
+**Guest count:** [Number]
+
+## Order Details
+
+| Item | Quantity | Notes (dietary, etc.) | Price |
+|------|----------|--------------------------|-------|
+| [Item] | [Qty] | [Notes] | [Price] |
+
+**Subtotal:** [Amount]
+**Delivery fee (if applicable):** [Amount]
+**Total:** [Amount]
+
+## Dietary Restrictions
+[List any allergies/restrictions for the full group]
+
+## Contact
+Name: [Name] · Phone: [Phone] · Email: [Email]
+
+## Payment
+Deposit: [Amount], due [Date] · Balance due: [Date]
+
+*Confirming dietary restrictions and exact guest count 48-72 hours before the event (not just at booking) catches last-minute changes before they become a problem on delivery day.*`,
+  },
+  {
+    slug: "motivation-letter-template",
+    name: "Motivation Letter",
+    seoTitle: "Free Motivation Letter Template",
+    description: "Free motivation letter template for a university program, scholarship, or job application (common in Europe/international applications).",
+    category: "Business",
+    bodyMarkdown: `# Motivation Letter
+
+[Your Name]
+[Date]
+
+Dear [Recipient Name / Admissions Committee],
+
+I am writing to express my strong interest in [program/position/opportunity].
+
+## Who I am
+[Brief background — relevant education, experience, or context.]
+
+## Why this opportunity
+[Specific reasons this particular program/role fits your goals — shows genuine research, not a form letter.]
+
+## What I bring
+[Your relevant skills, achievements, or perspective — with a specific example, not just a list of traits.]
+
+## My goals
+[What you plan to do with this opportunity, and how it connects to your longer-term direction.]
+
+## Closing
+[Reaffirm your enthusiasm and thank the reader for their consideration.]
+
+Sincerely,
+[Your Name]
+
+*A motivation letter is similar to a cover letter but usually expected to be more personal and forward-looking — focus more on WHY this specific opportunity matters to you than just restating your resume.*`,
+  },
+  {
+    slug: "contract-amendment-template",
+    name: "Contract Amendment",
+    seoTitle: "Free Contract Amendment Template",
+    description: "Free contract amendment template for formally changing specific terms of an existing agreement.",
+    category: "Legal",
+    bodyMarkdown: `# Amendment to Agreement
+
+**Original Agreement:** [Name/description and date of the original contract]
+**Parties:** [Party A] and [Party B]
+**Amendment Date:** [Date]
+
+This Amendment modifies the Original Agreement as follows. All other terms of the Original Agreement remain unchanged and in full effect.
+
+## Changes
+
+**Section [X] currently states:**
+"[Quote the current language being changed]"
+
+**Section [X] is amended to state:**
+"[New language]"
+
+[Repeat for each section being changed]
+
+## Effective Date
+This Amendment is effective as of [Date].
+
+---
+[Party A]: ______________________  Date: ____________
+[Party B]: ______________________  Date: ____________
+
+*Quoting both the old and new language (not just the new) makes it unambiguous exactly what changed — useful for anyone reviewing the contract history later.*`,
+  },
+  {
+    slug: "memorandum-of-association-template",
+    name: "Memorandum of Association",
+    seoTitle: "Free Memorandum of Association Template",
+    description: "Free memorandum of association template — the founding charter document for a company (common in UK/Commonwealth jurisdictions).",
+    category: "Legal",
+    bodyMarkdown: `# Memorandum of Association of [Company Name]
+
+## 1. Name
+The name of the company is [Company Name].
+
+## 2. Registered Office
+The registered office of the company is situated in [Country/Jurisdiction].
+
+## 3. Objects
+The objects for which the company is established are: [Describe the company's purpose/business activities].
+
+## 4. Liability
+The liability of the members is limited [by shares / by guarantee].
+
+## 5. Share Capital
+The share capital of the company is [Amount], divided into [Number] shares of [Value] each.
+
+## 6. Subscribers
+We, the undersigned, wish to be formed into a company pursuant to this Memorandum, and agree to take the number of shares shown against our names:
+
+| Name | Address | Number of Shares |
+|------|---------|---------------------|
+| [Name] | [Address] | [Number] |
+
+---
+Subscriber signature: ______________________  Date: ____________
+
+*This document follows a UK/Commonwealth-style format — company formation documents and required content differ significantly by country. In the US, the equivalent is Articles of Incorporation (see Chasa's separate template) — confirm which your jurisdiction actually requires.*`,
+  },
+  {
+    slug: "finders-fee-agreement-template",
+    name: "Finder's Fee Agreement",
+    seoTitle: "Free Finder's Fee Agreement Template",
+    description: "Free finder's fee agreement template — pays someone a commission for introducing a deal, client, or investor.",
+    category: "Business",
+    bodyMarkdown: `# Finder's Fee Agreement
+
+**Company:** [Company Name]
+**Finder:** [Name]
+**Date:** [Date]
+
+## 1. Introduction
+Finder agrees to introduce Company to potential [clients/investors/partners] (each, a "Prospect").
+
+## 2. Fee
+If a Prospect introduced by Finder results in a completed [sale/investment/deal] within [Number] months of the introduction, Company will pay Finder a fee of [%] of [the deal value / amount invested / first-year contract value].
+
+## 3. Qualifying Introduction
+A "qualifying introduction" means Finder directly introduced Company to a Prospect that Company did not already have a relationship with.
+
+## 4. Payment Timing
+The fee is due within [Number] days of [Company receiving payment from the deal / the deal closing].
+
+## 5. No Exclusivity
+[State whether Finder is the exclusive source of introductions, or non-exclusive.]
+
+## 6. Term
+This Agreement remains in effect until terminated by either party with [Notice Period] written notice; fees remain owed for qualifying introductions made before termination.
+
+## 7. Governing Law
+This Agreement is governed by the laws of [State/Country].
+
+---
+Company: ______________________  Date: ____________
+Finder: ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. In some industries (e.g. securities, real estate), paying a fee to an unlicensed "finder" for certain types of deals can violate licensing laws — confirm this is permitted for your specific deal type before agreeing to it.*`,
+  },
+  {
+    slug: "wholesale-order-form-template",
+    name: "Wholesale Order Form",
+    seoTitle: "Free Wholesale Order Form Template",
+    description: "Free wholesale order form template for a retailer or reseller ordering products in bulk.",
+    category: "Business",
+    bodyMarkdown: `# Wholesale Order Form
+
+**Buyer (Retailer):** [Business Name] · **Account #:** [Number]
+**Order Date:** [Date] · **Requested Ship Date:** [Date]
+
+## Items
+
+| SKU | Description | Wholesale Price | Qty (case/unit) | Total |
+|-----|-------------|----------------------|--------------------|-------|
+| [SKU] | [Description] | [Price] | [Qty] | [Total] |
+
+**Order Subtotal:** [Amount]
+**Minimum order met:** [ ] Yes  [ ] No (minimum: [Amount])
+
+## Shipping
+Ship to: [Address]
+Shipping method: [Method]
+
+## Payment Terms
+[e.g. Net 30, 50% deposit, credit card on file]
+
+Ordered by: ______________________  Date: ____________
+
+*Stating your minimum order quantity/value directly on the form (not just in a separate policy doc) avoids partial orders that don't actually qualify for wholesale pricing.*`,
+  },
+  {
+    slug: "loan-modification-agreement-template",
+    name: "Loan Modification Agreement",
+    seoTitle: "Free Loan Modification Agreement Template",
+    description: "Free loan modification agreement template — changes the terms of an existing loan (rate, payment, or term) by mutual agreement.",
+    category: "Finance",
+    bodyMarkdown: `# Loan Modification Agreement
+
+**Lender:** [Name]
+**Borrower:** [Name]
+**Original Loan:** [Reference — date and amount of the original loan/note]
+**Modification Date:** [Date]
+
+## 1. Background
+The parties entered into the original loan agreement referenced above. This Agreement modifies its terms as follows.
+
+## 2. Modified Terms
+| Term | Original | Modified |
+|------|----------|-----------|
+| Interest rate | [%] | [%] |
+| Monthly payment | [Amount] | [Amount] |
+| Maturity date | [Date] | [Date] |
+
+## 3. Arrears (if any)
+[If the borrower was behind on payments: "Past-due amounts of $[Amount] are added to the principal balance / forgiven / to be paid as follows: ___."]
+
+## 4. No Other Changes
+Except as modified above, all other terms of the original loan remain in effect.
+
+## 5. Acknowledgment
+Borrower acknowledges the loan remains valid and enforceable as modified.
+
+---
+Lender: ______________________  Date: ____________
+Borrower: ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. For a mortgage specifically, loan modifications are heavily regulated (especially loss-mitigation rules for owner-occupied homes) — work through your loan servicer's official modification process rather than a standalone agreement for that case.*`,
+  },
+  {
+    slug: "website-design-contract-template",
+    name: "Website Design Contract",
+    seoTitle: "Free Website Design Contract Template",
+    description: "Free website design contract template for a freelancer or agency building a website for a client.",
+    category: "Business",
+    bodyMarkdown: `# Website Design Contract
+
+**Designer:** [Name/Company]
+**Client:** [Name/Company]
+**Effective Date:** [Date]
+
+## 1. Scope of Work
+Designer will design and build a website with the following: [Number of pages, key features — e.g. contact form, e-commerce, CMS].
+
+## 2. Deliverables and Timeline
+| Milestone | Description | Due Date |
+|-----------|-------------|-----------|
+| [Milestone] | [Description] | [Date] |
+| [Milestone] | [Description] | [Date] |
+| Launch | Site goes live | [Date] |
+
+## 3. Fees and Payment
+Total price: [Amount], paid: [e.g. "50% deposit to begin, 50% before launch"].
+
+## 4. Revisions
+This project includes [Number] rounds of revisions. Additional revisions are billed at [Rate].
+
+## 5. Content and Materials
+Client will provide [text, images, branding assets] by [Date]. Delays in providing content may push the timeline back.
+
+## 6. Ownership and IP
+Upon full payment, Client owns the final website design and content. Designer retains rights to any pre-existing tools/frameworks used.
+
+## 7. Hosting and Maintenance
+[State whether hosting/maintenance is included, and terms for ongoing support after launch.]
+
+## 8. Termination
+[What happens if either party wants out before completion — e.g. payment for work completed to date.]
+
+---
+Designer: ______________________  Date: ____________
+Client: ______________________  Date: ____________
+
+*Specifying the exact number of included revision rounds up front is what prevents "just one more small change" from turning into unpaid scope creep — a very common freelance/agency pain point.*`,
+  },
+  {
+    slug: "solicitation-letter-template",
+    name: "Solicitation Letter",
+    seoTitle: "Free Solicitation Letter Template",
+    description: "Free solicitation letter template for requesting donations, sponsorships, or support for a cause or event.",
+    category: "Business",
+    bodyMarkdown: `# Solicitation Letter
+
+[Date]
+
+Dear [Recipient Name],
+
+[Opening: a specific, compelling reason this cause/event matters — a story or fact, not a generic appeal.]
+
+## What we're asking
+We are seeking [donations / sponsorships / in-kind support] to support [specific cause/event].
+
+## How your support helps
+[Concrete impact — what a specific contribution accomplishes.]
+
+## Ways to help
+- [Option 1 — e.g. monetary donation]
+- [Option 2 — e.g. sponsorship at a specific level]
+- [Option 3 — e.g. in-kind donation of goods/services]
+
+Please contact us at [Email/Phone] to discuss, or [donation link/method].
+
+Thank you for considering our request.
+
+Sincerely,
+[Your Name/Organization]
+
+*Offering more than one specific way to help (not just "please donate") gives the reader an easier decision to say yes to.*`,
+  },
+  {
+    slug: "supply-agreement-template",
+    name: "Supply Agreement",
+    seoTitle: "Free Supply Agreement Template",
+    description: "Free supply agreement template for a business that regularly supplies goods to a buyer over time.",
+    category: "Business",
+    bodyMarkdown: `# Supply Agreement
+
+**Supplier:** [Company Name]
+**Buyer:** [Company Name]
+**Effective Date:** [Date]
+
+## 1. Products
+Supplier agrees to supply Buyer with [Products described], as ordered from time to time.
+
+## 2. Pricing
+Pricing is as set out in Exhibit A, and may be updated by Supplier with [Notice Period] notice.
+
+## 3. Orders
+Buyer submits orders via [Process]. Supplier will confirm or reject each order within [Timeframe].
+
+## 4. Delivery
+Supplier will deliver within [Timeframe] of order confirmation, to [Location].
+
+## 5. Quality and Inspection
+Products must meet [Specifications/quality standards]. Buyer may reject non-conforming goods within [Timeframe] of delivery.
+
+## 6. Payment Terms
+[e.g. Net 30 from invoice date]
+
+## 7. Term and Termination
+This Agreement runs for [Term] and renews automatically unless either party gives [Notice Period] notice of non-renewal.
+
+## 8. Governing Law
+This Agreement is governed by the laws of [State/Country].
+
+---
+Supplier: ______________________  Date: ____________
+Buyer: ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. For any meaningful volume of business, consider whether you need minimum order quantities and exclusivity terms — both are commonly negotiated but easy to forget in a first draft.*`,
+  },
+  {
+    slug: "coaching-agreement-template",
+    name: "Coaching Agreement",
+    seoTitle: "Free Coaching Agreement Template",
+    description: "Free coaching agreement template for a life, business, or executive coach working with a client.",
+    category: "Business",
+    bodyMarkdown: `# Coaching Agreement
+
+**Coach:** [Name]
+**Client:** [Name]
+**Effective Date:** [Date]
+
+## 1. Coaching Services
+Coach will provide [Type of coaching] sessions, [Frequency, e.g. "one 60-minute session per week"], for [Duration/number of sessions].
+
+## 2. Fees
+[Amount] per [session/month/package], due [Payment terms].
+
+## 3. Cancellation Policy
+Sessions cancelled with less than [Number] hours' notice [are forfeited / incur a fee of ___].
+
+## 4. Nature of Coaching
+Client understands coaching is not therapy, medical advice, or financial/legal advice, and Coach is not acting in any of those capacities.
+
+## 5. Confidentiality
+Coach will keep session content confidential, except where disclosure is required by law (e.g. threat of harm).
+
+## 6. Client Responsibility
+Client is responsible for their own decisions and outcomes; coaching is a collaborative process, not a guarantee of results.
+
+## 7. Termination
+Either party may end the coaching relationship at any time with notice.
+
+---
+Coach: ______________________  Date: ____________
+Client: ______________________  Date: ____________
+
+*Being explicit that coaching isn't therapy or licensed advice (Section 4) is standard practice and protects both parties — especially important if the coaching touches on emotionally sensitive or financial topics.*`,
+  },
+  {
+    slug: "buy-sell-agreement-template",
+    name: "Buy-Sell Agreement",
+    seoTitle: "Free Buy-Sell Agreement Template",
+    description: "Free buy-sell agreement template — governs what happens to a business owner's share if they leave, die, or become disabled.",
+    category: "Business",
+    bodyMarkdown: `# Buy-Sell Agreement
+
+**Company:** [Company Name]
+**Owners:** [List all owners and ownership %]
+**Effective Date:** [Date]
+
+## 1. Purpose
+This Agreement governs the transfer of ownership interests upon a "Triggering Event": death, disability, retirement, voluntary departure, or involuntary termination of an owner.
+
+## 2. Triggering Events and Obligations
+| Event | Buyer | Trigger |
+|-------|-------|---------|
+| Death | [Company / remaining owners] | Required purchase |
+| Disability (after [Period]) | [Company / remaining owners] | Required purchase |
+| Voluntary departure | [Company / remaining owners] | Right of first refusal |
+
+## 3. Valuation Method
+The purchase price is determined by: [Fixed formula (e.g. multiple of EBITDA) / independent appraisal / agreed value updated annually].
+
+## 4. Funding
+[How the purchase will be funded — e.g. life insurance policies on each owner for the death scenario, an installment note for other triggers.]
+
+## 5. Payment Terms
+If not funded by insurance, the purchase price is paid: [Lump sum / installments over ___ years at ___% interest].
+
+## 6. Restrictions on Transfer
+No owner may sell or transfer their interest to an outside party without first offering it under this Agreement's terms.
+
+---
+[Each owner signs:]
+Owner: ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. The valuation method is where these agreements most often fail in practice — a formula everyone agrees is fair today can look very different (and get disputed) 10 years later. Revisit it periodically, and involve a licensed attorney and possibly a valuation professional when drafting.*`,
+  },
+  {
+    slug: "agency-agreement-template",
+    name: "Agency Agreement",
+    seoTitle: "Free Agency Agreement Template",
+    description: "Free agency agreement template appointing someone to act as your agent in dealing with third parties.",
+    category: "Business",
+    bodyMarkdown: `# Agency Agreement
+
+**Principal:** [Name]
+**Agent:** [Name]
+**Effective Date:** [Date]
+
+## 1. Appointment
+Principal appoints Agent to act on Principal's behalf for the purpose of: [Specific scope — e.g. "negotiating and entering into sales contracts with customers in [Territory]"].
+
+## 2. Authority
+Agent's authority is limited to: [Specifically what Agent can and cannot bind Principal to — e.g. "Agent may negotiate but all contracts require Principal's written approval before becoming binding"].
+
+## 3. Compensation
+Agent is compensated: [Commission %, flat fee, or salary — and payment timing].
+
+## 4. Duties of Agent
+Agent will act in Principal's best interest, follow Principal's reasonable instructions, and keep Principal informed of material developments.
+
+## 5. Term and Termination
+This Agreement runs for [Term] and may be terminated by either party with [Notice Period] written notice.
+
+## 6. Non-Compete (if applicable)
+[Optional, and only where genuinely necessary — describe any restriction on Agent representing competitors during/after the term.]
+
+## 7. Governing Law
+This Agreement is governed by the laws of [State/Country].
+
+---
+Principal: ______________________  Date: ____________
+Agent: ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. Being precise about what the Agent CAN'T bind you to (Section 2) matters more than what they can — an agent with apparent authority can create real obligations for the principal even beyond what was privately agreed.*`,
+  },
+  {
+    slug: "employment-verification-letter-template",
+    name: "Employment Verification Letter",
+    seoTitle: "Free Employment Verification Letter Template",
+    description: "Free employment verification letter template confirming someone's job, salary, and tenure — often for a loan or lease application.",
+    category: "HR",
+    bodyMarkdown: `# Employment Verification Letter
+
+**Company Name/Letterhead**
+**Date:** [Date]
+
+To Whom It May Concern,
+
+This letter confirms that [Employee Name] is currently employed with [Company Name] as [Job Title], since [Start Date].
+
+## Employment Details
+Employment status: [Full-time/Part-time]
+Current salary: [Amount, if the employee has authorized disclosure]
+Employment type: [At-will / Contract, if relevant]
+
+This letter is provided at the employee's request for [purpose, if stated — e.g. "loan application purposes"].
+
+Please contact [HR Contact Name/Email/Phone] with any questions.
+
+Sincerely,
+[Name, Title]
+[Company Name]
+
+*Only disclose salary information if the employee has specifically requested/authorized it — some companies have a policy of confirming only dates and title unless the employee provides written consent for more.*`,
+  },
+  {
+    slug: "commercial-lease-agreement-template",
+    name: "Commercial Lease Agreement",
+    seoTitle: "Free Commercial Lease Agreement Template",
+    description: "Free commercial lease agreement template for renting office, retail, or industrial space.",
+    category: "Real Estate",
+    bodyMarkdown: `# Commercial Lease Agreement
+
+**Landlord:** [Name]
+**Tenant:** [Business Name]
+**Property:** [Address, suite/unit]
+**Lease Term:** [Start Date] – [End Date]
+
+## 1. Premises and Use
+Landlord leases the Premises to Tenant for use as [Permitted use — e.g. "general office use" or "retail sale of ___"], and no other use without Landlord's consent.
+
+## 2. Rent
+Base rent: [Amount] per [month/year], due on the [Day] of each month. [If applicable: "Rent increases by [%] annually."]
+
+## 3. Additional Charges
+[Describe if this is a "triple net" (NNN) lease — Tenant pays a share of property taxes, insurance, and common area maintenance — or if these are included in base rent.]
+
+## 4. Security Deposit
+[Amount], refundable per the terms of Section [X], less any deductions for damage beyond normal wear.
+
+## 5. Improvements
+[Who is responsible for build-out/improvements to the space, and what happens to them at lease end.]
+
+## 6. Maintenance and Repairs
+[Divide responsibility — typically Landlord handles structural/exterior, Tenant handles interior/day-to-day.]
+
+## 7. Assignment and Subletting
+Tenant may not assign this lease or sublet the Premises without Landlord's written consent.
+
+## 8. Default
+[Describe what constitutes default (non-payment, lease violation) and Landlord's remedies.]
+
+## 9. Governing Law
+This Agreement is governed by the laws of [State].
+
+---
+Landlord: ______________________  Date: ____________
+Tenant: ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. Commercial leases (unlike residential ones) have very few built-in tenant protections under most states' laws — everything you actually want protected needs to be written into the lease explicitly. Have a licensed attorney review before signing a real commercial lease.*`,
+  },
+  {
+    slug: "collaboration-agreement-template",
+    name: "Collaboration Agreement",
+    seoTitle: "Free Collaboration Agreement Template",
+    description: "Free collaboration agreement template for two people or businesses working together on a project without a formal joint venture or partnership.",
+    category: "Business",
+    bodyMarkdown: `# Collaboration Agreement
+
+**Party A:** [Name]
+**Party B:** [Name]
+**Project:** [Description]
+**Date:** [Date]
+
+## 1. Purpose
+The parties agree to collaborate on [Project Description], contributing as described below.
+
+## 2. Contributions
+**Party A will contribute:** [Time, resources, expertise, content, etc.]
+**Party B will contribute:** [Time, resources, expertise, content, etc.]
+
+## 3. Ownership of Output
+[Describe who owns the final work product — jointly, split by contribution area, or one party with credit to the other.]
+
+## 4. Revenue/Profit Sharing (if applicable)
+[If the collaboration generates revenue: describe the split.]
+
+## 5. Credit and Attribution
+[How each party will be credited publicly — e.g. "both names appear on all published materials."]
+
+## 6. Term
+This collaboration runs from [Start Date] to [End Date / completion of the Project].
+
+## 7. Independent Status
+Nothing in this Agreement creates a partnership, joint venture, or employment relationship between the parties.
+
+---
+Party A: ______________________  Date: ____________
+Party B: ______________________  Date: ____________
+
+*Deciding ownership of the output BEFORE starting (not after something succeeds) is what keeps a good collaboration from turning into a dispute — this is worth a real conversation, not just a placeholder in the template.*`,
+  },
+  {
+    slug: "cease-and-desist-letter-template",
+    name: "Cease and Desist Letter",
+    seoTitle: "Free Cease and Desist Letter Template",
+    description: "Free cease and desist letter template demanding someone stop a specific harmful or infringing activity.",
+    category: "Legal",
+    bodyMarkdown: `# Cease and Desist Letter
+
+[Your Name/Company]
+[Your Address]
+[Date]
+
+[Recipient Name]
+[Recipient Address]
+
+**RE: Demand to Cease and Desist — [Brief Description of Issue]**
+
+Dear [Recipient Name],
+
+It has come to my attention that you are [specific description of the conduct — e.g. "using my trademark ___ without authorization" or "making false statements about ___"].
+
+## The Issue
+[Factual description of what's happening, with dates/evidence if available, and why it's improper — e.g. infringement of a specific right, breach of an agreement, defamation.]
+
+## Demand
+I demand that you immediately cease [the specific conduct] and confirm in writing, within [Number] days of this letter, that you have done so.
+
+## Consequences
+If this conduct does not stop by [Date], I will pursue all available legal remedies, which may include [litigation / a complaint to ___ / other specific action], without further notice.
+
+I trust this can be resolved without further escalation.
+
+Sincerely,
+[Your Name]
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. A cease and desist letter can be legally significant evidence (it can start clocks running on legal deadlines, or itself be actionable if the underlying claim is false) — have a licensed attorney review before sending one for anything beyond a low-stakes situation.*`,
+  },
+  {
+    slug: "limited-power-of-attorney-template",
+    name: "Limited Power of Attorney",
+    seoTitle: "Free Limited (Special) Power of Attorney Template",
+    description: "Free limited power of attorney template — authorizes someone to act on your behalf for one specific matter only.",
+    category: "Legal",
+    bodyMarkdown: `# Limited (Special) Power of Attorney
+
+I, [Principal Name], of [Address], appoint [Agent Name], of [Address], as my attorney-in-fact for the following limited purpose only:
+
+## Specific Authority Granted
+[Describe the SINGLE specific matter — e.g. "to sign closing documents for the sale of the property at [Address] on my behalf" or "to collect my mail while I am traveling from [Date] to [Date]"]
+
+## Limitations
+This Power of Attorney grants authority ONLY for the specific matter described above. Agent has no authority over any other financial, legal, medical, or personal matters.
+
+## Effective Period
+This Power of Attorney is effective from [Date] to [Date, or until the specific matter above is completed].
+
+## Revocation
+I may revoke this Power of Attorney at any time by written notice to the Agent.
+
+---
+Principal: ______________________  Date: ____________
+[Notarization block, if required for your specific use — e.g. real estate transactions typically require it]
+
+*Unlike a General Power of Attorney, this document should name the SPECIFIC task explicitly and narrowly — the narrower the scope, the less risk if it's misused. For a broader, ongoing authorization, see Chasa's General Power of Attorney template instead.*`,
+  },
+  {
+    slug: "affiliate-program-agreement-template",
+    name: "Affiliate Program Agreement",
+    seoTitle: "Free Affiliate Program Agreement Template",
+    description: "Free affiliate program agreement template — the terms affiliates agree to when promoting your product for a commission.",
+    category: "Business",
+    bodyMarkdown: `# Affiliate Program Agreement
+
+**Company:** [Company Name]
+**Affiliate:** [Name]
+**Effective Date:** [Date]
+
+## 1. Program Overview
+Affiliate may promote [Product/Service] using a unique tracking link/code, and earns a commission on resulting sales as described below.
+
+## 2. Commission
+Affiliate earns [%] of [net sale price / first payment / lifetime value] for each qualifying sale, tracked via [attribution method — e.g. 30-day cookie].
+
+## 3. Payment
+Commissions are paid [Frequency, e.g. monthly], once the balance reaches a minimum of [Amount], via [Payment method].
+
+## 4. Prohibited Practices
+Affiliate may not: bid on Company's trademarked terms in paid search, use spam/misleading marketing, or make false claims about the product.
+
+## 5. Disclosure Requirements
+Affiliate must clearly disclose the affiliate relationship in accordance with applicable law (e.g. FTC guidelines in the US) wherever affiliate links are used.
+
+## 6. Term and Termination
+Either party may terminate this Agreement at any time. Company will pay out any earned, unpaid commissions as of the termination date, subject to the minimum payout threshold.
+
+## 7. No Employment Relationship
+Affiliate is an independent participant in the program, not an employee, contractor, or partner of Company.
+
+---
+Company: ______________________  Date: ____________
+Affiliate: ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. In the US, FTC rules require clear disclosure of affiliate relationships — make Section 5 a real requirement you enforce, not boilerplate, since your affiliates' compliance failures can create risk for your own program too.*`,
+  },
+  {
+    slug: "prenuptial-agreement-template",
+    name: "Prenuptial Agreement",
+    seoTitle: "Free Prenuptial Agreement Template",
+    description: "Free prenuptial agreement outline template covering asset division and financial terms before marriage. Strongly consider an attorney for each party.",
+    category: "Legal",
+    bodyMarkdown: `# Prenuptial Agreement
+
+**Party A:** [Name]
+**Party B:** [Name]
+**Date:** [Date, before the wedding]
+
+## 1. Purpose
+This Agreement sets out how the parties' property and financial affairs will be handled during marriage and in the event of divorce or death.
+
+## 2. Disclosure of Assets and Debts
+Each party has fully disclosed their assets, debts, and income as of the date of this Agreement, attached as Exhibits A and B.
+
+## 3. Separate Property
+Property owned by each party before marriage remains that party's separate property, including: [List, if specific items should be named — e.g. a business, inheritance].
+
+## 4. Marital Property
+Property acquired during the marriage will be treated as: [Describe — e.g. "jointly owned" or "separate, tracing to whoever earned/purchased it"].
+
+## 5. Division Upon Divorce
+In the event of divorce, property will be divided as follows: [Describe the agreed approach].
+
+## 6. Spousal Support
+[State whether either party waives or limits spousal support, and any conditions — enforceability of waivers varies by state.]
+
+## 7. Death
+[How this Agreement interacts with each party's estate plan/will.]
+
+## 8. Independent Legal Counsel
+Each party acknowledges they had the opportunity to review this Agreement with their own independent attorney before signing.
+
+---
+Party A: ______________________  Date: ____________
+Party B: ______________________  Date: ____________
+[Notarization block]
+
+*This document is provided for informational and educational purposes only and is NOT a substitute for legal advice. Prenuptial agreements have strict state-specific enforceability requirements — full financial disclosure, each party having independent legal counsel, and signing well before the wedding (not the night before) are commonly required for a court to uphold one. EACH party should have their own attorney; one attorney cannot represent both sides.*`,
+  },
+  {
+    slug: "performance-appraisal-form-template",
+    name: "Performance Appraisal Form",
+    seoTitle: "Free Performance Appraisal Form Template",
+    description: "Free performance appraisal form template for a regular employee performance review.",
+    category: "HR",
+    bodyMarkdown: `# Performance Appraisal
+
+**Employee:** [Name] · **Role:** [Title]
+**Review Period:** [Start Date] – [End Date]
+**Reviewer:** [Name]
+
+## Performance Areas
+
+| Area | Rating (1-5) | Comments |
+|------|----------------|----------|
+| Job knowledge | | |
+| Quality of work | | |
+| Communication | | |
+| Teamwork | | |
+| Initiative | | |
+
+## Key Accomplishments This Period
+[Specific examples, not generalities]
+
+## Areas for Development
+[Specific, actionable feedback]
+
+## Goals for Next Period
+| Goal | Success Measure | Target Date |
+|------|-------------------|--------------|
+| [Goal] | [Measure] | [Date] |
+
+## Overall Rating
+[ ] Exceeds expectations  [ ] Meets expectations  [ ] Needs improvement
+
+## Signatures
+Employee: ______________________  Date: ____________
+*(Signature confirms the review was discussed, not necessarily agreement with every rating.)*
+Manager: ______________________  Date: ____________
+
+*Reviews that only happen once a year tend to surprise employees — regular informal check-ins throughout the period make the formal appraisal a summary, not a shock.*`,
+  },
+  {
+    slug: "reseller-agreement-template",
+    name: "Reseller Agreement",
+    seoTitle: "Free Reseller Agreement Template",
+    description: "Free reseller agreement template appointing a company to resell your product or service under their own relationship with customers.",
+    category: "Business",
+    bodyMarkdown: `# Reseller Agreement
+
+**Company:** [Company Name] (the "Vendor")
+**Reseller:** [Company Name]
+**Effective Date:** [Date]
+
+## 1. Appointment
+Vendor appoints Reseller to resell [Product/Service] to end customers in [Territory], on a [exclusive/non-exclusive] basis.
+
+## 2. Pricing
+Reseller purchases at [Wholesale/discount price], and sets its own resale price to end customers.
+
+## 3. Reseller's Responsibilities
+Reseller is responsible for its own sales, marketing, and first-line customer support, unless otherwise agreed.
+
+## 4. Vendor's Responsibilities
+Vendor will provide [product training, marketing materials, technical support to Reseller].
+
+## 5. Branding
+[State whether Reseller can rebrand the product ("white-label") or must represent it under Vendor's brand.]
+
+## 6. Term and Termination
+This Agreement runs for [Term] and may be terminated by either party with [Notice Period] notice.
+
+## 7. Governing Law
+This Agreement is governed by the laws of [State/Country].
+
+---
+Vendor: ______________________  Date: ____________
+Reseller: ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. Clarify early who owns the end-customer relationship (and their data) if the reseller relationship ever ends — this is a common friction point in SaaS reseller deals specifically.*`,
+  },
+  {
+    slug: "pitch-deck-outline-template",
+    name: "Pitch Deck Outline",
+    seoTitle: "Free Pitch Deck Outline Template",
+    description: "Free investor pitch deck outline template — the standard slide structure startups use to raise funding.",
+    category: "Business",
+    bodyMarkdown: `# Pitch Deck Outline
+
+## 1. Title
+Company name, one-line tagline.
+
+## 2. Problem
+The specific problem, ideally with a relatable story or striking stat.
+
+## 3. Solution
+What you built, and why it's the right answer to the problem.
+
+## 4. Market Size
+TAM/SAM/SOM — the size of the opportunity, with a credible source.
+
+## 5. Product
+Screenshots, demo description, or key features.
+
+## 6. Traction
+Real numbers: revenue, users, growth rate, notable logos — whatever you actually have. Don't manufacture metrics if you're pre-traction; say so and pivot to other evidence (waitlist, LOIs, pilot results).
+
+## 7. Business Model
+How you make money, and unit economics if you have them.
+
+## 8. Go-to-Market
+How you'll acquire customers.
+
+## 9. Competition
+An honest competitive landscape, and your actual differentiation.
+
+## 10. Team
+Founders and key hires, with the specific experience that makes this team credible for this problem.
+
+## 11. Financials
+Basic projections — revenue, key assumptions — for the next 2-3 years.
+
+## 12. The Ask
+How much you're raising, and what it's for.
+
+*Investors read the traction and team slides most carefully — make sure those are airtight even if you keep the rest lean. Ten to fifteen slides is typical; more than that usually means it needs editing, not more content.*`,
+  },
+  {
+    slug: "roommate-agreement-template",
+    name: "Roommate Agreement",
+    seoTitle: "Free Roommate Agreement Template",
+    description: "Free roommate agreement template covering rent split, chores, guests, and other shared-living expectations.",
+    category: "Legal",
+    bodyMarkdown: `# Roommate Agreement
+
+**Roommates:** [Name(s)]
+**Address:** [Address]
+**Effective Date:** [Date]
+
+## 1. Rent and Utilities
+Total rent: [Amount], split as: [e.g. "equally" or by room size — specify amounts per person].
+Utilities: [How split, and who's on the accounts].
+Due date: [Day of month], paid to [Landlord directly / one roommate who forwards it].
+
+## 2. Security Deposit
+[How the deposit was split and how it will be divided when someone moves out.]
+
+## 3. Shared Spaces and Chores
+[Cleaning schedule/rotation for common areas — kitchen, bathroom, living room.]
+
+## 4. Guests
+[Policy on overnight guests — how many nights, notice expected, etc.]
+
+## 5. Quiet Hours
+[Agreed quiet hours, if any.]
+
+## 6. Shared Items
+[Who owns what shared furniture/items, and what happens to them if someone moves out.]
+
+## 7. Moving Out
+A roommate who wants to move out will give [Notice Period] notice and remains responsible for their share of rent until [a replacement is found / the notice period ends].
+
+## 8. Conflict Resolution
+[How disagreements will be handled — e.g. "a house meeting before anything else."]
+
+---
+[Each roommate signs:]
+Roommate: ______________________  Date: ____________
+
+*This is an agreement between roommates, not a lease with the landlord — it doesn't replace or override whatever the actual lease says, and a landlord isn't bound by it.*`,
+  },
+  {
+    slug: "interview-guide-template",
+    name: "Interview Guide",
+    seoTitle: "Free Interview Guide Template",
+    description: "Free interview guide template for structuring consistent, fair candidate interviews.",
+    category: "HR",
+    bodyMarkdown: `# Interview Guide: [Job Title]
+
+**Candidate:** [Name] · **Interviewer(s):** [Name(s)] · **Date:** [Date]
+
+## Opening (5 min)
+[Brief intro of yourself, the role, and the interview format.]
+
+## Core Questions
+
+| Question | What we're assessing |
+|----------|--------------------------|
+| [Question] | [Skill/trait] |
+| [Question] | [Skill/trait] |
+| [Question] | [Skill/trait] |
+
+## Role-Specific Questions
+[Technical or scenario-based questions specific to this role.]
+
+## Candidate Questions
+[Time reserved for the candidate to ask you questions — note what they ask, it's often revealing.]
+
+## Scoring
+
+| Area | Rating (1-5) | Notes |
+|------|----------------|-------|
+| [Area] | | |
+| [Area] | | |
+
+## Overall Recommendation
+[ ] Strong yes  [ ] Yes  [ ] No  [ ] Strong no
+
+*Using the same core questions across all candidates for a role — not improvising each time — is what actually makes interview scores comparable and defensible.*`,
+  },
 ];
 
 const TEMPLATES_INDEX_FAQ = [
