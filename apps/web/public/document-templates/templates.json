@@ -3902,5 +3902,405 @@
     "description": "Free small business loan application checklist and form — the information a lender typically requests.",
     "category": "Finance",
     "bodyMarkdown": "# Small Business Loan Application\n\n## Business Information\nBusiness name: [Name] · Entity type: [LLC/Corp/Sole Prop]\nYears in business: [Number] · Industry: [Industry]\nEIN: [Number]\n\n## Loan Request\nAmount requested: [Amount]\nPurpose: [e.g. equipment, working capital, expansion]\nRequested term: [Duration]\n\n## Financial Overview\nAnnual revenue: [Amount] · Monthly revenue (recent average): [Amount]\nExisting business debt: [Amount]\n\n## Owner Information\nOwner name(s): [Name(s)] · Ownership %: [%]\nPersonal credit score range (if known): [Range]\n\n## Supporting Documents Checklist\n- [ ] Last 2-3 years of business tax returns\n- [ ] Last 3-6 months of bank statements\n- [ ] Profit & loss statement and balance sheet\n- [ ] Business plan (for newer businesses)\n- [ ] Personal financial statement\n- [ ] Business licenses/registration\n\n## Certification\nI certify the information provided is accurate.\n\nSignature: ______________________  Date: ____________\n\n*Gathering the supporting-documents checklist BEFORE applying (not scrambling after a lender asks) is what actually speeds up approval — most delays in small business lending come from back-and-forth document requests, not the underwriting itself.*"
+  },
+  {
+    "slug": "doctors-note-template",
+    "name": "Doctor's Note",
+    "seoTitle": "Free Doctor's Note Template",
+    "description": "Free doctor's note template for excusing an absence from work or school for medical reasons.",
+    "category": "HR",
+    "bodyMarkdown": "# Doctor's Note\n\n**[Medical Practice Name/Letterhead]**\n\nDate: [Date]\n\nThis is to certify that [Patient Name] was seen at this office on [Visit Date] and, due to a medical condition, [is unable to attend work/school from [Start Date] to [End Date] / should be excused from [specific activity] until [Date]].\n\n## Additional Notes (optional)\n[Any accommodations recommended — e.g. \"light duty,\" \"no heavy lifting\" — only what the patient/employer needs to know, not detailed diagnosis information.]\n\n---\n[Physician Name, Credentials]\n[Practice Name, Contact Information]\n[Signature/Stamp]\n\n*This document must be issued by an actual licensed healthcare provider to be valid — it is not something an employee or student can complete themselves. Employers should keep any medical details confidential and generally shouldn't ask for more than what's needed to confirm the absence is legitimate.*"
+  },
+  {
+    "slug": "sublease-termination-agreement-template",
+    "name": "Sublease Termination Agreement",
+    "seoTitle": "Free Sublease Termination Agreement Template",
+    "description": "Free sublease termination agreement template for ending a sublease arrangement before its scheduled end date.",
+    "category": "Real Estate",
+    "bodyMarkdown": "# Sublease Termination Agreement\n\n**Sublessor:** [Name]\n**Sublessee:** [Name]\n**Property:** [Address]\n**Original Sublease:** dated [Date]\n**Termination Date:** [Date]\n\n## 1. Early Termination\nThe parties agree to terminate the sublease referenced above effective [Termination Date], earlier than its original end date of [Original End Date].\n\n## 2. Outstanding Rent/Fees\n[State whether any rent is still owed through the termination date, and confirm payment.]\n\n## 3. Security Deposit\n[Describe how/when the security deposit will be returned, less any deductions.]\n\n## 4. Move-Out\nSublessee will vacate the premises and return keys by [Date], leaving the property in the condition required by the original sublease.\n\n## 5. Release\nUpon satisfaction of the above, both parties release each other from further obligations under the sublease.\n\n---\nSublessor: ______________________  Date: ____________\nSublessee: ______________________  Date: ____________\n\n*Confirm the original tenant (Sublessor) has also cleared this early termination with the actual Landlord, if the original lease required Landlord's consent to sublet in the first place.*"
+  },
+  {
+    "slug": "rental-pool-agreement-template",
+    "name": "Rental Pool Agreement",
+    "seoTitle": "Free Rental Pool Agreement Template",
+    "description": "Free rental pool agreement template — multiple property owners share bookings and revenue through a common management arrangement.",
+    "category": "Real Estate",
+    "bodyMarkdown": "# Rental Pool Agreement\n\n**Manager:** [Property Management Company]\n**Owner:** [Name]\n**Property:** [Unit/Address]\n**Effective Date:** [Date]\n\n## 1. Participation\nOwner enrolls their unit in the rental pool managed by Manager, who will market and book the unit alongside other participating units.\n\n## 2. Revenue Sharing\nRental revenue from the pool is distributed to participating owners based on: [Formula — e.g. \"unit size and nights available,\" or \"equal share regardless of individual unit bookings\"].\n\n## 3. Management Fee\nManager retains [%] of gross rental revenue as its management fee.\n\n## 4. Owner's Use of the Unit\nOwner may block out [Number] nights per year for personal use, with [Notice Period] advance notice to Manager.\n\n## 5. Maintenance\n[Who is responsible for routine maintenance, and how costs are shared or billed to the individual owner.]\n\n## 6. Reporting\nManager provides Owner with [Frequency] statements showing pooled revenue, occupancy, and Owner's share.\n\n## 7. Term and Withdrawal\n[Term length and notice required for Owner to withdraw their unit from the pool.]\n\n---\nManager: ______________________  Date: ____________\nOwner: ______________________  Date: ____________\n\n*Rental pools average out income across participating units — a slower unit still earns a share, and a top performer doesn't keep 100% of its own bookings — make sure the revenue-sharing formula genuinely reflects what owners were told before signing up.*"
+  },
+  {
+    "slug": "landlord-reference-letter-template",
+    "name": "Landlord Reference Letter",
+    "seoTitle": "Free Landlord Reference Letter Template",
+    "description": "Free landlord reference letter template confirming a former tenant's rental history and payment record.",
+    "category": "Real Estate",
+    "bodyMarkdown": "# Landlord Reference Letter\n\n[Date]\n\nTo Whom It May Concern,\n\nThis letter confirms that [Tenant Name] rented the property at [Address] from [Start Date] to [End Date].\n\n## Rental History\nMonthly rent: [Amount]\nPayment history: [On time / describe any late payments factually]\nReason for leaving: [If known and appropriate to share]\n\n## Property Condition\n[Brief, factual note on how the unit was left, if relevant.]\n\n## Would You Rent to Them Again?\n[Optional, honest statement — e.g. \"Yes, without reservation\" — only include if genuinely true.]\n\n---\nLandlord/Property Manager: ______________________  Date: ____________\n[Contact Information]\n\n*Keep this factual and specific (payment history, condition at move-out) rather than a vague general endorsement — that's what actually helps a future landlord make a real decision, and it's more defensible if your honesty about a difficult tenant is ever questioned.*"
+  },
+  {
+    "slug": "contingency-plan-template",
+    "name": "Contingency Plan",
+    "seoTitle": "Free Contingency Plan Template",
+    "description": "Free contingency plan template for preparing a backup approach if a primary plan or key assumption fails.",
+    "category": "Business",
+    "bodyMarkdown": "# Contingency Plan: [Project/Risk Area]\n\n**Prepared by:** [Name] · **Date:** [Date]\n\n## Primary Plan Assumption\n[What the primary plan depends on — e.g. \"key vendor delivers on schedule,\" \"key employee remains available.\"]\n\n## Trigger Event\n[What specific event or warning sign would activate this contingency plan — be concrete, not vague.]\n\n## Contingency Actions\n| Step | Action | Owner | Timeline |\n|------|--------|-------|----------|\n| 1 | [Action] | [Name] | [Timeline] |\n| 2 | [Action] | [Name] | [Timeline] |\n\n## Resources Needed\n[Budget, people, or tools needed to execute the contingency, ideally identified in advance.]\n\n## Communication Plan\n[Who needs to be told if this plan activates, and how quickly.]\n\n## Decision Authority\n[Who has the authority to declare the trigger event has occurred and activate this plan.]\n\n*A contingency plan with a vague trigger (\"if things go wrong\") never actually gets activated in time — define the specific, observable event that starts it.*"
+  },
+  {
+    "slug": "final-warning-before-dismissal-template",
+    "name": "Final Warning Before Dismissal",
+    "seoTitle": "Free Final Warning Before Dismissal Template",
+    "description": "Free final written warning template — the last documented step before termination in a progressive discipline process.",
+    "category": "HR",
+    "bodyMarkdown": "# Final Warning\n\n**Employee:** [Name] · **Date:** [Date]\n**Issued by:** [Manager Name]\n\n## Prior Warnings\nThis is a final warning following: [Reference date(s) and nature of prior verbal/written warnings on this same issue].\n\n## Continued Issue\n[Specific, factual description of the ongoing performance or conduct problem, with dates.]\n\n## Required Improvement\nEmployee must [specific, measurable expectation] by [Date].\n\n## Consequence\n**This is a final warning. Failure to meet the expectation above by the date specified will result in termination of employment.**\n\n## Employee Response\n[Space for employee's comments]\n\n---\nEmployee signature: ______________________  Date: ____________\n*(Signature acknowledges receipt, not necessarily agreement.)*\nManager signature: ______________________  Date: ____________\n\n*This document is provided for informational and educational purposes only and does not constitute legal advice. Stating the consequence in unambiguous terms (as shown above) is what makes a subsequent termination defensible — vague language here undermines the whole progressive-discipline record.*"
+  },
+  {
+    "slug": "new-hire-welcome-letter-template",
+    "name": "New Hire Welcome Letter",
+    "seoTitle": "Free New Hire Welcome Letter Template",
+    "description": "Free new hire welcome letter template — sent after the offer is accepted, ahead of their first day.",
+    "category": "HR",
+    "bodyMarkdown": "# Welcome Letter\n\nDear [Employee Name],\n\nWelcome to [Company Name]! We're excited to have you join us as [Job Title], starting [Start Date].\n\n## Before Your First Day\n- [ ] Complete new hire paperwork: [Link/instructions]\n- [ ] [Any equipment/account setup steps]\n\n## Your First Day\nArrive at: [Time] · Location: [Address/remote link]\nPlease bring: [ID, other required items]\nYou'll meet with: [Manager/HR Name]\n\n## What to Expect\n[Brief overview of onboarding — first week schedule, who they'll meet, initial focus areas.]\n\n## Questions?\nContact [HR/Manager Name] at [Email/Phone] anytime before your start date.\n\nWe're looking forward to working with you!\n\n[Name, Title]\n\n*A welcome letter that includes concrete first-day logistics (not just enthusiasm) reduces new-hire anxiety more than a purely celebratory message — people want to know exactly what to expect.*"
+  },
+  {
+    "slug": "letter-of-acceptance-of-resignation-template",
+    "name": "Letter of Acceptance of Resignation",
+    "seoTitle": "Free Letter of Acceptance of Resignation Template",
+    "description": "Free letter template for an employer formally acknowledging and accepting an employee's resignation.",
+    "category": "HR",
+    "bodyMarkdown": "# Acceptance of Resignation\n\n[Date]\n\nDear [Employee Name],\n\nThis letter confirms receipt and acceptance of your resignation from the position of [Job Title], effective [Last Working Day], as communicated on [Date resignation was submitted].\n\n## Transition Details\nYour last working day will be [Date]. [Any details on handover expectations, final pay, or exit interview scheduling.]\n\n## Final Pay and Benefits\nYour final paycheck, including [accrued PTO], will be processed per standard company timing and [State] requirements.\n\nWe appreciate your contributions during your time here and wish you well in your next role.\n\nSincerely,\n[Name, Title]\n[Company Name]\n\n*A prompt written acceptance closes the loop clearly for both sides — it confirms the exact last day agreed to, which matters if there's ever a dispute about final pay timing.*"
+  },
+  {
+    "slug": "investor-relations-agreement-template",
+    "name": "Investor Relations Agreement",
+    "seoTitle": "Free Investor Relations Agreement Template",
+    "description": "Free investor relations agreement template for a company engaging an IR consultant or firm.",
+    "category": "Business",
+    "bodyMarkdown": "# Investor Relations Agreement\n\n**Company:** [Company Name]\n**IR Consultant/Firm:** [Name]\n**Effective Date:** [Date]\n\n## 1. Services\nConsultant will provide investor relations services, including: [e.g. drafting shareholder communications, coordinating earnings calls, managing analyst relationships, media outreach].\n\n## 2. Compensation\n[Monthly retainer of [Amount] / project fee — specify]. [State clearly whether any compensation is tied to stock price or trading volume, which raises securities-law concerns and should generally be avoided.]\n\n## 3. Compliance\nConsultant will comply with applicable securities disclosure laws (e.g. Regulation FD in the US) and will not disclose material non-public information without authorization.\n\n## 4. Disclosure of Compensation\n[If required by law, e.g. under Section 17(b) of the Securities Act for promotional activities: Consultant will disclose any compensation received when discussing the Company publicly.]\n\n## 5. Term and Termination\nThis Agreement runs for [Term] and may be terminated by either party with [Notice Period] notice.\n\n---\nCompany: ______________________  Date: ____________\nConsultant: ______________________  Date: ____________\n\n*This document is provided for informational and educational purposes only and does not constitute legal advice. IR compensation structures tied to stock promotion have specific SEC disclosure requirements, and \"pump and dump\" schemes using paid stock promotion are a real enforcement priority — avoid any compensation tied to share price movement, and use a licensed securities attorney to review this relationship.*"
+  },
+  {
+    "slug": "reservation-policy-template",
+    "name": "Reservation Policy",
+    "seoTitle": "Free Reservation Policy Template",
+    "description": "Free reservation policy template for a restaurant, venue, or service business — booking, deposit, and no-show terms.",
+    "category": "Business",
+    "bodyMarkdown": "# Reservation Policy\n\n**Business Name:** [Name] · **Effective Date:** [Date]\n\n## Making a Reservation\nReservations can be made [Online/phone/in-person], up to [Timeframe] in advance.\n\n## Deposits\n[ ] No deposit required for standard reservations.\n[ ] A deposit of [Amount] is required for [group size/special events], applied toward your bill.\n\n## Cancellation Policy\nCancellations made [Timeframe] before your reservation receive a full refund of any deposit. Cancellations after that, or no-shows, [forfeit the deposit / are charged a fee of [Amount]].\n\n## Late Arrivals\nReservations are held for [Number] minutes past the booked time before being released.\n\n## Party Size Changes\nPlease notify us of any changes to your party size at least [Timeframe] in advance.\n\n## Contact\nQuestions about your reservation: [Phone/Email]\n\n*A clear no-show policy protects revenue on your most valuable time slots — but pairing it with a genuine grace period and easy modification process keeps it from feeling punitive to good-faith customers.*"
+  },
+  {
+    "slug": "expenses-policy-template",
+    "name": "Expenses Policy",
+    "seoTitle": "Free Employee Expenses Policy Template",
+    "description": "Free employee expenses policy template covering what's reimbursable and how to submit expense claims.",
+    "category": "HR",
+    "bodyMarkdown": "# Employee Expenses Policy\n\n**Company:** [Company Name] · **Effective Date:** [Date]\n\n## What's Reimbursable\n[List categories — e.g. business travel, client meals, approved software/tools, mileage for business use of a personal vehicle.]\n\n## What's Not Reimbursable\n[e.g. personal entertainment, alcohol beyond a reasonable client-meal context, first-class travel without prior approval.]\n\n## Approval\nExpenses over [Amount] require pre-approval from [Manager/Finance] before being incurred.\n\n## Submission Process\nSubmit expense claims via [System/process] within [Number] days of incurring the expense, with itemized receipts for anything over [Amount].\n\n## Reimbursement Timeline\nApproved expenses are reimbursed within [Number] days, via [Method — payroll, direct deposit].\n\n## Corporate Card (if applicable)\n[Rules for corporate card use, and consequences for personal charges.]\n\n*Requiring itemized receipts (not just a credit card statement line) is what actually lets finance verify an expense was legitimate and correctly categorized for tax purposes.*"
+  },
+  {
+    "slug": "investment-policy-template",
+    "name": "Investment Policy Statement",
+    "seoTitle": "Free Investment Policy Statement Template",
+    "description": "Free investment policy statement template — documents an organization's or individual's investment goals, risk tolerance, and guidelines.",
+    "category": "Finance",
+    "bodyMarkdown": "# Investment Policy Statement\n\n**Prepared for:** [Individual/Organization Name] · **Date:** [Date]\n\n## Investment Objectives\n[e.g. \"capital preservation with modest growth\" or \"long-term growth to fund a specific liability, such as a pension obligation.\"]\n\n## Time Horizon\n[How long until the funds are needed — this drives the appropriate risk level.]\n\n## Risk Tolerance\n[Description of acceptable volatility/drawdown — conservative, moderate, or aggressive.]\n\n## Asset Allocation Targets\n| Asset Class | Target % | Range |\n|-----------------|----------|-------|\n| [e.g. Equities] | [%] | [Range] |\n| [e.g. Fixed Income] | [%] | [Range] |\n| [e.g. Cash] | [%] | [Range] |\n\n## Rebalancing\nThe portfolio will be rebalanced [Frequency, or \"when any asset class drifts more than X% from target\"].\n\n## Prohibited Investments (if any)\n[e.g. no individual stock concentration above X%, no uncovered options, no investments in specific excluded sectors.]\n\n## Review\nThis statement will be reviewed [Frequency] or upon a material change in objectives.\n\n---\nApproved by: ______________________  Date: ____________\n\n*An investment policy statement's real value is discipline — having predefined allocation ranges and a rebalancing rule keeps decisions from being made emotionally during a market swing.*"
+  },
+  {
+    "slug": "request-for-qualification-template",
+    "name": "Request for Qualification (RFQ)",
+    "seoTitle": "Free Request for Qualification (RFQ) Template",
+    "description": "Free request for qualification template — pre-screens vendors' credentials and experience before inviting full proposals.",
+    "category": "Business",
+    "bodyMarkdown": "# Request for Qualification (RFQ)\n\n**Issued by:** [Organization Name]\n**Project:** [Description] · **Date:** [Date]\n\n## Purpose\n[Organization Name] is seeking qualified firms for [Project/type of work]. This RFQ is used to shortlist qualified candidates before requesting full proposals.\n\n## Required Qualifications\n- [Requirement — e.g. minimum years of relevant experience]\n- [Requirement — e.g. specific licenses/certifications]\n- [Requirement — e.g. bonding/insurance capacity]\n\n## Submission Requirements\nInterested firms should submit:\n- Company overview and relevant experience\n- Key personnel qualifications\n- References from at least [Number] similar projects\n- Financial capacity statement (if applicable)\n\n## Evaluation Criteria\n| Criterion | Weight |\n|-----------|--------|\n| Relevant experience | [%] |\n| Key personnel | [%] |\n| References | [%] |\n| Financial capacity | [%] |\n\n## Timeline\nSubmission deadline: [Date] · Shortlist announced: [Date]\n\nContact: [Name, Email]\n\n*An RFQ filters for capability before anyone invests time in a detailed proposal — use it when the field of potential vendors is large or unfamiliar, and skip straight to an RFP when you already know who's qualified.*"
+  },
+  {
+    "slug": "procurement-policy-template",
+    "name": "Procurement Policy",
+    "seoTitle": "Free Procurement Policy Template",
+    "description": "Free procurement policy template establishing how a company sources, approves, and purchases goods and services.",
+    "category": "Business",
+    "bodyMarkdown": "# Procurement Policy\n\n**Company:** [Company Name] · **Effective Date:** [Date]\n\n## Purpose\nThis policy ensures purchases are made cost-effectively, ethically, and with appropriate approval.\n\n## Approval Thresholds\n| Purchase Amount | Required Approval |\n|---------------------|------------------------|\n| Under [Amount] | Department manager |\n| [Amount] – [Amount] | Department head + Finance |\n| Over [Amount] | Executive/CFO approval, competitive bids required |\n\n## Competitive Bidding\nPurchases over [Amount] require at least [Number] competitive quotes, unless a sole-source justification is documented.\n\n## Preferred Vendors\n[If applicable: list of pre-approved vendors and when they must be used vs. when alternatives can be sought.]\n\n## Conflicts of Interest\nEmployees must disclose any personal or financial relationship with a vendor being considered for a purchase.\n\n## Purchase Orders\nAll purchases over [Amount] require a formal purchase order before the vendor is engaged.\n\n## Record-Keeping\n[Requirements for retaining quotes, POs, and invoices for audit purposes.]\n\n---\nAdopted by: ______________________  Date: ____________\n\n*Setting a real competitive-bid threshold (not just \"get quotes when convenient\") is what actually controls costs on larger purchases — and it protects the person approving them if a purchase is ever questioned.*"
+  },
+  {
+    "slug": "change-of-address-letter-template",
+    "name": "Change of Address Letter",
+    "seoTitle": "Free Change of Address Letter Template",
+    "description": "Free change of address letter template for notifying contacts, vendors, or institutions of a new address.",
+    "category": "Business",
+    "bodyMarkdown": "# Change of Address Notification\n\n[Date]\n\nDear [Recipient Name],\n\nPlease be advised that, effective [Date], [my/our] address has changed to:\n\n**New Address:**\n[New Address, Line 1]\n[New Address, Line 2]\n\n**Previous Address:**\n[Old Address]\n\nPlease update your records accordingly. [If applicable: \"Please redirect all future correspondence, invoices, and deliveries to the new address.\"]\n\nIf you have any questions, please contact me at [Phone/Email].\n\nSincerely,\n[Your Name/Company]\n\n*Sending this to your full list of banks, vendors, subscriptions, and government agencies at once (rather than one at a time as issues come up) avoids missed mail and payment notices during a move.*"
+  },
+  {
+    "slug": "apology-letter-template",
+    "name": "Apology Letter",
+    "seoTitle": "Free Business Apology Letter Template",
+    "description": "Free business apology letter template for addressing a mistake or service failure with a customer or client.",
+    "category": "Business",
+    "bodyMarkdown": "# Apology Letter\n\n[Date]\n\nDear [Recipient Name],\n\nI want to personally apologize for [specific issue — a service failure, delay, error]. I understand this [caused inconvenience/impacted your business/fell short of what you expect from us], and I take full responsibility.\n\n## What Happened\n[Brief, honest explanation — not excessive detail or excuses.]\n\n## What We're Doing About It\n[Specific corrective action already taken, and/or steps to prevent recurrence.]\n\n## Making It Right\n[If applicable: a specific remedy — refund, credit, replacement, or other gesture.]\n\nI appreciate your patience and value our relationship. Please don't hesitate to reach out directly if there's anything else I can do.\n\nSincerely,\n[Your Name]\n[Direct Contact Information]\n\n*An apology that names the specific issue and offers a concrete remedy — rather than a vague \"sorry for any inconvenience\" — is what actually rebuilds trust after a mistake.*"
+  },
+  {
+    "slug": "shipping-policy-template",
+    "name": "Shipping Policy",
+    "seoTitle": "Free Shipping Policy Template",
+    "description": "Free shipping policy template for an online store — processing times, costs, and delivery terms.",
+    "category": "Legal",
+    "bodyMarkdown": "# Shipping Policy\n\n**Effective Date:** [Date]\n\n## Processing Time\nOrders are processed within [Number] business days before shipping. Orders placed on weekends/holidays are processed the next business day.\n\n## Shipping Methods and Costs\n| Method | Estimated Delivery | Cost |\n|--------|------------------------|------|\n| [Standard] | [Days] | [Amount / \"Free over $X\"] |\n| [Expedited] | [Days] | [Amount] |\n\n## Shipping Destinations\nWe currently ship to: [Countries/regions]. [Note any restrictions.]\n\n## Order Tracking\nYou'll receive a tracking number via email once your order ships.\n\n## Delays\n[Company Name] is not responsible for delays caused by the carrier, customs, or events outside our control, though we'll help track down a lost shipment.\n\n## Lost or Damaged Packages\n[Process for reporting and resolving lost/damaged shipments.]\n\n## International Orders\n[Note on customs duties/taxes being the responsibility of the buyer, if applicable.]\n\n*Setting realistic processing/delivery estimates (and clearly separating them) is what actually reduces \"where is my order\" support tickets — customers plan around the total, so be conservative with both numbers.*"
+  },
+  {
+    "slug": "notice-of-annual-general-meeting-template",
+    "name": "Notice of Annual General Meeting",
+    "seoTitle": "Free Notice of Annual General Meeting (AGM) Template",
+    "description": "Free notice of AGM template for formally calling a company's or organization's annual shareholder/member meeting.",
+    "category": "Business",
+    "bodyMarkdown": "# Notice of Annual General Meeting\n\n**[Company/Organization Name]**\n\nNotice is hereby given that the Annual General Meeting will be held on [Date], at [Time], at [Location / virtual meeting link].\n\n## Agenda\n1. Approval of minutes from the previous AGM\n2. [Chairman's/CEO's report]\n3. [Approval of annual financial statements]\n4. [Election of directors/officers, if applicable]\n5. [Other business items]\n\n## Eligibility to Vote\n[Who is entitled to vote — e.g. \"shareholders of record as of [Date]\"]\n\n## Proxy Voting\nShareholders/members unable to attend may vote by proxy. Proxy forms must be submitted by [Date] to [Address/Email].\n\n## Documents Available\n[Annual report, financial statements, and other documents are available for review at [Location/link].]\n\n---\nBy order of the Board,\n[Secretary Name], Company Secretary\n[Date]\n\n*Meeting the required notice PERIOD (commonly 14-21 days minimum, varying by jurisdiction and bylaws) matters legally — a meeting called with insufficient notice can have its resolutions challenged.*"
+  },
+  {
+    "slug": "schedule-of-real-estate-owned-template",
+    "name": "Schedule of Real Estate Owned (REO)",
+    "seoTitle": "Free Schedule of Real Estate Owned Template",
+    "description": "Free schedule of real estate owned template — lists all properties an individual or entity owns, often required for a loan application.",
+    "category": "Finance",
+    "bodyMarkdown": "# Schedule of Real Estate Owned\n\n**Prepared by:** [Name] · **Date:** [Date]\n\n| Property Address | Type (Primary/Rental/Investment) | Market Value | Mortgage Balance | Monthly Payment | Monthly Rental Income (if applicable) |\n|--------------------|-----------------------------------------|------------------|------------------------|----------------------|--------------------------------------------|\n| [Address] | [Type] | [Value] | [Balance] | [Payment] | [Income] |\n| [Address] | [Type] | [Value] | [Balance] | [Payment] | [Income] |\n\n## Summary\nTotal properties: [Number]\nTotal market value: [Amount]\nTotal mortgage debt: [Amount]\nTotal net equity: [Amount]\n\n---\nCertified accurate by: ______________________  Date: ____________\n\n*Lenders use this schedule to assess total debt exposure across all your properties — be precise about rental income figures, since they directly affect how much additional financing you may qualify for.*"
+  },
+  {
+    "slug": "heads-of-agreement-template",
+    "name": "Heads of Agreement",
+    "seoTitle": "Free Heads of Agreement Template",
+    "description": "Free heads of agreement template — a preliminary, largely non-binding outline of key deal terms before a full contract is drafted.",
+    "category": "Business",
+    "bodyMarkdown": "# Heads of Agreement\n\n**Party A:** [Name]\n**Party B:** [Name]\n**Date:** [Date]\n\nThis Heads of Agreement sets out the key terms the parties have agreed in principle for [Transaction Description], to be formalized in a definitive agreement.\n\n## Key Terms\n1. [Term — e.g. purchase price/valuation]\n2. [Term — e.g. structure of the deal]\n3. [Term — e.g. key conditions to close]\n4. [Term — e.g. timeline]\n\n## Binding Provisions\nThe parties intend Sections [X] (confidentiality) and [Y] (exclusivity, if included) to be legally binding. All other provisions are a statement of intent only and not legally binding until a definitive agreement is signed.\n\n## Due Diligence\nEach party will have [Number] days to complete due diligence.\n\n## Next Steps\nThe parties will work in good faith to negotiate and execute a definitive agreement reflecting these terms by [Target Date].\n\n---\nParty A: ______________________  Date: ____________\nParty B: ______________________  Date: ____________\n\n*This document is provided for informational and educational purposes only and does not constitute legal advice. \"Heads of agreement\" (common in UK/Commonwealth M&A practice) serves the same function as a US-style Letter of Intent — be explicit about which sections are actually binding, since ambiguity here has led to real litigation over whether a \"preliminary\" document was enforceable.*"
+  },
+  {
+    "slug": "information-security-policy-template",
+    "name": "Information Security Policy",
+    "seoTitle": "Free Information Security Policy Template",
+    "description": "Free information security policy template — an organization-wide policy covering data protection, access control, and incident response.",
+    "category": "Legal",
+    "bodyMarkdown": "# Information Security Policy\n\n**Company:** [Company Name] · **Effective Date:** [Date]\n\n## Purpose\nThis policy establishes how [Company Name] protects information assets — company data, customer data, and systems — from unauthorized access, disclosure, or loss.\n\n## Scope\nThis policy applies to all employees, contractors, and systems that access, store, or process company or customer information.\n\n## Access Control\nAccess to systems and data is granted on a least-privilege basis, reviewed [Frequency], and revoked immediately upon termination of employment.\n\n## Data Classification\nData is classified as [Public / Internal / Confidential / Restricted], with handling requirements increasing at each level.\n\n## Password and Authentication\n[Minimum password requirements, multi-factor authentication requirements for sensitive systems.]\n\n## Device Security\n[Reference the Device Security Policy for laptop/mobile device requirements.]\n\n## Third-Party Vendors\nVendors with access to company/customer data must meet minimum security requirements, documented in a data processing agreement where applicable.\n\n## Incident Response\nSuspected security incidents must be reported to [IT/Security contact] immediately. [Reference a separate incident response plan if one exists.]\n\n## Training\nAll employees receive security awareness training [Frequency].\n\n## Review\nThis policy is reviewed [Frequency] or after any significant security incident.\n\n---\nAdopted by: ______________________  Date: ____________\n\n*This document is provided for informational and educational purposes only and does not constitute legal advice. If you handle EU personal data, healthcare data, or payment card data, this general policy needs to align with the specific technical requirements of GDPR, HIPAA, or PCI-DSS respectively — those frameworks require more than this outline alone.*"
+  },
+  {
+    "slug": "final-waiver-of-lien-template",
+    "name": "Final Waiver of Lien",
+    "seoTitle": "Free Final Waiver of Lien Template",
+    "description": "Free final waiver of lien template — a contractor confirms full and final payment received, waiving all lien rights on the project.",
+    "category": "Real Estate",
+    "bodyMarkdown": "# Final Waiver and Release of Lien\n\n**Claimant:** [Contractor/Supplier Name]\n**Property Owner:** [Name]\n**Property:** [Address]\n**Project:** [Description]\n\nUpon receipt of final payment in the amount of [Amount], Claimant waives and releases any and all lien or claim of lien against the property described above, for all labor, materials, and services provided in connection with the entire project, through and including [Date].\n\n## Certification\nClaimant certifies that:\n1. All subcontractors and suppliers used by Claimant on this project have been paid in full.\n2. This waiver is unconditional and covers the FULL and FINAL amount owed — no partial or progress payment.\n\n---\nClaimant signature: ______________________  Date: ____________\n[Notarization block, if required in your state]\n\n*This document is provided for informational and educational purposes only and does not constitute legal advice. Unlike a conditional or partial waiver (used for progress payments), a FINAL waiver should only be signed after payment has actually cleared — signing it before funds are confirmed can permanently waive lien rights even if the check later bounces, depending on your state's law.*"
+  },
+  {
+    "slug": "announcement-to-customers-policy-change-template",
+    "name": "Announcement to Customers (Policy Change)",
+    "seoTitle": "Free Customer Announcement Letter Template (Policy Change)",
+    "description": "Free customer announcement letter template for informing customers of a policy, pricing, or service change.",
+    "category": "Business",
+    "bodyMarkdown": "# Announcement to Customers: [Policy/Change Name]\n\n[Date]\n\nDear [Customer Name/Valued Customer],\n\nWe're writing to let you know about an upcoming change to [policy/pricing/service], effective [Date].\n\n## What's Changing\n[Describe the change clearly and specifically.]\n\n## Why We're Making This Change\n[Brief, honest reason — builds more trust than a vague corporate explanation.]\n\n## What This Means for You\n[How it affects the customer specifically — any action needed on their part.]\n\n## Questions?\nIf you have any questions, please contact us at [Email/Phone]. We appreciate your continued business.\n\nSincerely,\n[Your Name/Company]\n\n*Giving customers real advance notice (not a same-day surprise) for changes that affect their costs or experience — even when not legally required — is what keeps a policy change from feeling like a bait-and-switch.*"
+  },
+  {
+    "slug": "artist-recording-contract-template",
+    "name": "Artist Recording Contract",
+    "seoTitle": "Free Artist Recording Contract Template",
+    "description": "Free recording contract template between a record label/producer and a music artist.",
+    "category": "Business",
+    "bodyMarkdown": "# Recording Contract\n\n**Label/Producer:** [Name]\n**Artist:** [Name]\n**Effective Date:** [Date]\n\n## 1. Recording Commitment\nArtist agrees to record [Number] albums/tracks for Label during the term of this Agreement.\n\n## 2. Advance\nLabel will pay Artist an advance of [Amount], recoupable against future royalties.\n\n## 3. Royalties\nArtist will receive [%] of [net receipts / retail price], calculated after recoupment of the advance and recording costs.\n\n## 4. Ownership of Masters\n[State who owns the recorded masters — commonly the Label, with the Artist earning royalties, though \"artist-owned masters\" deals are increasingly negotiated.]\n\n## 5. Term\nThis Agreement runs for [Term], with [Label's option to extend for additional albums, if applicable].\n\n## 6. Promotion\nLabel will [describe promotional commitment, if any — this is often heavily negotiated and worth being specific about].\n\n## 7. Termination\n[Grounds for either party to terminate, and what happens to unreleased recordings.]\n\n---\nLabel: ______________________  Date: ____________\nArtist: ______________________  Date: ____________\n\n*This document is provided for informational and educational purposes only and does not constitute legal advice. Recording contract terms (ownership of masters, royalty calculation method, recoupment terms) vary enormously and are heavily negotiated in the real music industry — have a licensed entertainment attorney review before signing an actual deal.*"
+  },
+  {
+    "slug": "asset-depreciation-schedule-template",
+    "name": "Asset Depreciation Schedule",
+    "seoTitle": "Free Asset Depreciation Schedule Template",
+    "description": "Free asset depreciation schedule template tracking the declining book value of business assets over time.",
+    "category": "Finance",
+    "bodyMarkdown": "# Asset Depreciation Schedule\n\n**As of:** [Date]\n\n| Asset | Purchase Date | Cost | Useful Life | Method | Annual Depreciation | Accumulated Depreciation | Current Book Value |\n|-------|-----------------|------|-----------------|--------|--------------------------|------------------------------|--------------------------|\n| [Asset] | [Date] | [Amount] | [Years] | [Straight-line/Other] | [Amount] | [Amount] | [Amount] |\n| [Asset] | [Date] | [Amount] | [Years] | [Method] | [Amount] | [Amount] | [Amount] |\n\n## Total Fixed Assets\nTotal cost: [Amount] · Total accumulated depreciation: [Amount] · **Total net book value: [Amount]**\n\n*Depreciation method and useful life assumptions affect both your reported profit and your tax liability — confirm the method used matches what your tax jurisdiction allows or requires for the asset category.*"
+  },
+  {
+    "slug": "food-and-drink-policy-template",
+    "name": "Food and Drink Policy",
+    "seoTitle": "Free Workplace Food and Drink Policy Template",
+    "description": "Free food and drink policy template for a workplace — rules for eating, drinks, and kitchen/break area use.",
+    "category": "HR",
+    "bodyMarkdown": "# Food and Drink Policy\n\n**Company:** [Company Name] · **Effective Date:** [Date]\n\n## Purpose\nThis policy keeps shared spaces clean and safe while accommodating employees' need to eat and drink during the workday.\n\n## Where Food Is Permitted\n[e.g. break room, designated desk areas — not near sensitive equipment.]\n\n## Kitchen/Break Area Rules\n- Clean up after yourself, including dishes and spills\n- Label and date items stored in shared refrigerators\n- Items left unlabeled for more than [X days] may be discarded\n- [Any equipment usage rules — microwave, coffee machine]\n\n## Allergies and Shared Spaces\n[Note any specific accommodations — e.g. a nut-free zone — if relevant to your workplace.]\n\n## Alcohol (if applicable)\n[Your specific policy on alcohol at work events or in the office.]\n\n## Enforcement\n[Consequence for repeated policy violations, if any — usually a reminder rather than formal discipline.]\n\n*A simple, consistently enforced rule (like a Friday refrigerator clean-out) prevents this from becoming a recurring source of office friction — the policy matters less than actually following it.*"
+  },
+  {
+    "slug": "request-for-raise-template",
+    "name": "Request for Raise",
+    "seoTitle": "Free Request for Raise Letter Template",
+    "description": "Free request for raise template — an employee formally asks their manager for a salary increase.",
+    "category": "HR",
+    "bodyMarkdown": "# Request for Salary Increase\n\n[Date]\n\nDear [Manager Name],\n\nI'm writing to formally request a review of my current salary.\n\n## My Contributions\n[Specific accomplishments and impact since your last review — numbers and results, not just effort.]\n\n## Market Context (if relevant)\n[Optional: if you have researched comparable market rates for your role, mention it factually.]\n\n## What I'm Requesting\nI would like to request an increase to [Amount/percentage], effective [Date, if you have one in mind].\n\nI'd welcome the chance to discuss this further at your convenience. Thank you for considering my request.\n\nSincerely,\n[Your Name]\n\n*Leading with specific, quantified contributions (not just tenure or effort) is what actually makes a raise request persuasive — \"I've been here 2 years\" is much weaker than \"I closed $X in new business\" or \"I reduced processing time by X%.\"*"
+  },
+  {
+    "slug": "trespass-notice-template",
+    "name": "Trespass Notice",
+    "seoTitle": "Free Trespass Notice Template",
+    "description": "Free trespass notice template — formally bars a specific person from a property, commonly used before pursuing a trespassing charge.",
+    "category": "Legal",
+    "bodyMarkdown": "# Notice of Trespass\n\n[Property Owner/Manager Name]\n[Date]\n\n**TO: [Recipient Name]**\n\n**RE: Notice Against Trespass — [Property Address]**\n\nYou are hereby notified that you are no longer permitted on the property located at [Property Address], effective immediately.\n\n## Reason\n[Brief, factual reason, if you choose to state one — not required in most jurisdictions, but can help if the notice is later challenged.]\n\n## Consequences of Violation\nIf you enter this property after receiving this notice, you may be subject to arrest and prosecution for criminal trespass under applicable law.\n\n## Duration\nThis notice remains in effect [indefinitely / until [Date] / until revoked in writing by the undersigned].\n\n---\nIssued by: ______________________  Date: ____________\n[Name, Title]\n\n*This document is provided for informational and educational purposes only and does not constitute legal advice. For this notice to actually support a future trespassing charge, most jurisdictions require proof the person received it — deliver in person with a witness, or by a method that creates a delivery record (certified mail), and keep a copy.*"
+  },
+  {
+    "slug": "sellers-property-disclosure-statement-template",
+    "name": "Seller's Property Disclosure Statement",
+    "seoTitle": "Free Seller's Property Disclosure Statement Template",
+    "description": "Free seller's property disclosure statement template — discloses known material defects and conditions before a real estate sale.",
+    "category": "Real Estate",
+    "bodyMarkdown": "# Seller's Property Disclosure Statement\n\n**Property Address:** [Address]\n**Seller(s):** [Name(s)]\n**Date:** [Date]\n\nSeller discloses the following known information about the property's condition, to the best of Seller's knowledge. This is not a warranty of condition.\n\n## Structural\nKnown foundation issues: [Yes/No, describe]\nKnown roof issues: [Yes/No, describe, and roof age if known]\n\n## Systems\nPlumbing issues: [Yes/No, describe]\nElectrical issues: [Yes/No, describe]\nHVAC condition/age: [Describe]\n\n## Water and Environmental\nFlooding/water intrusion history: [Yes/No, describe]\nKnown mold issues: [Yes/No, describe]\nKnown lead paint (pre-1978 homes, US): [Yes/No — see separate required lead disclosure]\nKnown asbestos, radon, or other environmental hazards: [Yes/No, describe]\n\n## Pest History\nKnown termite/pest infestation history: [Yes/No, describe]\n\n## Legal/Title\nKnown boundary disputes, easements, or liens not otherwise disclosed: [Yes/No, describe]\nKnown HOA violations or pending assessments: [Yes/No, describe]\n\n## Other Material Defects\n[Anything else a reasonable buyer would want to know.]\n\n---\nSeller signature: ______________________  Date: ____________\nBuyer acknowledgment of receipt: ______________________  Date: ____________\n\n*This document is provided for informational and educational purposes only and does not constitute legal advice. Most US states legally REQUIRE a property disclosure using a specific state-mandated form (not a generic one), and knowingly omitting a known material defect can expose a seller to real liability after closing — use your state's official disclosure form, not this general template, for an actual sale.*"
+  },
+  {
+    "slug": "patient-referral-form-template",
+    "name": "Patient Referral Form",
+    "seoTitle": "Free Patient Referral Form Template",
+    "description": "Free patient referral form template for one healthcare provider referring a patient to another for specialized care.",
+    "category": "Business",
+    "bodyMarkdown": "# Patient Referral Form\n\n**Referring Provider:** [Name, Practice] · **Date:** [Date]\n**Referred To:** [Specialist Name/Practice]\n\n## Patient Information\nName: [Name] · DOB: [Date] · Contact: [Phone]\n\n## Reason for Referral\n[Clinical reason/diagnosis prompting the referral]\n\n## Relevant History\n[Brief relevant medical history, current medications, prior test results relevant to this referral]\n\n## Requested\n[ ] Consultation only  [ ] Consultation and treatment  [ ] Second opinion\n\n## Attachments\n[ ] Relevant test results  [ ] Imaging  [ ] Prior notes\n\n---\nReferring provider signature: ______________________  Date: ____________\n\n*This document is provided for informational and educational purposes only and does not constitute medical advice. Patient information shared via referral is protected health information — send it through a secure, HIPAA-compliant channel, not a plain unencrypted email or fax without proper safeguards.*"
+  },
+  {
+    "slug": "progress-payment-invoice-template",
+    "name": "Progress Payment Invoice",
+    "seoTitle": "Free Progress Payment Invoice Template",
+    "description": "Free progress payment invoice template for billing a percentage of a project as work is completed, common in construction.",
+    "category": "Finance",
+    "bodyMarkdown": "# Progress Payment Invoice\n\n**Invoice #:** [Number] · **Date:** [Date]\n**Project:** [Name/Address]\n**Client:** [Name]\n**Contract Total:** [Amount]\n\n## Work Completed to Date\n\n| Line Item | Contract Value | % Complete | Amount Earned to Date |\n|-----------|-------------------|-----------------|-----------------------------|\n| [Item] | [Amount] | [%] | [Amount] |\n| [Item] | [Amount] | [%] | [Amount] |\n\n**Total Earned to Date:** [Amount]\n**Less: Previously Billed:** [Amount]\n**Less: Retainage ([%]):** [Amount]\n\n**Amount Due This Invoice: [Amount]**\n\n## Payment Terms\nDue [Terms, e.g. Net 30]\n\n---\nApproved by (if required before payment): ______________________  Date: ____________\n\n*Tracking \"previously billed\" and retainage separately (not just billing the current period in isolation) is what keeps a multi-invoice construction project's math auditable from start to finish.*"
+  },
+  {
+    "slug": "irrevocable-standby-letter-of-credit-template",
+    "name": "Irrevocable Standby Letter of Credit",
+    "seoTitle": "Free Irrevocable Standby Letter of Credit Template",
+    "description": "Free standby letter of credit outline — a bank's commitment to pay a beneficiary if the applicant fails to perform an obligation.",
+    "category": "Finance",
+    "bodyMarkdown": "# Irrevocable Standby Letter of Credit (Outline)\n\n**Issuing Bank:** [Bank Name]\n**Applicant:** [Company Name]\n**Beneficiary:** [Company Name]\n**Amount:** [Amount]\n**Expiration Date:** [Date]\n\n## 1. Undertaking\n[Issuing Bank] hereby establishes this irrevocable standby letter of credit in favor of Beneficiary, in the amount of [Amount], available upon Beneficiary's presentation of a compliant drawing request stating that Applicant has failed to perform under [Reference the underlying contract].\n\n## 2. Drawing Conditions\nBeneficiary may draw on this credit by presenting: [Required documents — e.g. a signed statement of default and a copy of the underlying contract].\n\n## 3. Partial Draws\n[State whether partial drawdowns are permitted.]\n\n## 4. Expiration\nThis letter of credit expires on [Date] unless drawn upon before that date.\n\n## 5. Governing Rules\nThis letter of credit is subject to [ICC Uniform Customs and Practice for Documentary Credits (UCP 600), or applicable local law].\n\n---\nIssued by: [Bank Name]\n\n*This document is provided for informational and educational purposes only — a real standby letter of credit must be issued and signed by a bank, not drafted independently by the applicant or beneficiary. This outline shows the structure so a business knows what to expect and negotiate when requesting one from its bank.*"
+  },
+  {
+    "slug": "merchant-card-processing-application-template",
+    "name": "Merchant Card Processing Application",
+    "seoTitle": "Free Merchant Card Processing Application Template",
+    "description": "Free merchant card processing application — the information a payment processor typically requests to set up a new merchant account.",
+    "category": "Finance",
+    "bodyMarkdown": "# Merchant Card Processing Application\n\n## Business Information\nLegal business name: [Name] · DBA (if different): [Name]\nBusiness address: [Address] · Tax ID/EIN: [Number]\nBusiness type: [Retail/E-commerce/Service/etc.]\nYears in business: [Number]\n\n## Processing Details\nEstimated monthly card volume: [Amount]\nAverage transaction size: [Amount]\nCard-present or card-not-present: [Type]\n\n## Bank Information\nBank name: [Name] · Account for deposits: [Attach securely, do not include full account number in this form]\n\n## Ownership\nOwner name(s): [Name(s)] · Ownership %: [%]\n[If required: personal guarantee acknowledgment]\n\n## Business References\n1. [Bank/vendor reference]\n\n## Certification\nThe undersigned certifies the above information is accurate and authorizes the processor to verify it, including a credit check if applicable.\n\nSignature: ______________________  Date: ____________\n\n*Never write full bank account or card numbers on a plain form like this — provide account details through the processor's own secure onboarding portal, which is how legitimate processors actually collect this information.*"
+  },
+  {
+    "slug": "charitable-remainder-trust-template",
+    "name": "Charitable Remainder Trust Outline",
+    "seoTitle": "Free Charitable Remainder Trust Outline Template",
+    "description": "Free charitable remainder trust outline — an income-generating trust that eventually passes its remaining assets to charity.",
+    "category": "Legal",
+    "bodyMarkdown": "# Charitable Remainder Trust (Outline)\n\n**Grantor:** [Name]\n**Trustee:** [Name/Institution]\n**Charitable Beneficiary:** [Charity Name]\n**Date:** [Date]\n\n## 1. Purpose\nGrantor transfers assets to this trust, which will pay income to [Grantor / a named non-charitable beneficiary] for [a term of years / the beneficiary's lifetime], with the remaining trust assets passing to the named charity thereafter.\n\n## 2. Trust Type\n[ ] Charitable Remainder Annuity Trust (CRAT) — fixed dollar payment\n[ ] Charitable Remainder Unitrust (CRUT) — fixed percentage of trust value, revalued annually\n\n## 3. Payout Rate\n[%] of [initial trust value (CRAT) / annually revalued trust value (CRUT)], paid [Frequency], meeting the IRS-required minimum payout rate.\n\n## 4. Trustee's Powers\nTrustee will invest and manage trust assets prudently, consistent with generating the required income payout.\n\n## 5. Term\nThis trust continues for [Number of years, not exceeding 20 / the lifetime of the named beneficiary(ies)].\n\n## 6. Remainder to Charity\nUpon termination, all remaining trust assets pass to [Charity Name], which must be a qualified 501(c)(3) organization.\n\n---\nGrantor: ______________________  Date: ____________\nTrustee (acceptance): ______________________  Date: ____________\n\n*This document is provided for informational and educational purposes only and is NOT a substitute for legal or tax advice. Charitable remainder trusts have strict IRS qualification requirements (minimum/maximum payout rates, a required minimum charitable remainder value) — an improperly drafted CRT can lose its tax benefits entirely. Use a licensed estate planning attorney and CPA to establish one.*"
+  },
+  {
+    "slug": "compliance-certificate-template",
+    "name": "Compliance Certificate",
+    "seoTitle": "Free Compliance Certificate Template",
+    "description": "Free compliance certificate template — a borrower confirms to a lender that loan covenants are currently being met.",
+    "category": "Finance",
+    "bodyMarkdown": "# Compliance Certificate\n\n**Borrower:** [Company Name]\n**Lender:** [Bank/Lender Name]\n**Loan Agreement:** dated [Date]\n**Reporting Period:** [Period]\n**Date:** [Date]\n\nThe undersigned, an authorized officer of Borrower, certifies as follows:\n\n## 1. Financial Covenants\n| Covenant | Required | Actual | Compliant? |\n|----------|----------|--------|------------------|\n| [e.g. Debt-to-EBITDA ratio] | [Requirement] | [Actual] | [Yes/No] |\n| [e.g. Minimum current ratio] | [Requirement] | [Actual] | [Yes/No] |\n\n## 2. No Default\nBorrower is not aware of any event of default, or event that with notice or the passage of time would become an event of default, under the Loan Agreement.\n\n## 3. Financial Statements\nThe attached financial statements are true and correct and prepared in accordance with [GAAP/applicable standard].\n\n---\nCertified by: ______________________  Date: ____________\n[Name, Title, Borrower]\n\n*Most loan agreements require this certificate on a set schedule (quarterly is common) — mark your calendar, since missing the deadline to certify can itself sometimes trigger a technical default under the loan terms.*"
+  },
+  {
+    "slug": "secretarys-certificate-template",
+    "name": "Secretary's Certificate",
+    "seoTitle": "Free Secretary's Certificate Template",
+    "description": "Free secretary's certificate template — a corporate secretary certifies board resolutions, bylaws, or officer authority for a third party.",
+    "category": "Legal",
+    "bodyMarkdown": "# Secretary's Certificate\n\n**Company:** [Company Name]\n\nI, [Name], Secretary of [Company Name], hereby certify as follows:\n\n## 1. Incumbency\nThe following individuals are duly elected and currently serving officers/directors of the Company, holding the titles indicated:\n\n| Name | Title |\n|------|-------|\n| [Name] | [Title] |\n| [Name] | [Title] |\n\n## 2. Board Resolution\nAttached hereto is a true and correct copy of resolutions duly adopted by the Board of Directors on [Date], which resolutions remain in full force and effect and have not been amended or rescinded.\n\n## 3. Bylaws\nAttached hereto is a true and correct copy of the Company's Bylaws as currently in effect.\n\n## 4. Authority\n[Name], as [Title], is authorized to execute [the specific agreement/transaction] on behalf of the Company.\n\n---\nSecretary signature: ______________________  Date: ____________\n[Name], Secretary\n\n*Banks, title companies, and counterparties in larger transactions commonly require this exact document to confirm someone actually has authority to sign on the company's behalf — keeping current officer/bylaw information ready speeds up any transaction that needs one.*"
+  },
+  {
+    "slug": "bank-confirmation-letter-template",
+    "name": "Bank Confirmation Letter",
+    "seoTitle": "Free Bank Confirmation Letter Template",
+    "description": "Free bank confirmation letter template — a bank confirms account balances or credit facilities for an auditor or third party.",
+    "category": "Finance",
+    "bodyMarkdown": "# Bank Confirmation Letter\n\n[Bank Name/Letterhead]\n[Date]\n\n**To:** [Auditor/Requesting Party Name]\n**Re: Confirmation of Account Information for [Company Name]**\n\nAt the request of [Company Name], we confirm the following information as of [Date]:\n\n## Account Information\n\n| Account Type | Account Number (last 4 digits) | Balance |\n|-------------------|-------------------------------------|---------|\n| [Checking] | [XXXX] | [Amount] |\n| [Savings] | [XXXX] | [Amount] |\n\n## Credit Facilities (if applicable)\n| Facility Type | Limit | Outstanding Balance |\n|--------------------|-------|---------------------------|\n| [Line of credit] | [Amount] | [Amount] |\n\n## Other Relationships\n[Any other relevant financial relationships — letters of credit, collateral held, etc.]\n\nThis confirmation is provided solely for audit purposes as of the date stated above and does not constitute a guarantee of future account status.\n\n---\n[Bank Officer Name, Title]\n[Bank Name]\n\n*This document is provided for informational and educational purposes only — a real bank confirmation must come directly from the bank (often sent directly to the auditor, not through the company) to have any audit value; a company can't self-issue this on the bank's behalf.*"
+  },
+  {
+    "slug": "audit-engagement-letter-template",
+    "name": "Audit Engagement Letter",
+    "seoTitle": "Free Audit Engagement Letter Template",
+    "description": "Free audit engagement letter template — an auditor's formal agreement with a client defining the scope and terms of an audit.",
+    "category": "Finance",
+    "bodyMarkdown": "# Audit Engagement Letter\n\n[Audit Firm Name/Letterhead]\n[Date]\n\n[Client Name]\n[Client Address]\n\nDear [Client Contact Name],\n\nThis letter confirms our understanding of the terms of our engagement to audit [Company Name]'s financial statements for the period ending [Date].\n\n## Objective and Scope\nWe will conduct our audit in accordance with [GAAS/applicable auditing standards], with the objective of expressing an opinion on whether the financial statements are presented fairly in accordance with [GAAP/applicable framework].\n\n## Management's Responsibilities\nManagement is responsible for the preparation of the financial statements, maintaining internal controls, and providing us with access to all relevant records and personnel.\n\n## Our Responsibilities\nAn audit provides reasonable, not absolute, assurance that the financial statements are free of material misstatement. It is not designed to detect all instances of fraud or error.\n\n## Fees\nOur fees for this engagement are estimated at [Amount], billed [Terms].\n\n## Reporting\nWe expect to issue our report by [Date], assuming timely access to needed information.\n\nPlease sign below to confirm your acceptance of these terms.\n\nSincerely,\n[Auditor Name, Firm]\n\n---\nAccepted:\n[Client Representative]: ______________________  Date: ____________\n\n*The \"reasonable, not absolute, assurance\" language isn't boilerplate — it's a legally significant clarification of what an audit opinion does and doesn't guarantee, and it protects both the auditor and the client from a misunderstanding about audit scope.*"
+  },
+  {
+    "slug": "child-care-authorization-template",
+    "name": "Child Care Authorization",
+    "seoTitle": "Free Child Care Authorization Form Template",
+    "description": "Free child care authorization form — a parent authorizes a specific caregiver to make decisions or pick up their child.",
+    "category": "Legal",
+    "bodyMarkdown": "# Child Care Authorization\n\nI, [Parent/Guardian Name], parent/legal guardian of [Child's Name], authorize [Caregiver Name] to:\n\n## Authorized Actions\n[ ] Pick up my child from [School/Daycare Name]\n[ ] Provide care for my child at [Location]\n[ ] Authorize emergency medical treatment if I cannot be reached\n[ ] Make routine decisions regarding my child's care\n\n## Period of Authorization\nThis authorization is valid from [Start Date] to [End Date].\n\n## Emergency Contact\nMe: [Phone] · Alternate: [Name, Phone]\n\n## Medical Information\nAllergies: [List, or \"None\"] · Medications: [List, or \"None\"]\n\n## Caregiver Information\nName: [Name] · Relationship to family: [Relationship] · Phone: [Phone]\n\n---\nParent/Guardian signature: ______________________  Date: ____________\n\n*If this authorization includes emergency medical treatment consent, keep a copy with the caregiver at all times — a school or hospital will typically want to see it before acting on a non-parent's authorization.*"
+  },
+  {
+    "slug": "consent-to-assignment-template",
+    "name": "Consent to Assignment",
+    "seoTitle": "Free Consent to Assignment Template",
+    "description": "Free consent to assignment template — a third party (like a landlord or lender) formally approves a contract being assigned to a new party.",
+    "category": "Legal",
+    "bodyMarkdown": "# Consent to Assignment\n\n**Original Party (Assignor):** [Name]\n**New Party (Assignee):** [Name]\n**Consenting Party:** [Name — e.g. Landlord, Lender]\n**Original Agreement:** [Reference — name and date]\n**Date:** [Date]\n\nThe undersigned, being a party to or having rights under the Original Agreement referenced above, hereby consents to the assignment of Assignor's rights and obligations under that Agreement to Assignee.\n\n## Conditions of Consent (if any)\n[State any conditions attached to this consent — e.g. \"Assignee assumes all obligations of Assignor\" or \"Assignor remains secondarily liable.\"]\n\n## No Other Waiver\nThis consent applies only to the specific assignment described above and does not waive any other right the Consenting Party may have under the Original Agreement.\n\n---\nConsenting Party: ______________________  Date: ____________\n[Name, Title]\n\n*Many contracts (especially commercial leases and loan agreements) explicitly require this kind of written consent before an assignment is valid — proceeding without it can void the assignment entirely, even if the original two parties agreed between themselves.*"
+  },
+  {
+    "slug": "publishing-agreement-template",
+    "name": "Publishing Agreement",
+    "seoTitle": "Free Publishing Agreement Template",
+    "description": "Free publishing agreement template between an author and a publisher for a book or written work.",
+    "category": "Business",
+    "bodyMarkdown": "# Publishing Agreement\n\n**Author:** [Name]\n**Publisher:** [Name]\n**Work:** [Title/Description]\n**Effective Date:** [Date]\n\n## 1. Grant of Rights\nAuthor grants Publisher the [exclusive/non-exclusive] right to publish, print, distribute, and sell the Work in [Territory] and [Formats — print, ebook, audiobook], for [Duration/term].\n\n## 2. Delivery\nAuthor will deliver the final manuscript by [Date], meeting [word count/format requirements].\n\n## 3. Advance and Royalties\nAdvance: [Amount], recoupable against royalties.\nRoyalty rate: [%] of [net receipts / cover price], paid [Frequency].\n\n## 4. Editorial Process\n[Describe editorial review/approval process, and Author's rights over final content changes.]\n\n## 5. Rights Reserved to Author\n[e.g. Author retains film/foreign translation rights, unless separately negotiated.]\n\n## 6. Out of Print / Reversion\nIf the Work goes out of print or sales fall below [Threshold] for [Duration], rights revert to Author upon request.\n\n## 7. Warranty\nAuthor warrants the Work is original and does not infringe any third party's rights.\n\n---\nAuthor: ______________________  Date: ____________\nPublisher: ______________________  Date: ____________\n\n*This document is provided for informational and educational purposes only and does not constitute legal advice. Rights reversion terms (Section 6) matter enormously to an author's long-term interests — a book that goes out of print with no reversion clause can leave an author unable to republish or sell rights elsewhere.*"
+  },
+  {
+    "slug": "notice-of-breach-of-contract-template",
+    "name": "Notice of Breach of Contract",
+    "seoTitle": "Free Notice of Breach of Contract Template",
+    "description": "Free notice of breach of contract template — formally notifies the other party they've failed to meet their contractual obligations.",
+    "category": "Legal",
+    "bodyMarkdown": "# Notice of Breach of Contract\n\n[Your Name/Company]\n[Date]\n\n[Recipient Name]\n\n**RE: Notice of Breach — [Contract Reference/Date]**\n\nDear [Recipient Name],\n\nThis letter serves as formal notice that you are in breach of [Contract Name], dated [Date], specifically:\n\n## Nature of the Breach\n[Specific provision breached, and factual description of how — cite the exact section number if possible.]\n\n## Demand for Cure\nPer Section [X] of the Agreement [or, if the contract has no cure provision: \"we demand\"], you must cure this breach by [specific action] within [Number] days of this notice, i.e. by [Date].\n\n## Consequences of Failure to Cure\nIf this breach is not cured by the date above, we will consider the contract terminated / pursue damages / [other remedy available under the contract], without further notice.\n\nWe remain willing to resolve this matter directly if you cure the breach as described.\n\nSincerely,\n[Your Name]\n\n*Check the contract's own notice-and-cure provisions before sending this — many contracts specify a required cure period and delivery method, and skipping that step can undermine your ability to later terminate or sue for breach.*"
+  },
+  {
+    "slug": "promissory-note-assignment-template",
+    "name": "Promissory Note Assignment",
+    "seoTitle": "Free Promissory Note Assignment Template",
+    "description": "Free promissory note assignment template — transfers a lender's right to receive payment under an existing note to a new party.",
+    "category": "Finance",
+    "bodyMarkdown": "# Assignment of Promissory Note\n\n**Assignor (current holder):** [Name]\n**Assignee (new holder):** [Name]\n**Original Note:** dated [Date], made by [Borrower Name], in the original principal amount of [Amount]\n**Date of Assignment:** [Date]\n\n## 1. Assignment\nFor value received, Assignor hereby transfers and assigns to Assignee all right, title, and interest in and to the promissory note described above, including all rights to receive principal and interest payments.\n\n## 2. Outstanding Balance\nAs of the date of this assignment, the outstanding balance of the Note is [Amount].\n\n## 3. Notice to Borrower\nAssignor and/or Assignee will notify Borrower of this assignment and direct future payments to Assignee.\n\n## 4. Warranty\nAssignor warrants that the Note is valid, that Assignor is its lawful holder, and that the stated outstanding balance is accurate.\n\n## 5. No Recourse (or specify otherwise)\n[State whether Assignor has any ongoing liability if Borrower defaults after assignment, or whether the assignment is \"without recourse.\"]\n\n---\nAssignor: ______________________  Date: ____________\nAssignee: ______________________  Date: ____________\n\n*Notifying the borrower promptly and clearly (Section 3) is essential — a borrower who keeps paying the original holder in good faith, without proper notice of the assignment, is generally protected until they actually receive notice of the change.*"
+  },
+  {
+    "slug": "vacation-policy-template",
+    "name": "Vacation Policy",
+    "seoTitle": "Free Vacation (PTO) Policy Template",
+    "description": "Free vacation/PTO policy template outlining how paid time off accrues, is requested, and is paid out.",
+    "category": "HR",
+    "bodyMarkdown": "# Vacation Policy\n\n**Company:** [Company Name] · **Effective Date:** [Date]\n\n## Accrual\nEmployees accrue [Number] days of paid vacation per year, [accruing monthly/per pay period], starting from their hire date.\n\n## Eligibility\n[Any waiting period before new employees can use accrued time — e.g. \"after 90 days of employment.\"]\n\n## Requesting Time Off\nRequests should be submitted at least [Number] days in advance via [System/process], subject to manager approval based on business needs.\n\n## Carryover\n[ ] Unused vacation carries over up to [Number] days into the next year.\n[ ] Unused vacation does not carry over (\"use it or lose it,\" where legally permitted).\n\n## Payout Upon Termination\n[State whether unused accrued vacation is paid out upon termination — required by law in some states regardless of company policy.]\n\n## Blackout Periods (if applicable)\n[Any periods where vacation requests are limited due to business needs.]\n\n---\nAcknowledged by: ______________________  Date: ____________\n\n*This document is provided for informational and educational purposes only and does not constitute legal advice. A number of US states legally require accrued, unused vacation to be paid out at termination and prohibit \"use it or lose it\" policies entirely — confirm your state's specific rules before finalizing this policy.*"
+  },
+  {
+    "slug": "workers-compensation-policy-template",
+    "name": "Workers' Compensation Policy",
+    "seoTitle": "Free Workers' Compensation Policy Template",
+    "description": "Free workers' compensation policy template explaining an employer's coverage and the process for reporting a workplace injury.",
+    "category": "HR",
+    "bodyMarkdown": "# Workers' Compensation Policy\n\n**Company:** [Company Name] · **Effective Date:** [Date]\n\n## Coverage\n[Company Name] carries workers' compensation insurance through [Insurance Carrier], covering employees for injuries or illnesses arising out of and in the course of employment, as required by [State] law.\n\n## Reporting an Injury\nAny workplace injury, no matter how minor, must be reported to [Manager/HR] immediately, and no later than [Timeframe required by state law].\n\n## What Happens Next\n1. Seek medical attention if needed (emergency care first, always).\n2. Complete an incident report with [HR/Manager].\n3. HR files the workers' compensation claim with our insurance carrier.\n4. The insurance carrier will communicate with the employee about benefits and next steps.\n\n## Return to Work\n[Describe any light-duty/modified work program available during recovery, if applicable.]\n\n## Retaliation Prohibited\n[Company Name] does not tolerate retaliation against any employee for reporting a workplace injury or filing a workers' compensation claim.\n\n---\nAcknowledged by: ______________________  Date: ____________\n\n*This document is provided for informational and educational purposes only and does not constitute legal advice. Workers' compensation is a state-regulated, no-fault system with specific reporting deadlines and required processes — confirm your state's exact requirements, since missing a reporting deadline can affect an employee's eligibility for benefits.*"
+  },
+  {
+    "slug": "fraternization-policy-template",
+    "name": "Fraternization Policy",
+    "seoTitle": "Free Workplace Fraternization Policy Template",
+    "description": "Free fraternization (workplace dating) policy template addressing romantic relationships between coworkers, especially across reporting lines.",
+    "category": "HR",
+    "bodyMarkdown": "# Fraternization Policy\n\n**Company:** [Company Name] · **Effective Date:** [Date]\n\n## Purpose\nThis policy addresses romantic or dating relationships between employees, with a focus on preventing conflicts of interest and favoritism, particularly across reporting relationships.\n\n## Relationships Between Peers\nConsensual relationships between employees at the same level, in different departments with no reporting relationship, are generally permitted, though discretion at work is expected.\n\n## Relationships Involving a Reporting Relationship\nRomantic relationships between a manager and a direct report (or anyone in their reporting chain) are prohibited, due to the inherent conflict of interest and power imbalance. If such a relationship exists or develops, it must be disclosed to HR immediately so reporting lines can be adjusted.\n\n## Disclosure\nEmployees involved in a relationship covered by this policy must disclose it to [HR contact], who will determine next steps confidentially.\n\n## Consequences\nFailure to disclose a relationship covered by this policy, or continuing to supervise someone you're in a relationship with after being asked to disclose, may result in disciplinary action.\n\n---\nAcknowledged by: ______________________  Date: ____________\n\n*This document is provided for informational and educational purposes only and does not constitute legal advice. The goal of the disclosure requirement is preventing conflicts of interest, not policing employees' personal lives — apply it consistently regardless of the genders or seniority of those involved to avoid discrimination claims.*"
+  },
+  {
+    "slug": "no-bid-letter-template",
+    "name": "No Bid Letter",
+    "seoTitle": "Free No Bid Letter Template",
+    "description": "Free no-bid letter template for formally declining to submit a proposal in response to an RFP or tender.",
+    "category": "Business",
+    "bodyMarkdown": "# No Bid Letter\n\n[Date]\n\n[Issuing Organization Name]\n\n**RE: No Bid — [RFP/Tender Reference #]**\n\nDear [Contact Name],\n\nThank you for the opportunity to bid on [RFP/Tender Name], reference #[Number]. After careful consideration, [Company Name] has decided not to submit a proposal for this opportunity at this time.\n\n## Reason (optional)\n[Brief, professional reason if you choose to share one — e.g. \"the timeline does not align with our current capacity\" or \"this falls outside our current service scope.\"]\n\nWe appreciate being included in this process and would welcome the opportunity to bid on future opportunities that better align with our capabilities.\n\nSincerely,\n[Your Name/Company]\n\n*Sending a brief, professional no-bid letter (rather than simply not responding) keeps you in good standing for future opportunities with the same buyer — silence can read as disorganization rather than a deliberate decision.*"
+  },
+  {
+    "slug": "change-order-form-template",
+    "name": "Change Order Form",
+    "seoTitle": "Free Change Order Form Template",
+    "description": "Free change order form template for documenting and approving a scope, cost, or timeline change on a construction or project contract.",
+    "category": "Business",
+    "bodyMarkdown": "# Change Order\n\n**Change Order #:** [Number] · **Date:** [Date]\n**Project:** [Name/Address]\n**Original Contract #:** [Reference]\n\n## Description of Change\n[What's changing from the original scope — be specific.]\n\n## Reason for Change\n[Why this change is needed — e.g. unforeseen site condition, client-requested addition.]\n\n## Cost Impact\nOriginal contract amount: [Amount]\nCost of this change: [Amount, itemized if helpful]\n**Revised contract amount: [Amount]**\n\n## Schedule Impact\nOriginal completion date: [Date]\nAdditional time requested: [Number] days\n**Revised completion date: [Date]**\n\n## Approval\nThis change order must be signed by both parties before work on this change begins.\n\nContractor: ______________________  Date: ____________\nOwner/Client: ______________________  Date: ____________\n\n*Getting the change order signed BEFORE starting the additional work — not after — is what actually protects a contractor from doing extra work they never get paid for, and protects a client from surprise charges.*"
+  },
+  {
+    "slug": "capital-expenditure-request-form-template",
+    "name": "Capital Expenditure Request Form",
+    "seoTitle": "Free Capital Expenditure (CapEx) Request Form Template",
+    "description": "Free capital expenditure request form template for proposing and approving a major equipment or asset purchase.",
+    "category": "Finance",
+    "bodyMarkdown": "# Capital Expenditure Request\n\n**Requested by:** [Name/Department] · **Date:** [Date]\n\n## Item/Project\n[Description of the capital asset or project being proposed]\n\n## Cost\nTotal estimated cost: [Amount]\nFunding source: [Budget line/capital budget category]\n\n## Justification\n[Why this expenditure is needed — cost savings, capacity, replacement of failing equipment, etc.]\n\n## Expected Return / Payback\n[Estimated payback period or ROI, if applicable — e.g. \"pays for itself in labor savings within 18 months.\"]\n\n## Alternatives Considered\n[Other options evaluated, and why this one was chosen — e.g. lease vs. buy, different vendors.]\n\n## Depreciation Impact (if known)\n[Estimated useful life and depreciation method, if relevant to the approval.]\n\n## Approval\n\n| Role | Name | Decision | Date |\n|------|------|----------|------|\n| Department Head | [Name] | [ ] Approved [ ] Rejected | [Date] |\n| Finance/CFO | [Name] | [ ] Approved [ ] Rejected | [Date] |\n\n*Including an expected payback or ROI estimate (even a rough one) is what separates a real capital request from a wish-list item — it gives approvers something concrete to evaluate against other competing requests.*"
+  },
+  {
+    "slug": "security-services-contract-template",
+    "name": "Security Services Contract",
+    "seoTitle": "Free Security Services Contract Template",
+    "description": "Free security services contract template for hiring a security guard company or service for a property or event.",
+    "category": "Business",
+    "bodyMarkdown": "# Security Services Contract\n\n**Client:** [Name]\n**Security Provider:** [Company Name, license # if required in your state]\n**Effective Date:** [Date]\n\n## 1. Services\nProvider will supply [Number] security personnel to [Location] for [Coverage hours/days], performing: [Duties — patrol, access control, monitoring, etc.].\n\n## 2. Personnel Requirements\nProvider's personnel will be [licensed/bonded as required by state law], and Provider will conduct background checks on all assigned staff.\n\n## 3. Fee\n[Hourly rate per guard] × [hours], invoiced [Frequency].\n\n## 4. Equipment\n[State who provides uniforms, radios, vehicles, or other equipment.]\n\n## 5. Liability and Insurance\nProvider will maintain general liability insurance of at least [Amount] and will indemnify Client for claims arising from Provider's negligence.\n\n## 6. Emergency Procedures\n[Describe expected response to specific emergency scenarios, and communication protocol with Client and, where appropriate, law enforcement.]\n\n## 7. Term and Termination\nThis Agreement runs for [Term] and may be terminated by either party with [Notice Period] notice.\n\n---\nClient: ______________________  Date: ____________\nSecurity Provider: ______________________  Date: ____________\n\n*This document is provided for informational and educational purposes only and does not constitute legal advice. Security guard companies and individual guards are licensed in most states — confirm both the company and assigned personnel hold current, valid licenses before engaging them.*"
   }
 ]
