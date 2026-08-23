@@ -240,11 +240,22 @@ export async function getInvoiceByPublicId(env: Env, publicId: string): Promise<
   return row ? rowToInvoice(row) : null;
 }
 
-export async function deleteInvoice(env: Env, accountId: string, id: string): Promise<boolean> {
-  const result = await env.CHASA_DB.prepare(`DELETE FROM generated_invoices WHERE id = ? AND account_id = ?`)
-    .bind(id, accountId)
-    .run();
-  return !!result.meta.changes;
+/** A certified invoice's DELETE is rejected by a DB trigger (see migration 0033) — caught here so
+ *  the route returns a clean, explanatory error instead of a raw SQL exception. */
+export async function deleteInvoice(
+  env: Env,
+  accountId: string,
+  id: string
+): Promise<{ ok: true } | { ok: false; error: string }> {
+  try {
+    const result = await env.CHASA_DB.prepare(`DELETE FROM generated_invoices WHERE id = ? AND account_id = ?`)
+      .bind(id, accountId)
+      .run();
+    if (!result.meta.changes) return { ok: false, error: "Not found" };
+    return { ok: true };
+  } catch {
+    return { ok: false, error: "This invoice is certified and can no longer be deleted." };
+  }
 }
 
 export type SetInvoiceStatusResult = {

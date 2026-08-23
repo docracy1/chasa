@@ -320,9 +320,11 @@ export default function InvoicesPage({ account }: { account: Account | null }) {
                       {t("invoices.markPaid")}
                     </button>
                   )}
-                  <button type="button" className="btn-secondary" onClick={() => handleDelete(inv.id)}>
-                    {t("invoices.delete")}
-                  </button>
+                  {!inv.certificatePublicId && (
+                    <button type="button" className="btn-secondary" onClick={() => handleDelete(inv.id)}>
+                      {t("invoices.delete")}
+                    </button>
+                  )}
                 </div>
               </li>
             ))}

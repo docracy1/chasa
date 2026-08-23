@@ -82,8 +82,8 @@ invoices.patch("/:id/status", requireAccount, async (c) => {
 
 invoices.delete("/:id", requireAccount, async (c) => {
   const acc = c.get("account")!;
-  const ok = await deleteInvoice(c.env, acc.workspaceId, c.req.param("id"));
-  if (!ok) return c.json({ error: "Not found" }, 404);
+  const result = await deleteInvoice(c.env, acc.workspaceId, c.req.param("id"));
+  if (!result.ok) return c.json({ error: result.error }, result.error === "Not found" ? 404 : 409);
   return c.json({ ok: true });
 });
 
