@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 /**
- * Generates SEO calculator pages under /tools/.
+ * Generates SEO tool pages under /tools/ — one per product (templates, certificates,
+ * SSL, invoice chasing), in that order, so invoice chasing isn't the lead/only tool.
  * Run: node apps/web/scripts/generate-calculators.mjs
  */
 import { mkdirSync, writeFileSync } from "node:fs";
@@ -38,6 +39,7 @@ const extraHead = `<style>
 .calc-stat strong { display: block; font-family: Fraunces, Georgia, serif; font-size: 28px; margin-top: 2px; }
 .calc-stat span { font-size: 13px; color: var(--ink-soft); font-weight: 600; }
 .calc-note { font-size: 12.5px; color: var(--ink-soft); margin-top: 12px; line-height: 1.45; }
+.calc-divider { border: none; border-top: 1px solid var(--line); margin: 40px 0; }
 .tools-card-grid { display: grid; gap: 14px; margin: 22px 0 8px; }
 @media (min-width: 700px) { .tools-card-grid { grid-template-columns: 1fr 1fr; } }
 .tools-card {
@@ -48,6 +50,33 @@ const extraHead = `<style>
 .tools-card:hover { border-color: var(--accent); transform: translateY(-1px); }
 .tools-card h2 { font-size: 20px; margin: 0 0 8px; font-family: Fraunces, Georgia, serif; }
 .tools-card p { margin: 0; color: var(--ink-soft); font-size: 14.5px; line-height: 1.45; }
+.finder-grid { display: grid; gap: 12px; margin: 22px 0 8px; }
+@media (min-width: 700px) { .finder-grid { grid-template-columns: 1fr 1fr; } }
+.finder-card {
+  display: block; text-decoration: none; color: inherit;
+  border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px;
+  background: var(--white); transition: border-color 0.15s ease;
+}
+.finder-card:hover { border-color: var(--accent); }
+.finder-card strong { display: block; font-size: 15px; margin-bottom: 3px; }
+.finder-card span { font-size: 13px; color: var(--ink-soft); }
+.hash-drop {
+  border: 2px dashed var(--line); border-radius: 12px; padding: 32px 20px; text-align: center;
+  cursor: pointer; background: var(--white); transition: border-color 0.15s ease;
+}
+.hash-drop.is-drag { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 6%, var(--white)); }
+.hash-drop p { margin: 6px 0 0; color: var(--ink-soft); font-size: 13.5px; }
+.hash-out { margin-top: 20px; }
+.hash-out-row { display: flex; gap: 8px; align-items: center; margin-bottom: 10px; }
+.hash-out-row code {
+  flex: 1; font-size: 12.5px; word-break: break-all; padding: 8px 10px;
+  background: var(--paper); border: 1px solid var(--line); border-radius: 6px;
+}
+.hash-copy-btn {
+  flex-shrink: 0; font-size: 12.5px; font-weight: 600; padding: 8px 12px;
+  border: 1px solid var(--line); border-radius: 6px; background: var(--white); cursor: pointer;
+}
+.hash-copy-btn:hover { border-color: var(--accent); color: var(--accent); }
 </style>
 <script src="/tools-calc.js" defer></script>`;
 
@@ -92,10 +121,10 @@ function webAppJsonLd({ name, description, url }) {
       name,
       description,
       url,
-      applicationCategory: "FinanceApplication",
+      applicationCategory: "UtilitiesApplication",
       operatingSystem: "Any",
       offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
-      provider: { "@type": "Organization", name: "Chasa", url: "https://chasa.io/" },
+      provider: { "@type": "Organization", name: "docstoc", url: "https://chasa.io/" },
     },
     null,
     2
@@ -106,7 +135,7 @@ function multiJsonLd(...blocks) {
   return `[${blocks.join(",\n")}]`;
 }
 
-const lateFaqs = [
+const chaseFaqs = [
   {
     q: "How do you calculate late payment interest on an unpaid invoice?",
     a: "Multiply the invoice amount by the annual interest rate, then by days overdue divided by 365. Example: $1,000 × 8% × (30 ÷ 365) ≈ $6.58 interest.",
@@ -116,56 +145,222 @@ const lateFaqs = [
     a: "Use the rate in your contract or invoice terms. Many freelancers use 1–1.5% per month (about 12–18% annually). Some countries set a statutory rate for commercial late payments — check local rules.",
   },
   {
-    q: "Can I charge late fees if my contract never mentioned them?",
-    a: "Usually no. Late interest and fees are easiest to enforce when they appear in your agreement or invoice terms before work starts. Add them to new contracts going forward.",
-  },
-  {
-    q: "Does Chasa email clients for me?",
-    a: "No. Chasa drafts follow-up emails; you review and send from your own inbox. That keeps your client relationship in your control.",
-  },
-];
-
-const savingsFaqs = [
-  {
-    q: "How does this chase savings calculator estimate cash unlocked?",
+    q: "How does this savings estimate work?",
     a: "It divides your unpaid AR balance by current average days outstanding to estimate daily cash tied up, then multiplies by the days you expect to shorten with consistent follow-ups.",
   },
   {
-    q: "Is this the same as a DSO or ROI calculator?",
-    a: "It is a practical DSO / cash-flow style estimate plus time savings. It is not tax, accounting, or investment advice — use it to size the cost of slow collections.",
-  },
-  {
-    q: "How does Chasa help reduce days outstanding?",
-    a: "Chasa drafts tone-matched reminders for each overdue stage so you follow up sooner and more consistently. You still send the emails yourself.",
+    q: "Does docstoc email clients for me?",
+    a: "No. docstoc drafts follow-up emails; you review and send from your own inbox. That keeps your client relationship in your control.",
   },
 ];
 
-const indexMain = `
+const finderFaqs = [
+  {
+    q: "Do I need an account to use these templates?",
+    a: "No. Every template is free to view and copy without signing up — an account only matters if you want to submit your own template or use docstoc's other tools.",
+  },
+  {
+    q: "What if my situation isn't listed?",
+    a: "The eight situations above are the most common starting points, not the full list. Browse all 488+ templates for anything more specific — business, legal, real estate, finance, and HR documents are all covered.",
+  },
+  {
+    q: "Can I edit the template after copying it?",
+    a: "Yes. Templates are plain text you copy into your own document — there's no lock-in format or proprietary editor involved.",
+  },
+];
+
+const hashFaqs = [
+  {
+    q: "Is my file uploaded anywhere?",
+    a: "No. The hash is computed entirely in your browser using the Web Crypto API — the file's bytes never leave your device or get sent to any server.",
+  },
+  {
+    q: "What is SHA-256 used for?",
+    a: "SHA-256 produces a fixed-length fingerprint of a file. If even one byte changes, the hash changes completely — making it a reliable way to prove a file hasn't been altered.",
+  },
+  {
+    q: "How is this different from a docstoc certificate?",
+    a: "This tool just shows you the hash. A docstoc certificate stores that hash with a timestamp and gives you a shareable link anyone can use to verify the file later — this calculator is the same math, without the record-keeping.",
+  },
+];
+
+const sslFaqs = [
+  {
+    q: "Why 90 days for the default validity period?",
+    a: "Let's Encrypt — the certificate authority docstoc automates — issues certificates valid for 90 days by default, shorter than the 1-year certificates some paid providers sell.",
+  },
+  {
+    q: "What happens if a certificate expires?",
+    a: "Browsers show a security warning and block or flag the site as untrusted. Renewing before expiry avoids any visible disruption to visitors.",
+  },
+  {
+    q: "Can docstoc remind me automatically instead of me tracking this by hand?",
+    a: "Yes — once a domain is added in docstoc, it tracks expiry for you and emails a reminder before the certificate lapses, with a one-click renewal path.",
+  },
+];
+
+const toolsIndexMain = `
 <p class="crumb"><a href="/">Home</a> / Tools</p>
-<h1>Free invoice chase calculators</h1>
-<p class="lede">Estimate late payment interest and the cash you unlock when overdue invoices get paid sooner. Built for freelancers and small teams who chase invoices themselves — then draft the follow-up in <a href="/app/">Chasa</a>.</p>
+<h1>Free tools — one for each part of the workflow</h1>
+<p class="lede">Small, no-signup utilities that match docstoc's four products: finding the right template, checking a file's hash, tracking an SSL certificate's expiry, and estimating what late payments actually cost.</p>
 
 <div class="tools-card-grid">
-  <a class="tools-card" href="/tools/late-payment-calculator">
-    <h2>Late payment calculator</h2>
-    <p>Calculate interest and optional late fees on an unpaid invoice from overdue date to payment date.</p>
+  <a class="tools-card" href="/tools/template-finder">
+    <h2>Template finder</h2>
+    <p>Pick your situation, get a direct link to the right free business or legal template.</p>
   </a>
-  <a class="tools-card" href="/tools/chase-savings-calculator">
-    <h2>Chase savings calculator</h2>
-    <p>Estimate cash unlocked and hours saved if you cut days outstanding with consistent follow-ups.</p>
+  <a class="tools-card" href="/tools/file-hash-checker">
+    <h2>File hash checker</h2>
+    <p>Compute a file's SHA-256 hash in your browser — the same check behind docstoc's document certificates.</p>
+  </a>
+  <a class="tools-card" href="/tools/ssl-certificate-calculator">
+    <h2>SSL certificate expiry calculator</h2>
+    <p>Enter an issue date and validity period, get the exact expiry date and days remaining.</p>
+  </a>
+  <a class="tools-card" href="/tools/invoice-chase-calculator">
+    <h2>Invoice chase calculator</h2>
+    <p>Estimate late payment interest and the cash you unlock when overdue invoices get paid sooner.</p>
   </a>
 </div>
 
 <h2>Why these tools</h2>
-<p>These calculators run entirely in your browser — no signup, no data upload. Use them to size interest or cash impact, then draft a clear chase email in Chasa and send it yourself.</p>
-<p style="margin-top:28px"><a href="/app/" class="nav-cta">Draft a chase email</a></p>
+<p>Every tool here runs entirely in your browser — no signup, no data upload. Use them to size a decision, then do the actual work in <a href="/app/">docstoc</a> if it's a fit.</p>
 `.trim();
 
-const lateMain = `
-<p class="crumb"><a href="/">Home</a> / <a href="/tools/">Tools</a> / Late payment calculator</p>
-<h1>Late payment calculator</h1>
-<p class="lede">Calculate interest on an unpaid invoice. Enter amount, overdue date, payment date, and rate — see accrued interest, optional flat late fee, and the new total due.</p>
+const templateFinderMain = `
+<p class="crumb"><a href="/">Home</a> / <a href="/tools/">Tools</a> / Template finder</p>
+<h1>Template finder</h1>
+<p class="lede">Pick the situation closest to yours — each links straight to a free, ready-to-copy template. No signup, no search required.</p>
 
+<div class="finder-grid">
+  <a class="finder-card" href="/document-templates/independent-contractor-agreement-template">
+    <strong>Hiring a freelance contractor</strong>
+    <span>Independent Contractor Agreement</span>
+  </a>
+  <a class="finder-card" href="/document-templates/non-disclosure-and-non-circumvention-agreement-template">
+    <strong>Sharing confidential information</strong>
+    <span>Non-Disclosure &amp; Non-Circumvention Agreement</span>
+  </a>
+  <a class="finder-card" href="/document-templates/employee-offer-letter-template">
+    <strong>Hiring a new employee</strong>
+    <span>Employee Offer Letter</span>
+  </a>
+  <a class="finder-card" href="/document-templates/employment-termination-letter-template">
+    <strong>Ending someone's employment</strong>
+    <span>Employment Termination Letter</span>
+  </a>
+  <a class="finder-card" href="/document-templates/commercial-lease-agreement-template">
+    <strong>Renting out a commercial property</strong>
+    <span>Commercial Lease Agreement</span>
+  </a>
+  <a class="finder-card" href="/document-templates/eviction-notice-template">
+    <strong>Evicting a tenant</strong>
+    <span>Eviction Notice</span>
+  </a>
+  <a class="finder-card" href="/document-templates/demand-letter-unpaid-invoice-template">
+    <strong>An invoice went unpaid</strong>
+    <span>Demand Letter for Unpaid Invoice</span>
+  </a>
+  <a class="finder-card" href="/document-templates/">
+    <strong>Something else</strong>
+    <span>Browse all 488+ free templates →</span>
+  </a>
+</div>
+
+<h2>After you pick a template</h2>
+<p>Copy it directly — no account needed. If it's the final version of something a client needs proof of receiving, <a href="/app/certificates">certify it</a>. If it's tied to an invoice that goes unpaid, docstoc can <a href="/app/">draft the follow-up</a> for you.</p>
+
+<h2>FAQs</h2>
+${finderFaqs.map((f) => `<details class="faq-item"><summary>${f.q}</summary><p>${f.a}</p></details>`).join("\n")}
+
+<h3>Related</h3>
+<ul>
+  <li><a href="/marketplace">The document marketplace</a></li>
+  <li><a href="/use-cases/freelance-contract-templates">Real use case: hiring a freelance contractor</a></li>
+</ul>
+`.trim();
+
+const hashCheckerMain = `
+<p class="crumb"><a href="/">Home</a> / <a href="/tools/">Tools</a> / File hash checker</p>
+<h1>File hash checker</h1>
+<p class="lede">Drop a file to compute its SHA-256 hash instantly. Nothing is uploaded — the hash is calculated entirely in your browser using the Web Crypto API.</p>
+
+<div class="hash-drop" data-hash-drop tabindex="0" role="button" aria-label="Drop a file or click to choose one">
+  <p><strong>Click or drag a file here</strong></p>
+  <p>Nothing leaves your browser</p>
+  <input type="file" data-hash-input style="position:absolute; width:1px; height:1px; opacity:0; pointer-events:none;" />
+</div>
+
+<div class="hash-out" data-hash-out hidden>
+  <div class="hash-out-row">
+    <code data-hash-value>—</code>
+    <button type="button" class="hash-copy-btn" data-hash-copy>Copy</button>
+  </div>
+  <p class="calc-note" data-hash-meta></p>
+</div>
+
+<h2>What this proves</h2>
+<p>If you hash the same file twice — even on different computers — you get the exact same result. Change a single character inside the file and the hash changes completely. That makes it a reliable way to confirm a file wasn't altered after you last checked it.</p>
+<p style="margin-top:20px"><a href="/app/certificates" class="nav-cta">Turn this into a shareable certificate</a></p>
+
+<h2>FAQs</h2>
+${hashFaqs.map((f) => `<details class="faq-item"><summary>${f.q}</summary><p>${f.a}</p></details>`).join("\n")}
+
+<h3>Related</h3>
+<ul>
+  <li><a href="/use-cases/chasa-certificate-monitoring">Document certificate monitoring</a></li>
+  <li><a href="/verify/DOC-DEMO0001">See a sample verification page</a></li>
+</ul>
+`.trim();
+
+const sslCalcMain = `
+<p class="crumb"><a href="/">Home</a> / <a href="/tools/">Tools</a> / SSL certificate expiry calculator</p>
+<h1>SSL certificate expiry calculator</h1>
+<p class="lede">Enter when a certificate was issued and how long it's valid for — see the exact expiry date and how many days are left, before you're caught by a browser warning.</p>
+
+<div class="calc-grid" data-calc="ssl-expiry">
+  <div class="calc-panel">
+    <div class="calc-field">
+      <label for="ssl-issued">Date the certificate was issued</label>
+      <input id="ssl-issued" data-ssl-issued type="date" />
+    </div>
+    <div class="calc-field">
+      <label for="ssl-validity">Validity period (days)</label>
+      <select id="ssl-validity" data-ssl-validity>
+        <option value="90">90 days — Let's Encrypt (default)</option>
+        <option value="398">398 days — max allowed by browsers today</option>
+        <option value="365">365 days — 1 year</option>
+      </select>
+      <p class="calc-hint">docstoc issues 90-day Let's Encrypt certificates and reminds you before renewal is due.</p>
+    </div>
+  </div>
+  <div class="calc-results" aria-live="polite">
+    <p class="calc-stat"><span>Expiry date</span><strong data-ssl-out-expiry>—</strong></p>
+    <p class="calc-stat"><span>Days remaining</span><strong data-ssl-out-remaining>—</strong></p>
+    <p class="calc-note">Renew with a comfortable margin before the expiry date — DNS propagation and validation can take time.</p>
+  </div>
+</div>
+
+<h2>Why this matters</h2>
+<p>An expired SSL/TLS certificate shows visitors a security warning and can block access entirely, depending on the browser. Automated renewal reminders — like docstoc's — exist because manually tracking expiry across every domain doesn't scale.</p>
+<p style="margin-top:20px"><a href="/app/login?start=1" class="nav-cta" data-cta data-cta-source="tool_ssl_calc">Secure a domain with automated renewal reminders →</a></p>
+
+<h2>FAQs</h2>
+${sslFaqs.map((f) => `<details class="faq-item"><summary>${f.q}</summary><p>${f.a}</p></details>`).join("\n")}
+
+<h3>Related</h3>
+<ul>
+  <li><a href="/monitoringssl">SSL certificate monitoring</a></li>
+  <li><a href="/ssl">How docstoc's SSL automation works</a></li>
+</ul>
+`.trim();
+
+const chaseCalcMain = `
+<p class="crumb"><a href="/">Home</a> / <a href="/tools/">Tools</a> / Invoice chase calculator</p>
+<h1>Invoice chase calculator</h1>
+<p class="lede">Two quick estimates: interest owed on one overdue invoice, and the cash + time you could unlock by chasing consistently across all of them.</p>
+
+<h2>Late payment interest</h2>
 <div class="calc-grid" data-calc="late-payment">
   <div class="calc-panel">
     <div class="calc-field">
@@ -209,40 +404,9 @@ const lateMain = `
   </div>
 </div>
 
-<h2>How to calculate late payment interest</h2>
-<p>Late payment interest compensates you for cash tied up after the due date. The usual simple-interest formula is:</p>
-<p><strong>Interest = invoice amount × annual rate × (days overdue ÷ 365)</strong></p>
-<p>After you know the number, add it as a clear line item on an updated invoice or statement, then send a professional follow-up. Chasa can draft that email; you send it.</p>
+<hr class="calc-divider" />
 
-<h2>What to do next</h2>
-<ol>
-  <li>Confirm the rate is in your terms or allowed by local commercial rules.</li>
-  <li>Issue an updated invoice that itemizes original amount + interest (+ fee if any).</li>
-  <li><a href="/app/">Draft an overdue follow-up</a> that explains the new total without burning the relationship.</li>
-</ol>
-
-<h2>FAQs</h2>
-${lateFaqs
-  .map(
-    (f) => `<details class="faq-item"><summary>${f.q}</summary><p>${f.a}</p></details>`
-  )
-  .join("\n")}
-
-<h3>Related</h3>
-<ul>
-  <li><a href="/tools/chase-savings-calculator">Chase savings calculator</a></li>
-  <li><a href="/overdue-invoice">Overdue invoice follow-up</a></li>
-  <li><a href="/blog/freelancer-late-payment-policy/">Freelancer late payment policy</a></li>
-  <li><a href="/free-templates/">Free reminder templates</a></li>
-</ul>
-<p style="margin-top:28px"><a href="/app/" class="nav-cta">Draft the chase email</a></p>
-`.trim();
-
-const savingsMain = `
-<p class="crumb"><a href="/">Home</a> / <a href="/tools/">Tools</a> / Chase savings calculator</p>
-<h1>Chase savings calculator</h1>
-<p class="lede">Estimate cash unlocked and time saved when consistent invoice follow-ups cut days outstanding. A free DSO-style ROI check for freelancers and small finance teams — no signup.</p>
-
+<h2>Cash unlocked by chasing consistently</h2>
 <div class="calc-grid" data-calc="chase-savings">
   <div class="calc-panel">
     <div class="calc-field">
@@ -281,93 +445,115 @@ const savingsMain = `
     <p class="calc-stat"><span>Cash unlocked (working capital)</span><strong data-sv-out-cash>—</strong></p>
     <p class="calc-stat"><span>Chase time saved (est.)</span><strong data-sv-out-hours>—</strong></p>
     <p class="calc-stat"><span>Value of time saved / year</span><strong data-sv-out-timecost>—</strong></p>
-    <p class="calc-stat"><span>Approx. ROI vs Solo ($7/mo)</span><strong data-sv-out-roi>—</strong></p>
+    <p class="calc-stat"><span>Approx. ROI vs Solo ($9/mo)</span><strong data-sv-out-roi>—</strong></p>
     <p class="calc-note">Cash unlocked ≈ (AR ÷ days outstanding) × days cut. Time savings assume ~50% less manual chase work with a clear draft workflow. Illustrative only.</p>
   </div>
 </div>
 
-<h2>How this ROI estimate works</h2>
-<p>Every day an invoice sits unpaid ties up cash. If your average unpaid balance is high and days outstanding are long, even a modest reduction frees working capital you can use for payroll, tax, or growth.</p>
-<p>Chasa does not auto-email clients. It writes the follow-ups so you actually send them — the missing step for most freelancers who “mean to chase later.”</p>
-
 <h2>FAQs</h2>
-${savingsFaqs
-  .map(
-    (f) => `<details class="faq-item"><summary>${f.q}</summary><p>${f.a}</p></details>`
-  )
-  .join("\n")}
+${chaseFaqs.map((f) => `<details class="faq-item"><summary>${f.q}</summary><p>${f.a}</p></details>`).join("\n")}
 
 <h3>Related</h3>
 <ul>
-  <li><a href="/tools/late-payment-calculator">Late payment calculator</a></li>
-  <li><a href="/chase-invoices">Chase invoices overview</a></li>
-  <li><a href="/#pricing">Chasa pricing</a></li>
-  <li><a href="/payment-reminder">Payment reminder emails</a></li>
+  <li><a href="/overdue-invoice">Overdue invoice follow-up</a></li>
+  <li><a href="/blog/freelancer-late-payment-policy/">Freelancer late payment policy</a></li>
+  <li><a href="/free-templates/">Free reminder templates</a></li>
 </ul>
-<p style="margin-top:28px"><a href="/app/" class="nav-cta">Try Chasa free</a></p>
+<p style="margin-top:28px"><a href="/app/" class="nav-cta">Draft the chase email</a></p>
 `.trim();
 
 const pages = [
   {
     file: "index.html",
-    title: "Free Invoice Chase Calculators — Late Fees & Savings | Chasa",
+    title: "Free Tools — Template Finder, File Hash, SSL Expiry, Invoice Chase | docstoc",
     description:
-      "Free calculators for late payment interest and chase savings. Estimate fees on unpaid invoices and cash unlocked when you get paid faster.",
+      "Free no-signup tools: find the right template, check a file's SHA-256 hash, calculate SSL certificate expiry, and estimate invoice chase savings.",
     canonical: "/tools/",
-    mainHtml: indexMain,
+    mainHtml: toolsIndexMain,
     jsonLd: multiJsonLd(
       breadcrumbJsonLd([
         { name: "Home", item: "https://chasa.io/" },
         { name: "Tools", item: "https://chasa.io/tools/" },
-      ]),
-      webAppJsonLd({
-        name: "Chasa invoice chase calculators",
-        description:
-          "Free late payment interest and chase savings calculators for freelancers and small businesses.",
-        url: "https://chasa.io/tools/",
-      })
+      ])
     ),
   },
   {
-    file: "late-payment-calculator.html",
-    title: "Late Payment Calculator — Invoice Interest & Fees | Chasa",
+    file: "template-finder.html",
+    title: "Template Finder — Find the Right Free Document | docstoc",
     description:
-      "Free late payment calculator for unpaid invoices. Compute interest by days overdue, optional late fee, and updated total due. No signup.",
-    canonical: "/tools/late-payment-calculator",
-    mainHtml: lateMain,
+      "Pick your situation, get a direct link to the right free business or legal template. No search, no signup.",
+    canonical: "/tools/template-finder",
+    mainHtml: templateFinderMain,
     jsonLd: multiJsonLd(
       breadcrumbJsonLd([
         { name: "Home", item: "https://chasa.io/" },
         { name: "Tools", item: "https://chasa.io/tools/" },
-        { name: "Late payment calculator", item: "https://chasa.io/tools/late-payment-calculator" },
+        { name: "Template finder", item: "https://chasa.io/tools/template-finder" },
       ]),
-      webAppJsonLd({
-        name: "Late payment calculator",
-        description: "Calculate interest and late fees on an unpaid invoice.",
-        url: "https://chasa.io/tools/late-payment-calculator",
-      }),
-      faqJsonLd(lateFaqs)
+      faqJsonLd(finderFaqs)
     ),
   },
   {
-    file: "chase-savings-calculator.html",
-    title: "Chase Savings Calculator — DSO & Cash Unlocked | Chasa",
+    file: "file-hash-checker.html",
+    title: "Free File Hash Checker (SHA-256) — No Upload | docstoc",
     description:
-      "Free chase savings / ROI calculator. Estimate cash unlocked and hours saved when consistent invoice follow-ups reduce days outstanding.",
-    canonical: "/tools/chase-savings-calculator",
-    mainHtml: savingsMain,
+      "Compute a file's SHA-256 hash entirely in your browser. Nothing is uploaded. Free, instant, no signup.",
+    canonical: "/tools/file-hash-checker",
+    mainHtml: hashCheckerMain,
     jsonLd: multiJsonLd(
       breadcrumbJsonLd([
         { name: "Home", item: "https://chasa.io/" },
         { name: "Tools", item: "https://chasa.io/tools/" },
-        { name: "Chase savings calculator", item: "https://chasa.io/tools/chase-savings-calculator" },
+        { name: "File hash checker", item: "https://chasa.io/tools/file-hash-checker" },
       ]),
       webAppJsonLd({
-        name: "Chase savings calculator",
-        description: "Estimate working capital unlocked and time saved from faster invoice chasing.",
-        url: "https://chasa.io/tools/chase-savings-calculator",
+        name: "File hash checker",
+        description: "Compute a file's SHA-256 hash in the browser, no upload required.",
+        url: "https://chasa.io/tools/file-hash-checker",
       }),
-      faqJsonLd(savingsFaqs)
+      faqJsonLd(hashFaqs)
+    ),
+  },
+  {
+    file: "ssl-certificate-calculator.html",
+    title: "SSL Certificate Expiry Calculator | docstoc",
+    description:
+      "Enter a certificate's issue date and validity period to see the exact expiry date and days remaining. Free, no signup.",
+    canonical: "/tools/ssl-certificate-calculator",
+    mainHtml: sslCalcMain,
+    jsonLd: multiJsonLd(
+      breadcrumbJsonLd([
+        { name: "Home", item: "https://chasa.io/" },
+        { name: "Tools", item: "https://chasa.io/tools/" },
+        { name: "SSL certificate expiry calculator", item: "https://chasa.io/tools/ssl-certificate-calculator" },
+      ]),
+      webAppJsonLd({
+        name: "SSL certificate expiry calculator",
+        description: "Calculate SSL/TLS certificate expiry date and days remaining.",
+        url: "https://chasa.io/tools/ssl-certificate-calculator",
+      }),
+      faqJsonLd(sslFaqs)
+    ),
+  },
+  {
+    file: "invoice-chase-calculator.html",
+    title: "Invoice Chase Calculator — Late Fees & Savings | docstoc",
+    description:
+      "Free calculator for late payment interest and chase savings. Estimate fees on unpaid invoices and cash unlocked when you get paid faster.",
+    canonical: "/tools/invoice-chase-calculator",
+    mainHtml: chaseCalcMain,
+    jsonLd: multiJsonLd(
+      breadcrumbJsonLd([
+        { name: "Home", item: "https://chasa.io/" },
+        { name: "Tools", item: "https://chasa.io/tools/" },
+        { name: "Invoice chase calculator", item: "https://chasa.io/tools/invoice-chase-calculator" },
+      ]),
+      webAppJsonLd({
+        name: "Invoice chase calculator",
+        description: "Estimate late payment interest and cash unlocked from consistent invoice chasing.",
+        url: "https://chasa.io/tools/invoice-chase-calculator",
+      }),
+      faqJsonLd(chaseFaqs)
     ),
   },
 ];
@@ -387,4 +573,4 @@ for (const page of pages) {
   console.log(`Wrote tools/${page.file}`);
 }
 
-console.log("Done — calculator pages generated.");
+console.log("Done — tool pages generated.");

@@ -54,7 +54,7 @@ function buildJsonLd(slug, name, faq) {
 const FAQ_TEMPLATES = [
   {
     q: "Are these unpaid invoice follow-up templates really free?",
-    a: "Yes — every template linked above is free to copy and use, with no account required. AI tone adjustments (soften, firm up, shorten) are available on Solo ($7/mo) and Pro.",
+    a: "Yes — every template linked above is free to copy and use, with no account required. AI tone adjustments (soften, firm up, shorten) are available on Solo ($9/mo) and Pro.",
   },
   {
     q: "Can I edit these templates for my own business?",
@@ -99,7 +99,7 @@ const FAQ_30DAY = [
 const FAQ_TOOL = [
   {
     q: "Does the tool auto-send reminder emails?",
-    a: "No. Chasa only drafts the email — you review it and send it yourself from your own inbox. Nothing goes out automatically.",
+    a: "No. docstoc only drafts the email — you review it and send it yourself from your own inbox. Nothing goes out automatically.",
   },
   {
     q: "Do I need to connect my accounting software?",
@@ -114,9 +114,9 @@ const FAQ_TOOL = [
 const PAGES = [
   {
     slug: "unpaid-invoice-follow-up-templates",
-    title: "Unpaid Invoice Follow-Up Templates — 12 Free Copy-Paste Emails | Chasa",
+    title: "Unpaid Invoice Follow-Up Templates — 12 Free Copy-Paste Emails | docstoc",
     description:
-      "12 free unpaid invoice follow-up templates for every stage — before due, gentle overdue, formal notice, final warning. Copy, paste, or let Chasa write it for you.",
+      "12 free unpaid invoice follow-up templates for every stage — before due, gentle overdue, formal notice, final warning. Copy, paste, or let docstoc write it for you.",
     breadcrumb: "Unpaid invoice follow-up templates",
     faq: FAQ_TEMPLATES,
     main: `<h1>Unpaid invoice follow-up templates for every stage of late payment</h1>
@@ -138,7 +138,7 @@ const PAGES = [
   <p>Every template above keeps three things constant: the invoice number and amount stated plainly, one clear next step (pay by a specific date, or reply with a status), and a tone that matches how late the payment is. Copy one as-is, or open it on Solo/Pro to soften, firm up, or shorten it for your exact invoice.</p>
 
   <h3>When a template isn't enough</h3>
-  <p>If you're chasing more than a couple of invoices, rewriting placeholders by hand gets old fast. Chasa lets you paste invoice details or upload a CSV from QuickBooks, Xero, or FreshBooks, and drafts the follow-up for you — matched to days overdue, ready to copy into your own inbox.</p>
+  <p>If you're chasing more than a couple of invoices, rewriting placeholders by hand gets old fast. docstoc lets you paste invoice details or upload a CSV from QuickBooks, Xero, or FreshBooks, and drafts the follow-up for you — matched to days overdue, ready to copy into your own inbox.</p>
 
   <p style="margin-top:28px"><a href="/app/" class="nav-cta">Try free — 5 AI drafts</a></p>
 
@@ -151,12 +151,12 @@ const PAGES = [
     <li><a href="/invoice-follow-up">Invoice follow-up emails overview</a></li>
     <li><a href="/payment-reminder">Payment reminder emails</a></li>
     <li><a href="/overdue-invoice">Overdue invoice follow-up</a></li>
-    <li><a href="/tools/late-payment-calculator">Late payment calculator</a></li>
+    <li><a href="/tools/invoice-chase-calculator">Invoice chase calculator</a></li>
   </ul>`,
   },
   {
     slug: "polite-payment-reminder-email",
-    title: "Polite Payment Reminder Email — How to Write One (Free Template) | Chasa",
+    title: "Polite Payment Reminder Email — How to Write One (Free Template) | docstoc",
     description:
       "A polite payment reminder email stays clear and specific without sounding passive or apologetic. See what to include, two example emails, and a free template.",
     breadcrumb: "Polite payment reminder email",
@@ -192,7 +192,7 @@ const PAGES = [
   },
   {
     slug: "30-day-overdue-invoice-email",
-    title: "30-Day Overdue Invoice Email — Free Formal Notice Template | Chasa",
+    title: "30-Day Overdue Invoice Email — Free Formal Notice Template | docstoc",
     description:
       "At 30 days overdue, your email needs a firmer, documented tone. What to include in a 30-day overdue invoice email, plus a free formal notice template.",
     breadcrumb: "30-day overdue invoice email",
@@ -229,27 +229,27 @@ const PAGES = [
     <li><a href="/free-templates/formal-overdue-notice-30-days">30-day formal notice template</a></li>
     <li><a href="/free-templates/final-notice-before-collections">Final notice before collections</a></li>
     <li><a href="/polite-payment-reminder-email">Polite payment reminder email</a></li>
-    <li><a href="/tools/late-payment-calculator">Late payment calculator</a></li>
+    <li><a href="/tools/invoice-chase-calculator">Invoice chase calculator</a></li>
   </ul>`,
   },
   {
     slug: "freelancer-invoice-reminder-tool",
-    title: "Invoice Reminder Tool for Freelancers — Free AI Drafts | Chasa",
+    title: "Invoice Reminder Tool for Freelancers — Free AI Drafts | docstoc",
     description:
-      "Chasa is an invoice reminder tool built for freelancers — paste an unpaid invoice, get a tone-matched reminder email in seconds. Free tier, no signup, no auto-send.",
+      "docstoc is an invoice reminder tool built for freelancers — paste an unpaid invoice, get a tone-matched reminder email in seconds. Free tier, no signup, no auto-send.",
     breadcrumb: "Freelancer invoice reminder tool",
     faq: FAQ_TOOL,
     main: `<h1>An invoice reminder tool built for how freelancers actually invoice</h1>
   <p class="lede">No AR team, no CRM setup, no per-seat pricing — just a tool that turns an unpaid invoice into a reminder email you can send from your own inbox.</p>
 
   <h3>How the tool works</h3>
-  <p>Paste the client name, amount, and due date — or upload a CSV export from QuickBooks, Xero, Wave, or FreshBooks. Chasa drafts a reminder matched to how late the invoice is: friendly at a few days overdue, firmer past 30. Copy it into Gmail, Outlook, or Apple Mail and send it yourself.</p>
+  <p>Paste the client name, amount, and due date — or upload a CSV export from QuickBooks, Xero, Wave, or FreshBooks. docstoc drafts a reminder matched to how late the invoice is: friendly at a few days overdue, firmer past 30. Copy it into Gmail, Outlook, or Apple Mail and send it yourself.</p>
 
   <h3>Built for freelancers, not enterprise AR teams</h3>
   <p>Nothing auto-sends. There's no per-seat pricing, no collections workflow, and no dashboard you need to learn before your first reminder goes out. It's built for the reality of solo work: you invoice from a few tools, and you don't have time to rewrite the same email every week.</p>
 
   <h3>What's included free</h3>
-  <p>Five AI drafts per month, 18 copy-paste templates, CSV upload, and an aging board to see what's overdue at a glance. Solo ($7/mo) adds QuickBooks/Xero sync, tone adjustments, and unlimited drafts.</p>
+  <p>Five AI drafts per month, 18 copy-paste templates, CSV upload, and an aging board to see what's overdue at a glance. Solo ($9/mo) adds QuickBooks/Xero sync, tone adjustments, and unlimited drafts.</p>
 
   <p style="margin-top:28px"><a href="/app/" class="nav-cta">Try the tool free</a></p>
 
@@ -259,7 +259,7 @@ const PAGES = [
   <h3>Related resources</h3>
   <ul>
     <li><a href="/freelancer-invoice-follow-up">Freelancer invoice follow-up guide</a></li>
-    <li><a href="/industry/freelancers">Chasa for freelancers &amp; consultants</a></li>
+    <li><a href="/industry/freelancers">docstoc for freelancers &amp; consultants</a></li>
     <li><a href="/features/">Features overview</a></li>
     <li><a href="/#pricing">Compare plans</a></li>
     <li><a href="/unpaid-invoice-follow-up-templates">Unpaid invoice follow-up templates</a></li>

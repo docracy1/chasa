@@ -20,7 +20,7 @@ function extractMain(html) {
 
 function extractTitle(html) {
   const match = html.match(/<title>([^<]*)<\/title>/i);
-  return match ? match[1].trim() : "Chasa";
+  return match ? match[1].trim() : "docstoc";
 }
 
 function extractDescription(html) {

@@ -1,13 +1,60 @@
 /** Regeneratable marketing pages — main content is preserved via extraction. */
 
 /** @type {Array<{ file: string; depth?: number; activeNav?: string; extraHead?: string }>} */
+const OVERDUE_GUIDE_STYLE = `<style>
+  .guide-toc { background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 12px; padding: 24px 28px; margin-bottom: 32px; }
+  .guide-toc h2 { font-size: 15px; font-weight: 700; margin: 0 0 12px; text-transform: uppercase; letter-spacing: 0.04em; color: #6b7280; }
+  .guide-toc ol { margin: 0; padding-left: 20px; columns: 2; column-gap: 32px; }
+  .guide-toc li { font-size: 14.5px; line-height: 1.9; }
+  .guide-toc a { color: inherit; text-decoration: none; }
+  .guide-toc a:hover { color: var(--accent, #F58025); }
+  .guide-section { background: #fff; border: 1px solid #e5e7eb; border-radius: 12px; padding: 32px; margin-bottom: 28px; }
+  .guide-section h2 { font-size: 26px; font-weight: 700; margin: 0 0 14px; }
+  .guide-section h3 { font-size: 18px; font-weight: 700; margin: 24px 0 10px; }
+  .guide-section p { font-size: 15.5px; line-height: 1.7; color: #374151; margin: 0 0 14px; }
+  .guide-section ul, .guide-section ol { font-size: 15.5px; line-height: 1.8; color: #374151; padding-left: 22px; margin: 0 0 14px; }
+  .guide-disclaimer { font-size: 13px; color: #9ca3af; border-top: 1px solid #f3f4f6; margin-top: 20px; padding-top: 14px; }
+  .guide-live-badge { display: inline-block; font-size: 13px; font-weight: 700; color: #16a34a; margin-bottom: 12px; }
+  .guide-roadmap-badge { display: inline-block; font-size: 13px; font-weight: 700; padding: 6px 12px; border-radius: 999px; background: #f9fafb; border: 1px solid #e5e7eb; color: #374151; margin-bottom: 12px; }
+  .guide-compare-table { width: 100%; border-collapse: collapse; font-size: 14.5px; margin: 8px 0 16px; }
+  .guide-compare-table th, .guide-compare-table td { text-align: left; padding: 10px 14px; border-bottom: 1px solid #e5e7eb; }
+  .guide-compare-table th { font-weight: 700; color: #262626; background: #f9fafb; }
+  .guide-compare-table td { color: #4b5563; }
+  .guide-template-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin: 8px 0 4px; }
+  .guide-template-grid a { display: block; padding: 12px 14px; border: 1px solid #e5e7eb; border-radius: 8px; text-decoration: none; color: #262626; font-size: 14px; font-weight: 600; }
+  .guide-template-grid a:hover { border-color: var(--accent, #F58025); }
+  .guide-faq-item { border-bottom: 1px solid #f3f4f6; padding: 16px 0; }
+  .guide-faq-item summary { font-size: 16px; font-weight: 700; cursor: pointer; color: #262626; }
+  .guide-faq-item p { margin-top: 10px; }
+  .guide-related-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
+  .guide-related-grid a { display: block; padding: 16px; border: 1px solid #e5e7eb; border-radius: 8px; text-decoration: none; color: inherit; }
+  .guide-related-grid strong { display: block; font-size: 15px; color: #262626; }
+  .guide-related-grid span { font-size: 13px; color: #6b7280; }
+  @media (max-width: 640px) { .guide-toc ol { columns: 1; } }
+</style>`;
+
 export const MARKETING_PAGES = [
+  // Hand-authored long-form guide — added to the manifest (rather than left as a hardcoded
+  // one-off) so it stops drifting out of sync with chrome.mjs header/footer changes.
+  { file: "overdue-invoices-guide.html", extraHead: OVERDUE_GUIDE_STYLE },
   // SEO landings
   { file: "payment-reminder.html" },
   { file: "overdue-invoice.html" },
   { file: "invoice-follow-up.html" },
   { file: "freelancer-invoice-follow-up.html" },
   { file: "chase-invoices.html" },
+  // Keyword-targeted product landing pages (clean slugs, no "chasa" prefix)
+  { file: "marketplace.html", activeNav: "templates" },
+  { file: "freetemplates.html", activeNav: "templates" },
+  { file: "monitoring.html" },
+  { file: "monitoringssl.html" },
+  { file: "monitoringtls.html" },
+  { file: "ssl.html" },
+  { file: "tsl.html" },
+  { file: "certificate.html" },
+  { file: "invoices.html" },
+  { file: "outgoinginvoices.html" },
+  { file: "chasinginvoices.html" },
   // SEO capture long-tail landings (see generate-seo-capture-pages.mjs)
   { file: "unpaid-invoice-follow-up-templates.html" },
   { file: "polite-payment-reminder-email.html" },
@@ -30,6 +77,8 @@ export const MARKETING_PAGES = [
   { file: "chasa-vs-xero.html" },
   { file: "chasa-vs-zervant.html" },
   { file: "chasa-vs-billomat.html" },
+  // Docstoc SEO/backlink reclamation
+  { file: "docstoc-alternative.html", activeNav: "templates" },
   // Features
   { file: "features/index.html", depth: 1, activeNav: "features" },
   { file: "features/templates.html", depth: 1, activeNav: "templates" },
@@ -48,6 +97,8 @@ export const MARKETING_PAGES = [
   { file: "use-cases/chasa-certificate-monitoring.html", depth: 1, activeNav: "use-cases" },
   { file: "use-cases/document-signing-api.html", depth: 1, activeNav: "use-cases" },
   { file: "use-cases/flat-fee-esign.html", depth: 1, activeNav: "use-cases" },
+  { file: "use-cases/freelance-contract-templates.html", depth: 1, activeNav: "use-cases" },
+  { file: "use-cases/free-ssl-for-your-domain.html", depth: 1, activeNav: "use-cases" },
   // Docs
   { file: "docs/index.html", depth: 1 },
   // About & legal

@@ -196,8 +196,8 @@ function buildIndexMain(posts) {
     .join("\n    ");
 
   return `<section class="blog-hero">
-    <h1>Practical guides for<br>getting paid faster.</h1>
-    <p class="lede">Short, high-signal articles about invoice follow-ups, tone, and cash flow — written for freelancers and small teams who chase payment themselves.</p>
+    <h1>Practical guides for running<br>your business, not chasing tools.</h1>
+    <p class="lede">Short, high-signal articles on free business &amp; legal templates, document certificates, SSL for your domain, and getting paid on time — written for freelancers and small teams.</p>
   </section>
   <div class="blog-layout">
     <div class="blog-posts">
@@ -205,11 +205,11 @@ function buildIndexMain(posts) {
     </div>
     <aside class="blog-sidebar-cta">
       <span class="blog-sidebar-eyebrow">Quick help</span>
-      <h3>Not sure how to word your next chase?</h3>
-      <p>Paste your invoice details and get a tone-matched follow-up draft in seconds — free, no signup.</p>
-      <a class="blog-sidebar-btn blog-sidebar-btn-primary" href="/app/">Try Chasa free</a>
-      <a class="blog-sidebar-btn blog-sidebar-btn-secondary" href="/free-templates/">Browse free templates</a>
-      <p class="blog-sidebar-tip">Tip: stay friendly under 7 days late, get firmer past 30, and always leave the door open for a reply.</p>
+      <h3>One place for the paperwork side of your business</h3>
+      <p>Free templates, document certificates, SSL for your domain, and AI-drafted invoice follow-ups — no signup required to start.</p>
+      <a class="blog-sidebar-btn blog-sidebar-btn-primary" href="/app/">Try docstoc free</a>
+      <a class="blog-sidebar-btn blog-sidebar-btn-secondary" href="/document-templates/">Browse free templates</a>
+      <p class="blog-sidebar-tip">Tip: stay friendly under 7 days late on a chase, get firmer past 30, and always leave the door open for a reply.</p>
     </aside>
   </div>`;
 }
@@ -220,6 +220,69 @@ function renderBody(body) {
   return structuredBodyToHtml(body);
 }
 
+const PILLAR_RESOURCES = {
+  templates: {
+    stripCopy: "Browse the full free template library — contracts, NDAs, offer letters and more",
+    stripHref: "/document-templates/",
+    stripLabel: "Browse templates",
+    links: [
+      ["/document-templates/", "Free business & legal document templates"],
+      ["/free-templates/", "Free payment reminder email templates"],
+      ["/certificate.html", "Certify a signed document"],
+      ["/app/", "Try docstoc free"],
+    ],
+  },
+  certificates: {
+    stripCopy: "Certify your first document free — hashed in your browser, anchored to Bitcoin",
+    stripHref: "/certificate.html",
+    stripLabel: "Certify a document",
+    links: [
+      ["/certificate.html", "Create a document certificate"],
+      ["/security.html", "docstoc security & trust overview"],
+      ["/document-templates/", "Free business & legal document templates"],
+      ["/app/", "Try docstoc free"],
+    ],
+  },
+  ssl: {
+    stripCopy: "Add your domain and get a free, real Let's Encrypt certificate",
+    stripHref: "/ssl.html",
+    stripLabel: "Set up free SSL",
+    links: [
+      ["/ssl.html", "Free SSL/TLS automation for your domain"],
+      ["/monitoring.html", "SSL certificate monitoring"],
+      ["/security.html", "docstoc security & trust overview"],
+      ["/app/", "Try docstoc free"],
+    ],
+  },
+  chasing: {
+    stripCopy: "Get your polite invoice templates PDF to chase clients with confidence",
+    stripHref: "/free-templates/download",
+    stripLabel: "Download",
+    links: [
+      ["/tools/invoice-chase-calculator", "Invoice chase calculator"],
+      ["/blog/invoice-chase-software-comparison/", "docstoc vs Chaser, Paidnice &amp; other invoice chase tools"],
+      ["/free-templates/", "Free payment reminder email templates"],
+      ["/app/", "Try the AI invoice follow-up tool"],
+      ["/payment-reminder", "Payment reminder emails guide"],
+      ["/overdue-invoice", "Overdue invoice follow-up"],
+      ["/invoice-follow-up", "Invoice follow-up best practices"],
+    ],
+  },
+};
+
+function pillarForPost(post) {
+  switch (post.slug) {
+    case "free-business-legal-document-templates":
+      return "templates";
+    case "document-certificates-tamper-evident-verification":
+      return "certificates";
+    case "free-ssl-automation-lets-encrypt-domain":
+      return "ssl";
+    default:
+      return "chasing";
+  }
+}
+
 function buildPostMain(post, body, depth = 2) {
   const prefix = "../".repeat(depth);
   const href = (p) => `${prefix}${p.replace(/^\//, "")}`;
@@ -227,45 +290,42 @@ function buildPostMain(post, body, depth = 2) {
     post.slug === "invoice-chase-software-comparison"
       ? `\n<script src="${href("/price-compare.js")}" defer></script>`
       : "";
+  const pillar = PILLAR_RESOURCES[pillarForPost(post)];
+  const resourceLinks = pillar.links
+    .map(([path, label]) => `<li><a href="${href(path)}">${label}</a></li>`)
+    .join("\n      ");
   return `<p><a href="${href("/blog/")}">← Blog</a></p>
   <h1>${escapeHtml(post.title)}</h1>
   ${post.description ? `<p class="lede">${escapeHtml(post.description)}</p>` : ""}
   ${renderBody(body)}
   <section style="margin-top:40px;padding-top:24px;border-top:1px solid var(--line)">
-    <aside class="tpl-pack-strip" aria-label="Download the full PDF pack">
-      <p class="tpl-pack-strip-copy">Get your polite invoice templates PDF to chase clients with confidence</p>
-      <a class="tpl-pack-strip-btn" href="${href("/free-templates/download")}">Download</a>
+    <aside class="tpl-pack-strip" aria-label="Related resource">
+      <p class="tpl-pack-strip-copy">${pillar.stripCopy}</p>
+      <a class="tpl-pack-strip-btn" href="${href(pillar.stripHref)}">${pillar.stripLabel}</a>
     </aside>
     <h2>Related resources</h2>
     <ul>
-      <li><a href="${href("/tools/late-payment-calculator")}">Late payment calculator</a></li>
-      <li><a href="${href("/tools/chase-savings-calculator")}">Chase savings calculator</a></li>
-      <li><a href="${href("/blog/invoice-chase-software-comparison/")}">Chasa vs Chaser, Paidnice &amp; other invoice chase tools</a></li>
-      <li><a href="${href("/free-templates/")}">Free payment reminder email templates</a></li>
-      <li><a href="${href("/app/")}">Try the AI invoice follow-up tool</a></li>
-      <li><a href="${href("/payment-reminder")}">Payment reminder emails guide</a></li>
-      <li><a href="${href("/overdue-invoice")}">Overdue invoice follow-up</a></li>
-      <li><a href="${href("/invoice-follow-up")}">Invoice follow-up best practices</a></li>
+      ${resourceLinks}
     </ul>
   </section>${script}`;
 }
 
 const COMPARISON_FAQ = [
   {
-    q: "Is Chasa a Chaser alternative?",
+    q: "Is docstoc a Chaser alternative?",
     a: "Yes for freelancers and small teams who want cheaper, draft-only follow-ups. Chaser targets SMB/mid-market AR with auto-send starting at a much higher price point.",
   },
   {
-    q: "Does Chasa auto-send payment reminders?",
-    a: "No. Chasa writes the email; you copy it into Gmail, Outlook, or Apple Mail (or open a mailto link). Clients always hear from you.",
+    q: "Does docstoc auto-send payment reminders?",
+    a: "No. docstoc writes the email; you copy it into Gmail, Outlook, or Apple Mail (or open a mailto link). Clients always hear from you.",
   },
   {
-    q: "How does Chasa pricing compare?",
-    a: "Solo is $7/mo flat per workspace; Pro is $17/mo. Competitors often use revenue tiers, seat caps, or higher entry plans (Paidnice from $69/mo, Chaser Compact from $259/mo).",
+    q: "How does docstoc pricing compare?",
+    a: "Solo is $9/mo flat per workspace; Pro is $19/mo. Competitors often use revenue tiers, seat caps, or higher entry plans (Paidnice from $69/mo, Chaser Compact from $259/mo).",
   },
   {
-    q: "Can Chasa replace Paidnice or Duefy?",
-    a: "If you need full auto-send sequences and a hosted payment portal, those tools may fit better. If you want AI drafts, tone controls, and inbox-first sending at a lower price, Chasa is built for that.",
+    q: "Can docstoc replace Paidnice or Duefy?",
+    a: "If you need full auto-send sequences and a hosted payment portal, those tools may fit better. If you want AI drafts, tone controls, and inbox-first sending at a lower price, docstoc is built for that.",
   },
 ];
 
@@ -296,11 +356,11 @@ function buildJsonLd(post) {
     url: `https://chasa.io/blog/${post.slug}/`,
     datePublished: post.publishedAt || undefined,
     dateModified: post.publishedAt || undefined,
-    author: { "@type": "Organization", name: "Chasa" },
+    author: { "@type": "Organization", name: "docstoc" },
     publisher: {
       "@type": "Organization",
       name: "RELACON GmbH",
-      logo: { "@type": "ImageObject", url: "https://chasa.io/brand/chasa-icon.png" },
+      logo: { "@type": "ImageObject", url: "https://chasa.io/brand/docstoc-icon.png" },
     },
     mainEntityOfPage: `https://chasa.io/blog/${post.slug}/`,
   };
@@ -340,14 +400,14 @@ const blogIndexJsonLd = JSON.stringify(
   {
     "@context": "https://schema.org",
     "@type": "Blog",
-    name: "Chasa Blog",
+    name: "docstoc Blog",
     url: "https://chasa.io/blog/",
     description:
-      "Practical guides on invoice follow-ups, payment reminder emails, and AR policy for freelancers and small teams.",
+      "Practical guides on free business & legal templates, document certificates, free SSL for your domain, and invoice follow-ups for freelancers and small teams.",
     publisher: {
       "@type": "Organization",
       name: "RELACON GmbH",
-      logo: { "@type": "ImageObject", url: "https://chasa.io/brand/chasa-icon.png" },
+      logo: { "@type": "ImageObject", url: "https://chasa.io/brand/docstoc-icon.png" },
     },
     blogPost: posts.map((p) => ({
       "@type": "BlogPosting",
@@ -362,9 +422,9 @@ const blogIndexJsonLd = JSON.stringify(
 );
 
 const indexHtml = chrome({
-  title: "Invoice Chasing & Payment Reminder Guides | Chasa Blog",
+  title: "Free Templates, SSL, Document Certificates & Invoice Guides | docstoc Blog",
   description:
-    "Practical guides on chasing overdue invoices, writing payment reminder emails, and building an AR policy for freelancers and small teams.",
+    "Practical guides on free business & legal templates, document certificates, free SSL for your domain, and chasing overdue invoices — for freelancers and small teams.",
   canonical: "/blog/",
   activeNav: "blog",
   mainHtml: buildIndexMain(posts),
@@ -385,8 +445,8 @@ for (const post of posts) {
 
   const title =
     post.slug === "invoice-chase-software-comparison"
-      ? `${post.title} (2026) — Chasa`
-      : `${post.title} — Chasa`;
+      ? `${post.title} (2026) — docstoc`
+      : `${post.title} — docstoc`;
 
   const postHtml = chrome({
     title,

@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>docstoc is back</title>
+  <style>
+    :root {
+      --accent: #F58025;
+      --ink: #14100d;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: #060504;
+      overflow: hidden;
+    }
+    .scene-shell { position: relative; width: 1280px; height: 720px; }
+    .scene {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 22px;
+      text-align: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.6s ease;
+      background:
+        radial-gradient(circle at 50% 0%, color-mix(in srgb, var(--accent) 26%, transparent) 0%, transparent 55%),
+        radial-gradient(ellipse at 15% 85%, color-mix(in srgb, var(--accent) 14%, transparent) 0%, transparent 50%),
+        linear-gradient(180deg, #14100d 0%, #0b0908 55%, #060504 100%);
+      color: #fff;
+    }
+    .scene.active { opacity: 1; pointer-events: auto; }
+
+    /* --- Scene 0: nostalgia hook --- */
+    #sc0 { background: #060504; }
+    .old-mark {
+      font-family: Georgia, serif;
+      font-size: 46px;
+      font-weight: 700;
+      color: rgba(255,255,255,0.5);
+      letter-spacing: -0.01em;
+      opacity: 0;
+      animation: flicker-in 1.4s ease forwards;
+    }
+    .old-mark .stoc { color: rgba(245,128,37,0.55); }
+    .old-tagline {
+      font-size: 14px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.28);
+      opacity: 0;
+      animation: fade-in 1s ease forwards;
+      animation-delay: 1.2s;
+    }
+    @keyframes flicker-in {
+      0% { opacity: 0; }
+      8% { opacity: 0.7; }
+      12% { opacity: 0.1; }
+      20% { opacity: 0.6; }
+      28% { opacity: 0.2; }
+      45% { opacity: 0.9; }
+      100% { opacity: 1; }
+    }
+    @keyframes fade-in { to { opacity: 1; } }
+
+    /* --- Scene 1: nostalgia payoff --- */
+    #sc1 p {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: 30px;
+      font-weight: 700;
+      max-width: 18em;
+      line-height: 1.3;
+      margin: 0;
+      color: rgba(255,255,255,0.85);
+    }
+
+    /* --- Scene 2: the reveal --- */
+    .reveal-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 18px;
+      border-radius: 999px;
+      background: rgba(245,128,37,0.14);
+      border: 1px solid rgba(245,128,37,0.4);
+      font-size: 13px;
+      font-weight: 700;
+      color: #fff;
+    }
+    .reveal-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); }
+    #sc2 h1 {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: 62px;
+      font-weight: 700;
+      margin: 0;
+      line-height: 1.1;
+    }
+    #sc2 h1 .accent { color: var(--accent); }
+
+    /* --- Product beat scenes (3-6) --- */
+    .beat-icon {
+      width: 84px;
+      height: 84px;
+      border-radius: 20px;
+      background: var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 16px 40px rgba(245,128,37,0.35);
+    }
+    .beat-icon svg { width: 42px; height: 42px; }
+    .beat-title {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: 34px;
+      font-weight: 700;
+      margin: 0;
+    }
+    .beat-sub {
+      font-size: 16px;
+      color: rgba(255,255,255,0.65);
+      margin: 0;
+      max-width: 22em;
+    }
+    .beat-index {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(245,128,37,0.85);
+    }
+
+    /* --- Closing scene --- */
+    #sc7 .logo-word {
+      font-family: 'Inter', sans-serif;
+      font-size: 44px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+    #sc7 .tagline {
+      font-size: 15px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.55);
+      margin-top: -8px;
+    }
+    #sc7 .cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 28px;
+      border-radius: 999px;
+      background: var(--accent);
+      color: #fff;
+      font-weight: 700;
+      font-size: 16px;
+      margin-top: 12px;
+    }
+    #sc7 .fine-print { font-size: 12.5px; color: rgba(255,255,255,0.4); }
+  </style>
+</head>
+<body>
+  <div class="scene-shell">
+
+    <section class="scene active" id="sc0">
+      <div class="old-mark">.doc <span class="stoc">stoc</span></div>
+      <div class="old-tagline">the internet's free document library</div>
+    </section>
+
+    <section class="scene" id="sc1">
+      <p>You remember docstoc.com.<br>Then one day, it was just&nbsp;gone.</p>
+    </section>
+
+    <section class="scene" id="sc2">
+      <span class="reveal-badge"><span class="reveal-dot"></span>docstoc is back</span>
+      <h1>Same name.<br><span class="accent">A whole new layer.</span></h1>
+    </section>
+
+    <section class="scene" id="sc3">
+      <span class="beat-index">01 · Templates</span>
+      <div class="beat-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9.5l1-4h14l1 4" /><path d="M4 9.5a2.25 2.25 0 0 0 4.5 0 2.25 2.25 0 0 0 4.5 0 2.25 2.25 0 0 0 4.5 0 2.25 2.25 0 0 0 4.5 0" /><path d="M5.5 11v9h13v-9" /></svg>
+      </div>
+      <h2 class="beat-title">488+ free templates</h2>
+      <p class="beat-sub">Business &amp; legal documents — copy and go, no signup.</p>
+    </section>
+
+    <section class="scene" id="sc4">
+      <span class="beat-index">02 · Certificates</span>
+      <div class="beat-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5.5c0 5-3.5 8-7 9.5-3.5-1.5-7-4.5-7-9.5V6l7-3z" /><path d="M9 12l2 2 4-4" /></svg>
+      </div>
+      <h2 class="beat-title">Certify any document</h2>
+      <p class="beat-sub">Hashed in your browser, now Bitcoin-anchored.</p>
+    </section>
+
+    <section class="scene" id="sc5">
+      <span class="beat-index">03 · SSL / TLS</span>
+      <div class="beat-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="1.5" /><path d="M8 11V7a4 4 0 0 1 8 0v4" /></svg>
+      </div>
+      <h2 class="beat-title">Free SSL for your domain</h2>
+      <p class="beat-sub">Real Let's Encrypt certificates, no ACME setup.</p>
+    </section>
+
+    <section class="scene" id="sc6">
+      <span class="beat-index">04 · Invoice chasing</span>
+      <div class="beat-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12.5 2.5L4 14h6l-1 7.5L20 10h-6l-1.5-7.5z" /></svg>
+      </div>
+      <h2 class="beat-title">AI chases what's unpaid</h2>
+      <p class="beat-sub">Tone-matched follow-ups — you review, you send.</p>
+    </section>
+
+    <section class="scene" id="sc7">
+      <div class="logo-word">docstoc</div>
+      <div class="tagline">Secure. Automate. Certify.</div>
+      <div class="cta">Start free →</div>
+      <div class="fine-print">No credit card required · docstoc.io</div>
+    </section>
+
+  </div>
+
+  <script>
+    const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+    function show(id) {
+      document.querySelectorAll(".scene").forEach((s) => s.classList.remove("active"));
+      document.getElementById(id).classList.add("active");
+    }
+
+    async function run() {
+      await sleep(2600);   // sc0 — nostalgia hook holds
+      show("sc1");
+      await sleep(3200);   // sc1 — the "gone" beat
+      show("sc2");
+      await sleep(3400);   // sc2 — the reveal
+      show("sc3");
+      await sleep(2600);
+      show("sc4");
+      await sleep(2600);
+      show("sc5");
+      await sleep(2600);
+      show("sc6");
+      await sleep(2600);
+      show("sc7");
+      await sleep(6000);   // closing card holds
+    }
+    run();
+  </script>
+</body>
+</html>

@@ -24,22 +24,22 @@ const publicDir = join(__dirname, "../public");
  *  reusable string), so it's hand-translated here instead. */
 const SEO_ES = {
   "/": {
-    title: "Chasa — Recordatorios de facturas con IA para autónomos",
+    title: "docstoc — Recordatorios de facturas con IA para autónomos",
     description:
       "Herramienta gratuita con IA para seguimiento de facturas. Pega tu factura impaga y recibe el recordatorio con el tono adecuado, de amable a firme.",
   },
   "/privacy": {
-    title: "Política de Privacidad — Chasa | Protección de Datos",
+    title: "Política de Privacidad — docstoc | Protección de Datos",
     description:
-      "Qué hace Chasa con tus datos: qué recopilamos, por qué, qué subencargados lo tratan, cuánto tiempo se conserva y cómo pedir su eliminación o exportación.",
+      "Qué hace docstoc con tus datos: qué recopilamos, por qué, qué subencargados lo tratan, cuánto tiempo se conserva y cómo pedir su eliminación o exportación.",
   },
   "/terms": {
-    title: "Términos de Servicio — Chasa | Condiciones de Uso",
+    title: "Términos de Servicio — docstoc | Condiciones de Uso",
     description:
-      "Cómo funciona Chasa, explicado en lenguaje sencillo: qué hace el servicio, qué cuesta, tus responsabilidades y las condiciones de tu cuenta.",
+      "Cómo funciona docstoc, explicado en lenguaje sencillo: qué hace el servicio, qué cuesta, tus responsabilidades y las condiciones de tu cuenta.",
   },
   "/blog/": {
-    title: "Guías de facturas y recordatorios de pago | Blog Chasa",
+    title: "Guías de facturas y recordatorios de pago | Blog docstoc",
     description:
       "Guías prácticas para hacer seguimiento de facturas vencidas, escribir recordatorios de pago y construir una política de cuentas por cobrar.",
   },

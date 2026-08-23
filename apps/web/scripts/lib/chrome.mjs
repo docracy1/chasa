@@ -5,7 +5,7 @@ import { renderSeoHead } from "./seo-head.mjs";
 import { EN_TO_ES, ES_TO_EN } from "../data/es-alternates.mjs";
 
 /** Bump when site.css / site-nav.js / site-lang.js change so Pages edge caches refresh. */
-export const ASSET_V = "20260823a";
+export const ASSET_V = "20260823d";
 
 /** Small inline icon set for the header mega-menus (mirrors the app's NavIcon component). */
 const ICON_PATHS = {
@@ -32,15 +32,15 @@ const ICON_PATHS = {
   lock: '<rect x="5" y="11" width="14" height="9" rx="1.5" /><path d="M8 11V7a4 4 0 0 1 8 0v4" />',
 };
 
-function navIcon(name, small = false) {
-  const size = small ? 20 : 22;
+function navIcon(name, small = false, large = false) {
+  const size = large ? 24 : small ? 20 : 22;
   return `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICON_PATHS[name] || ""}</svg>`;
 }
 
-function megaMenuItem({ href, icon, titleKey, title, descKey, desc, small = false }) {
+function megaMenuItem({ href, icon, titleKey, title, descKey, desc, small = false, large = false }) {
   const isMailto = href.startsWith("mailto:");
-  const anchor = `<a href="${href}" class="nav-megamenu-item${small ? " nav-megamenu-side-item" : ""}">
-    <span class="nav-megamenu-icon${small ? " nav-megamenu-icon-sm" : ""}">${navIcon(icon, small)}</span>
+  const anchor = `<a href="${href}" class="nav-megamenu-item${small ? " nav-megamenu-side-item" : ""}${large ? " nav-megamenu-item-lg" : ""}">
+    <span class="nav-megamenu-icon${small ? " nav-megamenu-icon-sm" : ""}${large ? " nav-megamenu-icon-lg" : ""}">${navIcon(icon, small, large)}</span>
     <span>
       <span class="nav-megamenu-item-title" data-i18n="${titleKey}">${title}</span>
       <span class="nav-megamenu-item-desc" data-i18n="${descKey}">${desc}</span>
@@ -63,10 +63,10 @@ function simpleMenuItem({ href, titleKey, title }) {
 }
 
 /** Hover/click dropdown with an icon+title+desc grid — Docracy's NavMegaMenu pattern, static-site version. */
-function megaMenu({ triggerKey, triggerLabel, items, panel, columns = 2, simple = false }) {
+function megaMenu({ triggerKey, triggerLabel, items, panel, columns = 2, simple = false, large = false }) {
   const itemsHtml = simple
     ? items.map((it) => simpleMenuItem(it)).join("\n")
-    : items.map((it) => megaMenuItem(it)).join("\n");
+    : items.map((it) => megaMenuItem({ ...it, large })).join("\n");
   const panelHtml = panel
     ? `<div class="nav-megamenu-side">
         <h4 data-i18n="${panel.titleKey}">${panel.title}</h4>
@@ -88,6 +88,16 @@ function megaMenu({ triggerKey, triggerLabel, items, panel, columns = 2, simple 
     </div>
   </div>`;
 }
+
+/** The 4 main products, big-icon grid — LimeWire's "Products" dropdown pattern. Order matches
+ *  the lifecycle: get the client (templates) → secure the deal (certify) → protect the
+ *  connection (SSL) → get paid (chasing). */
+const PRODUCTS_ITEMS = [
+  { path: "/document-templates/", icon: "store", titleKey: "nav.mega.products.templates.title", title: "Document templates", descKey: "nav.mega.products.templates.desc", desc: "1,000+ free business & legal templates, plus kits." },
+  { path: "/verify/DOC-DEMO0001", icon: "shield", titleKey: "nav.mega.products.certificates.title", title: "Document certificates", descKey: "nav.mega.products.certificates.desc", desc: "Free tamper-evident hash verification for any file." },
+  { path: "/app/login?start=1", icon: "lock", titleKey: "nav.mega.products.ssl.title", title: "SSL / TLS automation", descKey: "nav.mega.products.ssl.desc", desc: "Free Let's Encrypt certificates for your own domain." },
+  { path: "/features/ai-tone", icon: "bolt", titleKey: "nav.mega.products.chasing.title", title: "AI invoice chasing", descKey: "nav.mega.products.chasing.desc", desc: "Tone-matched follow-up drafts for overdue invoices." },
+];
 
 const FEATURE_ITEMS = [
   { path: "/features/ai-tone", icon: "sparkles", titleKey: "nav.mega.feature.ai.title", title: "AI tone matching", descKey: "nav.mega.feature.ai.desc", desc: "Friendly, professional, or direct — matched to days overdue." },
@@ -114,6 +124,8 @@ const USE_CASE_ITEMS = [
   { path: "/use-cases/chasa-certificate-monitoring", icon: "mail", titleKey: "nav.mega.useCase.certificate.title", title: "Certificate monitoring", descKey: "nav.mega.useCase.certificate.desc", desc: "Proof of delivery and chase-history verification." },
   { path: "/use-cases/document-signing-api", icon: "duplicate", titleKey: "nav.mega.useCase.api.title", title: "Follow-up API", descKey: "nav.mega.useCase.api.desc", desc: "Integrate chase drafts into your own stack." },
   { path: "/use-cases/flat-fee-esign", icon: "users", titleKey: "nav.mega.useCase.flatFee.title", title: "Flat-fee pricing", descKey: "nav.mega.useCase.flatFee.desc", desc: "No per-document fees — unlimited chases from $9/mo." },
+  { path: "/use-cases/freelance-contract-templates", icon: "store", titleKey: "nav.mega.useCase.templates.title", title: "Freelance contract templates", descKey: "nav.mega.useCase.templates.desc", desc: "Free Independent Contractor Agreement, ready to send." },
+  { path: "/use-cases/free-ssl-for-your-domain", icon: "lock", titleKey: "nav.mega.useCase.ssl.title", title: "Free SSL for a client's domain", descKey: "nav.mega.useCase.ssl.desc", desc: "Real Let's Encrypt certificates, no ACME setup." },
 ];
 
 const INDUSTRY_ITEMS = [
@@ -125,6 +137,22 @@ const INDUSTRY_ITEMS = [
 ];
 
 const RESOURCE_ITEMS = [
+  { path: "/about", titleKey: "nav.mega.resource.about.title", title: "About" },
+  { path: "/press", titleKey: "nav.mega.resource.press.title", title: "Press" },
+  { path: "/docs/", titleKey: "nav.mega.resource.docs.title", title: "Help Center" },
+  { path: "/blog/", titleKey: "nav.mega.resource.blog.title", title: "Blog" },
+];
+
+/** Everything besides Products lives here as a flat LimeWire-style list — one trigger instead
+ *  of six, to match the 3-item nav density of the LimeWire reference (Products / Tools / More). */
+const MORE_ITEMS = [
+  { path: "/features/", titleKey: "nav.features", title: "Features" },
+  { path: "/industry/freelancers", titleKey: "nav.industry", title: "Industry" },
+  { path: "/#pricing", titleKey: "nav.pricing", title: "Pricing" },
+  { path: "/use-cases/", titleKey: "nav.useCases", title: "Use Cases" },
+  { path: "/free-templates/", titleKey: "nav.templates", title: "Free templates" },
+  { path: "/ai", titleKey: "nav.ai", title: "AI" },
+  { path: "/compare/", titleKey: "footer.compareCol", title: "Compare" },
   { path: "/about", titleKey: "nav.mega.resource.about.title", title: "About" },
   { path: "/press", titleKey: "nav.mega.resource.press.title", title: "Press" },
   { path: "/docs/", titleKey: "nav.mega.resource.docs.title", title: "Help Center" },
@@ -235,9 +263,9 @@ ${hreflangHead}
 ${seoHead}
 ${extraHead}
 ${jsonLd ? `<script type="application/ld+json">\n${jsonLd}\n</script>` : `<script type="application/ld+json">\n${defaultJsonLd}\n</script>`}
-<link rel="icon" href="${link("/favicon.png")}" type="image/png">
-<link rel="icon" href="${link("/favicon.svg")}" type="image/svg+xml">
-<link rel="apple-touch-icon" href="${link("/apple-touch-icon.png")}">
+<link rel="icon" href="${link(`/favicon.png?v=${ASSET_V}`)}" type="image/png">
+<link rel="icon" href="${link(`/favicon.svg?v=${ASSET_V}`)}" type="image/svg+xml">
+<link rel="apple-touch-icon" href="${link(`/apple-touch-icon.png?v=${ASSET_V}`)}">
 <link rel="preload" href="${link("/fonts/inter-400.woff2")}" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="${link("/fonts/inter-700.woff2")}" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="${link(`/site.css?v=${ASSET_V}`)}">
@@ -247,57 +275,39 @@ ${jsonLd ? `<script type="application/ld+json">\n${jsonLd}\n</script>` : `<scrip
   <div class="wrap site-header-inner">
     <div class="logo-group">
       <a href="${link("/")}" class="logo" aria-label="docstoc home"><img class="logo-mark" src="${link("/brand/docstoc-icon.png")}" alt="" width="28" height="28" /><span class="logo-word">docstoc</span></a>
-      <span class="logo-tagline">Secure. Automate. Certify.</span>
     </div>
     <nav class="header-nav-right">
-      ${megaMenu({
-        triggerKey: "nav.features",
-        triggerLabel: "Features",
-        items: FEATURE_ITEMS.map((it) => ({ ...it, href: link(it.path) })),
-        columns: 2,
-        panel: {
-          titleKey: "footer.compareCol",
-          title: "Compare",
-          items: COMPARE_ITEMS.map((it) => ({ ...it, href: link(it.path) })),
-          footerKey: "footer.compare",
-          footerLabel: "See all comparisons",
-          footerHref: link("/compare/"),
-        },
-      })}
-      ${megaMenu({
-        triggerKey: "nav.industry",
-        triggerLabel: "Industry",
-        items: INDUSTRY_ITEMS.map((it) => ({ ...it, href: link(it.path) })),
-        columns: 2,
-      })}
-      <a href="${link("/#pricing")}" class="header-nav-link header-nav-collapse" data-i18n="nav.pricing">Pricing</a>
-      ${megaMenu({
-        triggerKey: "nav.useCases",
-        triggerLabel: "Use Cases",
-        items: USE_CASE_ITEMS.map((it) => ({ ...it, href: link(it.path) })),
-        columns: 2,
-      })}
-      ${megaMenu({
-        triggerKey: "nav.resources",
-        triggerLabel: "Resources",
-        items: RESOURCE_ITEMS.map((it) => ({ ...it, href: it.path.startsWith("mailto:") ? it.path : link(it.path) })),
-        simple: true,
-      })}
-      <a href="${link("/free-templates/")}" class="header-nav-link header-nav-collapse${activeNav === "templates" ? " header-nav-strong" : ""}" data-i18n="nav.templates">Free templates</a>
-      <a href="${link("/ai")}" class="header-nav-link header-nav-collapse${activeNav === "ai" ? " header-nav-strong" : ""}" data-i18n="nav.ai">AI</a>
-      <a href="${link("/docstoc-alternative")}" class="header-revival-badge header-nav-collapse">
-        <span class="header-revival-dot" aria-hidden="true"></span>
-        <span data-i18n="nav.revivalBadge">docstoc is back</span>
-      </a>
-      <div class="locale-switch" data-locale-switch role="group" data-i18n-aria="nav.language"${localeSwitchAttrs}></div>
-      <!--email_off-->
-      <a href="mailto:sales@chasa.io" class="header-nav-sales header-nav-collapse" data-sales-mail data-sales-subject="docstoc sales" data-i18n="nav.contactSales">Contact sales</a>
-      <!--/email_off-->
-      <a href="${link("/app/")}login?start=1" class="nav-cta" data-i18n="nav.tryFree">Try free</a>
-      <a href="${link("/app/login")}" class="header-login-btn header-nav-collapse" data-i18n="nav.signIn">Sign in</a>
-      <button class="header-menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" data-menu-toggle data-i18n-aria="nav.openMenu">
-        <span></span><span></span><span></span>
-      </button>
+      <div class="header-nav-links">
+        ${megaMenu({
+          triggerKey: "nav.products",
+          triggerLabel: "Products",
+          items: PRODUCTS_ITEMS.map((it) => ({ ...it, href: link(it.path) })),
+          columns: 2,
+          large: true,
+        })}
+        <a href="${link("/tools/")}" class="header-nav-link header-nav-collapse" data-i18n="nav.tools">Tools</a>
+        ${megaMenu({
+          triggerKey: "nav.more",
+          triggerLabel: "More",
+          items: MORE_ITEMS.map((it) => ({ ...it, href: link(it.path) })),
+          simple: true,
+        })}
+      </div>
+      <div class="header-nav-actions">
+        <a href="${link("/docstoc-alternative")}" class="header-revival-badge header-nav-collapse">
+          <span class="header-revival-dot" aria-hidden="true"></span>
+          <span data-i18n="nav.revivalBadge">docstoc is back</span>
+        </a>
+        <div class="locale-switch" data-locale-switch role="group" data-i18n-aria="nav.language"${localeSwitchAttrs}></div>
+        <!--email_off-->
+        <a href="mailto:sales@chasa.io" class="header-nav-sales header-nav-collapse" data-sales-mail data-sales-subject="docstoc sales" data-i18n="nav.contactSales">Contact sales</a>
+        <!--/email_off-->
+        <a href="${link("/app/")}login?start=1" class="nav-cta" data-i18n="nav.tryFree">Try free</a>
+        <a href="${link("/app/login")}" class="header-login-btn header-nav-collapse" data-i18n="nav.signIn">Sign in</a>
+        <button class="header-menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" data-menu-toggle data-i18n-aria="nav.openMenu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
     </nav>
   </div>
 </header>
@@ -358,6 +368,8 @@ ${mainHtml}
       <a href="${link("/use-cases/compliance-dashboard")}">Compliance Board</a>
       <a href="${link("/use-cases/chasa-certificate-monitoring")}">Certificate Proof</a>
       <a href="${link("/use-cases/document-signing-api")}">Follow-up API</a>
+      <a href="${link("/use-cases/freelance-contract-templates")}">Contract Templates</a>
+      <a href="${link("/use-cases/free-ssl-for-your-domain")}">Free SSL Setup</a>
     </div>
     <div class="site-footer-col">
       <h4 data-i18n="footer.compareCol">Compare</h4>

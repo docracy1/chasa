@@ -60,7 +60,10 @@ function buildSitemapUrls() {
       continue;
     }
     const isBlog = urlPath.startsWith("/blog/");
-    const isTemplate = urlPath.startsWith("/free-templates/");
+    const isTemplate =
+      urlPath.startsWith("/free-templates/") ||
+      urlPath.startsWith("/document-templates/") ||
+      urlPath.startsWith("/business-kits/");
     byPath.set(urlPath, {
       loc: `${SITE_URL}${urlPath}`,
       lastmod: mtime(file),
@@ -145,7 +148,7 @@ function writeBlogFeed() {
   const rss = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0">
   <channel>
-    <title>Chasa Blog</title>
+    <title>docstoc Blog</title>
     <link>${SITE_URL}/blog/</link>
     <description>Invoice follow-up, payment reminders, and freelancer cash flow.</description>
     <language>en</language>

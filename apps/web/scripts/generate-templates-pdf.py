@@ -35,9 +35,9 @@ ROOT = Path(__file__).resolve().parents[3]
 PUBLIC = ROOT / "apps" / "web" / "public"
 TEMPLATES_JSON = PUBLIC / "free-templates" / "templates.json"
 OUT_PDF = PUBLIC / "free-templates" / "chasa-polite-invoice-templates.pdf"
-LOGO = PUBLIC / "brand" / "chasa-icon-512.png"
+LOGO = PUBLIC / "brand" / "docstoc-icon-512.png"
 if not LOGO.exists():
-    LOGO = PUBLIC / "brand" / "chasa-icon.png"
+    LOGO = PUBLIC / "brand" / "docstoc-icon.png"
 
 ACCENT = HexColor("#EC683C")
 INK = HexColor("#1B3155")
