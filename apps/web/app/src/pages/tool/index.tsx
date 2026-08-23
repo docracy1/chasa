@@ -937,7 +937,7 @@ export default function Tool({ account }: { account: Account | null }) {
     setSheetMsg(null);
     try {
       const result = await exportAgingToGoogleSheet({
-        title: `Chasa aging ${todayIso()}`,
+        title: `docstoc aging ${todayIso()}`,
         rows: invoices
           .filter((inv) => inv.status !== "paid")
           .map((inv) => ({

@@ -17,7 +17,7 @@ function isStripeCheckoutPlan(raw: string | null): raw is StripeCheckoutPlan {
   return raw === "solo" || raw === "pro";
 }
 
-const ENTERPRISE_SALES = "mailto:sales@chasa.io?subject=Chasa%20Enterprise";
+const ENTERPRISE_SALES = "mailto:sales@chasa.io?subject=docstoc%20Enterprise";
 
 export default function Account({
   account,

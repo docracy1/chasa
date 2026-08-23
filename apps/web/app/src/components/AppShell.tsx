@@ -18,7 +18,12 @@ type NavIconName =
   | "webhooks"
   | "account"
   | "more"
-  | "support";
+  | "support"
+  | "certificates"
+  | "docTemplates"
+  | "ssl"
+  | "auditLog"
+  | "invoices";
 
 function NavIcon({ name, size = 20 }: { name: NavIconName; size?: number }) {
   const common = {
@@ -102,6 +107,45 @@ function NavIcon({ name, size = 20 }: { name: NavIconName; size?: number }) {
           <path d="M8 17a3 3 0 1 0 0-6" />
         </svg>
       );
+    case "certificates":
+      return (
+        <svg {...common}>
+          <path d="M8 3h8a2 2 0 0 1 2 2v9.5l-3-1.7-3 1.7-3-1.7-3 1.7V5a2 2 0 0 1 2-2z" />
+          <path d="M9.5 8h5M9.5 11h5" />
+        </svg>
+      );
+    case "docTemplates":
+      return (
+        <svg {...common}>
+          <path d="M7 3.5h7.5L18 7v12a1.5 1.5 0 0 1-1.5 1.5H7A1.5 1.5 0 0 1 5.5 19V5A1.5 1.5 0 0 1 7 3.5z" />
+          <path d="M14 3.5V7h4" />
+          <path d="M8.5 11.5h7M8.5 14.5h7M8.5 17h4" />
+        </svg>
+      );
+    case "ssl":
+      return (
+        <svg {...common}>
+          <rect x="5" y="11" width="14" height="9" rx="1.5" />
+          <path d="M8 11V7a4 4 0 0 1 8 0v4" />
+        </svg>
+      );
+    case "auditLog":
+      return (
+        <svg {...common}>
+          <path d="M9 7a3 3 0 0 1 3-3h1a3 3 0 0 1 3 3v1a3 3 0 0 1-3 3h-1" />
+          <path d="M15 17a3 3 0 0 1-3 3h-1a3 3 0 0 1-3-3v-1a3 3 0 0 1 3-3h1" />
+          <path d="M9.5 12h5" />
+        </svg>
+      );
+    case "invoices":
+      return (
+        <svg {...common}>
+          <path d="M7 3.5h8.5L19 7v13.5H7A1.5 1.5 0 0 1 5.5 19V5A1.5 1.5 0 0 1 7 3.5z" />
+          <path d="M9 9h6M9 12.5h6M9 16h3.5" />
+          <circle cx="17" cy="17.5" r="3.25" fill="none" />
+          <path d="M17 16.2v2.6M15.9 17.5h2.2" />
+        </svg>
+      );
     case "account":
       return (
         <svg {...common}>
@@ -145,8 +189,9 @@ export default function AppShell({
   const [moreSheetOpen, setMoreSheetOpen] = useState(false);
   const [chasesExpanded, setChasesExpanded] = useState(false);
   const [toolsExpanded, setToolsExpanded] = useState(false);
-  const logoSrc = account?.logoDataUrl || "/brand/chasa-icon.png";
-  const wordmark = account?.workspaceName || "chasa";
+  const [templatesExpanded, setTemplatesExpanded] = useState(false);
+  const logoSrc = account?.logoDataUrl || "/brand/docstoc-icon.png";
+  const wordmark = account?.workspaceName || "docstoc";
   const workspaceAdmin = isWorkspaceAdmin(account);
 
   const view = new URLSearchParams(location.search).get("view");
@@ -175,7 +220,14 @@ export default function AppShell({
     ] as const
   ).filter(Boolean) as Array<{ to: string; hash: string | undefined; label: string }>;
 
+  const templatesNav = [
+    { to: "/templates", label: t("nav.templates") },
+    { to: "/document-templates", label: t("nav.documentTemplates") },
+  ];
+
   const chasesPathActive = onDashboard && (view === "overdue" || view === "waiting" || view === "paid");
+  const templatesPathActive =
+    location.pathname.startsWith("/templates") || location.pathname.startsWith("/document-templates");
   const toolsPathActive =
     workspaceAdmin &&
     (location.pathname.startsWith("/connector") ||
@@ -190,12 +242,20 @@ export default function AppShell({
     if (toolsPathActive) setToolsExpanded(true);
   }, [toolsPathActive]);
 
+  useEffect(() => {
+    if (templatesPathActive) setTemplatesExpanded(true);
+  }, [templatesPathActive]);
+
   const moreLinks = (
     [
       { to: "/?view=overdue", label: t("nav.chasesOverdue"), icon: "chases" as const },
       { to: "/?view=waiting", label: t("nav.chasesWaiting"), icon: "chases" as const },
       { to: "/?view=paid", label: t("nav.chasesPaid"), icon: "chases" as const },
       { to: "/clients", label: t("nav.clients"), icon: "clients" as const },
+      { to: "/invoices", label: t("nav.invoices"), icon: "invoices" as const },
+      { to: "/certificates", label: t("nav.certificates"), icon: "certificates" as const },
+      { to: "/audit-log", label: t("nav.auditLog"), icon: "auditLog" as const },
+      { to: "/document-templates", label: t("nav.documentTemplates"), icon: "docTemplates" as const },
       workspaceAdmin
         ? { to: "/connector", label: t("nav.connectorApi"), icon: "connector" as const }
         : null,
@@ -205,13 +265,26 @@ export default function AppShell({
       workspaceAdmin
         ? { to: "/branding", label: t("nav.branding"), icon: "branding" as const }
         : null,
+      { to: "/ssl-domains", label: t("nav.sslDomains"), icon: "ssl" as const },
       { to: "/team", label: t("nav.team"), icon: "team" as const },
       { to: "/account", label: t("nav.subscription"), icon: "account" as const },
     ] as const
   ).filter(Boolean) as Array<{
     to: string;
     label: string;
-    icon: "chases" | "clients" | "connector" | "webhooks" | "branding" | "team" | "account";
+    icon:
+      | "chases"
+      | "clients"
+      | "connector"
+      | "webhooks"
+      | "branding"
+      | "team"
+      | "account"
+      | "certificates"
+      | "auditLog"
+      | "docTemplates"
+      | "ssl"
+      | "invoices";
   }>;
 
   const pageTitles: Array<{ match: (path: string, search: string) => boolean; title: string }> = [
@@ -229,18 +302,23 @@ export default function AppShell({
     },
     { match: (p) => p.startsWith("/new"), title: t("nav.newChase") },
     { match: (p) => p.startsWith("/templates"), title: t("nav.templates") },
+    { match: (p) => p.startsWith("/document-templates"), title: t("nav.documentTemplates") },
     { match: (p) => p === "/" || p === "", title: t("nav.dashboard") },
     { match: (p) => p.startsWith("/clients"), title: t("nav.clients") },
+    { match: (p) => p.startsWith("/invoices"), title: t("nav.invoices") },
+    { match: (p) => p.startsWith("/certificates"), title: t("nav.certificates") },
+    { match: (p) => p.startsWith("/audit-log"), title: t("nav.auditLog") },
     { match: (p) => p.startsWith("/connector"), title: t("nav.tools") },
     { match: (p) => p.startsWith("/team"), title: t("nav.team") },
     { match: (p) => p.startsWith("/branding"), title: t("nav.branding") },
     { match: (p) => p.startsWith("/webhooks"), title: t("nav.webhooks") },
+    { match: (p) => p.startsWith("/ssl-domains"), title: t("nav.sslDomains") },
     { match: (p) => p.startsWith("/account"), title: t("nav.subscription") },
     { match: (p) => p.startsWith("/admin"), title: t("nav.admin") },
   ];
 
   const pageTitle =
-    pageTitles.find((entry) => entry.match(location.pathname, location.search))?.title ?? "chasa";
+    pageTitles.find((entry) => entry.match(location.pathname, location.search))?.title ?? "docstoc";
 
   function toolItemActive(to: string, hash?: string): boolean {
     if (to === "/webhooks") return location.pathname.startsWith("/webhooks");
@@ -317,22 +395,73 @@ export default function AppShell({
           </NavLink>
 
           <NavLink
-            to="/templates"
+            to="/invoices"
             className={({ isActive }) => (isActive ? "dash-nav-item is-active" : "dash-nav-item")}
           >
             <span className="dash-nav-item-label">
-              <NavIcon name="templates" />
-              <span>{t("nav.templates")}</span>
+              <NavIcon name="invoices" />
+              <span>{t("nav.invoices")}</span>
+            </span>
+          </NavLink>
+
+          <div className="dash-nav-group">
+            <button
+              type="button"
+              className={`dash-nav-item dash-nav-group-header${templatesPathActive ? " is-active" : ""}`}
+              aria-expanded={templatesExpanded}
+              onClick={() => setTemplatesExpanded((open) => !open)}
+            >
+              <span className="dash-nav-item-label">
+                <NavIcon name="templates" />
+                <span>{t("nav.templates")}</span>
+              </span>
+              <span className={`dash-nav-chevron${templatesExpanded ? " is-open" : ""}`} aria-hidden="true">
+                ⌄
+              </span>
+            </button>
+            {templatesExpanded ? (
+              <div className="dash-nav-subitems">
+                {templatesNav.map((item) => (
+                  <Link
+                    key={item.to}
+                    to={item.to}
+                    className={`dash-nav-subitem${location.pathname.startsWith(item.to) ? " is-active" : ""}`}
+                    onClick={() => setTemplatesExpanded(true)}
+                  >
+                    {item.label}
+                  </Link>
+                ))}
+              </div>
+            ) : null}
+          </div>
+
+          <NavLink
+            to="/certificates"
+            className={({ isActive }) => (isActive ? "dash-nav-item is-active" : "dash-nav-item")}
+          >
+            <span className="dash-nav-item-label">
+              <NavIcon name="certificates" />
+              <span>{t("nav.certificates")}</span>
             </span>
           </NavLink>
 
           <NavLink
-            to="/clients"
+            to="/audit-log"
             className={({ isActive }) => (isActive ? "dash-nav-item is-active" : "dash-nav-item")}
           >
             <span className="dash-nav-item-label">
-              <NavIcon name="clients" />
-              <span>{t("nav.clients")}</span>
+              <NavIcon name="auditLog" />
+              <span>{t("nav.auditLog")}</span>
+            </span>
+          </NavLink>
+
+          <NavLink
+            to="/ssl-domains"
+            className={({ isActive }) => (isActive ? "dash-nav-item is-active" : "dash-nav-item")}
+          >
+            <span className="dash-nav-item-label">
+              <NavIcon name="ssl" />
+              <span>{t("nav.sslDomains")}</span>
             </span>
           </NavLink>
 
@@ -369,6 +498,18 @@ export default function AppShell({
               </div>
             ) : null}
           </div>
+
+          <div className="dash-side-nav-label">{t("nav.more")}</div>
+
+          <NavLink
+            to="/clients"
+            className={({ isActive }) => (isActive ? "dash-nav-item is-active" : "dash-nav-item")}
+          >
+            <span className="dash-nav-item-label">
+              <NavIcon name="clients" />
+              <span>{t("nav.clients")}</span>
+            </span>
+          </NavLink>
 
           <div className="dash-nav-group">
             <button

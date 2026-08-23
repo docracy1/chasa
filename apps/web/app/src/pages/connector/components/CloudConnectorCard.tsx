@@ -171,7 +171,7 @@ wrangler secret put ONEDRIVE_CLIENT_SECRET`}</pre>
                 <p>
                   <strong>Google (Drive + Gmail)</strong> — OAuth client in Google Cloud Console.
                   After connect, the Tool can save chase drafts into Gmail Drafts and read replies —
-                  Chasa never sends.
+                  docstoc never sends.
                 </p>
                 <ol className="connector-setup-steps">
                   <li>

@@ -238,7 +238,7 @@ export default function BrandingPage({
         <div className="branding-logo-row">
           <div className="branding-logo-preview">
             <img
-              src={branding?.logoDataUrl || "/brand/chasa-icon.png"}
+              src={branding?.logoDataUrl || "/brand/docstoc-icon.png"}
               alt=""
               width="40"
               height="40"

@@ -21,12 +21,12 @@ export const CLOUD_DESCRIPTIONS: Record<CloudProvider, string> = {
     "Import invoice PDFs from OneDrive / Microsoft 365. Connect with Microsoft, then Recent PDFs → Import.",
   box: "Import invoice PDFs from Box. Connect once, then use Recent PDFs → Import into the Tool.",
   google:
-    "Drive PDF import plus Gmail: Chasa can save chase drafts into your Gmail Drafts folder and read client replies for smart reply — you still send. Also Sheets, Calendar, and Contacts.",
+    "Drive PDF import plus Gmail: docstoc can save chase drafts into your Gmail Drafts folder and read client replies for smart reply — you still send. Also Sheets, Calendar, and Contacts.",
 };
 
 /** @deprecated Prefer ACCOUNTING_DESCRIPTION_KEYS + t() */
 export const ACCOUNTING_DESCRIPTIONS: Record<"quickbooks" | "xero", string> = {
   quickbooks:
-    "Pull overdue QuickBooks Online invoices into your aging list. Then draft chase emails in the Tool — Chasa never sends them.",
-  xero: "Pull overdue Xero invoices into your aging list. Then draft chase emails in the Tool — Chasa never sends them.",
+    "Pull overdue QuickBooks Online invoices into your aging list. Then draft chase emails in the Tool — docstoc never sends them.",
+  xero: "Pull overdue Xero invoices into your aging list. Then draft chase emails in the Tool — docstoc never sends them.",
 };

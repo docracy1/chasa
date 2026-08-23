@@ -67,6 +67,17 @@ export default function NewChase({ account }: { account: Account | null }) {
         setAllTemplates(rows);
       })
       .catch(() => setAllTemplates([]));
+
+    // Community-submitted email templates aren't in the static JSON above — merge them in so a
+    // /new?template=<slug> link from the Templates page (which now shows community templates
+    // too) actually resolves instead of silently doing nothing.
+    fetch("/api/marketplace?type=email")
+      .then((r) => (r.ok ? r.json() : { templates: [] }))
+      .then((data: { templates?: FreeTemplate[] }) => {
+        const rows = Array.isArray(data.templates) ? data.templates : [];
+        if (rows.length) setAllTemplates((prev) => [...prev, ...rows]);
+      })
+      .catch(() => {});
   }, []);
 
   const featured = useMemo(() => {

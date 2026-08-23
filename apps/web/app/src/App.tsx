@@ -12,6 +12,7 @@ import { useT } from "./lib/i18n";
 const Tool = lazy(() => import("./pages/Tool"));
 const NewChase = lazy(() => import("./pages/NewChase"));
 const Templates = lazy(() => import("./pages/Templates"));
+const DocumentTemplates = lazy(() => import("./pages/DocumentTemplates"));
 const Login = lazy(() => import("./pages/Login"));
 const Account = lazy(() => import("./pages/Account"));
 const Admin = lazy(() => import("./pages/Admin"));
@@ -20,6 +21,10 @@ const Webhooks = lazy(() => import("./pages/Webhooks"));
 const Connector = lazy(() => import("./pages/Connector"));
 const Clients = lazy(() => import("./pages/Clients"));
 const Team = lazy(() => import("./pages/Team"));
+const Certificates = lazy(() => import("./pages/Certificates"));
+const Invoices = lazy(() => import("./pages/Invoices"));
+const AuditLog = lazy(() => import("./pages/AuditLog"));
+const SslCertificates = lazy(() => import("./pages/SslCertificates"));
 
 function AppRoutes() {
   const t = useT();
@@ -62,13 +67,13 @@ function AppRoutes() {
         <header className="app-topbar app-topbar-auth">
           {account ? (
             <Link to="/" className="app-topbar-brand" aria-label={t("nav.home")}>
-              <img src="/brand/chasa-icon.png" alt="" width="24" height="24" />
-              <span>chasa</span>
+              <img src="/brand/docstoc-icon.png" alt="" width="24" height="24" />
+              <span>docstoc</span>
             </Link>
           ) : (
-            <a href="/" className="app-topbar-brand" aria-label="Chasa home">
-              <img src="/brand/chasa-icon.png" alt="" width="24" height="24" />
-              <span>chasa</span>
+            <a href="/" className="app-topbar-brand" aria-label="docstoc home">
+              <img src="/brand/docstoc-icon.png" alt="" width="24" height="24" />
+              <span>docstoc</span>
             </a>
           )}
           <LanguageSwitcher className="lang-switcher-on-dark" />
@@ -112,6 +117,14 @@ function AppRoutes() {
               }
             />
             <Route
+              path="/document-templates"
+              element={
+                <ProtectedRoute>
+                  <DocumentTemplates />
+                </ProtectedRoute>
+              }
+            />
+            <Route
               path="/account"
               element={
                 <ProtectedRoute>
@@ -140,6 +153,38 @@ function AppRoutes() {
               element={
                 <ProtectedRoute>
                   <Clients account={account} />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/certificates"
+              element={
+                <ProtectedRoute>
+                  <Certificates account={account} />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/invoices"
+              element={
+                <ProtectedRoute>
+                  <Invoices account={account} />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/ssl-domains"
+              element={
+                <ProtectedRoute>
+                  <SslCertificates account={account} />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/audit-log"
+              element={
+                <ProtectedRoute>
+                  <AuditLog account={account} />
                 </ProtectedRoute>
               }
             />

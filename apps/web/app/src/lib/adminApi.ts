@@ -79,12 +79,16 @@ export type MarketplaceSubmission = {
   stage: string;
   tone: string;
   category: string;
+  templateType: "email" | "document";
   subject: string;
   body: string;
+  bodyMarkdown: string | null;
   tags: string[];
   submitterName: string | null;
   submitterUrl: string | null;
   featured: boolean;
+  verifiedExpert: boolean;
+  expertCredential: string | null;
   submittedAt: string;
   accountId: string | null;
   submitterEmail: string | null;
@@ -98,10 +102,17 @@ export function adminMarketplacePending() {
   return adminFetch<{ templates: MarketplaceSubmission[] }>("/marketplace/pending");
 }
 
-export function adminMarketplaceApprove(id: string, featured?: boolean) {
+export function adminMarketplaceApprove(
+  id: string,
+  opts?: { featured?: boolean; verifiedExpert?: boolean; expertCredential?: string }
+) {
   return adminFetch<{ ok: true }>(`/marketplace/${id}/approve`, {
     method: "POST",
-    body: JSON.stringify({ featured: featured || undefined }),
+    body: JSON.stringify({
+      featured: opts?.featured || undefined,
+      verifiedExpert: opts?.verifiedExpert || undefined,
+      expertCredential: opts?.expertCredential || undefined,
+    }),
   });
 }
 

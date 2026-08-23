@@ -441,6 +441,8 @@ export default function Admin() {
   const [marketplacePending, setMarketplacePending] = useState<MarketplaceSubmission[]>([]);
   const [marketplaceError, setMarketplaceError] = useState<string | null>(null);
   const [marketplaceFeatureChoice, setMarketplaceFeatureChoice] = useState<Record<string, boolean>>({});
+  const [marketplaceExpertChoice, setMarketplaceExpertChoice] = useState<Record<string, boolean>>({});
+  const [marketplaceCredentialChoice, setMarketplaceCredentialChoice] = useState<Record<string, string>>({});
   const [publishNextResult, setPublishNextResult] = useState<string | null>(null);
   const [publishNextError, setPublishNextError] = useState<string | null>(null);
   const [posts, setPosts] = useState<BlogPost[]>([]);
@@ -509,7 +511,11 @@ export default function Admin() {
   async function approveMarketplace(id: string, featured: boolean) {
     setBusy(true);
     try {
-      await adminMarketplaceApprove(id, featured);
+      await adminMarketplaceApprove(id, {
+        featured,
+        verifiedExpert: !!marketplaceExpertChoice[id],
+        expertCredential: marketplaceCredentialChoice[id],
+      });
       setMarketplacePending((rows) => rows.filter((r) => r.id !== id));
     } catch (err) {
       setMarketplaceError(err instanceof Error ? err.message : "Failed to approve");
@@ -726,8 +732,8 @@ export default function Admin() {
       <div className="dash-shell">
         <header className="dash-topnav">
           <a href="/" className="dash-brand" aria-label={t("admin.chasaHome")}>
-            <img src="/brand/chasa-icon.png" alt="" width="22" height="22" />
-            <span>chasa</span>
+            <img src="/brand/docstoc-icon.png" alt="" width="22" height="22" />
+            <span>docstoc</span>
           </a>
           <LanguageSwitcher className="lang-switcher-on-dark" />
         </header>
@@ -767,8 +773,8 @@ export default function Admin() {
     <div className="dash-shell">
       <header className="dash-topnav">
         <a href="/" className="dash-brand" aria-label={t("admin.chasaHome")}>
-          <img src="/brand/chasa-icon.png" alt="" width="22" height="22" />
-          <span>chasa</span>
+          <img src="/brand/docstoc-icon.png" alt="" width="22" height="22" />
+          <span>docstoc</span>
         </a>
         <nav className="dash-topnav-links">
           <a href="/#pricing">{t("admin.pricing")}</a>
@@ -1464,7 +1470,12 @@ export default function Admin() {
                           )}
                         </p>
                       )}
-                      <p style={{ fontSize: 13, fontWeight: 600, marginTop: 8 }}>{row.subject}</p>
+                      <p style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", color: "#888", marginTop: 8 }}>
+                        {row.templateType === "document" ? "Document template" : "Email template"}
+                      </p>
+                      {row.templateType === "document" ? null : (
+                        <p style={{ fontSize: 13, fontWeight: 600, marginTop: 4 }}>{row.subject}</p>
+                      )}
                       <pre
                         style={{
                           whiteSpace: "pre-wrap",
@@ -1476,7 +1487,7 @@ export default function Admin() {
                           overflow: "auto",
                         }}
                       >
-                        {row.body}
+                        {row.templateType === "document" ? row.bodyMarkdown : row.body}
                       </pre>
                       {row.submitterEmail && (
                         <p className="dash-note" style={{ fontSize: 11 }}>
@@ -1493,6 +1504,27 @@ export default function Admin() {
                         />
                         {t("admin.marketplaceFeature")}
                       </label>
+                      <label className="dash-exclude" style={{ marginTop: 4 }}>
+                        <input
+                          type="checkbox"
+                          checked={!!marketplaceExpertChoice[row.id]}
+                          onChange={(e) =>
+                            setMarketplaceExpertChoice((prev) => ({ ...prev, [row.id]: e.target.checked }))
+                          }
+                        />
+                        {t("admin.marketplaceVerifiedExpert")}
+                      </label>
+                      {marketplaceExpertChoice[row.id] && (
+                        <input
+                          type="text"
+                          placeholder={t("admin.marketplaceCredentialPlaceholder")}
+                          value={marketplaceCredentialChoice[row.id] || ""}
+                          onChange={(e) =>
+                            setMarketplaceCredentialChoice((prev) => ({ ...prev, [row.id]: e.target.value }))
+                          }
+                          style={{ marginTop: 4, width: "100%", fontSize: 12, padding: 4 }}
+                        />
+                      )}
                       <div style={{ display: "flex", gap: 8, marginTop: 8 }}>
                         <button
                           type="button"

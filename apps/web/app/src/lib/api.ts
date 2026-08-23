@@ -810,3 +810,162 @@ export function generateDemandLetter(input: {
 
 /** @deprecated Use generateDemandLetter */
 export const generateMahnung = generateDemandLetter;
+
+export type CertificateRecord = {
+  id: string;
+  publicId: string;
+  sha256Hash: string;
+  originalFilename: string | null;
+  fileSizeBytes: number | null;
+  issuerName: string | null;
+  planAtCreation: string;
+  status: "active" | "revoked";
+  revokedAt: string | null;
+  createdAt: string;
+  otsStatus: "none" | "pending" | "confirmed" | "failed";
+  otsConfirmedAt: string | null;
+};
+
+export function listCertificates() {
+  return jsonFetch<{ certificates: CertificateRecord[] }>("/verify/mine");
+}
+
+export type AuditAnchorRecord = {
+  id: string;
+  accountId: string;
+  periodDate: string;
+  eventCount: number;
+  eventsHash: string;
+  prevChainHash: string | null;
+  chainHash: string;
+  otsStatus: "none" | "pending" | "confirmed" | "failed";
+  otsConfirmedAt: string | null;
+  createdAt: string;
+};
+
+export function listAuditAnchors() {
+  return jsonFetch<{ anchors: AuditAnchorRecord[] }>("/audit-log/anchors");
+}
+
+export type TrustProfileRecord = {
+  accountId: string;
+  firstVerifiedAt: string;
+  otsStatus: "none" | "pending" | "confirmed" | "failed";
+  otsConfirmedAt: string | null;
+};
+
+export function getMyTrustProfile() {
+  return jsonFetch<{ profile: TrustProfileRecord | null }>("/trust/mine");
+}
+
+export type InvoiceLineItem = { description: string; quantity: number; unitPrice: number };
+
+export type InvoiceRecord = {
+  id: string;
+  publicId: string;
+  agingInvoiceId: string | null;
+  invoiceNumber: string;
+  clientName: string;
+  clientEmail: string | null;
+  issueDate: string;
+  dueDate: string;
+  currency: string;
+  lineItems: InvoiceLineItem[];
+  taxRate: number;
+  notes: string | null;
+  subtotal: number;
+  taxAmount: number;
+  total: number;
+  status: "draft" | "sent" | "paid";
+  createdAt: string;
+  updatedAt: string;
+};
+
+export function listInvoices() {
+  return jsonFetch<{ invoices: InvoiceRecord[] }>("/invoices");
+}
+
+export function createInvoice(input: {
+  clientName: string;
+  clientEmail?: string;
+  issueDate: string;
+  dueDate: string;
+  currency: string;
+  lineItems: InvoiceLineItem[];
+  taxRate: number;
+  notes?: string;
+}) {
+  return jsonFetch<{ ok: true; invoice: InvoiceRecord }>("/invoices", {
+    method: "POST",
+    body: JSON.stringify(input),
+  });
+}
+
+export function setInvoiceStatus(id: string, status: "draft" | "sent" | "paid") {
+  return jsonFetch<{ ok: true; invoice: InvoiceRecord }>(`/invoices/${id}/status`, {
+    method: "PATCH",
+    body: JSON.stringify({ status }),
+  });
+}
+
+export function deleteInvoice(id: string) {
+  return jsonFetch<{ ok: true }>(`/invoices/${id}`, { method: "DELETE" });
+}
+
+export function createCertificate(input: {
+  sha256Hash: string;
+  originalFilename?: string;
+  fileSizeBytes?: number;
+  issuerName?: string;
+  turnstileToken?: string;
+}) {
+  return jsonFetch<{ ok: true; publicId: string; createdAt: string }>("/verify/certificates", {
+    method: "POST",
+    body: JSON.stringify(input),
+  });
+}
+
+export function revokeCertificate(id: string) {
+  return jsonFetch<{ ok: true }>(`/verify/certificates/${id}`, { method: "DELETE" });
+}
+
+export type CustomerCertificate = {
+  id: string;
+  domain: string;
+  status: "pending_dns" | "verifying" | "issued" | "expiring" | "expired" | "failed";
+  dns01Token: string | null;
+  dns01TxtValue: string | null;
+  lastError: string | null;
+  issuedAt: string | null;
+  expiresAt: string | null;
+  createdAt: string;
+};
+
+export function listCustomHostnames() {
+  return jsonFetch<{ certificates: CustomerCertificate[] }>("/ssl/domains");
+}
+
+export function createCustomHostname(hostname: string) {
+  return jsonFetch<{
+    certificate: CustomerCertificate;
+    dnsRecord: { name: string; type: "TXT"; value: string };
+  }>("/ssl/domains", { method: "POST", body: JSON.stringify({ hostname }) });
+}
+
+export function verifyCustomHostname(id: string) {
+  return jsonFetch<{ status: "valid" | "pending" | "invalid" | "issued" | "error"; error?: string }>(
+    `/ssl/domains/${id}/verify`,
+    { method: "POST" }
+  );
+}
+
+export function deleteCustomHostname(id: string) {
+  return jsonFetch<{ ok: true }>(`/ssl/domains/${id}`, { method: "DELETE" });
+}
+
+export function renewCustomHostname(id: string) {
+  return jsonFetch<{
+    certificate: CustomerCertificate;
+    dnsRecord: { name: string; type: "TXT"; value: string };
+  }>(`/ssl/domains/${id}/renew`, { method: "POST" });
+}

@@ -80,21 +80,21 @@ export function ApiKeySection({
           <a
             className="btn-secondary"
             href="/docs/zapier-overdue-import.json"
-            download="chasa-freshbooks-zapier.json"
+            download="docstoc-freshbooks-zapier.json"
           >
             {t("connector.freshbooksZap")}
           </a>
           <a
             className="btn-secondary"
             href="/docs/zapier-wave-overdue-import.json"
-            download="chasa-wave-zapier.json"
+            download="docstoc-wave-zapier.json"
           >
             {t("connector.waveZap")}
           </a>
           <a
             className="btn-secondary"
             href="/docs/zapier-zoho-overdue-import.json"
-            download="chasa-zoho-zapier.json"
+            download="docstoc-zoho-zapier.json"
           >
             {t("connector.zohoZap")}
           </a>

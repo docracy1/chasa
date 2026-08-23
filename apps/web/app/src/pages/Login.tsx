@@ -52,12 +52,12 @@ export default function Login() {
     // The static SPA shell (index.html) carries one shared title/description for every /app/*
     // route — differentiate /app/login here so it isn't a duplicate of the /app/ shell in title
     // and description reported by crawlers that don't wait on the rest of the app to render.
-    document.title = signupIntent ? "Create your free account — Chasa" : "Sign in — Chasa";
+    document.title = signupIntent ? "Create your free account — docstoc" : "Sign in — docstoc";
     const descTag = document.querySelector('meta[name="description"]');
     if (descTag) {
       descTag.setAttribute(
         "content",
-        "Sign in to Chasa or start free — get a magic link emailed to you, no password required."
+        "Sign in to docstoc or start free — get a magic link emailed to you, no password required."
       );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps -- read URL once on mount
