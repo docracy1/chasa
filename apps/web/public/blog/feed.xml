@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0">
   <channel>
-    <title>Chasa Blog</title>
+    <title>docstoc Blog</title>
     <link>https://chasa.io/blog/</link>
     <description>Invoice follow-up, payment reminders, and freelancer cash flow.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 17 Aug 2026 07:20:12 GMT</lastBuildDate>
+    <lastBuildDate>Sun, 23 Aug 2026 15:32:08 GMT</lastBuildDate>
     <item>
       <title>Building an AR policy that works with Chasa</title>
       <link>https://chasa.io/blog/ar-policy-that-works-with-chasa/</link>

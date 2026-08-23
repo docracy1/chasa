@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Invoice Chase Calculator — Late Fees &amp; Savings | docstoc</title>
+<meta name="description" content="Free calculator for late payment interest and chase savings. Estimate fees on unpaid invoices and cash unlocked when you get paid faster.">
+<link rel="canonical" href="https://chasa.io/tools/invoice-chase-calculator">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Invoice Chase Calculator — Late Fees &amp; Savings | docstoc">
+<meta property="og:description" content="Free calculator for late payment interest and chase savings. Estimate fees on unpaid invoices and cash unlocked when you get paid faster.">
+<meta property="og:url" content="https://chasa.io/tools/invoice-chase-calculator">
+<meta property="og:image" content="https://chasa.io/brand/og/docstoc-og-1200x630.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Invoice Chase Calculator — Late Fees &amp; Savings | docstoc">
+<meta name="twitter:description" content="Free calculator for late payment interest and chase savings. Estimate fees on unpaid invoices and cash unlocked when you get paid faster.">
+<meta name="twitter:image" content="https://chasa.io/brand/og/docstoc-og-1200x630.png">
+<link rel="alternate" type="application/rss+xml" title="docstoc Blog" href="../blog/feed.xml">
+<link rel="me" href="https://www.linkedin.com/company/chasa-io">
+<link rel="me" href="https://x.com/chasaHQ">
+<style>
+.calc-grid { display: grid; gap: 28px; margin: 28px 0 36px; }
+@media (min-width: 860px) {
+  .calc-grid { grid-template-columns: 1.1fr 0.9fr; align-items: start; }
+}
+.calc-panel, .calc-results {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 20px 22px;
+  background: var(--white);
+}
+.calc-results { background: color-mix(in srgb, var(--accent) 6%, var(--white)); }
+.calc-field { margin-bottom: 14px; }
+.calc-field label {
+  display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; color: var(--ink);
+}
+.calc-field input, .calc-field select {
+  width: 100%; box-sizing: border-box; padding: 10px 12px;
+  border: 1px solid var(--line); border-radius: 8px; font: inherit; background: var(--paper);
+}
+.calc-field input[type="range"] { padding: 0; background: transparent; border: none; }
+.calc-hint { font-size: 12.5px; color: var(--ink-soft); margin-top: 4px; }
+.calc-stat { margin: 0 0 14px; }
+.calc-stat strong { display: block; font-family: Fraunces, Georgia, serif; font-size: 28px; margin-top: 2px; }
+.calc-stat span { font-size: 13px; color: var(--ink-soft); font-weight: 600; }
+.calc-note { font-size: 12.5px; color: var(--ink-soft); margin-top: 12px; line-height: 1.45; }
+.calc-divider { border: none; border-top: 1px solid var(--line); margin: 40px 0; }
+.tools-card-grid { display: grid; gap: 14px; margin: 22px 0 8px; }
+@media (min-width: 700px) { .tools-card-grid { grid-template-columns: 1fr 1fr; } }
+.tools-card {
+  display: block; text-decoration: none; color: inherit;
+  border: 1px solid var(--line); border-radius: 12px; padding: 18px 20px;
+  background: var(--white); transition: border-color 0.15s ease, transform 0.12s ease;
+}
+.tools-card:hover { border-color: var(--accent); transform: translateY(-1px); }
+.tools-card h2 { font-size: 20px; margin: 0 0 8px; font-family: Fraunces, Georgia, serif; }
+.tools-card p { margin: 0; color: var(--ink-soft); font-size: 14.5px; line-height: 1.45; }
+.finder-grid { display: grid; gap: 12px; margin: 22px 0 8px; }
+@media (min-width: 700px) { .finder-grid { grid-template-columns: 1fr 1fr; } }
+.finder-card {
+  display: block; text-decoration: none; color: inherit;
+  border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px;
+  background: var(--white); transition: border-color 0.15s ease;
+}
+.finder-card:hover { border-color: var(--accent); }
+.finder-card strong { display: block; font-size: 15px; margin-bottom: 3px; }
+.finder-card span { font-size: 13px; color: var(--ink-soft); }
+.hash-drop {
+  border: 2px dashed var(--line); border-radius: 12px; padding: 32px 20px; text-align: center;
+  cursor: pointer; background: var(--white); transition: border-color 0.15s ease;
+}
+.hash-drop.is-drag { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 6%, var(--white)); }
+.hash-drop p { margin: 6px 0 0; color: var(--ink-soft); font-size: 13.5px; }
+.hash-out { margin-top: 20px; }
+.hash-out-row { display: flex; gap: 8px; align-items: center; margin-bottom: 10px; }
+.hash-out-row code {
+  flex: 1; font-size: 12.5px; word-break: break-all; padding: 8px 10px;
+  background: var(--paper); border: 1px solid var(--line); border-radius: 6px;
+}
+.hash-copy-btn {
+  flex-shrink: 0; font-size: 12.5px; font-weight: 600; padding: 8px 12px;
+  border: 1px solid var(--line); border-radius: 6px; background: var(--white); cursor: pointer;
+}
+.hash-copy-btn:hover { border-color: var(--accent); color: var(--accent); }
+</style>
+<script src="/tools-calc.js" defer></script>
+<script type="application/ld+json">
+[{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://chasa.io/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Tools",
+      "item": "https://chasa.io/tools/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Invoice chase calculator",
+      "item": "https://chasa.io/tools/invoice-chase-calculator"
+    }
+  ]
+},
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Invoice chase calculator",
+  "description": "Estimate late payment interest and cash unlocked from consistent invoice chasing.",
+  "url": "https://chasa.io/tools/invoice-chase-calculator",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "docstoc",
+    "url": "https://chasa.io/"
+  }
+},
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How do you calculate late payment interest on an unpaid invoice?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Multiply the invoice amount by the annual interest rate, then by days overdue divided by 365. Example: $1,000 × 8% × (30 ÷ 365) ≈ $6.58 interest."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What interest rate should I use for late invoices?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Use the rate in your contract or invoice terms. Many freelancers use 1–1.5% per month (about 12–18% annually). Some countries set a statutory rate for commercial late payments — check local rules."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How does this savings estimate work?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "It divides your unpaid AR balance by current average days outstanding to estimate daily cash tied up, then multiplies by the days you expect to shorten with consistent follow-ups."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does docstoc email clients for me?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. docstoc drafts follow-up emails; you review and send from your own inbox. That keeps your client relationship in your control."
+      }
+    }
+  ]
+}]
+</script>
+<link rel="icon" href="../favicon.png?v=20260823d" type="image/png">
+<link rel="icon" href="../favicon.svg?v=20260823d" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png?v=20260823d">
+<link rel="preload" href="../fonts/inter-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../fonts/inter-700.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../site.css?v=20260823d">
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap site-header-inner">
+    <div class="logo-group">
+      <a href="../" class="logo" aria-label="docstoc home"><img class="logo-mark" src="../brand/docstoc-icon.png" alt="" width="28" height="28" /><span class="logo-word">docstoc</span></a>
+    </div>
+    <nav class="header-nav-right">
+      <div class="header-nav-links">
+        <div class="nav-megamenu header-nav-collapse" data-mega-menu>
+    <button type="button" class="nav-megamenu-trigger header-nav-link" aria-haspopup="true" aria-expanded="false" data-mega-trigger>
+      <span data-i18n="nav.products">Products</span>
+      <svg class="nav-megamenu-chevron" width="10" height="10" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5L6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
+    </button>
+    <div class="nav-megamenu-panel" data-mega-panel hidden>
+      <div class="nav-megamenu-grid" style="grid-template-columns: repeat(2, 1fr)"><a href="../document-templates/" class="nav-megamenu-item nav-megamenu-item-lg">
+    <span class="nav-megamenu-icon nav-megamenu-icon-lg"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9.5l1-4h14l1 4" /><path d="M4 9.5a2.25 2.25 0 0 0 4.5 0 2.25 2.25 0 0 0 4.5 0 2.25 2.25 0 0 0 4.5 0 2.25 2.25 0 0 0 4.5 0" /><path d="M5.5 11v9h13v-9" /></svg></span>
+    <span>
+      <span class="nav-megamenu-item-title" data-i18n="nav.mega.products.templates.title">Document templates</span>
+      <span class="nav-megamenu-item-desc" data-i18n="nav.mega.products.templates.desc">1,000+ free business & legal templates, plus kits.</span>
+    </span>
+  </a>
+<a href="../verify/DOC-DEMO0001" class="nav-megamenu-item nav-megamenu-item-lg">
+    <span class="nav-megamenu-icon nav-megamenu-icon-lg"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v5.5c0 5-3.5 8-7 9.5-3.5-1.5-7-4.5-7-9.5V6l7-3z" /><path d="M9 12l2 2 4-4" /></svg></span>
+    <span>
+      <span class="nav-megamenu-item-title" data-i18n="nav.mega.products.certificates.title">Document certificates</span>
+      <span class="nav-megamenu-item-desc" data-i18n="nav.mega.products.certificates.desc">Free tamper-evident hash verification for any file.</span>
+    </span>
+  </a>
+<a href="../app/login?start=1" class="nav-megamenu-item nav-megamenu-item-lg">
+    <span class="nav-megamenu-icon nav-megamenu-icon-lg"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="1.5" /><path d="M8 11V7a4 4 0 0 1 8 0v4" /></svg></span>
+    <span>
+      <span class="nav-megamenu-item-title" data-i18n="nav.mega.products.ssl.title">SSL / TLS automation</span>
+      <span class="nav-megamenu-item-desc" data-i18n="nav.mega.products.ssl.desc">Free Let's Encrypt certificates for your own domain.</span>
+    </span>
+  </a>
+<a href="../features/ai-tone" class="nav-megamenu-item nav-megamenu-item-lg">
+    <span class="nav-megamenu-icon nav-megamenu-icon-lg"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.5 2.5L4 14h6l-1 7.5L20 10h-6l-1.5-7.5z" /></svg></span>
+    <span>
+      <span class="nav-megamenu-item-title" data-i18n="nav.mega.products.chasing.title">AI invoice chasing</span>
+      <span class="nav-megamenu-item-desc" data-i18n="nav.mega.products.chasing.desc">Tone-matched follow-up drafts for overdue invoices.</span>
+    </span>
+  </a></div>
+      
+    </div>
+  </div>
+        <a href="../tools/" class="header-nav-link header-nav-collapse" data-i18n="nav.tools">Tools</a>
+        <div class="nav-megamenu header-nav-collapse" data-mega-menu>
+    <button type="button" class="nav-megamenu-trigger header-nav-link" aria-haspopup="true" aria-expanded="false" data-mega-trigger>
+      <span data-i18n="nav.more">More</span>
+      <svg class="nav-megamenu-chevron" width="10" height="10" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5L6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
+    </button>
+    <div class="nav-megamenu-panel nav-megamenu-panel-simple" data-mega-panel hidden>
+      <div class="nav-simplemenu-list"><a href="../features/" class="nav-simplemenu-item">
+    <span class="nav-simplemenu-item-title" data-i18n="nav.features">Features</span>
+    <svg class="nav-simplemenu-item-chevron" width="8" height="14" viewBox="0 0 8 14" aria-hidden="true"><path d="M1 1l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg>
+  </a>
+<a href="../industry/freelancers" class="nav-simplemenu-item">
+    <span class="nav-simplemenu-item-title" data-i18n="nav.industry">Industry</span>
+    <svg class="nav-simplemenu-item-chevron" width="8" height="14" viewBox="0 0 8 14" aria-hidden="true"><path d="M1 1l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg>
+  </a>
+<a href="../#pricing" class="nav-simplemenu-item">
+    <span class="nav-simplemenu-item-title" data-i18n="nav.pricing">Pricing</span>
+    <svg class="nav-simplemenu-item-chevron" width="8" height="14" viewBox="0 0 8 14" aria-hidden="true"><path d="M1 1l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg>
+  </a>
+<a href="../use-cases/" class="nav-simplemenu-item">
+    <span class="nav-simplemenu-item-title" data-i18n="nav.useCases">Use Cases</span>
+    <svg class="nav-simplemenu-item-chevron" width="8" height="14" viewBox="0 0 8 14" aria-hidden="true"><path d="M1 1l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg>
+  </a>
+<a href="../free-templates/" class="nav-simplemenu-item">
+    <span class="nav-simplemenu-item-title" data-i18n="nav.templates">Free templates</span>
+    <svg class="nav-simplemenu-item-chevron" width="8" height="14" viewBox="0 0 8 14" aria-hidden="true"><path d="M1 1l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg>
+  </a>
+<a href="../ai" class="nav-simplemenu-item">
+    <span class="nav-simplemenu-item-title" data-i18n="nav.ai">AI</span>
+    <svg class="nav-simplemenu-item-chevron" width="8" height="14" viewBox="0 0 8 14" aria-hidden="true"><path d="M1 1l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg>
+  </a>
+<a href="../compare/" class="nav-simplemenu-item">
+    <span class="nav-simplemenu-item-title" data-i18n="footer.compareCol">Compare</span>
+    <svg class="nav-simplemenu-item-chevron" width="8" height="14" viewBox="0 0 8 14" aria-hidden="true"><path d="M1 1l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg>
+  </a>
+<a href="../about" class="nav-simplemenu-item">
+    <span class="nav-simplemenu-item-title" data-i18n="nav.mega.resource.about.title">About</span>
+    <svg class="nav-simplemenu-item-chevron" width="8" height="14" viewBox="0 0 8 14" aria-hidden="true"><path d="M1 1l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg>
+  </a>
+<a href="../press" class="nav-simplemenu-item">
+    <span class="nav-simplemenu-item-title" data-i18n="nav.mega.resource.press.title">Press</span>
+    <svg class="nav-simplemenu-item-chevron" width="8" height="14" viewBox="0 0 8 14" aria-hidden="true"><path d="M1 1l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg>
+  </a>
+<a href="../docs/" class="nav-simplemenu-item">
+    <span class="nav-simplemenu-item-title" data-i18n="nav.mega.resource.docs.title">Help Center</span>
+    <svg class="nav-simplemenu-item-chevron" width="8" height="14" viewBox="0 0 8 14" aria-hidden="true"><path d="M1 1l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg>
+  </a>
+<a href="../blog/" class="nav-simplemenu-item">
+    <span class="nav-simplemenu-item-title" data-i18n="nav.mega.resource.blog.title">Blog</span>
+    <svg class="nav-simplemenu-item-chevron" width="8" height="14" viewBox="0 0 8 14" aria-hidden="true"><path d="M1 1l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg>
+  </a></div>
+      
+    </div>
+  </div>
+      </div>
+      <div class="header-nav-actions">
+        <a href="../docstoc-alternative" class="header-revival-badge header-nav-collapse">
+          <span class="header-revival-dot" aria-hidden="true"></span>
+          <span data-i18n="nav.revivalBadge">docstoc is back</span>
+        </a>
+        <div class="locale-switch" data-locale-switch role="group" data-i18n-aria="nav.language"></div>
+        <!--email_off-->
+        <a href="mailto:sales@chasa.io" class="header-nav-sales header-nav-collapse" data-sales-mail data-sales-subject="docstoc sales" data-i18n="nav.contactSales">Contact sales</a>
+        <!--/email_off-->
+        <a href="../app/login?start=1" class="nav-cta" data-i18n="nav.tryFree">Try free</a>
+        <a href="../app/login" class="header-login-btn header-nav-collapse" data-i18n="nav.signIn">Sign in</a>
+        <button class="header-menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" data-menu-toggle data-i18n-aria="nav.openMenu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </nav>
+  </div>
+</header>
+<div class="mobile-panel-backdrop" data-mobile-backdrop></div>
+<div class="mobile-panel" data-mobile-panel>
+  <button class="mobile-panel-close" type="button" aria-label="Close menu" data-mobile-close data-i18n-aria="nav.closeMenu">✕</button>
+  <nav class="mobile-panel-nav">
+      <a href="../features/" class="mobile-panel-nav-link" data-i18n="nav.features">Features</a>
+      <a href="../industry/freelancers" class="mobile-panel-nav-link" data-i18n="nav.industry">Industry</a>
+      <a href="../#pricing" class="mobile-panel-nav-link" data-i18n="nav.pricing">Pricing</a>
+      <a href="../use-cases/" class="mobile-panel-nav-link" data-i18n="nav.useCases">Use Cases</a>
+      <a href="../blog/" class="mobile-panel-nav-link" data-i18n="nav.blog">Blog</a>
+      <a href="../docs/" class="mobile-panel-nav-link" data-i18n="nav.api">API</a>
+      <a href="../about" class="mobile-panel-nav-link" data-i18n="nav.about">About</a>
+      <a href="../free-templates/" class="mobile-panel-nav-link" data-i18n="nav.templates">Free templates</a>
+      <a href="../ai" class="mobile-panel-nav-link" data-i18n="nav.ai">AI</a>
+      <a href="../tools/" class="mobile-panel-nav-link" data-i18n="nav.tools">Tools</a>
+      <a href="../app/login" class="mobile-panel-nav-link" data-i18n="nav.signIn">Sign in</a>
+      <a href="../app/login?start=1" class="mobile-panel-nav-link" data-i18n="nav.tryFree">Try free</a>
+  </nav>
+  <div class="mobile-panel-ctas">
+    <a href="../app/login?start=1" class="mobile-panel-cta-primary" data-i18n="nav.tryFree">Try free</a>
+    <a href="../app/login" class="mobile-panel-cta-secondary" data-i18n="nav.signIn">Sign in</a>
+    <!--email_off-->
+    <a href="mailto:sales@chasa.io" class="mobile-panel-cta-secondary" data-sales-mail data-sales-subject="docstoc sales" data-i18n="nav.contactSales">Contact sales</a>
+    <!--/email_off-->
+  </div>
+</div>
+<main class="wrap page-main">
+<p class="crumb"><a href="/">Home</a> / <a href="/tools/">Tools</a> / Invoice chase calculator</p>
+<h1>Invoice chase calculator</h1>
+<p class="lede">Two quick estimates: interest owed on one overdue invoice, and the cash + time you could unlock by chasing consistently across all of them.</p>
+
+<h2>Late payment interest</h2>
+<div class="calc-grid" data-calc="late-payment">
+  <div class="calc-panel">
+    <div class="calc-field">
+      <label for="lp-currency">Currency</label>
+      <select id="lp-currency" data-lp-currency>
+        <option value="USD">USD</option>
+        <option value="EUR">EUR</option>
+        <option value="GBP">GBP</option>
+        <option value="AUD">AUD</option>
+        <option value="CAD">CAD</option>
+      </select>
+    </div>
+    <div class="calc-field">
+      <label for="lp-amount">Invoice amount</label>
+      <input id="lp-amount" data-lp-amount type="number" min="0" step="0.01" value="2500" />
+    </div>
+    <div class="calc-field">
+      <label for="lp-overdue">Date payment became overdue</label>
+      <input id="lp-overdue" data-lp-overdue type="date" />
+    </div>
+    <div class="calc-field">
+      <label for="lp-paid">Date of payment (or today if still unpaid)</label>
+      <input id="lp-paid" data-lp-paid type="date" />
+    </div>
+    <div class="calc-field">
+      <label for="lp-rate">Annual interest rate (<span data-lp-rate-label>8.0%</span>)</label>
+      <input id="lp-rate" data-lp-rate type="range" min="0" max="30" step="0.1" value="8" />
+      <p class="calc-hint">Use your contract rate, or a statutory commercial late-payment rate where it applies.</p>
+    </div>
+    <div class="calc-field">
+      <label for="lp-fee">Optional one-time late fee (% of invoice)</label>
+      <input id="lp-fee" data-lp-fee type="number" min="0" max="100" step="0.1" value="0" />
+    </div>
+  </div>
+  <div class="calc-results" aria-live="polite">
+    <p class="calc-stat"><span>Days overdue</span><strong data-lp-out-days>—</strong></p>
+    <p class="calc-stat"><span>Interest accrued</span><strong data-lp-out-interest>—</strong></p>
+    <p class="calc-stat"><span>Late fee</span><strong data-lp-out-fee>—</strong></p>
+    <p class="calc-stat"><span>Updated total due</span><strong data-lp-out-total>—</strong></p>
+    <p class="calc-note">Simple interest: amount × annual rate × (days ÷ 365). Not legal advice — confirm rates and fees against your contract and local law.</p>
+  </div>
+</div>
+
+<hr class="calc-divider" />
+
+<h2>Cash unlocked by chasing consistently</h2>
+<div class="calc-grid" data-calc="chase-savings">
+  <div class="calc-panel">
+    <div class="calc-field">
+      <label for="sv-currency">Currency</label>
+      <select id="sv-currency" data-sv-currency>
+        <option value="USD">USD</option>
+        <option value="EUR">EUR</option>
+        <option value="GBP">GBP</option>
+        <option value="AUD">AUD</option>
+        <option value="CAD">CAD</option>
+      </select>
+    </div>
+    <div class="calc-field">
+      <label for="sv-ar">Unpaid invoices / AR balance</label>
+      <input id="sv-ar" data-sv-ar type="number" min="0" step="100" value="50000" />
+    </div>
+    <div class="calc-field">
+      <label for="sv-dso">Current average days outstanding</label>
+      <input id="sv-dso" data-sv-dso type="number" min="1" step="1" value="45" />
+    </div>
+    <div class="calc-field">
+      <label for="sv-reduce">Days you could cut with consistent chasing (<span data-sv-reduce-label>12</span>)</label>
+      <input id="sv-reduce" data-sv-reduce type="range" min="0" max="40" step="1" value="12" />
+      <p class="calc-hint">Many teams see faster payments when reminders go out on a fixed cadence.</p>
+    </div>
+    <div class="calc-field">
+      <label for="sv-hours">Hours per week spent chasing invoices</label>
+      <input id="sv-hours" data-sv-hours type="number" min="0" step="0.5" value="4" />
+    </div>
+    <div class="calc-field">
+      <label for="sv-wage">Your hourly value (or staff cost)</label>
+      <input id="sv-wage" data-sv-wage type="number" min="0" step="1" value="50" />
+    </div>
+  </div>
+  <div class="calc-results" aria-live="polite">
+    <p class="calc-stat"><span>Cash unlocked (working capital)</span><strong data-sv-out-cash>—</strong></p>
+    <p class="calc-stat"><span>Chase time saved (est.)</span><strong data-sv-out-hours>—</strong></p>
+    <p class="calc-stat"><span>Value of time saved / year</span><strong data-sv-out-timecost>—</strong></p>
+    <p class="calc-stat"><span>Approx. ROI vs Solo ($9/mo)</span><strong data-sv-out-roi>—</strong></p>
+    <p class="calc-note">Cash unlocked ≈ (AR ÷ days outstanding) × days cut. Time savings assume ~50% less manual chase work with a clear draft workflow. Illustrative only.</p>
+  </div>
+</div>
+
+<h2>FAQs</h2>
+<details class="faq-item"><summary>How do you calculate late payment interest on an unpaid invoice?</summary><p>Multiply the invoice amount by the annual interest rate, then by days overdue divided by 365. Example: $1,000 × 8% × (30 ÷ 365) ≈ $6.58 interest.</p></details>
+<details class="faq-item"><summary>What interest rate should I use for late invoices?</summary><p>Use the rate in your contract or invoice terms. Many freelancers use 1–1.5% per month (about 12–18% annually). Some countries set a statutory rate for commercial late payments — check local rules.</p></details>
+<details class="faq-item"><summary>How does this savings estimate work?</summary><p>It divides your unpaid AR balance by current average days outstanding to estimate daily cash tied up, then multiplies by the days you expect to shorten with consistent follow-ups.</p></details>
+<details class="faq-item"><summary>Does docstoc email clients for me?</summary><p>No. docstoc drafts follow-up emails; you review and send from your own inbox. That keeps your client relationship in your control.</p></details>
+
+<h3>Related</h3>
+<ul>
+  <li><a href="/overdue-invoice">Overdue invoice follow-up</a></li>
+  <li><a href="/blog/freelancer-late-payment-policy/">Freelancer late payment policy</a></li>
+  <li><a href="/free-templates/">Free reminder templates</a></li>
+</ul>
+<p style="margin-top:28px"><a href="/app/" class="nav-cta">Draft the chase email</a></p>
+</main>
+<footer class="site-footer">
+  <div class="wrap site-footer-inner">
+    <div class="site-footer-brand">
+      <a href="../" class="logo" aria-label="docstoc home"><img class="logo-mark" src="../brand/docstoc-icon.png" alt="" width="24" height="24" /><span class="logo-word">docstoc</span></a>
+      <p data-i18n="footer.tagline">Free AI invoice follow-ups — paste unpaid invoices, get the reminder email already written.</p>
+    </div>
+    <div class="site-footer-col">
+      <h4 data-i18n="footer.product">Product</h4>
+      <a href="../" data-i18n="footer.home">Homepage</a>
+      <a href="../#pricing" data-i18n="footer.pricing">Pricing</a>
+      <a href="../features/" data-i18n="footer.features">Features</a>
+      <a href="../use-cases/" data-i18n="footer.useCases">Use Cases</a>
+      <a href="../compliance/">Compliance</a>
+      <a href="../integrations/">Integrations</a>
+      <a href="../blog/" data-i18n="footer.blog">Blog</a>
+      <a href="../overdue-invoices-guide">Overdue Invoices Guide</a>
+      <a href="../docs/" data-i18n="footer.docs">API & Docs</a>
+      <a href="../free-templates/" data-i18n="footer.templates">Free templates</a>
+      <a href="../tools/" data-i18n="footer.calculators">Calculators</a>
+      <a href="../ai" data-i18n="footer.ai">AI</a>
+    </div>
+    <div class="site-footer-col">
+      <h4 data-i18n="footer.useCasesHeader">Use Cases</h4>
+      <a href="../use-cases/risk-scoring-automation">Risk Scoring</a>
+      <a href="../use-cases/audit-ready-workflows">Audit Workflows</a>
+      <a href="../compliance/sox">SOX AR Evidence</a>
+      <a href="../use-cases/compliance-dashboard">Compliance Board</a>
+      <a href="../use-cases/chasa-certificate-monitoring">Certificate Proof</a>
+      <a href="../use-cases/document-signing-api">Follow-up API</a>
+      <a href="../use-cases/freelance-contract-templates">Contract Templates</a>
+      <a href="../use-cases/free-ssl-for-your-domain">Free SSL Setup</a>
+    </div>
+    <div class="site-footer-col">
+      <h4 data-i18n="footer.compareCol">Compare</h4>
+      <a href="../chasa-vs-chaser" data-i18n="footer.vsChaser">vs Chaser</a>
+      <a href="../chasa-vs-paidnice" data-i18n="footer.vsPaidnice">vs Paidnice</a>
+      <a href="../chasa-vs-duefy" data-i18n="footer.vsDuefy">vs Duefy</a>
+      <a href="../chasa-vs-satago" data-i18n="footer.vsSatago">vs Satago</a>
+      <a href="../chasa-vs-chaseai" data-i18n="footer.vsChaseai">vs ChaseAI</a>
+      <a href="../switch-to-chasa" data-i18n="footer.switch">Switch to docstoc</a>
+    </div>
+    <div class="site-footer-col">
+      <h4 data-i18n="footer.company">Company</h4>
+      <a href="../about" data-i18n="footer.about">About</a>
+      <a href="../press" data-i18n="footer.press">Press</a>
+      <a href="../imprint" data-i18n="footer.imprint">Imprint</a>
+      <!--email_off--><a href="mailto:founder@chasa.io" data-i18n="footer.contact">Contact</a><!--/email_off-->
+    </div>
+    <div class="site-footer-col">
+      <h4 data-i18n="footer.legal">Legal</h4>
+      <a href="../privacy" data-i18n="footer.privacy">Privacy</a>
+      <a href="../terms" data-i18n="footer.terms">Terms</a>
+      <a href="../sitemap.xml" data-i18n="footer.sitemap">Sitemap</a>
+      <a href="../blog/feed.xml" data-i18n="footer.rss">RSS</a>
+    </div>
+  </div>
+  <div class="site-footer-bottom" data-i18n-year="footer.copyright">© 2026 docstoc — a product of RELACON GmbH</div>
+</footer>
+<script src="../site-lang.js?v=20260823d" defer></script>
+<script src="../site-nav.js?v=20260823d" defer></script>
+<script src="../cookie-consent.js?v=20260823d" defer></script>
+<script src="../analytics.js?v=20260823d" defer></script>
+<script>
+/* Contact sales → docstoc Assistant (Docracy pattern). */
+(function () {
+  document.addEventListener("click", function (e) {
+    var el = e.target && e.target.closest
+      ? e.target.closest("[data-sales-mail], .header-nav-sales, a[data-i18n='nav.contactSales'], a[data-i18n='home.pricing.contactSales']")
+      : null;
+    if (!el) return;
+    e.preventDefault();
+    window.dispatchEvent(new CustomEvent("chasa:open-chat", { detail: { intent: "sales" } }));
+  }, true);
+})();
+</script>
+</body>
+</html>

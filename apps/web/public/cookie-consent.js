@@ -71,7 +71,7 @@
     banner.setAttribute("aria-label", "Cookie consent");
     banner.innerHTML =
       '<div class="chasa-cookie-inner">' +
-      '<p>We use cookies for anonymous analytics to improve Chasa. See our <a href="/privacy">Privacy policy</a>.</p>' +
+      '<p>We use cookies for anonymous analytics to improve docstoc. See our <a href="/privacy">Privacy policy</a>.</p>' +
       '<div class="chasa-cookie-actions">' +
       '<button type="button" class="chasa-cookie-btn chasa-cookie-decline">Decline</button>' +
       '<button type="button" class="chasa-cookie-btn chasa-cookie-accept">Accept</button>' +

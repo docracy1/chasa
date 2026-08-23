@@ -86,13 +86,13 @@
     var root = document.createElement("div");
     root.className = "chasa-asst";
     root.innerHTML =
-      '<button type="button" class="chasa-asst-fab" aria-label="Open Chasa Assistant" data-asst-toggle>' +
-      '<img src="/brand/chasa-icon.png" alt="" width="22" height="22" />' +
+      '<button type="button" class="chasa-asst-fab" aria-label="Open docstoc Assistant" data-asst-toggle>' +
+      '<img src="/brand/docstoc-icon.png?v=20260823" alt="" width="22" height="22" />' +
       "</button>" +
       '<div class="chasa-asst-panel" hidden data-asst-panel>' +
       '<div class="chasa-asst-head">' +
-      '<div class="chasa-asst-title"><img src="/brand/chasa-icon.png" alt="" width="18" height="18" /> ' +
-      '<span data-asst-title>Chasa Assistant</span></div>' +
+      '<div class="chasa-asst-title"><img src="/brand/docstoc-icon.png?v=20260823" alt="" width="18" height="18" /> ' +
+      '<span data-asst-title>docstoc Assistant</span></div>' +
       '<button type="button" class="chasa-asst-x" aria-label="Close" data-asst-toggle>×</button>' +
       "</div>" +
       '<div class="chasa-asst-body" data-asst-body></div>' +
@@ -199,7 +199,7 @@
           })
           .catch(function (errObj) {
             // Fallback: open mail client if API unavailable
-            var subject = encodeURIComponent("Chasa sales inquiry");
+            var subject = encodeURIComponent("docstoc sales inquiry");
             var bodyText = encodeURIComponent("From: " + email + "\n\n" + message);
             window.location.href = "mailto:" + SALES + "?subject=" + subject + "&body=" + bodyText;
             form.remove();
@@ -226,7 +226,7 @@
       opts = opts || {};
       formVisible = false;
       body.innerHTML = "";
-      if (titleEl) titleEl.textContent = t("chat.title", "Chasa Assistant");
+      if (titleEl) titleEl.textContent = t("chat.title", "docstoc Assistant");
 
       if (opts.skipGreeting) {
         bubble(t("chat.greeting", "Hey there 👋 I can help you find the right thing:"));
@@ -234,7 +234,7 @@
       }
 
       bubble(t("chat.salesReply", "Reach the team directly and we'll get back to you fast:"), "bot", {
-        href: "mailto:" + SALES + "?subject=" + encodeURIComponent("Chasa sales"),
+        href: "mailto:" + SALES + "?subject=" + encodeURIComponent("docstoc sales"),
         hrefLabel: SALES,
       });
       showContactForm();
@@ -243,14 +243,14 @@
     function showHome() {
       formVisible = false;
       body.innerHTML = "";
-      if (titleEl) titleEl.textContent = t("chat.title", "Chasa Assistant");
+      if (titleEl) titleEl.textContent = t("chat.title", "docstoc Assistant");
       bubble(t("chat.greeting", "Hey there 👋 I can help you find the right thing:"));
       chips([
         {
           label: t("chat.sales", "I want to talk to sales"),
           fn: function () {
             bubble(t("chat.salesReply", "Reach the team directly and we'll get back to you fast:"), "bot", {
-              href: "mailto:" + SALES + "?subject=" + encodeURIComponent("Chasa sales"),
+              href: "mailto:" + SALES + "?subject=" + encodeURIComponent("docstoc sales"),
               hrefLabel: SALES,
             });
             showContactForm();
@@ -283,7 +283,7 @@
           label: t("chat.other", "I need something else"),
           fn: function () {
             bubble(t("chat.formReply", "Sure — leave your email and what's up, and we'll get back to you."));
-            linkBtn(t("chat.tryFree", "Try Chasa free"), "/app/");
+            linkBtn(t("chat.tryFree", "Try docstoc free"), "/app/");
             showContactForm();
           },
         },
@@ -300,7 +300,7 @@
       );
       fab.innerHTML = open
         ? "×"
-        : '<img src="/brand/chasa-icon.png" alt="" width="22" height="22" />';
+        : '<img src="/brand/docstoc-icon.png?v=20260823" alt="" width="22" height="22" />';
       if (open) {
         if (opts && opts.intent === "sales") {
           showSalesFlow({ skipGreeting: true });

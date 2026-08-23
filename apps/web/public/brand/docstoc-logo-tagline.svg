@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 380 110" width="380" height="110">
+  <rect width="100%" height="100%" fill="#ffffff" />
+  
+  <g transform="translate(10, 5)">
+    <!-- Gebogener Bogen über stoc -->
+    <path d="M 215,22 Q 275,8 335,22 Q 275,16 215,22 Z" fill="#F58025" />
+
+    <!-- Schriftzug: .doc -->
+    <text x="10" y="62" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" font-size="52" fill="#333333" letter-spacing="-1.5">.doc</text>
+
+    <!-- Schriftzug: stoc -->
+    <text x="180" y="62" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="bold" font-size="52" fill="#F58025" letter-spacing="-1.5">stoc</text>
+
+    <!-- Slogan darunter -->
+    <text x="18" y="90" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="500" font-size="16" fill="#666666" letter-spacing="0.5">MAKE YOUR BUSINESS BETTER</text>
+  </g>
+</svg>

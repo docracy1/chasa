@@ -195,6 +195,22 @@ a { color: inherit; }
 }
 
 .header-nav-right {
+  margin-left: 48px;
+  display: flex;
+  align-items: center;
+  flex: 1;
+  flex-wrap: wrap;
+}
+
+/* LimeWire pattern: a small, loosely-spaced nav cluster sits right after the logo; the
+   badge/CTA/account cluster is pushed to the far right by margin-left: auto on its own wrapper,
+   rather than every item being crammed together with justify-content: flex-end. */
+.header-nav-links {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+.header-nav-actions {
   margin-left: auto;
   display: flex;
   align-items: center;
@@ -376,6 +392,17 @@ a { color: inherit; }
   justify-content: center;
 }
 .nav-megamenu-icon-sm { width: 28px; height: 28px; border-radius: 8px; }
+.nav-megamenu-icon-lg {
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
+  background: var(--accent);
+  color: #fff;
+  box-shadow: 0 6px 16px rgba(245, 128, 37, 0.3);
+}
+.nav-megamenu-item-lg { width: 250px; padding: 12px; gap: 14px; }
+.nav-megamenu-item-lg .nav-megamenu-item-title { font-size: 14.5px; }
+.nav-megamenu-item-lg .nav-megamenu-item-desc { font-size: 12.5px; }
 .nav-megamenu-item-title { display: block; font-weight: 700; font-size: 13.5px; color: var(--ink); }
 .nav-megamenu-item-desc { display: block; font-size: 12px; color: var(--ink-soft); margin-top: 2px; line-height: 1.4; }
 .nav-megamenu-side {

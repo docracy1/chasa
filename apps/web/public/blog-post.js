@@ -113,7 +113,7 @@
     })
     .then(function (data) {
       var p = data.post;
-      document.title = p.title + " — Chasa";
+      document.title = p.title + " — docstoc";
       var canonical = document.getElementById("post-canonical");
       if (canonical) canonical.href = "https://chasa.io/blog/" + slug + "/";
       if (p.description) {

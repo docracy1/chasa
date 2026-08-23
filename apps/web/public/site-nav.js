@@ -111,7 +111,7 @@
   });
 })();
 
-/* Contact sales → open Chasa Assistant with sales intent (Docracy pattern). */
+/* Contact sales → open docstoc Assistant with sales intent (Docracy pattern). */
 (function () {
   function openSalesChat(e) {
     if (e) e.preventDefault();

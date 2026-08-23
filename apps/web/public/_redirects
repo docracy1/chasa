@@ -11,21 +11,26 @@
 # Do NOT add `/path /path.html 200` rewrites — Cloudflare Pages pretty URLs
 # already serve `path.html` at `/path`, and those rewrites cause 308 loops.
 /tools  /tools/  301
+# Merged into one page — both calculators now live on /tools/invoice-chase-calculator.
+/tools/late-payment-calculator  /tools/invoice-chase-calculator  301
+/tools/chase-savings-calculator  /tools/invoice-chase-calculator  301
 /blog  /blog/  301
 /features  /features/  301
 /docs  /docs/  301
 /free-templates  /free-templates/  301
+/document-templates  /document-templates/  301
+/business-kits  /business-kits/  301
 
-# Dynamic fallback for blog posts not yet baked into a static directory (weekly-cron or
-# admin-authored posts published since the last full site rebuild) — Cloudflare Pages resolves a
-# real static asset/directory first, so this only fires for genuinely unmatched /blog/<slug>
-# paths; blog-post.js reads the slug from the URL and fetches it from the API directly.
-# Target must be extensionless (see the pretty-URL warning above) — /blog/post.html here caused
-# an infinite 308 loop against Cloudflare's own .html-stripping redirect.
-/blog/*  /blog/post  200
+# NOTE: a blanket `/blog/*  /blog/post  200` rewrite used to live here as a fallback for posts
+# not yet baked into a static directory. Removed — Cloudflare Pages evaluates _redirects BEFORE
+# static asset resolution, not after, so that rule was shadowing every real generated post
+# (old and new) behind the generic client-rendered shell, including for search crawlers and link
+# previews that don't run JS. The client-rendered fallback for a genuinely-missing post (weekly
+# cron published since the last rebuild) now lives at public/blog/404.html instead, which
+# Cloudflare Pages serves natively as the nearest-directory 404 page — a real 404 status for
+# search engines, still a working page for a human who clicked a fresh link.
 
 # Short, shareable marketplace URLs
-/marketplace  /free-templates/  301
 /submit  /free-templates/submit  301
 
 # Outreach short links are handled by functions/go/[[code]].ts (logs open, then 302).
