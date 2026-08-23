@@ -67,7 +67,7 @@ v1.post("/chase/draft", requirePaidApiOrSession, async (c) => {
       body: draft.body,
       tone_band: getToneBand(Math.max(0, daysOverdue)),
       days_overdue: Math.max(0, daysOverdue),
-      note: "Draft only — send from your own inbox. Chasa never emails your client.",
+      note: "Draft only — send from your own inbox. docstoc never emails your client.",
     });
   } catch (err) {
     console.error("v1 chase/draft failed", err);

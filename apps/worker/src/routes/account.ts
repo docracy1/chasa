@@ -1,4 +1,5 @@
 import { Hono } from "hono";
+import type { Env } from "../types";
 import { requireAccount, requirePaidAccount, requireWorkspaceAdmin, type AuthEnv } from "../lib/auth";
 import { isAdminEmail } from "../lib/adminAuth";
 import cloudConnectors from "./cloudConnectors";
@@ -16,6 +17,25 @@ const account = new Hono<AuthEnv>();
 
 account.route("/connectors", cloudConnectors);
 account.route("/google", googleIntegrations);
+
+type BrandingRow = {
+  workspace_name: string | null;
+  logo_data: string | null;
+  payment_link: string | null;
+  late_fee_enabled: number | null;
+  late_fee_hint: string | null;
+};
+
+/** Single source of truth for reading an account's branding row — used by the account's own
+ *  /branding endpoint and by public routes (e.g. certificate verification pages) that need to
+ *  render another account's branding without duplicating this query. */
+export async function getBrandingRow(env: Env, accountId: string): Promise<BrandingRow | null> {
+  return env.CHASA_DB.prepare(
+    `SELECT workspace_name, logo_data, payment_link, late_fee_enabled, late_fee_hint FROM accounts WHERE id = ?`
+  )
+    .bind(accountId)
+    .first<BrandingRow>();
+}
 
 account.get("/me", requireAccount, async (c) => {
   const acc = c.get("account")!;
@@ -51,17 +71,7 @@ account.get("/me", requireAccount, async (c) => {
 
 account.get("/branding", requireAccount, async (c) => {
   const acc = c.get("account")!;
-  const row = await c.env.CHASA_DB.prepare(
-    `SELECT workspace_name, logo_data, payment_link, late_fee_enabled, late_fee_hint FROM accounts WHERE id = ?`
-  )
-    .bind(acc.workspaceId)
-    .first<{
-      workspace_name: string | null;
-      logo_data: string | null;
-      payment_link: string | null;
-      late_fee_enabled: number | null;
-      late_fee_hint: string | null;
-    }>();
+  const row = await getBrandingRow(c.env, acc.workspaceId);
 
   return c.json({
     workspaceName: row?.workspace_name ?? null,

@@ -6,18 +6,34 @@ import {
   getApprovedBySlug,
   listApproved,
   submitTemplate,
+  type TemplateType,
 } from "../lib/marketplaceTemplates";
+import { getKitBySlug, listKits } from "../lib/templateKits";
 import { checkRateLimit, clientIpFromHeaders } from "../lib/rateLimit";
 import { clientIp, verifyTurnstile } from "../lib/turnstile";
 import { marketplaceSubmitSchema, parseJsonBody } from "../lib/schemas";
 
 const marketplace = new Hono<AuthEnv>();
 
-/** Public browse — no auth. Optional ?category= filter matches the static catalog's category names. */
+/** Public browse — no auth. Optional ?category= filter matches the static catalog's category
+ *  names; optional ?type=email|document narrows to one template kind. */
 marketplace.get("/", async (c) => {
   const category = c.req.query("category") || null;
-  const rows = await listApproved(c.env, category);
+  const typeParam = c.req.query("type");
+  const templateType: TemplateType | null = typeParam === "email" || typeParam === "document" ? typeParam : null;
+  const rows = await listApproved(c.env, category, templateType);
   return c.json({ templates: rows });
+});
+
+marketplace.get("/kits", async (c) => {
+  const kits = await listKits(c.env);
+  return c.json({ kits });
+});
+
+marketplace.get("/kits/:slug", async (c) => {
+  const result = await getKitBySlug(c.env, c.req.param("slug"));
+  if (!result) return c.json({ error: "Not found" }, 404);
+  return c.json(result);
 });
 
 marketplace.get("/:slug", async (c) => {
@@ -56,8 +72,10 @@ marketplace.post("/submit", async (c) => {
     stage: body.stage ?? "",
     tone: body.tone ?? "",
     category: body.category ?? "",
-    subject: body.subject,
-    body: body.body,
+    templateType: body.templateType,
+    subject: body.subject ?? "",
+    body: body.body ?? "",
+    bodyMarkdown: body.bodyMarkdown ?? null,
     tags: body.tags ?? [],
     submitterName: body.submitterName ?? null,
     submitterUrl: body.submitterUrl ?? null,

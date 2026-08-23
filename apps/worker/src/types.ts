@@ -32,6 +32,15 @@ export interface Env {
   /** Cloudflare API token, "Zone > Analytics > Read" scoped to the chasa.io zone only —
    *  see lib/cloudflareAnalytics.ts */
   CF_ANALYTICS_TOKEN?: string;
+  /** ACME v2 directory URL — defaults to Let's Encrypt staging in lib/acme.ts if unset. Set to
+   *  the production directory only once the flow has been validated end-to-end. */
+  ACME_DIRECTORY_URL?: string;
+  /** URL of the small external relay (apps/acme-relay) that forwards ACME requests to Let's
+   *  Encrypt — required because Cloudflare Workers cannot reach Let's Encrypt's API directly
+   *  (see lib/acme.ts's module comment). */
+  ACME_RELAY_URL?: string;
+  /** Shared bearer secret for the ACME relay — must match the relay's own RELAY_SECRET env var. */
+  ACME_RELAY_SECRET?: string;
 
   // Non-secret config ([vars] in wrangler.toml)
   WORKERS_AI_MODEL?: string;

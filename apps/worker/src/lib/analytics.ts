@@ -389,7 +389,7 @@ export async function getTrafficStats(env: Env, days = 30, day?: string | null) 
       country: r.country,
       count: Number(r.c),
     })),
-    note: "Aggregate traffic from Chasa (CF country header, UA bot detect). No IPs or visitor IDs stored on page views.",
+    note: "Aggregate traffic from docstoc (CF country header, UA bot detect). No IPs or visitor IDs stored on page views.",
   };
 }
 

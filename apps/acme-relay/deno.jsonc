@@ -1,0 +1,10 @@
+{
+  "deploy": {
+    "org": "docracy1",
+    "app": "docstoc-acme-relay"
+  }
+}
+
+
+
+

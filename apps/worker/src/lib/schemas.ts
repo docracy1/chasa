@@ -75,6 +75,48 @@ export const digestSettingsSchema = z.object({
   digestEnabled: z.boolean(),
 });
 
+const HOSTNAME_RE = /^(?!-)[a-z0-9-]{1,63}(?<!-)(\.(?!-)[a-z0-9-]{1,63}(?<!-))+$/i;
+
+export const customHostnameCreateSchema = z.object({
+  hostname: z
+    .string()
+    .trim()
+    .toLowerCase()
+    .max(253)
+    .regex(HOSTNAME_RE, "Enter a valid domain, e.g. invoices.yourcompany.com"),
+});
+
+export const certificateCreateSchema = z.object({
+  sha256Hash: z.string().regex(/^[0-9a-f]{64}$/i, "Expected a SHA-256 hex digest"),
+  originalFilename: z.string().trim().max(200).optional(),
+  fileSizeBytes: z.coerce.number().int().min(0).max(5_000_000_000).optional(),
+  /** Anonymous-only display name ("Your name or business") — signed-in accounts always show
+   *  their live workspace name/branding instead, so this is ignored when a session is present. */
+  issuerName: z.string().trim().max(120).optional(),
+  turnstileToken: z.string().optional(),
+});
+
+const invoiceLineItemSchema = z.object({
+  description: z.string().trim().min(1).max(300),
+  quantity: z.coerce.number().min(0.01).max(1_000_000),
+  unitPrice: z.coerce.number().min(0).max(10_000_000),
+});
+
+export const invoiceCreateSchema = z.object({
+  clientName: z.string().trim().min(1).max(200),
+  clientEmail: z.string().trim().email().max(254).optional().or(z.literal("")),
+  issueDate: isoDate,
+  dueDate: isoDate,
+  currency: z.string().trim().length(3).default("USD"),
+  lineItems: z.array(invoiceLineItemSchema).min(1).max(100),
+  taxRate: z.coerce.number().min(0).max(100).default(0),
+  notes: z.string().trim().max(2000).optional(),
+});
+
+export const invoiceStatusSchema = z.object({
+  status: z.enum(["draft", "sent", "paid"]),
+});
+
 export const marketingOptInSchema = z.object({
   marketingOptIn: z.boolean(),
 });
@@ -114,29 +156,41 @@ export const demandLetterSchema = z.object({
 /** @deprecated Use demandLetterSchema */
 export const mahnungSchema = demandLetterSchema;
 
-export const marketplaceSubmitSchema = z.object({
-  name: z.string().trim().min(1).max(100),
-  description: z.string().trim().max(400).optional(),
-  stage: z.string().trim().max(60).optional(),
-  tone: z.string().trim().max(40).optional(),
-  category: z.string().trim().max(60).optional(),
-  subject: z.string().trim().min(1).max(200),
-  body: z.string().trim().min(1).max(4000),
-  tags: z.array(z.string().trim().min(1).max(30)).max(10).optional(),
-  submitterName: z.string().trim().max(80).optional(),
-  // z.url() accepts any syntactically valid URL, including javascript: — this is rendered as a
-  // clickable href on a public page, so restrict to http(s) explicitly rather than relying on
-  // client-side escaping alone.
-  submitterUrl: z
-    .string()
-    .trim()
-    .url()
-    .max(300)
-    .refine((url) => /^https?:\/\//i.test(url), "Must be an http:// or https:// URL")
-    .optional(),
-  submitterEmail: z.string().trim().email().max(254).optional(),
-  turnstileToken: z.string().optional(),
-});
+export const marketplaceSubmitSchema = z
+  .object({
+    name: z.string().trim().min(1).max(100),
+    description: z.string().trim().max(400).optional(),
+    stage: z.string().trim().max(60).optional(),
+    tone: z.string().trim().max(40).optional(),
+    category: z.string().trim().max(60).optional(),
+    templateType: z.enum(["email", "document"]).optional(),
+    // Required for email templates, empty/unused for document templates (validated below).
+    subject: z.string().trim().max(200).optional(),
+    body: z.string().trim().max(4000).optional(),
+    // Required for document templates instead of subject/body.
+    bodyMarkdown: z.string().trim().max(20_000).optional(),
+    tags: z.array(z.string().trim().min(1).max(30)).max(10).optional(),
+    submitterName: z.string().trim().max(80).optional(),
+    // z.url() accepts any syntactically valid URL, including javascript: — this is rendered as a
+    // clickable href on a public page, so restrict to http(s) explicitly rather than relying on
+    // client-side escaping alone.
+    submitterUrl: z
+      .string()
+      .trim()
+      .url()
+      .max(300)
+      .refine((url) => /^https?:\/\//i.test(url), "Must be an http:// or https:// URL")
+      .optional(),
+    submitterEmail: z.string().trim().email().max(254).optional(),
+    turnstileToken: z.string().optional(),
+  })
+  .refine(
+    (data) =>
+      data.templateType === "document"
+        ? Boolean(data.bodyMarkdown && data.bodyMarkdown.length > 0)
+        : Boolean(data.subject && data.subject.length > 0 && data.body && data.body.length > 0),
+    { message: "Email templates need a subject and body; document templates need content." }
+  );
 
 export const demoDraftSchema = z.object({
   client_name: z.string().max(80).optional(),

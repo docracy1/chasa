@@ -212,7 +212,7 @@ cloudConnectors.get("/:provider/invoices", requirePaidAccount, async (c) => {
     const invoices = await fetchOverdueInvoices(c.env, c.get("account")!.workspaceId, providerParam);
     return c.json({
       invoices,
-      note: "Overdue unpaid invoices. Import into aging — Chasa never auto-sends.",
+      note: "Overdue unpaid invoices. Import into aging — docstoc never auto-sends.",
     });
   } catch (err) {
     const message = err instanceof Error ? err.message : "Could not fetch invoices";

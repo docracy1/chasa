@@ -23,12 +23,21 @@ import cspReport from "./routes/cspReport";
 import leads from "./routes/leads";
 import demo from "./routes/demo";
 import marketplace from "./routes/marketplace";
+import verify from "./routes/verify";
+import ssl from "./routes/ssl";
+import auditLog from "./routes/auditLog";
+import trust from "./routes/trust";
+import invoices from "./routes/invoices";
 import { configuredAppOrigin, isAllowedAppOrigin } from "./lib/appUrl";
 import { purgeExpiredSessions } from "./lib/sessionCleanup";
 import { sendDailyChaseDigests } from "./lib/chaseDigest";
 import { runSpaSmokeAndAlert } from "./lib/spaSmoke";
 import { refreshClaritySnapshot } from "./lib/clarityApi";
 import { isWeeklyBlogMondayUtc, runWeeklyBlogPublish } from "./lib/blogWeekly";
+import { sendCertExpiryReminders } from "./lib/customerCertificates";
+import { sweepPendingTimestamps } from "./lib/openTimestamps";
+import { runDailyAuditAnchors, sweepPendingAuditAnchors } from "./lib/auditLog";
+import { backfillTrustProfiles, sweepPendingTrustProfiles } from "./lib/trustProfile";
 
 const app = new Hono<AuthEnv>();
 
@@ -61,6 +70,11 @@ app.route("/api/blog", blog);
 app.route("/api/leads", leads);
 app.route("/api/demo", demo);
 app.route("/api/marketplace", marketplace);
+app.route("/api/verify", verify);
+app.route("/api/ssl", ssl);
+app.route("/api/audit-log", auditLog);
+app.route("/api/trust", trust);
+app.route("/api/invoices", invoices);
 app.route("/api/webhooks", webhooks);
 app.route("/api/connector", connector);
 app.route("/api/v1", v1);
@@ -86,6 +100,12 @@ export default {
         (async () => {
           await purgeExpiredSessions(env);
           await sendDailyChaseDigests(env);
+          await sendCertExpiryReminders(env).catch((err) => console.error("Cert expiry reminders failed:", err));
+          await sweepPendingTimestamps(env).catch((err) => console.error("OpenTimestamps sweep failed:", err));
+          await runDailyAuditAnchors(env).catch((err) => console.error("Daily audit anchor run failed:", err));
+          await sweepPendingAuditAnchors(env).catch((err) => console.error("Audit anchor OTS sweep failed:", err));
+          await backfillTrustProfiles(env).catch((err) => console.error("Trust profile backfill failed:", err));
+          await sweepPendingTrustProfiles(env).catch((err) => console.error("Trust profile OTS sweep failed:", err));
           if (isWeeklyBlogMondayUtc()) {
             await runWeeklyBlogPublish(env).catch((err) => console.error("Weekly blog publish failed:", err));
           }

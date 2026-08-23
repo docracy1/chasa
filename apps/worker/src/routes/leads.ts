@@ -119,7 +119,7 @@ leads.get("/unsubscribe", async (c) => {
   return c.html(`<!DOCTYPE html>
 <html lang="en"><head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Unsubscribed — Chasa</title>
+<title>Unsubscribed — docstoc</title>
 <link rel="stylesheet" href="${appOrigin}/site.css">
 </head><body>
 <main class="wrap page-main" style="padding-top:48px">

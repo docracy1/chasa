@@ -18,9 +18,9 @@ type JsonRpcRequest = {
 };
 
 const SERVER_INFO = {
-  name: "chasa",
+  name: "docstoc",
   version: "1.0.0",
-  title: "Chasa",
+  title: "docstoc",
   description:
     "AI invoice follow-up for freelancers. Draft chase emails, tips, and templates — read-only / draft-only. Nothing is ever emailed for you.",
 };
@@ -147,7 +147,7 @@ const TOOLS = [
   {
     name: "recommend_template",
     description:
-      "Recommend a free Chasa payment-reminder template for a given days-overdue stage, with a URL.",
+      "Recommend a free docstoc payment-reminder template for a given days-overdue stage, with a URL.",
     inputSchema: {
       type: "object",
       properties: {
@@ -158,7 +158,7 @@ const TOOLS = [
   },
   {
     name: "list_templates",
-    description: "List Chasa free invoice follow-up email templates with URLs.",
+    description: "List docstoc free invoice follow-up email templates with URLs.",
     inputSchema: {
       type: "object",
       properties: {},
@@ -256,7 +256,7 @@ async function callTool(
           ...draft,
           tone_band: getToneBand(Math.max(0, daysOverdue)),
           tip: chaseTip(Math.max(0, daysOverdue)),
-          note: "Draft only — copy into your own email client. Chasa never sends for you.",
+          note: "Draft only — copy into your own email client. docstoc never sends for you.",
         },
         null,
         2
@@ -283,7 +283,7 @@ async function handleRpc(
       capabilities: { tools: {} },
       serverInfo: SERVER_INFO,
       instructions:
-        "Chasa helps draft invoice follow-up emails. Use draft_chase_email for copy-ready drafts. Tools never send email or change data.",
+        "docstoc helps draft invoice follow-up emails. Use draft_chase_email for copy-ready drafts. Tools never send email or change data.",
     });
   }
 
@@ -355,7 +355,7 @@ mcp.all("/", async (c) => {
     // Human-friendly hint — connectors use POST
     return c.json(
       {
-        name: "Chasa MCP",
+        name: "docstoc MCP",
         endpoint: "/mcp",
         auth: "session_or_api_key for draft_chase_email",
         note: "This is a server address for AI assistants (Claude, ChatGPT, Grok, Perplexity) — not a page to browse. POST JSON-RPC to call tools.",

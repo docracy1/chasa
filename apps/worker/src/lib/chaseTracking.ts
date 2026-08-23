@@ -75,7 +75,7 @@ export async function createTrackedChase(
 
   const html = `<!DOCTYPE html><html><body style="font-family:system-ui,sans-serif;font-size:15px;line-height:1.5;color:#1a1a1a">
 ${bodyHtml}
-<p style="margin-top:24px;font-size:11px;color:#999">Sent via your inbox · tracked open pixel (Chasa)</p>
+<p style="margin-top:24px;font-size:11px;color:#999">Sent via your inbox · tracked open pixel (docstoc)</p>
 <img src="${pixelUrl}" width="1" height="1" alt="" style="display:block;width:1px;height:1px;border:0" />
 </body></html>`;
 

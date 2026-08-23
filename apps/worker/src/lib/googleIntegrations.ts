@@ -109,7 +109,7 @@ export async function exportAgingToSheet(
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
-      properties: { title: (title.trim() || "Chasa aging export").slice(0, 80) },
+      properties: { title: (title.trim() || "docstoc aging export").slice(0, 80) },
       sheets: [{ properties: { title: "Aging" } }],
     }),
   });
@@ -144,7 +144,7 @@ export async function syncReminderToCalendar(
   input: { summary: string; date: string; description?: string; clientName?: string }
 ): Promise<{ eventId: string; htmlLink: string | null }> {
   const summary =
-    input.summary.slice(0, 200) || `Chasa reminder${input.clientName ? `: ${input.clientName}` : ""}`;
+    input.summary.slice(0, 200) || `docstoc reminder${input.clientName ? `: ${input.clientName}` : ""}`;
   const res = await googleFetch(
     env,
     accountId,
@@ -154,7 +154,7 @@ export async function syncReminderToCalendar(
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         summary,
-        description: (input.description ?? "Planned chase reminder from Chasa.").slice(0, 4000),
+        description: (input.description ?? "Planned chase reminder from docstoc.").slice(0, 4000),
         start: { date: input.date },
         end: { date: input.date },
       }),

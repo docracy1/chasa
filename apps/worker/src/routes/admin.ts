@@ -15,6 +15,7 @@ import { getFunnelStats, getOutreachStats, getTrafficSources, getTrafficStats } 
 import { getCachedClaritySnapshot, refreshClaritySnapshot } from "../lib/clarityApi";
 import { getCloudflareTrafficStats } from "../lib/cloudflareAnalytics";
 import { listPending, reviewSubmission } from "../lib/marketplaceTemplates";
+import { addItemToKit, createKit, listKits } from "../lib/templateKits";
 import { createPost, deletePost, listPosts, updatePost } from "../lib/blog";
 import { runWeeklyBlogPublish } from "../lib/blogWeekly";
 import { sendMarketingEmail } from "../lib/email";
@@ -126,8 +127,40 @@ admin.post("/marketplace/:id/approve", requireAdmin, async (c) => {
   const admin = c.get("admin");
   const body = await c.req.json().catch(() => ({}));
   const featured = body.featured === true;
-  const result = await reviewSubmission(c.env, c.req.param("id"), "approved", admin!.email, { featured });
+  const verifiedExpert = body.verifiedExpert === true;
+  const expertCredential =
+    verifiedExpert && typeof body.expertCredential === "string" ? body.expertCredential.trim().slice(0, 200) : null;
+  const result = await reviewSubmission(c.env, c.req.param("id"), "approved", admin!.email, {
+    featured,
+    verifiedExpert,
+    expertCredential,
+  });
   if (!result.ok) return c.json({ error: result.error }, 400);
+  return c.json({ ok: true });
+});
+
+admin.get("/marketplace/kits", requireAdmin, async (c) => {
+  const kits = await listKits(c.env);
+  return c.json({ kits });
+});
+
+/** Staff-curated only — kits are not community-submitted. */
+admin.post("/marketplace/kits", requireAdmin, async (c) => {
+  const body = await c.req.json().catch(() => ({}));
+  const name = typeof body.name === "string" ? body.name.trim().slice(0, 100) : "";
+  if (!name) return c.json({ error: "name is required" }, 400);
+  const description = typeof body.description === "string" ? body.description.trim().slice(0, 400) : "";
+  const category = typeof body.category === "string" ? body.category.trim().slice(0, 60) : "";
+  const kit = await createKit(c.env, { name, description, category });
+  return c.json({ kit });
+});
+
+admin.post("/marketplace/kits/:id/items", requireAdmin, async (c) => {
+  const body = await c.req.json().catch(() => ({}));
+  const templateId = typeof body.templateId === "string" ? body.templateId : "";
+  if (!templateId) return c.json({ error: "templateId is required" }, 400);
+  const position = typeof body.position === "number" ? body.position : 0;
+  await addItemToKit(c.env, c.req.param("id"), templateId, position);
   return c.json({ ok: true });
 });
 

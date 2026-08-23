@@ -27,17 +27,19 @@ interface DraftedPost {
 }
 
 const CHASA_BLURB = `
-Chasa (chasa.io) is a free, no-signup AI invoice follow-up tool for freelancers and small
-businesses. Paste an overdue invoice, Chasa drafts a tone-matched follow-up email (warm at 1-7
-days overdue, firmer at 30+). Users copy the draft and send it from their own inbox — Chasa never
-sends on their behalf. Solo plan is a flat $7/mo per workspace (Pro $17/mo); free tier works with
-no signup (18 templates + 5 AI drafts/month). It drafts follow-up emails, it does not send them,
-and there's no accounting/invoicing feature — it's a chasing layer on top of whatever invoicing
-tool the reader already uses.
+docstoc (chasa.io) is a free automation layer for small businesses and freelancers, with four
+parts: (1) hundreds of free business & legal document templates, no signup required; (2) a
+document generator that creates real invoices with line items, tax, and a shareable/printable
+link; (3) tamper-evident document certificates — hash any file in your browser, get a shareable
+verification link anchored to the Bitcoin blockchain via OpenTimestamps, free; (4) free SSL/TLS
+automation for your own domain, plus AI-drafted invoice follow-up emails (warm at 1-7 days
+overdue, firmer at 30+) that users copy and send from their own inbox — docstoc never sends on
+their behalf. Solo plan is a flat $9/mo per workspace (Pro $17/mo); the free tier works with no
+signup (18 templates + 5 AI chase drafts/month).
 `.trim();
 
 const META_SYSTEM_PROMPT = `
-You write SEO blog post metadata for Chasa (chasa.io), an AI invoice follow-up tool.
+You write SEO blog post metadata for docstoc (chasa.io), an AI invoice follow-up tool.
 Respond with ONLY a JSON object — no markdown fences, no prose outside JSON:
 {"title":"...","description":"...","slug":"..."}
 
@@ -53,7 +55,7 @@ Rules:
  *  well under the token budget, i.e. the model just loses track of the wrapper, not a length
  *  limit). Plain text has no such failure mode — the response IS the body, nothing to parse. */
 const BODY_SYSTEM_PROMPT = `
-You write SEO blog post bodies for Chasa (chasa.io), an AI invoice follow-up tool for freelancers
+You write SEO blog post bodies for docstoc (chasa.io), an AI invoice follow-up tool for freelancers
 and small businesses. ${CHASA_BLURB}
 
 Respond with ONLY the article body as plain text — no JSON, no markdown fences, no title line.
@@ -64,8 +66,8 @@ Use these markers only:
 - Bullet lines starting with "- " for lists
 
 Structure like a strong competitor SEO guide: intro, why-it-matters section, practical script or
-step-by-step, common mistakes list, FAQ (5-7 ### questions), short closing mention of Chasa.
-Mention Chasa naturally; do not invent features. Do NOT give legal, tax, or collections-
+step-by-step, common mistakes list, FAQ (5-7 ### questions), short closing mention of docstoc.
+Mention docstoc naturally; do not invent features. Do NOT give legal, tax, or collections-
 enforceability advice — add a one-line disclaimer where relevant. Do NOT use **, *, # (except
 ## / ###), or HTML. Aim for roughly 900-1400 words of useful content.
 `.trim();

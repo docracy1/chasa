@@ -97,7 +97,7 @@ googleRoutes.post("/sheets/export-aging", requirePaidAccount, async (c) => {
   if (parsed.data.rows.length === 0) return c.json({ error: "No rows to export." }, 400);
   try {
     return c.json(
-      await exportAgingToSheet(c.env, acc.workspaceId, parsed.data.title ?? "Chasa aging", parsed.data.rows)
+      await exportAgingToSheet(c.env, acc.workspaceId, parsed.data.title ?? "docstoc aging", parsed.data.rows)
     );
   } catch (err) {
     return c.json({ error: err instanceof Error ? err.message : "Sheets export failed" }, 502);

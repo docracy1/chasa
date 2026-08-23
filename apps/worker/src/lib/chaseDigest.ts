@@ -10,31 +10,31 @@ const DIGEST_COPY: Record<
     intro: (n: number) => string;
     subjectLabel: string;
     openInEmail: string;
-    openInChasa: string;
-    ctaOpenChasa: string;
+    openIndocstoc: string;
+    ctaOpendocstoc: string;
     turnOffNote: string;
   }
 > = {
   en: {
-    subject: (n) => `${n} invoice follow-up${n === 1 ? "" : "s"} ready to send — Chasa`,
+    subject: (n) => `${n} invoice follow-up${n === 1 ? "" : "s"} ready to send — docstoc`,
     headline: (n) => `${n} follow-up${n === 1 ? "" : "s"} ready today`,
     intro: (n) =>
-      `Good morning — <strong>${n}</strong> planned chase step(s) are due today. Chasa never auto-sends; review and send from your inbox:`,
+      `Good morning — <strong>${n}</strong> planned chase step(s) are due today. docstoc never auto-sends; review and send from your inbox:`,
     subjectLabel: "Subject:",
     openInEmail: "Open in email app (review &amp; send)",
-    openInChasa: "Open in Chasa",
-    ctaOpenChasa: "Open Chasa",
+    openIndocstoc: "Open in docstoc",
+    ctaOpendocstoc: "Open docstoc",
     turnOffNote: "Turn off daily digests in Account settings.",
   },
   es: {
-    subject: (n) => `${n} seguimiento${n === 1 ? "" : "s"} de factura listo${n === 1 ? "" : "s"} para enviar — Chasa`,
+    subject: (n) => `${n} seguimiento${n === 1 ? "" : "s"} de factura listo${n === 1 ? "" : "s"} para enviar — docstoc`,
     headline: (n) => `${n} seguimiento${n === 1 ? "" : "s"} listo${n === 1 ? "" : "s"} hoy`,
     intro: (n) =>
-      `Buenos días — <strong>${n}</strong> paso(s) de seguimiento planificados vencen hoy. Chasa nunca envía automáticamente; revisa y envía desde tu bandeja:`,
+      `Buenos días — <strong>${n}</strong> paso(s) de seguimiento planificados vencen hoy. docstoc nunca envía automáticamente; revisa y envía desde tu bandeja:`,
     subjectLabel: "Asunto:",
     openInEmail: "Abrir en la app de correo (revisar y enviar)",
-    openInChasa: "Abrir en Chasa",
-    ctaOpenChasa: "Abrir Chasa",
+    openIndocstoc: "Abrir en docstoc",
+    ctaOpendocstoc: "Abrir docstoc",
     turnOffNote: "Desactiva los resúmenes diarios en la configuración de la cuenta.",
   },
 };
@@ -122,7 +122,7 @@ async function sendDigestEmail(
       ${preview ? `<p style="margin:0 0 10px;font-size:13px;line-height:1.45">${preview}${body.length > 280 ? "…" : ""}</p>` : ""}
       <p style="margin:0;font-size:14px">
         <a href="${mailto}">${copy.openInEmail}</a>
-        · <a href="${deepLink}">${copy.openInChasa}</a>
+        · <a href="${deepLink}">${copy.openIndocstoc}</a>
       </p>
     </div>`);
   }
@@ -135,7 +135,7 @@ async function sendDigestEmail(
       ${copy.intro(reminders.length)}
     </p>
     ${blocks.join("\n")}
-    ${ctaButton(`${appUrl}/app/`, copy.ctaOpenChasa)}
+    ${ctaButton(`${appUrl}/app/`, copy.ctaOpendocstoc)}
     <p style="color:#6B7A90;font-size:13px;margin-top:20px">${copy.turnOffNote}</p>
     ${signOff(locale)}
   `,
@@ -149,7 +149,7 @@ async function sendDigestEmail(
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      from: "Chasa <login@chasa.io>",
+      from: "docstoc <login@chasa.io>",
       to: [email],
       subject: copy.subject(reminders.length),
       html,

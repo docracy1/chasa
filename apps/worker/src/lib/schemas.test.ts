@@ -1,6 +1,15 @@
 import { describe, expect, it } from "vitest";
 import { z } from "zod";
-import { agingSyncSchema, chaseEventSchema, clientCreateSchema, parseJsonBody, replyClassifySchema, webhookNotifySchema } from "./schemas";
+import {
+  agingSyncSchema,
+  certificateCreateSchema,
+  chaseEventSchema,
+  clientCreateSchema,
+  customHostnameCreateSchema,
+  parseJsonBody,
+  replyClassifySchema,
+  webhookNotifySchema,
+} from "./schemas";
 
 describe("schemas", () => {
   it("parses aging sync batch", async () => {
@@ -110,5 +119,39 @@ describe("schemas", () => {
       replyClassifySchema
     );
     expect(result.ok).toBe(true);
+  });
+
+  it("parses a valid certificate create payload", async () => {
+    const result = await parseJsonBody(
+      { json: async () => ({ sha256Hash: "a".repeat(64), originalFilename: "invoice.pdf" }) },
+      certificateCreateSchema
+    );
+    expect(result.ok).toBe(true);
+    if (result.ok) expect(result.data.sha256Hash).toBe("a".repeat(64));
+  });
+
+  it("rejects a certificate create payload with a malformed hash", async () => {
+    const result = await parseJsonBody(
+      { json: async () => ({ sha256Hash: "not-a-hash" }) },
+      certificateCreateSchema
+    );
+    expect(result.ok).toBe(false);
+  });
+
+  it("parses a valid custom hostname", async () => {
+    const result = await parseJsonBody(
+      { json: async () => ({ hostname: "Invoices.Example.COM" }) },
+      customHostnameCreateSchema
+    );
+    expect(result.ok).toBe(true);
+    if (result.ok) expect(result.data.hostname).toBe("invoices.example.com");
+  });
+
+  it("rejects a custom hostname without a dot", async () => {
+    const result = await parseJsonBody(
+      { json: async () => ({ hostname: "localhost" }) },
+      customHostnameCreateSchema
+    );
+    expect(result.ok).toBe(false);
   });
 });

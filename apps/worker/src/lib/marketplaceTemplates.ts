@@ -1,8 +1,12 @@
 import type { Env } from "../types";
 
+export type TemplateType = "email" | "document";
+
 /** Same shape as the static FreeChaseTemplate the app's Templates page already renders (see
  *  apps/web/app/src/pages/Templates.tsx) so the frontend can merge official + community rows
- *  without a second type. */
+ *  without a second type. Document-type rows leave subject/body empty and use bodyMarkdown
+ *  instead — kept as a discriminated field rather than a second table so admin review, rate
+ *  limiting, and anonymous-submission handling stay in one place for both kinds. */
 export type MarketplaceTemplate = {
   id: string;
   slug: string;
@@ -11,12 +15,16 @@ export type MarketplaceTemplate = {
   stage: string;
   tone: string;
   category: string;
+  templateType: TemplateType;
   subject: string;
   body: string;
+  bodyMarkdown: string | null;
   tags: string[];
   submitterName: string | null;
   submitterUrl: string | null;
   featured: boolean;
+  verifiedExpert: boolean;
+  expertCredential: string | null;
   submittedAt: string;
 };
 
@@ -64,12 +72,16 @@ type Row = {
   stage: string;
   tone: string;
   category: string;
+  template_type: string;
   subject: string;
   body: string;
+  body_markdown: string | null;
   tags: string | null;
   submitter_name: string | null;
   submitter_url: string | null;
   featured: number;
+  verified_expert: number;
+  expert_credential: string | null;
   submitter_email: string | null;
   status: string;
   rejection_reason: string | null;
@@ -97,12 +109,16 @@ function rowToTemplate(row: Row): MarketplaceTemplate {
     stage: row.stage,
     tone: row.tone,
     category: row.category,
+    templateType: row.template_type === "document" ? "document" : "email",
     subject: row.subject,
     body: row.body,
+    bodyMarkdown: row.body_markdown,
     tags: parseTags(row.tags),
     submitterName: row.submitter_name,
     submitterUrl: row.submitter_url,
     featured: row.featured === 1,
+    verifiedExpert: row.verified_expert === 1,
+    expertCredential: row.expert_credential,
     submittedAt: row.submitted_at,
   };
 }
@@ -119,11 +135,23 @@ function rowToSubmission(row: Row): MarketplaceSubmission {
   };
 }
 
-export async function listApproved(env: Env, category?: string | null): Promise<MarketplaceTemplate[]> {
-  const query = category
-    ? `SELECT * FROM marketplace_templates WHERE status = 'approved' AND category = ? ORDER BY featured DESC, submitted_at DESC`
-    : `SELECT * FROM marketplace_templates WHERE status = 'approved' ORDER BY featured DESC, submitted_at DESC`;
-  const stmt = category ? env.CHASA_DB.prepare(query).bind(category) : env.CHASA_DB.prepare(query);
+export async function listApproved(
+  env: Env,
+  category?: string | null,
+  templateType?: TemplateType | null
+): Promise<MarketplaceTemplate[]> {
+  const conditions = ["status = 'approved'"];
+  const binds: string[] = [];
+  if (category) {
+    conditions.push("category = ?");
+    binds.push(category);
+  }
+  if (templateType) {
+    conditions.push("template_type = ?");
+    binds.push(templateType);
+  }
+  const query = `SELECT * FROM marketplace_templates WHERE ${conditions.join(" AND ")} ORDER BY featured DESC, submitted_at DESC`;
+  const stmt = env.CHASA_DB.prepare(query).bind(...binds);
   const { results } = await stmt.all<Row>();
   return (results ?? []).map(rowToTemplate);
 }
@@ -155,8 +183,10 @@ export async function submitTemplate(
     stage: string;
     tone: string;
     category: string;
+    templateType?: TemplateType;
     subject: string;
     body: string;
+    bodyMarkdown?: string | null;
     tags: string[];
     submitterName: string | null;
     submitterUrl: string | null;
@@ -176,11 +206,12 @@ export async function submitTemplate(
   const id = crypto.randomUUID();
   const slug = await uniqueSlug(env, input.name);
   const now = new Date().toISOString();
+  const templateType: TemplateType = input.templateType === "document" ? "document" : "email";
 
   await env.CHASA_DB.prepare(
     `INSERT INTO marketplace_templates
-       (id, account_id, slug, name, description, stage, tone, category, subject, body, tags, submitter_name, submitter_url, submitter_email, status, submitted_at)
-     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending', ?)`
+       (id, account_id, slug, name, description, stage, tone, category, template_type, subject, body, body_markdown, tags, submitter_name, submitter_url, submitter_email, status, submitted_at)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending', ?)`
   )
     .bind(
       id,
@@ -191,8 +222,10 @@ export async function submitTemplate(
       input.stage,
       input.tone,
       input.category,
+      templateType,
       input.subject,
       input.body,
+      input.bodyMarkdown ?? null,
       input.tags.length ? JSON.stringify(input.tags) : null,
       input.submitterName,
       input.submitterUrl,
@@ -212,22 +245,31 @@ export async function listPending(env: Env): Promise<MarketplaceSubmission[]> {
 }
 
 /** Only updates rows still `pending` — an already-decided submission can't be reviewed twice.
- *  `featured` only matters on approval; ignored (and left false) for rejections. */
+ *  `featured`/`verifiedExpert`/`expertCredential` only matter on approval; ignored (left
+ *  false/null) for rejections — these are admin judgment calls, never submitter-supplied. */
 export async function reviewSubmission(
   env: Env,
   id: string,
   decision: "approved" | "rejected",
   reviewedBy: string,
-  opts: { rejectionReason?: string | null; featured?: boolean } = {}
+  opts: {
+    rejectionReason?: string | null;
+    featured?: boolean;
+    verifiedExpert?: boolean;
+    expertCredential?: string | null;
+  } = {}
 ): Promise<{ ok: true } | { ok: false; error: string }> {
   const now = new Date().toISOString();
-  const featured = decision === "approved" && opts.featured ? 1 : 0;
+  const approved = decision === "approved";
+  const featured = approved && opts.featured ? 1 : 0;
+  const verifiedExpert = approved && opts.verifiedExpert ? 1 : 0;
+  const expertCredential = approved && opts.verifiedExpert ? opts.expertCredential ?? null : null;
   const result = await env.CHASA_DB.prepare(
     `UPDATE marketplace_templates
-     SET status = ?, reviewed_at = ?, reviewed_by = ?, rejection_reason = ?, featured = ?
+     SET status = ?, reviewed_at = ?, reviewed_by = ?, rejection_reason = ?, featured = ?, verified_expert = ?, expert_credential = ?
      WHERE id = ? AND status = 'pending'`
   )
-    .bind(decision, now, reviewedBy, opts.rejectionReason ?? null, featured, id)
+    .bind(decision, now, reviewedBy, opts.rejectionReason ?? null, featured, verifiedExpert, expertCredential, id)
     .run();
 
   if (!result.meta.changes) {

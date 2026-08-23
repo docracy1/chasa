@@ -69,7 +69,7 @@ tracking.get("/", requirePaidAccount, async (c) => {
   const items = await listTrackingForAccount(c.env, acc.workspaceId);
   return c.json({
     tracking: items,
-    note: "Opens only register when the recipient loads images in HTML email you copied from Chasa. Plain mailto text does not track.",
+    note: "Opens only register when the recipient loads images in HTML email you copied from docstoc. Plain mailto text does not track.",
   });
 });
 

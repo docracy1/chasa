@@ -24,7 +24,7 @@ const FOOTER_TEXT: Record<Locale, string> = {
 /** Shared branded shell — same Swipesign-style pattern as Docracy: gray canvas, white card,
  *  centered logo, pill CTA. */
 export function emailShell(appUrl: string, bodyHtml: string, locale: Locale = "en"): string {
-  const logo = `${appUrl.replace(/\/$/, "")}/brand/chasa-icon.png`;
+  const logo = `${appUrl.replace(/\/$/, "")}/brand/docstoc-icon.png`;
   return `
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${PAPER};padding:32px 16px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,Helvetica,sans-serif;">
   <tr>
@@ -32,8 +32,8 @@ export function emailShell(appUrl: string, bodyHtml: string, locale: Locale = "e
       <table role="presentation" width="520" cellpadding="0" cellspacing="0" style="background:#ffffff;border-radius:12px;max-width:520px;width:100%;">
         <tr>
           <td align="center" style="padding:32px 32px 8px 32px;">
-            <img src="${logo}" alt="Chasa" width="40" height="40" style="display:block;width:40px;height:40px;margin:0 auto 8px;border-radius:8px;" />
-            <div style="font-size:22px;font-weight:700;letter-spacing:-0.03em;color:${ACCENT};">chasa</div>
+            <img src="${logo}" alt="docstoc" width="40" height="40" style="display:block;width:40px;height:40px;margin:0 auto 8px;border-radius:8px;" />
+            <div style="font-size:22px;font-weight:700;letter-spacing:-0.03em;color:${ACCENT};">docstoc</div>
           </td>
         </tr>
         <tr>
@@ -70,7 +70,7 @@ const SIGN_OFF_TEXT: Record<Locale, string> = {
 };
 
 export function signOff(locale: Locale = "en"): string {
-  return `<p style="margin:28px 0 0 0;font-size:15px;color:${INK};line-height:1.5;">${SIGN_OFF_TEXT[locale]}<br><em style="font-style:italic;color:${MUTED_HEX};">Chasa</em></p>`;
+  return `<p style="margin:28px 0 0 0;font-size:15px;color:${INK};line-height:1.5;">${SIGN_OFF_TEXT[locale]}<br><em style="font-style:italic;color:${MUTED_HEX};">docstoc</em></p>`;
 }
 
 function appUrl(env: Env): string {
@@ -79,15 +79,15 @@ function appUrl(env: Env): string {
 
 const MAGIC_LINK_COPY: Record<Locale, { subject: string; headline: string; body: string; cta: string; note: string }> = {
   en: {
-    subject: "Your Chasa sign-in link",
-    headline: "Sign in to Chasa",
+    subject: "Your docstoc sign-in link",
+    headline: "Sign in to docstoc",
     body: "Click the button below to sign in. This link expires in 15 minutes and can only be used once.",
     cta: "Sign in",
     note: "If you didn't request this, you can safely ignore this email.",
   },
   es: {
-    subject: "Tu enlace de inicio de sesión de Chasa",
-    headline: "Inicia sesión en Chasa",
+    subject: "Tu enlace de inicio de sesión de docstoc",
+    headline: "Inicia sesión en docstoc",
     body: "Haz clic en el botón para iniciar sesión. Este enlace caduca en 15 minutos y solo se puede usar una vez.",
     cta: "Iniciar sesión",
     note: "Si no solicitaste esto, puedes ignorar este correo con tranquilidad.",
@@ -131,7 +131,7 @@ export async function sendMagicLinkEmail(
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      from: `Chasa <login@chasa.io>`,
+      from: `docstoc <login@chasa.io>`,
       to: [email],
       subject: copy.subject,
       html: emailShell(appUrl(env), body, locale),
@@ -160,17 +160,17 @@ const TEAM_INVITE_COPY: Record<
   { subject: (inviter: string) => string; headline: string; body: (inviter: string, to: string) => string; cta: string }
 > = {
   en: {
-    subject: (inviter) => `${inviter} invited you to a Chasa workspace`,
-    headline: "You're invited to a Chasa workspace",
+    subject: (inviter) => `${inviter} invited you to a docstoc workspace`,
+    headline: "You're invited to a docstoc workspace",
     body: (inviter, to) =>
-      `${escapeHtml(inviter)} invited you to collaborate on invoice follow-ups in Chasa. Sign in with <strong>${escapeHtml(to)}</strong> to join. Chasa never emails your clients — drafts only.`,
+      `${escapeHtml(inviter)} invited you to collaborate on invoice follow-ups in docstoc. Sign in with <strong>${escapeHtml(to)}</strong> to join. docstoc never emails your clients — drafts only.`,
     cta: "Accept invite",
   },
   es: {
-    subject: (inviter) => `${inviter} te invitó a un espacio de trabajo de Chasa`,
-    headline: "Te invitaron a un espacio de trabajo de Chasa",
+    subject: (inviter) => `${inviter} te invitó a un espacio de trabajo de docstoc`,
+    headline: "Te invitaron a un espacio de trabajo de docstoc",
     body: (inviter, to) =>
-      `${escapeHtml(inviter)} te invitó a colaborar en seguimientos de facturas en Chasa. Inicia sesión con <strong>${escapeHtml(to)}</strong> para unirte. Chasa nunca envía correos a tus clientes — solo borradores.`,
+      `${escapeHtml(inviter)} te invitó a colaborar en seguimientos de facturas en docstoc. Inicia sesión con <strong>${escapeHtml(to)}</strong> para unirte. docstoc nunca envía correos a tus clientes — solo borradores.`,
     cta: "Aceptar invitación",
   },
 };
@@ -206,7 +206,7 @@ export async function sendTeamInviteEmail(
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      from: `Chasa <login@chasa.io>`,
+      from: `docstoc <login@chasa.io>`,
       to: [to],
       subject: copy.subject(inviterEmail),
       html: emailShell(appUrl(env), body, locale),
@@ -219,15 +219,15 @@ export async function sendTeamInviteEmail(
 
 const PAYMENT_FAILED_COPY: Record<Locale, { subject: string; headline: string; body: string; cta: string }> = {
   en: {
-    subject: "Action needed: your Chasa payment failed",
+    subject: "Action needed: your docstoc payment failed",
     headline: "We couldn't charge your card",
-    body: "Stripe tried to renew your Chasa subscription but the payment didn't go through. Your account is still active — update your card to avoid an interruption.",
+    body: "Stripe tried to renew your docstoc subscription but the payment didn't go through. Your account is still active — update your card to avoid an interruption.",
     cta: "Update billing",
   },
   es: {
-    subject: "Acción necesaria: falló tu pago de Chasa",
+    subject: "Acción necesaria: falló tu pago de docstoc",
     headline: "No pudimos cobrar tu tarjeta",
-    body: "Stripe intentó renovar tu suscripción de Chasa, pero el pago no se completó. Tu cuenta sigue activa — actualiza tu tarjeta para evitar una interrupción.",
+    body: "Stripe intentó renovar tu suscripción de docstoc, pero el pago no se completó. Tu cuenta sigue activa — actualiza tu tarjeta para evitar una interrupción.",
     cta: "Actualizar facturación",
   },
 };
@@ -258,7 +258,7 @@ export async function sendPaymentFailedEmail(env: Env, email: string, locale: Lo
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      from: `Chasa <login@chasa.io>`,
+      from: `docstoc <login@chasa.io>`,
       to: [email],
       subject: copy.subject,
       html: emailShell(appUrl(env), body, locale),
@@ -266,6 +266,44 @@ export async function sendPaymentFailedEmail(env: Env, email: string, locale: Lo
   });
   if (!res.ok) {
     console.error(`Resend payment-failed email failed (${res.status}): ${await res.text()}`);
+  }
+}
+
+/** Let's Encrypt certs are 90 days with no per-registrar DNS API to renew unattended (hand-rolled
+ *  DNS-01 needs a human to re-paste a TXT value) — this is a reminder to re-verify, not a silent
+ *  auto-renewal. See lib/customerCertificates.ts's listExpiringSoon, called from the daily cron
+ *  branch in index.ts. */
+export async function sendCertExpiryReminderEmail(env: Env, email: string, domain: string): Promise<void> {
+  if (!env.RESEND_API_KEY) {
+    console.log(`[dev] cert-expiry reminder email queued for ${email} (${domain})`);
+    return;
+  }
+
+  const body = `
+    ${emailHeadline("Your certificate for " + escapeHtml(domain) + " is expiring soon")}
+    <p style="margin:0 0 12px 0;font-size:15px;color:${INK};line-height:1.55;">
+      Its SSL certificate expires within 30 days. docstoc can't renew it automatically — open your
+      custom domains page and click "Renew" to get a new DNS record to add, then verify it.
+    </p>
+    ${ctaButton(`${appUrl(env)}/app/ssl-domains`, "Renew certificate")}
+    ${signOff("en")}
+  `;
+
+  const res = await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${env.RESEND_API_KEY}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      from: `docstoc <login@chasa.io>`,
+      to: [email],
+      subject: `Renew your certificate for ${domain}`,
+      html: emailShell(appUrl(env), body, "en"),
+    }),
+  });
+  if (!res.ok) {
+    console.error(`Resend cert-expiry reminder email failed (${res.status}): ${await res.text()}`);
   }
 }
 
@@ -281,7 +319,7 @@ function greetingName(email: string): string {
 // Spanish title for an English page would be worse than an honest English link.
 const TEMPLATES_ARTICLES = [
   { title: "How to follow up on overdue invoices (without burning bridges)", href: "/blog/how-to-follow-up-on-overdue-invoices/" },
-  { title: "Building an AR policy that works with Chasa", href: "/blog/ar-policy-that-works-with-chasa/" },
+  { title: "Building an AR policy that works with docstoc", href: "/blog/ar-policy-that-works-with-chasa/" },
   { title: "Freelancer late payment policy", href: "/blog/freelancer-late-payment-policy/" },
 ];
 
@@ -307,8 +345,8 @@ const TEMPLATES_WELCOME_COPY: Record<
     downloadCta: "Download the PDF again",
     readsIntro: "We keep publishing practical notes for freelancers and small teams. These may help next:",
     tryIntro:
-      "Prefer not to rewrite every chase by hand? Paste unpaid invoices into Chasa and get a tone-matched draft for how late each one is. You still send — clients always hear from you, not from an automated collections domain.",
-    tryCta: "Try Chasa free",
+      "Prefer not to rewrite every chase by hand? Paste unpaid invoices into docstoc and get a tone-matched draft for how late each one is. You still send — clients always hear from you, not from an automated collections domain.",
+    tryCta: "Try docstoc free",
     freeNote: "Five AI drafts per month on Free · no card required.",
     unsubscribe: "Unsubscribe from template updates",
   },
@@ -320,8 +358,8 @@ const TEMPLATES_WELCOME_COPY: Record<
     downloadCta: "Descargar el PDF de nuevo",
     readsIntro: "Seguimos publicando notas prácticas para freelancers y equipos pequeños. Estas pueden ayudarte después:",
     tryIntro:
-      "¿Prefieres no reescribir cada seguimiento a mano? Pega facturas impagas en Chasa y recibe un borrador con el tono correcto según el retraso de cada una. Tú sigues enviando — tus clientes siempre te escuchan a ti, no a un dominio automatizado de cobranza.",
-    tryCta: "Probar Chasa gratis",
+      "¿Prefieres no reescribir cada seguimiento a mano? Pega facturas impagas en docstoc y recibe un borrador con el tono correcto según el retraso de cada una. Tú sigues enviando — tus clientes siempre te escuchan a ti, no a un dominio automatizado de cobranza.",
+    tryCta: "Probar docstoc gratis",
     freeNote: "Cinco borradores con IA al mes en el plan Gratis · sin tarjeta.",
     unsubscribe: "Darse de baja de actualizaciones de plantillas",
   },
@@ -388,7 +426,7 @@ export async function sendTemplatesPackWelcomeEmail(
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      from: `Chasa <login@chasa.io>`,
+      from: `docstoc <login@chasa.io>`,
       to: [email],
       subject: copy.subject,
       html: emailShell(base, body, locale),
@@ -447,7 +485,7 @@ export async function sendMarketingEmail(
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      from: `Chasa <login@chasa.io>`,
+      from: `docstoc <login@chasa.io>`,
       to: [to],
       subject: opts.subject,
       html: emailShell(appUrl(env), body, locale),
@@ -470,7 +508,7 @@ export async function sendSpaSmokeAlert(
     .map((f) => `<li><strong>${escapeHtml(f.name)}</strong>: ${escapeHtml(f.detail ?? "failed")}</li>`)
     .join("");
   const body = `
-    ${emailHeadline("Chasa SPA smoke check failed")}
+    ${emailHeadline("docstoc SPA smoke check failed")}
     <p style="margin:0 0 16px 0;font-size:15px;color:${INK};line-height:1.55;">
       Sign in (/app/login) or Start free (/app/) may be stuck because the main JS bundle is not
       serving as JavaScript (often <code>text/html</code> SPA fallback).
@@ -494,9 +532,9 @@ export async function sendSpaSmokeAlert(
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      from: `Chasa <login@chasa.io>`,
+      from: `docstoc <login@chasa.io>`,
       to: [to],
-      subject: "Chasa: Sign in / Start free broken (SPA JS)",
+      subject: "docstoc: Sign in / Start free broken (SPA JS)",
       html: emailShell(appUrl(env), body),
     }),
   });
@@ -533,10 +571,10 @@ export async function sendContactInquiryEmail(
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      from: `Chasa <hello@chasa.io>`,
+      from: `docstoc <hello@chasa.io>`,
       to: [to],
       reply_to: fromEmail,
-      subject: `Chasa sales inquiry from ${fromEmail}`,
+      subject: `docstoc sales inquiry from ${fromEmail}`,
       html: emailShell(appUrl(env), body),
     }),
   });
