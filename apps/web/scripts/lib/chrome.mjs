@@ -5,7 +5,7 @@ import { renderSeoHead } from "./seo-head.mjs";
 import { EN_TO_ES, ES_TO_EN } from "../data/es-alternates.mjs";
 
 /** Bump when site.css / site-nav.js / site-lang.js change so Pages edge caches refresh. */
-export const ASSET_V = "20260809a";
+export const ASSET_V = "20260823a";
 
 /** Small inline icon set for the header mega-menus (mirrors the app's NavIcon component). */
 const ICON_PATHS = {
@@ -29,6 +29,7 @@ const ICON_PATHS = {
   hammer: '<path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3.5 17.5l3 3 5.8-5.8a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.5-2.5 2.5-2.5z" />',
   store:
     '<path d="M4 9.5l1-4h14l1 4" /><path d="M4 9.5a2.25 2.25 0 0 0 4.5 0 2.25 2.25 0 0 0 4.5 0 2.25 2.25 0 0 0 4.5 0 2.25 2.25 0 0 0 4.5 0" /><path d="M5.5 11v9h13v-9" />',
+  lock: '<rect x="5" y="11" width="14" height="9" rx="1.5" /><path d="M8 11V7a4 4 0 0 1 8 0v4" />',
 };
 
 function navIcon(name, small = false) {
@@ -50,9 +51,22 @@ function megaMenuItem({ href, icon, titleKey, title, descKey, desc, small = fals
   return isMailto ? `<!--email_off-->${anchor}<!--/email_off-->` : anchor;
 }
 
+/** Simple title + chevron row, no icon/description — LimeWire's site-menu pattern, used for the
+ *  Resources dropdown (About/Press/Help/Blog-style links) rather than the feature/icon grid. */
+function simpleMenuItem({ href, titleKey, title }) {
+  const isMailto = href.startsWith("mailto:");
+  const anchor = `<a href="${href}" class="nav-simplemenu-item">
+    <span class="nav-simplemenu-item-title" data-i18n="${titleKey}">${title}</span>
+    <svg class="nav-simplemenu-item-chevron" width="8" height="14" viewBox="0 0 8 14" aria-hidden="true"><path d="M1 1l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg>
+  </a>`;
+  return isMailto ? `<!--email_off-->${anchor}<!--/email_off-->` : anchor;
+}
+
 /** Hover/click dropdown with an icon+title+desc grid — Docracy's NavMegaMenu pattern, static-site version. */
-function megaMenu({ triggerKey, triggerLabel, items, panel, columns = 2 }) {
-  const itemsHtml = items.map((it) => megaMenuItem(it)).join("\n");
+function megaMenu({ triggerKey, triggerLabel, items, panel, columns = 2, simple = false }) {
+  const itemsHtml = simple
+    ? items.map((it) => simpleMenuItem(it)).join("\n")
+    : items.map((it) => megaMenuItem(it)).join("\n");
   const panelHtml = panel
     ? `<div class="nav-megamenu-side">
         <h4 data-i18n="${panel.titleKey}">${panel.title}</h4>
@@ -60,13 +74,16 @@ function megaMenu({ triggerKey, triggerLabel, items, panel, columns = 2 }) {
         <a href="${panel.footerHref}" class="nav-megamenu-side-footer" data-i18n="${panel.footerKey}">${panel.footerLabel} →</a>
       </div>`
     : "";
+  const gridHtml = simple
+    ? `<div class="nav-simplemenu-list">${itemsHtml}</div>`
+    : `<div class="nav-megamenu-grid" style="grid-template-columns: repeat(${columns}, 1fr)">${itemsHtml}</div>`;
   return `<div class="nav-megamenu header-nav-collapse" data-mega-menu>
     <button type="button" class="nav-megamenu-trigger header-nav-link" aria-haspopup="true" aria-expanded="false" data-mega-trigger>
       <span data-i18n="${triggerKey}">${triggerLabel}</span>
       <svg class="nav-megamenu-chevron" width="10" height="10" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5L6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
     </button>
-    <div class="nav-megamenu-panel" data-mega-panel hidden>
-      <div class="nav-megamenu-grid" style="grid-template-columns: repeat(${columns}, 1fr)">${itemsHtml}</div>
+    <div class="nav-megamenu-panel${simple ? " nav-megamenu-panel-simple" : ""}" data-mega-panel hidden>
+      ${gridHtml}
       ${panelHtml}
     </div>
   </div>`;
@@ -77,8 +94,10 @@ const FEATURE_ITEMS = [
   { path: "/features/templates", icon: "duplicate", titleKey: "nav.mega.feature.templates.title", title: "18 free email templates", descKey: "nav.mega.feature.templates.desc", desc: "Copy-paste reminders, no account required." },
   { path: "/features/", icon: "bolt", titleKey: "nav.mega.feature.chasePlans.title", title: "AI chase plans", descKey: "nav.mega.feature.chasePlans.desc", desc: "3-step follow-up sequences drafted automatically." },
   { path: "/features/", icon: "briefcase", titleKey: "nav.mega.feature.sync.title", title: "Accounting sync", descKey: "nav.mega.feature.sync.desc", desc: "CSV, QuickBooks, Xero, FreshBooks, Wave, Zoho." },
+  { path: "/document-templates/", icon: "store", titleKey: "nav.mega.feature.docTemplates.title", title: "Business & legal templates", descKey: "nav.mega.feature.docTemplates.desc", desc: "Free contracts, agreements, and notices — plus kits." },
+  { path: "/verify/DOC-DEMO0001", icon: "shield", titleKey: "nav.mega.feature.certificates.title", title: "Document certificates", descKey: "nav.mega.feature.certificates.desc", desc: "Tamper-evident hash verification, free to check." },
   { path: "/#pricing", icon: "users", titleKey: "nav.mega.feature.team.title", title: "Team access", descKey: "nav.mega.feature.team.desc", desc: "Share chases and templates across your workspace." },
-  { path: "/privacy", icon: "shield", titleKey: "nav.mega.feature.storage.title", title: "Secure & private", descKey: "nav.mega.feature.storage.desc", desc: "Encrypted storage, short automatic retention." },
+  { path: "/privacy", icon: "lock", titleKey: "nav.mega.feature.storage.title", title: "Secure & private", descKey: "nav.mega.feature.storage.desc", desc: "Encrypted storage, short automatic retention." },
 ];
 
 const COMPARE_ITEMS = [
@@ -94,7 +113,7 @@ const USE_CASE_ITEMS = [
   { path: "/use-cases/compliance-dashboard", icon: "briefcase", titleKey: "nav.mega.useCase.compliance.title", title: "Compliance dashboard", descKey: "nav.mega.useCase.compliance.desc", desc: "Aging buckets and follow-up status at a glance." },
   { path: "/use-cases/chasa-certificate-monitoring", icon: "mail", titleKey: "nav.mega.useCase.certificate.title", title: "Certificate monitoring", descKey: "nav.mega.useCase.certificate.desc", desc: "Proof of delivery and chase-history verification." },
   { path: "/use-cases/document-signing-api", icon: "duplicate", titleKey: "nav.mega.useCase.api.title", title: "Follow-up API", descKey: "nav.mega.useCase.api.desc", desc: "Integrate chase drafts into your own stack." },
-  { path: "/use-cases/flat-fee-esign", icon: "users", titleKey: "nav.mega.useCase.flatFee.title", title: "Flat-fee pricing", descKey: "nav.mega.useCase.flatFee.desc", desc: "No per-document fees — unlimited chases from $7/mo." },
+  { path: "/use-cases/flat-fee-esign", icon: "users", titleKey: "nav.mega.useCase.flatFee.title", title: "Flat-fee pricing", descKey: "nav.mega.useCase.flatFee.desc", desc: "No per-document fees — unlimited chases from $9/mo." },
 ];
 
 const INDUSTRY_ITEMS = [
@@ -106,10 +125,10 @@ const INDUSTRY_ITEMS = [
 ];
 
 const RESOURCE_ITEMS = [
-  { path: "/blog/", icon: "book", titleKey: "nav.mega.resource.blog.title", title: "Blog", descKey: "nav.mega.resource.blog.desc", desc: "Product updates and how-to guides." },
-  { path: "/docs/", icon: "lifering", titleKey: "nav.mega.resource.docs.title", title: "Docs & API", descKey: "nav.mega.resource.docs.desc", desc: "Every feature, endpoint, and integration." },
-  { path: "/about", icon: "info", titleKey: "nav.mega.resource.about.title", title: "About", descKey: "nav.mega.resource.about.desc", desc: "Why docstoc exists and who runs it." },
-  { path: "mailto:founder@chasa.io", icon: "mail", titleKey: "nav.mega.resource.contact.title", title: "Contact", descKey: "nav.mega.resource.contact.desc", desc: "Questions before you sign up? Ask us." },
+  { path: "/about", titleKey: "nav.mega.resource.about.title", title: "About" },
+  { path: "/press", titleKey: "nav.mega.resource.press.title", title: "Press" },
+  { path: "/docs/", titleKey: "nav.mega.resource.docs.title", title: "Help Center" },
+  { path: "/blog/", titleKey: "nav.mega.resource.blog.title", title: "Blog" },
 ];
 
 export function escapeHtml(s) {
@@ -159,7 +178,7 @@ export function conversionSectionHtml() {
       </div>
       <div class="why-chasa-item">
         <h3>API available</h3>
-        <p>Building your own tool? Chasa's <a href="/docs/">API</a> covers invoices, reminders, and templates directly.</p>
+        <p>Building your own tool? docstoc's <a href="/docs/">API</a> covers invoices, reminders, and templates directly.</p>
       </div>
     </div>
   </section>`;
@@ -226,7 +245,10 @@ ${jsonLd ? `<script type="application/ld+json">\n${jsonLd}\n</script>` : `<scrip
 <body>
 <header class="site-header">
   <div class="wrap site-header-inner">
-    <a href="${link("/")}" class="logo" aria-label="docstoc home"><img class="logo-mark" src="${link("/brand/docstoc-icon.png")}" alt="" width="28" height="28" /><span class="logo-word">docstoc</span></a>
+    <div class="logo-group">
+      <a href="${link("/")}" class="logo" aria-label="docstoc home"><img class="logo-mark" src="${link("/brand/docstoc-icon.png")}" alt="" width="28" height="28" /><span class="logo-word">docstoc</span></a>
+      <span class="logo-tagline">Secure. Automate. Certify.</span>
+    </div>
     <nav class="header-nav-right">
       ${megaMenu({
         triggerKey: "nav.features",
@@ -239,7 +261,7 @@ ${jsonLd ? `<script type="application/ld+json">\n${jsonLd}\n</script>` : `<scrip
           items: COMPARE_ITEMS.map((it) => ({ ...it, href: link(it.path) })),
           footerKey: "footer.compare",
           footerLabel: "See all comparisons",
-          footerHref: link("/blog/invoice-chase-software-comparison/"),
+          footerHref: link("/compare/"),
         },
       })}
       ${megaMenu({
@@ -259,10 +281,14 @@ ${jsonLd ? `<script type="application/ld+json">\n${jsonLd}\n</script>` : `<scrip
         triggerKey: "nav.resources",
         triggerLabel: "Resources",
         items: RESOURCE_ITEMS.map((it) => ({ ...it, href: it.path.startsWith("mailto:") ? it.path : link(it.path) })),
-        columns: 2,
+        simple: true,
       })}
       <a href="${link("/free-templates/")}" class="header-nav-link header-nav-collapse${activeNav === "templates" ? " header-nav-strong" : ""}" data-i18n="nav.templates">Free templates</a>
       <a href="${link("/ai")}" class="header-nav-link header-nav-collapse${activeNav === "ai" ? " header-nav-strong" : ""}" data-i18n="nav.ai">AI</a>
+      <a href="${link("/docstoc-alternative")}" class="header-revival-badge header-nav-collapse">
+        <span class="header-revival-dot" aria-hidden="true"></span>
+        <span data-i18n="nav.revivalBadge">docstoc is back</span>
+      </a>
       <div class="locale-switch" data-locale-switch role="group" data-i18n-aria="nav.language"${localeSwitchAttrs}></div>
       <!--email_off-->
       <a href="mailto:sales@chasa.io" class="header-nav-sales header-nav-collapse" data-sales-mail data-sales-subject="docstoc sales" data-i18n="nav.contactSales">Contact sales</a>
@@ -364,7 +390,7 @@ ${mainHtml}
 <script src="${link(`/cookie-consent.js?v=${ASSET_V}`)}" defer></script>
 <script src="${link(`/analytics.js?v=${ASSET_V}`)}" defer></script>
 <script>
-/* Contact sales → Chasa Assistant (Docracy pattern). */
+/* Contact sales → docstoc Assistant (Docracy pattern). */
 (function () {
   document.addEventListener("click", function (e) {
     var el = e.target && e.target.closest
