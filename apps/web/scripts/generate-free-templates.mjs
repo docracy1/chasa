@@ -28192,6 +28192,1793 @@ Client acceptance: ______________________  Date: ____________
 
 *Getting a documented sign-off (not just an assumption that silence means acceptance) is what starts the clock on any warranty period and gives both sides a clear, agreed reference point for when the project was actually considered done.*`,
   },
+  {
+    slug: "medical-device-distribution-agreement-template",
+    name: "Medical Device Distribution Agreement",
+    seoTitle: "Free Medical Device Distribution Agreement Template",
+    description: "Free medical device distribution agreement template between a manufacturer and a distributor of medical devices.",
+    category: "Business",
+    bodyMarkdown: `# Medical Device Distribution Agreement
+
+**Manufacturer:** [Company Name] · **Distributor:** [Company Name] · **Device(s):** [Description] · **Date:** [Date]
+
+## 1. Appointment
+Manufacturer appoints Distributor as [exclusive/non-exclusive] distributor of the device(s) described above within [Territory].
+
+## 2. Regulatory Compliance
+Manufacturer represents that the device(s) hold all required regulatory clearances/approvals (e.g. FDA 510(k)/PMA, CE marking) for sale in the Territory. Distributor will not modify, relabel, or misrepresent the device(s) in any way that would affect this regulatory status.
+
+## 3. Pricing and Orders
+Distributor purchases at [Wholesale price/discount schedule], subject to minimum order quantities of [Amount].
+
+## 4. Adverse Event Reporting
+Distributor will promptly forward to Manufacturer any complaints, adverse events, or malfunction reports it receives regarding the device(s), consistent with applicable medical device reporting requirements.
+
+## 5. Recalls
+Distributor will cooperate fully with Manufacturer in the event of a product recall, including providing distribution records to trace affected units.
+
+## 6. Insurance
+Distributor maintains product liability insurance of at least [Amount].
+
+## 7. Term and Termination
+This Agreement runs for [Term] and may be terminated by either party with [Notice Period] notice, or immediately if the device(s) lose required regulatory clearance.
+
+---
+Manufacturer: ______________________  Date: ____________
+Distributor: ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. Medical device distribution carries real regulatory reporting obligations (Section 4) that go beyond a typical distribution agreement — both parties should understand their specific adverse-event and recall responsibilities under applicable medical device law before signing.*`,
+  },
+  {
+    slug: "parking-lot-lease-template",
+    name: "Parking Lot Lease",
+    seoTitle: "Free Parking Lot Lease Template",
+    description: "Free parking lot lease template for leasing an entire commercial parking lot or structure to an operator or business.",
+    category: "Real Estate",
+    bodyMarkdown: `# Parking Lot Lease
+
+**Landlord:** [Name] · **Tenant/Operator:** [Name]
+**Property:** [Address, lot description, number of spaces] · **Date:** [Date]
+
+## 1. Lease of Lot
+Landlord leases the parking lot described above to Tenant for the purpose of [operating a commercial parking facility / employee/customer parking for Tenant's business], for the Term below.
+
+## 2. Term
+This lease runs from [Start Date] to [End Date], with [renewal options as described].
+
+## 3. Rent
+[ ] Fixed rent of [Amount] per month.
+[ ] Percentage rent of [%] of gross parking revenue, [with a minimum guaranteed rent of [Amount], if Tenant operates the lot commercially].
+
+## 4. Maintenance and Repairs
+[State who is responsible for lot maintenance, striping, lighting, snow removal, and structural repairs.]
+
+## 5. Insurance
+Tenant maintains general liability insurance of at least [Amount] and names Landlord as an additional insured.
+
+## 6. Use Restrictions
+Tenant will use the lot solely for vehicle parking and will not store materials, conduct repairs, or use it for any other commercial purpose without Landlord's written consent.
+
+## 7. Signage
+[State whether Tenant may install signage, subject to Landlord's approval and applicable permits.]
+
+---
+Landlord: ______________________  Date: ____________
+Tenant: ______________________  Date: ____________
+
+*A percentage-rent structure (Section 3) aligns the landlord's income with the lot's actual usage — useful when leasing to a commercial parking operator whose revenue can vary significantly — but a minimum guaranteed rent protects the landlord from a slow season eliminating their income entirely.*`,
+  },
+  {
+    slug: "tax-representation-letter-template",
+    name: "Tax Representation Letter",
+    seoTitle: "Free Tax Representation Letter Template",
+    description: "Free tax representation letter template — a client certifies to their accountant that the information provided for tax preparation is complete and accurate.",
+    category: "Finance",
+    bodyMarkdown: `# Tax Representation Letter
+
+[Date]
+
+[Accountant/Firm Name]
+
+Dear [Accountant Name],
+
+This letter confirms certain representations we have made to you in connection with your preparation of our [Year] federal and state income tax returns.
+
+## Our Representations
+We confirm, to the best of our knowledge and belief, that:
+1. All income received during the tax year has been reported to you, including cash income.
+2. All deductions and credits claimed are supported by documentation we can provide if requested.
+3. We have disclosed all foreign bank accounts, assets, or income, if applicable, as required by law.
+4. We have informed you of all material facts relevant to the preparation of an accurate return.
+5. We understand it is our responsibility, not yours, to substantiate deductions if audited.
+
+## Reliance
+We understand that you have relied on the information and representations we provided in preparing our returns, and that you are not responsible for verifying information we did not disclose.
+
+---
+Taxpayer signature: ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute tax or legal advice. Signing this doesn't shift IRS penalties for an inaccurate return away from the taxpayer — but it does create a clear record that the accountant relied in good faith on the client's own representations, which matters if a dispute over responsibility for an error ever arises.*`,
+  },
+  {
+    slug: "gift-card-certificate-policy-template",
+    name: "Gift Card and Gift Certificate Policy",
+    seoTitle: "Free Gift Card and Gift Certificate Policy Template",
+    description: "Free gift card and gift certificate policy template for a retail or service business, covering expiration, fees, and redemption rules.",
+    category: "Business",
+    bodyMarkdown: `# Gift Card and Gift Certificate Policy
+
+**Business:** [Business Name] · **Effective Date:** [Date]
+
+## Purchase
+Gift cards/certificates can be purchased in any amount from [Minimum] to [Maximum, if capped], in-store or online at [URL].
+
+## Expiration
+[ ] Gift cards/certificates do not expire.
+[ ] Gift cards/certificates expire [Period] from the date of purchase, where permitted by law.
+
+## Fees
+[ ] No dormancy or maintenance fees apply.
+[ ] A dormancy fee of [Amount] applies after [Period] of inactivity, where permitted by law.
+
+## Redemption
+Gift cards/certificates may be redeemed for merchandise/services at [Location(s)/online]. [ ] Redeemable for cash [ ] Not redeemable for cash, except where required by law.
+
+## Partial Redemption
+If a purchase is less than the card balance, the remaining balance stays on the card for future use.
+
+## Lost or Stolen Cards
+[State the business's policy on replacing lost or stolen gift cards — commonly "not replaceable unless registered," if a registration system exists.]
+
+## Refunds
+[State whether merchandise purchased with a gift card, when returned, is refunded to a new gift card or original payment method.]
+
+---
+Adopted by: ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. Federal law (the CARD Act) and many states prohibit or restrict gift card expiration dates and dormancy fees — most gift cards sold in the US must remain valid for at least 5 years, and some states ban expiration and fees entirely, so confirm your specific state's rules before finalizing this policy.*`,
+  },
+  {
+    slug: "wedding-contract-template",
+    name: "Wedding Contract",
+    seoTitle: "Free Wedding Vendor Contract Template",
+    description: "Free wedding vendor contract template for a photographer, planner, or other service provider hired for a wedding.",
+    category: "Business",
+    bodyMarkdown: `# Wedding Vendor Contract
+
+**Vendor:** [Name/Business] · **Client(s):** [Name(s)] · **Wedding Date:** [Date] · **Venue:** [Location]
+
+## 1. Services
+Vendor will provide the following services: [Description — e.g. photography coverage from [Time] to [Time], event planning, floral arrangements].
+
+## 2. Fee
+Total fee: [Amount], payable [Deposit at signing, balance due [Timeframe] before the wedding date].
+
+## 3. Cancellation and Rescheduling
+[ ] Deposit is non-refundable, but may be applied to a rescheduled date within [Period] if the wedding is postponed.
+[ ] Refund schedule: [Details based on how far in advance cancellation occurs.]
+
+## 4. Weather/Force Majeure
+[State how the contract is handled if the event is cancelled due to circumstances outside either party's control.]
+
+## 5. Deliverables and Timeline (if applicable — e.g. photography)
+[Number of edited photos, delivery timeline, format, and any print/album inclusions.]
+
+## 6. Backup Plan
+[State Vendor's plan if they become unable to perform (illness, emergency) — e.g. a backup vendor from Vendor's network at no additional cost.]
+
+## 7. Overtime
+Services beyond the contracted hours are billed at [Rate] per additional hour, if agreed in advance.
+
+---
+Vendor: ______________________  Date: ____________
+Client(s): ______________________  Date: ____________
+
+*Asking about the backup plan (Section 6) before booking — not after something goes wrong — is one of the most important questions a couple can ask any wedding vendor, since a wedding date can't be rescheduled the way most other services can.*`,
+  },
+  {
+    slug: "service-agreement-termination-letter-template",
+    name: "Service Agreement Termination Letter",
+    seoTitle: "Free Service Agreement Termination Letter Template",
+    description: "Free service agreement termination letter template for formally ending an ongoing service contract with a vendor or provider.",
+    category: "Business",
+    bodyMarkdown: `# Service Agreement Termination Letter
+
+[Date]
+
+[Provider Name]
+[Provider Address]
+
+**RE: Termination of Service Agreement dated [Original Agreement Date]**
+
+Dear [Provider Name],
+
+This letter serves as formal notice that [Company Name] is terminating the service agreement referenced above, effective [Termination Date], in accordance with Section [X] of the agreement, which requires [Notice Period] written notice.
+
+## Transition
+[Any transition details — final invoice expectations, return of equipment/materials, handoff of ongoing work.]
+
+## Outstanding Obligations
+[Confirm any final payment due, or state that all invoices through the termination date have been settled.]
+
+We appreciate the services provided during our engagement. Please confirm receipt of this notice and any next steps required to complete the transition.
+
+Sincerely,
+[Your Name/Company]
+
+*Checking the contract's actual required notice period and delivery method (Section referenced above) before sending this — rather than assuming a standard 30 days — avoids accidentally triggering an early-termination fee or an auto-renewal you meant to avoid.*`,
+  },
+  {
+    slug: "customer-testimonial-release-form-template",
+    name: "Customer Testimonial Release Form",
+    seoTitle: "Free Customer Testimonial Release Form Template",
+    description: "Free customer testimonial release form template — a customer grants permission for their testimonial, photo, or name to be used in marketing.",
+    category: "Business",
+    bodyMarkdown: `# Customer Testimonial Release Form
+
+**Customer:** [Name] · **Business:** [Business Name] · **Date:** [Date]
+
+## Testimonial
+I, [Customer Name], provide the following testimonial about my experience with [Business Name]:
+
+"[Testimonial text — the customer's own words]"
+
+## Permission Granted
+I grant [Business Name] permission to use this testimonial, [along with my name, photo, and/or business affiliation, if applicable], in marketing materials including: [ ] Website  [ ] Social media  [ ] Print advertising  [ ] Video/audio  [ ] Other: ______
+
+## Compensation
+[ ] I am providing this testimonial voluntarily, without compensation.
+[ ] I am receiving [Amount/consideration] in exchange for this release.
+
+## Duration
+This permission is [ ] ongoing/perpetual [ ] valid for [Period], and I understand I may request removal of my testimonial from future materials by contacting [Business Name] in writing, though materials already published or distributed may not be recalled.
+
+---
+Customer signature: ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. If the business is compensating the customer for the testimonial (even with a free product or discount), FTC guidelines require that connection to be clearly disclosed wherever the testimonial appears — not just documented in this release form.*`,
+  },
+  {
+    slug: "environmental-health-safety-policy-template",
+    name: "Environmental Health and Safety Policy",
+    seoTitle: "Free Environmental Health and Safety (EHS) Policy Template",
+    description: "Free environmental health and safety policy template establishing a company's commitment to workplace safety and environmental compliance.",
+    category: "Legal",
+    bodyMarkdown: `# Environmental Health and Safety (EHS) Policy
+
+**Company:** [Company Name] · **Effective Date:** [Date]
+
+## Purpose
+[Company Name] is committed to providing a safe workplace and conducting operations in an environmentally responsible manner, complying with all applicable OSHA and environmental regulations.
+
+## Responsibilities
+- **Management** will provide resources, training, and equipment needed for safe operations.
+- **Supervisors** will enforce safety procedures and address hazards promptly.
+- **Employees** will follow safety procedures, use required PPE, and report hazards or incidents immediately.
+
+## Hazard Identification and Reporting
+Employees must report any unsafe condition, near-miss, or injury to [Contact] immediately, using the Incident Report Form.
+
+## Training
+All employees receive EHS training upon hire and [Frequency] thereafter, covering job-specific hazards and emergency procedures.
+
+## Environmental Compliance
+[Company Name] will properly handle, store, and dispose of hazardous materials per applicable EPA and state regulations, and will maintain required permits.
+
+## Emergency Procedures
+[Reference evacuation plans, spill response procedures, and emergency contact information.]
+
+## Continuous Improvement
+EHS performance will be reviewed [Frequency], with corrective actions tracked to completion.
+
+---
+Adopted by: ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. OSHA requires specific written programs (hazard communication, lockout/tagout, respiratory protection, etc.) for many industries beyond this general policy — confirm which industry-specific programs your operations actually require.*`,
+  },
+  {
+    slug: "customer-service-policy-template",
+    name: "Customer Service Policy",
+    seoTitle: "Free Customer Service Policy Template",
+    description: "Free customer service policy template establishing a business's standards for handling customer inquiries, complaints, and service quality.",
+    category: "Business",
+    bodyMarkdown: `# Customer Service Policy
+
+**Company:** [Company Name] · **Effective Date:** [Date]
+
+## Purpose
+This policy establishes [Company Name]'s standards for consistent, high-quality customer service.
+
+## Response Time Standards
+- Phone inquiries: answered within [Time]
+- Email/chat inquiries: responded to within [Time]
+- Complaints: acknowledged within [Time], resolved or escalated within [Time]
+
+## Escalation Process
+Issues that cannot be resolved by front-line staff are escalated to [Role/Team], who will respond to the customer within [Time].
+
+## Refunds and Returns
+[Reference the separate Refund/Return Policy for specific terms.]
+
+## Tone and Conduct
+Employees will treat all customers with respect and professionalism, regardless of the customer's tone, and will [de-escalate/involve a supervisor] if a situation becomes hostile.
+
+## Documentation
+All customer complaints and their resolutions are logged in [System], to identify recurring issues.
+
+## Employee Authority
+Front-line employees are authorized to resolve issues up to [Amount/type of resolution] without manager approval, to speed up simple resolutions.
+
+---
+Adopted by: ______________________  Date: ____________
+
+*Giving front-line employees real authority to resolve small issues on the spot (Section on Employee Authority) — rather than requiring manager approval for everything — is what actually produces the fast, satisfying resolutions that keep customers loyal.*`,
+  },
+  {
+    slug: "assignment-of-limited-partnership-interest-template",
+    name: "Assignment of Limited Partnership Interest",
+    seoTitle: "Free Assignment of Limited Partnership Interest Template",
+    description: "Free assignment of limited partnership interest template — a limited partner transfers their partnership interest to another party.",
+    category: "Finance",
+    bodyMarkdown: `# Assignment of Limited Partnership Interest
+
+**Assignor (Limited Partner):** [Name] · **Assignee:** [Name]
+**Partnership:** [Partnership Name] · **Date:** [Date]
+
+## 1. Assignment
+Assignor assigns to Assignee all of Assignor's right, title, and interest as a limited partner in [Partnership Name], representing a [%] limited partnership interest, including the right to receive distributions.
+
+## 2. Consent Required
+This assignment is subject to any consent required under the Limited Partnership Agreement, including consent of the General Partner [and/or other limited partners, as required].
+
+## 3. Assignee's Status
+[State whether Assignee becomes a substituted limited partner with full rights (including voting), or merely an economic assignee entitled to distributions but without partnership voting/management rights, per the Limited Partnership Agreement's terms.]
+
+## 4. Representations
+Assignor represents that they hold clear title to the assigned interest, free of any lien or competing claim, except: [List, or "none"].
+
+## 5. Effective Date
+This assignment is effective as of [Date], subject to any required consents being obtained.
+
+---
+Assignor: ______________________  Date: ____________
+Assignee: ______________________  Date: ____________
+General Partner consent (if required): ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. Most limited partnership agreements distinguish between simply assigning economic rights (distributions) and becoming a full "substituted limited partner" with voting rights — the latter typically requires the general partner's consent, so check the underlying partnership agreement before assuming full rights transfer automatically.*`,
+  },
+  {
+    slug: "vacation-cash-out-agreement-template",
+    name: "Vacation Cash-Out Agreement",
+    seoTitle: "Free Vacation Cash-Out Agreement Template",
+    description: "Free vacation cash-out agreement template — an employee elects to receive cash payment for a portion of their unused accrued vacation time.",
+    category: "HR",
+    bodyMarkdown: `# Vacation Cash-Out Agreement
+
+**Employee:** [Name] · **Company:** [Company Name] · **Date:** [Date]
+
+## 1. Election
+Employee elects to cash out [Number] hours/days of accrued, unused vacation time, consistent with [Company Name]'s vacation cash-out policy.
+
+## 2. Payment Calculation
+Cash-out amount: [Number of hours] × [Employee's current hourly rate] = [Amount], less applicable withholdings.
+
+## 3. Remaining Balance
+Following this cash-out, Employee's remaining accrued vacation balance is [Number] hours/days.
+
+## 4. Payment Timing
+This amount will be paid [on the next regular payroll date / within [Number] days], via normal payroll processing.
+
+## 5. Policy Limits
+[State any company-imposed limits — e.g. "employees may cash out up to 40 hours per calendar year" or "a minimum balance of [X] hours must remain after cash-out."]
+
+---
+Employee signature: ______________________  Date: ____________
+HR/Payroll approval: ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. Vacation cash-out is treated as taxable wages, not a tax-free benefit — and some states have specific rules about accrued vacation being treated as earned wages that can't simply be forfeited, so confirm your state's requirements before finalizing a cash-out policy.*`,
+  },
+  {
+    slug: "employee-reference-letter-template",
+    name: "Employee Reference Letter",
+    seoTitle: "Free Employee Reference Letter Template",
+    description: "Free employee reference letter template — an employer provides a factual reference for a former employee's job performance and conduct.",
+    category: "HR",
+    bodyMarkdown: `# Employee Reference Letter
+
+[Date]
+
+To Whom It May Concern,
+
+This letter confirms that [Employee Name] was employed by [Company Name] as [Job Title] from [Start Date] to [End Date].
+
+## Employment Details
+Reason for leaving: [Factual reason, if company policy permits sharing it]
+Eligible for rehire: [ ] Yes  [ ] No  [ ] Not disclosed per company policy
+
+## Performance (if company policy permits detailed references)
+[Factual, specific comments on job performance, attendance, and conduct — many companies limit this to dates and title only, per legal counsel's recommendation.]
+
+## Contact
+For verification of this information, please contact [HR Contact, Phone/Email].
+
+Sincerely,
+[Name, Title]
+[Company Name]
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. Many companies have a policy of only confirming dates of employment and job title (a "neutral reference"), specifically to avoid defamation risk from a negative reference or discrimination risk from an inconsistent one — check your own company's reference policy before including performance commentary.*`,
+  },
+  {
+    slug: "retirement-policy-template",
+    name: "Retirement Policy",
+    seoTitle: "Free Company Retirement Policy Template",
+    description: "Free retirement policy template outlining a company's retirement benefits, eligibility, and transition process for retiring employees.",
+    category: "HR",
+    bodyMarkdown: `# Retirement Policy
+
+**Company:** [Company Name] · **Effective Date:** [Date]
+
+## Purpose
+This policy outlines [Company Name]'s approach to supporting employees transitioning into retirement.
+
+## Retirement Benefits
+[Reference the company's retirement plan — e.g. 401(k) match, pension, if applicable — and where employees can find full plan details.]
+
+## Notice Requested
+Employees planning to retire are asked (not required, given at-will employment) to provide [Notice Period] advance notice to support a smooth transition.
+
+## Phased Retirement (if offered)
+[ ] [Company Name] offers a phased retirement option, allowing eligible employees to reduce hours gradually before full retirement, subject to manager approval and business needs.
+
+## Benefits Continuation
+[Describe how health insurance and other benefits are handled at retirement — COBRA eligibility, any retiree benefits offered.]
+
+## Recognition
+[Describe any retirement recognition practices — e.g. a farewell event, service award.]
+
+## Rehire as Consultant/Part-Time (if applicable)
+[State the company's policy, if any, on engaging retired employees as consultants or part-time staff.]
+
+---
+Adopted by: ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal or benefits advice. If offering a phased retirement or rehire-as-consultant arrangement, review it carefully against ERISA and IRS rules on retirement plan distributions — some structures can inadvertently disqualify an employee from beginning pension or 401(k) distributions while still working.*`,
+  },
+  {
+    slug: "firewall-policy-template",
+    name: "Firewall Policy",
+    seoTitle: "Free Firewall Policy Template",
+    description: "Free firewall policy template establishing rules for configuring and managing network firewalls to protect company systems.",
+    category: "Business",
+    bodyMarkdown: `# Firewall Policy
+
+**Company:** [Company Name] · **Effective Date:** [Date]
+
+## Purpose
+This policy establishes standards for configuring, managing, and reviewing firewalls protecting [Company Name]'s network.
+
+## Default Deny
+All firewall rules follow a "default deny" posture — traffic is blocked unless explicitly permitted by an approved rule.
+
+## Rule Change Process
+Firewall rule changes require [approval from IT Security/designated approver], with the business justification documented before implementation.
+
+## Rule Review
+All firewall rules are reviewed [Frequency, e.g. quarterly] to identify and remove unnecessary or outdated rules ("rule cleanup").
+
+## Logging and Monitoring
+Firewall logs are retained for [Period] and monitored for [suspicious activity/policy violations], with alerts configured for [specific conditions].
+
+## Remote Access
+[Describe VPN or remote access rules, including any multi-factor authentication requirements.]
+
+## Change Documentation
+Every rule change is logged with: date, requestor, approver, business justification, and rule details.
+
+## Emergency Changes
+[Describe the process for emergency rule changes outside the normal approval process, and required after-the-fact documentation/review.]
+
+---
+Adopted by: ______________________  Date: ____________
+
+*Periodic rule cleanup (the Rule Review section) is the part most organizations skip — years of accumulated "temporary" rules that were never removed are a common source of unnecessary attack surface in real security audits.*`,
+  },
+  {
+    slug: "participating-merchant-agreement-template",
+    name: "Participating Merchant Agreement",
+    seoTitle: "Free Participating Merchant Agreement Template",
+    description: "Free participating merchant agreement template — a merchant agrees to join a payment network, loyalty program, or marketplace platform.",
+    category: "Finance",
+    bodyMarkdown: `# Participating Merchant Agreement
+
+**Program/Platform Operator:** [Company Name] · **Merchant:** [Business Name] · **Date:** [Date]
+
+## 1. Participation
+Merchant agrees to participate in [Program/Platform Name], which allows Merchant to [accept payments through the platform / offer products through the marketplace / participate in the loyalty program], subject to the terms below.
+
+## 2. Fees
+Merchant will pay [a per-transaction fee of [%/Amount] / a monthly participation fee of [Amount]], deducted from proceeds or invoiced [Frequency].
+
+## 3. Merchant's Obligations
+Merchant will [honor the terms offered to customers through the platform, maintain accurate product/pricing information, fulfill orders promptly], and comply with the Program's operating rules.
+
+## 4. Settlement
+Funds due to Merchant will be settled [Frequency, e.g. within 2-3 business days of the transaction], less applicable fees.
+
+## 5. Chargebacks and Disputes
+Merchant is responsible for [chargebacks/disputed transactions] resulting from its own performance, per the Program's dispute resolution process.
+
+## 6. Branding
+Merchant may use the Program's logo/branding solely as authorized to indicate participation.
+
+## 7. Term and Termination
+This Agreement runs [month-to-month] and either party may terminate with [Notice Period] notice, or immediately for Merchant's violation of the Program's operating rules.
+
+---
+Program Operator: ______________________  Date: ____________
+Merchant: ______________________  Date: ____________
+
+*Reading the settlement timeline (Section 4) closely before joining any payment or marketplace platform matters for cash flow — some platforms hold funds for extended "reserve" periods well beyond the stated settlement schedule, especially for new merchants.*`,
+  },
+  {
+    slug: "booking-contract-template",
+    name: "Booking Contract",
+    seoTitle: "Free Booking Contract Template",
+    description: "Free booking contract template for reserving a performer, speaker, or service provider for a specific date and event.",
+    category: "Business",
+    bodyMarkdown: `# Booking Contract
+
+**Buyer/Venue:** [Name] · **Performer/Provider:** [Name] · **Event:** [Description] · **Date/Time:** [Date, Time]
+
+## 1. Engagement
+Performer/Provider agrees to appear and perform/provide services at [Venue/Location] on the date and time above, for approximately [Duration].
+
+## 2. Fee
+Total fee: [Amount], payable [Deposit at signing, balance due [Timeframe] before the event / due day-of].
+
+## 3. Technical/Hospitality Requirements (if applicable)
+[Reference an attached rider specifying equipment, sound/lighting needs, green room, or hospitality requirements Buyer must provide.]
+
+## 4. Cancellation
+[ ] By Buyer: [Refund schedule based on notice given.]
+[ ] By Performer: [Buyer's remedy if Performer cancels — refund of deposit, and/or good-faith effort to reschedule.]
+
+## 5. Force Majeure
+Neither party is liable for failure to perform due to circumstances beyond their reasonable control (e.g. severe weather, venue closure, government order).
+
+## 6. Recording and Merchandise
+[State whether Buyer may record/broadcast the performance, and any merchandise sales rights/splits.]
+
+## 7. Insurance
+[State whether either party is required to carry event liability insurance.]
+
+---
+Buyer/Venue: ______________________  Date: ____________
+Performer/Provider: ______________________  Date: ____________
+
+*Attaching a specific technical rider (Section 3) — not just a vague "standard requirements" reference — is what prevents a performer from showing up to a venue that can't actually support their equipment or hospitality needs.*`,
+  },
+  {
+    slug: "construction-management-services-agreement-template",
+    name: "Construction Management Services Agreement",
+    seoTitle: "Free Construction Management Services Agreement Template",
+    description: "Free construction management services agreement template — an owner hires a construction manager to oversee a project on their behalf, without directly performing the construction work.",
+    category: "Business",
+    bodyMarkdown: `# Construction Management Services Agreement
+
+**Owner:** [Name] · **Construction Manager:** [Company Name] · **Project:** [Description] · **Date:** [Date]
+
+## 1. Services
+Construction Manager will provide project oversight services, including: [bidding and contractor selection, scheduling, budget management, quality control, and coordination among trades], but will not itself perform construction work.
+
+## 2. Fee
+[ ] Flat fee of [Amount].
+[ ] Percentage of total construction cost of [%].
+[ ] Fee plus reimbursable expenses, per Exhibit A.
+
+## 3. Owner's Contracts with Trade Contractors
+[State whether Owner contracts directly with trade contractors (with Construction Manager administering those contracts as Owner's agent) or whether Construction Manager holds the trade contracts itself.]
+
+## 4. Budget and Schedule
+Construction Manager will provide Owner with [Frequency] budget and schedule updates, flagging any projected overruns or delays promptly.
+
+## 5. Standard of Care
+Construction Manager will perform services with the professional skill and care ordinarily exercised by construction managers on similar projects.
+
+## 6. No Warranty of Contractors' Work
+Construction Manager does not warrant the work of trade contractors, which remains subject to each trade contractor's own warranty.
+
+## 7. Term and Termination
+This Agreement runs until project completion or is terminated by either party with [Notice Period] notice.
+
+---
+Owner: ______________________  Date: ____________
+Construction Manager: ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. Whether the construction manager holds the trade contracts directly (CM at-risk) or Owner does (CM as agent) changes who bears financial risk if a trade contractor defaults — this distinction (Section 3) should be settled explicitly, not left ambiguous.*`,
+  },
+  {
+    slug: "certificate-of-compliance-template",
+    name: "Certificate of Compliance",
+    seoTitle: "Free Certificate of Compliance Template",
+    description: "Free certificate of compliance template — a supplier or manufacturer certifies that a product meets specified standards or regulatory requirements.",
+    category: "Business",
+    bodyMarkdown: `# Certificate of Compliance
+
+**Issuing Company:** [Company Name] · **Product:** [Description, model/lot number] · **Date:** [Date]
+
+## Certification
+[Company Name] hereby certifies that the product described above complies with the following specifications/standards: [List — e.g. purchase order specifications, industry standard (ASTM, ISO, etc.), regulatory requirement].
+
+## Basis of Certification
+[ ] Based on testing performed by [Company Name/Third-Party Lab Name] on [Date].
+[ ] Based on the manufacturer's standard quality control process.
+
+## Test Results (if applicable)
+| Parameter | Specification | Result |
+|---------------|--------------------|------------|
+| [Parameter] | [Spec] | [Result] |
+
+## Applicable Order/Contract Reference
+This certificate applies to: [Purchase Order #/Contract Reference], quantity: [Number], lot/batch #: [Number].
+
+---
+Certified by: ______________________  Date: ____________
+[Name, Title, Company]
+
+*A certificate of compliance is a legal representation, not just paperwork — a supplier that certifies compliance without actually verifying it can face real liability if the product later fails to meet the certified standard and causes harm or a recall.*`,
+  },
+  {
+    slug: "business-acquisition-checklist-template",
+    name: "Business Acquisition Checklist",
+    seoTitle: "Free Business Acquisition Checklist Template",
+    description: "Free business acquisition checklist template for a buyer conducting due diligence before purchasing a business.",
+    category: "Business",
+    bodyMarkdown: `# Business Acquisition Checklist
+
+**Target Business:** [Name] · **Prepared by:** [Name] · **Date:** [Date]
+
+## Financial Due Diligence
+[ ] 3 years of financial statements (P&L, balance sheet, cash flow) reviewed
+[ ] Tax returns for the last 3 years reviewed
+[ ] Accounts receivable aging reviewed
+[ ] Outstanding debts and liabilities identified
+[ ] Revenue concentration by customer analyzed (risk if too concentrated)
+
+## Legal Due Diligence
+[ ] Corporate formation documents and good standing confirmed
+[ ] All material contracts reviewed (leases, customer/vendor agreements, loans)
+[ ] Pending or threatened litigation identified
+[ ] IP ownership confirmed (trademarks, patents, domain names)
+[ ] Employment agreements and any change-of-control provisions reviewed
+
+## Operational Due Diligence
+[ ] Key employees identified, with retention plan considered
+[ ] Customer contracts reviewed for assignability/change-of-control clauses
+[ ] Physical assets and condition assessed
+[ ] Vendor/supplier relationships and terms reviewed
+
+## Structuring
+[ ] Asset purchase vs. stock purchase decided
+[ ] Purchase price allocation discussed with tax advisor
+[ ] Financing arranged
+
+## Closing
+[ ] Purchase agreement drafted and reviewed by counsel
+[ ] Escrow/holdback terms agreed for any post-closing indemnification claims
+[ ] Transition services agreement in place, if seller is assisting post-closing
+
+*Checking customer contracts for "change of control" clauses (under Operational Due Diligence) before closing is often overlooked — a key contract that automatically terminates upon an ownership change can materially reduce the value of what's actually being acquired.*`,
+  },
+  {
+    slug: "business-loan-checklist-template",
+    name: "Business Loan Checklist",
+    seoTitle: "Free Business Loan Application Checklist Template",
+    description: "Free business loan checklist template for organizing the documents typically required when applying for a business loan.",
+    category: "Finance",
+    bodyMarkdown: `# Business Loan Checklist
+
+## Business Financial Documents
+[ ] 2-3 years of business tax returns
+[ ] Year-to-date profit & loss statement and balance sheet
+[ ] 3-6 months of business bank statements
+[ ] Accounts receivable/payable aging reports
+
+## Business Information
+[ ] Business plan or executive summary (for newer businesses)
+[ ] Business licenses and registrations
+[ ] Articles of incorporation/organization
+[ ] List of business debts and monthly payments
+
+## Personal Documents (for owners with 20%+ ownership)
+[ ] Personal tax returns for 2-3 years
+[ ] Personal financial statement
+[ ] Government-issued photo ID
+
+## Loan-Specific
+[ ] Use of funds statement (what the loan will be used for, specifically)
+[ ] Collateral documentation, if applicable
+[ ] Personal guarantee (commonly required for small business loans)
+
+## Additional (if applicable)
+[ ] Franchise agreement (for franchise financing)
+[ ] Purchase agreement (if acquiring a business or equipment)
+[ ] Commercial lease (if applicable to the loan purpose)
+
+*A specific, well-documented "use of funds" statement is one of the details lenders weigh most heavily — a vague request for "working capital" gets scrutinized far more than a clear plan tied to specific, verifiable expenses.*`,
+  },
+  {
+    slug: "electrical-services-agreement-template",
+    name: "Electrical Services Agreement",
+    seoTitle: "Free Electrical Services Agreement Template",
+    description: "Free electrical services agreement template between a licensed electrician/contractor and a client for electrical work.",
+    category: "Business",
+    bodyMarkdown: `# Electrical Services Agreement
+
+**Electrician/Contractor:** [Name/Company, License #] · **Client:** [Name] · **Property Address:** [Address] · **Date:** [Date]
+
+## 1. Scope of Work
+Contractor will perform the following electrical work: [Description — e.g. panel upgrade, rewiring, fixture installation], per the specifications in Exhibit A.
+
+## 2. Fee
+[ ] Flat fee of [Amount].
+[ ] Hourly rate of [Amount], estimated total: [Amount].
+Payment terms: [Deposit/progress payments/payment on completion].
+
+## 3. Permits and Code Compliance
+Contractor will obtain any required electrical permits and perform all work in compliance with applicable electrical codes (e.g. NEC) and local inspection requirements.
+
+## 4. Materials
+[ ] Contractor supplies all materials, included in the fee above.
+[ ] Client supplies specified materials; Contractor supplies remainder.
+
+## 5. Warranty
+Contractor warrants workmanship for [Period] from completion. Manufacturer warranties on installed fixtures/equipment apply separately per their own terms.
+
+## 6. Insurance and Licensing
+Contractor maintains a current electrical contractor's license and general liability insurance of at least [Amount].
+
+## 7. Change Orders
+Any change to the scope of work will be documented in a written change order before the additional work begins.
+
+---
+Electrician/Contractor: ______________________  Date: ____________
+Client: ______________________  Date: ____________
+
+*Confirming the contractor's actual license number is current (most states have a public license lookup tool) before signing — not just taking their word for it — is a simple check that protects against unlicensed electrical work, which can void a home's insurance coverage if something goes wrong.*`,
+  },
+  {
+    slug: "surety-bond-guarantee-agreement-template",
+    name: "Surety Bond Guarantee Agreement",
+    seoTitle: "Free Surety Bond Guarantee Agreement Template",
+    description: "Free surety bond guarantee (indemnity) agreement template — a principal and any indemnitors agree to reimburse a surety company for any bond claims paid out.",
+    category: "Finance",
+    bodyMarkdown: `# Surety Bond Guarantee (Indemnity) Agreement
+
+**Surety:** [Surety Company Name] · **Principal:** [Name/Company] · **Indemnitor(s):** [Name(s), if individuals separate from the Principal are also guaranteeing] · **Date:** [Date]
+
+## 1. Purpose
+In consideration of Surety issuing one or more surety bonds on behalf of Principal, Principal and Indemnitor(s) agree to indemnify Surety as described below.
+
+## 2. Indemnification
+Principal and Indemnitor(s), jointly and severally, agree to indemnify and reimburse Surety for any and all payments Surety makes under any bond issued for Principal, including claims, losses, costs, and attorneys' fees, whether or not the claim is ultimately proven valid.
+
+## 3. Collateral (if required)
+[State any collateral required to secure this indemnity, such as a cash deposit or letter of credit.]
+
+## 4. Surety's Sole Discretion in Settling Claims
+Surety may settle or compromise any claim against a bond in its sole discretion, and its determination of the amount owed is binding on Principal and Indemnitor(s) absent fraud or bad faith.
+
+## 5. Continuing Agreement
+This Agreement applies to all bonds Surety issues for Principal, whether now or in the future, until terminated in writing.
+
+## 6. Financial Statements
+Principal will provide Surety with financial statements upon request, to support Surety's ongoing underwriting of Principal's bonds.
+
+---
+Principal: ______________________  Date: ____________
+Indemnitor(s): ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. Section 4 is the term contractors are most often surprised by — it generally means the surety can settle a bond claim and then come after the contractor/indemnitors for reimbursement, even if the contractor disputes that the claim was valid, unless they can prove the surety acted in bad faith.*`,
+  },
+  {
+    slug: "life-coaching-agreement-template",
+    name: "Life Coaching Agreement",
+    seoTitle: "Free Life Coaching Agreement Template",
+    description: "Free life coaching agreement template between a coach and client, covering scope, fees, confidentiality, and the distinction from therapy.",
+    category: "Business",
+    bodyMarkdown: `# Life Coaching Agreement
+
+**Coach:** [Name] · **Client:** [Name] · **Date:** [Date]
+
+## 1. Nature of Coaching
+Coaching is a collaborative process focused on helping Client clarify goals and take action toward them. Client acknowledges that coaching is NOT therapy, counseling, or a substitute for professional mental health treatment, and Coach is not a licensed therapist [unless Coach holds a separate professional license disclosed here].
+
+## 2. Sessions
+Sessions: [Frequency, e.g. weekly], [Duration] each, via [In-person/video/phone], for a package of [Number] sessions or ongoing on a [monthly] basis.
+
+## 3. Fee
+[Amount] per session / [Amount] per package, payable [Terms].
+
+## 4. Confidentiality
+Coach will keep discussions confidential, except where there is a risk of harm to Client or others, or as required by law.
+
+## 5. Client's Responsibility
+Client understands they are responsible for their own decisions, actions, and outcomes; Coach's role is to support and facilitate, not to direct or guarantee specific results.
+
+## 6. Cancellation Policy
+Sessions cancelled with less than [Number] hours' notice [are forfeited / incur a fee of [Amount]].
+
+## 7. Referral to Licensed Professionals
+If issues arise that are more appropriately addressed by a licensed therapist, physician, or financial advisor, Coach will recommend Client seek that professional support.
+
+---
+Coach: ______________________  Date: ____________
+Client: ______________________  Date: ____________
+
+*Section 1's distinction between coaching and therapy isn't just disclaimer boilerplate — coaching is largely unregulated compared to licensed mental health services, and being explicit about that scope protects both the client's expectations and the coach from practicing outside their qualifications.*`,
+  },
+  {
+    slug: "good-faith-estimate-template",
+    name: "Good Faith Estimate",
+    seoTitle: "Free Good Faith Estimate Template",
+    description: "Free good faith estimate template — a service provider gives a client an upfront estimate of expected charges before treatment or work begins.",
+    category: "Finance",
+    bodyMarkdown: `# Good Faith Estimate
+
+**Provider:** [Name/Practice] · **Client/Patient:** [Name] · **Date:** [Date]
+
+## Services Expected
+[Description of the anticipated service(s), procedure(s), or scope of work.]
+
+## Estimated Charges
+| Service/Item | Estimated Cost |
+|-------------------|---------------------|
+| [Item] | [Amount] |
+| [Item] | [Amount] |
+| **Estimated Total** | **[Amount]** |
+
+## Basis of Estimate
+This estimate is based on [the information currently available / a typical case of this type] and may change if [additional services are needed, complications arise, or the scope changes].
+
+## Validity
+This estimate is valid for [Period, e.g. 12 months] from the date above.
+
+## Your Rights
+If your actual bill is substantially higher than this estimate (in healthcare, generally $400+ over, under the federal No Surprises Act), you may have the right to dispute the charge.
+
+---
+Provider signature: ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal or medical billing advice. In US healthcare specifically, the No Surprises Act now legally requires many providers to give uninsured/self-pay patients a Good Faith Estimate before non-emergency care — confirm whether your practice falls under this specific federal requirement, which has its own required format.*`,
+  },
+  {
+    slug: "fee-and-commission-split-agreement-template",
+    name: "Fee and Commission Split Agreement",
+    seoTitle: "Free Fee and Commission Split Agreement Template",
+    description: "Free fee and commission split agreement template — two agents or brokers agree to divide a commission earned on a shared deal.",
+    category: "Real Estate",
+    bodyMarkdown: `# Fee and Commission Split Agreement
+
+**Party A:** [Name/Brokerage] · **Party B:** [Name/Brokerage] · **Transaction:** [Description/Property Address] · **Date:** [Date]
+
+## 1. Background
+Both parties contributed to the transaction described above: [Describe each party's role — e.g. "Party A represented the buyer; Party B referred the buyer to Party A"].
+
+## 2. Commission Split
+Upon closing, the total commission of [Amount/%] will be split as follows: Party A: [%], Party B: [%].
+
+## 3. Payment
+The party receiving the full commission from the transaction (typically via the closing/title company) will remit the other party's share within [Number] business days of receipt.
+
+## 4. Conditions
+This split applies only if the transaction described above actually closes. No commission is owed to either party if the transaction falls through.
+
+## 5. Licensing
+Each party represents that they hold any real estate or professional license required to lawfully receive a share of this commission in the relevant jurisdiction.
+
+---
+Party A: ______________________  Date: ____________
+Party B: ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. Most states prohibit paying a real estate commission (or a share of one) to anyone who isn't a licensed agent/broker — confirm both parties are properly licensed for this specific transaction before agreeing to split a fee, since an unlicensed referral fee can be unenforceable or even illegal.*`,
+  },
+  {
+    slug: "import-export-contract-template",
+    name: "Import Export Contract",
+    seoTitle: "Free Import Export Contract Template",
+    description: "Free import/export contract template for an international sale of goods between a buyer and seller in different countries.",
+    category: "Business",
+    bodyMarkdown: `# Import Export Contract
+
+**Seller (Exporter):** [Name, Country] · **Buyer (Importer):** [Name, Country] · **Date:** [Date]
+
+## 1. Goods
+Seller agrees to sell, and Buyer agrees to purchase: [Description, quantity, specifications], for a total price of [Amount], in [Currency].
+
+## 2. Incoterms
+Delivery terms: [Incoterm, e.g. FOB, CIF, DDP] [Named Port/Place], per Incoterms [Year edition].
+
+## 3. Payment Terms
+[ ] Letter of credit, issued by Buyer's bank, confirmed by [Bank], per the terms in Exhibit A.
+[ ] [Other terms — advance payment, payment against documents, open account.]
+
+## 4. Documentation
+Seller will provide: [commercial invoice, packing list, bill of lading/airway bill, certificate of origin, and any required export licenses/certificates].
+
+## 5. Inspection
+[State whether Buyer may inspect goods before shipment, and the process for rejecting non-conforming goods.]
+
+## 6. Customs and Duties
+Seller is responsible for export clearance in [Seller's Country]. Buyer is responsible for import clearance, duties, and taxes in [Buyer's Country], unless the Incoterm specifies otherwise.
+
+## 7. Governing Law and Dispute Resolution
+This Agreement is governed by [Jurisdiction/CISG, if applicable], and disputes will be resolved by [Arbitration under [Rules] / courts of [Jurisdiction]].
+
+---
+Seller: ______________________  Date: ____________
+Buyer: ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. Specifying the exact Incoterm and its edition year (Section 2) matters enormously — it determines precisely where risk and cost responsibility transfer from seller to buyer, and vague or missing Incoterms are a leading cause of international trade disputes.*`,
+  },
+  {
+    slug: "saas-agreement-template",
+    name: "SaaS Agreement",
+    seoTitle: "Free SaaS (Software as a Service) Agreement Template",
+    description: "Free SaaS agreement template between a software provider and a business customer, covering access, data, and service levels.",
+    category: "Business",
+    bodyMarkdown: `# Software as a Service (SaaS) Agreement
+
+**Provider:** [Company Name] · **Customer:** [Company Name] · **Date:** [Date]
+
+## 1. Access
+Provider grants Customer a non-exclusive, non-transferable right to access and use [Software Name] during the Term, for Customer's internal business purposes.
+
+## 2. Fees
+[Subscription fee of [Amount] per [month/year], per [user/seat basis], invoiced [Frequency]. Fees may increase upon renewal with [Notice Period] notice.]
+
+## 3. Service Level Commitment
+Provider will use commercially reasonable efforts to maintain [%] uptime, measured [Monthly/Annually], excluding scheduled maintenance. [Reference remedies for failure to meet the SLA, e.g. service credits.]
+
+## 4. Customer Data
+Customer retains ownership of all data it inputs into the Software ("Customer Data"). Provider will not access Customer Data except to provide the service or as authorized by Customer, and will implement reasonable security measures to protect it.
+
+## 5. Data Portability and Deletion
+Upon termination, Provider will make Customer Data available for export for [Period], after which it will be deleted per Provider's data retention policy.
+
+## 6. Intellectual Property
+Provider retains all rights to the Software itself; this Agreement grants only the access rights described in Section 1.
+
+## 7. Warranty Disclaimer and Limitation of Liability
+[Standard SaaS disclaimer of implied warranties, and cap on liability, typically limited to fees paid in the preceding 12 months.]
+
+## 8. Term and Termination
+This Agreement runs [Term, auto-renewing unless cancelled with [Notice Period] notice] and may be terminated for material breach not cured within [Cure Period].
+
+---
+Provider: ______________________  Date: ____________
+Customer: ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. Data portability (Section 5) deserves real attention before signing — a SaaS vendor that makes it difficult or costly to export your own data at the end of the relationship can effectively lock you into paying for continued access just to retrieve your own information.*`,
+  },
+  {
+    slug: "seller-financing-contract-template",
+    name: "Seller Financing Contract",
+    seoTitle: "Free Seller Financing Contract Template",
+    description: "Free seller financing contract template — a property seller acts as the lender, allowing the buyer to make payments directly instead of using a bank mortgage.",
+    category: "Real Estate",
+    bodyMarkdown: `# Seller Financing Contract
+
+**Seller (Lender):** [Name] · **Buyer (Borrower):** [Name]
+**Property:** [Address] · **Purchase Price:** [Amount] · **Date:** [Date]
+
+## 1. Financing Terms
+Seller agrees to finance [Amount] of the purchase price (with Buyer's down payment of [Amount] paid at closing), at an interest rate of [Rate]% per year, amortized over [Term], with [monthly] payments of [Amount].
+
+## 2. Balloon Payment (if applicable)
+[ ] The full remaining balance is due in a balloon payment on [Date], [Number] years after closing.
+[ ] No balloon payment — the loan fully amortizes over the stated term.
+
+## 3. Security
+This loan is secured by a [Mortgage/Deed of Trust] on the property, recorded at closing, giving Seller the right to foreclose if Buyer defaults.
+
+## 4. Insurance and Taxes
+Buyer will maintain property insurance naming Seller as loss payee (to the extent of Seller's interest) and will pay property taxes when due.
+
+## 5. Due-on-Sale
+If Buyer sells or transfers the property before the loan is paid in full, the remaining balance becomes immediately due, unless Seller agrees otherwise in writing.
+
+## 6. Default
+Buyer is in default if any payment is more than [Number] days late. Upon default, Seller may pursue foreclosure per applicable state law.
+
+## 7. Existing Mortgage (if any)
+[If Seller still has an existing mortgage on the property, disclose it and address any "due on sale" risk it creates for Seller's own lender.]
+
+---
+Seller: ______________________  Date: ____________
+Buyer: ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. In the US, seller financing on a residential property is subject to the Dodd-Frank Act's ability-to-repay rules unless the seller qualifies for a limited exemption — a seller who finances more than a few properties per year, or doesn't meet the exemption criteria, may need to comply with mortgage originator requirements they wouldn't expect.*`,
+  },
+  {
+    slug: "short-sale-buyer-checklist-template",
+    name: "Short Sale Buyer Checklist",
+    seoTitle: "Free Short Sale Buyer Checklist Template",
+    description: "Free short sale buyer checklist template for a buyer purchasing a property where the sale price is less than the seller owes on their mortgage.",
+    category: "Real Estate",
+    bodyMarkdown: `# Short Sale Buyer Checklist
+
+## Before Making an Offer
+[ ] Confirm the property is an approved/listed short sale (not just a distressed listing)
+[ ] Understand that the seller's lender, not just the seller, must approve the sale price
+[ ] Get pre-approved for financing (short sale lenders often require proof of buyer readiness)
+[ ] Set realistic expectations on timeline — short sales commonly take [60-120+] days for lender approval
+
+## During the Process
+[ ] Submit offer with an extended acceptance/response window, since lender approval takes time
+[ ] Include a financing contingency long enough to accommodate delays
+[ ] Get a home inspection — short sale properties are typically sold "as-is," with limited seller repairs
+[ ] Confirm whether the seller has one or two mortgages/liens (both must approve)
+[ ] Stay in regular contact with the listing agent for status updates on lender review
+
+## Before Closing
+[ ] Confirm the lender's final approval letter specifies the exact approved sale price and terms
+[ ] Verify title is clear or that all liens will be released at closing (a short sale doesn't automatically clear other liens)
+[ ] Complete final walkthrough, understanding "as-is" limits any recourse for new issues found
+
+## After Closing
+[ ] Retain all closing documents, particularly the lender's short sale approval letter
+
+*The biggest misconception buyers have about short sales is thinking a fast, motivated seller means a fast closing — in reality, the seller's LENDER controls the timeline and approval, and can take months regardless of how eager the seller and buyer both are.*`,
+  },
+  {
+    slug: "service-animal-policy-template",
+    name: "Service Animal Policy",
+    seoTitle: "Free Service Animal Policy Template",
+    description: "Free service animal policy template for a business or housing provider addressing service animals and reasonable accommodation requests.",
+    category: "HR",
+    bodyMarkdown: `# Service Animal Policy
+
+**Company/Property:** [Name] · **Effective Date:** [Date]
+
+## Purpose
+This policy ensures [Company Name] complies with applicable law (e.g. ADA, Fair Housing Act, as relevant) regarding service animals and, where applicable, emotional support animals.
+
+## Service Animals (ADA — Public Accommodations)
+A service animal is a dog (or in limited cases, miniature horse) individually trained to perform a task for a person with a disability. Staff may ask only: (1) is the animal required because of a disability, and (2) what task is it trained to perform. Staff may NOT ask about the person's disability, require documentation, or require the animal to demonstrate the task.
+
+## Where Service Animals Are Permitted
+Service animals are permitted in all areas where the public is normally allowed to go, except where their presence would fundamentally alter the nature of the service (rare exceptions only).
+
+## Behavior Standards
+A service animal may be excluded if it is out of control (and the handler doesn't take effective action) or not housebroken — but not based on breed, size, or fear/allergies of others.
+
+## Housing Context (if applicable — Fair Housing Act)
+[If this policy applies to a rental property: assistance animals (including emotional support animals) may require reasonable accommodation review distinct from the ADA's stricter "service animal" definition — different documentation rules may apply.]
+
+## Staff Training
+All customer-facing staff are trained on this policy and the limited questions they may ask.
+
+---
+Adopted by: ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. The ADA (for businesses) and the Fair Housing Act (for housing) use genuinely different definitions and documentation rules for service/assistance animals — a housing provider applying ADA's stricter public-accommodation rules to a housing accommodation request can create real fair housing liability.*`,
+  },
+  {
+    slug: "deed-in-lieu-of-foreclosure-template",
+    name: "Deed in Lieu of Foreclosure",
+    seoTitle: "Free Deed in Lieu of Foreclosure Template",
+    description: "Free deed in lieu of foreclosure template — a borrower voluntarily transfers property title to their lender to avoid formal foreclosure proceedings.",
+    category: "Real Estate",
+    bodyMarkdown: `# Deed in Lieu of Foreclosure Agreement
+
+**Borrower/Grantor:** [Name] · **Lender/Grantee:** [Name]
+**Property:** [Address/Legal Description] · **Loan Reference:** [Loan #] · **Date:** [Date]
+
+## 1. Voluntary Transfer
+Borrower voluntarily conveys the property described above to Lender, in exchange for Lender's agreement to release Borrower from further liability under the loan referenced above, as described in Section 3.
+
+## 2. Consideration
+This deed is given in full satisfaction of Borrower's debt to Lender, currently in the outstanding amount of [Amount], and is not given under duress.
+
+## 3. Release of Debt
+[ ] Lender releases Borrower from all further personal liability for the debt (no deficiency claim).
+[ ] Lender retains the right to pursue a deficiency of [Amount], per applicable state law.
+
+## 4. Condition of Title
+Borrower represents there are no other liens, judgments, or claims against the property except: [List, or "none known"]. [Note: a deed in lieu generally does NOT eliminate junior liens — Lender should independently confirm title.]
+
+## 5. Waiver of Redemption Rights (where applicable)
+Borrower waives any statutory right of redemption applicable in [State], to the extent permitted by law.
+
+## 6. Tax Consequences
+Both parties acknowledge that debt forgiveness in this transaction may have tax consequences (potentially treated as taxable income to Borrower), and each party should consult their own tax advisor.
+
+---
+Borrower/Grantor: ______________________  Date: ____________
+Lender/Grantee: ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal or tax advice. A deed in lieu does NOT automatically wipe out junior liens (like a second mortgage or HOA lien) the way a foreclosure sale often does — a lender accepting one should independently confirm the title is actually clear of other claims before relying on it.*`,
+  },
+  {
+    slug: "related-party-transactions-checklist-template",
+    name: "Related Party Transactions Checklist",
+    seoTitle: "Free Related Party Transactions Checklist Template",
+    description: "Free related party transactions checklist template for identifying, disclosing, and approving transactions between a company and its insiders.",
+    category: "Finance",
+    bodyMarkdown: `# Related Party Transactions Checklist
+
+**Company:** [Company Name] · **Review Period:** [Period] · **Prepared by:** [Name]
+
+## Identification
+[ ] List of related parties maintained and updated (officers, directors, major shareholders, and their immediate family/controlled entities)
+[ ] Each proposed transaction screened against the related-party list before execution
+
+## Disclosure
+[ ] Related party disclosed their interest in the transaction before it was approved
+[ ] Nature and approximate dollar amount of the transaction documented
+
+## Approval Process
+[ ] Transaction reviewed by [Audit Committee/independent directors/disinterested board members], not by the interested party
+[ ] Terms confirmed to be at "arm's length" (comparable to what an unrelated third party would receive) or the deviation is specifically justified
+[ ] Approval documented in board/committee minutes
+
+## Ongoing Monitoring
+[ ] Related party transactions tracked in a central log
+[ ] Log reviewed [Frequency] by [Audit Committee/Board]
+
+## Financial Reporting
+[ ] Transactions properly disclosed in financial statements per applicable accounting standards (e.g. ASC 850 in the US)
+[ ] Auditors informed of all related party transactions identified
+
+*Requiring approval from someone with NO stake in the transaction (not just disclosure by the interested party) is what actually protects against related-party abuse — disclosure alone doesn't prevent a self-dealing transaction from going through on unfair terms.*`,
+  },
+  {
+    slug: "work-authorization-form-template",
+    name: "Work Authorization Form",
+    seoTitle: "Free Work Authorization Form Template",
+    description: "Free work authorization form template for a client to formally approve a contractor or vendor to begin specific work.",
+    category: "Business",
+    bodyMarkdown: `# Work Authorization Form
+
+**Client:** [Name] · **Contractor/Vendor:** [Name] · **Date:** [Date]
+
+## Work Authorized
+[Description of the specific work being authorized, referencing the applicable estimate/proposal/change order #.]
+
+## Estimated Cost
+[Amount], per [Estimate/Quote Reference #, Date].
+
+## Schedule
+Work is authorized to begin on [Date] and is expected to be completed by [Date].
+
+## Authorization
+By signing below, Client authorizes Contractor/Vendor to proceed with the work described above, at the estimated cost stated. Client understands that any additional work beyond this scope will require a separate authorization or change order.
+
+## Payment Terms
+[Reference the applicable payment schedule — deposit, milestones, or payment on completion.]
+
+---
+Client signature: ______________________  Date: ____________
+Contractor/Vendor signature (acknowledging scope): ______________________  Date: ____________
+
+*Requiring a signed authorization before each new phase of work begins — rather than proceeding on a verbal "go ahead" — is what prevents disputes over whether a specific task was actually approved, especially on projects where scope tends to expand.*`,
+  },
+  {
+    slug: "crisis-communication-plan-template",
+    name: "Crisis Communication Plan",
+    seoTitle: "Free Crisis Communication Plan Template",
+    description: "Free crisis communication plan template for a business to prepare its response to a PR crisis, safety incident, or other reputational emergency.",
+    category: "Business",
+    bodyMarkdown: `# Crisis Communication Plan
+
+**Company:** [Company Name] · **Effective Date:** [Date]
+
+## Purpose
+This plan defines how [Company Name] will communicate quickly, accurately, and consistently during a crisis affecting the company's reputation, safety, or operations.
+
+## Crisis Team
+| Role | Name | Responsibility |
+|----------|------|-----------------|
+| Crisis Lead | [Name] | Overall decision-making authority |
+| Spokesperson | [Name] | Sole authorized external voice during the crisis |
+| Legal Review | [Name] | Reviews statements for legal risk |
+| Internal Comms | [Name] | Communicates with employees |
+
+## First 60 Minutes
+1. Assess the situation and confirm facts before any public statement.
+2. Activate the Crisis Team via [Contact method — group chat, call tree].
+3. Draft a holding statement acknowledging awareness of the situation, even before all facts are confirmed.
+4. Notify employees before they hear about it externally, where possible.
+
+## Approved Communication Channels
+[List — company website statement, social media, direct customer email, press statement — and who owns each.]
+
+## What Not to Do
+- Do not speculate on causes or blame before facts are confirmed.
+- Do not let anyone outside the designated Spokesperson speak to media.
+- Do not delete social media comments/posts about the situation (this often escalates the story).
+
+## Post-Crisis Review
+Within [Number] days after the crisis resolves, the Crisis Team will conduct a review of what worked, what didn't, and update this plan accordingly.
+
+---
+Approved by: ______________________  Date: ____________
+
+*A holding statement issued within the first hour — even a simple "we're aware and looking into it" — does more to control a crisis narrative than a perfectly worded statement that takes half a day to clear legal review, because silence in that window gets filled by speculation.*`,
+  },
+  {
+    slug: "technical-support-agreement-template",
+    name: "Technical Support Agreement",
+    seoTitle: "Free Technical Support Agreement Template",
+    description: "Free technical support agreement template for a vendor providing ongoing IT or product support services to a client.",
+    category: "Business",
+    bodyMarkdown: `# Technical Support Agreement
+
+**Provider:** [Company Name] · **Client:** [Company Name] · **Effective Date:** [Date]
+
+## 1. Support Services
+Provider will provide technical support for [Product/System], including: [troubleshooting, bug fixes, configuration assistance], during [Support Hours, e.g. "9am-6pm ET, Monday-Friday"].
+
+## 2. Support Tiers and Response Times
+| Severity | Definition | Response Time | Resolution Target |
+|--------------|------------------|--------------------|--------------------------|
+| Critical | [System down] | [Time] | [Time] |
+| High | [Major function impaired] | [Time] | [Time] |
+| Medium | [Minor issue, workaround exists] | [Time] | [Time] |
+| Low | [Cosmetic/question] | [Time] | [Time] |
+
+## 3. Fee
+[Included in existing license fee / Annual support fee of [Amount] / Per-incident rate of [Amount]].
+
+## 4. Client's Responsibilities
+Client will provide reasonable access to systems, logs, and personnel needed to diagnose reported issues, and will keep the supported product on a version currently eligible for support.
+
+## 5. Exclusions
+Support does not cover: [issues caused by unauthorized modifications, third-party integrations not certified by Provider, or use outside documented specifications].
+
+## 6. Escalation
+Unresolved issues past the resolution target may be escalated to [Escalation contact/process].
+
+## 7. Term and Termination
+This Agreement runs [Term, e.g. annually, auto-renewing] and either party may terminate with [Notice Period] notice.
+
+---
+Provider: ______________________  Date: ____________
+Client: ______________________  Date: ____________
+
+*Defining response time AND resolution target separately (Section 2) matters — a vendor that "responds" within an hour but takes weeks to actually resolve a critical issue isn't providing meaningful support, even if it technically meets a response-time-only SLA.*`,
+  },
+  {
+    slug: "declaration-of-homestead-exemption-template",
+    name: "Declaration of Homestead Exemption",
+    seoTitle: "Free Declaration of Homestead Exemption Template",
+    description: "Free declaration of homestead exemption template — a homeowner formally declares their primary residence as a homestead to protect it from certain creditors.",
+    category: "Real Estate",
+    bodyMarkdown: `# Declaration of Homestead
+
+**Declarant(s):** [Name(s)] · **Property Address:** [Address] · **Legal Description:** [Legal Description] · **Date:** [Date]
+
+## 1. Declaration
+I/We, the undersigned, being the owner(s) and occupant(s) of the property described above, hereby declare this property as my/our homestead, for the purpose of claiming the protections available under [State]'s homestead exemption law.
+
+## 2. Occupancy
+This property is my/our primary residence, actually occupied as such as of the date of this declaration.
+
+## 3. Ownership
+I/We hold [sole/joint] title to this property, as evidenced by the deed recorded at [Recording Reference].
+
+## 4. Purpose and Effect
+This declaration is made to protect the equity in this homestead, up to the limits and subject to the exceptions provided under applicable state law, from the claims of most general creditors.
+
+---
+Declarant signature(s): ______________________  Date: ____________
+
+**Notarization:**
+State of [State], County of [County]
+Subscribed and sworn before me this ____ day of __________, 20__.
+Notary Public: ______________________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. Homestead protection amounts and rules vary enormously by state — some states protect an unlimited amount of home equity, others cap it at a modest dollar figure, and the protection typically doesn't apply against a mortgage, property taxes, or certain other specific creditors regardless of the declaration.*`,
+  },
+  {
+    slug: "data-backup-policy-template",
+    name: "Data Backup Policy",
+    seoTitle: "Free Data Backup Policy Template",
+    description: "Free data backup policy template establishing how a company backs up its data and tests recovery to prevent data loss.",
+    category: "Business",
+    bodyMarkdown: `# Data Backup Policy
+
+**Company:** [Company Name] · **Effective Date:** [Date]
+
+## Purpose
+This policy ensures [Company Name]'s critical data can be recovered in the event of hardware failure, cyberattack, or other data loss event.
+
+## Backup Schedule
+| Data Type | Backup Frequency | Retention Period |
+|----------------|------------------------|------------------------|
+| [Database/production data] | [e.g. daily] | [e.g. 30 days] |
+| [File servers] | [e.g. daily] | [e.g. 90 days] |
+| [Email] | [e.g. continuous/daily] | [e.g. per legal retention needs] |
+
+## Backup Storage
+Backups are stored [on-site AND off-site/cloud], following the 3-2-1 principle: at least 3 copies, on 2 different media types, with 1 copy off-site.
+
+## Encryption
+Backups containing sensitive data are encrypted both in transit and at rest.
+
+## Testing
+Backup restoration is tested [Frequency, e.g. quarterly] to confirm backups are actually recoverable, not just being created.
+
+## Access Control
+Access to backup systems and files is restricted to [designated IT roles].
+
+## Incident Response
+In the event of data loss, [IT contact] will assess the situation and initiate recovery per the Incident Response Plan.
+
+---
+Adopted by: ______________________  Date: ____________
+
+*Testing actual restoration (not just confirming backups run successfully) is the step most organizations skip — and it's the one that matters, since a corrupted or incomplete backup that "completed successfully" every night can still fail completely when you actually need to restore from it.*`,
+  },
+  {
+    slug: "promotional-product-placement-agreement-template",
+    name: "Promotional / Product Placement Agreement",
+    seoTitle: "Free Product Placement Agreement Template",
+    description: "Free product placement agreement template — a brand pays for its product to be featured in media content such as a video, show, or livestream.",
+    category: "Business",
+    bodyMarkdown: `# Product Placement Agreement
+
+**Brand:** [Company Name] · **Creator/Producer:** [Name] · **Content:** [Description — video, show, livestream] · **Date:** [Date]
+
+## 1. Placement
+Creator agrees to feature Brand's product ("[Product Name]") within the content described above, in the manner specified: [e.g. "visible on-screen for at least 30 seconds," "verbal mention within the first 5 minutes"].
+
+## 2. Fee
+[Flat fee of [Amount] / product provided at no charge, valued at [Amount]], payable [Terms].
+
+## 3. Creative Control
+[State whether Brand has approval rights over how the product is depicted, and any required messaging, versus Creator retaining full creative control over the surrounding content.]
+
+## 4. Disclosure
+Creator will clearly and conspicuously disclose the paid partnership/sponsorship, consistent with FTC guidelines (e.g. "#ad" or a verbal disclosure), in the content itself.
+
+## 5. Usage Rights
+Brand may [use clips of the content in its own marketing / not use the content beyond its original publication], as specified: [Details].
+
+## 6. Delivery and Timing
+Content will be published by [Date], and remain live for at least [Period], unless taken down for a reason unrelated to this Agreement.
+
+## 7. Exclusivity (if applicable)
+[State whether Creator agrees not to feature a competing product for a specified period.]
+
+---
+Brand: ______________________  Date: ____________
+Creator/Producer: ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. FTC disclosure requirements (Section 4) apply regardless of payment form — free product in exchange for a placement still requires disclosure, and both the brand and the creator can be held responsible if a paid placement isn't properly disclosed.*`,
+  },
+  {
+    slug: "employee-lending-agreement-template",
+    name: "Employee Lending Agreement",
+    seoTitle: "Free Employee Lending Agreement Template",
+    description: "Free employee lending agreement template — one company temporarily loans an employee to another company while remaining their employer of record.",
+    category: "Business",
+    bodyMarkdown: `# Employee Lending Agreement
+
+**Lending Company (Employer of Record):** [Name] · **Borrowing Company:** [Name] · **Employee:** [Name] · **Date:** [Date]
+
+## 1. Arrangement
+Lending Company agrees to loan the services of Employee to Borrowing Company for [Duration/Project], while Employee remains an employee of Lending Company for all payroll, benefits, and employment law purposes.
+
+## 2. Employee's Duties
+While loaned, Employee will perform [Description of duties] under the day-to-day direction of Borrowing Company, but remains subject to Lending Company's employment policies.
+
+## 3. Compensation
+Lending Company continues to pay Employee's salary and benefits. Borrowing Company will reimburse Lending Company [Amount/rate] for the loaned time, invoiced [Frequency].
+
+## 4. Workers' Compensation and Liability
+Lending Company's workers' compensation coverage continues to apply to Employee during the loan period. Borrowing Company will maintain a safe working environment and promptly report any workplace incident to Lending Company.
+
+## 5. Term
+This arrangement runs from [Start Date] to [End Date], and may be ended earlier by either company with [Notice Period] notice to the other and to Employee.
+
+## 6. Employee's Consent
+Employee consents to this temporary assignment and understands their employment relationship remains with Lending Company throughout.
+
+---
+Lending Company: ______________________  Date: ____________
+Borrowing Company: ______________________  Date: ____________
+Employee: ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. Courts sometimes apply a "borrowed servant" doctrine that can shift workers' compensation or liability responsibility to the borrowing company based on who actually controlled the work, regardless of what this agreement states — both companies should confirm their insurance coverage actually extends to this arrangement.*`,
+  },
+  {
+    slug: "studio-space-rental-agreement-template",
+    name: "Studio Space Rental Agreement",
+    seoTitle: "Free Studio Space Rental Agreement Template",
+    description: "Free studio space rental agreement template for renting a photography, art, music, or dance studio by the hour, day, or month.",
+    category: "Real Estate",
+    bodyMarkdown: `# Studio Space Rental Agreement
+
+**Studio Owner:** [Name/Business] · **Renter:** [Name] · **Studio Location:** [Address] · **Date(s)/Time(s) of Use:** [Details]
+
+## 1. Rental
+Owner rents the studio space described above to Renter for the purpose of [photography/recording/rehearsal/art-making], for the period specified.
+
+## 2. Fee
+Rate: [Amount] per [hour/day/month], due [Terms]. Security deposit: [Amount, if applicable], refundable subject to the condition of the space and equipment at checkout.
+
+## 3. Included Equipment/Amenities
+[List what's included — e.g. lighting equipment, backdrops, sound equipment — and any restrictions on use.]
+
+## 4. Renter's Responsibilities
+Renter will leave the space in the condition found, report any damage immediately, and is responsible for the cost of repair/replacement of any equipment damaged during their rental period beyond normal wear.
+
+## 5. Insurance
+[State whether Renter must carry liability insurance, particularly for larger productions or events at the studio.]
+
+## 6. Cancellation
+[Notice required to cancel a booking without forfeiting the deposit.]
+
+## 7. Restrictions
+[Any restrictions — noise limits, hours of operation, number of people permitted, use of open flame/hazardous materials.]
+
+---
+Owner: ______________________  Date: ____________
+Renter: ______________________  Date: ____________
+
+*Photographing or documenting the studio's condition (and any included equipment) at check-in — not just relying on memory — protects both the renter and the studio owner if there's ever a dispute about pre-existing wear versus damage from the rental.*`,
+  },
+  {
+    slug: "contract-non-renewal-notice-template",
+    name: "Contract Non-Renewal Notice",
+    seoTitle: "Free Contract Non-Renewal Notice Template",
+    description: "Free contract non-renewal notice template for formally informing the other party that an auto-renewing contract will not be renewed.",
+    category: "Business",
+    bodyMarkdown: `# Notice of Non-Renewal
+
+[Date]
+
+[Recipient Name]
+
+**RE: Notice of Non-Renewal — [Contract Name/Reference], dated [Original Contract Date]**
+
+Dear [Recipient Name],
+
+This letter serves as formal notice, per Section [X] of the above-referenced Agreement, that [Your Company Name] does not intend to renew this Agreement upon its expiration on [Current End Date].
+
+## Reason (optional)
+[Brief, professional reason if you choose to share one, or omit entirely — most contracts don't require a stated reason for non-renewal.]
+
+## Wind-Down
+[Any transition details needed — final deliverables, return of property, final invoice reconciliation — before the contract's expiration date.]
+
+We appreciate the relationship and wish you continued success.
+
+Sincerely,
+[Your Name/Company]
+
+*Confirming the contract's exact required notice period BEFORE sending this — many auto-renewing contracts require 60-90 days' notice, not 30 — is essential, since missing that window can lock you into another full renewal term you were trying to avoid.*`,
+  },
+  {
+    slug: "music-sync-agreement-template",
+    name: "Music Sync Agreement",
+    seoTitle: "Free Music Sync License Agreement Template",
+    description: "Free music synchronization (sync) license agreement template — grants permission to use a song alongside visual media such as film, TV, or video.",
+    category: "Business",
+    bodyMarkdown: `# Music Synchronization (Sync) License Agreement
+
+**Licensor (Rights Holder):** [Name] · **Licensee (Producer/Company):** [Name]
+**Composition/Recording:** [Song Title, Artist] · **Project:** [Description — film, TV show, ad, video] · **Date:** [Date]
+
+## 1. Grant of Sync License
+Licensor grants Licensee the right to synchronize the composition/recording described above with the visual content of the Project, for use as follows: [Scope — e.g. "one 30-second placement in Episode 3"].
+
+## 2. Territory and Term
+Territory: [Worldwide/specific region] · Term: [Perpetual / a specified number of years] · Media: [TV, streaming, theatrical, online, etc. — be specific].
+
+## 3. Fee
+One-time sync fee: [Amount], payable upon execution of this Agreement.
+
+## 4. Master Use vs. Publishing
+[If licensing a specific recording, not just the composition: this license covers only the "master" recording rights held by Licensor. Licensee must separately obtain "publishing" rights from the composition's publisher/songwriter, unless Licensor controls both.]
+
+## 5. Credit
+[State any required songwriter/artist credit in the Project's credits.]
+
+## 6. Warranty
+Licensor warrants they own or control the rights necessary to grant this license, and that use of the composition/recording as licensed will not infringe any third party's rights.
+
+---
+Licensor: ______________________  Date: ____________
+Licensee: ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. Using a song in video content typically requires TWO separate licenses — a "master use" license from whoever owns the actual recording, and a "sync" license from the publisher/songwriter who owns the underlying composition — securing only one leaves the other half unlicensed.*`,
+  },
+  {
+    slug: "contest-release-form-template",
+    name: "Contest Release Form",
+    seoTitle: "Free Contest / Giveaway Release Form Template",
+    description: "Free contest and giveaway release form template — a participant releases the sponsor from liability and grants rights to use their entry/likeness.",
+    category: "Business",
+    bodyMarkdown: `# Contest / Giveaway Release Form
+
+**Contest/Giveaway Name:** [Name] · **Sponsor:** [Company Name] · **Participant:** [Name] · **Date:** [Date]
+
+## 1. Eligibility
+Participant confirms they meet the eligibility requirements for this contest as stated in the official rules, including [age, residency, any other requirements].
+
+## 2. Release of Liability
+Participant releases Sponsor from any liability related to participation in the contest and, if applicable, receipt or use of any prize awarded, except for Sponsor's gross negligence.
+
+## 3. Publicity Release
+If selected as a winner, Participant grants Sponsor the right to use their name, likeness, photo, and/or submitted content for promotional purposes related to the contest, without additional compensation, unless prohibited by law in Participant's jurisdiction (e.g. where publicity releases require separate consideration).
+
+## 4. Prize Acceptance (if applicable)
+Participant understands prizes are non-transferable and non-exchangeable for cash, unless stated otherwise in the official rules, and that Participant is responsible for any taxes owed on the prize's value.
+
+## 5. Compliance with Official Rules
+This release is subject to the contest's official rules, available at [Location/URL], which govern in the event of any conflict with this form.
+
+---
+Participant signature: ______________________  Date: ____________
+Parent/guardian signature (if participant is a minor): ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. A contest/sweepstakes run on social media or nationally is subject to specific state and federal rules (no-purchase-necessary requirements, prize value tax reporting over $600 in the US) that go well beyond this release form alone.*`,
+  },
+  {
+    slug: "beta-testing-agreement-template",
+    name: "Beta Testing Agreement",
+    seoTitle: "Free Beta Testing Agreement Template",
+    description: "Free beta testing agreement template between a software company and a beta tester, covering feedback, confidentiality, and liability.",
+    category: "Business",
+    bodyMarkdown: `# Beta Testing Agreement
+
+**Company:** [Company Name] · **Beta Tester:** [Name] · **Product:** [Beta Product Name] · **Date:** [Date]
+
+## 1. Beta Access
+Company grants Tester access to [Product Name] in its pre-release ("beta") form, solely for testing and providing feedback, not for commercial use or resale.
+
+## 2. No Warranty
+The beta product is provided "as is," may contain bugs or incomplete features, and Company makes no warranty regarding its performance or reliability.
+
+## 3. Feedback
+Tester agrees to provide feedback on [Frequency/format], and grants Company the right to use this feedback to improve the product without any obligation to compensate Tester or attribute the feedback.
+
+## 4. Confidentiality
+Tester will keep confidential any non-public information about the beta product, including its existence, features, and Tester's access, until Company publicly releases the product or authorizes disclosure.
+
+## 5. Data Collection
+[Describe any usage data collected during beta testing, and how it will be used, consistent with Company's privacy policy.]
+
+## 6. No Guarantee of Future Access
+Beta access does not guarantee Tester will receive the final product for free or at a discount, unless separately agreed.
+
+## 7. Term
+This Agreement ends when the beta period concludes or is terminated by either party at any time.
+
+---
+Company: ______________________  Date: ____________
+Beta Tester: ______________________  Date: ____________
+
+*Being explicit that beta access doesn't guarantee free or discounted access to the final release (Section 6) prevents a common misunderstanding — many testers assume their early participation earns them something beyond the testing experience itself, unless a company specifically offers that as an incentive.*`,
+  },
+  {
+    slug: "bulk-sale-agreement-template",
+    name: "Bulk Sale Agreement",
+    seoTitle: "Free Bulk Sale Agreement Template",
+    description: "Free bulk sale agreement template for selling a large portion of a business's inventory or assets outside the ordinary course of business.",
+    category: "Business",
+    bodyMarkdown: `# Bulk Sale Agreement
+
+**Seller:** [Business Name] · **Buyer:** [Name] · **Date:** [Date]
+
+## 1. Sale
+Seller agrees to sell to Buyer, in a single transaction outside the ordinary course of Seller's business, the bulk of Seller's [inventory/equipment/other business assets], as listed in Exhibit A, for a total price of [Amount].
+
+## 2. Bulk Sales Compliance
+[If applicable under the buyer's/seller's state law: the parties will comply with any applicable state bulk sales law/notice requirements, which may require notifying Seller's creditors before the sale closes.]
+
+## 3. Seller's Warranties
+Seller warrants it has good title to the assets, free of liens except: [List, or "none"], and that the assets are as described.
+
+## 4. Creditors and Liabilities
+Buyer does not assume any of Seller's liabilities or debts except: [List any specifically assumed, or "none"]. This is an asset sale, not an assumption of Seller's business as a going concern with its liabilities.
+
+## 5. Closing
+Closing will occur on [Date], with Seller delivering possession of the assets and Buyer delivering payment.
+
+## 6. Use of Proceeds (if creditor notice required)
+[If bulk sales law applies, describe how proceeds will be held/distributed to satisfy Seller's creditors before Buyer takes clear title.]
+
+---
+Seller: ______________________  Date: ____________
+Buyer: ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. Most US states have repealed their old bulk sales laws (Article 6 of the UCC), but a few states still require notifying the seller's creditors before a large asset sale closes — skipping a required notice in those states can leave the buyer liable for the seller's unpaid debts.*`,
+  },
+  {
+    slug: "term-sheet-template",
+    name: "Term Sheet",
+    seoTitle: "Free Investment Term Sheet Template",
+    description: "Free term sheet template outlining the key proposed terms of an investment or financing deal before definitive legal documents are drafted.",
+    category: "Business",
+    bodyMarkdown: `# Term Sheet
+
+**Company:** [Company Name] · **Investor:** [Name/Fund] · **Date:** [Date]
+
+*This term sheet summarizes the principal terms proposed for a potential investment. Except for the Confidentiality and Exclusivity sections below, this term sheet is non-binding and subject to definitive documentation and due diligence.*
+
+## Investment
+Amount: [Amount] · Instrument: [ ] Priced equity (preferred stock) [ ] SAFE [ ] Convertible note
+Pre-money valuation: [Amount] (if priced) / Valuation cap: [Amount] (if SAFE/note)
+
+## Key Terms
+- Discount rate (if SAFE/note): [%]
+- Liquidation preference: [e.g. 1x non-participating]
+- Board seats: [Number allocated to Investor, if any]
+- Pro-rata rights: [Investor's right to participate in future rounds]
+- Information rights: [Financial reporting Investor will receive]
+
+## Conditions to Closing
+[ ] Satisfactory completion of due diligence
+[ ] Definitive documents executed
+[ ] [Other conditions specific to this deal]
+
+## Exclusivity
+Company agrees not to solicit or negotiate competing investment offers for [Period] from the date of this term sheet.
+
+## Confidentiality
+Both parties will keep the terms of this term sheet confidential, except as required for legal/tax advice or regulatory purposes.
+
+## Expenses
+[State whether Company covers Investor's legal fees up to a cap, a common convention in venture financings.]
+
+---
+Company: ______________________  Date: ____________
+Investor: ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. The exclusivity and confidentiality clauses ARE typically binding even though the rest of a term sheet isn't — read those two sections carefully, since agreeing to an exclusivity period can prevent a founder from talking to other investors while this deal is being finalized.*`,
+  },
+  {
+    slug: "assignment-of-commercial-lease-template",
+    name: "Assignment of Commercial Lease",
+    seoTitle: "Free Assignment of Commercial Lease Template",
+    description: "Free assignment of commercial lease template — a commercial tenant transfers their entire remaining lease interest to a new business tenant.",
+    category: "Real Estate",
+    bodyMarkdown: `# Assignment of Commercial Lease
+
+**Assignor (Original Tenant):** [Name] · **Assignee (New Tenant):** [Name]
+**Landlord:** [Name] · **Property:** [Address, suite/unit] · **Original Lease Date:** [Date] · **Assignment Date:** [Date]
+
+## 1. Assignment
+Assignor transfers and assigns to Assignee all of Assignor's rights and obligations under the commercial lease referenced above, for the remainder of its term.
+
+## 2. Landlord's Consent
+This assignment is effective only upon Landlord's written consent below, as required under most commercial leases.
+
+## 3. Assignee's Assumption
+Assignee assumes all of Assignor's obligations under the original lease, including rent, permitted use restrictions, and maintenance obligations, effective as of the assignment date.
+
+## 4. Continuing Liability
+[ ] Assignor is fully released from further liability under the lease upon Landlord's consent.
+[ ] Assignor remains secondarily liable (a guarantor of Assignee's performance) unless Landlord agrees otherwise in writing — the more common outcome for commercial assignments.
+
+## 5. Security Deposit
+[State how the existing security deposit is handled — transferred to Assignee's credit, or returned to Assignor with a new deposit collected from Assignee.]
+
+## 6. Business Use
+Assignee will operate [Business type], consistent with the permitted use clause in the original lease, or as separately approved by Landlord.
+
+---
+Assignor: ______________________  Date: ____________
+Assignee: ______________________  Date: ____________
+Landlord (consent): ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. Most commercial leases require the landlord's consent for assignment and often state the landlord "may not unreasonably withhold" it — but what counts as reasonable is frequently litigated, so a tenant planning to assign a lease should review the exact consent standard in their specific lease before assuming approval is automatic.*`,
+  },
+  {
+    slug: "commercial-warranty-deed-template",
+    name: "Commercial Warranty Deed",
+    seoTitle: "Free Commercial Warranty Deed Template",
+    description: "Free commercial warranty deed template — the seller guarantees clear title when transferring ownership of a commercial property.",
+    category: "Real Estate",
+    bodyMarkdown: `# Commercial Warranty Deed
+
+**Grantor (Seller):** [Name] · **Grantee (Buyer):** [Name]
+**Property:** [Address/Legal Description] · **Date:** [Date]
+
+## 1. Conveyance
+For consideration of [Amount], Grantor sells and conveys to Grantee the commercial property described above, together with all improvements and appurtenances.
+
+## 2. Warranty of Title
+Grantor warrants and will defend title to the property against the lawful claims of all persons, and warrants that the property is free of all liens and encumbrances except: [List permitted exceptions — e.g. existing easements, recorded restrictions, current year's taxes].
+
+## 3. Covenants
+Grantor covenants that: (a) Grantor has good right and lawful authority to sell the property, (b) Grantor has done nothing to encumber the property except as disclosed above, and (c) Grantor will execute further documents reasonably needed to perfect Grantee's title.
+
+## 4. Permitted Exceptions
+This conveyance is subject to: [zoning ordinances, recorded easements, restrictive covenants, current taxes not yet delinquent — list specifically].
+
+---
+Grantor signature: ______________________  Date: ____________
+
+**Notarization:**
+State of [State], County of [County]
+Subscribed and sworn before me this ____ day of __________, 20__.
+Notary Public: ______________________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. Unlike a quitclaim deed, a warranty deed makes the seller legally responsible if a title defect surfaces later — commercial buyers should still obtain title insurance regardless, since a seller's warranty is only as good as their ability to pay if a claim ever arises.*`,
+  },
+  {
+    slug: "waiver-of-notice-and-consent-template",
+    name: "Waiver of Notice and Consent",
+    seoTitle: "Free Waiver of Notice and Consent Template",
+    description: "Free waiver of notice and consent template — a corporate director or shareholder waives formal advance notice of a meeting and consents to the business conducted.",
+    category: "Business",
+    bodyMarkdown: `# Waiver of Notice and Consent
+
+**Company:** [Company Name] · **Meeting:** [Board of Directors/Shareholders] Meeting held on [Date]
+
+The undersigned, being a [director/shareholder] of [Company Name], hereby:
+
+## 1. Waives Notice
+Waives any right to formal advance written notice of the time, place, and purpose of the above-referenced meeting, as may otherwise be required by the Company's bylaws or applicable law.
+
+## 2. Consents to Business Conducted
+Consents to the transaction of business at the meeting and ratifies all actions taken and resolutions adopted at that meeting as if proper notice had been given.
+
+## 3. Effect
+This waiver has the same legal effect as if the undersigned had received timely, formal notice of the meeting in full compliance with the Company's governing documents.
+
+---
+Signature: ______________________  Date: ____________
+[Name, Title]
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. Small or closely-held companies often skip formal meeting notices entirely and rely on a signed waiver like this instead — collecting one from every director/shareholder before the meeting (or right after, ratifying it) is a simple, low-cost way to keep corporate governance technically compliant.*`,
+  },
+  {
+    slug: "content-distribution-agreement-template",
+    name: "Content Distribution Agreement",
+    seoTitle: "Free Content Distribution Agreement Template",
+    description: "Free content distribution agreement template — a content owner licenses a distributor or platform to distribute their video, audio, or written content.",
+    category: "Business",
+    bodyMarkdown: `# Content Distribution Agreement
+
+**Content Owner:** [Name/Company] · **Distributor:** [Company Name] · **Content:** [Description — series, catalog, publication] · **Date:** [Date]
+
+## 1. Grant of Distribution Rights
+Content Owner grants Distributor the [exclusive/non-exclusive] right to distribute the Content described above via [Platform/Channel — e.g. streaming platform, syndication, print distribution], within [Territory], for the Term.
+
+## 2. Term and Territory
+Term: [Duration] · Territory: [Worldwide/specific region]
+
+## 3. Revenue Share
+[ ] Distributor pays a flat licensing fee of [Amount].
+[ ] Revenue share of [%] to Content Owner from [subscription/ad/sales revenue] generated by the Content, reported and paid [Frequency].
+
+## 4. Content Delivery
+Content Owner will deliver the Content in the technical format/specifications required by Distributor's platform, by [Date].
+
+## 5. Marketing and Promotion
+[State each party's marketing responsibilities and any minimum promotional commitments from Distributor.]
+
+## 6. Reporting
+Distributor will provide Content Owner with [Frequency] reports on distribution metrics (views, sales, revenue) relevant to the revenue share.
+
+## 7. Ownership
+Content Owner retains all underlying ownership and copyright in the Content; this Agreement grants only the distribution rights described above.
+
+## 8. Removal/Takedown
+[State the process if either party needs the Content removed — e.g. legal claim, breach of this Agreement.]
+
+---
+Content Owner: ______________________  Date: ____________
+Distributor: ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. If revenue share is the compensation model (Section 3), the reporting and audit rights matter as much as the percentage itself — a content owner has no real way to verify they're being paid correctly without the right to periodically review the distributor's underlying sales/usage data.*`,
+  },
 ];
 
 const TEMPLATES_INDEX_FAQ = [
