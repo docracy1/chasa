@@ -21283,6 +21283,1680 @@ Sincerely,
 
 *This document is provided for informational and educational purposes only and does not constitute legal advice. The FCRA requires a two-step process for adverse action based on a background check: a "pre-adverse action" notice with a copy of the report BEFORE the final decision, giving the applicant time to dispute it, followed by this final notice — sending only this final notice without the earlier pre-adverse step is a common and costly compliance mistake.*`,
   },
+  {
+    slug: "vehicle-damage-estimate-form-template",
+    name: "Vehicle Damage Estimate Form",
+    seoTitle: "Free Vehicle Damage Estimate Form Template",
+    description: "Free vehicle damage estimate form template for documenting the estimated cost to repair damage to a vehicle after an accident.",
+    category: "Finance",
+    bodyMarkdown: `# Vehicle Damage Estimate Form
+
+**Vehicle:** [Year, Make, Model] · **VIN:** [VIN] · **Owner:** [Name]
+**Date of Damage:** [Date] · **Estimate Date:** [Date]
+**Prepared by:** [Repair Shop Name]
+
+## Damage Description
+[Description of the damage and its likely cause — e.g. collision, hail, vandalism.]
+
+## Estimated Repair Costs
+
+| Item | Parts | Labor | Total |
+|------|-------|-------|-------|
+| [e.g. Front bumper] | [Amount] | [Amount] | [Amount] |
+| [e.g. Paint/refinish] | [Amount] | [Amount] | [Amount] |
+
+**Subtotal:** [Amount]
+**Tax:** [Amount]
+**Total Estimated Cost: [Amount]**
+
+## Notes
+[Any pre-existing damage excluded from this estimate, or parts availability concerns affecting timeline.]
+
+---
+Prepared by: ______________________  Date: ____________
+
+*Getting more than one estimate before authorizing repairs — especially for a claim being paid by an insurer — is standard practice and can reveal a meaningful price difference between shops for the same scope of work.*`,
+  },
+  {
+    slug: "material-transfer-agreement-template",
+    name: "Material Transfer Agreement",
+    seoTitle: "Free Material Transfer Agreement Template",
+    description: "Free material transfer agreement template for transferring physical materials (samples, prototypes, biological material) between organizations for a specific purpose.",
+    category: "Business",
+    bodyMarkdown: `# Material Transfer Agreement
+
+**Provider:** [Organization Name] · **Recipient:** [Organization Name] · **Date:** [Date]
+
+## 1. Material
+Provider agrees to transfer the following material to Recipient: [Description of material].
+
+## 2. Permitted Use
+Recipient will use the Material solely for [specific purpose, e.g. "internal research and evaluation"] and will not use it for any commercial purpose without a separate written agreement.
+
+## 3. No Further Transfer
+Recipient will not transfer the Material to any third party without Provider's prior written consent.
+
+## 4. Ownership
+Provider retains ownership of the Material and any unmodified derivatives. [State how modifications or new discoveries resulting from use of the Material are handled, if relevant.]
+
+## 5. No Warranty
+The Material is provided "as is," without any warranty of merchantability, fitness for a particular purpose, or non-infringement.
+
+## 6. Publication (if applicable)
+[State whether Recipient may publish results derived from the Material, and any review rights Provider retains.]
+
+## 7. Term
+This Agreement remains in effect until [Date/event], after which Recipient will [return or destroy] any remaining Material.
+
+---
+Provider: ______________________  Date: ____________
+Recipient: ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. Material transfer agreements are especially common (and often required by institutional policy) in academic and biotech research — confirm what ownership and publication rights your institution requires before agreeing to terms that might restrict your ability to publish results.*`,
+  },
+  {
+    slug: "lease-addendum-template",
+    name: "Lease Addendum",
+    seoTitle: "Free Lease Addendum Template",
+    description: "Free lease addendum template for adding a new term to an existing lease without rewriting the entire agreement.",
+    category: "Real Estate",
+    bodyMarkdown: `# Lease Addendum
+
+**Addendum to Lease dated:** [Original Lease Date]
+**Property:** [Address] · **Landlord:** [Name] · **Tenant:** [Name]
+**Addendum Date:** [Date]
+
+## Purpose
+This Addendum modifies the lease referenced above as follows. All other terms of the original lease remain unchanged and in full effect.
+
+## Added/Modified Terms
+[Describe the specific change — e.g. "Tenant is permitted to keep one dog, breed [Breed], under 30 lbs, subject to a $[Amount] pet deposit" or "Rent is adjusted to $[Amount] effective [Date]."]
+
+## Effective Date
+This Addendum is effective as of [Date].
+
+---
+Landlord: ______________________  Date: ____________
+Tenant: ______________________  Date: ____________
+
+*Using a short addendum for a single, specific change (rather than rewriting and re-signing the whole lease) is faster for both parties — just make sure it clearly references the original lease so there's no ambiguity about which terms now govern.*`,
+  },
+  {
+    slug: "hot-work-permit-template",
+    name: "Hot Work Permit",
+    seoTitle: "Free Hot Work Permit Template",
+    description: "Free hot work permit template — authorizes welding, cutting, or other spark-producing work in a facility, with required fire safety precautions.",
+    category: "Legal",
+    bodyMarkdown: `# Hot Work Permit
+
+**Location:** [Specific area] · **Date/Time of Work:** [Date, Time Window]
+**Worker(s):** [Name(s)] · **Type of Work:** [Welding/Cutting/Grinding/etc.]
+
+## Pre-Work Checklist
+[ ] Combustible materials removed or shielded within 35 feet
+[ ] Fire extinguisher present and accessible
+[ ] Fire watch assigned during and for [30-60] minutes after work
+[ ] Sprinkler system operational (not impaired)
+[ ] Floors swept clean of combustible material
+[ ] Openings/cracks in walls and floors covered
+
+## Authorization
+This permit authorizes the hot work described above, subject to the precautions checked. Work must stop immediately if conditions become unsafe.
+
+---
+Requested by: ______________________  Date: ____________
+Authorized by (Fire Safety/Supervisor): ______________________  Date: ____________
+Fire watch completed by: ______________________  Time: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal or safety advice. Hot work is a leading cause of industrial fires — most insurance policies and fire codes require a permit like this, with a documented fire watch, before welding or cutting work begins in any area not specifically designed for it.*`,
+  },
+  {
+    slug: "share-certificate-template",
+    name: "Share Certificate",
+    seoTitle: "Free Share Certificate Template",
+    description: "Free share certificate template — documents a shareholder's ownership of a specific number of shares in a corporation.",
+    category: "Finance",
+    bodyMarkdown: `# Share Certificate
+
+**Certificate No.:** [Number]
+**[Company Name]**
+**Incorporated under the laws of [State/Jurisdiction]**
+
+This certifies that **[Shareholder Name]** is the registered owner of **[Number]** shares of [Common/Preferred] Stock, par value [$Amount] per share, of [Company Name], transferable only on the books of the Company by the holder in person or by duly authorized attorney, upon surrender of this certificate properly endorsed.
+
+## Restrictions (if applicable)
+[Note any transfer restrictions — e.g. "These shares are subject to a Shareholders' Agreement dated [Date] and may not be transferred except as permitted therein."]
+
+---
+Issued: [Date]
+
+_________________________          _________________________
+[President/CEO]                                    [Secretary]
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. Many startups issue shares in uncertificated (electronic) form via their cap table software rather than paper certificates — check what your state's corporate law and your own bylaws actually require before issuing a physical certificate.*`,
+  },
+  {
+    slug: "employee-relocation-checklist-template",
+    name: "Employee Relocation Checklist",
+    seoTitle: "Free Employee Relocation Checklist Template",
+    description: "Free employee relocation checklist template for coordinating an employee's move for a new job assignment.",
+    category: "HR",
+    bodyMarkdown: `# Employee Relocation Checklist
+
+**Employee:** [Name] · **New Location:** [City] · **Target Move Date:** [Date]
+
+## Company Responsibilities
+[ ] Relocation package terms confirmed in writing (budget, covered expenses)
+[ ] Moving company arranged or reimbursement process explained
+[ ] Temporary housing arranged, if needed
+[ ] Home sale/lease-break assistance discussed, if applicable
+[ ] New work location logistics (parking, badge, desk) arranged
+
+## Employee Responsibilities
+[ ] Current lease/mortgage notice given
+[ ] Utilities transferred/cancelled
+[ ] Address updated with bank, DMV, employer, subscriptions
+[ ] School enrollment arranged (if applicable)
+[ ] Moving company/truck booked
+
+## Budget Tracking
+| Expense | Estimated | Actual | Covered by Company? |
+|---------|---------------|------------|--------------------------|
+| [Item] | [Amount] | [Amount] | [Yes/No] |
+
+## Key Dates
+Lease end date: [Date] · Moving day: [Date] · Start date at new location: [Date]
+
+*Confirming the relocation budget and what's covered IN WRITING before the move starts (not verbally) avoids disputes later about which expenses are reimbursable.*`,
+  },
+  {
+    slug: "trading-partner-agreement-template",
+    name: "Trading Partner Agreement",
+    seoTitle: "Free Trading Partner Agreement Template",
+    description: "Free trading partner agreement template — establishes the terms for exchanging electronic business documents (EDI) between two companies.",
+    category: "Business",
+    bodyMarkdown: `# Trading Partner Agreement
+
+**Party A:** [Company Name] · **Party B:** [Company Name] · **Effective Date:** [Date]
+
+## 1. Purpose
+The parties agree to exchange business documents (e.g. purchase orders, invoices, shipping notices) electronically, in the format(s) specified below, in connection with their ongoing business relationship.
+
+## 2. Document Standards
+Documents will be exchanged in [Format — e.g. EDI X12, EDIFACT, or a specified API/file format], via [Transmission method — e.g. AS2, SFTP, VAN].
+
+## 3. Document Types Covered
+[List — e.g. Purchase Order (850), Invoice (810), Advance Ship Notice (856)]
+
+## 4. Validity of Electronic Documents
+The parties agree that documents exchanged under this Agreement have the same legal effect as documents in paper form bearing original signatures.
+
+## 5. Data Accuracy
+Each party is responsible for the accuracy of the data it transmits and will promptly correct and retransmit any erroneous documents.
+
+## 6. Confidentiality and Security
+Each party will maintain reasonable security measures to protect data exchanged under this Agreement.
+
+## 7. Term and Termination
+This Agreement runs for [Term] and may be terminated by either party with [Notice Period] notice.
+
+---
+Party A: ______________________  Date: ____________
+Party B: ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. Getting Section 4 right matters — most jurisdictions recognize EDI/electronic documents as legally binding, but confirming this explicitly in the agreement avoids a dispute over whether an electronically-transmitted purchase order was actually a valid, enforceable order.*`,
+  },
+  {
+    slug: "missed-appointment-letter-template",
+    name: "Missed Appointment Letter",
+    seoTitle: "Free Missed Appointment Letter Template",
+    description: "Free missed appointment letter template for notifying a client or patient they missed a scheduled appointment and outlining next steps.",
+    category: "Business",
+    bodyMarkdown: `# Missed Appointment Letter
+
+[Date]
+
+Dear [Client/Patient Name],
+
+We noticed you were unable to make your appointment scheduled for [Date, Time] with [Provider/Staff Name]. We wanted to check in and see if you'd like to reschedule.
+
+## Missed Appointment Policy
+[If applicable: "Per our policy, a missed appointment without 24 hours' notice may incur a fee of [Amount]." Only include if this is your actual policy and the client was informed in advance.]
+
+## Rescheduling
+Please contact us at [Phone/Email] at your convenience to book a new time. We have availability on [Suggested dates/times, if helpful].
+
+We look forward to seeing you soon.
+
+Sincerely,
+[Name/Practice/Business]
+
+*Following up promptly and warmly (not with an immediate fee notice) on a first missed appointment builds goodwill — save the firmer, fee-referencing version for a pattern of repeated no-shows.*`,
+  },
+  {
+    slug: "affidavit-of-undertaking-template",
+    name: "Affidavit of Undertaking",
+    seoTitle: "Free Affidavit of Undertaking Template",
+    description: "Free affidavit of undertaking template — a sworn statement in which the affiant formally commits to doing or refraining from a specific act.",
+    category: "Legal",
+    bodyMarkdown: `# Affidavit of Undertaking
+
+**State of [State]**
+**County of [County]**
+
+I, [Affiant Name], being duly sworn, depose and state:
+
+## 1. Background
+[Brief factual context for why this undertaking is being made — e.g. in connection with a specific transaction or legal matter.]
+
+## 2. Undertaking
+I hereby undertake and commit to [specific action — e.g. "complete the repairs described in Exhibit A within 30 days" or "not dispose of the assets described below pending resolution of the matter referenced above"].
+
+## 3. Consequence of Breach
+I understand that failure to fulfill this undertaking may result in [consequence — e.g. legal action, forfeiture, contempt proceedings, as applicable].
+
+---
+Affiant signature: ______________________  Date: ____________
+
+**Notarization:**
+Subscribed and sworn before me this ____ day of __________, 20__.
+Notary Public: ______________________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. An affidavit of undertaking is often submitted to a court or counterparty as a condition of some other benefit (e.g. avoiding an injunction) — the exact wording required is usually dictated by the specific legal context, so have it reviewed by an attorney before relying on it.*`,
+  },
+  {
+    slug: "contractor-safety-policy-template",
+    name: "Contractor Safety Policy",
+    seoTitle: "Free Contractor Safety Policy Template",
+    description: "Free contractor safety policy template establishing the safety requirements a company expects from outside contractors working on its site.",
+    category: "Legal",
+    bodyMarkdown: `# Contractor Safety Policy
+
+**Company:** [Company Name] · **Effective Date:** [Date]
+
+## Purpose
+This policy establishes minimum safety requirements for all contractors performing work on [Company Name]'s premises.
+
+## Pre-Work Requirements
+- [ ] Proof of general liability and workers' compensation insurance on file
+- [ ] Site-specific safety orientation completed
+- [ ] Required permits obtained (e.g. hot work, confined space) before work begins
+
+## On-Site Requirements
+- Personal protective equipment (PPE) worn as required for the task
+- All incidents, injuries, and near-misses reported to [Site Contact] immediately
+- Hazardous materials brought on-site disclosed in advance, with SDS provided
+- Work areas kept clean and hazards clearly marked
+
+## Company's Right to Stop Work
+[Company Name] reserves the right to stop any work that it reasonably believes poses an immediate safety risk, without liability to the contractor for resulting delay.
+
+## Violations
+Repeated or serious safety violations may result in removal from the site and termination of the contract.
+
+---
+Contractor acknowledgment: ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. A company that exercises too much day-to-day control over a contractor's safety practices can risk that contractor being reclassified as an employee — keep this policy focused on minimum safety standards rather than directing exactly how the work gets done.*`,
+  },
+  {
+    slug: "letter-of-reprimand-template",
+    name: "Letter of Reprimand",
+    seoTitle: "Free Letter of Reprimand Template",
+    description: "Free letter of reprimand template — a formal, documented correction for a specific workplace issue, earlier in the disciplinary process than a final warning.",
+    category: "HR",
+    bodyMarkdown: `# Letter of Reprimand
+
+**Employee:** [Name] · **Date:** [Date]
+**Issued by:** [Manager Name]
+
+## Issue
+On [Date], [describe the specific incident or performance/conduct issue factually — what happened, where, and its impact].
+
+## Policy or Expectation Not Met
+This conduct does not meet [Company Name]'s expectations regarding [specific policy or standard, referenced by name/section if applicable].
+
+## Required Corrective Action
+Going forward, you are expected to [specific, measurable expectation].
+
+## Consequences of Continued Issues
+This letter serves as formal notice. Continued issues of this nature may result in further disciplinary action, up to and including termination, in accordance with [Company Name]'s progressive discipline policy.
+
+## Employee Response
+[Space for employee's comments]
+
+---
+Employee signature: ______________________  Date: ____________
+*(Signature acknowledges receipt, not necessarily agreement.)*
+Manager signature: ______________________  Date: ____________
+
+*A reprimand is typically an earlier, milder step than a final warning — using the right level of formality for a first-time issue keeps the progressive discipline process credible if a more serious step is needed later.*`,
+  },
+  {
+    slug: "certificate-of-free-sale-template",
+    name: "Certificate of Free Sale",
+    seoTitle: "Free Certificate of Free Sale Template",
+    description: "Free certificate of free sale template — certifies that a product is legally sold in the country of origin, often required by importing countries.",
+    category: "Business",
+    bodyMarkdown: `# Certificate of Free Sale
+
+**Issuing Company:** [Company Name] · **Date:** [Date]
+
+This is to certify that the product(s) listed below are freely and legally sold in [Country of Origin] and comply with all applicable domestic regulations governing their sale.
+
+## Product(s)
+| Product Name | Product Code/SKU | Manufacturer |
+|-------------------|------------------------|-------------------|
+| [Product] | [Code] | [Manufacturer] |
+
+## Certification
+[Company Name] certifies that the above product(s) are manufactured in accordance with, and are freely sold under, the applicable laws and regulations of [Country], and are not subject to any restriction on sale in that market.
+
+## Purpose
+This certificate is issued for use in connection with the export/registration of the above product(s) in [Destination Country], upon the request of [Requesting Party].
+
+---
+Authorized signature: ______________________  Date: ____________
+[Name, Title, Company]
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. Many countries require this certificate to be authenticated or apostilled by a government authority (such as a Chamber of Commerce or the FDA for certain US products) before it will be accepted by customs or a regulatory body abroad — a self-issued version alone is often not sufficient.*`,
+  },
+  {
+    slug: "bank-account-closure-letter-template",
+    name: "Bank Account Closure Letter",
+    seoTitle: "Free Bank Account Closure Letter Template",
+    description: "Free bank account closure letter template for formally requesting a bank to close an account.",
+    category: "Finance",
+    bodyMarkdown: `# Bank Account Closure Letter
+
+[Date]
+
+[Bank Name]
+[Branch Address]
+
+**RE: Request to Close Account #[Account Number]**
+
+Dear [Bank Representative/Branch Manager],
+
+I am writing to request the closure of my [checking/savings] account, #[Account Number], held at your [Branch Name] branch.
+
+## Instructions
+Please transfer the remaining balance of the account, once all pending transactions have cleared, via [Method — e.g. cashier's check mailed to the address below, or transfer to account #XXXX].
+
+## Confirmation
+Please confirm in writing once the account has been closed and provide a final statement for my records.
+
+Thank you for your assistance.
+
+Sincerely,
+[Your Name]
+[Contact Information]
+
+*Confirming there are no pending auto-payments or direct deposits tied to the account (and redirecting them first) avoids a returned payment or an account that won't actually close cleanly.*`,
+  },
+  {
+    slug: "job-requisition-form-template",
+    name: "Job Requisition Form",
+    seoTitle: "Free Job Requisition Form Template",
+    description: "Free job requisition form template for a hiring manager to formally request approval to open a new position.",
+    category: "HR",
+    bodyMarkdown: `# Job Requisition Form
+
+**Requested by:** [Manager Name] · **Department:** [Department] · **Date:** [Date]
+
+## Position Details
+Job title: [Title] · Reporting to: [Manager] · Employment type: [Full-time/Part-time/Contract]
+New position or replacement? [ ] New  [ ] Replacement for: [Name]
+
+## Justification
+[Why this role is needed now — growth, workload, backfill.]
+
+## Budget
+Approved salary range: [Range] · Budgeted? [ ] Yes  [ ] Requires budget approval
+
+## Requirements
+Key qualifications: [Summary] · Target start date: [Date]
+
+## Approval
+
+| Role | Name | Approved? | Date |
+|------|------|----------------|------|
+| Department Head | [Name] | [ ] Yes [ ] No | [Date] |
+| HR | [Name] | [ ] Yes [ ] No | [Date] |
+| Finance/Budget Owner | [Name] | [ ] Yes [ ] No | [Date] |
+
+*Getting budget sign-off BEFORE a role is posted (not after candidates are already in the pipeline) avoids the awkward situation of having to pause or cancel a search mid-process.*`,
+  },
+  {
+    slug: "dock-receipt-template",
+    name: "Dock Receipt",
+    seoTitle: "Free Dock Receipt Template",
+    description: "Free dock receipt template — confirms goods have been received at a port or terminal for export shipment, prior to loading.",
+    category: "Business",
+    bodyMarkdown: `# Dock Receipt
+
+**Shipper:** [Name] · **Consignee:** [Name]
+**Carrier:** [Name] · **Vessel/Voyage:** [Details]
+**Port of Loading:** [Port] · **Date Received:** [Date]
+
+## Cargo Description
+| Marks/Numbers | Number of Packages | Description of Goods | Weight | Measurement |
+|--------------------|--------------------------|----------------------------|--------|-------------------|
+| [Marks] | [Number] | [Description] | [Weight] | [Measurement] |
+
+## Condition on Receipt
+[ ] Received in apparent good order and condition
+[ ] Exceptions noted: [Describe any damage/shortage]
+
+## Certification
+This receipt confirms the above cargo was received at the terminal described, for loading aboard the vessel/voyage named, subject to the terms of the applicable bill of lading.
+
+---
+Terminal/Carrier representative: ______________________  Date: ____________
+
+*A dock receipt is the terminal's proof of receipt before the goods are actually loaded — checking it carefully against your packing list (and flagging exceptions immediately) is your last chance to document any pre-existing damage before it becomes the carrier's responsibility.*`,
+  },
+  {
+    slug: "personal-reference-form-template",
+    name: "Personal Reference Form",
+    seoTitle: "Free Personal Reference Form Template",
+    description: "Free personal reference form template for someone providing a character reference for an individual, outside of an employment context.",
+    category: "Business",
+    bodyMarkdown: `# Personal Reference Form
+
+**Reference for:** [Applicant Name] · **Date:** [Date]
+
+## Your Information
+Name: [Name] · Relationship to applicant: [Relationship] · Years known: [Number]
+Contact: [Phone/Email]
+
+## Assessment
+How would you describe the applicant's character? [Response]
+
+How would you describe their reliability and trustworthiness? [Response]
+
+Are you aware of anything that would make you hesitant to recommend this person? [Yes/No, explain if yes]
+
+## Overall Recommendation
+[ ] Highly recommend  [ ] Recommend  [ ] Recommend with reservations  [ ] Do not recommend
+
+## Additional Comments
+[Open-ended space]
+
+---
+Reference signature: ______________________  Date: ____________
+
+*A personal reference (used for things like tenant screening or volunteer roles) is different from an employment reference — it speaks to character rather than job performance, so ask questions suited to that purpose.*`,
+  },
+  {
+    slug: "research-and-development-agreement-template",
+    name: "Research and Development Agreement",
+    seoTitle: "Free Research and Development Agreement Template",
+    description: "Free R&D agreement template for two companies collaborating on research and development, covering funding, IP ownership, and deliverables.",
+    category: "Business",
+    bodyMarkdown: `# Research and Development Agreement
+
+**Party A (Sponsor):** [Company Name] · **Party B (Developer):** [Company Name] · **Date:** [Date]
+
+## 1. Project Scope
+Party B will conduct research and development on: [Description of the project/technology].
+
+## 2. Funding
+Party A will fund the project in the amount of [Amount], paid [Schedule/milestones].
+
+## 3. Deliverables and Milestones
+| Milestone | Description | Target Date |
+|---------------|------------------|------------------|
+| [Milestone 1] | [Description] | [Date] |
+| [Milestone 2] | [Description] | [Date] |
+
+## 4. Intellectual Property
+[State ownership of resulting IP — e.g. "IP resulting from the project is owned by Party A" / "jointly owned" / "owned by Party B, with Party A receiving an exclusive license." This is the most heavily negotiated term in most R&D agreements.]
+
+## 5. Confidentiality
+Both parties will keep confidential information shared during the project confidential, using at least the same care they use for their own confidential information.
+
+## 6. Reporting
+Party B will provide [Frequency] progress reports to Party A.
+
+## 7. Term and Termination
+This Agreement runs until project completion or [Date], and either party may terminate for material breach not cured within [Cure Period].
+
+---
+Party A: ______________________  Date: ____________
+Party B: ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. The IP ownership clause (Section 4) is worth getting right before work starts, not after a valuable discovery is made — disputes over who owns R&D output are far more common and costly than disputes over funding amounts.*`,
+  },
+  {
+    slug: "broker-carrier-agreement-template",
+    name: "Broker-Carrier Agreement",
+    seoTitle: "Free Broker-Carrier Agreement Template",
+    description: "Free broker-carrier agreement template — a freight broker engages a motor carrier to transport freight on behalf of shippers.",
+    category: "Business",
+    bodyMarkdown: `# Broker-Carrier Agreement
+
+**Broker:** [Company Name] · **Carrier:** [Company Name] · **Effective Date:** [Date]
+
+## 1. Engagement
+Broker may tender freight to Carrier for transportation, and Carrier may accept or decline individual loads at its discretion, via a rate confirmation for each shipment.
+
+## 2. Carrier's Authority and Insurance
+Carrier represents that it holds valid operating authority from [FMCSA/applicable regulator] and maintains cargo insurance of at least [Amount] and auto liability insurance of at least [Amount].
+
+## 3. Rate Confirmations
+Each shipment will be governed by a separate rate confirmation specifying the rate, pickup/delivery details, and any special instructions, which becomes part of this Agreement upon Carrier's acceptance.
+
+## 4. Payment Terms
+Broker will pay Carrier within [Number] days of receiving a signed, undamaged proof of delivery and invoice.
+
+## 5. Carrier's Responsibilities
+Carrier will transport freight safely, on time, and in the condition received, and will notify Broker immediately of any delay, damage, or loss.
+
+## 6. Independent Contractor Relationship
+Carrier is an independent contractor, not an employee or agent of Broker.
+
+## 7. Term and Termination
+This Agreement continues until terminated by either party with [Notice Period] written notice.
+
+---
+Broker: ______________________  Date: ____________
+Carrier: ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. Freight brokers are required to verify a carrier's active operating authority and insurance before tendering loads — using an unauthorized or underinsured carrier can expose the broker to liability if something goes wrong in transit.*`,
+  },
+  {
+    slug: "banquet-event-order-template",
+    name: "Banquet Event Order",
+    seoTitle: "Free Banquet Event Order (BEO) Template",
+    description: "Free banquet event order template — the master document a venue uses to coordinate all details of a catered event.",
+    category: "Business",
+    bodyMarkdown: `# Banquet Event Order
+
+**Event:** [Name] · **Client:** [Name] · **Date:** [Date]
+**Venue/Room:** [Location] · **Guest Count:** [Number]
+
+## Schedule
+| Time | Activity |
+|------|----------|
+| [Time] | Setup complete |
+| [Time] | Guest arrival |
+| [Time] | [Meal service/program item] |
+| [Time] | Event end / breakdown |
+
+## Food and Beverage
+| Item | Quantity | Notes |
+|------|----------|-------|
+| [Menu item] | [Quantity] | [Dietary notes] |
+
+## Room Setup
+Layout: [Rounds of 10/theater/classroom/etc.] · Linens: [Color] · AV needs: [List]
+
+## Vendor Contacts
+[Florist, DJ, photographer, etc. — name and arrival time for each]
+
+## Billing
+Estimated total: [Amount] · Deposit received: [Amount] · Balance due: [Amount], due [Date]
+
+---
+Client approval: ______________________  Date: ____________
+Venue coordinator: ______________________  Date: ____________
+
+*A BEO is the single reference document every staff member touching the event works from — getting the client's final signature on it (not just a verbal confirmation) is what prevents last-minute disputes about headcount or menu changes.*`,
+  },
+  {
+    slug: "employee-physical-form-template",
+    name: "Employee Physical Form",
+    seoTitle: "Free Employee Physical Exam Form Template",
+    description: "Free employee physical exam form template for documenting a pre-employment or job-related medical fitness evaluation.",
+    category: "HR",
+    bodyMarkdown: `# Employee Physical Examination Form
+
+**Employee/Applicant:** [Name] · **Position:** [Title] · **Date of Exam:** [Date]
+**Examining Physician:** [Name, Practice]
+
+## Purpose of Exam
+[ ] Pre-employment (post-offer)  [ ] Return-to-work  [ ] Periodic/job-required (e.g. DOT)
+
+## Job Demands Reviewed
+[Brief description of physical job demands the physician evaluated against — lifting requirements, standing/sitting, etc.]
+
+## Determination
+[ ] Fit for duty without restriction
+[ ] Fit for duty with the following restrictions: [Describe]
+[ ] Not fit for duty at this time
+
+## Physician Certification
+I certify that I have examined the above individual and the determination above reflects my professional medical judgment.
+
+---
+Physician signature: ______________________  Date: ____________
+[License Number]
+
+*This document is provided for informational and educational purposes only and does not constitute legal or medical advice. Under the ADA, a pre-employment physical can only be required AFTER a conditional job offer has been made, and only if required of all entering employees in the same job category — requiring one earlier in the process is a common compliance mistake.*`,
+  },
+  {
+    slug: "bad-debt-write-off-policy-template",
+    name: "Bad Debt Write-Off Policy",
+    seoTitle: "Free Bad Debt Write-Off Policy Template",
+    description: "Free bad debt write-off policy template establishing when and how a company writes off uncollectible accounts receivable.",
+    category: "Finance",
+    bodyMarkdown: `# Bad Debt Write-Off Policy
+
+**Company:** [Company Name] · **Effective Date:** [Date]
+
+## Purpose
+This policy establishes the criteria and process for writing off accounts receivable deemed uncollectible.
+
+## Criteria for Write-Off
+An account may be considered for write-off when:
+- It is more than [Number] days past due, AND
+- Reasonable collection efforts have been made and documented (at least [Number] contact attempts), AND
+- [Additional criteria — e.g. "the debtor is bankrupt, deceased, or cannot be located"]
+
+## Approval Thresholds
+| Amount | Required Approval |
+|------------|------------------------|
+| Under [Amount] | [Manager/Controller] |
+| [Amount] – [Amount] | [Finance Director] |
+| Over [Amount] | [CFO/Owner] |
+
+## Accounting Treatment
+Approved write-offs are recorded as bad debt expense in the period approved, per [GAAP/applicable accounting standard], and removed from active accounts receivable.
+
+## Continued Collection Efforts
+[State whether the company will continue pursuing a written-off debt through a collection agency, and how any later recovery is recorded.]
+
+---
+Adopted by: ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal or tax advice. Writing off a debt for accounting purposes doesn't necessarily forgive it legally — many companies continue pursuing written-off debts through collections, and any later recovery needs to be recorded correctly as income.*`,
+  },
+  {
+    slug: "notice-of-privacy-practices-template",
+    name: "Notice of Privacy Practices",
+    seoTitle: "Free Notice of Privacy Practices Template",
+    description: "Free notice of privacy practices template — required under HIPAA, explains how a healthcare provider uses and discloses patient health information.",
+    category: "Legal",
+    bodyMarkdown: `# Notice of Privacy Practices
+
+**[Practice Name]**
+**Effective Date:** [Date]
+
+**THIS NOTICE DESCRIBES HOW MEDICAL INFORMATION ABOUT YOU MAY BE USED AND DISCLOSED AND HOW YOU CAN GET ACCESS TO THIS INFORMATION. PLEASE REVIEW IT CAREFULLY.**
+
+## How We May Use and Disclose Your Health Information
+We may use and disclose your protected health information (PHI) for:
+- **Treatment:** Coordinating your care among providers
+- **Payment:** Billing and collecting payment for services
+- **Healthcare operations:** Quality assessment, training, and business management
+
+## Other Permitted/Required Disclosures
+[As required by law, public health activities, health oversight, judicial proceedings, etc. — list as applicable.]
+
+## Your Rights
+You have the right to:
+- Request restrictions on certain uses/disclosures
+- Receive confidential communications
+- Inspect and copy your health information
+- Request amendments to your record
+- Receive an accounting of certain disclosures
+- Receive a paper copy of this notice
+
+## Our Duties
+We are required by law to maintain the privacy of your PHI, provide this notice, and abide by its terms.
+
+## Complaints
+If you believe your privacy rights have been violated, you may file a complaint with our Privacy Officer at [Contact] or with the U.S. Department of Health and Human Services.
+
+---
+Privacy Officer: [Name] · Contact: [Phone/Email]
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. This is a required document under HIPAA for most healthcare providers, and the actual content must reflect your practice's real data-handling procedures — a generic template alone doesn't satisfy the requirement if what it describes isn't what you actually do.*`,
+  },
+  {
+    slug: "wire-transfer-authorization-form-template",
+    name: "Wire Transfer Authorization Form",
+    seoTitle: "Free Wire Transfer Authorization Form Template",
+    description: "Free wire transfer authorization form template for internally approving an outgoing wire transfer before it's sent.",
+    category: "Finance",
+    bodyMarkdown: `# Wire Transfer Authorization Form
+
+**Requested by:** [Name] · **Date:** [Date]
+
+## Transfer Details
+Amount: [Amount] · Currency: [Currency]
+Recipient name: [Name] · Recipient bank: [Bank Name]
+[Collect account/routing/SWIFT details through your bank's secure portal, not written here.]
+
+## Purpose
+[Business reason for the transfer — e.g. "payment for Invoice #1234."]
+
+## Verification (Critical Fraud Control)
+[ ] Recipient's banking details were verified by phone, using a known/previously-verified number — NOT a number from the email requesting the change.
+[ ] This request was not received via an email requesting urgent action or claiming a change to standard banking details without independent verification.
+
+## Approval
+
+| Role | Name | Approved | Date |
+|------|------|----------------|------|
+| Requestor | [Name] | — | [Date] |
+| Approver (must be different person) | [Name] | [ ] Yes | [Date] |
+
+*The verification checklist above exists because wire fraud ("business email compromise") overwhelmingly succeeds by impersonating a vendor or executive requesting an urgent, unverified change to payment details — a callback to a known number, not a reply to the same email thread, is what actually stops it.*`,
+  },
+  {
+    slug: "loan-participation-agreement-template",
+    name: "Loan Participation Agreement",
+    seoTitle: "Free Loan Participation Agreement Template",
+    description: "Free loan participation agreement template — a lead lender sells a portion of a loan to one or more participating lenders.",
+    category: "Finance",
+    bodyMarkdown: `# Loan Participation Agreement
+
+**Lead Lender:** [Name] · **Participant:** [Name] · **Date:** [Date]
+**Underlying Loan:** [Borrower Name], dated [Date], original principal [Amount]
+
+## 1. Sale of Participation
+Lead Lender sells, and Participant purchases, a [%] participation interest in the Loan, equal to [Amount] of the outstanding principal.
+
+## 2. Servicing
+Lead Lender will continue to service the Loan, including collecting payments, monitoring covenants, and handling any workout or enforcement action, on behalf of both parties.
+
+## 3. Payments to Participant
+Lead Lender will remit Participant's proportionate share of principal and interest payments received from Borrower within [Number] business days of receipt.
+
+## 4. Sharing of Losses
+If Borrower defaults, Participant bears its proportionate share of any loss, in the same percentage as its participation interest.
+
+## 5. No Recourse to Lead Lender
+Except for Lead Lender's gross negligence or willful misconduct in servicing, Participant's participation is without recourse to Lead Lender if Borrower defaults.
+
+## 6. Voting/Consent Rights
+[State whether Participant has any consent rights over loan modifications, waivers, or enforcement decisions — commonly limited for smaller participation shares.]
+
+---
+Lead Lender: ______________________  Date: ____________
+Participant: ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. Loan participations let a lender share risk on a large loan without the borrower even being aware of the arrangement — but the participation agreement itself, not the underlying loan documents, is what defines the participant's actual rights, so it deserves careful review.*`,
+  },
+  {
+    slug: "fundraising-policy-template",
+    name: "Fundraising Policy",
+    seoTitle: "Free Nonprofit Fundraising Policy Template",
+    description: "Free fundraising policy template for a nonprofit — establishes standards for how the organization solicits and accepts donations.",
+    category: "Business",
+    bodyMarkdown: `# Fundraising Policy
+
+**Organization:** [Name] · **Effective Date:** [Date]
+
+## Purpose
+This policy ensures [Organization Name]'s fundraising activities are conducted ethically, legally, and consistently with donor expectations.
+
+## Acceptable Gift Types
+[Organization Name] accepts: [cash, checks, credit card, appreciated securities, in-kind donations]. Gifts of [real estate, complex assets] require Board approval before acceptance.
+
+## Donor Privacy
+Donor information is kept confidential and not sold or shared with third parties, except as required for tax receipting or with the donor's consent.
+
+## Donor Recognition
+[Describe recognition practices, and how donors can opt out of public recognition.]
+
+## Restricted Gifts
+Gifts designated for a specific purpose will be used only for that purpose. If the designated purpose can no longer be fulfilled, [Organization Name] will contact the donor to redirect the gift where possible.
+
+## Gift Acceptance Review
+The [Executive Director/Board] reserves the right to decline any gift that conflicts with the organization's mission or values, or that carries unacceptable conditions or liabilities.
+
+## Compliance
+All fundraising activities will comply with applicable state charitable solicitation registration requirements.
+
+---
+Adopted by: ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. Most US states require nonprofits to register before soliciting donations from their residents ("charitable solicitation registration") — a nonprofit fundraising nationally, including online, may need to register in dozens of states, not just its home state.*`,
+  },
+  {
+    slug: "salary-schedule-template",
+    name: "Salary Schedule",
+    seoTitle: "Free Salary Schedule Template",
+    description: "Free salary schedule template — documents pay ranges or steps for each position or grade level within an organization.",
+    category: "HR",
+    bodyMarkdown: `# Salary Schedule
+
+**Organization:** [Name] · **Effective Date:** [Date]
+
+| Grade/Level | Position(s) | Minimum | Midpoint | Maximum |
+|-----------------|-----------------|-------------|--------------|-------------|
+| [Grade 1] | [Positions] | [Amount] | [Amount] | [Amount] |
+| [Grade 2] | [Positions] | [Amount] | [Amount] | [Amount] |
+| [Grade 3] | [Positions] | [Amount] | [Amount] | [Amount] |
+
+## Notes
+- Ranges reflect [annual/hourly] pay for [full-time equivalent] positions.
+- New hires are typically placed at [Minimum-to-midpoint], based on experience.
+- This schedule is reviewed [Frequency] against market data.
+
+---
+Approved by: ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. Several US states and cities now require pay range transparency in job postings — a maintained salary schedule like this makes that requirement much easier to comply with consistently.*`,
+  },
+  {
+    slug: "mortgage-hardship-affidavit-template",
+    name: "Mortgage Hardship Affidavit",
+    seoTitle: "Free Mortgage Hardship Affidavit Template",
+    description: "Free mortgage hardship affidavit template — a borrower documents financial hardship when requesting a loan modification from their lender/servicer.",
+    category: "Finance",
+    bodyMarkdown: `# Mortgage Hardship Affidavit
+
+**Borrower(s):** [Name(s)] · **Property Address:** [Address]
+**Loan Number:** [Number] · **Date:** [Date]
+
+I/We am/are requesting a review for a loan modification due to the following financial hardship:
+
+## Type of Hardship
+[ ] Job loss/reduced income  [ ] Medical hardship  [ ] Divorce/separation  [ ] Death of a household income earner  [ ] Other: ______
+
+## Explanation
+[Describe the hardship and when it began, in your own words.]
+
+## Current Financial Situation
+Monthly gross household income: [Amount]
+Monthly mortgage payment: [Amount]
+Other monthly debt obligations: [Amount]
+
+## Requested Assistance
+[ ] Loan modification  [ ] Forbearance  [ ] Repayment plan  [ ] Other: ______
+
+## Certification
+I/We certify that the information provided is true and accurate to the best of my/our knowledge, and understand that knowingly providing false information may constitute fraud.
+
+---
+Borrower signature: ______________________  Date: ____________
+Co-borrower signature: ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal or financial advice. Loan servicers generally require this along with income documentation (pay stubs, bank statements) — submitting a complete package the first time, rather than piecemeal, is what actually speeds up a hardship review.*`,
+  },
+  {
+    slug: "parenting-plan-template",
+    name: "Parenting Plan",
+    seoTitle: "Free Parenting Plan Template",
+    description: "Free parenting plan template — outlines custody, visitation schedule, and decision-making arrangements for co-parents.",
+    category: "Legal",
+    bodyMarkdown: `# Parenting Plan
+
+**Parent 1:** [Name] · **Parent 2:** [Name]
+**Child(ren):** [Name(s), Date(s) of Birth]
+**Date:** [Date]
+
+## 1. Legal Custody (Decision-Making)
+[ ] Joint legal custody — major decisions (education, healthcare, religion) made jointly.
+[ ] Sole legal custody to [Parent], who makes major decisions [with/without] consultation.
+
+## 2. Physical Custody and Schedule
+Regular schedule: [Describe — e.g. "Child resides primarily with Parent 1, with Parent 2 having parenting time every other weekend from Friday 6pm to Sunday 6pm."]
+
+## 3. Holidays and Special Occasions
+[Describe holiday rotation — e.g. alternating Thanksgiving, Christmas, child's birthday.]
+
+## 4. Transportation and Exchange
+Exchanges will take place at [Location], with [Parent] responsible for transportation.
+
+## 5. Communication
+[How parents will communicate about the child, and how the child will communicate with the non-custodial parent during the other's time.]
+
+## 6. Relocation
+Neither parent will relocate with the child more than [Distance] from [Reference point] without [Notice Period] written notice to the other parent [and/or court approval, per applicable state law].
+
+## 7. Dispute Resolution
+Before returning to court, parents agree to attempt to resolve disagreements through [mediation/direct discussion].
+
+---
+Parent 1: ______________________  Date: ____________
+Parent 2: ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. Courts in most states must review and approve a parenting plan before it's enforceable, and many states have their own required or recommended parenting plan format — check your local family court's requirements, and consider mediation or an attorney's review before finalizing.*`,
+  },
+  {
+    slug: "assignment-of-insurance-policy-template",
+    name: "Assignment of Insurance Policy",
+    seoTitle: "Free Assignment of Insurance Policy Template",
+    description: "Free assignment of insurance policy template — transfers a policyholder's rights and benefits under an insurance policy to another party.",
+    category: "Finance",
+    bodyMarkdown: `# Assignment of Insurance Policy
+
+**Assignor (Policyholder):** [Name] · **Assignee:** [Name]
+**Insurance Company:** [Name] · **Policy Number:** [Number]
+**Date:** [Date]
+
+## 1. Assignment
+Assignor hereby assigns to Assignee all right, title, and interest in and to the above-referenced insurance policy, including the right to receive any benefits, proceeds, or claim payments due under it.
+
+## 2. Reason for Assignment
+[e.g. "as collateral for a loan," "in connection with the sale of the insured property/business," or "as part of a divorce settlement" — specify.]
+
+## 3. Notice to Insurer
+This assignment is not effective against the Insurance Company until the Insurance Company receives and acknowledges written notice of this assignment, per the policy's terms.
+
+## 4. No Change to Policy Terms
+This assignment does not modify the terms, conditions, or premium obligations of the underlying policy.
+
+---
+Assignor: ______________________  Date: ____________
+Assignee: ______________________  Date: ____________
+
+**Insurer Acknowledgment (if required):**
+Received and noted by: ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. Most insurance policies require the INSURER's consent or at least formal notice before an assignment is effective — sending this directly to the insurer and getting written acknowledgment is what actually makes the assignment enforceable.*`,
+  },
+  {
+    slug: "assignment-of-residential-lease-template",
+    name: "Assignment of Residential Lease",
+    seoTitle: "Free Assignment of Residential Lease Template",
+    description: "Free assignment of residential lease template — a tenant transfers their entire remaining lease interest to a new tenant, with landlord consent.",
+    category: "Real Estate",
+    bodyMarkdown: `# Assignment of Residential Lease
+
+**Assignor (Original Tenant):** [Name] · **Assignee (New Tenant):** [Name]
+**Landlord:** [Name] · **Property:** [Address]
+**Original Lease Date:** [Date] · **Assignment Date:** [Date]
+
+## 1. Assignment
+Assignor transfers and assigns to Assignee all of Assignor's rights and obligations under the lease referenced above, for the remainder of its term.
+
+## 2. Landlord's Consent
+This assignment is effective only upon Landlord's written consent below. [Note: unlike a sublease, an assignment typically ends Assignor's ongoing tenancy entirely, though Assignor may remain liable as a guarantor unless Landlord agrees otherwise — see Section 3.]
+
+## 3. Continuing Liability
+[ ] Assignor is fully released from further liability under the lease upon Landlord's consent.
+[ ] Assignor remains secondarily liable if Assignee defaults, unless Landlord agrees otherwise in writing.
+
+## 4. Security Deposit
+[State how the existing security deposit is handled — transferred to Assignee's credit, or returned to Assignor with a new deposit collected from Assignee.]
+
+## 5. Assignee's Assumption
+Assignee assumes all of Assignor's obligations under the original lease, including rent and all other terms, as of the assignment date.
+
+---
+Assignor: ______________________  Date: ____________
+Assignee: ______________________  Date: ____________
+Landlord (consent): ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. The difference between an assignment and a sublease matters legally — an assignment generally ends the original tenant's relationship with the landlord (subject to Section 3), while a sublease keeps the original tenant primarily responsible. Most leases require landlord consent for either.*`,
+  },
+  {
+    slug: "business-requirements-document-template",
+    name: "Business Requirements Document",
+    seoTitle: "Free Business Requirements Document (BRD) Template",
+    description: "Free business requirements document template for capturing what a business needs from a new project, system, or process before development begins.",
+    category: "Business",
+    bodyMarkdown: `# Business Requirements Document
+
+**Project:** [Name] · **Prepared by:** [Name] · **Date:** [Date]
+
+## Business Objective
+[What business problem is this project solving, and how success will be measured.]
+
+## Scope
+**In scope:** [What this project will deliver]
+**Out of scope:** [What it explicitly will not — prevents scope creep later]
+
+## Stakeholders
+| Name | Role | Interest |
+|------|------|----------|
+| [Name] | [Role] | [Interest in the project] |
+
+## Functional Requirements
+| ID | Requirement | Priority (Must/Should/Could) |
+|----|-------------|-------------------------------------|
+| FR-1 | [Requirement] | [Priority] |
+| FR-2 | [Requirement] | [Priority] |
+
+## Non-Functional Requirements
+[Performance, security, compliance, or usability requirements — e.g. "must support 1,000 concurrent users."]
+
+## Assumptions and Constraints
+[What's being assumed, and any known limits — budget, timeline, technology.]
+
+## Success Criteria
+[How you'll know the project succeeded — specific and measurable where possible.]
+
+---
+Approved by: ______________________  Date: ____________
+
+*Writing "out of scope" explicitly (not just what's included) is what actually prevents the most common project failure mode — scope creep from stakeholders assuming something was included when it never was discussed.*`,
+  },
+  {
+    slug: "stakeholder-analysis-template",
+    name: "Stakeholder Analysis",
+    seoTitle: "Free Stakeholder Analysis Template",
+    description: "Free stakeholder analysis template for identifying and prioritizing the people who can affect or are affected by a project.",
+    category: "Business",
+    bodyMarkdown: `# Stakeholder Analysis
+
+**Project:** [Name] · **Prepared by:** [Name] · **Date:** [Date]
+
+| Stakeholder | Interest/Stake | Influence (High/Med/Low) | Support Level (Champion/Neutral/Resistant) | Engagement Strategy |
+|-----------------|---------------------|--------------------------------|---------------------------------------------------|---------------------------|
+| [Name/Group] | [Interest] | [Level] | [Level] | [Strategy] |
+| [Name/Group] | [Interest] | [Level] | [Level] | [Strategy] |
+
+## Key Insights
+[Which stakeholders need the most active management — typically high influence + resistant, or high influence + neutral, is where to focus effort.]
+
+## Communication Plan
+| Stakeholder Group | What They Need to Know | Frequency | Channel |
+|-------------------------|------------------------------|---------------|---------|
+| [Group] | [Information] | [Frequency] | [Channel] |
+
+*Plotting stakeholders by influence AND support level (not just listing them) is what actually tells you where to spend your limited relationship-management time — a high-influence skeptic needs far more attention than a low-influence supporter.*`,
+  },
+  {
+    slug: "equipment-purchase-and-sale-agreement-template",
+    name: "Equipment Purchase and Sale Agreement",
+    seoTitle: "Free Equipment Purchase and Sale Agreement Template",
+    description: "Free equipment purchase and sale agreement template for buying or selling business equipment or machinery.",
+    category: "Business",
+    bodyMarkdown: `# Equipment Purchase and Sale Agreement
+
+**Seller:** [Name] · **Buyer:** [Name] · **Date:** [Date]
+
+## 1. Equipment
+Seller agrees to sell, and Buyer agrees to purchase, the following equipment: [Description, make, model, serial number(s)].
+
+## 2. Purchase Price
+Total purchase price: [Amount], payable [Terms — e.g. full payment on delivery, deposit plus balance].
+
+## 3. Condition
+[ ] Sold "as-is, where-is," with no warranties of any kind.
+[ ] Seller warrants the equipment is in good working order as of the delivery date, for [Period].
+
+## 4. Delivery
+Equipment will be delivered to [Location] by [Date], with [Buyer/Seller] responsible for shipping costs and risk of loss during transit.
+
+## 5. Inspection
+Buyer has [had the opportunity to inspect / a period of [Number] days after delivery to inspect] the equipment and accepts it in its current condition, subject to Section 3.
+
+## 6. Title
+Title transfers to Buyer upon [full payment / delivery].
+
+---
+Seller: ______________________  Date: ____________
+Buyer: ______________________  Date: ____________
+
+*Being explicit about "as-is" versus a limited warranty (Section 3) is the single most important term in a used-equipment sale — without it, disputes over pre-existing wear or hidden defects are far more likely to end up contested.*`,
+  },
+  {
+    slug: "risk-register-template",
+    name: "Risk Register",
+    seoTitle: "Free Risk Register Template",
+    description: "Free risk register template for tracking identified project or business risks, their likelihood, impact, and mitigation plans.",
+    category: "Business",
+    bodyMarkdown: `# Risk Register
+
+**Project/Area:** [Name] · **Last Updated:** [Date]
+
+| ID | Risk Description | Likelihood (H/M/L) | Impact (H/M/L) | Risk Score | Mitigation Plan | Owner | Status |
+|----|----------------------|---------------------------|----------------------|----------------|----------------------|-------|--------|
+| R-1 | [Risk] | [Level] | [Level] | [Score] | [Plan] | [Name] | [Open/Closed] |
+| R-2 | [Risk] | [Level] | [Level] | [Score] | [Plan] | [Name] | [Open/Closed] |
+
+## Review Cadence
+This register is reviewed [Frequency] and updated as new risks are identified or existing ones change status.
+
+*A risk register that's actually reviewed on a set cadence (not created once and forgotten) is what catches a risk before it becomes an issue — the review meeting matters more than the document format.*`,
+  },
+  {
+    slug: "exhibitor-registration-form-template",
+    name: "Exhibitor Registration Form",
+    seoTitle: "Free Exhibitor Registration Form Template",
+    description: "Free exhibitor registration form template for businesses signing up to exhibit at a trade show, conference, or expo.",
+    category: "Business",
+    bodyMarkdown: `# Exhibitor Registration Form
+
+**Event:** [Name] · **Date(s):** [Date(s)] · **Venue:** [Location]
+
+## Company Information
+Company name: [Name] · Contact: [Name, Title]
+Address: [Address] · Phone: [Phone] · Email: [Email]
+
+## Booth Selection
+Booth size requested: [Size] · Preferred location (if any): [Preference]
+Booth fee: [Amount]
+
+## Additional Services
+[ ] Electricity ([Amount]) · [ ] Wi-Fi ([Amount]) · [ ] Extra furniture ([Amount]) · [ ] Additional badges ([Amount] each)
+
+## Company Description (for event program)
+[50-100 word description of the company for the event program/website]
+
+## Payment
+Total due: [Amount] · Payment method: [Method] · Due date: [Date]
+
+## Agreement
+Exhibitor agrees to abide by the event's exhibitor rules and regulations, including setup/breakdown times and booth conduct.
+
+---
+Signature: ______________________  Date: ____________
+
+*Locking in booth selection and payment well before the event (not the week of) gives exhibitors the best placement options and gives organizers accurate numbers for floor planning.*`,
+  },
+  {
+    slug: "financial-disclosure-statement-template",
+    name: "Financial Disclosure Statement",
+    seoTitle: "Free Financial Disclosure Statement Template",
+    description: "Free financial disclosure statement template — a comprehensive statement of a person's assets, liabilities, income, and expenses, often used in divorce or litigation.",
+    category: "Finance",
+    bodyMarkdown: `# Financial Disclosure Statement
+
+**Name:** [Name] · **Date:** [Date]
+
+## Assets
+| Asset | Description | Estimated Value |
+|-----------|------------------|----------------------|
+| Real estate | [Description] | [Amount] |
+| Bank accounts | [Description] | [Amount] |
+| Investments/retirement | [Description] | [Amount] |
+| Vehicles | [Description] | [Amount] |
+| Other | [Description] | [Amount] |
+| **Total Assets** | | **[Amount]** |
+
+## Liabilities
+| Liability | Creditor | Balance |
+|---------------|--------------|-------------|
+| Mortgage | [Creditor] | [Amount] |
+| Credit cards | [Creditor] | [Amount] |
+| Loans | [Creditor] | [Amount] |
+| **Total Liabilities** | | **[Amount]** |
+
+## Monthly Income
+| Source | Amount |
+|--------|--------|
+| [Source] | [Amount] |
+
+## Monthly Expenses
+| Category | Amount |
+|--------------|--------|
+| [Category] | [Amount] |
+
+## Certification
+I certify that the information above is true and complete to the best of my knowledge.
+
+---
+Signature: ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. In a divorce or litigation context, courts require this to be complete and accurate — omitting an asset, even unintentionally, can lead to sanctions or the disclosure being reopened later when discovered.*`,
+  },
+  {
+    slug: "retention-bonus-agreement-template",
+    name: "Retention Bonus Agreement",
+    seoTitle: "Free Retention Bonus Agreement Template",
+    description: "Free retention bonus agreement template — a company offers a bonus to an employee for staying through a specific date or event.",
+    category: "HR",
+    bodyMarkdown: `# Retention Bonus Agreement
+
+**Company:** [Company Name] · **Employee:** [Name] · **Date:** [Date]
+
+## 1. Retention Bonus
+In consideration of Employee's continued employment through the Retention Date, Company will pay Employee a retention bonus of [Amount].
+
+## 2. Retention Date
+Employee must remain actively employed in good standing through [Date/event, e.g. "the closing of the acquisition" or "December 31, 2026"] to earn this bonus.
+
+## 3. Payment Timing
+The bonus will be paid within [Number] days after the Retention Date, via normal payroll, less applicable withholdings.
+
+## 4. Early Departure
+If Employee resigns or is terminated for cause before the Retention Date, no bonus is payable. [If applicable: "If Employee is terminated without cause before the Retention Date, the bonus will be paid on a prorated basis / in full."]
+
+## 5. Not a Guarantee of Employment
+This Agreement does not change Employee's at-will employment status or guarantee continued employment through the Retention Date.
+
+---
+Company: ______________________  Date: ____________
+Employee: ______________________  Date: ____________
+
+*Being explicit about what happens on an involuntary termination before the retention date (Section 4) is the detail most often disputed — an employee let go through no fault of their own one week before the retention date has a very different view of fairness than the company's default "no bonus" rule.*`,
+  },
+  {
+    slug: "records-retention-policy-template",
+    name: "Records Retention Policy",
+    seoTitle: "Free Records Retention Policy Template",
+    description: "Free records retention policy template establishing how long a company keeps different categories of business records before disposal.",
+    category: "Legal",
+    bodyMarkdown: `# Records Retention Policy
+
+**Company:** [Company Name] · **Effective Date:** [Date]
+
+## Purpose
+This policy establishes minimum retention periods for company records, balancing legal/regulatory requirements against unnecessary storage of outdated information.
+
+## Retention Schedule
+
+| Record Category | Retention Period | Notes |
+|----------------------|------------------------|-------|
+| Tax records | 7 years | Per IRS guidance |
+| Employee personnel files | 7 years after termination | Confirm state-specific requirements |
+| Contracts | 7 years after expiration | Longer for real estate/high-value contracts |
+| Financial statements | Permanent | |
+| Accounts payable/receivable | 7 years | |
+| Insurance policies | Permanent (while active) + 7 years after expiration | |
+| Board minutes/corporate records | Permanent | |
+| Email/general correspondence | [Period, e.g. 3 years] | Unless subject to litigation hold |
+
+## Litigation Hold
+Any record subject to actual or reasonably anticipated litigation, audit, or investigation must be preserved regardless of this schedule, until the hold is lifted by [Legal Counsel/designated officer].
+
+## Disposal Method
+Records past their retention period should be disposed of securely — shredded (physical) or permanently deleted (digital) — and disposal should be documented for records containing sensitive information.
+
+---
+Adopted by: ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. Retention periods vary by record type, industry, and jurisdiction — confirm the specific requirements that apply to your business (tax, employment, and industry-specific regulations often set different minimums) before finalizing this schedule.*`,
+  },
+  {
+    slug: "cash-flow-forecast-template",
+    name: "Cash Flow Forecast",
+    seoTitle: "Free Cash Flow Forecast Template",
+    description: "Free cash flow forecast template for projecting a business's expected cash inflows and outflows over upcoming periods.",
+    category: "Finance",
+    bodyMarkdown: `# Cash Flow Forecast
+
+**Business:** [Name] · **Period Covered:** [Months/Quarter]
+
+| | Month 1 | Month 2 | Month 3 |
+|---|---------|---------|---------|
+| **Opening Cash Balance** | [Amount] | [Amount] | [Amount] |
+| **Cash Inflows** | | | |
+| Sales/collections | [Amount] | [Amount] | [Amount] |
+| Other income | [Amount] | [Amount] | [Amount] |
+| **Total Inflows** | [Amount] | [Amount] | [Amount] |
+| **Cash Outflows** | | | |
+| Payroll | [Amount] | [Amount] | [Amount] |
+| Rent/overhead | [Amount] | [Amount] | [Amount] |
+| Supplier payments | [Amount] | [Amount] | [Amount] |
+| Loan payments | [Amount] | [Amount] | [Amount] |
+| **Total Outflows** | [Amount] | [Amount] | [Amount] |
+| **Net Cash Flow** | [Amount] | [Amount] | [Amount] |
+| **Closing Cash Balance** | [Amount] | [Amount] | [Amount] |
+
+*A forecast is only useful if it's revisited against actuals regularly — comparing projected vs. actual cash flow monthly is what reveals whether collections are slower than assumed, which is the most common reason small businesses run into a cash crunch despite being profitable on paper.*`,
+  },
+  {
+    slug: "commercial-credit-application-template",
+    name: "Commercial Credit Application",
+    seoTitle: "Free Commercial Credit Application Template",
+    description: "Free commercial credit application template for a business requesting trade credit terms from a supplier or vendor.",
+    category: "Finance",
+    bodyMarkdown: `# Commercial Credit Application
+
+**Applicant Business Name:** [Name] · **Date:** [Date]
+
+## Business Information
+Business address: [Address] · Years in business: [Number] · Business type: [Structure]
+Federal Tax ID: [Number] · Annual revenue: [Range]
+
+## Credit Requested
+Requested credit limit: [Amount] · Requested terms: [e.g. Net 30]
+
+## Trade References
+| Company | Contact | Phone | Account Since |
+|-------------|-------------|-------|--------------------|
+| [Reference 1] | [Contact] | [Phone] | [Date] |
+| [Reference 2] | [Contact] | [Phone] | [Date] |
+
+## Bank Reference
+Bank name: [Name] · Contact: [Name, Phone]
+
+## Authorized Signer
+[Name, Title] certifies that the information provided is accurate and authorizes the seller to verify credit references and obtain a credit report on the business.
+
+---
+Signature: ______________________  Date: ____________
+
+*Listing trade references who actually extend you similar terms (not just any vendor) gives the credit-granting company the most relevant picture of your payment history — a reference where you pay cash upfront doesn't say much about how you handle credit.*`,
+  },
+  {
+    slug: "exclusive-distribution-agreement-template",
+    name: "Exclusive Distribution Agreement",
+    seoTitle: "Free Exclusive Distribution Agreement Template",
+    description: "Free exclusive distribution agreement template — a supplier grants a distributor the sole right to sell its products within a defined territory.",
+    category: "Business",
+    bodyMarkdown: `# Exclusive Distribution Agreement
+
+**Supplier:** [Company Name] · **Distributor:** [Company Name] · **Date:** [Date]
+
+## 1. Exclusive Appointment
+Supplier appoints Distributor as the EXCLUSIVE distributor of [Products] within [Territory]. During the term, Supplier will not appoint any other distributor, nor sell directly to customers, within the Territory, except: [Any carve-outs, e.g. existing accounts].
+
+## 2. Minimum Purchase Requirements
+To maintain exclusivity, Distributor must purchase at least [Amount/units] per [Period]. Failure to meet this minimum gives Supplier the right to convert this Agreement to non-exclusive or terminate.
+
+## 3. Pricing
+Distributor will purchase Products at [Wholesale price/discount schedule].
+
+## 4. Distributor's Obligations
+Distributor will actively market and promote the Products, maintain adequate inventory, and provide reasonable after-sales support within the Territory.
+
+## 5. Trademark Use
+Distributor may use Supplier's trademarks solely to market the Products, per Supplier's brand guidelines, and such use confers no ownership rights.
+
+## 6. Term and Termination
+This Agreement runs for [Term] and may be terminated by either party for material breach not cured within [Cure Period], or by Supplier if minimum purchase requirements are not met.
+
+---
+Supplier: ______________________  Date: ____________
+Distributor: ______________________  Date: ____________
+
+*Tying exclusivity to a real minimum purchase commitment (Section 2) protects the supplier from granting away an entire territory to a distributor who then under-invests in it — exclusivity without a performance requirement is a common and costly mistake for suppliers.*`,
+  },
+  {
+    slug: "maternity-leave-letter-template",
+    name: "Maternity Leave Letter",
+    seoTitle: "Free Maternity Leave Letter Template",
+    description: "Free maternity leave letter template for an employee formally notifying their employer of upcoming maternity leave.",
+    category: "HR",
+    bodyMarkdown: `# Maternity Leave Letter
+
+[Date]
+
+Dear [Manager Name],
+
+I am writing to formally notify you that I will be taking maternity leave, with an expected due date of [Date].
+
+## Leave Dates
+I plan to begin my leave on [Start Date] and expect to return on [Expected Return Date], for a total of [Duration] of leave, in accordance with [Company policy/FMLA/applicable law].
+
+## Transition Plan
+[Brief outline of how ongoing work will be handled — key handoffs, point of contact during your absence.]
+
+I'm happy to discuss the transition plan in more detail before my leave begins. Please let me know if you need anything further from me.
+
+Sincerely,
+[Your Name]
+
+*Giving notice as early as reasonably possible (most policies and FMLA itself expect 30 days where the need is foreseeable) gives your employer time to plan coverage and makes the transition smoother for everyone, including you on your return.*`,
+  },
+  {
+    slug: "waiver-of-liability-release-form-template",
+    name: "Waiver of Liability Release Form",
+    seoTitle: "Free Waiver of Liability Release Form Template",
+    description: "Free waiver of liability release form template — a participant releases an organization from liability for injury during an activity.",
+    category: "Legal",
+    bodyMarkdown: `# Waiver of Liability and Release Form
+
+**Participant:** [Name] · **Activity:** [Description] · **Date:** [Date]
+
+## Assumption of Risk
+I understand that participation in [Activity] involves inherent risks, including but not limited to [list specific risks relevant to the activity], and I voluntarily assume all such risks.
+
+## Release of Liability
+In consideration of being permitted to participate, I release, waive, and discharge [Organization Name], its owners, employees, and agents from any and all liability, claims, or causes of action arising out of my participation, including those caused by negligence, to the fullest extent permitted by law.
+
+## Medical Treatment
+I authorize [Organization Name] to arrange for emergency medical treatment on my behalf if needed, at my own expense.
+
+## Acknowledgment
+I have read this waiver, understand its contents, and sign it voluntarily.
+
+---
+Participant signature: ______________________  Date: ____________
+Parent/guardian signature (if participant is a minor): ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. Courts in some states won't enforce a waiver against GROSS negligence or intentional misconduct, and a few states limit waivers signed on behalf of minors — confirm your state's specific enforceability rules before relying on this for a real activity.*`,
+  },
+  {
+    slug: "employee-separation-agreement-template",
+    name: "Employee Separation Agreement",
+    seoTitle: "Free Employee Separation Agreement Template",
+    description: "Free employee separation agreement template — documents the terms of an employee's departure, often including severance in exchange for a release of claims.",
+    category: "HR",
+    bodyMarkdown: `# Employee Separation Agreement
+
+**Company:** [Company Name] · **Employee:** [Name] · **Separation Date:** [Date]
+
+## 1. Separation
+Employee's employment with Company ends effective [Date].
+
+## 2. Severance
+In exchange for the release below, Company will pay Employee severance of [Amount], less applicable withholdings, paid [Lump sum / over [Period]].
+
+## 3. Benefits
+[COBRA continuation information, and whether Company will subsidize premiums for any period.]
+
+## 4. Release of Claims
+In exchange for the severance above, Employee releases Company from any and all claims arising from their employment or its termination, to the fullest extent permitted by law.
+
+## 5. Confidentiality and Non-Disparagement
+Both parties agree to keep the terms of this Agreement confidential [except as required by law] and not to disparage the other.
+
+## 6. Return of Property
+Employee will return all Company property (laptop, badge, keys, documents) by [Date].
+
+## 7. Revocation Period
+[If applicable under ADEA for employees 40+: Employee has 21 (or 45) days to consider this Agreement and 7 days after signing to revoke it.]
+
+---
+Company: ______________________  Date: ____________
+Employee: ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. For employees 40 or older, the Older Workers Benefit Protection Act sets specific requirements (consideration period, revocation window, plain-language disclosures) for a release to be enforceable — an agreement missing these can have the release invalidated entirely.*`,
+  },
+  {
+    slug: "director-compensation-policy-template",
+    name: "Director Compensation Policy",
+    seoTitle: "Free Director Compensation Policy Template",
+    description: "Free director compensation policy template — establishes how a company's board members are paid for their service.",
+    category: "Business",
+    bodyMarkdown: `# Director Compensation Policy
+
+**Company:** [Company Name] · **Effective Date:** [Date]
+
+## Purpose
+This policy establishes standard compensation for non-employee members of the Board of Directors.
+
+## Cash Compensation
+Annual retainer: [Amount], paid [Quarterly/Annually].
+Additional compensation: [ ] Committee chair: [Amount] · [ ] Committee member: [Amount] · [ ] Board chair: [Amount]
+
+## Equity Compensation
+[Number] of [stock options/RSUs] granted upon appointment, vesting over [Schedule], plus an annual grant of [Amount/Number] thereafter.
+
+## Meeting Fees (if applicable)
+[$Amount] per meeting attended in person, [$Amount] for telephonic/virtual attendance.
+
+## Expense Reimbursement
+Directors are reimbursed for reasonable travel and other expenses incurred in connection with Board service, per Company's standard expense policy.
+
+## Review
+This policy is reviewed [Annually] by the Compensation Committee against comparable company benchmarks.
+
+---
+Approved by: ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. Public companies must disclose director compensation in proxy statements, and even private companies benefit from a written policy — it prevents ad hoc negotiations with each new director and gives the Compensation Committee a documented, defensible basis for the amounts paid.*`,
+  },
+  {
+    slug: "donation-agreement-template",
+    name: "Donation Agreement",
+    seoTitle: "Free Donation Agreement Template",
+    description: "Free donation agreement template documenting the terms of a significant gift to a nonprofit organization, including any restrictions on its use.",
+    category: "Legal",
+    bodyMarkdown: `# Donation Agreement
+
+**Donor:** [Name] · **Organization:** [Nonprofit Name] · **Date:** [Date]
+
+## 1. Gift
+Donor agrees to donate [Amount/description of gift] to Organization, to be delivered [as a lump sum / in installments of [Amount] per [Period], through [Date]].
+
+## 2. Purpose/Restrictions
+[ ] Unrestricted — Organization may use the gift for any purpose consistent with its mission.
+[ ] Restricted — the gift is to be used solely for: [Specific purpose, e.g. "the new community center building fund"].
+
+## 3. Naming Rights (if applicable)
+[Describe any naming or recognition rights granted in connection with this gift.]
+
+## 4. Acknowledgment
+Organization will provide Donor with a written acknowledgment of this gift for tax purposes, consistent with IRS requirements for charitable contributions.
+
+## 5. Use of Restricted Funds
+If Organization is or becomes unable to use a restricted gift for its designated purpose, Organization will contact Donor to discuss redirecting the gift to a similar purpose, consistent with applicable law (cy pres doctrine, where relevant).
+
+---
+Donor: ______________________  Date: ____________
+Organization: ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal or tax advice. A restricted gift creates a real legal obligation for the nonprofit to honor the donor's stated purpose — accepting restricted funds the organization can't realistically use as designated is a common source of later disputes and even litigation.*`,
+  },
+  {
+    slug: "subcontractor-payment-application-template",
+    name: "Subcontractor Payment Application",
+    seoTitle: "Free Subcontractor Payment Application Template",
+    description: "Free subcontractor payment application template for requesting payment for completed work on a construction project.",
+    category: "Finance",
+    bodyMarkdown: `# Subcontractor Payment Application
+
+**Application #:** [Number] · **Period Ending:** [Date]
+**Project:** [Name] · **Subcontractor:** [Name] · **Contract #:** [Reference]
+
+## Schedule of Values
+
+| Line Item | Scheduled Value | Work Completed to Date | % Complete | Materials Stored | Balance to Finish |
+|---------------|----------------------|------------------------------|-----------------|------------------------|-------------------------|
+| [Item] | [Amount] | [Amount] | [%] | [Amount] | [Amount] |
+
+## Summary
+Total completed and stored to date: [Amount]
+Less retainage ([%]): [Amount]
+Total earned less retainage: [Amount]
+Less previous payments: [Amount]
+**Current payment due: [Amount]**
+
+## Certification
+The undersigned certifies that the work covered by this application has been completed in accordance with the contract documents.
+
+---
+Subcontractor: ______________________  Date: ____________
+General Contractor approval: ______________________  Date: ____________
+
+*This document mirrors the standard AIA G702/G703 format used across the construction industry — using a familiar structure like this schedule of values makes it easier for a GC to process your application quickly instead of asking for it to be reformatted.*`,
+  },
+  {
+    slug: "easement-agreement-template",
+    name: "Easement Agreement",
+    seoTitle: "Free Easement Agreement Template",
+    description: "Free easement agreement template — grants one property owner the right to use a specific portion of a neighboring property for a defined purpose.",
+    category: "Real Estate",
+    bodyMarkdown: `# Easement Agreement
+
+**Grantor (Servient Estate Owner):** [Name] · **Grantee (Dominant Estate Owner):** [Name]
+**Servient Property:** [Address/Legal Description] · **Date:** [Date]
+
+## 1. Grant of Easement
+Grantor grants to Grantee a [exclusive/non-exclusive] easement over the portion of the Servient Property described as: [Legal description or attached exhibit], for the purpose of [e.g. "ingress and egress," "utility lines," "shared driveway"].
+
+## 2. Duration
+[ ] Perpetual — this easement runs with the land and binds future owners.
+[ ] Term of [Duration].
+
+## 3. Maintenance
+[State who is responsible for maintaining the easement area — often the Grantee, or shared proportionally if used by both parties.]
+
+## 4. Restrictions
+Grantee will not [obstruct the easement area / use it for any purpose other than stated above / interfere with Grantor's use of the remainder of the property].
+
+## 5. Compensation (if applicable)
+[State whether Grantor received payment for granting this easement, and the amount.]
+
+## 6. Recording
+This easement will be recorded with the [County Recorder's Office] to provide notice to future owners of both properties.
+
+---
+Grantor: ______________________  Date: ____________
+Grantee: ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. An easement that isn't recorded with the county may not bind a future buyer of the servient property — recording it (Section 6) is what actually makes the right permanent and enforceable against successors, not just the original grantor.*`,
+  },
+  {
+    slug: "letter-requesting-repairs-template",
+    name: "Letter Requesting Repairs",
+    seoTitle: "Free Letter Requesting Repairs Template",
+    description: "Free letter requesting repairs template — a tenant formally asks their landlord to fix a specific problem with the rental property.",
+    category: "Real Estate",
+    bodyMarkdown: `# Letter Requesting Repairs
+
+[Date]
+
+[Landlord/Property Manager Name]
+[Address]
+
+**RE: Repair Request — [Property Address, Unit #]**
+
+Dear [Landlord Name],
+
+I am writing to request repairs to the following issue(s) at my rental unit:
+
+## Issue(s)
+[Describe the problem specifically — what's broken, when it started, and any safety concern it creates.]
+
+## Impact
+[How this is affecting your use of the unit — e.g. "no hot water since [Date]" or "the leak is causing visible mold."]
+
+## Requested Timeline
+Please arrange for repairs within [Timeframe — reference your lease or state law's required timeframe if known], or let me know when I can expect someone to address this.
+
+I've attached photos documenting the issue. Please contact me at [Phone/Email] to schedule access to the unit.
+
+Thank you for your prompt attention to this matter.
+
+Sincerely,
+[Your Name]
+[Unit Address]
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. Sending this in writing (not just a phone call) and keeping a copy creates a paper trail — in most states, a tenant's right to withhold rent or repair-and-deduct only kicks in after the landlord has been given proper written notice and a reasonable time to fix the problem.*`,
+  },
+  {
+    slug: "employment-application-form-template",
+    name: "Employment Application Form",
+    seoTitle: "Free Employment Application Form Template",
+    description: "Free employment application form template for collecting a job candidate's information during the hiring process.",
+    category: "HR",
+    bodyMarkdown: `# Employment Application
+
+**Position Applied For:** [Title] · **Date:** [Date]
+
+## Personal Information
+Name: [Name] · Phone: [Phone] · Email: [Email]
+Address: [Address]
+Are you legally authorized to work in [Country]? [ ] Yes [ ] No
+Are you at least 18 years of age? [ ] Yes [ ] No
+
+## Employment History
+| Employer | Position | Dates | Reason for Leaving |
+|--------------|--------------|-----------|--------------------------|
+| [Employer] | [Position] | [Dates] | [Reason] |
+
+## Education
+| School | Degree/Program | Graduated? |
+|------------|---------------------|------------------|
+| [School] | [Degree] | [Yes/No] |
+
+## References
+| Name | Relationship | Phone |
+|------|--------------------|-------|
+| [Name] | [Relationship] | [Phone] |
+
+## Certification
+I certify that the information provided in this application is true and complete. I understand that any false statement may be grounds for refusal to hire or termination if discovered later.
+
+---
+Applicant signature: ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. Many jurisdictions have "ban the box" laws restricting when an employer can ask about criminal history, and some restrict asking for salary history — review your state and local laws before adding either question to this form.*`,
+  },
 ];
 
 const TEMPLATES_INDEX_FAQ = [
