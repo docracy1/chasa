@@ -26426,6 +26426,1772 @@ Acknowledged by: ______________________  Date: ____________
 
 *This document is provided for informational and educational purposes only and does not constitute legal advice. A dress code that differs by gender (e.g. requiring makeup or specific hairstyles only for women) can create real discrimination liability — the safest approach is a single, gender-neutral standard applied consistently to everyone in the same role.*`,
   },
+  {
+    slug: "show-cause-letter-template",
+    name: "Show Cause Letter",
+    seoTitle: "Free Show Cause Letter Template",
+    description: "Free show cause letter template — an employer asks an employee to explain specific conduct before deciding on disciplinary action.",
+    category: "HR",
+    bodyMarkdown: `# Show Cause Letter
+
+[Date]
+
+Dear [Employee Name],
+
+This letter is to formally notify you that [Company Name] is considering disciplinary action, up to and including termination, regarding the following matter.
+
+## Matter Under Review
+[Specific, factual description of the conduct or performance issue in question, including dates and any relevant details.]
+
+## Request for Explanation
+You are asked to provide a written explanation or response to the above matter by [Date], either in writing to [Contact] or at a meeting scheduled for [Date/Time].
+
+## Your Rights
+You are welcome to bring a [colleague/representative, per company policy or applicable law] to any meeting held on this matter.
+
+## Next Steps
+After reviewing your response, [Company Name] will determine what, if any, further action is appropriate.
+
+Sincerely,
+[Manager/HR Name, Title]
+
+*Giving the employee a genuine, fair opportunity to respond before deciding on discipline (not treating this as a formality before a decision already made) is what makes the eventual outcome — whatever it is — much more defensible.*`,
+  },
+  {
+    slug: "clinical-trial-agreement-template",
+    name: "Clinical Trial Agreement",
+    seoTitle: "Free Clinical Trial Agreement Template",
+    description: "Free clinical trial agreement template between a sponsor and a research institution/investigator conducting a clinical study.",
+    category: "Business",
+    bodyMarkdown: `# Clinical Trial Agreement
+
+**Sponsor:** [Company Name] · **Institution/Investigator:** [Name] · **Protocol:** [Protocol Title/Number] · **Date:** [Date]
+
+## 1. Study Conduct
+Institution will conduct the clinical trial described in the protocol referenced above, in accordance with the protocol, applicable law (e.g. Good Clinical Practice/FDA regulations), and IRB/ethics committee approval.
+
+## 2. Enrollment
+Institution will enroll approximately [Number] subjects, per the inclusion/exclusion criteria in the protocol.
+
+## 3. Compensation
+Sponsor will pay Institution [Amount] per enrolled/completed subject, plus [Amount] for [specific milestones/procedures], per the budget in Exhibit A.
+
+## 4. Injury/Indemnification
+Sponsor will [cover the cost of treating study-related injuries to subjects / indemnify Institution for claims arising from the study], except where caused by Institution's negligence or protocol deviation.
+
+## 5. Data and Publication
+Sponsor owns the study data. Institution may publish results after [Sponsor review period, e.g. 60-90 days] for confidentiality/patent review, subject to a right to remove Sponsor's confidential information (not data).
+
+## 6. Confidentiality
+Institution will keep Sponsor's proprietary information confidential, except study data required to be reported per regulatory or ethical obligations.
+
+## 7. Term and Termination
+This Agreement continues until study completion or is terminated by either party with [Notice Period] notice, subject to Institution completing necessary subject safety follow-up.
+
+---
+Sponsor: ______________________  Date: ____________
+Institution/Investigator: ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. Publication rights (Section 5) are one of the most negotiated terms in clinical trial agreements — an institution should push back hard on any clause letting a sponsor suppress unfavorable results indefinitely, not just delay them for a defined review period.*`,
+  },
+  {
+    slug: "technology-license-option-agreement-template",
+    name: "Technology License Option Agreement",
+    seoTitle: "Free Technology License Option Agreement Template",
+    description: "Free technology license option agreement template — gives a party a time-limited right to negotiate a license for specific technology or IP.",
+    category: "Business",
+    bodyMarkdown: `# Technology License Option Agreement
+
+**Licensor:** [Name/Institution] · **Optionee:** [Company Name] · **Technology:** [Description/patent reference] · **Date:** [Date]
+
+## 1. Grant of Option
+Licensor grants Optionee an exclusive option to negotiate a license to the technology described above, for a period of [Duration].
+
+## 2. Option Fee
+Optionee pays Licensor an option fee of [Amount], [creditable/non-creditable] toward future license fees if the option is exercised.
+
+## 3. Due Diligence Period
+During the option period, Optionee may evaluate the technology, and Licensor will provide reasonable access to relevant information for this purpose.
+
+## 4. Exercising the Option
+Optionee may exercise the option by notifying Licensor in writing before expiration, after which the parties will negotiate in good faith toward a definitive license agreement within [Timeframe].
+
+## 5. Exclusivity During Option Period
+During the option period, Licensor will not negotiate a license for this technology with any other party.
+
+## 6. Confidentiality
+Any confidential information shared during the evaluation period will be kept confidential by Optionee.
+
+## 7. If the Option Expires Unexercised
+If Optionee does not exercise the option, Licensor is free to license the technology to others, and the option fee (unless otherwise agreed) is non-refundable.
+
+---
+Licensor: ______________________  Date: ____________
+Optionee: ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. Option agreements are common in university technology transfer — they let a company evaluate whether a licensed technology is commercially viable before committing to the larger license fees and diligence obligations of a full license.*`,
+  },
+  {
+    slug: "event-planner-contract-template",
+    name: "Event Planner Contract",
+    seoTitle: "Free Event Planner Contract Template",
+    description: "Free event planner contract template between a professional event planner and a client, covering services, fees, and vendor coordination.",
+    category: "Business",
+    bodyMarkdown: `# Event Planner Contract
+
+**Planner:** [Name/Company] · **Client:** [Name] · **Event:** [Description] · **Event Date:** [Date]
+
+## 1. Services
+Planner will provide the following services: [e.g. venue selection, vendor coordination, day-of coordination, budget management] for the event described above.
+
+## 2. Fees
+[Flat fee of [Amount] / percentage of total event budget of [%]], payable [Terms — e.g. deposit at signing, balance before the event].
+
+## 3. Budget
+Client's estimated total event budget: [Amount]. Planner will provide recommendations within this budget and obtain Client's approval before committing to expenses exceeding it.
+
+## 4. Vendor Contracts
+[State whether Planner books vendors as Client's agent (Client signs vendor contracts) or on Planner's own account, and who bears responsibility if a vendor fails to perform.]
+
+## 5. Cancellation
+If Client cancels: [Refund schedule based on how far in advance — e.g. full refund of unspent deposit if cancelled 90+ days out, partial thereafter].
+If Planner cannot perform: [Planner will arrange a substitute planner or refund fees paid.]
+
+## 6. Day-of Responsibilities
+[Describe Planner's role on the event day — arrival time, point of contact for vendors, troubleshooting authority.]
+
+---
+Planner: ______________________  Date: ____________
+Client: ______________________  Date: ____________
+
+*Clarifying who actually signs each vendor contract (Section 4) matters more than it seems — if the planner books vendors on their own account, the planner (not the client) bears the risk if a vendor doesn't show up or underperforms.*`,
+  },
+  {
+    slug: "pre-employment-drug-screening-consent-form-template",
+    name: "Pre-Employment Drug Screening Consent Form",
+    seoTitle: "Free Pre-Employment Drug Screening Consent Form Template",
+    description: "Free pre-employment drug screening consent form template — a job applicant consents to a drug test as a condition of employment.",
+    category: "HR",
+    bodyMarkdown: `# Pre-Employment Drug Screening Consent Form
+
+**Applicant:** [Name] · **Position:** [Title] · **Date:** [Date]
+
+## Consent
+I understand that as a condition of employment with [Company Name], I am required to undergo a drug screening test. I voluntarily consent to this test and to the release of the results to [Company Name].
+
+## Testing Details
+Test type: [Urine/hair/other] · Testing facility: [Name] · Substances tested: [List, or "standard panel"]
+
+## Consequences
+I understand that a positive result, or refusal to submit to testing, may result in withdrawal of a conditional job offer.
+
+## Confidentiality
+I understand that test results will be kept confidential and shared only with those who have a legitimate need to know, consistent with applicable law.
+
+## Disclosure of Medications
+[Optional: space for applicant to disclose prescribed medications that could affect test results, reviewed confidentially by the testing facility's medical review officer, not the employer directly.]
+
+---
+Applicant signature: ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. Drug testing laws vary significantly by state — some states restrict pre-employment testing, require specific notice, or have special rules given cannabis legalization — confirm your state's requirements before implementing a testing program.*`,
+  },
+  {
+    slug: "deferred-compensation-plan-template",
+    name: "Deferred Compensation Plan",
+    seoTitle: "Free Deferred Compensation Plan Template",
+    description: "Free deferred compensation plan template — allows an eligible employee to defer a portion of their compensation to a future date, typically for tax planning purposes.",
+    category: "Finance",
+    bodyMarkdown: `# Deferred Compensation Plan
+
+**Company:** [Company Name] · **Plan Effective Date:** [Date]
+
+## 1. Purpose
+This non-qualified deferred compensation plan allows eligible employees to defer a portion of their compensation to a future date, for tax and retirement planning purposes.
+
+## 2. Eligibility
+Eligible participants: [e.g. executives/employees above a specified compensation threshold, per the plan's eligibility criteria].
+
+## 3. Deferral Elections
+Participants may elect to defer up to [%] of [salary/bonus], by making an irrevocable election before the start of the [plan year/performance period], per Section 409A timing requirements.
+
+## 4. Distribution
+Deferred amounts will be distributed upon [a fixed date, separation from service, disability, or death], as elected by the participant at the time of deferral, per the plan's distribution rules.
+
+## 5. Vesting
+[State whether deferred amounts (and any company match) are immediately vested or subject to a vesting schedule.]
+
+## 6. Unfunded Plan
+This plan is unfunded; participants are unsecured general creditors of the Company with respect to their deferred amounts.
+
+## 7. Investment Crediting (if applicable)
+[State how deferred amounts are credited with notional investment returns, if the plan allows participant investment direction.]
+
+---
+Adopted by: ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal or tax advice. Non-qualified deferred compensation plans are subject to strict IRS rules under Section 409A — an improperly structured plan (wrong election timing, impermissible acceleration of distributions) can trigger immediate taxation plus a 20% penalty for participants, so have this drafted or reviewed by a benefits attorney.*`,
+  },
+  {
+    slug: "surrogate-parenting-agreement-template",
+    name: "Surrogate Parenting Agreement",
+    seoTitle: "Free Surrogate Parenting Agreement Template",
+    description: "Free surrogate parenting agreement template outlining the terms between intended parents and a gestational surrogate.",
+    category: "Legal",
+    bodyMarkdown: `# Surrogate Parenting Agreement
+
+**Intended Parent(s):** [Name(s)] · **Surrogate:** [Name] · **Date:** [Date]
+
+## 1. Purpose
+Surrogate agrees to carry a pregnancy for Intended Parent(s) via [gestational surrogacy using Intended Parent(s)'/donor embryo], with the intent that the resulting child will be raised by Intended Parent(s).
+
+## 2. Medical Procedures
+Surrogate agrees to undergo the medical procedures necessary for embryo transfer and pregnancy, following the medical guidance of the treating physician.
+
+## 3. Compensation and Expenses
+[ ] Compensation of [Amount], paid per the schedule in Exhibit A [where legally permitted — compensated surrogacy is restricted or prohibited in some jurisdictions].
+[ ] Reimbursement of medical and pregnancy-related expenses only [in jurisdictions limited to altruistic surrogacy].
+
+## 4. Parental Rights
+The parties intend for Intended Parent(s) to be the legal parent(s) of the child, per a pre-birth or post-birth parentage order as required in [State/jurisdiction].
+
+## 5. Surrogate's Health Decisions
+Surrogate retains the right to make her own medical decisions during the pregnancy, consistent with the medical guidance agreed upon in this Agreement.
+
+## 6. Insurance
+[State how health insurance for the pregnancy and delivery is arranged and paid for.]
+
+## 7. Legal Representation
+Each party has been represented by independent legal counsel in negotiating this Agreement.
+
+---
+Intended Parent(s): ______________________  Date: ____________
+Surrogate: ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. Surrogacy law varies dramatically by state and country — some states have detailed statutes supporting enforceable surrogacy agreements, others restrict or prohibit compensated surrogacy entirely — independent legal counsel for both the intended parents and the surrogate is essential and, in many states, legally required.*`,
+  },
+  {
+    slug: "alcohol-policy-template",
+    name: "Alcohol Policy",
+    seoTitle: "Free Workplace Alcohol Policy Template",
+    description: "Free workplace alcohol policy template covering alcohol consumption at work, company events, and business entertainment.",
+    category: "HR",
+    bodyMarkdown: `# Alcohol Policy
+
+**Company:** [Company Name] · **Effective Date:** [Date]
+
+## Purpose
+This policy establishes expectations around alcohol consumption in connection with work, to maintain a safe and professional environment.
+
+## During Work Hours
+Consuming alcohol during work hours or being impaired by alcohol while performing job duties is prohibited, except as specifically authorized under this policy.
+
+## Company Events
+[State the company's approach to alcohol at company-sponsored events — e.g. "alcohol may be served at approved events, with non-alcoholic options always available, and employees are expected to drink responsibly."]
+
+## Business Entertainment
+Employees entertaining clients may consume alcohol in moderation as part of business development, consistent with good judgment and this policy.
+
+## Prohibited Conduct
+Regardless of the setting, [Company Name] prohibits: driving under the influence after a company event, harassment or inappropriate conduct related to alcohol consumption, and pressuring colleagues to drink.
+
+## Support Resources
+Employees struggling with alcohol use are encouraged to contact [EAP/HR] confidentially for support resources.
+
+## Enforcement
+Violations of this policy may result in disciplinary action up to and including termination.
+
+---
+Adopted by: ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. A company can be held liable for an employee's alcohol-related conduct at a company-sponsored event under some circumstances — having non-alcoholic options readily available and being deliberate about when alcohol service ends are simple, practical risk-reduction steps.*`,
+  },
+  {
+    slug: "vehicle-purchase-agreement-template",
+    name: "Vehicle Purchase Agreement",
+    seoTitle: "Free Vehicle Purchase Agreement Template",
+    description: "Free vehicle purchase agreement template for a private sale of a car, truck, or other vehicle between a buyer and seller.",
+    category: "Business",
+    bodyMarkdown: `# Vehicle Purchase Agreement
+
+**Seller:** [Name] · **Buyer:** [Name] · **Date:** [Date]
+
+## 1. Vehicle
+Year/Make/Model: [Details] · VIN: [VIN] · Mileage: [Mileage] · Color: [Color]
+
+## 2. Purchase Price
+Total purchase price: [Amount], payable via [Method — e.g. cashier's check, bank transfer] at the time of transfer.
+
+## 3. Condition
+[ ] Sold "as-is," with no warranties of any kind, expressed or implied.
+[ ] Seller warrants the following about the vehicle's condition: [Describe, if any warranty is offered].
+
+## 4. Title
+Seller warrants they hold clear title to the vehicle, free of liens, except: [List any known liens, or "none"]. Seller will sign over the title to Buyer upon receipt of full payment.
+
+## 5. Disclosures
+Seller discloses the following known issues: [List, or "none known"]. [Reference the separate Odometer Disclosure Statement, generally required for the transfer.]
+
+## 6. Registration and Taxes
+Buyer is responsible for registering the vehicle and paying any applicable sales/use tax in their jurisdiction.
+
+---
+Seller signature: ______________________  Date: ____________
+Buyer signature: ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. Most states legally require a separate odometer disclosure as part of the title transfer — check your state's DMV requirements, since a private sale that skips this step can delay or complicate the buyer's registration.*`,
+  },
+  {
+    slug: "letter-of-financial-support-template",
+    name: "Letter of Financial Support",
+    seoTitle: "Free Letter of Financial Support Template",
+    description: "Free letter of financial support template — one party confirms they will provide financial support to another, commonly used for visa, school, or immigration applications.",
+    category: "Business",
+    bodyMarkdown: `# Letter of Financial Support
+
+[Date]
+
+To Whom It May Concern,
+
+I, [Sponsor Name], confirm that I will provide financial support to [Recipient Name] for the purpose of [e.g. "covering tuition and living expenses during their studies at [Institution]" / "supporting their visit to [Country]"].
+
+## Financial Details
+I am providing support in the amount of approximately [Amount] for the period of [Duration].
+
+## My Financial Standing
+[Brief description of the source of funds — employment, savings — with supporting documents such as bank statements or pay stubs attached as required.]
+
+## Relationship
+[Sponsor Name]'s relationship to [Recipient Name]: [Relationship].
+
+I am providing this letter voluntarily and understand it may be relied upon by [Institution/Consulate/Other Party] in evaluating [Recipient Name]'s application.
+
+Sincerely,
+[Sponsor Name]
+[Contact Information]
+
+*Attaching actual supporting financial documents (bank statements, pay stubs, tax returns) alongside this letter — not just the letter alone — is usually what a visa officer or admissions office is actually looking for to substantiate the stated support.*`,
+  },
+  {
+    slug: "irrevocable-power-of-attorney-template",
+    name: "Irrevocable Power of Attorney",
+    seoTitle: "Free Irrevocable Power of Attorney Template",
+    description: "Free irrevocable power of attorney template — grants authority to an agent that cannot be revoked by the principal, typically because it's coupled with an interest.",
+    category: "Legal",
+    bodyMarkdown: `# Irrevocable Power of Attorney
+
+**Principal:** [Name] · **Agent (Attorney-in-Fact):** [Name] · **Date:** [Date]
+
+## 1. Grant of Authority
+I, [Principal Name], appoint [Agent Name] as my Attorney-in-Fact, with authority to act on my behalf regarding: [Specific, limited scope — e.g. "executing documents related to the sale of [specific property]" or "voting shares in [Company] pursuant to [Agreement]"].
+
+## 2. Coupled with an Interest — Irrevocability
+This power of attorney is irrevocable because it is coupled with an interest, specifically: [Describe the interest — e.g. "Agent's security interest in the property under [Loan/Security Agreement dated [Date]]"]. As such, it cannot be revoked by Principal while that interest remains outstanding.
+
+## 3. Duration
+This power remains in effect until [the underlying interest described above is satisfied / a specific date / event], at which point it automatically terminates.
+
+## 4. Third-Party Reliance
+Third parties may rely on this power of attorney as evidence of Agent's authority until they receive actual notice of its termination.
+
+---
+Principal signature: ______________________  Date: ____________
+
+**Notarization:**
+State of [State], County of [County]
+Subscribed and sworn before me this ____ day of __________, 20__.
+Notary Public: ______________________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. Courts scrutinize irrevocable powers of attorney closely — the "coupled with an interest" requirement is a real legal standard, not just boilerplate language, and a power of attorney that isn't genuinely coupled with an interest may still be revocable regardless of what it says.*`,
+  },
+  {
+    slug: "application-for-change-of-name-template",
+    name: "Application for Change of Name",
+    seoTitle: "Free Application for Change of Name Template",
+    description: "Free application for change of name template for an individual petitioning to legally change their name.",
+    category: "Legal",
+    bodyMarkdown: `# Application for Change of Name
+
+**Petitioner:** [Current Legal Name] · **Date:** [Date]
+
+## Requested Name Change
+Current name: [Current Name] · Requested new name: [New Name]
+
+## Personal Information
+Date of birth: [Date] · Place of birth: [Location] · Current address: [Address]
+
+## Reason for Name Change
+[ ] Marriage  [ ] Divorce  [ ] Personal preference  [ ] Gender transition  [ ] Other: ______
+
+## Criminal History Disclosure (if required)
+[ ] I have no felony convictions.
+[ ] I have the following felony conviction(s), and am not seeking this name change to evade law enforcement or creditors: [Details, if applicable]
+
+## Certification
+I certify that this application is not made for any fraudulent or improper purpose, and the information above is true and correct.
+
+---
+Petitioner signature: ______________________  Date: ____________
+
+**Notarization (if required):**
+Subscribed and sworn before me this ____ day of __________, 20__.
+Notary Public: ______________________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. Most states require this petition to be filed with a specific court, often with a filing fee, published notice in a local newspaper, and sometimes a hearing — a name change on marriage typically follows a simpler administrative process instead of this court petition, so confirm which path actually applies to your situation.*`,
+  },
+  {
+    slug: "cleaning-services-agreement-template",
+    name: "Cleaning Services Agreement",
+    seoTitle: "Free Cleaning Services Agreement Template",
+    description: "Free cleaning services agreement template between a cleaning company and a residential or commercial client.",
+    category: "Business",
+    bodyMarkdown: `# Cleaning Services Agreement
+
+**Cleaning Company:** [Name] · **Client:** [Name] · **Property Address:** [Address] · **Date:** [Date]
+
+## 1. Services
+Cleaning Company will provide the following services: [List — e.g. dusting, vacuuming, kitchen/bathroom cleaning, trash removal], [Frequency — weekly, biweekly, monthly].
+
+## 2. Fee
+[Amount] per visit / [Amount] per month, due [Terms].
+
+## 3. Access
+Client will provide access via [key/code/on-site presence], and Cleaning Company will [return access after each visit / hold it for the duration of the agreement].
+
+## 4. Supplies and Equipment
+[ ] Cleaning Company provides all supplies and equipment.
+[ ] Client provides supplies; Cleaning Company brings only [specific items].
+
+## 5. Liability and Insurance
+Cleaning Company maintains general liability insurance and, if applicable, bonding for its staff. Cleaning Company is not liable for pre-existing damage or normal wear.
+
+## 6. Cancellation
+[Notice required to cancel a scheduled visit without a fee, e.g. 24 hours.]
+
+## 7. Term and Termination
+This Agreement runs [month-to-month] and either party may terminate with [Notice Period] notice.
+
+---
+Cleaning Company: ______________________  Date: ____________
+Client: ______________________  Date: ____________
+
+*Confirming the cleaning company is bonded and insured (Section 5) before handing over a house key is a simple check that protects a client if something goes missing or gets damaged during a cleaning visit.*`,
+  },
+  {
+    slug: "exclusive-songwriter-agreement-template",
+    name: "Exclusive Songwriter Agreement",
+    seoTitle: "Free Exclusive Songwriter Agreement Template",
+    description: "Free exclusive songwriter agreement template between a music publisher and a songwriter, covering compensation, ownership, and exclusivity.",
+    category: "Business",
+    bodyMarkdown: `# Exclusive Songwriter Agreement
+
+**Publisher:** [Company Name] · **Songwriter:** [Name] · **Date:** [Date]
+
+## 1. Exclusive Services
+Songwriter agrees to render songwriting services exclusively to Publisher during the Term, and to deliver at least [Number] commercially satisfactory compositions per [Contract Year].
+
+## 2. Grant of Rights
+Songwriter assigns to Publisher [all/a specified share] of the copyright in compositions written during the Term, in exchange for the compensation below.
+
+## 3. Advance and Royalties
+Publisher pays Songwriter a recoupable advance of [Amount] per Contract Year, against [%] of net publishing income (mechanical, performance, sync royalties) earned from Songwriter's compositions.
+
+## 4. Term
+Initial term: [Duration], with Publisher having [Number] options to extend for additional Contract Years, contingent on Songwriter's delivery obligations being met.
+
+## 5. Administration
+Publisher will administer the compositions (collecting royalties, licensing), and will provide Songwriter with royalty statements [Frequency].
+
+## 6. Reversion
+[State whether and under what conditions unexploited compositions revert to Songwriter after the Term ends.]
+
+---
+Publisher: ______________________  Date: ____________
+Songwriter: ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. Exclusive songwriter deals typically involve giving up significant ownership of your compositions in exchange for an advance and Publisher's administration — a music attorney's review of the royalty rate, reversion terms, and delivery requirements is standard practice before signing one.*`,
+  },
+  {
+    slug: "catering-services-agreement-template",
+    name: "Catering Services Agreement",
+    seoTitle: "Free Catering Services Agreement Template",
+    description: "Free catering services agreement template between a caterer and a client for an event, covering menu, headcount, and payment.",
+    category: "Business",
+    bodyMarkdown: `# Catering Services Agreement
+
+**Caterer:** [Name/Company] · **Client:** [Name] · **Event:** [Description] · **Event Date:** [Date]
+
+## 1. Services
+Caterer will provide food and beverage service for the event, per the menu selected in Exhibit A, for an estimated [Number] guests.
+
+## 2. Guaranteed Headcount
+Client must provide a final guaranteed guest count by [Date, e.g. 5 business days before the event]. Client will be billed for this guaranteed number even if fewer guests attend.
+
+## 3. Fee
+Total estimated cost: [Amount], based on the guaranteed headcount and menu selected, plus [service fee/gratuity/tax], due [Payment schedule — e.g. deposit at signing, balance [Timeframe] before the event].
+
+## 4. Menu Changes
+Menu changes requested after [Date] may not be accommodated or may incur additional fees.
+
+## 5. Dietary Restrictions
+Client will communicate any known dietary restrictions or allergies by [Date], and Caterer will make reasonable accommodations.
+
+## 6. Cancellation
+[Refund schedule based on how far in advance cancellation occurs.]
+
+## 7. Equipment and Setup
+[State whether Caterer provides serving equipment, linens, and staff, and any setup/breakdown time requirements at the venue.]
+
+---
+Caterer: ______________________  Date: ____________
+Client: ______________________  Date: ____________
+
+*Locking in the guaranteed headcount close to the event (Section 2) — rather than far in advance — gives the client more accurate numbers while still giving the caterer enough lead time to actually purchase food and staff appropriately.*`,
+  },
+  {
+    slug: "video-production-agreement-template",
+    name: "Video Production Agreement",
+    seoTitle: "Free Video Production Agreement Template",
+    description: "Free video production agreement template between a video producer/production company and a client commissioning a video project.",
+    category: "Business",
+    bodyMarkdown: `# Video Production Agreement
+
+**Producer:** [Name/Company] · **Client:** [Name] · **Project:** [Description] · **Date:** [Date]
+
+## 1. Scope
+Producer will produce a video for Client per the following specifications: [Length, style, deliverable formats], including [Number] rounds of revisions.
+
+## 2. Production Schedule
+Pre-production/scripting: [Date] · Filming: [Date(s)] · First cut delivered: [Date] · Final delivery: [Date]
+
+## 3. Fee
+Total fee: [Amount], payable [Terms — e.g. 50% deposit, 50% on final delivery].
+
+## 4. Ownership
+Upon full payment, Client owns the final delivered video. Producer retains ownership of raw/unused footage and may use the final video in Producer's portfolio unless Client requests otherwise in writing.
+
+## 5. Music and Third-Party Content
+[State who is responsible for licensing any music, stock footage, or other third-party content used in the video, and the associated costs.]
+
+## 6. Talent Releases
+Producer will obtain signed model/talent releases from anyone appearing on camera, using the separate Model Release Form.
+
+## 7. Revisions Beyond Scope
+Additional revision rounds beyond those included will be billed at [Hourly rate/flat fee per round].
+
+---
+Producer: ______________________  Date: ____________
+Client: ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. Confirming who's responsible for music licensing (Section 5) upfront matters — a finished video using unlicensed commercial music can get flagged or taken down on platforms like YouTube, or worse, trigger a real copyright claim.*`,
+  },
+  {
+    slug: "statement-of-earnings-pay-stub-template",
+    name: "Statement of Earnings (Pay Stub)",
+    seoTitle: "Free Statement of Earnings (Pay Stub) Template",
+    description: "Free statement of earnings / pay stub template documenting an employee's gross pay, deductions, and net pay for a pay period.",
+    category: "Finance",
+    bodyMarkdown: `# Statement of Earnings
+
+**Employer:** [Company Name] · **Employee:** [Name] · **Employee ID:** [ID]
+**Pay Period:** [Start Date] – [End Date] · **Pay Date:** [Date]
+
+## Earnings
+| Type | Hours/Rate | Amount |
+|----------|-----------------|--------|
+| Regular | [Hours × Rate] | [Amount] |
+| Overtime | [Hours × Rate] | [Amount] |
+| Bonus/Commission | — | [Amount] |
+| **Gross Pay** | | **[Amount]** |
+
+## Deductions
+| Deduction | Amount |
+|---------------|--------|
+| Federal income tax | [Amount] |
+| State income tax | [Amount] |
+| Social Security | [Amount] |
+| Medicare | [Amount] |
+| Health insurance | [Amount] |
+| Retirement (401k/etc.) | [Amount] |
+| **Total Deductions** | **[Amount]** |
+
+## Net Pay
+**Net Pay: [Amount]**
+
+## Year-to-Date Summary
+Gross YTD: [Amount] · Deductions YTD: [Amount] · Net YTD: [Amount]
+
+---
+[Company Name, Address]
+
+*Employees frequently need this document to prove income for a loan, apartment, or lease application — issuing pay stubs consistently every pay period (not just on request) saves time for both the employee and payroll when that need comes up.*`,
+  },
+  {
+    slug: "authorization-to-release-criminal-record-template",
+    name: "Authorization to Release Criminal Record",
+    seoTitle: "Free Authorization to Release Criminal Record Template",
+    description: "Free authorization form template for an individual to consent to the release of their criminal history record to a requesting party.",
+    category: "Legal",
+    bodyMarkdown: `# Authorization to Release Criminal Record
+
+**I, [Full Legal Name],** DOB: [Date] · SSN (last 4): [XXXX], authorize [Law Enforcement Agency/Records Repository] to release my criminal history record to:
+
+## Requesting Party
+Name: [Name/Organization] · Purpose: [e.g. employment background check, licensing application, volunteer screening]
+
+## Scope of Release
+[ ] Complete criminal history record.
+[ ] Records limited to: [Specify, if applicable — e.g. felony convictions only].
+
+## Duration
+This authorization is valid for [Period, e.g. 90 days] from the date signed, or for the single request described above.
+
+## My Rights
+I understand I have the right to review my own record and to dispute any inaccurate information through the appropriate process before it is relied upon by the requesting party.
+
+---
+Signature: ______________________  Date: ____________
+Printed name: ______________________
+
+**Notarization (if required):**
+Subscribed and sworn before me this ____ day of __________, 20__.
+Notary Public: ______________________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. Many states restrict how criminal history can be used in employment decisions ("ban the box" and related laws) — an employer relying on this authorization should confirm their use of the resulting record complies with applicable law, separate from the authorization itself being valid.*`,
+  },
+  {
+    slug: "fiscal-sponsorship-agreement-template",
+    name: "Fiscal Sponsorship Agreement",
+    seoTitle: "Free Fiscal Sponsorship Agreement Template",
+    description: "Free fiscal sponsorship agreement template — a registered nonprofit sponsors a project that lacks its own tax-exempt status, allowing it to receive tax-deductible donations.",
+    category: "Business",
+    bodyMarkdown: `# Fiscal Sponsorship Agreement
+
+**Fiscal Sponsor:** [Nonprofit Name, 501(c)(3) status] · **Sponsored Project:** [Name] · **Project Director:** [Name] · **Date:** [Date]
+
+## 1. Purpose
+Fiscal Sponsor agrees to act as the fiscal sponsor for the Project described above, allowing the Project to receive tax-deductible donations and grants under Sponsor's tax-exempt status.
+
+## 2. Sponsor's Control
+Sponsor retains ultimate legal and financial control over funds raised for the Project, including the right to ensure funds are used consistent with Sponsor's exempt purpose and applicable law ("Model A" comprehensive fiscal sponsorship) [or describe an alternative model if used].
+
+## 3. Administrative Fee
+Sponsor retains [%] of funds raised for the Project as an administrative fee, to cover accounting, compliance, and oversight costs.
+
+## 4. Project Director's Responsibilities
+Project Director will manage day-to-day Project activities and submit [Frequency] reports and budget requests to Sponsor.
+
+## 5. Disbursements
+Sponsor will disburse funds for Project expenses upon Project Director's request, consistent with the approved budget and Sponsor's exempt purpose.
+
+## 6. Term and Termination
+This arrangement continues until [Date/the Project obtains its own tax-exempt status/either party terminates with [Notice Period] notice]. Upon termination, remaining funds will be [transferred to Project's new fiscal home, if one exists and Sponsor approves / used consistent with Sponsor's exempt purpose].
+
+---
+Fiscal Sponsor: ______________________  Date: ____________
+Project Director: ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal or tax advice. Fiscal sponsorship lets a new project accept tax-deductible donations well before it could realistically obtain its own 501(c)(3) status — but the sponsor genuinely must retain control and exercise real oversight (not just pass funds through), or the arrangement risks failing IRS scrutiny for both parties.*`,
+  },
+  {
+    slug: "domain-name-sales-agreement-template",
+    name: "Domain Name Sales Agreement",
+    seoTitle: "Free Domain Name Sales Agreement Template",
+    description: "Free domain name sales agreement template for buying or selling a domain name, including transfer process and warranties.",
+    category: "Business",
+    bodyMarkdown: `# Domain Name Sales Agreement
+
+**Seller:** [Name] · **Buyer:** [Name] · **Domain Name:** [domain.com] · **Date:** [Date]
+
+## 1. Sale
+Seller agrees to sell, and Buyer agrees to purchase, all right, title, and interest in the domain name described above, for a total purchase price of [Amount].
+
+## 2. Payment
+[ ] Direct payment upon transfer.
+[ ] Held in escrow via [Escrow Service Name] until transfer is confirmed complete.
+
+## 3. Transfer Process
+Upon payment (or escrow confirmation), Seller will initiate the domain transfer to Buyer's chosen registrar within [Number] business days, providing any required authorization/EPP code.
+
+## 4. Warranties
+Seller warrants that: they are the legal owner of the domain, it is free of any liens or disputes (including UDRP complaints), and it is not subject to any pending litigation.
+
+## 5. Post-Transfer
+[State whether Seller will assist with any DNS or email forwarding transition, and for how long.]
+
+## 6. Risk of Non-Delivery
+If Seller fails to complete the transfer within the agreed timeframe, [Buyer's payment will be refunded in full / other remedy specified].
+
+---
+Seller: ______________________  Date: ____________
+Buyer: ______________________  Date: ____________
+
+*Using a reputable domain escrow service (rather than direct payment) is standard practice for any domain sale above a nominal amount — it protects the buyer from paying before the transfer completes and the seller from releasing the domain before payment clears.*`,
+  },
+  {
+    slug: "hall-rental-agreement-template",
+    name: "Hall Rental Agreement",
+    seoTitle: "Free Hall Rental Agreement Template",
+    description: "Free hall rental agreement template for renting a banquet hall, community hall, or event space for a private function.",
+    category: "Real Estate",
+    bodyMarkdown: `# Hall Rental Agreement
+
+**Venue/Owner:** [Name] · **Renter:** [Name] · **Event:** [Description] · **Date/Time:** [Date, Time]
+
+## 1. Rental
+Owner rents the hall located at [Address] to Renter for the date and time above, including [setup/breakdown time allotted].
+
+## 2. Fee
+Rental fee: [Amount] · Security deposit: [Amount], refundable within [Number] days after the event, less any deductions for damage or excess cleanup.
+
+## 3. Capacity and Use
+Maximum capacity: [Number] guests. The hall will be used solely for [Permitted use — e.g. private party, not a commercial ticketed event, unless otherwise agreed].
+
+## 4. Alcohol and Catering
+[State the venue's policy on alcohol (permit required?) and outside catering.]
+
+## 5. Renter's Responsibilities
+Renter will leave the hall in the condition found, remove all decorations and trash, and vacate by the agreed end time. Late departure may incur an additional fee of [Amount] per hour.
+
+## 6. Insurance
+[State whether Renter must provide proof of event liability insurance.]
+
+## 7. Cancellation
+[Refund schedule for cancellation, based on notice given.]
+
+---
+Owner/Venue: ______________________  Date: ____________
+Renter: ______________________  Date: ____________
+
+*Requiring proof of event liability insurance for larger gatherings (Section 6) is standard practice at many venues — it's a relatively cheap, one-time policy that protects both the renter and the venue if a guest is injured during the event.*`,
+  },
+  {
+    slug: "swimming-pool-service-agreement-template",
+    name: "Swimming Pool Service Agreement",
+    seoTitle: "Free Swimming Pool Service Agreement Template",
+    description: "Free swimming pool service agreement template for ongoing pool cleaning and maintenance service.",
+    category: "Business",
+    bodyMarkdown: `# Swimming Pool Service Agreement
+
+**Service Provider:** [Name/Company] · **Client:** [Name] · **Property Address:** [Address] · **Date:** [Date]
+
+## 1. Services
+Provider will perform the following services [Frequency, e.g. weekly]: [Skimming, vacuuming, chemical testing/balancing, filter cleaning, equipment inspection].
+
+## 2. Fee
+[Amount] per [visit/month], due [Terms]. Chemicals: [ ] Included in the fee [ ] Billed separately at cost.
+
+## 3. Equipment Repairs
+Repairs beyond routine maintenance (pumps, heaters, liners) are billed separately, with Client's approval obtained before work begins, except for emergency repairs needed to prevent further damage.
+
+## 4. Access
+Client will provide Provider with access to the pool area, including gate codes/keys as needed.
+
+## 5. Liability
+Provider is not responsible for pre-existing equipment issues or damage from causes outside Provider's control (weather, misuse by others).
+
+## 6. Term and Termination
+[ ] Seasonal (e.g. [Start Date] to [End Date]).
+[ ] Year-round, month-to-month, terminable by either party with [Notice Period] notice.
+
+---
+Service Provider: ______________________  Date: ____________
+Client: ______________________  Date: ____________
+
+*Getting approval before non-routine repairs (Section 3) — except genuine emergencies — is what prevents a surprise bill for equipment work the client never actually authorized.*`,
+  },
+  {
+    slug: "landscaping-contract-template",
+    name: "Landscaping Contract",
+    seoTitle: "Free Landscaping Contract Template",
+    description: "Free landscaping contract template for a landscaper providing lawn care, maintenance, or design/installation services.",
+    category: "Business",
+    bodyMarkdown: `# Landscaping Contract
+
+**Landscaper:** [Name/Company] · **Client:** [Name] · **Property Address:** [Address] · **Date:** [Date]
+
+## 1. Services
+[ ] Recurring maintenance: [mowing, edging, weeding, fertilization], [Frequency].
+[ ] One-time project: [Design/installation work described in Exhibit A].
+
+## 2. Fee
+Recurring: [Amount] per visit/month. Project-based: [Amount total, per the scope in Exhibit A], payable [Deposit/milestone schedule].
+
+## 3. Materials (project-based work)
+[State who supplies plants, mulch, hardscape materials, and any warranty on plant survival — e.g. "one growing season guarantee on installed plants, excluding damage from neglect or extreme weather."]
+
+## 4. Property Access and Utilities
+Client grants access to the property for scheduled work and will mark or disclose any underground utilities, sprinkler lines, or hazards before excavation work begins.
+
+## 5. Weather Delays
+Scheduled visits may be rescheduled due to weather, without penalty to either party.
+
+## 6. Cancellation
+[Notice required to cancel recurring service or a scheduled project visit.]
+
+---
+Landscaper: ______________________  Date: ____________
+Client: ______________________  Date: ____________
+
+*Calling 811 (or your local utility locate service) before any digging or excavation work — not just relying on the client's memory of what's buried — is standard practice and can prevent a costly and dangerous utility strike.*`,
+  },
+  {
+    slug: "snow-removal-service-agreement-template",
+    name: "Snow Removal Service Agreement",
+    seoTitle: "Free Snow Removal Service Agreement Template",
+    description: "Free snow removal service agreement template for a contractor providing snow plowing and ice management to a residential or commercial property.",
+    category: "Business",
+    bodyMarkdown: `# Snow Removal Service Agreement
+
+**Contractor:** [Name/Company] · **Client:** [Name] · **Property Address:** [Address] · **Season:** [Start] – [End]
+
+## 1. Services
+Contractor will provide snow plowing/shoveling and, if applicable, ice management (salting/de-icing) for [driveway/parking lot/walkways], triggered when snowfall reaches [Trigger depth, e.g. 2 inches].
+
+## 2. Fee Structure
+[ ] Seasonal flat rate: [Amount] for the full season, regardless of snowfall frequency.
+[ ] Per-visit rate: [Amount] per service call.
+
+## 3. Response Time
+Contractor will begin service within [Timeframe] after the trigger depth is reached, and complete service within [Timeframe] of starting, weather permitting.
+
+## 4. Liability
+Contractor is not responsible for damage to unmarked landscaping, driveways, or objects not visible under snow cover, or for ice formation from causes outside Contractor's control (e.g. rapid freeze-thaw after treatment).
+
+## 5. Client's Responsibilities
+Client will mark [driveway edges, sprinkler heads, other hazards] before the season begins, and move vehicles as needed to allow full-property service.
+
+## 6. Insurance
+Contractor maintains general liability insurance covering snow removal operations.
+
+---
+Contractor: ______________________  Date: ____________
+Client: ______________________  Date: ____________
+
+*Marking hazards before the first snowfall (Section 5) — not after a plow blade has already found them the hard way — is what actually prevents the most common source of disputes in snow removal contracts.*`,
+  },
+  {
+    slug: "auto-lease-agreement-template",
+    name: "Auto Lease Agreement",
+    seoTitle: "Free Auto Lease Agreement Template",
+    description: "Free auto lease agreement template for leasing a vehicle, covering monthly payments, mileage limits, and end-of-lease terms.",
+    category: "Finance",
+    bodyMarkdown: `# Auto Lease Agreement
+
+**Lessor:** [Name/Dealership] · **Lessee:** [Name]
+**Vehicle:** [Year, Make, Model, VIN] · **Date:** [Date]
+
+## 1. Lease Term
+This lease runs for [Number] months, beginning [Date] and ending [Date].
+
+## 2. Payments
+Monthly lease payment: [Amount], due on the [Day] of each month. Due at signing: [Amount, itemized — first payment, security deposit, fees].
+
+## 3. Mileage Allowance
+Included mileage: [Number] miles per year. Excess mileage charged at [Amount] per mile over the limit at lease end.
+
+## 4. Wear and Use
+Lessee is responsible for maintaining the vehicle per manufacturer recommendations and returning it in good condition, normal wear excepted, per Lessor's wear-and-tear standards.
+
+## 5. End of Lease Options
+At lease end, Lessee may: [ ] return the vehicle  [ ] purchase it for the residual value of [Amount]  [ ] extend the lease, subject to Lessor's approval.
+
+## 6. Early Termination
+Terminating this lease early may result in an early termination fee of [Amount/formula], per the lease's early termination provisions.
+
+## 7. Insurance
+Lessee must maintain insurance meeting at least [Minimum coverage levels] for the duration of the lease.
+
+---
+Lessor: ______________________  Date: ____________
+Lessee: ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. Federal law (the Consumer Leasing Act) requires specific standardized disclosures for consumer vehicle leases — a dealership's actual lease contract must meet these requirements, which this general outline does not replace.*`,
+  },
+  {
+    slug: "producer-contract-template",
+    name: "Producer Contract",
+    seoTitle: "Free Producer Contract Template",
+    description: "Free producer contract template for a music or film producer engaged to produce a specific project.",
+    category: "Business",
+    bodyMarkdown: `# Producer Contract
+
+**Producer:** [Name] · **Client/Artist:** [Name] · **Project:** [Description] · **Date:** [Date]
+
+## 1. Services
+Producer will produce [Number] tracks/the project described above for Client, including [pre-production, recording session oversight, mixing coordination — specify scope].
+
+## 2. Compensation
+[ ] Flat fee of [Amount], payable [Terms].
+[ ] Fee of [Amount] plus a royalty/points of [%] of [net sales/streaming revenue] from the resulting work.
+
+## 3. Ownership and Credit
+[State ownership of the resulting master recording — commonly owned by Client/label, with Producer credited — and confirm Producer will receive credit as "Produced by [Name]" in all releases.]
+
+## 4. Delivery Schedule
+Producer will deliver [milestones — rough mix, final mix] by [Dates].
+
+## 5. Revisions
+[Number] rounds of revisions included; additional revisions billed at [Rate].
+
+## 6. Sample Clearance
+[State who is responsible for clearing any samples used in the production, and the associated costs/liability.]
+
+---
+Producer: ______________________  Date: ____________
+Client/Artist: ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. Producer royalty points and master ownership are heavily negotiated in the real music industry — an entertainment attorney's review is standard practice before signing anything beyond a small, one-off flat-fee session.*`,
+  },
+  {
+    slug: "delivery-agreement-template",
+    name: "Delivery Agreement",
+    seoTitle: "Free Delivery Agreement Template",
+    description: "Free delivery agreement template between a business and a delivery service/driver for transporting goods to customers.",
+    category: "Business",
+    bodyMarkdown: `# Delivery Agreement
+
+**Business:** [Company Name] · **Delivery Provider:** [Name/Company] · **Date:** [Date]
+
+## 1. Services
+Delivery Provider will deliver goods from [Business Name] to customers within [Service Area], per delivery requests submitted by Business.
+
+## 2. Fees
+[Per-delivery rate of [Amount] / hourly rate of [Amount] / percentage of order value of [%]], invoiced [Frequency].
+
+## 3. Delivery Standards
+Delivery Provider will deliver items within [Timeframe] of pickup, handle goods carefully (especially food/fragile items), and follow any special delivery instructions provided.
+
+## 4. Independent Contractor Status
+Delivery Provider is an independent contractor, not an employee of Business, and is responsible for their own vehicle, insurance, and taxes, unless otherwise specified.
+
+## 5. Insurance
+Delivery Provider maintains auto insurance covering their delivery activities, at levels meeting or exceeding [Minimum requirements].
+
+## 6. Liability for Damaged/Lost Goods
+Delivery Provider is responsible for goods damaged or lost due to their negligence during transit, up to [Amount/the value of the order].
+
+## 7. Term and Termination
+This Agreement runs [month-to-month] and may be terminated by either party with [Notice Period] notice.
+
+---
+Business: ______________________  Date: ____________
+Delivery Provider: ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. Worker classification for delivery drivers is under active legal scrutiny in many states — genuinely treating the driver as independent (their own schedule, vehicle, and ability to work for others) matters more than what this contract labels them, if the classification is ever challenged.*`,
+  },
+  {
+    slug: "notice-of-private-sale-of-collateral-template",
+    name: "Notice of Private Sale of Collateral",
+    seoTitle: "Free Notice of Private Sale of Collateral Template",
+    description: "Free notice of private sale of collateral template — a secured creditor notifies a defaulting debtor before privately selling repossessed collateral.",
+    category: "Finance",
+    bodyMarkdown: `# Notice of Private Sale of Collateral
+
+[Date]
+
+[Debtor Name]
+[Debtor Address]
+
+**RE: Notice of Private Sale — Collateral securing [Loan/Security Agreement Reference]**
+
+Dear [Debtor Name],
+
+You are in default under the [Loan/Security Agreement] dated [Date]. We intend to sell the following collateral at a private sale:
+
+## Collateral
+[Description of the collateral — e.g. vehicle, equipment, VIN/serial number]
+
+## Sale Details
+The private sale will occur on or after [Date, per your state's required notice period], at [general terms — the sale will be conducted in a commercially reasonable manner].
+
+## Your Rights
+You have the right to redeem the collateral before the sale by paying the full amount owed, including reasonable expenses, or to object to the sale terms.
+
+## Deficiency
+If the sale proceeds do not cover the full amount you owe, you may remain liable for the deficiency, plus any costs of collection, as permitted by law.
+
+Please contact us at [Contact Information] with any questions.
+
+Sincerely,
+[Creditor Name/Company]
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. The UCC requires a secured creditor to give the debtor "reasonable notification" before disposing of collateral, and to conduct the sale in a "commercially reasonable manner" — a defective notice or an unreasonable sale process can eliminate the creditor's right to pursue a deficiency balance.*`,
+  },
+  {
+    slug: "overtime-policy-template",
+    name: "Overtime Policy",
+    seoTitle: "Free Overtime Policy Template",
+    description: "Free overtime policy template establishing when overtime work is authorized and how it's compensated for non-exempt employees.",
+    category: "HR",
+    bodyMarkdown: `# Overtime Policy
+
+**Company:** [Company Name] · **Effective Date:** [Date]
+
+## Purpose
+This policy explains how overtime is authorized and compensated for non-exempt employees, consistent with the Fair Labor Standards Act (FLSA) and applicable state law.
+
+## Overtime Rate
+Non-exempt employees are paid [1.5x] their regular rate for hours worked over [40 hours per week / applicable state threshold, e.g. 8 hours per day in some states].
+
+## Prior Authorization Required
+Overtime must be approved in advance by [Manager/Supervisor]. Working unapproved overtime may result in disciplinary action, but authorized or worked overtime hours will always be paid as required by law, regardless of approval status.
+
+## Calculating Overtime
+Overtime is calculated based on actual hours worked, not including paid time off, holidays, or sick leave, unless required otherwise by state law.
+
+## Exempt Employees
+Employees classified as exempt under the FLSA are not eligible for overtime pay, regardless of hours worked, per their exemption status.
+
+## Timekeeping
+All non-exempt employees must accurately record all hours worked, including any overtime, using [Timekeeping system].
+
+---
+Adopted by: ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. Under the FLSA, an employer must pay overtime for hours actually worked over 40/week even if it was never pre-approved — the "authorization required" language can support disciplinary action for the policy violation, but it can never be used to withhold pay legally owed.*`,
+  },
+  {
+    slug: "revocation-of-trust-template",
+    name: "Revocation of Trust",
+    seoTitle: "Free Revocation of Trust Template",
+    description: "Free revocation of trust template — the grantor of a revocable living trust formally terminates the trust and reclaims its assets.",
+    category: "Legal",
+    bodyMarkdown: `# Revocation of Trust
+
+**Trust Name:** [Trust Name] · **Dated:** [Original Trust Date]
+**Grantor/Settlor:** [Name] · **Trustee:** [Name] · **Date of Revocation:** [Date]
+
+## 1. Revocation
+I, [Grantor Name], as Grantor of the [Trust Name] dated [Original Trust Date], hereby exercise my reserved right to revoke this trust in its entirety, pursuant to Article [X] of the trust agreement.
+
+## 2. Effective Date
+This revocation is effective as of [Date].
+
+## 3. Return of Assets
+All assets held in the name of the trust will be transferred back to Grantor individually, or as Grantor otherwise directs, and Trustee's authority over trust assets terminates as of the effective date above.
+
+## 4. Trustee's Duties
+Trustee will cooperate in retitling trust assets (real estate, bank accounts, investment accounts) back to Grantor's individual name, and provide a final accounting of trust assets.
+
+---
+Grantor signature: ______________________  Date: ____________
+
+**Notarization:**
+State of [State], County of [County]
+Subscribed and sworn before me this ____ day of __________, 20__.
+Notary Public: ______________________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. Only a REVOCABLE trust can be terminated this way — an irrevocable trust generally cannot be revoked by the grantor alone, if at all. Also remember that any asset titled in the trust's name (like real estate) needs its own deed or title change back to your individual name — revoking the trust document alone doesn't automatically retitle those assets.*`,
+  },
+  {
+    slug: "house-sitting-instruction-form-template",
+    name: "House Sitting Instruction Form",
+    seoTitle: "Free House Sitting Instruction Form Template",
+    description: "Free house sitting instruction form template for a homeowner to leave detailed instructions for a house sitter.",
+    category: "Business",
+    bodyMarkdown: `# House Sitting Instructions
+
+**Homeowner:** [Name] · **House Sitter:** [Name] · **Dates:** [Start Date] – [End Date]
+
+## Contact Information
+Homeowner's cell: [Phone] · Emergency contact: [Name, Phone]
+Neighbor to contact if needed: [Name, Phone]
+
+## Home Access and Security
+Alarm code: [Code] · Wi-Fi password: [Password] · Spare key location (if applicable): [Details]
+[Any specific instructions — which doors to keep locked, garage code, etc.]
+
+## Pets (if applicable)
+Feeding schedule: [Details] · Medications: [Details] · Vet contact: [Name, Phone]
+Behavioral notes: [Any relevant details]
+
+## Plants and Mail
+Watering schedule: [Details] · Mail/package handling: [Instructions]
+
+## Utilities and Maintenance
+Thermostat settings: [Details] · Trash/recycling day: [Day]
+Anything that needs regular checking (sump pump, etc.): [Details]
+
+## In Case of Emergency
+Nearest hospital: [Location] · Homeowner's insurance info location: [Where to find it]
+[Instructions for handling a break-in, fire, flood, or other emergency.]
+
+---
+Homeowner signature: ______________________  Date: ____________
+House Sitter signature: ______________________  Date: ____________
+
+*Writing down the "boring" logistics (Wi-Fi password, trash day, thermostat) is what actually makes a house-sitting arrangement go smoothly — the emergency contact information matters most, but it's the small daily details that a sitter is most likely to need and least likely to know without being told.*`,
+  },
+  {
+    slug: "open-listing-agreement-template",
+    name: "Open Listing Agreement",
+    seoTitle: "Free Open Listing Agreement Template",
+    description: "Free open listing agreement template — a property owner lists with multiple real estate agents, paying commission only to whichever one produces a buyer.",
+    category: "Real Estate",
+    bodyMarkdown: `# Open Listing Agreement
+
+**Owner:** [Name] · **Agent/Broker:** [Name/Brokerage]
+**Property:** [Address] · **List Price:** [Amount] · **Date:** [Date]
+
+## 1. Non-Exclusive Listing
+Owner engages Agent, on a non-exclusive basis, to market the property described above for sale. Owner may simultaneously list the property with other agents/brokers and may also sell it independently without owing any commission.
+
+## 2. Commission
+If Agent (or Agent's efforts) procures a ready, willing, and able buyer who completes the purchase, Owner will pay Agent a commission of [%] of the sale price. No commission is owed to Agent if another agent, or Owner directly, produces the buyer who ultimately completes the sale.
+
+## 3. Term
+This listing runs from [Start Date] to [End Date], after which it expires unless renewed in writing.
+
+## 4. Marketing
+Agent may market the property through [Methods — MLS listing subject to MLS rules, signage, online listings], as Agent determines appropriate.
+
+## 5. Property Access
+Owner will provide reasonable access for showings, subject to advance scheduling.
+
+---
+Owner: ______________________  Date: ____________
+Agent: ______________________  Date: ____________
+
+*Because commission only goes to whichever agent actually produces the buyer, agents typically invest less marketing effort in an open listing than an exclusive one — owners choosing this structure to maximize agent competition should weigh that against potentially less aggressive marketing from any single agent.*`,
+  },
+  {
+    slug: "authorization-temporary-guardianship-minor-template",
+    name: "Authorization for Temporary Guardianship of Minor",
+    seoTitle: "Free Authorization for Temporary Guardianship of Minor Template",
+    description: "Free temporary guardianship authorization template — a parent grants another adult temporary authority to care for their minor child.",
+    category: "Legal",
+    bodyMarkdown: `# Authorization for Temporary Guardianship of Minor
+
+**Parent(s)/Legal Guardian(s):** [Name(s)] · **Temporary Guardian:** [Name]
+**Child(ren):** [Name(s), Date(s) of Birth] · **Date:** [Date]
+
+## 1. Grant of Temporary Authority
+I/We, the parent(s)/legal guardian(s) of the child(ren) named above, authorize [Temporary Guardian Name] to make decisions regarding the child(ren)'s care, including [education, routine and emergency medical treatment, and general welfare], during the period below.
+
+## 2. Duration
+This authorization is effective from [Start Date] to [End Date], or until earlier revoked in writing by the undersigned parent(s)/guardian(s).
+
+## 3. Scope
+This authorization does NOT transfer legal custody or terminate the parent(s)'/guardian(s)' parental rights. It grants only the temporary authority described above.
+
+## 4. Reason
+[e.g. parent's travel, military deployment, medical treatment — optional but often required by schools/doctors.]
+
+## 5. Emergency Contact
+Parent(s)'/Guardian(s)' contact during this period: [Phone/Email]
+Physician: [Name, Phone] · Known allergies/medical conditions: [Details]
+
+---
+Parent(s)/Guardian(s) signature: ______________________  Date: ____________
+
+**Notarization (recommended, and required in some states):**
+Subscribed and sworn before me this ____ day of __________, 20__.
+Notary Public: ______________________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. Some states have a specific statutory form for this (sometimes called a "power of attorney for care of a minor child") with particular required language — schools and hospitals may specifically require that state form rather than a generic authorization, so check before relying on this template for an actual emergency.*`,
+  },
+  {
+    slug: "barter-agreement-template",
+    name: "Barter Agreement",
+    seoTitle: "Free Barter Agreement Template",
+    description: "Free barter agreement template for exchanging goods or services between two parties without a cash transaction.",
+    category: "Business",
+    bodyMarkdown: `# Barter Agreement
+
+**Party A:** [Name] · **Party B:** [Name] · **Date:** [Date]
+
+## 1. Exchange
+Party A agrees to provide: [Description of goods/services], with an estimated fair market value of [Amount].
+Party B agrees to provide, in exchange: [Description of goods/services], with an estimated fair market value of [Amount].
+
+## 2. Timing
+Party A will deliver by: [Date] · Party B will deliver by: [Date]
+
+## 3. Quality and Condition
+Each party warrants that what they provide will be [new/as described/of merchantable quality], consistent with the description above.
+
+## 4. Unequal Value
+[If the values are not exactly equal, state whether the difference is covered by a cash payment of [Amount] from [Party], or accepted as-is by both parties.]
+
+## 5. Tax Treatment
+Both parties acknowledge that the fair market value of goods/services received in a barter transaction may be taxable income and is each party's own responsibility to report as required by applicable tax law.
+
+## 6. Default
+If either party fails to deliver as agreed, [describe the remedy — e.g. the other party is released from their obligation and may seek the value of what they already delivered].
+
+---
+Party A: ______________________  Date: ____________
+Party B: ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal or tax advice. Barter transactions are generally taxable at fair market value in most jurisdictions — many businesses that barter regularly are surprised to learn they owe tax on the value received, even though no cash changed hands.*`,
+  },
+  {
+    slug: "accord-and-satisfaction-agreement-template",
+    name: "Accord and Satisfaction Agreement",
+    seoTitle: "Free Accord and Satisfaction Agreement Template",
+    description: "Free accord and satisfaction agreement template — a creditor agrees to accept a lesser payment in full settlement of a disputed debt.",
+    category: "Legal",
+    bodyMarkdown: `# Accord and Satisfaction Agreement
+
+**Creditor:** [Name] · **Debtor:** [Name] · **Date:** [Date]
+
+## 1. Background
+A genuine dispute exists between the parties regarding [Description of the disputed debt/claim], with Creditor asserting Debtor owes [Amount] and Debtor disputing this amount [or the underlying obligation].
+
+## 2. Accord
+In full and final settlement of this disputed claim, Debtor agrees to pay Creditor [Amount] (the "Settlement Amount"), by [Date/method].
+
+## 3. Satisfaction
+Upon receipt of the Settlement Amount, Creditor accepts it in full and final satisfaction and discharge of the entire disputed claim described above, and releases Debtor from any further liability related to it.
+
+## 4. No Admission
+This Agreement is not an admission of liability or wrongdoing by either party and is entered into solely to resolve the dispute without further cost or delay.
+
+## 5. Effect
+Upon Creditor's receipt of the Settlement Amount, this claim is considered fully resolved and neither party may pursue further action related to it.
+
+---
+Creditor: ______________________  Date: ____________
+Debtor: ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. For an accord and satisfaction to be legally effective, most jurisdictions require a genuine, good-faith dispute over the amount owed — simply paying less than an undisputed debt and calling it "paid in full" generally does NOT discharge the remaining balance without the creditor's actual agreement.*`,
+  },
+  {
+    slug: "exclusive-license-agreement-template",
+    name: "Exclusive License Agreement",
+    seoTitle: "Free Exclusive License Agreement Template",
+    description: "Free exclusive license agreement template — a licensor grants a licensee the sole right to use specific intellectual property, excluding even the licensor.",
+    category: "Business",
+    bodyMarkdown: `# Exclusive License Agreement
+
+**Licensor:** [Name] · **Licensee:** [Name] · **Licensed IP:** [Description — patent, trademark, copyright, or other IP] · **Date:** [Date]
+
+## 1. Grant of Exclusive License
+Licensor grants Licensee an EXCLUSIVE license to [use/manufacture/sell/distribute] the Licensed IP within [Territory] and [Field of Use], for the Term of this Agreement. This exclusivity means neither Licensor nor any other party — including Licensor itself — may exercise these rights during the Term.
+
+## 2. Royalties/Fees
+[ ] Upfront fee of [Amount].
+[ ] Ongoing royalty of [%] of [net sales], paid [Frequency], [with a minimum annual royalty of [Amount] required to maintain exclusivity].
+
+## 3. Term
+This Agreement runs for [Term], [with renewal options as described].
+
+## 4. Diligence Obligations
+To maintain exclusivity, Licensee must [meet minimum sales targets / achieve specified commercialization milestones by [Dates]]. Failure to meet these may allow Licensor to convert the license to non-exclusive or terminate it.
+
+## 5. Sublicensing
+[ ] Licensee may sublicense with Licensor's prior written consent.
+[ ] Sublicensing is not permitted.
+
+## 6. Quality Control (for trademark licenses)
+Licensor retains the right to monitor and approve the quality of goods/services offered under the licensed trademark.
+
+## 7. Reversion
+Upon termination, all rights granted revert to Licensor, and Licensee will cease use of the Licensed IP.
+
+---
+Licensor: ______________________  Date: ____________
+Licensee: ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. Tying exclusivity to real diligence obligations (Section 4) protects the licensor from a licensee who locks up valuable IP and then never actually brings it to market — exclusivity without performance requirements can leave a licensor's technology sitting unused for years.*`,
+  },
+  {
+    slug: "certificate-of-authorship-template",
+    name: "Certificate of Authorship",
+    seoTitle: "Free Certificate of Authorship Template",
+    description: "Free certificate of authorship template — a creator certifies they are the original author of a work, often required for copyright registration or IP transfer.",
+    category: "Legal",
+    bodyMarkdown: `# Certificate of Authorship
+
+**Work Title:** [Title] · **Author:** [Name] · **Date of Creation:** [Date] · **Date of Certificate:** [Date]
+
+## Certification
+I, [Author Name], certify that I am the sole original author of the work titled "[Work Title]," described as: [Brief description — e.g. musical composition, software code, written work, artwork].
+
+## Originality
+I certify that this work is my own original creation and does not, to the best of my knowledge, infringe upon the copyright or other intellectual property rights of any third party, except for the following properly licensed/attributed materials, if any: [List, or "none"].
+
+## Contributions of Others (if applicable)
+[If others contributed, describe their role and whether they have separately assigned or licensed their contribution, or note "sole author, no other contributors."]
+
+## Purpose
+This certificate is provided in connection with: [e.g. "copyright registration," "assignment of rights to [Company]," "work-for-hire documentation"].
+
+---
+Author signature: ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. This certificate is commonly requested alongside a copyright registration application or an IP assignment — but registering copyright with the U.S. Copyright Office (or your country's equivalent) is what actually creates the enhanced legal protections, not this certificate alone.*`,
+  },
+  {
+    slug: "ground-lease-template",
+    name: "Ground Lease",
+    seoTitle: "Free Ground Lease Template",
+    description: "Free ground lease template — a landowner leases undeveloped or underdeveloped land to a tenant who builds and owns improvements on it during the lease term.",
+    category: "Real Estate",
+    bodyMarkdown: `# Ground Lease
+
+**Landlord (Fee Owner):** [Name] · **Tenant:** [Name]
+**Property:** [Address/Legal Description] · **Date:** [Date]
+
+## 1. Lease of Land
+Landlord leases the land described above to Tenant, who may construct, own, and operate improvements on it, subject to the terms of this Agreement.
+
+## 2. Term
+This ground lease runs for [Duration — commonly long-term, e.g. 50-99 years], beginning [Date], [with renewal options as described].
+
+## 3. Rent
+Ground rent: [Amount] per [month/year], subject to [escalation schedule — fixed increases, CPI-indexed, or periodic market rent resets].
+
+## 4. Tenant's Improvements
+Tenant may construct [Description of permitted improvements], subject to Landlord's approval of plans [if required], and Tenant owns the improvements during the lease term.
+
+## 5. Financing
+[State whether Tenant may mortgage its leasehold interest to finance construction, and Landlord's rights (e.g. subordination, notice of default) with respect to Tenant's lender.]
+
+## 6. End of Term — Reversion
+Upon expiration or termination, [ ] ownership of improvements reverts to Landlord at no cost, [ ] Tenant must remove improvements and restore the land, [ ] other arrangement: [Specify].
+
+## 7. Default
+[Cure periods and remedies for Tenant's default, including any protections for Tenant's lender to step in and cure.]
+
+---
+Landlord: ______________________  Date: ____________
+Tenant: ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. What happens to the improvements at the end of the term (Section 6) is the single most consequential term in a ground lease — a tenant who builds a building on leased land needs absolute clarity on whether they'll own it, lose it, or have to remove it decades from now.*`,
+  },
+  {
+    slug: "assignment-of-inventions-agreement-template",
+    name: "Assignment of Inventions Agreement",
+    seoTitle: "Free Assignment of Inventions Agreement Template",
+    description: "Free assignment of inventions agreement template — an employee or contractor assigns ownership of work-related inventions and IP to the company.",
+    category: "Business",
+    bodyMarkdown: `# Assignment of Inventions Agreement
+
+**Company:** [Company Name] · **Assignor (Employee/Contractor):** [Name] · **Date:** [Date]
+
+## 1. Assignment
+Assignor assigns to Company all right, title, and interest in any inventions, improvements, designs, works of authorship, or other intellectual property ("Inventions") that Assignor conceives, develops, or reduces to practice during their engagement with Company, that either (a) relate to Company's business or actual/anticipated research, or (b) result from work performed for Company.
+
+## 2. Prior Inventions Excluded
+The following inventions, developed before this engagement, are excluded from this assignment and remain Assignor's property: [List, or "none"].
+
+## 3. Disclosure
+Assignor will promptly disclose to Company any Invention covered by Section 1.
+
+## 4. Assistance
+Assignor will assist Company, at Company's expense, in obtaining and enforcing patents or other IP protection for assigned Inventions, both during and after the engagement.
+
+## 5. Moral Rights Waiver (if applicable)
+To the extent permitted by law, Assignor waives any moral rights in assigned works of authorship.
+
+## 6. Survival
+This Agreement survives termination of Assignor's engagement with respect to Inventions conceived during the engagement.
+
+---
+Company: ______________________  Date: ____________
+Assignor: ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. The "Prior Inventions Excluded" list (Section 2) protects the individual — without disclosing pre-existing side projects or inventions upfront, an overly broad assignment clause could be read to sweep in unrelated work the person brought with them, which is a common and avoidable point of friction.*`,
+  },
+  {
+    slug: "family-loan-agreement-template",
+    name: "Family Loan Agreement",
+    seoTitle: "Free Family Loan Agreement Template",
+    description: "Free family loan agreement template for documenting a loan between family members, keeping the arrangement clear for both sides.",
+    category: "Finance",
+    bodyMarkdown: `# Family Loan Agreement
+
+**Lender:** [Name] · **Borrower:** [Name] · **Relationship:** [Relationship] · **Date:** [Date]
+
+## 1. Loan Amount
+Lender agrees to loan Borrower [Amount], for the purpose of [Purpose, optional].
+
+## 2. Interest Rate
+[ ] No interest (interest-free loan between family members).
+[ ] Interest at [Rate]% per year, [required for larger loans to meet the IRS "Applicable Federal Rate" and avoid gift tax implications — see note below].
+
+## 3. Repayment
+Borrower will repay [in a lump sum by [Date] / in installments of [Amount] per [Frequency], beginning [Date]].
+
+## 4. Late Payment
+[State whether late payments incur any consequence, or whether family flexibility applies — being explicit either way avoids assumptions.]
+
+## 5. What Happens If Borrower Can't Repay
+[Optional but recommended: describe how the parties will handle a missed payment — e.g. "the parties will discuss a revised schedule before pursuing any other remedy."]
+
+## 6. Acknowledgment
+Both parties acknowledge this is a loan, not a gift, and intend to be bound by its terms.
+
+---
+Lender signature: ______________________  Date: ____________
+Borrower signature: ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal or tax advice. In the US, a family loan over a certain size with no or below-market interest can trigger IRS "imputed interest" rules, treating the foregone interest as a taxable gift — for anything beyond a small, informal amount, check the current Applicable Federal Rate (AFR) or consult a tax advisor.*`,
+  },
+  {
+    slug: "fictitious-business-name-statement-template",
+    name: "Fictitious Business Name Statement",
+    seoTitle: "Free Fictitious Business Name Statement (DBA) Template",
+    description: "Free fictitious business name statement template — declares the assumed/trade name ('doing business as') under which a business operates.",
+    category: "Business",
+    bodyMarkdown: `# Fictitious Business Name Statement
+
+**Registrant(s):** [Legal Name of Individual/Entity] · **Filing Date:** [Date]
+
+## Fictitious Business Name
+The undersigned is doing business under the fictitious name: **[DBA Name]**
+
+## Business Address
+[Street Address, City, State, ZIP]
+
+## Registrant Information
+[ ] Individual: [Name, Residence Address]
+[ ] Corporation/LLC: [Legal Entity Name, State of Formation, Registered Agent]
+
+## Nature of Business
+[Brief description of the business activity conducted under this name.]
+
+## Certification
+I declare that the information in this statement is true and correct. [Registrant] began transacting business under the fictitious name listed above on [Date, if applicable].
+
+---
+Signature: ______________________  Date: ____________
+[Name, Title]
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. Registering a DBA doesn't create a separate legal entity or provide trademark protection — it only satisfies the "truth in advertising" requirement so the public can identify who actually owns the business behind the trade name. Most states/counties require this to be filed with a specific government office and, in some places, published in a local newspaper.*`,
+  },
+  {
+    slug: "disciplinary-policy-template",
+    name: "Disciplinary Policy",
+    seoTitle: "Free Employee Disciplinary Policy Template",
+    description: "Free employee disciplinary policy template establishing a progressive discipline process for addressing performance or conduct issues.",
+    category: "HR",
+    bodyMarkdown: `# Disciplinary Policy
+
+**Company:** [Company Name] · **Effective Date:** [Date]
+
+## Purpose
+This policy establishes a fair, consistent process for addressing employee performance and conduct issues.
+
+## Progressive Discipline Steps
+1. **Verbal counseling:** Informal discussion documented in a brief note to file.
+2. **Written warning:** Formal documentation of the issue and required improvement, per the Letter of Reprimand or Final Warning templates as appropriate.
+3. **Final written warning:** Clear statement that continued issues will result in termination.
+4. **Termination:** For continued issues, or immediately for serious misconduct.
+
+## Skipping Steps
+[Company Name] reserves the right to skip steps or terminate immediately for serious misconduct (e.g. theft, violence, harassment, safety violations), regardless of prior disciplinary history.
+
+## Documentation
+All disciplinary actions will be documented in writing and placed in the employee's personnel file, with a copy provided to the employee.
+
+## Employee Response
+Employees may provide a written response to any disciplinary action, which will also be placed in their file.
+
+## Consistency
+This policy will be applied consistently across similarly situated employees, regardless of any protected characteristic.
+
+---
+Adopted by: ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. Applying discipline inconsistently across similar situations (Section on Consistency) is one of the most common things that turns an otherwise defensible termination into a discrimination claim — document not just what happened, but how comparable situations were handled for other employees.*`,
+  },
+  {
+    slug: "seo-services-contract-template",
+    name: "SEO Services Contract",
+    seoTitle: "Free SEO Services Contract Template",
+    description: "Free SEO services contract template between an SEO agency/consultant and a client, covering scope, reporting, and realistic expectations.",
+    category: "Business",
+    bodyMarkdown: `# SEO Services Contract
+
+**Provider:** [Name/Agency] · **Client:** [Name] · **Website:** [URL] · **Effective Date:** [Date]
+
+## 1. Services
+Provider will perform the following SEO services: [e.g. keyword research, on-page optimization, technical SEO audit, content strategy, link building], per the scope in Exhibit A.
+
+## 2. Fee
+[Monthly retainer of [Amount] / project fee of [Amount]], invoiced [Frequency].
+
+## 3. No Guarantee of Rankings
+Provider does not guarantee specific search rankings, traffic levels, or timelines, as search engine algorithms are outside Provider's control and subject to change without notice.
+
+## 4. Reporting
+Provider will provide [Frequency] reports covering [rankings tracked, traffic, work completed].
+
+## 5. Client's Responsibilities
+Client will provide timely access to [website backend, analytics, content approvals] needed for Provider to perform the services.
+
+## 6. Prohibited Techniques
+Provider will use only white-hat SEO techniques consistent with search engine guidelines, and will not use tactics that risk a manual penalty (e.g. link farms, cloaking, keyword stuffing).
+
+## 7. Term and Termination
+This Agreement runs [month-to-month / for a minimum Term of [Duration], given SEO's typical timeline to show results], and either party may terminate with [Notice Period] notice.
+
+---
+Provider: ______________________  Date: ____________
+Client: ______________________  Date: ____________
+
+*Section 3 is worth spelling out clearly — any SEO provider guaranteeing a specific ranking or a fast timeline is either being unrealistic or planning to use risky tactics that could get the client's site penalized, and a written no-guarantee clause protects the honest provider from an unreasonable expectation set before the contract was even signed.*`,
+  },
+  {
+    slug: "salon-booth-rental-agreement-template",
+    name: "Salon Booth Rental Agreement",
+    seoTitle: "Free Salon Booth Rental Agreement Template",
+    description: "Free salon booth/chair rental agreement template — a salon owner rents a workstation to an independent stylist, barber, or nail technician.",
+    category: "Business",
+    bodyMarkdown: `# Salon Booth Rental Agreement
+
+**Salon Owner:** [Name/Business] · **Renter (Stylist/Technician):** [Name] · **Booth/Station #:** [Number] · **Date:** [Date]
+
+## 1. Rental
+Salon Owner rents booth/station #[Number] to Renter for Renter's independent [hair/nail/beauty] services business, for [Duration/month-to-month].
+
+## 2. Rent
+Rent: [Amount] per [week/month], due [Schedule]. Late fee: [Amount] if paid after [Grace period].
+
+## 3. Independent Contractor Status
+Renter operates as an independent business, sets their own hours (within salon operating hours), sets their own prices, and is not an employee of Salon Owner. Renter is responsible for their own taxes, licensing, and insurance.
+
+## 4. License and Insurance
+Renter must maintain a current [cosmetology/barber] license and professional liability insurance, providing proof to Salon Owner upon request.
+
+## 5. Shared Space and Supplies
+[State what's included in rent — reception area use, shared shampoo bowls, utilities — versus what Renter must supply themselves.]
+
+## 6. Client Relationships
+Renter's clients are Renter's own; client records and appointment booking belong to Renter, not Salon Owner.
+
+## 7. Termination
+Either party may terminate this agreement with [Notice Period] notice.
+
+---
+Salon Owner: ______________________  Date: ____________
+Renter: ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. Booth rental only holds up as a genuine independent contractor relationship (versus a misclassified employee) if the salon owner truly doesn't control the renter's hours, pricing, or client relationships — dictating those details is exactly what triggers misclassification claims and back taxes in salon-industry labor cases.*`,
+  },
+  {
+    slug: "exclusive-media-representation-agreement-template",
+    name: "Exclusive Media Representation Agreement",
+    seoTitle: "Free Exclusive Media Representation Agreement Template",
+    description: "Free exclusive media representation agreement template — a media/publicity agent represents a client's interests exclusively for a defined scope.",
+    category: "Business",
+    bodyMarkdown: `# Exclusive Media Representation Agreement
+
+**Client:** [Name] · **Representative/Agency:** [Name] · **Date:** [Date]
+
+## 1. Exclusive Engagement
+Client engages Representative as their exclusive media representative for [Scope — e.g. press inquiries, media placements, licensing negotiations related to media appearances] within [Territory], for the Term.
+
+## 2. Services
+Representative will [pitch Client to media outlets, negotiate appearance/interview terms, coordinate scheduling and logistics] on Client's behalf.
+
+## 3. Compensation
+[ ] Commission of [%] of any compensation Client receives from media engagements secured by Representative.
+[ ] Flat retainer of [Amount] per [Period].
+
+## 4. Client's Approval
+Client retains final approval over any media commitment; Representative will not bind Client to any engagement without Client's consent.
+
+## 5. Term and Territory
+This Agreement runs for [Term], covering [Territory/scope of media — e.g. print, broadcast, podcast].
+
+## 6. Termination
+Either party may terminate with [Notice Period] notice. Commission continues to apply to deals negotiated during the Term that close after termination.
+
+---
+Client: ______________________  Date: ____________
+Representative: ______________________  Date: ____________
+
+*Requiring Client's final sign-off on every engagement (Section 4) — rather than giving the representative binding authority — is standard practice and keeps the client in control of their own public image, even while delegating the day-to-day pitching and negotiation.*`,
+  },
+  {
+    slug: "contract-for-transportation-services-template",
+    name: "Contract for Transportation Services",
+    seoTitle: "Free Contract for Transportation Services Template",
+    description: "Free transportation services contract template for a company providing regular passenger or freight transportation to a client.",
+    category: "Business",
+    bodyMarkdown: `# Contract for Transportation Services
+
+**Provider:** [Company Name] · **Client:** [Name] · **Effective Date:** [Date]
+
+## 1. Services
+Provider will provide [passenger transportation / freight hauling] services for Client, consisting of: [Description — routes, schedule, vehicle type, frequency].
+
+## 2. Fees
+[Per-trip rate of [Amount] / mileage rate of [Amount] per mile / flat monthly rate of [Amount]], invoiced [Frequency].
+
+## 3. Vehicles and Drivers
+Provider will supply properly licensed, insured vehicles and drivers holding all required licenses/endorsements (e.g. CDL, passenger endorsement) for the services described.
+
+## 4. Safety and Compliance
+Provider will comply with all applicable Department of Transportation regulations, drug/alcohol testing requirements, and hours-of-service rules for its drivers.
+
+## 5. Insurance
+Provider maintains [auto liability, cargo (if freight), and general liability] insurance at levels of at least [Amount], with Client named as an additional insured [if required].
+
+## 6. Cancellation/Delays
+[State notice required for schedule changes, and how delays or cancellations are handled — fees, rebooking.]
+
+## 7. Term and Termination
+This Agreement runs [month-to-month / for a Term] and may be terminated by either party with [Notice Period] notice.
+
+---
+Provider: ______________________  Date: ____________
+Client: ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. Confirming the provider's operating authority and insurance are current — not just taking their word for it — matters more here than in most vendor relationships, since a client can face real liability exposure if it knowingly contracts with an unauthorized or underinsured carrier.*`,
+  },
+  {
+    slug: "employee-discipline-form-template",
+    name: "Employee Discipline Form",
+    seoTitle: "Free Employee Discipline Form Template",
+    description: "Free employee discipline form template for documenting a specific disciplinary action taken against an employee.",
+    category: "HR",
+    bodyMarkdown: `# Employee Discipline Form
+
+**Employee:** [Name] · **Position:** [Title] · **Date:** [Date]
+**Supervisor:** [Name]
+
+## Type of Discipline
+[ ] Verbal warning  [ ] Written warning  [ ] Final written warning  [ ] Suspension  [ ] Termination
+
+## Prior Discipline (if any)
+[List dates and nature of any prior disciplinary actions for related issues.]
+
+## Description of Incident/Issue
+[Specific, factual description — what happened, when, where, and its impact — avoiding subjective characterizations.]
+
+## Policy Violated
+[Reference the specific company policy, rule, or performance expectation not met.]
+
+## Corrective Action Required
+[Specific, measurable expectation going forward, with a timeline if applicable.]
+
+## Consequence of Continued Issues
+[State clearly what happens if the issue recurs, consistent with the company's progressive discipline policy.]
+
+## Employee Comments
+[Space for employee's response]
+
+---
+Employee signature: ______________________  Date: ____________
+*(Signature acknowledges receipt, not necessarily agreement.)*
+Supervisor signature: ______________________  Date: ____________
+HR signature (if applicable): ______________________  Date: ____________
+
+*Sticking to observable facts (what was said, done, or measured) rather than characterizations ("bad attitude," "lazy") is what makes this document actually useful later — both to the employee trying to improve and to the company if the discipline is ever challenged.*`,
+  },
+  {
+    slug: "equity-sharing-agreement-template",
+    name: "Equity Sharing Agreement",
+    seoTitle: "Free Equity Sharing Agreement Template",
+    description: "Free equity sharing agreement template — two parties (often an investor and an occupant) co-own a property, sharing appreciation and costs.",
+    category: "Real Estate",
+    bodyMarkdown: `# Equity Sharing Agreement
+
+**Investor/Co-Owner A:** [Name] · **Occupant/Co-Owner B:** [Name]
+**Property:** [Address] · **Date:** [Date]
+
+## 1. Co-Ownership
+The parties will jointly purchase/own the property described above as [tenants in common], with ownership shares of: Co-Owner A: [%], Co-Owner B: [%], based on their respective financial contributions.
+
+## 2. Occupancy
+Co-Owner B will occupy the property as their primary residence and pay Co-Owner A "rent" of [Amount] per month on Co-Owner A's ownership share, in lieu of Co-Owner A receiving no benefit from their investment while not living there.
+
+## 3. Expenses
+Mortgage, property tax, insurance, and major repairs are split [per ownership percentage / another formula], while routine maintenance is Co-Owner B's responsibility as occupant.
+
+## 4. Term and Buyout
+This arrangement runs for [Term/until a triggering event]. At that point, Co-Owner B has the option to buy out Co-Owner A's share at [fair market value, per an independent appraisal], or the property will be sold and proceeds split per ownership percentage plus any adjustments for unequal contributions.
+
+## 5. Appreciation/Depreciation
+Any increase or decrease in property value is shared per ownership percentage upon sale or buyout.
+
+## 6. Default
+[State what happens if either party fails to pay their share of expenses — e.g. cure period, then adjustment of ownership percentage or forced sale.]
+
+---
+Co-Owner A: ______________________  Date: ____________
+Co-Owner B: ______________________  Date: ____________
+
+*This document is provided for informational and educational purposes only and does not constitute legal advice. Equity sharing arrangements are genuinely useful for helping a family member or friend get into homeownership with investor help, but the buyout formula (Section 4) needs to be crystal clear from day one — vague valuation language is the single biggest source of disputes when it's time to actually settle up.*`,
+  },
+  {
+    slug: "public-relations-agreement-template",
+    name: "Public Relations Agreement",
+    seoTitle: "Free Public Relations Agreement Template",
+    description: "Free public relations agreement template between a PR agency/consultant and a client, covering scope, media strategy, and fees.",
+    category: "Business",
+    bodyMarkdown: `# Public Relations Agreement
+
+**Agency:** [Name] · **Client:** [Name] · **Effective Date:** [Date]
+
+## 1. Services
+Agency will provide the following PR services: [e.g. media relations, press release drafting/distribution, media training, crisis communications support], per the scope in Exhibit A.
+
+## 2. Fee
+[Monthly retainer of [Amount] / project fee of [Amount]], invoiced [Frequency], plus reimbursement of approved out-of-pocket expenses (e.g. distribution service fees, travel).
+
+## 3. No Guarantee of Coverage
+Agency will use professional efforts to secure media coverage but does not guarantee specific placements, as editorial decisions rest with individual media outlets.
+
+## 4. Approval of Materials
+All press releases, statements, and materials representing Client's position will be approved by Client before release, except in a mutually agreed crisis response protocol requiring faster turnaround.
+
+## 5. Confidentiality
+Agency will keep Client's non-public business information confidential.
+
+## 6. Client's Responsibilities
+Client will provide timely access to spokespeople, information, and approvals needed for Agency to perform effectively.
+
+## 7. Term and Termination
+This Agreement runs [month-to-month / for a Term] and either party may terminate with [Notice Period] notice.
+
+---
+Agency: ______________________  Date: ____________
+Client: ______________________  Date: ____________
+
+*Agreeing on a faster approval protocol for genuine crisis situations (Section 4) before a crisis actually happens is what lets a PR team respond within the first critical hours — waiting to negotiate that process while a story is already breaking is too late.*`,
+  },
+  {
+    slug: "letter-of-project-completion-template",
+    name: "Letter of Project Completion",
+    seoTitle: "Free Letter of Project Completion Template",
+    description: "Free letter of project completion template for formally notifying a client that a project has been completed and requesting final sign-off.",
+    category: "Business",
+    bodyMarkdown: `# Letter of Project Completion
+
+[Date]
+
+Dear [Client Name],
+
+I'm writing to let you know that [Project Name] has been completed as of [Completion Date], per the scope outlined in our agreement dated [Original Contract Date].
+
+## Summary of Completed Work
+[Brief summary of deliverables completed, referencing the original scope/statement of work.]
+
+## Outstanding Items (if any)
+[List any minor items still pending, with expected resolution dates, or state "no outstanding items."]
+
+## Final Sign-Off
+Please review the completed work and confirm your acceptance by [Date], either by replying to this letter or signing below. Final payment of [Amount] is due upon your acceptance, per our agreement.
+
+## Warranty/Support Period
+[Note any warranty period or post-completion support included, and its duration.]
+
+Thank you for the opportunity to work on this project. Please don't hesitate to reach out with any questions.
+
+Sincerely,
+[Your Name/Company]
+
+---
+Client acceptance: ______________________  Date: ____________
+
+*Getting a documented sign-off (not just an assumption that silence means acceptance) is what starts the clock on any warranty period and gives both sides a clear, agreed reference point for when the project was actually considered done.*`,
+  },
 ];
 
 const TEMPLATES_INDEX_FAQ = [
