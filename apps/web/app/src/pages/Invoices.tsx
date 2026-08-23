@@ -293,12 +293,23 @@ export default function InvoicesPage({ account }: { account: Account | null }) {
                       : inv.status === "sent"
                       ? t("invoices.statusSent")
                       : t("invoices.statusDraft")}
+                    {inv.certificatePublicId && <> · {t("invoices.certified")}</>}
                   </div>
                 </div>
                 <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
                   <button type="button" className="btn-secondary" onClick={() => handleCopy(inv.publicId)}>
                     {copiedId === inv.publicId ? t("invoices.copied") : t("invoices.copyLink")}
                   </button>
+                  {inv.certificatePublicId && (
+                    <a
+                      className="btn-secondary"
+                      href={`/verify/${inv.certificatePublicId}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {t("invoices.viewCertificate")}
+                    </a>
+                  )}
                   {inv.status === "draft" && (
                     <button type="button" className="btn-secondary" onClick={() => handleStatus(inv.id, "sent")}>
                       {t("invoices.markSent")}

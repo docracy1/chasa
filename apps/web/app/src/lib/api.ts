@@ -877,6 +877,7 @@ export type InvoiceRecord = {
   taxAmount: number;
   total: number;
   status: "draft" | "sent" | "paid";
+  certificatePublicId: string | null;
   createdAt: string;
   updatedAt: string;
 };

@@ -1,4 +1,6 @@
 import type { Env } from "../types";
+import type { Plan } from "./billing";
+import { createCertificate, getCertificateByPublicId, sha256Hex } from "./certificates";
 
 export type LineItem = { description: string; quantity: number; unitPrice: number };
 
@@ -20,6 +22,7 @@ export type Invoice = {
   taxAmount: number;
   total: number;
   status: "draft" | "sent" | "paid";
+  certificatePublicId: string | null;
   createdAt: string;
   updatedAt: string;
 };
@@ -42,6 +45,7 @@ type Row = {
   tax_amount: number;
   total: number;
   status: string;
+  certificate_public_id: string | null;
   created_at: string;
   updated_at: string;
 };
@@ -65,9 +69,29 @@ function rowToInvoice(row: Row): Invoice {
     taxAmount: row.tax_amount,
     total: row.total,
     status: row.status as Invoice["status"],
+    certificatePublicId: row.certificate_public_id,
     createdAt: row.created_at,
     updatedAt: row.updated_at,
   };
+}
+
+/** Deterministic — built from an explicit, fixed field order, not a spread, so the same invoice
+ *  content always hashes to the same value regardless of column order in the DB row. */
+function canonicalInvoicePayload(invoice: Invoice): string {
+  return JSON.stringify({
+    invoiceNumber: invoice.invoiceNumber,
+    clientName: invoice.clientName,
+    clientEmail: invoice.clientEmail,
+    issueDate: invoice.issueDate,
+    dueDate: invoice.dueDate,
+    currency: invoice.currency,
+    lineItems: invoice.lineItems,
+    taxRate: invoice.taxRate,
+    notes: invoice.notes,
+    subtotal: invoice.subtotal,
+    taxAmount: invoice.taxAmount,
+    total: invoice.total,
+  });
 }
 
 const PUBLIC_ID_ALPHABET = "23456789ABCDEFGHJKLMNPQRSTUVWXYZ";
@@ -163,6 +187,7 @@ export async function createInvoice(
         taxAmount,
         total,
         status: "draft",
+        certificatePublicId: null,
         createdAt: now,
         updatedAt: now,
       };
@@ -171,6 +196,25 @@ export async function createInvoice(
     }
   }
   throw new Error("Could not allocate an invoice id");
+}
+
+export type InvoiceCertificateStatus =
+  | { certified: false }
+  | { certified: true; matches: true; otsStatus: "none" | "pending" | "confirmed" | "failed" }
+  | { certified: true; matches: false };
+
+/** Recomputes the invoice's hash from its CURRENT row content and compares it against the hash
+ *  that was actually anchored in the certificate. A "Certified" badge is worthless if nothing
+ *  ever re-checks it against present-day content — this is what makes a later, out-of-band edit
+ *  to the row (a bug, a compromised admin token, a direct DB write) actually detectable instead
+ *  of silently invisible. */
+export async function checkInvoiceCertificate(env: Env, invoice: Invoice): Promise<InvoiceCertificateStatus> {
+  if (!invoice.certificatePublicId) return { certified: false };
+  const cert = await getCertificateByPublicId(env, invoice.certificatePublicId);
+  if (!cert) return { certified: false };
+  const currentHash = await sha256Hex(canonicalInvoicePayload(invoice));
+  if (currentHash !== cert.sha256Hash) return { certified: true, matches: false };
+  return { certified: true, matches: true, otsStatus: cert.otsStatus };
 }
 
 export async function listInvoicesForAccount(env: Env, accountId: string): Promise<Invoice[]> {
@@ -203,15 +247,28 @@ export async function deleteInvoice(env: Env, accountId: string, id: string): Pr
   return !!result.meta.changes;
 }
 
+export type SetInvoiceStatusResult = {
+  invoice: Invoice;
+  /** Set only the moment a certificate is newly created — the route uses this to kick off the
+   *  Bitcoin timestamp submission. Certification never re-fires on later status changes since
+   *  the invoice's content (and therefore its hash) can't change after creation. */
+  newCertificate: { id: string; sha256Hash: string } | null;
+};
+
 /** Marking an invoice "sent" creates the matching aging_invoices row (if not already linked), so
  *  it flows into the existing chase/dashboard pipeline the moment it's actually sent — not before,
- *  since a draft you haven't sent yet shouldn't show up as something to chase. */
+ *  since a draft you haven't sent yet shouldn't show up as something to chase. It also certifies
+ *  the invoice's exact content (SHA-256 hash, Bitcoin-anchored via the existing document
+ *  certificate feature) so the recipient can independently verify it hasn't been altered — this
+ *  is "sent" and not "created" because a draft that's still being edited shouldn't be certified
+ *  before its content is final. */
 export async function setInvoiceStatus(
   env: Env,
   accountId: string,
   id: string,
-  status: "draft" | "sent" | "paid"
-): Promise<Invoice | null> {
+  status: "draft" | "sent" | "paid",
+  plan: Plan
+): Promise<SetInvoiceStatusResult | null> {
   const invoice = await getInvoice(env, accountId, id);
   if (!invoice) return null;
   const now = new Date().toISOString();
@@ -238,9 +295,32 @@ export async function setInvoiceStatus(
       .run();
   }
 
+  let certificatePublicId = invoice.certificatePublicId;
+  let newCertificate: SetInvoiceStatusResult["newCertificate"] = null;
+  if (status === "sent" && !certificatePublicId) {
+    const sha256Hash = await sha256Hex(canonicalInvoicePayload(invoice));
+    const cert = await createCertificate(env, {
+      accountId,
+      sha256Hash,
+      originalFilename: `invoice-${invoice.invoiceNumber}`,
+      fileSizeBytes: null,
+      issuerName: null,
+      plan,
+      ipHash: null,
+    });
+    certificatePublicId = cert.publicId;
+    newCertificate = { id: cert.id, sha256Hash: cert.sha256Hash };
+    await env.CHASA_DB.prepare(`UPDATE generated_invoices SET certificate_public_id = ? WHERE id = ?`)
+      .bind(certificatePublicId, id)
+      .run();
+  }
+
   await env.CHASA_DB.prepare(`UPDATE generated_invoices SET status = ?, updated_at = ? WHERE id = ?`)
     .bind(status, now, id)
     .run();
 
-  return { ...invoice, status, agingInvoiceId, updatedAt: now };
+  return {
+    invoice: { ...invoice, status, agingInvoiceId, certificatePublicId, updatedAt: now },
+    newCertificate,
+  };
 }

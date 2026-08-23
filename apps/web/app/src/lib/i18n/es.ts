@@ -958,7 +958,7 @@ const es: Messages = {
 
   "invoices.title": "Facturas",
   "invoices.pageSub":
-    "Crea una factura profesional en segundos y obtén un enlace que tu cliente puede ver y pagar. Márcala como enviada y entrará automáticamente en tu panel de seguimiento si se retrasa.",
+    "Crea una factura profesional en segundos y obtén un enlace que tu cliente puede ver y pagar. Márcala como enviada y entrará automáticamente en tu panel de seguimiento si se retrasa — y recibirá un certificado a prueba de manipulaciones que tu cliente puede verificar de forma independiente.",
   "invoices.clientName": "Nombre del cliente",
   "invoices.clientEmail": "Correo del cliente",
   "invoices.issueDate": "Fecha de emisión",
@@ -989,6 +989,8 @@ const es: Messages = {
   "invoices.statusDraft": "Borrador",
   "invoices.statusSent": "Enviada",
   "invoices.statusPaid": "Pagada",
+  "invoices.certified": "₿ Certificada",
+  "invoices.viewCertificate": "Ver certificado",
   "invoices.markSent": "Marcar enviada",
   "invoices.markPaid": "Marcar pagada",
   "invoices.delete": "Eliminar",

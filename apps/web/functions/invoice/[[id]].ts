@@ -39,7 +39,12 @@ type InvoiceResponse = {
     taxAmount: number;
     total: number;
     status: "draft" | "sent" | "paid";
+    certificatePublicId: string | null;
   };
+  certificateStatus:
+    | { certified: false }
+    | { certified: true; matches: true; otsStatus: "none" | "pending" | "confirmed" | "failed" }
+    | { certified: true; matches: false };
   from: { name: string; logoDataUrl: string | null; paymentLink: string | null };
 };
 
@@ -72,6 +77,15 @@ function renderPage(opts: { title: string; body: string; canonical: string }): s
   .totals .grand { font-weight: 700; font-size: 17px; border-top: 1px solid #d8dee8; padding-top: 8px; margin-top: 4px; }
   .notes { margin-top: 24px; padding: 14px; background: #fafbfc; border: 1px solid #e5e7eb; border-radius: 8px; font-size: 14px; }
   .pay-link { display: inline-block; margin-top: 20px; padding: 10px 18px; background: #1B3155; color: #fff; border-radius: 8px; text-decoration: none; font-weight: 600; }
+  .cert-row { margin-top: 20px; padding-top: 16px; border-top: 1px solid #e5e7eb; }
+  .cert-row.tampered { border-top: none; padding: 14px 16px; background: #fef2f2; border: 1px solid #fecaca; border-radius: 8px; }
+  .cert-badge { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; }
+  .cert-badge.confirmed { color: #b45309; }
+  .cert-badge.pending { color: #2e7d32; }
+  .cert-badge.tampered { color: #b91c1c; font-size: 14px; }
+  .cert-note { font-size: 12.5px; color: #6b7280; margin-top: 4px; }
+  .cert-note a { color: #2e5bdb; }
+  .cert-note.tampered-note { color: #7f1d1d; }
   footer { margin-top: 32px; font-size: 12px; color: #666; }
   a { color: #2e5bdb; }
   @media print { .pay-link { display: none; } }
@@ -116,8 +130,30 @@ export const onRequest: PagesFunction<{ WORKER_URL: string }> = async (context) 
     );
   }
 
-  const { invoice, from } = (await upstream.json()) as InvoiceResponse;
+  const { invoice, certificateStatus, from } = (await upstream.json()) as InvoiceResponse;
   const title = `Invoice ${invoice.invoiceNumber} — ${from.name}`;
+
+  let certBlock = "";
+  if (certificateStatus.certified && !certificateStatus.matches) {
+    // The row's current content no longer hashes to what was certified at send time — this is
+    // the actual point of certifying: the mismatch is visible instead of silently invisible.
+    certBlock = `<div class="cert-row tampered">
+        <span class="cert-badge tampered">⚠ Content does not match its certificate</span>
+        <p class="cert-note tampered-note">This invoice was certified when it was sent, but its current content no longer matches that certified hash — meaning it was altered after certification. Treat this invoice with caution and confirm the amount directly with the sender.</p>
+      </div>`;
+  } else if (certificateStatus.certified && certificateStatus.matches && invoice.certificatePublicId) {
+    const verifyUrl = `${url.origin}/verify/${invoice.certificatePublicId}`;
+    certBlock =
+      certificateStatus.otsStatus === "confirmed"
+        ? `<div class="cert-row">
+            <span class="cert-badge confirmed">₿ Certified &amp; Bitcoin-timestamped</span>
+            <p class="cert-note">This invoice's exact content is hashed and anchored to the Bitcoin blockchain via OpenTimestamps — <a href="${escapeHtml(verifyUrl)}">verify it independently</a> of docstoc's own records. Its content still matches what was certified when it was sent.</p>
+          </div>`
+        : `<div class="cert-row">
+            <span class="cert-badge pending">✓ Certified</span>
+            <p class="cert-note">This invoice's exact content is hashed and certified — <a href="${escapeHtml(verifyUrl)}">verify it</a>. Its Bitcoin timestamp is still pending confirmation, usually a few hours.</p>
+          </div>`;
+  }
 
   const rows = invoice.lineItems
     .map(
@@ -159,6 +195,7 @@ export const onRequest: PagesFunction<{ WORKER_URL: string }> = async (context) 
 
 ${invoice.notes ? `<div class="notes">${escapeHtml(invoice.notes)}</div>` : ""}
 ${from.paymentLink ? `<a class="pay-link" href="${escapeHtml(from.paymentLink)}" target="_blank" rel="noopener noreferrer">Pay this invoice</a>` : ""}
+${certBlock}
 
 <footer>
   Generated via <a href="https://chasa.io/">docstoc</a>.

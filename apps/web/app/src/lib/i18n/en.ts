@@ -945,7 +945,7 @@ const en: Messages = {
   "nav.invoices": "Invoices",
 
   "invoices.title": "Invoices",
-  "invoices.pageSub": "Create a professional invoice in seconds and get a shareable link your client can view and pay. Mark it sent and it automatically flows into your chase dashboard if it goes overdue.",
+  "invoices.pageSub": "Create a professional invoice in seconds and get a shareable link your client can view and pay. Mark it sent and it automatically flows into your chase dashboard if it goes overdue — and gets a tamper-evident certificate your client can independently verify.",
   "invoices.clientName": "Client name",
   "invoices.clientEmail": "Client email",
   "invoices.issueDate": "Issue date",
@@ -976,6 +976,8 @@ const en: Messages = {
   "invoices.statusDraft": "Draft",
   "invoices.statusSent": "Sent",
   "invoices.statusPaid": "Paid",
+  "invoices.certified": "₿ Certified",
+  "invoices.viewCertificate": "View certificate",
   "invoices.markSent": "Mark sent",
   "invoices.markPaid": "Mark paid",
   "invoices.delete": "Delete",
