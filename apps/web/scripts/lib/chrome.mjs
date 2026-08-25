@@ -5,7 +5,7 @@ import { renderSeoHead } from "./seo-head.mjs";
 import { EN_TO_ES, ES_TO_EN } from "../data/es-alternates.mjs";
 
 /** Bump when site.css / site-nav.js / site-lang.js change so Pages edge caches refresh. */
-export const ASSET_V = "20260823d";
+export const ASSET_V = "20260825a";
 
 /** Small inline icon set for the header mega-menus (mirrors the app's NavIcon component). */
 const ICON_PATHS = {
@@ -294,10 +294,16 @@ ${jsonLd ? `<script type="application/ld+json">\n${jsonLd}\n</script>` : `<scrip
         })}
       </div>
       <div class="header-nav-actions">
-        <a href="${link("/docstoc-alternative")}" class="header-revival-badge header-nav-collapse">
-          <span class="header-revival-dot" aria-hidden="true"></span>
-          <span data-i18n="nav.revivalBadge">docstoc is back</span>
-        </a>
+        <button type="button" class="header-revival-badge header-nav-collapse" data-open-revival-video aria-label="Watch: docstoc is back">
+          <span class="header-revival-badge-thumb" aria-hidden="true"></span>
+          <span class="header-revival-badge-text">
+            <span class="header-revival-badge-title" data-i18n="nav.revivalBadge">docstoc is back</span>
+            <span class="header-revival-badge-sub" data-i18n="nav.revivalBadgeSub">the automation layer — watch the story</span>
+          </span>
+          <span class="header-revival-badge-play" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z" /></svg>
+          </span>
+        </button>
         <div class="locale-switch" data-locale-switch role="group" data-i18n-aria="nav.language"${localeSwitchAttrs}></div>
         <!--email_off-->
         <a href="mailto:sales@chasa.io" class="header-nav-sales header-nav-collapse" data-sales-mail data-sales-subject="docstoc sales" data-i18n="nav.contactSales">Contact sales</a>
@@ -397,6 +403,24 @@ ${mainHtml}
   </div>
   <div class="site-footer-bottom" data-i18n-year="footer.copyright">© ${new Date().getFullYear()} docstoc — a product of RELACON GmbH</div>
 </footer>
+<div class="how-modal-backdrop" id="revival-modal" hidden>
+  <div class="how-modal" role="dialog" aria-modal="true" aria-labelledby="revival-modal-title">
+    <h2 id="revival-modal-title" class="sr-only" data-i18n="nav.revivalBadge">docstoc is back</h2>
+    <button type="button" class="how-modal-close" data-close-revival-video aria-label="Close video">×</button>
+    <video
+      id="revival-modal-video"
+      class="how-modal-video"
+      src="${link(`/videos/docstoc-is-back.webm?v=${ASSET_V}`)}"
+      poster="${link(`/videos/docstoc-is-back-poster.jpg?v=${ASSET_V}`)}"
+      controls
+      playsinline
+      preload="metadata"
+    >
+      <track kind="captions" src="${link(`/videos/docstoc-is-back.en.vtt?v=${ASSET_V}`)}" srclang="en" label="English" default>
+      <track kind="captions" src="${link(`/videos/docstoc-is-back.es.vtt?v=${ASSET_V}`)}" srclang="es" label="Español">
+    </video>
+  </div>
+</div>
 <script src="${link(`/site-lang.js?v=${ASSET_V}`)}" defer></script>
 <script src="${link(`/site-nav.js?v=${ASSET_V}`)}" defer></script>
 <script src="${link(`/cookie-consent.js?v=${ASSET_V}`)}" defer></script>

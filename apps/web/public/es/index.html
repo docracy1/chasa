@@ -122,7 +122,7 @@
 </script>
 <link rel="preload" href="/fonts/inter-400.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/fonts/inter-700.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/site.css?v=20260823d">
+<link rel="stylesheet" href="/site.css?v=20260825a">
 <style>
   html { scroll-behavior: smooth; }
 
@@ -335,58 +335,6 @@
     color: rgba(255, 255, 255, 0.9);
   }
   .hero-trust-tag svg { width: 16px; height: 16px; flex-shrink: 0; }
-  .hero-revival-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 12px;
-    margin: 0 0 22px;
-    padding: 10px 22px 10px 10px;
-    border-radius: 999px;
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    cursor: pointer;
-    font: inherit;
-    color: #fff;
-    transition: background 0.15s ease, transform 0.15s ease;
-  }
-  .hero-revival-badge:hover { background: rgba(255, 255, 255, 0.1); transform: translateY(-1px); }
-  .hero-revival-badge-thumb {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background: #f4f1ec;
-    background-image: url('/brand/docstoc-old-logo-small.jpg');
-    background-size: 160%;
-    background-position: center;
-    flex-shrink: 0;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-  }
-  .hero-revival-badge-text {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 2px;
-  }
-  .hero-revival-badge-title {
-    font-size: 16px;
-    font-weight: 800;
-  }
-  .hero-revival-badge-sub {
-    font-size: 12px;
-    font-weight: 600;
-    color: rgba(255, 255, 255, 0.55);
-  }
-  .hero-revival-badge-play {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 22px;
-    height: 22px;
-    border-radius: 50%;
-    background: var(--accent);
-    flex-shrink: 0;
-  }
-  .hero-revival-badge-play svg { width: 10px; height: 10px; }
   .hero-slab-title {
     font-family: 'Inter', system-ui, sans-serif;
     font-weight: 800;
@@ -1667,10 +1615,16 @@
         </div>
       </div>
       <div class="header-nav-actions">
-        <a href="/docstoc-alternative" class="header-revival-badge header-nav-collapse">
-          <span class="header-revival-dot" aria-hidden="true"></span>
-          <span data-i18n="nav.revivalBadge">docstoc ha vuelto</span>
-        </a>
+        <button type="button" class="header-revival-badge header-nav-collapse" data-open-revival-video aria-label="Watch: docstoc is back">
+          <span class="header-revival-badge-thumb" aria-hidden="true"></span>
+          <span class="header-revival-badge-text">
+            <span class="header-revival-badge-title" data-i18n="nav.revivalBadge">docstoc ha vuelto</span>
+            <span class="header-revival-badge-sub" data-i18n="nav.revivalBadgeSub">la capa de automatización — mira la historia</span>
+          </span>
+          <span class="header-revival-badge-play" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z" /></svg>
+          </span>
+        </button>
         <div class="locale-switch" data-locale-switch role="group" data-en-href="/" data-i18n-aria="nav.language" aria-label="Idioma"></div>
         <!--email_off-->
         <a href="mailto:sales@chasa.io" class="header-nav-sales header-nav-collapse" data-sales-mail data-sales-subject="docstoc sales" data-i18n="nav.contactSales">Contactar ventas</a>
@@ -1721,17 +1675,6 @@
     </div>
     <div class="hero-inner hero-center">
       <p class="hero-personalized-greeting" id="hero-personalized-greeting" hidden></p>
-
-      <button type="button" class="hero-revival-badge" data-open-revival-video aria-label="Watch: docstoc is back">
-        <span class="hero-revival-badge-thumb" aria-hidden="true"></span>
-        <span class="hero-revival-badge-text">
-          <span class="hero-revival-badge-title">docstoc is back</span>
-          <span class="hero-revival-badge-sub">the automation layer — watch the story</span>
-        </span>
-        <span class="hero-revival-badge-play" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z" /></svg>
-        </span>
-      </button>
 
       <h1 class="hero-slab-title"><span class="hero-slab-accent">Secure. Automate.</span><br>Certify.</h1>
       <p class="hero-sub" data-i18n="home.hero.sub">Un solo lugar para redactar desde plantillas gratis de negocios y legales, generar y enviar facturas, certificar cualquier documento, automatizar el SSL de tu dominio, y dar seguimiento a facturas vencidas con IA — tú mantienes el control de cada envío.</p>
@@ -2683,8 +2626,8 @@
   </div>
 </div>
 
-<script src="/site-lang.js?v=20260823d" defer></script>
-<script src="/site-nav.js?v=20260823d" defer></script>
+<script src="/site-lang.js?v=20260825a" defer></script>
+<script src="/site-nav.js?v=20260825a" defer></script>
 <script src="/price-compare.js" defer></script>
 <script src="/cookie-consent.js?v=20260823d"></script>
 <script src="/assistant.js?v=20260823d"></script>
@@ -2939,47 +2882,6 @@
     window.addEventListener("hashchange", function () {
       if (window.location.hash === "#watch-how-it-works") openHow();
     });
-
-    var revivalModal = document.getElementById("revival-modal");
-    var revivalVideo = document.getElementById("revival-modal-video");
-    if (revivalModal && revivalVideo) {
-      function openRevival() {
-        revivalModal.hidden = false;
-        revivalModal.classList.add("is-open");
-        document.body.style.overflow = "hidden";
-        if (window.location.hash !== "#docstoc-is-back") {
-          history.replaceState(null, "", "#docstoc-is-back");
-        }
-        revivalVideo.currentTime = 0;
-        var play = revivalVideo.play();
-        if (play && play.catch) play.catch(function () {});
-      }
-      function closeRevival() {
-        revivalVideo.pause();
-        revivalModal.classList.remove("is-open");
-        revivalModal.hidden = true;
-        document.body.style.overflow = "";
-        if (window.location.hash === "#docstoc-is-back") {
-          history.replaceState(null, "", window.location.pathname + window.location.search);
-        }
-      }
-      document.querySelectorAll("[data-open-revival-video]").forEach(function (btn) {
-        btn.addEventListener("click", openRevival);
-      });
-      document.querySelectorAll("[data-close-revival-video]").forEach(function (btn) {
-        btn.addEventListener("click", closeRevival);
-      });
-      revivalModal.addEventListener("click", function (e) {
-        if (e.target === revivalModal) closeRevival();
-      });
-      document.addEventListener("keydown", function (e) {
-        if (e.key === "Escape" && revivalModal.classList.contains("is-open")) closeRevival();
-      });
-      if (window.location.hash === "#docstoc-is-back") openRevival();
-      window.addEventListener("hashchange", function () {
-        if (window.location.hash === "#docstoc-is-back") openRevival();
-      });
-    }
   })();
 </script>
 

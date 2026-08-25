@@ -92,7 +92,7 @@
 <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=20260823d">
 <link rel="preload" href="/fonts/inter-400.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/fonts/inter-700.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/site.css?v=20260823d">
+<link rel="stylesheet" href="/site.css?v=20260825a">
 </head>
 <body>
 <header class="site-header">
@@ -195,10 +195,16 @@
   </div>
       </div>
       <div class="header-nav-actions">
-        <a href="/docstoc-alternative" class="header-revival-badge header-nav-collapse">
-          <span class="header-revival-dot" aria-hidden="true"></span>
-          <span data-i18n="nav.revivalBadge">docstoc is back</span>
-        </a>
+        <button type="button" class="header-revival-badge header-nav-collapse" data-open-revival-video aria-label="Watch: docstoc is back">
+          <span class="header-revival-badge-thumb" aria-hidden="true"></span>
+          <span class="header-revival-badge-text">
+            <span class="header-revival-badge-title" data-i18n="nav.revivalBadge">docstoc is back</span>
+            <span class="header-revival-badge-sub" data-i18n="nav.revivalBadgeSub">the automation layer — watch the story</span>
+          </span>
+          <span class="header-revival-badge-play" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z" /></svg>
+          </span>
+        </button>
         <div class="locale-switch" data-locale-switch role="group" data-i18n-aria="nav.language"></div>
         <!--email_off-->
         <a href="mailto:sales@chasa.io" class="header-nav-sales header-nav-collapse" data-sales-mail data-sales-subject="docstoc sales" data-i18n="nav.contactSales">Contact sales</a>
@@ -432,7 +438,7 @@ document.querySelectorAll(".btn-copy").forEach(function (btn) {
   <div class="site-footer-bottom" data-i18n-year="footer.copyright">© 2026 docstoc — a product of RELACON GmbH</div>
 </footer>
 <script src="/site-lang.js?v=20260823d" defer></script>
-<script src="/site-nav.js?v=20260823d" defer></script>
+<script src="/site-nav.js?v=20260825a" defer></script>
 <script src="/cookie-consent.js?v=20260823d" defer></script>
 <script src="/analytics.js?v=20260823d" defer></script>
 <script>

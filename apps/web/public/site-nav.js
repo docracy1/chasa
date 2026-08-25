@@ -148,3 +148,94 @@
     inject();
   }
 })();
+
+/* docstoc is back — open revival video from the header pill */
+(function () {
+  var ASSET = "20260825a";
+
+  function ensureModal() {
+    var modal = document.getElementById("revival-modal");
+    if (modal) return modal;
+    modal = document.createElement("div");
+    modal.className = "how-modal-backdrop";
+    modal.id = "revival-modal";
+    modal.hidden = true;
+    modal.innerHTML =
+      '<div class="how-modal" role="dialog" aria-modal="true" aria-labelledby="revival-modal-title">' +
+      '<h2 id="revival-modal-title" class="sr-only">docstoc is back</h2>' +
+      '<button type="button" class="how-modal-close" data-close-revival-video aria-label="Close video">×</button>' +
+      '<video id="revival-modal-video" class="how-modal-video" src="/videos/docstoc-is-back.webm?v=' +
+      ASSET +
+      '" poster="/videos/docstoc-is-back-poster.jpg?v=' +
+      ASSET +
+      '" controls playsinline preload="metadata">' +
+      '<track kind="captions" src="/videos/docstoc-is-back.en.vtt?v=' +
+      ASSET +
+      '" srclang="en" label="English" default>' +
+      '<track kind="captions" src="/videos/docstoc-is-back.es.vtt?v=' +
+      ASSET +
+      '" srclang="es" label="Español">' +
+      "</video></div>";
+    document.body.appendChild(modal);
+    return modal;
+  }
+
+  function init() {
+    var modal = ensureModal();
+    var video = document.getElementById("revival-modal-video");
+    if (!modal || !video) return;
+
+    function openRevival(e) {
+      if (e) e.preventDefault();
+      modal.hidden = false;
+      modal.classList.add("is-open");
+      document.body.style.overflow = "hidden";
+      if (window.location.hash !== "#docstoc-is-back") {
+        history.replaceState(null, "", "#docstoc-is-back");
+      }
+      video.currentTime = 0;
+      var play = video.play();
+      if (play && play.catch) play.catch(function () {});
+    }
+
+    function closeRevival() {
+      video.pause();
+      modal.classList.remove("is-open");
+      modal.hidden = true;
+      document.body.style.overflow = "";
+      if (window.location.hash === "#docstoc-is-back") {
+        history.replaceState(null, "", window.location.pathname + window.location.search);
+      }
+    }
+
+    document.querySelectorAll("[data-open-revival-video]").forEach(function (btn) {
+      if (btn.__revivalBound) return;
+      btn.__revivalBound = true;
+      btn.addEventListener("click", openRevival);
+    });
+    document.querySelectorAll("[data-close-revival-video]").forEach(function (btn) {
+      if (btn.__revivalCloseBound) return;
+      btn.__revivalCloseBound = true;
+      btn.addEventListener("click", closeRevival);
+    });
+    if (!modal.__revivalBackdropBound) {
+      modal.__revivalBackdropBound = true;
+      modal.addEventListener("click", function (e) {
+        if (e.target === modal) closeRevival();
+      });
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape" && modal.classList.contains("is-open")) closeRevival();
+      });
+      window.addEventListener("hashchange", function () {
+        if (window.location.hash === "#docstoc-is-back") openRevival();
+      });
+    }
+    if (window.location.hash === "#docstoc-is-back") openRevival();
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init);
+  } else {
+    init();
+  }
+})();

@@ -42,12 +42,12 @@
   }
 }
 </script>
-<link rel="icon" href="/favicon.png?v=20260823d" type="image/png">
-<link rel="icon" href="/favicon.svg?v=20260823d" type="image/svg+xml">
-<link rel="apple-touch-icon" href="/apple-touch-icon.png?v=20260823d">
+<link rel="icon" href="/favicon.png?v=20260825a" type="image/png">
+<link rel="icon" href="/favicon.svg?v=20260825a" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png?v=20260825a">
 <link rel="preload" href="/fonts/inter-400.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/fonts/inter-700.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/site.css?v=20260823d">
+<link rel="stylesheet" href="/site.css?v=20260825a">
 </head>
 <body>
 <header class="site-header">
@@ -150,10 +150,16 @@
   </div>
       </div>
       <div class="header-nav-actions">
-        <a href="/docstoc-alternative" class="header-revival-badge header-nav-collapse">
-          <span class="header-revival-dot" aria-hidden="true"></span>
-          <span data-i18n="nav.revivalBadge">docstoc is back</span>
-        </a>
+        <button type="button" class="header-revival-badge header-nav-collapse" data-open-revival-video aria-label="Watch: docstoc is back">
+          <span class="header-revival-badge-thumb" aria-hidden="true"></span>
+          <span class="header-revival-badge-text">
+            <span class="header-revival-badge-title" data-i18n="nav.revivalBadge">docstoc is back</span>
+            <span class="header-revival-badge-sub" data-i18n="nav.revivalBadgeSub">the automation layer — watch the story</span>
+          </span>
+          <span class="header-revival-badge-play" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z" /></svg>
+          </span>
+        </button>
         <div class="locale-switch" data-locale-switch role="group" data-i18n-aria="nav.language"></div>
         <!--email_off-->
         <a href="mailto:sales@chasa.io" class="header-nav-sales header-nav-collapse" data-sales-mail data-sales-subject="docstoc sales" data-i18n="nav.contactSales">Contact sales</a>
@@ -290,10 +296,28 @@
   </div>
   <div class="site-footer-bottom" data-i18n-year="footer.copyright">© 2026 docstoc — a product of RELACON GmbH</div>
 </footer>
-<script src="/site-lang.js?v=20260823d" defer></script>
-<script src="/site-nav.js?v=20260823d" defer></script>
-<script src="/cookie-consent.js?v=20260823d" defer></script>
-<script src="/analytics.js?v=20260823d" defer></script>
+<div class="how-modal-backdrop" id="revival-modal" hidden>
+  <div class="how-modal" role="dialog" aria-modal="true" aria-labelledby="revival-modal-title">
+    <h2 id="revival-modal-title" class="sr-only" data-i18n="nav.revivalBadge">docstoc is back</h2>
+    <button type="button" class="how-modal-close" data-close-revival-video aria-label="Close video">×</button>
+    <video
+      id="revival-modal-video"
+      class="how-modal-video"
+      src="/videos/docstoc-is-back.webm?v=20260825a"
+      poster="/videos/docstoc-is-back-poster.jpg?v=20260825a"
+      controls
+      playsinline
+      preload="metadata"
+    >
+      <track kind="captions" src="/videos/docstoc-is-back.en.vtt?v=20260825a" srclang="en" label="English" default>
+      <track kind="captions" src="/videos/docstoc-is-back.es.vtt?v=20260825a" srclang="es" label="Español">
+    </video>
+  </div>
+</div>
+<script src="/site-lang.js?v=20260825a" defer></script>
+<script src="/site-nav.js?v=20260825a" defer></script>
+<script src="/cookie-consent.js?v=20260825a" defer></script>
+<script src="/analytics.js?v=20260825a" defer></script>
 <script>
 /* Contact sales → docstoc Assistant (Docracy pattern). */
 (function () {

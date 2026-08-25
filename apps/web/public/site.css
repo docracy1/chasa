@@ -458,34 +458,110 @@ a { color: inherit; }
 .header-revival-badge {
   display: inline-flex;
   align-items: center;
-  gap: 7px;
-  padding: 8px 14px;
+  gap: 8px;
+  padding: 5px 10px 5px 5px;
   border-radius: 999px;
-  background: rgba(245, 128, 37, 0.14);
-  border: 1px solid rgba(245, 128, 37, 0.4);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.18);
   color: #fff;
-  font-size: 13px;
-  font-weight: 700;
+  font: inherit;
   text-decoration: none;
   white-space: nowrap;
   flex-shrink: 0;
-  transition: background 0.15s ease, border-color 0.15s ease;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
 }
 .header-revival-badge:hover {
-  background: rgba(245, 128, 37, 0.24);
-  border-color: rgba(245, 128, 37, 0.65);
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.28);
+  transform: translateY(-1px);
 }
-.header-revival-dot {
-  width: 7px;
-  height: 7px;
+.header-revival-badge-thumb {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #f4f1ec url("/brand/docstoc-old-logo-small.jpg") center / 160% no-repeat;
+  flex-shrink: 0;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+}
+.header-revival-badge-text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0;
+  line-height: 1.15;
+}
+.header-revival-badge-title {
+  font-size: 12.5px;
+  font-weight: 800;
+  color: #fff;
+}
+.header-revival-badge-sub {
+  font-size: 10px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.55);
+}
+.header-revival-badge-play {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
   border-radius: 50%;
   background: var(--accent);
   flex-shrink: 0;
-  animation: header-revival-pulse 2.2s ease-in-out infinite;
+  margin-left: 2px;
 }
-@keyframes header-revival-pulse {
-  0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(245, 128, 37, 0.5); }
-  50% { opacity: 0.75; box-shadow: 0 0 0 4px rgba(245, 128, 37, 0); }
+.header-revival-badge-play svg {
+  width: 8px;
+  height: 8px;
+}
+@media (max-width: 1100px) {
+  .header-revival-badge-sub { display: none; }
+}
+
+/* Shared video modal (how-it-works / docstoc-is-back) */
+.how-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1200;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(6, 16, 32, 0.78);
+}
+.how-modal-backdrop.is-open { display: flex; }
+.how-modal-backdrop[hidden] { display: none !important; }
+.how-modal {
+  position: relative;
+  width: min(940px, 100%);
+  background: #0b0b0b;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.45);
+}
+.how-modal-close {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  z-index: 2;
+  width: 36px;
+  height: 36px;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.55);
+  color: #fff;
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+}
+.how-modal-close:hover { background: rgba(0, 0, 0, 0.75); }
+.how-modal-video {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #000;
 }
 .header-login-btn {
   display: inline-flex;
