@@ -1392,10 +1392,9 @@ textarea {
   border-radius: 3px;
 }
 .plan-badge.free { background: var(--paper-deep); color: var(--ink-soft); }
-.plan-badge.solo,
 .plan-badge.paid { background: var(--accent-soft); color: var(--accent); }
-.plan-badge.pro { background: color-mix(in srgb, var(--accent) 28%, var(--white)); color: var(--ink); }
-.plan-badge.enterprise { background: var(--ink); color: var(--white); }
+.plan-badge.pro { background: var(--accent-soft); color: var(--accent); }
+.plan-badge.business { background: var(--ink); color: var(--white); }
 
 .upgrade-actions {
   display: flex;

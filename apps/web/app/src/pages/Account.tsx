@@ -11,13 +11,11 @@ import {
 import { track } from "../lib/analytics";
 import { useT } from "../lib/i18n";
 
-type StripeCheckoutPlan = "solo" | "pro";
+type StripeCheckoutPlan = "pro" | "business";
 
 function isStripeCheckoutPlan(raw: string | null): raw is StripeCheckoutPlan {
-  return raw === "solo" || raw === "pro";
+  return raw === "pro" || raw === "business";
 }
-
-const ENTERPRISE_SALES = "mailto:sales@chasa.io?subject=docstoc%20Enterprise";
 
 export default function Account({
   account,
@@ -27,7 +25,7 @@ export default function Account({
   refresh: () => Promise<void>;
 }) {
   const t = useT();
-  const [busy, setBusy] = useState<"solo" | "pro" | "portal" | "digest" | "marketing" | null>(null);
+  const [busy, setBusy] = useState<"pro" | "business" | "portal" | "digest" | "marketing" | null>(null);
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -49,11 +47,6 @@ export default function Account({
   useEffect(() => {
     if (!account || autoCheckoutStarted.current) return;
     const plan = searchParams.get("plan");
-    if (plan === "enterprise") {
-      setSearchParams({}, { replace: true });
-      window.location.href = ENTERPRISE_SALES;
-      return;
-    }
     if (!isStripeCheckoutPlan(plan)) return;
     if (account.plan === plan) {
       setSearchParams({}, { replace: true });
@@ -97,11 +90,10 @@ export default function Account({
   }
 
   const plan = acc.plan;
-  const showSolo = plan === "free";
-  const showPro = plan === "free" || plan === "solo";
-  const showEnterprise = plan === "free" || plan === "solo" || plan === "pro";
+  const showPro = plan === "free";
+  const showBusiness = plan === "free" || plan === "pro";
   const isPaid = plan !== "free";
-  const isPro = plan === "pro" || plan === "enterprise";
+  const isBusiness = plan === "business";
   const checkoutStatus = searchParams.get("checkout");
 
   async function toggleDigest() {
@@ -148,20 +140,15 @@ export default function Account({
       <section className="account-plan-section">
         <h2 className="account-section-title">{t("account.subscription")}</h2>
         <div className="upgrade-actions">
-          {showSolo && (
-            <button className="btn-primary" onClick={() => handleUpgrade("solo")} disabled={!!busy}>
-              {busy === "solo" ? t("common.redirecting") : t("account.upgradeSolo")}
-            </button>
-          )}
           {showPro && (
-            <button className="btn-secondary" onClick={() => handleUpgrade("pro")} disabled={!!busy}>
+            <button className="btn-primary" onClick={() => handleUpgrade("pro")} disabled={!!busy}>
               {busy === "pro" ? t("common.redirecting") : t("account.upgradePro")}
             </button>
           )}
-          {showEnterprise && (
-            <a className="btn-secondary" href={ENTERPRISE_SALES}>
-              {t("account.contactSales")}
-            </a>
+          {showBusiness && (
+            <button className="btn-secondary" onClick={() => handleUpgrade("business")} disabled={!!busy}>
+              {busy === "business" ? t("common.redirecting") : t("account.upgradeBusiness")}
+            </button>
           )}
           {isPaid && (
             <button className="btn-secondary" onClick={handleManageBilling} disabled={!!busy}>
@@ -201,13 +188,10 @@ export default function Account({
       <section className="account-plan-section">
         <h2 className="account-section-title">{t("account.whatYouGet")}</h2>
         <ul className="plan-feature-list">
-          <li>{t("account.featSolo")}</li>
           <li>{t("account.featPro")}</li>
-          <li>
-            {t("account.featEnterprise")} <a href={ENTERPRISE_SALES}>sales@chasa.io</a>
-          </li>
+          <li>{t("account.featBusiness")}</li>
         </ul>
-        {!isPro && isPaid && <p className="page-sub">{t("account.proNudge")}</p>}
+        {!isBusiness && isPaid && <p className="page-sub">{t("account.businessNudge")}</p>}
       </section>
 
       <div style={{ marginTop: 28 }}>

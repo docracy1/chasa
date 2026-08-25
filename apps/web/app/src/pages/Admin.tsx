@@ -6,7 +6,7 @@ import {
   adminBlogUpdate,
   adminBroadcast,
   adminFunnels,
-  adminGrantEnterprise,
+  adminGrantBusiness,
   adminLogin,
   adminLogout,
   adminMarketplaceApprove,
@@ -705,11 +705,11 @@ export default function Admin() {
     }
   }
 
-  async function grantEnterprise(e: React.FormEvent) {
+  async function grantBusiness(e: React.FormEvent) {
     e.preventDefault();
     setBusy(true);
     try {
-      await adminGrantEnterprise(entEmail);
+      await adminGrantBusiness(entEmail);
       setEntEmail("");
       setSignups(await adminSignups());
     } catch (err) {
@@ -1586,9 +1586,9 @@ export default function Admin() {
                 </div>
               </section>
               <section className="dash-card">
-                <h2 className="dash-card-title">{t("admin.enterpriseAccounts")}</h2>
-                <p className="dash-muted">{t("admin.enterpriseMuted")}</p>
-                <form className="dash-ent-form" onSubmit={grantEnterprise}>
+                <h2 className="dash-card-title">{t("admin.businessAccounts")}</h2>
+                <p className="dash-muted">{t("admin.businessMuted")}</p>
+                <form className="dash-ent-form" onSubmit={grantBusiness}>
                   <input
                     type="email"
                     placeholder={t("admin.entEmailPlaceholder")}
@@ -1597,14 +1597,14 @@ export default function Admin() {
                     required
                   />
                   <button type="submit" className="btn-primary" disabled={busy}>
-                    {t("admin.grantEnterprise")}
+                    {t("admin.grantBusiness")}
                   </button>
                 </form>
-                {signups.enterprise.length === 0 ? (
-                  <p className="dash-muted">{t("admin.noEnterprise")}</p>
+                {signups.business.length === 0 ? (
+                  <p className="dash-muted">{t("admin.noBusiness")}</p>
                 ) : (
                   <ul className="dash-post-list">
-                    {signups.enterprise.map((a) => (
+                    {signups.business.map((a) => (
                       <li key={a.email}>
                         <strong>{a.email}</strong>
                         <span>{fmtDate(a.createdAt)}</span>

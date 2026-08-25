@@ -163,7 +163,7 @@ async function sendDigestEmail(
   return true;
 }
 
-/** Daily cron: email Solo+ users who have planned reminders due today (approve-to-send). */
+/** Daily cron: email Pro+ users who have planned reminders due today (approve-to-send). */
 export async function sendDailyChaseDigests(env: Env): Promise<{ sent: number; skipped: number }> {
   const today = todayUtc();
   let sent = 0;

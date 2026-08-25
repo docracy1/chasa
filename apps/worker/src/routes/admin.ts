@@ -25,7 +25,7 @@ import {
   adminBlogPatchSchema,
   adminBlogPostSchema,
   adminBroadcastSchema,
-  adminGrantEnterpriseSchema,
+  adminGrantBusinessSchema,
   adminLoginSchema,
   parseJsonBody,
 } from "../lib/schemas";
@@ -191,13 +191,13 @@ admin.get("/signups", requireAdmin, async (c) => {
 
   const accounts = (rows.results ?? []).map((r) => ({
     email: r.email,
-    plan: r.plan || (r.is_paid ? "solo" : "free"),
+    plan: r.plan || (r.is_paid ? "pro" : "free"),
     createdAt: r.created_at,
   }));
 
   const free = accounts.filter((a) => a.plan === "free");
   const paid = accounts.filter((a) => a.plan !== "free");
-  const enterprise = accounts.filter((a) => a.plan === "enterprise");
+  const business = accounts.filter((a) => a.plan === "business");
 
   return c.json({
     total: totalRow?.n ?? accounts.length,
@@ -205,12 +205,12 @@ admin.get("/signups", requireAdmin, async (c) => {
     offset,
     free,
     paid,
-    enterprise,
+    business,
   });
 });
 
-admin.post("/grant-enterprise", requireAdmin, async (c) => {
-  const parsed = await parseJsonBody(c.req, adminGrantEnterpriseSchema);
+admin.post("/grant-business", requireAdmin, async (c) => {
+  const parsed = await parseJsonBody(c.req, adminGrantBusinessSchema);
   if (!parsed.ok) return c.json({ error: parsed.error }, 400);
   const email = parsed.data.email.trim().toLowerCase();
 
@@ -221,19 +221,19 @@ admin.post("/grant-enterprise", requireAdmin, async (c) => {
   const now = new Date().toISOString();
   if (existing) {
     await c.env.CHASA_DB.prepare(
-      `UPDATE accounts SET plan = 'enterprise', is_paid = 1, paid_at = COALESCE(paid_at, ?) WHERE id = ?`
+      `UPDATE accounts SET plan = 'business', is_paid = 1, paid_at = COALESCE(paid_at, ?) WHERE id = ?`
     )
       .bind(now, existing.id)
       .run();
   } else {
     await c.env.CHASA_DB.prepare(
-      `INSERT INTO accounts (id, email, created_at, is_paid, plan, paid_at) VALUES (?, ?, ?, 1, 'enterprise', ?)`
+      `INSERT INTO accounts (id, email, created_at, is_paid, plan, paid_at) VALUES (?, ?, ?, 1, 'business', ?)`
     )
       .bind(crypto.randomUUID(), email, now, now)
       .run();
   }
 
-  return c.json({ ok: true, email, plan: "enterprise" });
+  return c.json({ ok: true, email, plan: "business" });
 });
 
 admin.get("/blog", requireAdmin, async (c) => {

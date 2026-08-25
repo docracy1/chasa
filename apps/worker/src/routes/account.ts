@@ -194,7 +194,7 @@ account.put("/branding", requireWorkspaceAdmin, async (c) => {
 account.patch("/digest", requireAccount, async (c) => {
   const acc = c.get("account")!;
   if (!acc.isPaid) {
-    return c.json({ error: "Daily chase digest requires a Solo or Pro plan." }, 403);
+    return c.json({ error: "Daily chase digest requires a Pro or Business plan." }, 403);
   }
   const parsed = await parseJsonBody(c.req, digestSettingsSchema);
   if (!parsed.ok) return c.json({ error: parsed.error }, 400);

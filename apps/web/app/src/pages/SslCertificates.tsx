@@ -10,12 +10,12 @@ import {
   type CustomerCertificate,
   type TrustProfileRecord,
 } from "../lib/api";
-import { isProPlan } from "../lib/plan";
+import { isBusinessPlan } from "../lib/plan";
 import { useT } from "../lib/i18n";
 
 export default function SslCertificatesPage({ account }: { account: Account | null }) {
   const t = useT();
-  const isPro = isProPlan(account);
+  const isBusiness = isBusinessPlan(account);
   const [certificates, setCertificates] = useState<CustomerCertificate[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -38,7 +38,7 @@ export default function SslCertificatesPage({ account }: { account: Account | nu
   }
 
   useEffect(() => {
-    if (account && isPro) {
+    if (account && isBusiness) {
       refresh();
       getMyTrustProfile()
         .then((res) => setTrustProfile(res.profile))
@@ -46,7 +46,7 @@ export default function SslCertificatesPage({ account }: { account: Account | nu
     } else {
       setLoading(false);
     }
-  }, [account?.email, isPro]);
+  }, [account?.email, isBusiness]);
 
   async function handleAdd(e: React.FormEvent) {
     e.preventDefault();
@@ -122,7 +122,7 @@ export default function SslCertificatesPage({ account }: { account: Account | nu
     );
   }
 
-  if (!isPro) {
+  if (!isBusiness) {
     return (
       <div className="webhooks-page">
         <h1 className="webhooks-title">{t("ssl.title")}</h1>

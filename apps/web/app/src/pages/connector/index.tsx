@@ -74,7 +74,7 @@ export default function ConnectorPage({ account }: { account: Account | null }) 
   });
 
   const isPaid = !!account && account.plan !== "free";
-  const isOperator = account?.role === "admin" && account?.plan === "enterprise";
+  const isOperator = account?.role === "admin" && account?.plan === "business";
 
   async function refresh() {
     if (!account || !isPaid) {

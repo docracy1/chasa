@@ -109,7 +109,7 @@ export function WelcomeBlock({
               <strong>{t("welcome.aiTools.timeline.title")}</strong>
               <span>{t("welcome.aiTools.timeline.body")}</span>
             </div>
-            {account?.plan === "pro" || account?.plan === "enterprise" ? (
+            {account?.plan === "business" ? (
               <div className="welcome-ai-tool is-pro">
                 <strong>{t("welcome.aiTools.pro.title")}</strong>
                 <span>{t("welcome.aiTools.pro.body")}</span>

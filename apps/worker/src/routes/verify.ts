@@ -106,8 +106,8 @@ async function resolveBranding(
   const acc = await env.CHASA_DB.prepare(`SELECT plan FROM accounts WHERE id = ?`)
     .bind(accountId)
     .first<{ plan: string | null }>();
-  const isPro = acc?.plan === "pro" || acc?.plan === "enterprise";
-  if (!isPro) {
+  const isBusinessPlan = acc?.plan === "business";
+  if (!isBusinessPlan) {
     return { issuerName: "docstoc.io (Free Edition)", logoDataUrl: null, isBranded: false };
   }
   const branding = await getBrandingRow(env, accountId);

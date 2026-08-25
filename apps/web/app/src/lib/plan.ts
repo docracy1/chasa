@@ -10,6 +10,6 @@ export function isPaidPlan(account: Account | null | undefined): boolean {
   return !!account && account.plan !== "free" && account.plan != null;
 }
 
-export function isProPlan(account: Account | null | undefined): boolean {
-  return account?.plan === "pro" || account?.plan === "enterprise";
+export function isBusinessPlan(account: Account | null | undefined): boolean {
+  return account?.plan === "business";
 }

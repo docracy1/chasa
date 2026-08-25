@@ -36,7 +36,7 @@ export default function ClientsPage({ account }: { account: Account | null }) {
   const [searchParams, setSearchParams] = useSearchParams();
   const selectedId = searchParams.get("id");
   const isPaid = account?.plan !== "free" && account?.plan != null;
-  const isPro = account?.plan === "pro" || account?.plan === "enterprise";
+  const isPro = account?.plan === "business";
 
   const [clients, setClients] = useState<ClientRecord[]>([]);
   const [detail, setDetail] = useState<ClientRecord | null>(null);

@@ -127,7 +127,7 @@ export type SignupLists = {
   total: number;
   free: { email: string; plan: string; createdAt: string }[];
   paid: { email: string; plan: string; createdAt: string }[];
-  enterprise: { email: string; plan: string; createdAt: string }[];
+  business: { email: string; plan: string; createdAt: string }[];
 };
 
 export type BlogPost = {
@@ -213,8 +213,8 @@ export function adminSignups() {
   return adminFetch<SignupLists>("/signups");
 }
 
-export function adminGrantEnterprise(email: string) {
-  return adminFetch<{ ok: true; email: string; plan: string }>("/grant-enterprise", {
+export function adminGrantBusiness(email: string) {
+  return adminFetch<{ ok: true; email: string; plan: string }>("/grant-business", {
     method: "POST",
     body: JSON.stringify({ email }),
   });

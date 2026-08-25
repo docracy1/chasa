@@ -371,7 +371,7 @@ export function validateWorkspaceName(name: string): boolean {
 }
 
 export const billingCheckoutSchema = z.object({
-  plan: z.enum(["solo", "pro", "enterprise"]),
+  plan: z.enum(["pro", "business"]),
 });
 
 export const adminLoginSchema = z.object({
@@ -380,7 +380,7 @@ export const adminLoginSchema = z.object({
   turnstileToken: z.string().optional(),
 });
 
-export const adminGrantEnterpriseSchema = z.object({
+export const adminGrantBusinessSchema = z.object({
   email: z.string().trim().email().max(254),
 });
 

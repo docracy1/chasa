@@ -108,7 +108,9 @@ billing.post("/checkout", requireAccount, async (c) => {
     );
   }
 
-  // Solo/Pro are recurring subscriptions; Enterprise is a one-time price ($500) → payment mode.
+  // Pro is a recurring subscription. Business's Stripe price (STRIPE_PRICE_ENTERPRISE, being
+  // converted from a one-time price to a $39/mo recurring one) is detected dynamically here —
+  // whichever it currently is in Stripe decides the checkout mode, no code change needed either way.
   const mode = priceLookup.price.type === "recurring" ? "subscription" : "payment";
 
   const account = c.get("account")!;
@@ -298,7 +300,7 @@ billing.get("/status", requireAccount, async (c) => {
     return c.json({ ok: false, error: "STRIPE_SECRET_KEY missing" }, 501);
   }
 
-  const plans = ["solo", "pro", "enterprise"] as const;
+  const plans = ["pro", "business"] as const;
   const prices: Record<string, unknown> = {};
   for (const plan of plans) {
     const priceId = priceIdForPlan(c.env, plan);

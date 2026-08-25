@@ -50,7 +50,7 @@ export async function checkDraftQuota(
     return {
       allowed: false,
       remaining: 0,
-      error: `Free limit reached (${FREE_MONTHLY_DRAFTS} AI drafts per month). Sign in and upgrade to Solo for unlimited drafts.`,
+      error: `Free limit reached (${FREE_MONTHLY_DRAFTS} AI drafts per month). Sign in and upgrade to Pro for unlimited drafts.`,
     };
   }
   return { allowed: true, remaining: FREE_MONTHLY_DRAFTS - used };

@@ -6,7 +6,7 @@ import {
   type Account,
   type CertificateRecord,
 } from "../lib/api";
-import { isProPlan } from "../lib/plan";
+import { isBusinessPlan } from "../lib/plan";
 import { formatUsDateTime } from "../lib/locale";
 import { useT } from "../lib/i18n";
 
@@ -27,7 +27,7 @@ export default function CertificatesPage({ account }: { account: Account | null 
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [lastCreated, setLastCreated] = useState<{ publicId: string } | null>(null);
 
-  const isPro = isProPlan(account);
+  const isBusiness = isBusinessPlan(account);
   const appOrigin = typeof window !== "undefined" ? window.location.origin : "";
 
   async function refresh() {
@@ -114,7 +114,7 @@ export default function CertificatesPage({ account }: { account: Account | null 
         <h1 className="webhooks-title">{t("certificates.title")}</h1>
         <p className="branding-help">{t("certificates.pageSub")}</p>
 
-        {!isPro && (
+        {!isBusiness && (
           <div className="upgrade-nudge">
             {t("certificates.brandingHint")} <a href="/app/account">{t("certificates.upgradeLink")}</a>
           </div>

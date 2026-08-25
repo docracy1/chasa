@@ -345,26 +345,26 @@ export const requireAccount: MiddlewareHandler<AuthEnv> = async (c, next) => {
 };
 
 /**
- * Solo ($7) / Pro ($17) / Enterprise — any paid plan.
+ * Pro ($14.99) / Business ($39) — any paid plan.
  * Use for connectors, webhooks, branding, chase plans, tracking, team, QBO/Xero, SMS drafts.
- * Do NOT gate those to requireProAccount — parity features are Solo+.
+ * Do NOT gate those to requireProAccount — parity features are Pro+.
  */
 export const requirePaidAccount: MiddlewareHandler<AuthEnv> = async (c, next) => {
   const sessionToken = getCookie(c, SESSION_COOKIE_NAME);
   const account = sessionToken ? await resolveAccount(c.env, sessionToken) : null;
   if (!account) return c.json({ error: "Sign in required" }, 401);
-  if (!account.isPaid) return c.json({ error: "This requires a paid account (Solo, Pro, or Enterprise)" }, 402);
+  if (!account.isPaid) return c.json({ error: "This requires a paid account (Pro or Business)" }, 402);
   c.set("account", account);
   await next();
 };
 
-/** @deprecated Prefer requirePaidAccount — parity features are Solo+. Kept for rare Pro-only gates. */
+/** @deprecated Prefer requirePaidAccount — parity features are Pro+. Kept for rare Business-only gates. */
 export const requireProAccount: MiddlewareHandler<AuthEnv> = async (c, next) => {
   const sessionToken = getCookie(c, SESSION_COOKIE_NAME);
   const account = sessionToken ? await resolveAccount(c.env, sessionToken) : null;
   if (!account) return c.json({ error: "Sign in required" }, 401);
-  if (account.plan !== "pro" && account.plan !== "enterprise") {
-    return c.json({ error: "This requires Pro or Enterprise" }, 402);
+  if (account.plan !== "business") {
+    return c.json({ error: "This requires the Business plan" }, 402);
   }
   c.set("account", account);
   await next();
@@ -375,7 +375,7 @@ export const requireWorkspaceAdmin: MiddlewareHandler<AuthEnv> = async (c, next)
   const sessionToken = getCookie(c, SESSION_COOKIE_NAME);
   const account = sessionToken ? await resolveAccount(c.env, sessionToken) : null;
   if (!account) return c.json({ error: "Sign in required" }, 401);
-  if (!account.isPaid) return c.json({ error: "This requires a paid account (Solo, Pro, or Enterprise)" }, 402);
+  if (!account.isPaid) return c.json({ error: "This requires a paid account (Pro or Business)" }, 402);
   if (account.role !== "admin") return c.json({ error: "Admin role required" }, 403);
   c.set("account", account);
   await next();

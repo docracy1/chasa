@@ -60,7 +60,7 @@ export const requirePaidApiOrSession: MiddlewareHandler<AuthEnv> = async (c, nex
     const account = await resolveAccountFromApiKeyBearer(c.env, token);
     if (!account) return c.json({ error: "Invalid API key" }, 401);
     if (!account.isPaid) {
-      return c.json({ error: "API keys require Solo, Pro ($17), or Enterprise" }, 402);
+      return c.json({ error: "API keys require a Pro or Business plan" }, 402);
     }
     c.set("account", account);
     await next();
@@ -71,7 +71,7 @@ export const requirePaidApiOrSession: MiddlewareHandler<AuthEnv> = async (c, nex
   const account = sessionToken ? await resolveAccount(c.env, sessionToken) : null;
   if (!account) return c.json({ error: "Sign in or provide Bearer API key" }, 401);
   if (!account.isPaid) {
-    return c.json({ error: "This requires Solo, Pro ($17), or Enterprise" }, 402);
+    return c.json({ error: "This requires a Pro or Business plan" }, 402);
   }
   c.set("account", account);
   await next();
@@ -93,7 +93,7 @@ export const requirePaidApiOrSessionAdmin: MiddlewareHandler<AuthEnv> = async (c
   }
 
   if (!account.isPaid) {
-    return c.json({ error: "This requires Solo, Pro ($17), or Enterprise" }, 402);
+    return c.json({ error: "This requires a Pro or Business plan" }, 402);
   }
   if (account.role !== "admin") {
     return c.json({ error: "Admin role required for API keys" }, 403);

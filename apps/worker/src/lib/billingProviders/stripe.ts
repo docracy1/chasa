@@ -102,7 +102,7 @@ export async function verifyAndExtract(
       parseCheckoutPlan(metadata?.plan) ??
       planFromPriceId(env, lineItemPriceId) ??
       planFromPriceId(env, typeof obj?.price === "string" ? obj.price : null) ??
-      "solo";
+      "pro";
     return {
       type: "checkout_completed",
       accountId,

@@ -28,7 +28,7 @@ function visitorId(): string | undefined {
 
 export interface Account {
   email: string;
-  plan: "free" | "solo" | "pro" | "enterprise";
+  plan: "free" | "pro" | "business";
   workspaceName?: string | null;
   logoDataUrl?: string | null;
   paymentLink?: string | null;
@@ -562,7 +562,7 @@ export async function getMe(): Promise<Account | null> {
   }
 }
 
-export function startCheckout(plan: "solo" | "pro") {
+export function startCheckout(plan: "pro" | "business") {
   return jsonFetch<{ url: string }>("/billing/checkout", {
     method: "POST",
     body: JSON.stringify({ plan }),

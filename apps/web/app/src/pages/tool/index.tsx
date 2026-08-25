@@ -126,7 +126,7 @@ export default function Tool({ account }: { account: Account | null }) {
   const [sheetMsg, setSheetMsg] = useState<string | null>(null);
   const [googleConnected, setGoogleConnected] = useState(false);
   const isPaid = account?.plan !== "free" && account?.plan != null;
-  const isPro = account?.plan === "pro" || account?.plan === "enterprise";
+  const isPro = account?.plan === "business";
 
   async function refreshTimeline(invoiceId: string) {
     if (!isPaid) return;
