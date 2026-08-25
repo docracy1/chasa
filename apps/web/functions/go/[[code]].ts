@@ -22,6 +22,7 @@ const SHORT_LINKS: Record<string, GoEntry> = {
   templates: { to: "/free-templates/", source: "templates", medium: "shortlink", campaign: "templates" },
   tools: { to: "/tools/", source: "tools", medium: "shortlink", campaign: "tools" },
   trust: { to: "/trust-badges", source: "trust", medium: "shortlink", campaign: "trust" },
+  invoice: { to: "/tools/invoice-generator", source: "invoice", medium: "shortlink", campaign: "invoice" },
 };
 
 function sanitize(value: string | null, max = 64): string {

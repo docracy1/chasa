@@ -375,9 +375,86 @@
     }
   }
 
+  function bindInvoicePreview(root) {
+    const itemsEl = root.querySelector("[data-inv-items]");
+    const addBtn = root.querySelector("[data-inv-add]");
+    const clientEl = root.querySelector("[data-inv-client]");
+    const currencyEl = root.querySelector("[data-inv-currency]");
+    const taxEl = root.querySelector("[data-inv-tax]");
+    const outClient = root.querySelector("[data-inv-out-client]");
+    const outSub = root.querySelector("[data-inv-out-subtotal]");
+    const outTax = root.querySelector("[data-inv-out-tax]");
+    const outTotalPanel = root.querySelector("[data-inv-out-total-panel]");
+    if (!itemsEl) return;
+
+    function lineHtml() {
+      return (
+        '<div class="tool-line-item">' +
+        '<div class="tool-field"><label>Description</label><input data-inv-desc type="text" value="" placeholder="Line item" /></div>' +
+        '<div class="tool-field"><label>Qty</label><input data-inv-qty type="number" min="0" step="1" value="1" /></div>' +
+        '<div class="tool-field"><label>Price</label><input data-inv-price type="number" min="0" step="0.01" value="0" /></div>' +
+        '<button type="button" data-inv-remove aria-label="Remove line">✕</button>' +
+        "</div>"
+      );
+    }
+
+    function bindRow(row) {
+      row.querySelectorAll("input").forEach((el) => {
+        el.addEventListener("input", recalc);
+        el.addEventListener("change", recalc);
+      });
+      const remove = row.querySelector("[data-inv-remove]");
+      if (remove) {
+        remove.addEventListener("click", () => {
+          const rows = itemsEl.querySelectorAll(".tool-line-item");
+          if (rows.length <= 1) return;
+          row.remove();
+          recalc();
+        });
+      }
+    }
+
+    function recalc() {
+      const currency = (currencyEl && currencyEl.value) || "USD";
+      const taxRate = Math.max(0, Number(taxEl && taxEl.value) || 0);
+      let subtotal = 0;
+      itemsEl.querySelectorAll(".tool-line-item").forEach((row) => {
+        const qty = Math.max(0, Number(row.querySelector("[data-inv-qty]").value) || 0);
+        const price = Math.max(0, Number(row.querySelector("[data-inv-price]").value) || 0);
+        subtotal += qty * price;
+      });
+      const taxAmount = subtotal * (taxRate / 100);
+      const total = subtotal + taxAmount;
+      if (outClient) outClient.textContent = (clientEl && clientEl.value.trim()) || "—";
+      if (outSub) outSub.textContent = money(subtotal, currency);
+      if (outTax) outTax.textContent = money(taxAmount, currency);
+      const totalText = money(total, currency);
+      if (outTotalPanel) outTotalPanel.textContent = totalText;
+      document.querySelectorAll(".tool-circle [data-inv-out-total]").forEach((el) => {
+        el.textContent = totalText;
+      });
+    }
+
+    itemsEl.querySelectorAll(".tool-line-item").forEach(bindRow);
+    [clientEl, currencyEl, taxEl].forEach((el) => {
+      if (!el) return;
+      el.addEventListener("input", recalc);
+      el.addEventListener("change", recalc);
+    });
+    if (addBtn) {
+      addBtn.addEventListener("click", () => {
+        itemsEl.insertAdjacentHTML("beforeend", lineHtml());
+        bindRow(itemsEl.lastElementChild);
+        recalc();
+      });
+    }
+    recalc();
+  }
+
   document.querySelectorAll("[data-calc='late-payment']").forEach(bindLatePayment);
   document.querySelectorAll("[data-calc='chase-savings']").forEach(bindSavings);
   document.querySelectorAll("[data-calc='ssl-expiry']").forEach(bindSslExpiry);
   document.querySelectorAll("[data-hash-drop]").forEach((el) => bindHashChecker(el));
   document.querySelectorAll("[data-calc='trust-badge']").forEach(bindTrustBadge);
+  document.querySelectorAll("[data-calc='invoice-preview']").forEach(bindInvoicePreview);
 })();

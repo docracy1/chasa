@@ -17,6 +17,7 @@ const searchIcon = `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" 
 const lockIcon = `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="1.5"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>`;
 const calendarIcon = `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 11h18"/></svg>`;
 const cashIcon = `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v10M9.5 9.5c.8-1 2-1.5 2.5-1.5s1.7.5 1.7 1.5-1 1.5-2.7 2-2.7 1.2-2.7 2.5 1.2 2.2 2.7 2.2 1.8-.5 2.5-1.5"/></svg>`;
+const invoiceIcon = `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h8l4 4v14H7V3z"/><path d="M15 3v4h4"/><path d="M10 12h6M10 16h6M10 8h2"/></svg>`;
 
 const extraHead = `<style>
 .tool-sell-main { max-width: none; padding: 0; margin: 0; }
@@ -297,10 +298,20 @@ body:has(.tool-sell-main) { background: #060504; }
   text-decoration: none; border: 1px solid #d8dee8; border-radius: 6px;
   padding: 6px 10px; background: #fafbfc;
 }
-.trust-embed-box {
-  margin-top: 12px; padding: 10px 12px; background: rgba(0,0,0,0.35);
-  border: 1px solid rgba(255,255,255,0.12); border-radius: 8px; font-size: 12.5px;
-  word-break: break-all; font-family: "IBM Plex Mono", ui-monospace, monospace; color: rgba(255,255,255,0.8);
+.tool-line-items { display: grid; gap: 10px; margin-bottom: 12px; }
+.tool-line-item {
+  display: grid; gap: 8px;
+  grid-template-columns: 1fr 70px 90px auto;
+  align-items: end;
+}
+@media (max-width: 640px) {
+  .tool-line-item { grid-template-columns: 1fr 1fr; }
+  .tool-line-item .tool-field:first-child { grid-column: 1 / -1; }
+}
+.tool-line-item button {
+  font-size: 12px; font-weight: 700; padding: 10px 12px; margin-bottom: 1px;
+  border: 1px solid rgba(255,255,255,0.18); border-radius: 10px;
+  background: rgba(255,255,255,0.06); color: #fff; cursor: pointer;
 }
 .hash-out { margin-top: 16px; text-align: left; }
 .hash-out-row { display: flex; gap: 8px; align-items: center; margin-bottom: 10px; }
@@ -468,6 +479,25 @@ const sslFaqs = [
   },
 ];
 
+const invoiceFaqs = [
+  {
+    q: "Is this a free invoice generator?",
+    a: "Yes for the preview on this page — totals update in your browser with no signup. Creating a real shareable invoice link (and tracking sent/paid status) happens in your docstoc account.",
+  },
+  {
+    q: "What happens after I create an invoice in docstoc?",
+    a: "You get a public /invoice/… link your client can open and print. Mark it sent and it can flow into chase follow-ups if it goes overdue, plus an optional tamper-evident certificate.",
+  },
+  {
+    q: "Can clients pay from the invoice page?",
+    a: "If you've set a payment link in branding, it appears on the public invoice. docstoc doesn't process card payments itself — it links out to whatever you already use.",
+  },
+  {
+    q: "Does creating an invoice auto-email my client?",
+    a: "No. You share the link yourself. Follow-up emails are also drafts you review and send from your own inbox.",
+  },
+];
+
 const trustBadgeFaqs = [
   {
     q: "Is this a legal-entity or business-registry check?",
@@ -493,8 +523,8 @@ const toolsIndexMain = `
 ${hero({
   accent: "Free tools.",
   rest: "One workflow.",
-  sub: "Template finder, file hash, SSL expiry, trust badges, and invoice chase estimates — same dark selling surface as the rest of docstoc. No signup to try.",
-  ringInner: `<div class="tool-circle"><span class="tool-circle-icon" aria-hidden="true">${searchIcon}</span><p class="tool-circle-title">Pick a tool below</p><p class="tool-circle-sub">Five free utilities · zero friction</p></div>`,
+  sub: "Templates, file hash, SSL expiry, trust badges, invoice generator, and chase estimates — same dark selling surface as the rest of docstoc. No signup to try the calculators.",
+  ringInner: `<div class="tool-circle"><span class="tool-circle-icon" aria-hidden="true">${searchIcon}</span><p class="tool-circle-title">Pick a tool below</p><p class="tool-circle-sub">Six free utilities · zero friction</p></div>`,
   caption: "Built for freelancers &amp; small teams · same brand as Secure. Automate. Certify.",
   source: "tool_index_hero",
 })}
@@ -506,6 +536,7 @@ ${hero({
       <a class="tool-card" href="/tools/file-hash-checker"><h2>File hash checker</h2><p>Compute a file's SHA-256 hash in your browser — the same check behind docstoc certificates.</p></a>
       <a class="tool-card" href="/tools/ssl-certificate-calculator"><h2>SSL expiry calculator</h2><p>Enter an issue date and validity period, get the exact expiry date and days remaining.</p></a>
       <a class="tool-card" href="/tools/trust-badges"><h2>Trust badges</h2><p>Preview the domain-verified badge, look up a public trust profile, copy the embed snippet.</p></a>
+      <a class="tool-card" href="/tools/invoice-generator"><h2>Invoice generator</h2><p>Build a professional invoice with line items and tax — preview totals free, then create a shareable client link.</p></a>
       <a class="tool-card" href="/tools/invoice-chase-calculator"><h2>Invoice chase calculator</h2><p>Estimate late payment interest and the cash you unlock when overdue invoices get paid sooner.</p></a>
     </div>
   </div>
@@ -672,6 +703,87 @@ ${hero({
 </section>
 `.trim();
 
+const invoiceGeneratorMain = `
+${hero({
+  accent: "Create. Share.",
+  rest: "Get paid.",
+  sub: "Build a professional invoice with line items and tax. Preview totals free in your browser — then create a shareable client link in docstoc that can flow into chase follow-ups if it goes overdue.",
+  ringInner: `<div class="tool-circle">
+      <span class="tool-circle-icon" aria-hidden="true">${invoiceIcon}</span>
+      <p class="tool-circle-stat" data-inv-out-total>—</p>
+      <p class="tool-circle-sub">invoice total (preview)</p>
+    </div>`,
+  caption: "Shareable /invoice/… link · optional certificate · chase-ready when overdue",
+  source: "tool_invoice_generator",
+})}
+<section class="tool-section">
+  <div class="tool-section-inner">
+    <h2>Preview an invoice</h2>
+    <p style="margin-bottom:16px">Totals update live below. Nothing is saved until you create the invoice in your account.</p>
+    <div class="tool-panel-grid" data-calc="invoice-preview">
+      <div class="tool-panel">
+        <div class="tool-field">
+          <label for="inv-client">Client name</label>
+          <input id="inv-client" data-inv-client type="text" value="Acme Studio" />
+        </div>
+        <div class="tool-field">
+          <label for="inv-currency">Currency</label>
+          <select id="inv-currency" data-inv-currency>
+            <option value="USD">USD</option>
+            <option value="EUR">EUR</option>
+            <option value="GBP">GBP</option>
+            <option value="AUD">AUD</option>
+            <option value="CAD">CAD</option>
+          </select>
+        </div>
+        <div class="tool-field">
+          <label for="inv-tax">Tax %</label>
+          <input id="inv-tax" data-inv-tax type="number" min="0" max="100" step="0.1" value="0" />
+        </div>
+        <div class="tool-line-items" data-inv-items>
+          <div class="tool-line-item">
+            <div class="tool-field">
+              <label>Description</label>
+              <input data-inv-desc type="text" value="Website design — phase 1" />
+            </div>
+            <div class="tool-field">
+              <label>Qty</label>
+              <input data-inv-qty type="number" min="0" step="1" value="1" />
+            </div>
+            <div class="tool-field">
+              <label>Price</label>
+              <input data-inv-price type="number" min="0" step="0.01" value="2500" />
+            </div>
+            <button type="button" data-inv-remove aria-label="Remove line">✕</button>
+          </div>
+        </div>
+        <div class="tool-actions">
+          <button type="button" class="primary" data-inv-add>Add line item</button>
+        </div>
+      </div>
+      <div class="tool-results" aria-live="polite">
+        <p class="tool-stat"><span>Client</span><strong data-inv-out-client>—</strong></p>
+        <p class="tool-stat"><span>Subtotal</span><strong data-inv-out-subtotal>—</strong></p>
+        <p class="tool-stat"><span>Tax</span><strong data-inv-out-tax>—</strong></p>
+        <p class="tool-stat"><span>Total</span><strong data-inv-out-total-panel>—</strong></p>
+        <p class="tool-note">Preview only — create the real invoice to get a shareable link and tracking.</p>
+        <p style="margin-top:16px"><a href="/app/invoices" class="nav-cta" data-cta data-cta-source="tool_invoice_generator_body">Create this invoice in docstoc →</a></p>
+      </div>
+    </div>
+    <h3>What you get when you create it</h3>
+    <ul>
+      <li><strong>Shareable client page</strong> at <code>/invoice/…</code> — open, print, or forward without login</li>
+      <li><strong>Sent / paid tracking</strong> in your workspace</li>
+      <li><strong>Chase-ready</strong> — overdue invoices can feed AI follow-up drafts</li>
+      <li><strong>Optional certificate</strong> — tamper-evident proof of what you sent</li>
+    </ul>
+    <p style="margin-top:12px"><a href="/invoices">Invoices product overview →</a> · <a href="/tools/invoice-chase-calculator">Chase calculator →</a></p>
+    <h3>FAQs</h3>
+    ${faqsHtml(invoiceFaqs)}
+  </div>
+</section>
+`.trim();
+
 const chaseCalcMain = `
 ${hero({
   accent: "Late fees.",
@@ -772,7 +884,7 @@ ${hero({
         <p class="tool-note">Cash unlocked ≈ (AR ÷ days outstanding) × days cut. Illustrative only.</p>
       </div>
     </div>
-    <p style="margin-top:20px"><a href="/app/">Draft the chase email →</a></p>
+    <p style="margin-top:20px"><a href="/app/">Draft the chase email →</a> · <a href="/tools/invoice-generator">Invoice generator →</a></p>
     <h3>FAQs</h3>
     ${faqsHtml(chaseFaqs)}
   </div>
@@ -782,9 +894,9 @@ ${hero({
 const pages = [
   {
     file: "index.html",
-    title: "Free Tools — Templates, Hash, SSL, Trust Badges, Invoice Chase | docstoc",
+    title: "Free Tools — Templates, Hash, SSL, Trust Badges, Invoice Generator, Chase | docstoc",
     description:
-      "Free no-signup tools: find templates, check SHA-256 hashes, calculate SSL expiry, look up verified corporate trust badges, and estimate invoice chase savings.",
+      "Free tools: find templates, check SHA-256 hashes, calculate SSL expiry, look up trust badges, preview invoices, and estimate invoice chase savings.",
     canonical: "/tools/",
     mainHtml: toolsIndexMain,
     jsonLd: multiJsonLd(
@@ -871,6 +983,27 @@ const pages = [
         url: "https://chasa.io/tools/trust-badges",
       }),
       faqJsonLd(trustBadgeFaqs)
+    ),
+  },
+  {
+    file: "invoice-generator.html",
+    title: "Free Invoice Generator — Preview Totals & Create Shareable Invoices | docstoc",
+    description:
+      "Build a professional invoice with line items and tax. Preview totals free in your browser, then create a shareable client link in docstoc.",
+    canonical: "/tools/invoice-generator",
+    mainHtml: invoiceGeneratorMain,
+    jsonLd: multiJsonLd(
+      breadcrumbJsonLd([
+        { name: "Home", item: "https://chasa.io/" },
+        { name: "Tools", item: "https://chasa.io/tools/" },
+        { name: "Invoice generator", item: "https://chasa.io/tools/invoice-generator" },
+      ]),
+      webAppJsonLd({
+        name: "Invoice generator",
+        description: "Preview invoice totals with line items and tax, then create a shareable invoice in docstoc.",
+        url: "https://chasa.io/tools/invoice-generator",
+      }),
+      faqJsonLd(invoiceFaqs)
     ),
   },
   {

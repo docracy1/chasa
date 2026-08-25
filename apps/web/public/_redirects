@@ -17,6 +17,8 @@
 /tools/verified-corporate-identity-trust-badges  /tools/trust-badges  301
 /verified-corporate-identity  /trust-badges  301
 /verified-corporate-identity-trust-badges  /trust-badges  301
+/invoice-generator  /tools/invoice-generator  301
+/tools/create-invoice  /tools/invoice-generator  301
 /blog  /blog/  301
 /features  /features/  301
 /docs  /docs/  301
@@ -44,6 +46,7 @@
 /go/try /app/?utm_source=try&utm_medium=shortlink&utm_campaign=try  302
 /go/templates  /free-templates/?utm_source=templates&utm_medium=shortlink&utm_campaign=templates  302
 /go/trust  /trust-badges?utm_source=trust&utm_medium=shortlink&utm_campaign=trust  302
+/go/invoice  /tools/invoice-generator?utm_source=invoice&utm_medium=shortlink&utm_campaign=invoice  302
 
 # Compliance pages consolidated under /compliance/ — preserve any indexing/link
 # equity the old URLs picked up rather than letting them 404. Both the bare and

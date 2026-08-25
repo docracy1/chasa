@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Invoice Generator — Preview Totals &amp; Create Shareable Invoices | docstoc</title>
+<meta name="description" content="Build a professional invoice with line items and tax. Preview totals free in your browser, then create a shareable client link in docstoc.">
+<link rel="canonical" href="https://chasa.io/tools/invoice-generator">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Free Invoice Generator — Preview Totals &amp; Create Shareable Invoices | docstoc">
+<meta property="og:description" content="Build a professional invoice with line items and tax. Preview totals free in your browser, then create a shareable client link in docstoc.">
+<meta property="og:url" content="https://chasa.io/tools/invoice-generator">
+<meta property="og:image" content="https://chasa.io/brand/og/docstoc-og-1200x630.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Free Invoice Generator — Preview Totals &amp; Create Shareable Invoices | docstoc">
+<meta name="twitter:description" content="Build a professional invoice with line items and tax. Preview totals free in your browser, then create a shareable client link in docstoc.">
+<meta name="twitter:image" content="https://chasa.io/brand/og/docstoc-og-1200x630.png">
+<link rel="alternate" type="application/rss+xml" title="docstoc Blog" href="../blog/feed.xml">
+<link rel="me" href="https://www.linkedin.com/company/chasa-io">
+<link rel="me" href="https://x.com/chasaHQ">
+<style>
+.tool-sell-main { max-width: none; padding: 0; margin: 0; }
+body:has(.tool-sell-main) { background: #060504; }
+.tool-hero {
+  --hero-body: rgba(255, 255, 255, 0.78);
+  position: relative;
+  background:
+    radial-gradient(circle at 50% 0%, color-mix(in srgb, var(--accent) 30%, transparent) 0%, transparent 55%),
+    radial-gradient(ellipse at 15% 85%, color-mix(in srgb, var(--accent) 16%, transparent) 0%, transparent 50%),
+    linear-gradient(180deg, #14100d 0%, #0b0908 55%, #060504 100%);
+  color: #fff;
+  padding: 36px 24px 64px;
+  overflow: hidden;
+  text-align: center;
+}
+.tool-hero-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 720px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.tool-hero-pill {
+  width: 42px;
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.18);
+  margin: 0 0 22px;
+}
+.tool-hero h1 {
+  font-family: Inter, system-ui, sans-serif;
+  font-weight: 800;
+  font-size: clamp(34px, 5vw, 56px);
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+  color: #fff;
+  margin: 0 0 14px;
+  max-width: 14em;
+}
+.tool-hero h1 .accent { color: var(--accent); }
+.tool-hero-sub {
+  font-size: 17px;
+  line-height: 1.45;
+  color: var(--hero-body);
+  margin: 0 0 22px;
+  max-width: 34em;
+}
+.tool-ring {
+  width: 260px;
+  height: 260px;
+  border-radius: 50%;
+  background: conic-gradient(from -90deg, var(--accent) 0% 88%, rgba(255, 255, 255, 0.14) 88% 100%);
+  padding: 8px;
+  box-shadow: 0 30px 70px rgba(245, 128, 37, 0.22);
+  margin: 0 auto 14px;
+}
+.tool-circle {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 22px;
+  box-sizing: border-box;
+  color: var(--ink);
+}
+.tool-circle.is-action {
+  cursor: pointer;
+  border: 2px dashed transparent;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+.tool-circle.is-action:hover,
+.tool-circle.is-action:focus-visible,
+.tool-circle.is-action.is-drag {
+  border-color: color-mix(in srgb, var(--accent) 55%, transparent);
+  background: color-mix(in srgb, var(--accent) 8%, #fff);
+}
+.tool-circle-icon {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: var(--accent-soft);
+  color: var(--accent);
+  display: grid;
+  place-items: center;
+  margin-bottom: 12px;
+}
+.tool-circle-title {
+  font-size: 15px;
+  font-weight: 800;
+  margin: 0 0 4px;
+  line-height: 1.3;
+  color: var(--ink);
+}
+.tool-circle-sub {
+  font-size: 12.5px;
+  color: var(--ink-soft);
+  margin: 0;
+  line-height: 1.35;
+}
+.tool-circle-stat {
+  font-size: clamp(22px, 4vw, 30px);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+  margin: 0 0 4px;
+  line-height: 1.15;
+  word-break: break-word;
+}
+.tool-caption {
+  margin: 0 0 22px;
+  font-size: 12.5px;
+  color: rgba(255, 255, 255, 0.6);
+}
+.tool-signup {
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+  max-width: 480px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.18);
+}
+.tool-signup-input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  outline: none;
+  padding: 14px 18px;
+  font: inherit;
+  font-size: 15px;
+  color: var(--ink);
+  background: transparent;
+}
+.tool-signup-input::placeholder { color: #8a96a8; }
+.tool-signup-btn {
+  flex-shrink: 0;
+  border: none;
+  cursor: pointer;
+  padding: 14px 22px;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 800;
+  background: var(--signal, #F58025);
+  color: var(--on-signal, #fff);
+  white-space: nowrap;
+}
+.tool-signup-btn:hover { background: var(--signal-hover, #FF9A47); }
+.tool-cta-hint {
+  margin: 12px 0 0;
+  font-size: 12.5px;
+  color: rgba(255, 255, 255, 0.55);
+}
+.tool-section {
+  background: #0b0908;
+  color: rgba(255, 255, 255, 0.86);
+  padding: 48px 24px 64px;
+}
+.tool-section-inner {
+  max-width: 860px;
+  margin: 0 auto;
+}
+.tool-section h2 {
+  font-family: Inter, system-ui, sans-serif;
+  font-size: clamp(22px, 3vw, 28px);
+  font-weight: 800;
+  color: #fff;
+  margin: 0 0 12px;
+  letter-spacing: -0.02em;
+}
+.tool-section h3 {
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: #fff;
+  margin: 28px 0 12px;
+}
+.tool-section p, .tool-section li {
+  font-size: 15.5px;
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.72);
+}
+.tool-section a { color: var(--accent); font-weight: 600; }
+.tool-section ul, .tool-section ol { padding-left: 1.2em; margin: 0 0 12px; }
+.tool-panel-grid {
+  display: grid;
+  gap: 16px;
+  margin: 24px 0 8px;
+}
+@media (min-width: 800px) {
+  .tool-panel-grid { grid-template-columns: 1.05fr 0.95fr; align-items: start; }
+}
+.tool-panel, .tool-results {
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 16px;
+  padding: 20px 22px;
+  background: rgba(255, 255, 255, 0.04);
+  text-align: left;
+}
+.tool-results { background: color-mix(in srgb, var(--accent) 10%, transparent); }
+.tool-field { margin-bottom: 14px; }
+.tool-field label {
+  display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; color: rgba(255,255,255,0.88);
+}
+.tool-field input, .tool-field select {
+  width: 100%; box-sizing: border-box; padding: 11px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.16); border-radius: 10px;
+  font: inherit; background: rgba(0,0,0,0.35); color: #fff;
+}
+.tool-field input[type="range"] { padding: 0; background: transparent; border: none; }
+.tool-hint { font-size: 12.5px; color: rgba(255,255,255,0.5); margin-top: 4px; }
+.tool-stat { margin: 0 0 14px; }
+.tool-stat span { display: block; font-size: 12.5px; color: rgba(255,255,255,0.55); font-weight: 600; }
+.tool-stat strong { display: block; font-size: 26px; margin-top: 2px; font-weight: 800; color: #fff; }
+.tool-note { font-size: 12.5px; color: rgba(255,255,255,0.5); margin-top: 12px; line-height: 1.45; }
+.tool-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 4px; }
+.tool-actions button {
+  font-size: 13px; font-weight: 700; padding: 10px 14px;
+  border: 1px solid rgba(255,255,255,0.18); border-radius: 999px;
+  background: rgba(255,255,255,0.06); color: #fff; cursor: pointer;
+}
+.tool-actions button[data-trust-lookup],
+.tool-actions button.primary {
+  background: var(--accent); border-color: var(--accent); color: #fff;
+}
+.tool-card-grid {
+  display: grid;
+  gap: 14px;
+  margin: 22px 0 8px;
+  text-align: left;
+}
+@media (min-width: 700px) { .tool-card-grid { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 1040px) { .tool-card-grid { grid-template-columns: 1fr 1fr 1fr; } }
+.tool-card {
+  display: block; text-decoration: none; color: inherit;
+  border: 1px solid rgba(255,255,255,0.12); border-radius: 16px; padding: 18px 20px;
+  background: rgba(255,255,255,0.04); transition: border-color 0.15s ease, transform 0.12s ease;
+}
+.tool-card:hover { border-color: var(--accent); transform: translateY(-1px); }
+.tool-card h2 { font-size: 18px; margin: 0 0 8px; font-weight: 800; color: #fff; font-family: Inter, system-ui, sans-serif; }
+.tool-card p { margin: 0; color: rgba(255,255,255,0.62); font-size: 14.5px; line-height: 1.45; }
+.finder-grid {
+  display: grid; gap: 12px; margin: 18px 0 8px; text-align: left;
+}
+@media (min-width: 700px) { .finder-grid { grid-template-columns: 1fr 1fr; } }
+.finder-card {
+  display: block; text-decoration: none; color: inherit;
+  border: 1px solid rgba(255,255,255,0.12); border-radius: 12px; padding: 14px 16px;
+  background: rgba(255,255,255,0.04);
+}
+.finder-card:hover { border-color: var(--accent); }
+.finder-card strong { display: block; font-size: 15px; margin-bottom: 3px; color: #fff; }
+.finder-card span { font-size: 13px; color: rgba(255,255,255,0.55); }
+.tool-faq { margin-top: 8px; text-align: left; }
+.tool-faq details {
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  padding: 14px 0;
+}
+.tool-faq summary {
+  cursor: pointer;
+  font-weight: 700;
+  color: #fff;
+  list-style: none;
+}
+.tool-faq summary::-webkit-details-marker { display: none; }
+.tool-faq p { margin-top: 8px; }
+.trust-badge-demo {
+  display: inline-flex; align-items: center; gap: 6px;
+  font: 12px/1.2 -apple-system, system-ui, sans-serif; color: #1B3155;
+  text-decoration: none; border: 1px solid #d8dee8; border-radius: 6px;
+  padding: 6px 10px; background: #fafbfc;
+}
+.tool-line-items { display: grid; gap: 10px; margin-bottom: 12px; }
+.tool-line-item {
+  display: grid; gap: 8px;
+  grid-template-columns: 1fr 70px 90px auto;
+  align-items: end;
+}
+@media (max-width: 640px) {
+  .tool-line-item { grid-template-columns: 1fr 1fr; }
+  .tool-line-item .tool-field:first-child { grid-column: 1 / -1; }
+}
+.tool-line-item button {
+  font-size: 12px; font-weight: 700; padding: 10px 12px; margin-bottom: 1px;
+  border: 1px solid rgba(255,255,255,0.18); border-radius: 10px;
+  background: rgba(255,255,255,0.06); color: #fff; cursor: pointer;
+}
+.hash-out { margin-top: 16px; text-align: left; }
+.hash-out-row { display: flex; gap: 8px; align-items: center; margin-bottom: 10px; }
+.hash-out-row code {
+  flex: 1; font-size: 12.5px; word-break: break-all; padding: 8px 10px;
+  background: rgba(0,0,0,0.35); border: 1px solid rgba(255,255,255,0.12); border-radius: 8px; color: #fff;
+}
+.hash-copy-btn {
+  flex-shrink: 0; font-size: 12.5px; font-weight: 700; padding: 8px 12px;
+  border: 1px solid rgba(255,255,255,0.18); border-radius: 999px; background: rgba(255,255,255,0.06); color: #fff; cursor: pointer;
+}
+@media (max-width: 640px) {
+  .tool-ring { width: 210px; height: 210px; }
+  .tool-hero { padding: 28px 18px 48px; }
+}
+</style>
+<script src="/tools-calc.js" defer></script>
+<script type="application/ld+json">
+[{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://chasa.io/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Tools",
+      "item": "https://chasa.io/tools/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Invoice generator",
+      "item": "https://chasa.io/tools/invoice-generator"
+    }
+  ]
+},
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Invoice generator",
+  "description": "Preview invoice totals with line items and tax, then create a shareable invoice in docstoc.",
+  "url": "https://chasa.io/tools/invoice-generator",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "docstoc",
+    "url": "https://chasa.io/"
+  }
+},
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Is this a free invoice generator?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes for the preview on this page — totals update in your browser with no signup. Creating a real shareable invoice link (and tracking sent/paid status) happens in your docstoc account."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What happens after I create an invoice in docstoc?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "You get a public /invoice/… link your client can open and print. Mark it sent and it can flow into chase follow-ups if it goes overdue, plus an optional tamper-evident certificate."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can clients pay from the invoice page?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "If you've set a payment link in branding, it appears on the public invoice. docstoc doesn't process card payments itself — it links out to whatever you already use."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does creating an invoice auto-email my client?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. You share the link yourself. Follow-up emails are also drafts you review and send from your own inbox."
+      }
+    }
+  ]
+}]
+</script>
+<link rel="icon" href="../favicon.png?v=20260825d" type="image/png">
+<link rel="icon" href="../favicon.svg?v=20260825d" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png?v=20260825d">
+<link rel="preload" href="../fonts/inter-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../fonts/inter-700.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../site.css?v=20260825d">
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap site-header-inner">
+    <div class="logo-group">
+      <a href="../" class="logo" aria-label="docstoc home"><img class="logo-mark" src="../brand/docstoc-icon.png" alt="" width="28" height="28" /><span class="logo-word">docstoc</span></a>
+    </div>
+    <nav class="header-nav-right">
+      <div class="header-nav-links">
+        <div class="nav-megamenu header-nav-collapse" data-mega-menu>
+    <button type="button" class="nav-megamenu-trigger header-nav-link" aria-haspopup="true" aria-expanded="false" data-mega-trigger>
+      <span data-i18n="nav.products">Products</span>
+      <svg class="nav-megamenu-chevron" width="10" height="10" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5L6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
+    </button>
+    <div class="nav-megamenu-panel" data-mega-panel hidden>
+      <div class="nav-megamenu-grid" style="grid-template-columns: repeat(2, 1fr)"><a href="../document-templates/" class="nav-megamenu-item nav-megamenu-item-lg">
+    <span class="nav-megamenu-icon nav-megamenu-icon-lg"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9.5l1-4h14l1 4" /><path d="M4 9.5a2.25 2.25 0 0 0 4.5 0 2.25 2.25 0 0 0 4.5 0 2.25 2.25 0 0 0 4.5 0 2.25 2.25 0 0 0 4.5 0" /><path d="M5.5 11v9h13v-9" /></svg></span>
+    <span>
+      <span class="nav-megamenu-item-title" data-i18n="nav.mega.products.templates.title">Document templates</span>
+      <span class="nav-megamenu-item-desc" data-i18n="nav.mega.products.templates.desc">1,000+ free business & legal templates, plus kits.</span>
+    </span>
+  </a>
+<a href="../tools/invoice-generator" class="nav-megamenu-item nav-megamenu-item-lg">
+    <span class="nav-megamenu-icon nav-megamenu-icon-lg"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7.5" width="18" height="12" rx="1.5" /><path d="M8 7.5V6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v1.5" /><path d="M3 12.5h18" /></svg></span>
+    <span>
+      <span class="nav-megamenu-item-title" data-i18n="nav.mega.products.invoices.title">Invoice generator</span>
+      <span class="nav-megamenu-item-desc" data-i18n="nav.mega.products.invoices.desc">Create a shareable invoice — then chase it if it goes overdue.</span>
+    </span>
+  </a>
+<a href="../verify/DOC-DEMO0001" class="nav-megamenu-item nav-megamenu-item-lg">
+    <span class="nav-megamenu-icon nav-megamenu-icon-lg"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v5.5c0 5-3.5 8-7 9.5-3.5-1.5-7-4.5-7-9.5V6l7-3z" /><path d="M9 12l2 2 4-4" /></svg></span>
+    <span>
+      <span class="nav-megamenu-item-title" data-i18n="nav.mega.products.certificates.title">Document certificates</span>
+      <span class="nav-megamenu-item-desc" data-i18n="nav.mega.products.certificates.desc">Free tamper-evident hash verification for any file.</span>
+    </span>
+  </a>
+<a href="../app/login?start=1" class="nav-megamenu-item nav-megamenu-item-lg">
+    <span class="nav-megamenu-icon nav-megamenu-icon-lg"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="1.5" /><path d="M8 11V7a4 4 0 0 1 8 0v4" /></svg></span>
+    <span>
+      <span class="nav-megamenu-item-title" data-i18n="nav.mega.products.ssl.title">SSL / TLS automation</span>
+      <span class="nav-megamenu-item-desc" data-i18n="nav.mega.products.ssl.desc">Free Let's Encrypt certificates for your own domain.</span>
+    </span>
+  </a>
+<a href="../features/ai-tone" class="nav-megamenu-item nav-megamenu-item-lg">
+    <span class="nav-megamenu-icon nav-megamenu-icon-lg"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.5 2.5L4 14h6l-1 7.5L20 10h-6l-1.5-7.5z" /></svg></span>
+    <span>
+      <span class="nav-megamenu-item-title" data-i18n="nav.mega.products.chasing.title">AI invoice chasing</span>
+      <span class="nav-megamenu-item-desc" data-i18n="nav.mega.products.chasing.desc">Tone-matched follow-up drafts for overdue invoices.</span>
+    </span>
+  </a></div>
+      
+    </div>
+  </div>
+        <a href="../tools/" class="header-nav-link header-nav-collapse" data-i18n="nav.tools">Tools</a>
+        <div class="nav-megamenu header-nav-collapse" data-mega-menu>
+    <button type="button" class="nav-megamenu-trigger header-nav-link" aria-haspopup="true" aria-expanded="false" data-mega-trigger>
+      <span data-i18n="nav.more">More</span>
+      <svg class="nav-megamenu-chevron" width="10" height="10" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5L6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
+    </button>
+    <div class="nav-megamenu-panel nav-megamenu-panel-simple" data-mega-panel hidden>
+      <div class="nav-simplemenu-list"><a href="../features/" class="nav-simplemenu-item">
+    <span class="nav-simplemenu-item-title" data-i18n="nav.features">Features</span>
+    <svg class="nav-simplemenu-item-chevron" width="8" height="14" viewBox="0 0 8 14" aria-hidden="true"><path d="M1 1l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg>
+  </a>
+<a href="../industry/freelancers" class="nav-simplemenu-item">
+    <span class="nav-simplemenu-item-title" data-i18n="nav.industry">Industry</span>
+    <svg class="nav-simplemenu-item-chevron" width="8" height="14" viewBox="0 0 8 14" aria-hidden="true"><path d="M1 1l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg>
+  </a>
+<a href="../#pricing" class="nav-simplemenu-item">
+    <span class="nav-simplemenu-item-title" data-i18n="nav.pricing">Pricing</span>
+    <svg class="nav-simplemenu-item-chevron" width="8" height="14" viewBox="0 0 8 14" aria-hidden="true"><path d="M1 1l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg>
+  </a>
+<a href="../use-cases/" class="nav-simplemenu-item">
+    <span class="nav-simplemenu-item-title" data-i18n="nav.useCases">Use Cases</span>
+    <svg class="nav-simplemenu-item-chevron" width="8" height="14" viewBox="0 0 8 14" aria-hidden="true"><path d="M1 1l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg>
+  </a>
+<a href="../free-templates/" class="nav-simplemenu-item">
+    <span class="nav-simplemenu-item-title" data-i18n="nav.templates">Free templates</span>
+    <svg class="nav-simplemenu-item-chevron" width="8" height="14" viewBox="0 0 8 14" aria-hidden="true"><path d="M1 1l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg>
+  </a>
+<a href="../ai" class="nav-simplemenu-item">
+    <span class="nav-simplemenu-item-title" data-i18n="nav.ai">AI</span>
+    <svg class="nav-simplemenu-item-chevron" width="8" height="14" viewBox="0 0 8 14" aria-hidden="true"><path d="M1 1l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg>
+  </a>
+<a href="../compare/" class="nav-simplemenu-item">
+    <span class="nav-simplemenu-item-title" data-i18n="footer.compareCol">Compare</span>
+    <svg class="nav-simplemenu-item-chevron" width="8" height="14" viewBox="0 0 8 14" aria-hidden="true"><path d="M1 1l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg>
+  </a>
+<a href="../about" class="nav-simplemenu-item">
+    <span class="nav-simplemenu-item-title" data-i18n="nav.mega.resource.about.title">About</span>
+    <svg class="nav-simplemenu-item-chevron" width="8" height="14" viewBox="0 0 8 14" aria-hidden="true"><path d="M1 1l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg>
+  </a>
+<a href="../press" class="nav-simplemenu-item">
+    <span class="nav-simplemenu-item-title" data-i18n="nav.mega.resource.press.title">Press</span>
+    <svg class="nav-simplemenu-item-chevron" width="8" height="14" viewBox="0 0 8 14" aria-hidden="true"><path d="M1 1l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg>
+  </a>
+<a href="../docs/" class="nav-simplemenu-item">
+    <span class="nav-simplemenu-item-title" data-i18n="nav.mega.resource.docs.title">Help Center</span>
+    <svg class="nav-simplemenu-item-chevron" width="8" height="14" viewBox="0 0 8 14" aria-hidden="true"><path d="M1 1l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg>
+  </a>
+<a href="../blog/" class="nav-simplemenu-item">
+    <span class="nav-simplemenu-item-title" data-i18n="nav.mega.resource.blog.title">Blog</span>
+    <svg class="nav-simplemenu-item-chevron" width="8" height="14" viewBox="0 0 8 14" aria-hidden="true"><path d="M1 1l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg>
+  </a></div>
+      
+    </div>
+  </div>
+      </div>
+      <div class="header-nav-actions">
+        <div class="locale-switch" data-locale-switch role="group" data-i18n-aria="nav.language"></div>
+        <!--email_off-->
+        <a href="mailto:sales@chasa.io" class="header-nav-sales header-nav-collapse" data-sales-mail data-sales-subject="docstoc sales" data-i18n="nav.contactSales">Contact sales</a>
+        <!--/email_off-->
+        <a href="../app/login?start=1" class="nav-cta" data-i18n="nav.tryFree">Try free</a>
+        <a href="../app/login" class="header-login-btn header-nav-collapse" data-i18n="nav.signIn">Sign in</a>
+        <button class="header-menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" data-menu-toggle data-i18n-aria="nav.openMenu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </nav>
+    <button type="button" class="header-revival-badge header-nav-collapse" data-open-revival-video aria-label="Watch: docstoc is back">
+      <span class="header-revival-badge-thumb" aria-hidden="true"></span>
+      <span class="header-revival-badge-text">
+        <span class="header-revival-badge-title" data-i18n="nav.revivalBadge">docstoc is back</span>
+        <span class="header-revival-badge-sub" data-i18n="nav.revivalBadgeSub">the automation layer — watch the story</span>
+      </span>
+      <span class="header-revival-badge-play" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z" /></svg>
+      </span>
+    </button>
+  </div>
+</header>
+<div class="mobile-panel-backdrop" data-mobile-backdrop></div>
+<div class="mobile-panel" data-mobile-panel>
+  <button class="mobile-panel-close" type="button" aria-label="Close menu" data-mobile-close data-i18n-aria="nav.closeMenu">✕</button>
+  <nav class="mobile-panel-nav">
+      <a href="../features/" class="mobile-panel-nav-link" data-i18n="nav.features">Features</a>
+      <a href="../industry/freelancers" class="mobile-panel-nav-link" data-i18n="nav.industry">Industry</a>
+      <a href="../#pricing" class="mobile-panel-nav-link" data-i18n="nav.pricing">Pricing</a>
+      <a href="../use-cases/" class="mobile-panel-nav-link" data-i18n="nav.useCases">Use Cases</a>
+      <a href="../blog/" class="mobile-panel-nav-link" data-i18n="nav.blog">Blog</a>
+      <a href="../docs/" class="mobile-panel-nav-link" data-i18n="nav.api">API</a>
+      <a href="../about" class="mobile-panel-nav-link" data-i18n="nav.about">About</a>
+      <a href="../free-templates/" class="mobile-panel-nav-link" data-i18n="nav.templates">Free templates</a>
+      <a href="../ai" class="mobile-panel-nav-link" data-i18n="nav.ai">AI</a>
+      <a href="../tools/" class="mobile-panel-nav-link" data-i18n="nav.tools">Tools</a>
+      <a href="../app/login" class="mobile-panel-nav-link" data-i18n="nav.signIn">Sign in</a>
+      <a href="../app/login?start=1" class="mobile-panel-nav-link" data-i18n="nav.tryFree">Try free</a>
+  </nav>
+  <div class="mobile-panel-ctas">
+    <a href="../app/login?start=1" class="mobile-panel-cta-primary" data-i18n="nav.tryFree">Try free</a>
+    <a href="../app/login" class="mobile-panel-cta-secondary" data-i18n="nav.signIn">Sign in</a>
+    <!--email_off-->
+    <a href="mailto:sales@chasa.io" class="mobile-panel-cta-secondary" data-sales-mail data-sales-subject="docstoc sales" data-i18n="nav.contactSales">Contact sales</a>
+    <!--/email_off-->
+  </div>
+</div>
+<main class="tool-sell-main">
+<section class="tool-hero">
+  <div class="tool-hero-inner">
+    <div class="tool-hero-pill" aria-hidden="true"></div>
+    <h1><span class="accent">Create. Share.</span><br>Get paid.</h1>
+    <p class="tool-hero-sub">Build a professional invoice with line items and tax. Preview totals free in your browser — then create a shareable client link in docstoc that can flow into chase follow-ups if it goes overdue.</p>
+    <div class="tool-ring"><div class="tool-circle">
+      <span class="tool-circle-icon" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h8l4 4v14H7V3z"/><path d="M15 3v4h4"/><path d="M10 12h6M10 16h6M10 8h2"/></svg></span>
+      <p class="tool-circle-stat" data-inv-out-total>—</p>
+      <p class="tool-circle-sub">invoice total (preview)</p>
+    </div></div>
+    <p class="tool-caption">Shareable /invoice/… link · optional certificate · chase-ready when overdue</p>
+    <form class="tool-signup" action="/app/login" method="get">
+  <input type="hidden" name="start" value="1" />
+  <input class="tool-signup-input" type="email" name="email" autocomplete="email" placeholder="Enter your work email" aria-label="Enter your work email" required />
+  <button type="submit" class="tool-signup-btn" data-cta data-cta-source="tool_invoice_generator">Start free →</button>
+</form>
+<p class="tool-cta-hint">No credit card required · your account in one click</p>
+  </div>
+</section>
+<section class="tool-section">
+  <div class="tool-section-inner">
+    <h2>Preview an invoice</h2>
+    <p style="margin-bottom:16px">Totals update live below. Nothing is saved until you create the invoice in your account.</p>
+    <div class="tool-panel-grid" data-calc="invoice-preview">
+      <div class="tool-panel">
+        <div class="tool-field">
+          <label for="inv-client">Client name</label>
+          <input id="inv-client" data-inv-client type="text" value="Acme Studio" />
+        </div>
+        <div class="tool-field">
+          <label for="inv-currency">Currency</label>
+          <select id="inv-currency" data-inv-currency>
+            <option value="USD">USD</option>
+            <option value="EUR">EUR</option>
+            <option value="GBP">GBP</option>
+            <option value="AUD">AUD</option>
+            <option value="CAD">CAD</option>
+          </select>
+        </div>
+        <div class="tool-field">
+          <label for="inv-tax">Tax %</label>
+          <input id="inv-tax" data-inv-tax type="number" min="0" max="100" step="0.1" value="0" />
+        </div>
+        <div class="tool-line-items" data-inv-items>
+          <div class="tool-line-item">
+            <div class="tool-field">
+              <label>Description</label>
+              <input data-inv-desc type="text" value="Website design — phase 1" />
+            </div>
+            <div class="tool-field">
+              <label>Qty</label>
+              <input data-inv-qty type="number" min="0" step="1" value="1" />
+            </div>
+            <div class="tool-field">
+              <label>Price</label>
+              <input data-inv-price type="number" min="0" step="0.01" value="2500" />
+            </div>
+            <button type="button" data-inv-remove aria-label="Remove line">✕</button>
+          </div>
+        </div>
+        <div class="tool-actions">
+          <button type="button" class="primary" data-inv-add>Add line item</button>
+        </div>
+      </div>
+      <div class="tool-results" aria-live="polite">
+        <p class="tool-stat"><span>Client</span><strong data-inv-out-client>—</strong></p>
+        <p class="tool-stat"><span>Subtotal</span><strong data-inv-out-subtotal>—</strong></p>
+        <p class="tool-stat"><span>Tax</span><strong data-inv-out-tax>—</strong></p>
+        <p class="tool-stat"><span>Total</span><strong data-inv-out-total-panel>—</strong></p>
+        <p class="tool-note">Preview only — create the real invoice to get a shareable link and tracking.</p>
+        <p style="margin-top:16px"><a href="/app/invoices" class="nav-cta" data-cta data-cta-source="tool_invoice_generator_body">Create this invoice in docstoc →</a></p>
+      </div>
+    </div>
+    <h3>What you get when you create it</h3>
+    <ul>
+      <li><strong>Shareable client page</strong> at <code>/invoice/…</code> — open, print, or forward without login</li>
+      <li><strong>Sent / paid tracking</strong> in your workspace</li>
+      <li><strong>Chase-ready</strong> — overdue invoices can feed AI follow-up drafts</li>
+      <li><strong>Optional certificate</strong> — tamper-evident proof of what you sent</li>
+    </ul>
+    <p style="margin-top:12px"><a href="/invoices">Invoices product overview →</a> · <a href="/tools/invoice-chase-calculator">Chase calculator →</a></p>
+    <h3>FAQs</h3>
+    <div class="tool-faq"><details><summary>Is this a free invoice generator?</summary><p>Yes for the preview on this page — totals update in your browser with no signup. Creating a real shareable invoice link (and tracking sent/paid status) happens in your docstoc account.</p></details>
+<details><summary>What happens after I create an invoice in docstoc?</summary><p>You get a public /invoice/… link your client can open and print. Mark it sent and it can flow into chase follow-ups if it goes overdue, plus an optional tamper-evident certificate.</p></details>
+<details><summary>Can clients pay from the invoice page?</summary><p>If you've set a payment link in branding, it appears on the public invoice. docstoc doesn't process card payments itself — it links out to whatever you already use.</p></details>
+<details><summary>Does creating an invoice auto-email my client?</summary><p>No. You share the link yourself. Follow-up emails are also drafts you review and send from your own inbox.</p></details></div>
+  </div>
+</section>
+</main>
+<footer class="site-footer">
+  <div class="wrap site-footer-inner">
+    <div class="site-footer-brand">
+      <a href="../" class="logo" aria-label="docstoc home"><img class="logo-mark" src="../brand/docstoc-icon.png" alt="" width="24" height="24" /><span class="logo-word">docstoc</span></a>
+      <p data-i18n="footer.tagline">Free AI invoice follow-ups — paste unpaid invoices, get the reminder email already written.</p>
+    </div>
+    <div class="site-footer-col">
+      <h4 data-i18n="footer.product">Product</h4>
+      <a href="../" data-i18n="footer.home">Homepage</a>
+      <a href="../#pricing" data-i18n="footer.pricing">Pricing</a>
+      <a href="../features/" data-i18n="footer.features">Features</a>
+      <a href="../use-cases/" data-i18n="footer.useCases">Use Cases</a>
+      <a href="../compliance/">Compliance</a>
+      <a href="../integrations/">Integrations</a>
+      <a href="../blog/" data-i18n="footer.blog">Blog</a>
+      <a href="../overdue-invoices-guide">Overdue Invoices Guide</a>
+      <a href="../docs/" data-i18n="footer.docs">API & Docs</a>
+      <a href="../free-templates/" data-i18n="footer.templates">Free templates</a>
+      <a href="../tools/" data-i18n="footer.calculators">Calculators</a>
+      <a href="../ai" data-i18n="footer.ai">AI</a>
+    </div>
+    <div class="site-footer-col">
+      <h4 data-i18n="footer.useCasesHeader">Use Cases</h4>
+      <a href="../use-cases/risk-scoring-automation">Risk Scoring</a>
+      <a href="../use-cases/audit-ready-workflows">Audit Workflows</a>
+      <a href="../compliance/sox">SOX AR Evidence</a>
+      <a href="../use-cases/compliance-dashboard">Compliance Board</a>
+      <a href="../use-cases/chasa-certificate-monitoring">Certificate Proof</a>
+      <a href="../use-cases/document-signing-api">Follow-up API</a>
+      <a href="../use-cases/freelance-contract-templates">Contract Templates</a>
+      <a href="../use-cases/free-ssl-for-your-domain">Free SSL Setup</a>
+    </div>
+    <div class="site-footer-col">
+      <h4 data-i18n="footer.compareCol">Compare</h4>
+      <a href="../chasa-vs-chaser" data-i18n="footer.vsChaser">vs Chaser</a>
+      <a href="../chasa-vs-paidnice" data-i18n="footer.vsPaidnice">vs Paidnice</a>
+      <a href="../chasa-vs-duefy" data-i18n="footer.vsDuefy">vs Duefy</a>
+      <a href="../chasa-vs-satago" data-i18n="footer.vsSatago">vs Satago</a>
+      <a href="../chasa-vs-chaseai" data-i18n="footer.vsChaseai">vs ChaseAI</a>
+      <a href="../switch-to-chasa" data-i18n="footer.switch">Switch to docstoc</a>
+    </div>
+    <div class="site-footer-col">
+      <h4 data-i18n="footer.company">Company</h4>
+      <a href="../about" data-i18n="footer.about">About</a>
+      <a href="../press" data-i18n="footer.press">Press</a>
+      <a href="../imprint" data-i18n="footer.imprint">Imprint</a>
+      <!--email_off--><a href="mailto:founder@chasa.io" data-i18n="footer.contact">Contact</a><!--/email_off-->
+    </div>
+    <div class="site-footer-col">
+      <h4 data-i18n="footer.legal">Legal</h4>
+      <a href="../privacy" data-i18n="footer.privacy">Privacy</a>
+      <a href="../terms" data-i18n="footer.terms">Terms</a>
+      <a href="../sitemap.xml" data-i18n="footer.sitemap">Sitemap</a>
+      <a href="../blog/feed.xml" data-i18n="footer.rss">RSS</a>
+    </div>
+  </div>
+  <div class="site-footer-bottom" data-i18n-year="footer.copyright">© 2026 docstoc — a product of RELACON GmbH</div>
+</footer>
+<div class="how-modal-backdrop" id="revival-modal" hidden>
+  <div class="how-modal" role="dialog" aria-modal="true" aria-labelledby="revival-modal-title">
+    <h2 id="revival-modal-title" class="sr-only" data-i18n="nav.revivalBadge">docstoc is back</h2>
+    <button type="button" class="how-modal-close" data-close-revival-video aria-label="Close video">×</button>
+    <video
+      id="revival-modal-video"
+      class="how-modal-video"
+      src="../videos/docstoc-is-back.webm?v=20260825d"
+      poster="../videos/docstoc-is-back-poster.jpg?v=20260825d"
+      controls
+      playsinline
+      preload="metadata"
+    >
+      <track kind="captions" src="../videos/docstoc-is-back.en.vtt?v=20260825d" srclang="en" label="English" default>
+      <track kind="captions" src="../videos/docstoc-is-back.es.vtt?v=20260825d" srclang="es" label="Español">
+    </video>
+  </div>
+</div>
+<script src="../site-lang.js?v=20260825d" defer></script>
+<script src="../site-nav.js?v=20260825d" defer></script>
+<script src="../cookie-consent.js?v=20260825d" defer></script>
+<script src="../analytics.js?v=20260825d" defer></script>
+<script>
+/* Contact sales → docstoc Assistant (Docracy pattern). */
+(function () {
+  document.addEventListener("click", function (e) {
+    var el = e.target && e.target.closest
+      ? e.target.closest("[data-sales-mail], .header-nav-sales, a[data-i18n='nav.contactSales'], a[data-i18n='home.pricing.contactSales']")
+      : null;
+    if (!el) return;
+    e.preventDefault();
+    window.dispatchEvent(new CustomEvent("chasa:open-chat", { detail: { intent: "sales" } }));
+  }, true);
+})();
+</script>
+</body>
+</html>

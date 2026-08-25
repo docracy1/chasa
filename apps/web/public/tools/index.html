@@ -3,18 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Free Tools — Templates, Hash, SSL, Trust Badges, Invoice Chase | docstoc</title>
-<meta name="description" content="Free no-signup tools: find templates, check SHA-256 hashes, calculate SSL expiry, look up verified corporate trust badges, and estimate invoice chase savings.">
+<title>Free Tools — Templates, Hash, SSL, Trust Badges, Invoice Generator, Chase | docstoc</title>
+<meta name="description" content="Free tools: find templates, check SHA-256 hashes, calculate SSL expiry, look up trust badges, preview invoices, and estimate invoice chase savings.">
 <link rel="canonical" href="https://chasa.io/tools/">
 
 <meta property="og:type" content="website">
-<meta property="og:title" content="Free Tools — Templates, Hash, SSL, Trust Badges, Invoice Chase | docstoc">
-<meta property="og:description" content="Free no-signup tools: find templates, check SHA-256 hashes, calculate SSL expiry, look up verified corporate trust badges, and estimate invoice chase savings.">
+<meta property="og:title" content="Free Tools — Templates, Hash, SSL, Trust Badges, Invoice Generator, Chase | docstoc">
+<meta property="og:description" content="Free tools: find templates, check SHA-256 hashes, calculate SSL expiry, look up trust badges, preview invoices, and estimate invoice chase savings.">
 <meta property="og:url" content="https://chasa.io/tools/">
 <meta property="og:image" content="https://chasa.io/brand/og/docstoc-og-1200x630.png">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Free Tools — Templates, Hash, SSL, Trust Badges, Invoice Chase | docstoc">
-<meta name="twitter:description" content="Free no-signup tools: find templates, check SHA-256 hashes, calculate SSL expiry, look up verified corporate trust badges, and estimate invoice chase savings.">
+<meta name="twitter:title" content="Free Tools — Templates, Hash, SSL, Trust Badges, Invoice Generator, Chase | docstoc">
+<meta name="twitter:description" content="Free tools: find templates, check SHA-256 hashes, calculate SSL expiry, look up trust badges, preview invoices, and estimate invoice chase savings.">
 <meta name="twitter:image" content="https://chasa.io/brand/og/docstoc-og-1200x630.png">
 <link rel="alternate" type="application/rss+xml" title="docstoc Blog" href="../blog/feed.xml">
 <link rel="me" href="https://www.linkedin.com/company/chasa-io">
@@ -298,10 +298,20 @@ body:has(.tool-sell-main) { background: #060504; }
   text-decoration: none; border: 1px solid #d8dee8; border-radius: 6px;
   padding: 6px 10px; background: #fafbfc;
 }
-.trust-embed-box {
-  margin-top: 12px; padding: 10px 12px; background: rgba(0,0,0,0.35);
-  border: 1px solid rgba(255,255,255,0.12); border-radius: 8px; font-size: 12.5px;
-  word-break: break-all; font-family: "IBM Plex Mono", ui-monospace, monospace; color: rgba(255,255,255,0.8);
+.tool-line-items { display: grid; gap: 10px; margin-bottom: 12px; }
+.tool-line-item {
+  display: grid; gap: 8px;
+  grid-template-columns: 1fr 70px 90px auto;
+  align-items: end;
+}
+@media (max-width: 640px) {
+  .tool-line-item { grid-template-columns: 1fr 1fr; }
+  .tool-line-item .tool-field:first-child { grid-column: 1 / -1; }
+}
+.tool-line-item button {
+  font-size: 12px; font-weight: 700; padding: 10px 12px; margin-bottom: 1px;
+  border: 1px solid rgba(255,255,255,0.18); border-radius: 10px;
+  background: rgba(255,255,255,0.06); color: #fff; cursor: pointer;
 }
 .hash-out { margin-top: 16px; text-align: left; }
 .hash-out-row { display: flex; gap: 8px; align-items: center; margin-bottom: 10px; }
@@ -339,12 +349,12 @@ body:has(.tool-sell-main) { background: #060504; }
   ]
 }]
 </script>
-<link rel="icon" href="../favicon.png?v=20260825c" type="image/png">
-<link rel="icon" href="../favicon.svg?v=20260825c" type="image/svg+xml">
-<link rel="apple-touch-icon" href="../apple-touch-icon.png?v=20260825c">
+<link rel="icon" href="../favicon.png?v=20260825d" type="image/png">
+<link rel="icon" href="../favicon.svg?v=20260825d" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png?v=20260825d">
 <link rel="preload" href="../fonts/inter-400.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="../fonts/inter-700.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="../site.css?v=20260825c">
+<link rel="stylesheet" href="../site.css?v=20260825d">
 </head>
 <body>
 <header class="site-header">
@@ -365,6 +375,13 @@ body:has(.tool-sell-main) { background: #060504; }
     <span>
       <span class="nav-megamenu-item-title" data-i18n="nav.mega.products.templates.title">Document templates</span>
       <span class="nav-megamenu-item-desc" data-i18n="nav.mega.products.templates.desc">1,000+ free business & legal templates, plus kits.</span>
+    </span>
+  </a>
+<a href="../tools/invoice-generator" class="nav-megamenu-item nav-megamenu-item-lg">
+    <span class="nav-megamenu-icon nav-megamenu-icon-lg"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7.5" width="18" height="12" rx="1.5" /><path d="M8 7.5V6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v1.5" /><path d="M3 12.5h18" /></svg></span>
+    <span>
+      <span class="nav-megamenu-item-title" data-i18n="nav.mega.products.invoices.title">Invoice generator</span>
+      <span class="nav-megamenu-item-desc" data-i18n="nav.mega.products.invoices.desc">Create a shareable invoice — then chase it if it goes overdue.</span>
     </span>
   </a>
 <a href="../verify/DOC-DEMO0001" class="nav-megamenu-item nav-megamenu-item-lg">
@@ -500,8 +517,8 @@ body:has(.tool-sell-main) { background: #060504; }
   <div class="tool-hero-inner">
     <div class="tool-hero-pill" aria-hidden="true"></div>
     <h1><span class="accent">Free tools.</span><br>One workflow.</h1>
-    <p class="tool-hero-sub">Template finder, file hash, SSL expiry, trust badges, and invoice chase estimates — same dark selling surface as the rest of docstoc. No signup to try.</p>
-    <div class="tool-ring"><div class="tool-circle"><span class="tool-circle-icon" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg></span><p class="tool-circle-title">Pick a tool below</p><p class="tool-circle-sub">Five free utilities · zero friction</p></div></div>
+    <p class="tool-hero-sub">Templates, file hash, SSL expiry, trust badges, invoice generator, and chase estimates — same dark selling surface as the rest of docstoc. No signup to try the calculators.</p>
+    <div class="tool-ring"><div class="tool-circle"><span class="tool-circle-icon" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg></span><p class="tool-circle-title">Pick a tool below</p><p class="tool-circle-sub">Six free utilities · zero friction</p></div></div>
     <p class="tool-caption">Built for freelancers &amp; small teams · same brand as Secure. Automate. Certify.</p>
     <form class="tool-signup" action="/app/login" method="get">
   <input type="hidden" name="start" value="1" />
@@ -519,6 +536,7 @@ body:has(.tool-sell-main) { background: #060504; }
       <a class="tool-card" href="/tools/file-hash-checker"><h2>File hash checker</h2><p>Compute a file's SHA-256 hash in your browser — the same check behind docstoc certificates.</p></a>
       <a class="tool-card" href="/tools/ssl-certificate-calculator"><h2>SSL expiry calculator</h2><p>Enter an issue date and validity period, get the exact expiry date and days remaining.</p></a>
       <a class="tool-card" href="/tools/trust-badges"><h2>Trust badges</h2><p>Preview the domain-verified badge, look up a public trust profile, copy the embed snippet.</p></a>
+      <a class="tool-card" href="/tools/invoice-generator"><h2>Invoice generator</h2><p>Build a professional invoice with line items and tax — preview totals free, then create a shareable client link.</p></a>
       <a class="tool-card" href="/tools/invoice-chase-calculator"><h2>Invoice chase calculator</h2><p>Estimate late payment interest and the cash you unlock when overdue invoices get paid sooner.</p></a>
     </div>
   </div>
@@ -589,21 +607,21 @@ body:has(.tool-sell-main) { background: #060504; }
     <video
       id="revival-modal-video"
       class="how-modal-video"
-      src="../videos/docstoc-is-back.webm?v=20260825c"
-      poster="../videos/docstoc-is-back-poster.jpg?v=20260825c"
+      src="../videos/docstoc-is-back.webm?v=20260825d"
+      poster="../videos/docstoc-is-back-poster.jpg?v=20260825d"
       controls
       playsinline
       preload="metadata"
     >
-      <track kind="captions" src="../videos/docstoc-is-back.en.vtt?v=20260825c" srclang="en" label="English" default>
-      <track kind="captions" src="../videos/docstoc-is-back.es.vtt?v=20260825c" srclang="es" label="Español">
+      <track kind="captions" src="../videos/docstoc-is-back.en.vtt?v=20260825d" srclang="en" label="English" default>
+      <track kind="captions" src="../videos/docstoc-is-back.es.vtt?v=20260825d" srclang="es" label="Español">
     </video>
   </div>
 </div>
-<script src="../site-lang.js?v=20260825c" defer></script>
-<script src="../site-nav.js?v=20260825c" defer></script>
-<script src="../cookie-consent.js?v=20260825c" defer></script>
-<script src="../analytics.js?v=20260825c" defer></script>
+<script src="../site-lang.js?v=20260825d" defer></script>
+<script src="../site-nav.js?v=20260825d" defer></script>
+<script src="../cookie-consent.js?v=20260825d" defer></script>
+<script src="../analytics.js?v=20260825d" defer></script>
 <script>
 /* Contact sales → docstoc Assistant (Docracy pattern). */
 (function () {

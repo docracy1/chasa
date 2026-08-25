@@ -152,6 +152,7 @@ const PAGES = [
     <li><a href="/payment-reminder">Payment reminder emails</a></li>
     <li><a href="/overdue-invoice">Overdue invoice follow-up</a></li>
     <li><a href="/tools/invoice-chase-calculator">Invoice chase calculator</a></li>
+    <li><a href="/tools/invoice-generator">Invoice generator</a></li>
   </ul>`,
   },
   {
@@ -230,6 +231,7 @@ const PAGES = [
     <li><a href="/free-templates/final-notice-before-collections">Final notice before collections</a></li>
     <li><a href="/polite-payment-reminder-email">Polite payment reminder email</a></li>
     <li><a href="/tools/invoice-chase-calculator">Invoice chase calculator</a></li>
+    <li><a href="/tools/invoice-generator">Invoice generator</a></li>
   </ul>`,
   },
   {

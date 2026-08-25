@@ -5,7 +5,7 @@ import { renderSeoHead } from "./seo-head.mjs";
 import { EN_TO_ES, ES_TO_EN } from "../data/es-alternates.mjs";
 
 /** Bump when site.css / site-nav.js / site-lang.js change so Pages edge caches refresh. */
-export const ASSET_V = "20260825c";
+export const ASSET_V = "20260825d";
 
 /** Small inline icon set for the header mega-menus (mirrors the app's NavIcon component). */
 const ICON_PATHS = {
@@ -89,11 +89,12 @@ function megaMenu({ triggerKey, triggerLabel, items, panel, columns = 2, simple 
   </div>`;
 }
 
-/** The 4 main products, big-icon grid — LimeWire's "Products" dropdown pattern. Order matches
- *  the lifecycle: get the client (templates) → secure the deal (certify) → protect the
+/** The main products, big-icon grid — LimeWire's "Products" dropdown pattern. Order matches
+ *  the lifecycle: get the client (templates) → invoice → secure the deal (certify) → protect the
  *  connection (SSL) → get paid (chasing). */
 const PRODUCTS_ITEMS = [
   { path: "/document-templates/", icon: "store", titleKey: "nav.mega.products.templates.title", title: "Document templates", descKey: "nav.mega.products.templates.desc", desc: "1,000+ free business & legal templates, plus kits." },
+  { path: "/tools/invoice-generator", icon: "briefcase", titleKey: "nav.mega.products.invoices.title", title: "Invoice generator", descKey: "nav.mega.products.invoices.desc", desc: "Create a shareable invoice — then chase it if it goes overdue." },
   { path: "/verify/DOC-DEMO0001", icon: "shield", titleKey: "nav.mega.products.certificates.title", title: "Document certificates", descKey: "nav.mega.products.certificates.desc", desc: "Free tamper-evident hash verification for any file." },
   { path: "/app/login?start=1", icon: "lock", titleKey: "nav.mega.products.ssl.title", title: "SSL / TLS automation", descKey: "nav.mega.products.ssl.desc", desc: "Free Let's Encrypt certificates for your own domain." },
   { path: "/features/ai-tone", icon: "bolt", titleKey: "nav.mega.products.chasing.title", title: "AI invoice chasing", descKey: "nav.mega.products.chasing.desc", desc: "Tone-matched follow-up drafts for overdue invoices." },
