@@ -103,6 +103,26 @@ body:has(.tool-sell-main) { background: #060504; }
   border-color: color-mix(in srgb, var(--accent) 55%, transparent);
   background: color-mix(in srgb, var(--accent) 8%, #fff);
 }
+.tool-circle-file {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  opacity: 0;
+  cursor: pointer;
+  border-radius: 50%;
+  z-index: 2;
+  font-size: 0;
+}
+.tool-circle-icon,
+.tool-circle-title,
+.tool-circle-sub {
+  position: relative;
+  z-index: 1;
+  pointer-events: none;
+}
 .tool-circle-icon {
   width: 46px;
   height: 46px;
@@ -402,7 +422,7 @@ function dropCircle({ sub, intent = "hash", title = "Click or drag a file here" 
       <span class="tool-circle-icon" aria-hidden="true">${uploadIcon}</span>
       <p class="tool-circle-title">${title}</p>
       <p class="tool-circle-sub">${sub}</p>
-      <input type="file" data-hash-input style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;" />
+      <input type="file" class="tool-circle-file" data-hash-input aria-label="Choose a file" />
     </div>`;
 }
 

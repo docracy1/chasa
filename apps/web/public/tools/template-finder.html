@@ -103,6 +103,26 @@ body:has(.tool-sell-main) { background: #060504; }
   border-color: color-mix(in srgb, var(--accent) 55%, transparent);
   background: color-mix(in srgb, var(--accent) 8%, #fff);
 }
+.tool-circle-file {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  opacity: 0;
+  cursor: pointer;
+  border-radius: 50%;
+  z-index: 2;
+  font-size: 0;
+}
+.tool-circle-icon,
+.tool-circle-title,
+.tool-circle-sub {
+  position: relative;
+  z-index: 1;
+  pointer-events: none;
+}
 .tool-circle-icon {
   width: 46px;
   height: 46px;
@@ -559,7 +579,7 @@ body:has(.tool-sell-main) { background: #060504; }
       <span class="tool-circle-icon" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4M12 4l-4 4M12 4l4 4" /><path d="M4 16v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3" /></svg></span>
       <p class="tool-circle-title">Click or drag a file here</p>
       <p class="tool-circle-sub">Fingerprint your draft · then pick a template</p>
-      <input type="file" data-hash-input style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;" />
+      <input type="file" class="tool-circle-file" data-hash-input aria-label="Choose a file" />
     </div></div>
     <p class="tool-caption">SHA-256 · computed in your browser · nothing ever uploaded</p>
     <form class="tool-signup" action="/app/login" method="get">

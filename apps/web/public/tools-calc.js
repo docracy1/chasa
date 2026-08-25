@@ -295,10 +295,8 @@
       if (out) out.scrollIntoView({ behavior: "smooth", block: "nearest" });
     }
 
-    drop.addEventListener("click", (e) => {
-      if (e.target.closest("a")) return;
-      input.click();
-    });
+    // Native file input covers the circle (.tool-circle-file). Avoid programmatic
+    // input.click() on a 1×1 hidden control — browsers often block the picker.
     drop.addEventListener("keydown", (e) => {
       if (e.key === "Enter" || e.key === " ") {
         e.preventDefault();
@@ -306,16 +304,23 @@
       }
     });
     input.addEventListener("change", () => handleFile(input.files && input.files[0]));
-    drop.addEventListener("dragover", (e) => {
+    function onDragOver(e) {
       e.preventDefault();
       drop.classList.add("is-drag");
-    });
-    drop.addEventListener("dragleave", () => drop.classList.remove("is-drag"));
-    drop.addEventListener("drop", (e) => {
+    }
+    function onDragLeave() {
+      drop.classList.remove("is-drag");
+    }
+    function onDrop(e) {
       e.preventDefault();
       drop.classList.remove("is-drag");
       const file = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
-      handleFile(file);
+      if (file) handleFile(file);
+    }
+    [drop, input].forEach((el) => {
+      el.addEventListener("dragover", onDragOver);
+      el.addEventListener("dragleave", onDragLeave);
+      el.addEventListener("drop", onDrop);
     });
     if (copyBtn) {
       copyBtn.addEventListener("click", () => {
@@ -546,10 +551,17 @@
     recalc();
   }
 
-  document.querySelectorAll("[data-calc='late-payment']").forEach(bindLatePayment);
-  document.querySelectorAll("[data-calc='chase-savings']").forEach(bindSavings);
-  document.querySelectorAll("[data-calc='ssl-expiry']").forEach(bindSslExpiry);
-  document.querySelectorAll("[data-hash-drop]").forEach((el) => bindHashChecker(el));
-  document.querySelectorAll("[data-calc='trust-badge']").forEach(bindTrustBadge);
-  document.querySelectorAll("[data-calc='invoice-preview']").forEach(bindInvoicePreview);
+  function safeBind(fn, el) {
+    try {
+      fn(el);
+    } catch (err) {
+      console.error("[tools-calc]", err);
+    }
+  }
+  document.querySelectorAll("[data-calc='late-payment']").forEach((el) => safeBind(bindLatePayment, el));
+  document.querySelectorAll("[data-calc='chase-savings']").forEach((el) => safeBind(bindSavings, el));
+  document.querySelectorAll("[data-calc='ssl-expiry']").forEach((el) => safeBind(bindSslExpiry, el));
+  document.querySelectorAll("[data-hash-drop]").forEach((el) => safeBind(bindHashChecker, el));
+  document.querySelectorAll("[data-calc='trust-badge']").forEach((el) => safeBind(bindTrustBadge, el));
+  document.querySelectorAll("[data-calc='invoice-preview']").forEach((el) => safeBind(bindInvoicePreview, el));
 })();
