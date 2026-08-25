@@ -151,7 +151,7 @@
 
 /* docstoc is back — open revival video from the header pill */
 (function () {
-  var ASSET = "20260825a";
+  var ASSET = "20260825b";
 
   function ensureModal() {
     var modal = document.getElementById("revival-modal");

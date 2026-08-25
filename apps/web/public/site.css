@@ -456,6 +456,11 @@ a { color: inherit; }
 .header-nav-sales:hover { background: #fff5f0; }
 
 .header-revival-badge {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -474,7 +479,7 @@ a { color: inherit; }
 .header-revival-badge:hover {
   background: rgba(255, 255, 255, 0.1);
   border-color: rgba(255, 255, 255, 0.28);
-  transform: translateY(-1px);
+  transform: translate(-50%, calc(-50% - 1px));
 }
 .header-revival-badge-thumb {
   width: 28px;

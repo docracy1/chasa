@@ -5,7 +5,7 @@ import { renderSeoHead } from "./seo-head.mjs";
 import { EN_TO_ES, ES_TO_EN } from "../data/es-alternates.mjs";
 
 /** Bump when site.css / site-nav.js / site-lang.js change so Pages edge caches refresh. */
-export const ASSET_V = "20260825a";
+export const ASSET_V = "20260825b";
 
 /** Small inline icon set for the header mega-menus (mirrors the app's NavIcon component). */
 const ICON_PATHS = {
@@ -294,16 +294,6 @@ ${jsonLd ? `<script type="application/ld+json">\n${jsonLd}\n</script>` : `<scrip
         })}
       </div>
       <div class="header-nav-actions">
-        <button type="button" class="header-revival-badge header-nav-collapse" data-open-revival-video aria-label="Watch: docstoc is back">
-          <span class="header-revival-badge-thumb" aria-hidden="true"></span>
-          <span class="header-revival-badge-text">
-            <span class="header-revival-badge-title" data-i18n="nav.revivalBadge">docstoc is back</span>
-            <span class="header-revival-badge-sub" data-i18n="nav.revivalBadgeSub">the automation layer — watch the story</span>
-          </span>
-          <span class="header-revival-badge-play" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z" /></svg>
-          </span>
-        </button>
         <div class="locale-switch" data-locale-switch role="group" data-i18n-aria="nav.language"${localeSwitchAttrs}></div>
         <!--email_off-->
         <a href="mailto:sales@chasa.io" class="header-nav-sales header-nav-collapse" data-sales-mail data-sales-subject="docstoc sales" data-i18n="nav.contactSales">Contact sales</a>
@@ -315,6 +305,16 @@ ${jsonLd ? `<script type="application/ld+json">\n${jsonLd}\n</script>` : `<scrip
         </button>
       </div>
     </nav>
+    <button type="button" class="header-revival-badge header-nav-collapse" data-open-revival-video aria-label="Watch: docstoc is back">
+      <span class="header-revival-badge-thumb" aria-hidden="true"></span>
+      <span class="header-revival-badge-text">
+        <span class="header-revival-badge-title" data-i18n="nav.revivalBadge">docstoc is back</span>
+        <span class="header-revival-badge-sub" data-i18n="nav.revivalBadgeSub">the automation layer — watch the story</span>
+      </span>
+      <span class="header-revival-badge-play" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z" /></svg>
+      </span>
+    </button>
   </div>
 </header>
 <div class="mobile-panel-backdrop" data-mobile-backdrop></div>
