@@ -1,0 +1,45 @@
+<p>ACME (Automatic Certificate Management Environment) is the protocol that lets software prove you control a domain and receive a trusted certificate without a human pasting CSRs into a portal. It is why Let's Encrypt scaled — and why modern SSL/TLS for small sites should not depend on annual reminder emails.</p>
+
+<h2 id="what-acme-does">What ACME actually does</h2>
+<ol>
+  <li>Your client creates an account key with the CA.</li>
+  <li>You request a certificate for one or more names.</li>
+  <li>The CA issues challenges (HTTP-01, DNS-01, TLS-ALPN-01) proving control.</li>
+  <li>After validation, the CA issues the certificate; the client installs it and later renews.</li>
+</ol>
+<p>DNS-01 (TXT records) is especially useful when you cannot easily expose HTTP on every hostname — it is the challenge style docstoc walks you through with a single TXT record.</p>
+
+<h2 id="acme-clients">Common ACME clients and where they fit</h2>
+<ul>
+  <li><strong>certbot / acme.sh</strong> — DIY on the server. Powerful; you own failure modes.</li>
+  <li><strong>Host panels</strong> — one-click Let's Encrypt when the site lives on that host (<a href="/docstoc-vs-hostinger-ssl">Hostinger</a>, etc.).</li>
+  <li><strong>Edge platforms</strong> — <a href="/docstoc-vs-cloudflare-ssl">Cloudflare</a> automates edge certificates when you proxy DNS.</li>
+  <li><strong>Dedicated ACME dashboards</strong> — <a href="/docstoc-vs-zerossl">ZeroSSL</a>, <a href="/docstoc-vs-ssl-com">SSL.com</a> free tiers, tooling like <a href="/docstoc-vs-certkit">CertKit</a>.</li>
+  <li><strong>docstoc</strong> — ACME automation inside your business workspace: invoices, templates, certificates, and domain SSL together. See <a href="/ssl">/ssl</a> and <a href="/tls">/tls</a>.</li>
+</ul>
+
+
+<aside class="blog-inline-cta" style="margin:28px 0;padding:20px 22px;border:1px solid #e5e7eb;border-radius:12px;background:#fff8f3">
+  <strong style="display:block;margin-bottom:8px">Want SSL/TLS without running certbot?</strong>
+  <p style="margin:0 0 12px;font-size:14.5px;line-height:1.55;color:#4b5563">docstoc issues real Let's Encrypt DV certificates for your domain — one DNS TXT record, automated renewals, next to invoices and documents.</p>
+  <p style="margin:0;font-size:14.5px"><a href="/app/login?start=1"><strong>Try docstoc free →</strong></a> · <a href="/ssl">SSL overview</a> · <a href="/tls">TLS overview</a></p>
+</aside>
+
+<h2 id="why-automation-wins">Why automation wins as lifetimes shrink</h2>
+<p>As explained in <a href="/blog/ssl-tls-certificate-lifetime-shortening/">lifetime shortening</a>, shorter certs punish manual processes. ACME turns renewals into a background task. If renewals already failed once, prefer a managed path over another crontab you will forget after the next server migrate.</p>
+
+<h2 id="pitfalls">Pitfalls to avoid</h2>
+<ul>
+  <li>Two controllers fighting over one hostname (host SSL + DIY certbot + dashboard).</li>
+  <li>HTTP-01 challenges on sites that only exist behind auth or wrong vhosts.</li>
+  <li>Assuming wildcards are “more professional” — they need DNS-01 and careful key handling.</li>
+  <li>Buying OV/EV when you only needed automated DV.</li>
+</ul>
+
+<h2 id="migrate">Migrating to automated DV</h2>
+<p>Pick your current vendor on the <a href="/ssl">SSL hub</a>, open the matching <strong>switch-from</strong> guide, issue in docstoc first, then retire the old renewal path. Example: <a href="/switch-from-zerossl">switch from ZeroSSL</a>, <a href="/switch-from-letsencrypt">from DIY Let's Encrypt</a>, <a href="/switch-from-sslforfree">from SSL For Free</a>.</p>
+
+<h2 id="faq">FAQ</h2>
+<details class="faq-item"><summary>Is ACME only for Let's Encrypt?</summary><p>No. Several CAs speak ACME. Let's Encrypt made it famous; the protocol is broader.</p></details>
+<details class="faq-item"><summary>Does ACME mean my site is less secure?</summary><p>No. It automates domain validation and issuance. Key storage and server config still matter.</p></details>
+<details class="faq-item"><summary>Can docstoc use ACME without me running certbot?</summary><p>Yes — that is the point. You add a DNS TXT record; docstoc handles the ACME exchange with Let's Encrypt.</p></details>

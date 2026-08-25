@@ -98,7 +98,7 @@ ${body}
 function writeRobots() {
   // Deliberately NOT an allowlist (no "Allow:" lines): a robots.txt built only from narrow
   // "Allow: /specific-path$" rules reads, to Bing's crawler at least, as "only these paths are
-  // cleared to crawl" — everything else (compliance/, use-cases/, industry/, chasa-vs-*, security,
+  // cleared to crawl" — everything else (compliance/, use-cases/, industry/, docstoc-vs-*, security,
   // es/*, ...) got flagged as "Blocked by robots.txt" in Bing Webmaster Tools even though none of
   // it was ever explicitly disallowed. Per spec a path with no matching rule is allowed by
   // default, so the fix is to only list what's genuinely private and let everything else fall

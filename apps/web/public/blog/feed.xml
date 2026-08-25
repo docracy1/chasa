@@ -5,16 +5,58 @@
     <link>https://chasa.io/blog/</link>
     <description>Invoice follow-up, payment reminders, and freelancer cash flow.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 25 Aug 2026 19:27:57 GMT</lastBuildDate>
+    <lastBuildDate>Tue, 25 Aug 2026 20:46:39 GMT</lastBuildDate>
     <item>
-      <title>Building an AR policy that works with Chasa</title>
+      <title>ACME protocol certificate automation explained</title>
+      <link>https://chasa.io/blog/acme-protocol-certificate-automation/</link>
+      <guid isPermaLink="true">https://chasa.io/blog/acme-protocol-certificate-automation/</guid>
+      <description>How ACME proves domain control, which clients and panels use it, common pitfalls, and how to migrate to automated DV without certbot babysitting.</description>
+      <pubDate>Thu, 20 Aug 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>Why SSL/TLS certificate lifetimes are getting shorter</title>
+      <link>https://chasa.io/blog/ssl-tls-certificate-lifetime-shortening/</link>
+      <guid isPermaLink="true">https://chasa.io/blog/ssl-tls-certificate-lifetime-shortening/</guid>
+      <description>Why 90-day (and shorter) certificates exist, what is changing in CA/Browser rules, and how automation keeps HTTPS from breaking.</description>
+      <pubDate>Fri, 21 Aug 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>Types of TLS certificates (and how they relate to SSL)</title>
+      <link>https://chasa.io/blog/types-of-tls-certificates/</link>
+      <guid isPermaLink="true">https://chasa.io/blog/types-of-tls-certificates/</guid>
+      <description>TLS vs SSL naming, server vs client certificates, short-lived TLS, and how to pick the right certificate for modern HTTPS.</description>
+      <pubDate>Sat, 22 Aug 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>Types of SSL certificates explained</title>
+      <link>https://chasa.io/blog/types-of-ssl-certificates/</link>
+      <guid isPermaLink="true">https://chasa.io/blog/types-of-ssl-certificates/</guid>
+      <description>DV, OV, EV, wildcards, SAN, and specialty certs — what small businesses actually need for HTTPS versus what vendors upsell.</description>
+      <pubDate>Sun, 23 Aug 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>Certificate authority types — pros and cons</title>
+      <link>https://chasa.io/blog/certificate-authority-types-pros-cons/</link>
+      <guid isPermaLink="true">https://chasa.io/blog/certificate-authority-types-pros-cons/</guid>
+      <description>Public vs private CAs, nonprofit vs commercial, cloud/edge SSL, and resellers — honest trade-offs for freelancers and small businesses.</description>
+      <pubDate>Mon, 24 Aug 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>SSL certificate authorities worldwide — who issues the padlock?</title>
+      <link>https://chasa.io/blog/ssl-certificate-authorities-market-share/</link>
+      <guid isPermaLink="true">https://chasa.io/blog/ssl-certificate-authorities-market-share/</guid>
+      <description>How CA market share is measured, which authorities dominate globally and regionally, and what that means when you choose SSL/TLS for a small business site.</description>
+      <pubDate>Tue, 25 Aug 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>Building an AR policy that works with docstoc</title>
       <link>https://chasa.io/blog/ar-policy-that-works-with-chasa/</link>
       <guid isPermaLink="true">https://chasa.io/blog/ar-policy-that-works-with-chasa/</guid>
-      <description>What a practical accounts receivable policy should cover — terms, credit limits, chase stages, disputes, write-offs — and how each maps to Chasa’s tools.</description>
+      <description>What a practical accounts receivable policy should cover — terms, credit limits, chase stages, disputes, write-offs — and how each maps to docstoc’s tools.</description>
       <pubDate>Fri, 31 Jul 2026 00:00:00 GMT</pubDate>
     </item>
     <item>
-      <title>Chasa vs Chaser, Paidnice, Duefy &amp; More</title>
+      <title>docstoc vs Chaser, Paidnice, Duefy &amp; More</title>
       <link>https://chasa.io/blog/invoice-chase-software-comparison/</link>
       <guid isPermaLink="true">https://chasa.io/blog/invoice-chase-software-comparison/</guid>
       <description>Side-by-side comparison of invoice chase tools for freelancers and SMBs: price, auto-send vs draft-only, AI drafts, sequences, and tracking.</description>

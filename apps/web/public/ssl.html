@@ -3,44 +3,113 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Free SSL Automation — Real Let's Encrypt Certificates | docstoc</title>
-<meta name="description" content="Add a domain, add one DNS record, get a real Let's Encrypt SSL certificate — free, automated, no ACME client to configure. Built for anyone who doesn't want to run their own ACME infrastructure.">
+<title>Free Automated SSL Certificates — Let's Encrypt, No Certbot | docstoc</title>
+<meta name="description" content="Free automated SSL for your domain: real Let's Encrypt certificates, one DNS TXT record, auto-renewal. Compare and switch from ZeroSSL, Cloudflare, DigiCert, Hostinger, and more.">
 <link rel="canonical" href="https://chasa.io/ssl">
 
 <meta property="og:type" content="website">
-<meta property="og:title" content="Free SSL Automation — Real Let's Encrypt Certificates | docstoc">
-<meta property="og:description" content="Add a domain, add one DNS record, get a real Let's Encrypt SSL certificate — free, automated, no ACME client to configure. Built for anyone who doesn't want to run their own ACME infrastructure.">
+<meta property="og:title" content="Free Automated SSL Certificates — Let's Encrypt, No Certbot | docstoc">
+<meta property="og:description" content="Free automated SSL for your domain: real Let's Encrypt certificates, one DNS TXT record, auto-renewal. Compare and switch from ZeroSSL, Cloudflare, DigiCert, Hostinger, and more.">
 <meta property="og:url" content="https://chasa.io/ssl">
 <meta property="og:image" content="https://chasa.io/brand/og/docstoc-og-1200x630.png">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Free SSL Automation — Real Let's Encrypt Certificates | docstoc">
-<meta name="twitter:description" content="Add a domain, add one DNS record, get a real Let's Encrypt SSL certificate — free, automated, no ACME client to configure. Built for anyone who doesn't want to run their own ACME infrastructure.">
+<meta name="twitter:title" content="Free Automated SSL Certificates — Let's Encrypt, No Certbot | docstoc">
+<meta name="twitter:description" content="Free automated SSL for your domain: real Let's Encrypt certificates, one DNS TXT record, auto-renewal. Compare and switch from ZeroSSL, Cloudflare, DigiCert, Hostinger, and more.">
 <meta name="twitter:image" content="https://chasa.io/brand/og/docstoc-og-1200x630.png">
 <link rel="alternate" type="application/rss+xml" title="docstoc Blog" href="/blog/feed.xml">
 <link rel="me" href="https://www.linkedin.com/company/chasa-io">
 <link rel="me" href="https://x.com/chasaHQ">
-
+<style>
+.ssl-hero-actions { display:flex; flex-wrap:wrap; gap:12px; margin:20px 0 8px; }
+.ssl-steps { display:grid; gap:16px; margin:20px 0 28px; }
+@media (min-width:720px){ .ssl-steps { grid-template-columns: repeat(3, 1fr); } }
+.ssl-step { border:1px solid #e5e7eb; border-radius:12px; padding:18px 16px; background:#fff; }
+.ssl-step strong { display:block; margin-bottom:8px; font-size:15px; }
+.ssl-step p { margin:0; font-size:14.5px; line-height:1.55; color:#4b5563; }
+.ssl-comp-grid { display:grid; gap:14px; margin:18px 0 28px; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
+.ssl-comp-card { border:1px solid #e5e7eb; border-radius:12px; padding:16px; background:#fff; }
+.ssl-comp-card h3 { margin:0 0 8px; font-size:16px; }
+.ssl-comp-card p { margin:0 0 10px; font-size:13.5px; line-height:1.5; color:#4b5563; }
+.ssl-comp-links { margin:0 !important; font-size:13.5px !important; font-weight:600; }
+.ssl-limits { background:#f9fafb; border:1px solid #e5e7eb; border-radius:12px; padding:18px 20px; margin:18px 0 28px; }
+.ssl-limits ul { margin:8px 0 0; padding-left:18px; }
+</style>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "Organization",
-  "name": "docstoc",
-  "url": "https://chasa.io",
-  "logo": "https://chasa.io/brand/docstoc-logo.svg",
-  "sameAs": [
-    "https://www.linkedin.com/company/chasa-io",
-    "https://x.com/chasaHQ",
-    "https://www.facebook.com/profile.php?id=61593311134413"
-  ],
-  "parentOrganization": {
-    "@type": "Organization",
-    "name": "RELACON GmbH",
-    "address": {
-      "@type": "PostalAddress",
-      "addressLocality": "Vienna",
-      "addressCountry": "AT"
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://chasa.io/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "SSL",
+          "item": "https://chasa.io/ssl"
+        }
+      ]
+    },
+    {
+      "@type": "WebApplication",
+      "name": "docstoc SSL",
+      "url": "https://chasa.io/ssl",
+      "applicationCategory": "SecurityApplication",
+      "operatingSystem": "Any",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "provider": {
+        "@type": "Organization",
+        "name": "docstoc",
+        "url": "https://chasa.io/"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Is this a free SSL certificate?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "docstoc issues real Let's Encrypt DV certificates with no separate per-certificate fee. Automation is included on the paid plan — not a surprise SSL upsell at renewal."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "SSL or TLS — which do I need?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Modern browsers use TLS. People still search “SSL certificate” for the same HTTPS padlock. docstoc covers both intents with the same automated Let's Encrypt flow. See also /tls."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need to move my site to docstoc hosting?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. Keep your host. Add one DNS TXT record for validation; renewals are handled in-product."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I get OV or EV certificates?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Not from docstoc. We automate DV Let's Encrypt certificates. If procurement requires OV/EV, use a commercial CA — we say so on every comparison page."
+          }
+        }
+      ]
     }
-  }
+  ]
 }
 </script>
 <link rel="icon" href="/favicon.png?v=20260825d" type="image/png">
@@ -85,7 +154,7 @@
       <span class="nav-megamenu-item-desc" data-i18n="nav.mega.products.certificates.desc">Free tamper-evident hash verification for any file.</span>
     </span>
   </a>
-<a href="/app/login?start=1" class="nav-megamenu-item nav-megamenu-item-lg">
+<a href="/ssl" class="nav-megamenu-item nav-megamenu-item-lg">
     <span class="nav-megamenu-icon nav-megamenu-icon-lg"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="1.5" /><path d="M8 11V7a4 4 0 0 1 8 0v4" /></svg></span>
     <span>
       <span class="nav-megamenu-item-title" data-i18n="nav.mega.products.ssl.title">SSL / TLS automation</span>
@@ -173,7 +242,7 @@
       <span class="header-revival-badge-thumb" aria-hidden="true"></span>
       <span class="header-revival-badge-text">
         <span class="header-revival-badge-title" data-i18n="nav.revivalBadge">docstoc is back</span>
-        <span class="header-revival-badge-sub" data-i18n="nav.revivalBadgeSub">the automation layer — watch the story</span>
+        <span class="header-revival-badge-sub" data-i18n="nav.revivalBadgeSub">the trust automation layer — watch the story</span>
       </span>
       <span class="header-revival-badge-play" aria-hidden="true">
         <svg viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z" /></svg>
@@ -207,92 +276,207 @@
   </div>
 </div>
 <main class="wrap page-main">
-<article>
-    <div style="margin-bottom: 40px; text-align: center;">
-      <span style="font-size: 13px; font-weight: 700; text-transform: uppercase; color: var(--accent, #F58025); letter-spacing: 0.05em;">Product / SSL Automation</span>
-      <h1 style="font-family: 'Fraunces', serif; font-size: 38px; font-weight: 700; margin: 12px 0 16px;">Free SSL, Without Running Your Own ACME Client</h1>
-      <p style="font-size: 18px; color: #4b5563; line-height: 1.6; max-width: 720px; margin: 0 auto;">Let's Encrypt certificates are free — but issuing one still means standing up an ACME client, or trusting a third-party tool with the process. docstoc handles the ACME order for you: add a domain, add one DNS record, get a real, trusted certificate.</p>
+<p class="crumb"><a href="/">Home</a> / SSL</p>
+<h1>Free automated SSL certificates for your domain</h1>
+  <p class="lede">Add a domain, publish one DNS TXT record, get a real Let's Encrypt SSL certificate — automated renewals, no certbot, no separate certificate dashboard. Built for small businesses who need HTTPS without ACME ops.</p>
+  <div class="ssl-hero-actions">
+    <a href="/app/login?start=1" class="nav-cta">Secure a domain free →</a>
+    <a href="/tools/ssl-certificate-calculator">Check cert expiry</a>
+    <a href="/tls">Looking for TLS instead?</a>
+  </div>
+  
+  <h2>How it works</h2>
+  <div class="ssl-steps">
+    <div class="ssl-step"><strong>1. Add your domain</strong><p>Sign in and add the hostname you want secured in SSL certificates.</p></div>
+    <div class="ssl-step"><strong>2. Publish one DNS TXT record</strong><p>Copy the challenge record to your DNS provider. No CDN proxy or nameserver move required.</p></div>
+    <div class="ssl-step"><strong>3. Auto-renew forever</strong><p>docstoc issues a real Let's Encrypt certificate and reissues before expiry while your plan stays active.</p></div>
+  </div>
+
+  <h2>Who it's for</h2>
+  <ul>
+    <li>Freelancers and small businesses who need HTTPS without running certbot</li>
+    <li>Agencies putting client sites or portals on custom domains</li>
+    <li>Teams that already use docstoc for invoices, templates, or certificates and want SSL in the same account</li>
+  </ul>
+
+  <div class="ssl-limits">
+    <strong>Honest limits</strong>
+    <ul>
+      <li><strong>DV only</strong> — domain-validated Let's Encrypt certificates (browser padlock). Not OV/EV.</li>
+      <li><strong>Not a commercial CA replacement</strong> for warranties, wildcards-as-a-product, or enterprise PKI.</li>
+      <li><strong>Not your host/CDN</strong> — keep your hosting; docstoc automates the certificate lifecycle.</li>
+    </ul>
+  </div>
+
+  <h2>Compare docstoc to SSL/TLS providers</h2>
+  <p>Side-by-side pages and migration guides for the tools people actually search against — including Let's Encrypt DIY, commercial CAs, free-SSL sites, Cloudflare, and hosts.</p>
+  <div class="ssl-comp-grid">
+      <article class="ssl-comp-card">
+        <h3>ZeroSSL</h3>
+        <p>Developers who want a GUI dashboard on top of free ACME certs</p>
+        <p class="ssl-comp-links">
+          <a href="/docstoc-vs-zerossl">Compare</a>
+          · <a href="/switch-from-zerossl">Switch from ZeroSSL</a>
+        </p>
+      </article>
+      <article class="ssl-comp-card">
+        <h3>Let's Encrypt</h3>
+        <p>Anyone running their own ACME client and renewal automation</p>
+        <p class="ssl-comp-links">
+          <a href="/docstoc-vs-letsencrypt">Compare</a>
+          · <a href="/switch-from-letsencrypt">Switch from Let's Encrypt</a>
+        </p>
+      </article>
+      <article class="ssl-comp-card">
+        <h3>Sectigo</h3>
+        <p>Mid-market/enterprise IT needing OV/EV or insurance-backed certs</p>
+        <p class="ssl-comp-links">
+          <a href="/docstoc-vs-sectigo">Compare</a>
+          · <a href="/switch-from-sectigo">Switch from Sectigo</a>
+        </p>
+      </article>
+      <article class="ssl-comp-card">
+        <h3>DigiCert</h3>
+        <p>Large enterprises needing audited trust, warranties, and PKI at scale</p>
+        <p class="ssl-comp-links">
+          <a href="/docstoc-vs-digicert">Compare</a>
+          · <a href="/switch-from-digicert">Switch from DigiCert</a>
+        </p>
+      </article>
+      <article class="ssl-comp-card">
+        <h3>Cloudflare SSL</h3>
+        <p>Sites already routing DNS/traffic through Cloudflare's proxy</p>
+        <p class="ssl-comp-links">
+          <a href="/docstoc-vs-cloudflare-ssl">Compare</a>
+          · <a href="/switch-from-cloudflare-ssl">Switch from Cloudflare SSL</a>
+        </p>
+      </article>
+      <article class="ssl-comp-card">
+        <h3>SSL.com</h3>
+        <p>Developers wanting free ACME DV plus optional paid OV/EV</p>
+        <p class="ssl-comp-links">
+          <a href="/docstoc-vs-ssl-com">Compare</a>
+          · <a href="/switch-from-ssl-com">Switch from SSL.com</a>
+        </p>
+      </article>
+      <article class="ssl-comp-card">
+        <h3>GlobalSign</h3>
+        <p>Enterprises and manufacturers needing full PKI platforms</p>
+        <p class="ssl-comp-links">
+          <a href="/docstoc-vs-globalsign">Compare</a>
+          · <a href="/switch-from-globalsign">Switch from GlobalSign</a>
+        </p>
+      </article>
+      <article class="ssl-comp-card">
+        <h3>SSL For Free</h3>
+        <p>Hobbyists OK repeating manual validation every ~90 days</p>
+        <p class="ssl-comp-links">
+          <a href="/docstoc-vs-sslforfree">Compare</a>
+          · <a href="/switch-from-sslforfree">Switch from SSL For Free</a>
+        </p>
+      </article>
+      <article class="ssl-comp-card">
+        <h3>FreeSSL.org</h3>
+        <p>Developers wanting ACME/API with a nicer UI than raw certbot</p>
+        <p class="ssl-comp-links">
+          <a href="/docstoc-vs-freessl-org">Compare</a>
+          · <a href="/switch-from-freessl-org">Switch from FreeSSL.org</a>
+        </p>
+      </article>
+      <article class="ssl-comp-card">
+        <h3>Certum</h3>
+        <p>Buyers wanting inexpensive paid certs with a financial guarantee</p>
+        <p class="ssl-comp-links">
+          <a href="/docstoc-vs-certum">Compare</a>
+          · <a href="/switch-from-certum">Switch from Certum</a>
+        </p>
+      </article>
+      <article class="ssl-comp-card">
+        <h3>GoDaddy SSL</h3>
+        <p>GoDaddy Group hosting/domain customers wanting one vendor</p>
+        <p class="ssl-comp-links">
+          <a href="/docstoc-vs-godaddy-ssl">Compare</a>
+          · <a href="/switch-from-godaddy-ssl">Switch from GoDaddy SSL</a>
+        </p>
+      </article>
+      <article class="ssl-comp-card">
+        <h3>Actalis</h3>
+        <p>European buyers seeking commercial CA certs (often via resellers/hosts)</p>
+        <p class="ssl-comp-links">
+          <a href="/docstoc-vs-actalis">Compare</a>
+          · <a href="/switch-from-actalis">Switch from Actalis</a>
+        </p>
+      </article>
+      <article class="ssl-comp-card">
+        <h3>Secom Trust</h3>
+        <p>Organizations needing Japanese commercial trust/PKI services</p>
+        <p class="ssl-comp-links">
+          <a href="/docstoc-vs-secom-trust">Compare</a>
+          · <a href="/switch-from-secom-trust">Switch from Secom Trust</a>
+        </p>
+      </article>
+      <article class="ssl-comp-card">
+        <h3>FreeSSL.CFD</h3>
+        <p>Users hunting free/cheap SSL landing-page tools</p>
+        <p class="ssl-comp-links">
+          <a href="/docstoc-vs-freessl-cfd">Compare</a>
+          · <a href="/switch-from-freessl-cfd">Switch from FreeSSL.CFD</a>
+        </p>
+      </article>
+      <article class="ssl-comp-card">
+        <h3>CertKit</h3>
+        <p>Teams wanting a modern certificate toolkit/API workflow</p>
+        <p class="ssl-comp-links">
+          <a href="/docstoc-vs-certkit">Compare</a>
+          · <a href="/switch-from-certkit">Switch from CertKit</a>
+        </p>
+      </article>
+      <article class="ssl-comp-card">
+        <h3>Hostinger SSL</h3>
+        <p>Hostinger hosting customers enabling SSL from the hPanel</p>
+        <p class="ssl-comp-links">
+          <a href="/docstoc-vs-hostinger-ssl">Compare</a>
+          · <a href="/switch-from-hostinger-ssl">Switch from Hostinger SSL</a>
+        </p>
+      </article>
     </div>
 
-    <section style="background: #fff; border: 1px solid #e5e7eb; border-radius: 12px; padding: 32px; margin-bottom: 40px;">
-      <h2 style="font-size: 24px; font-weight: 700; margin-bottom: 16px;">How it works</h2>
-      <ul style="font-size: 16px; line-height: 1.8; color: #374151; padding-left: 20px;">
-        <li><strong>Add the domain:</strong> No CLI, no server access — just the domain name.</li>
-        <li><strong>Add one TXT record:</strong> docstoc gives you the DNS-01 challenge value for your DNS provider.</li>
-        <li><strong>Get a real certificate:</strong> Once DNS propagates, docstoc completes the ACME order against Let's Encrypt's production directory — not a staging/test cert.</li>
-        <li><strong>Renewal reminders:</strong> An email before it expires, with a one-click re-verify — see <a href="monitoringssl" style="color: var(--accent, #F58025);">SSL monitoring</a>.</li>
-      </ul>
-    </section>
+  <h2>Features</h2>
+  <ul>
+    <li><a href="/ssl/features">SSL features hub</a></li>
+    <li><a href="/ssl/features/certificates">Certificates</a> · <a href="/ssl/features/validation">Validation</a> · <a href="/ssl/features/installation">Installation</a></li>
+    <li><a href="/ssl/features/monitoring">Monitoring</a> · <a href="/ssl/features/protection">Trust &amp; protection</a> · <a href="/ssl/features/acme">ACME</a></li>
+    <li><a href="/ssl/features/enterprise">Business SSL</a> · <a href="/ssl/developer">Developer API</a></li>
+  </ul>
 
-    <section style="background: #fafbfc; border: 1px solid #e5e7eb; border-radius: 12px; padding: 32px; margin-bottom: 40px; text-align: center;">
-      <h3 style="font-size: 20px; font-weight: 700; margin-bottom: 8px;">Secure a domain free</h3>
-      <p style="font-size: 15px; color: #4b5563; margin-bottom: 20px;">No signup fees to Let's Encrypt, no card required to start.</p>
-      <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
-        <a href="app/login?start=1" class="nav-cta" data-cta data-cta-source="ssl">Secure a domain →</a>
-        <a href="chasa-vs-zerossl" style="display: inline-flex; align-items: center; padding: 10px 18px; border: 1px solid #d8dee8; border-radius: 8px; color: #1B3155; text-decoration: none; font-weight: 600; font-size: 14px;">See how it compares to ZeroSSL →</a>
-      </div>
-    </section>
-
-    <section style="background: #fff; border: 1px solid #e5e7eb; border-radius: 12px; padding: 32px; margin-bottom: 40px;">
-      <h2 style="font-size: 24px; font-weight: 700; margin-bottom: 16px;">A verified trust profile comes with it</h2>
-      <p style="font-size: 16px; line-height: 1.7; color: #374151; margin-bottom: 16px;">Small businesses often struggle to look credible against larger vendors. The moment your first domain's certificate is issued — real proof of DNS control — docstoc creates a "verified since" record for your account, anchors that claim to Bitcoin, and gives you an embeddable badge to put on your own site or proposals. See <a href="/trust-badges" style="color: var(--accent, #F58025);">Verified Corporate Identity &amp; Trust Badges</a> or try the free <a href="/tools/trust-badges" style="color: var(--accent, #F58025);">lookup tool</a>.</p>
-      <ul style="font-size: 16px; line-height: 1.8; color: #374151; padding-left: 20px;">
-        <li><strong>What it actually verifies:</strong> DNS control of a domain and, once Bitcoin-confirmed, the date your account first reached that status — SSL status shown is always a live check, never frozen.</li>
-        <li><strong>What it doesn't claim:</strong> business registration or legal entity status — docstoc doesn't check business registries, so the badge never says it does.</li>
-        <li><strong>Automatic:</strong> no separate signup — it's created the moment your first domain goes active.</li>
-      </ul>
-    </section>
-
-    <section style="margin-bottom: 40px;">
-      <h3 style="font-size: 20px; font-weight: 700; margin-bottom: 16px;">SSL Automation FAQ</h3>
-      <div style="display: flex; flex-direction: column; gap: 16px;">
-        <div>
-          <p style="font-size: 15px; font-weight: 700; color: #262626; margin-bottom: 4px;">Is the certificate actually issued by Let's Encrypt, or by docstoc?</p>
-          <p style="font-size: 14px; color: #4b5563; line-height: 1.6;">By Let's Encrypt directly — docstoc completes the ACME protocol exchange on your behalf, but the certificate authority is Let's Encrypt's own production directory, the same one any ACME client talks to.</p>
-        </div>
-        <div>
-          <p style="font-size: 15px; font-weight: 700; color: #262626; margin-bottom: 4px;">Do I need to install anything?</p>
-          <p style="font-size: 14px; color: #4b5563; line-height: 1.6;">No client, no CLI. The only manual step is pasting one DNS TXT record into your domain's DNS provider — everything else happens in the docstoc app.</p>
-        </div>
-        <div>
-          <p style="font-size: 15px; font-weight: 700; color: #262626; margin-bottom: 4px;">What if I already have a certificate from somewhere else?</p>
-          <p style="font-size: 14px; color: #4b5563; line-height: 1.6;">You can add the domain to docstoc and issue a new certificate independently — it doesn't need to know about or replace an existing certificate from another provider.</p>
-        </div>
-      </div>
-    </section>
-
-    <section style="margin-bottom: 48px;">
-      <h3 style="font-size: 20px; font-weight: 700; margin-bottom: 16px;">Related</h3>
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px;">
-        <a href="tsl" style="display: block; padding: 16px; border: 1px solid #e5e7eb; border-radius: 8px; text-decoration: none; color: inherit;">
-          <strong style="display: block; font-size: 15px; color: #262626;">TLS for Internal Services →</strong>
-          <span style="font-size: 13px; color: #6b7280;">Certificates for APIs and staging environments, not just public sites.</span>
-        </a>
-        <a href="certificate" style="display: block; padding: 16px; border: 1px solid #e5e7eb; border-radius: 8px; text-decoration: none; color: inherit;">
-          <strong style="display: block; font-size: 15px; color: #262626;">Free Certificate, Any Use Case →</strong>
-          <span style="font-size: 13px; color: #6b7280;">The broad overview of what docstoc issues and why.</span>
-        </a>
-        <a href="use-cases/free-ssl-for-your-domain" style="display: block; padding: 16px; border: 1px solid #e5e7eb; border-radius: 8px; text-decoration: none; color: inherit;">
-          <strong style="display: block; font-size: 15px; color: #262626;">Real Use Case →</strong>
-          <span style="font-size: 13px; color: #6b7280;">Launching a site on a client's own domain.</span>
-        </a>
-        <a href="trust-badges" style="display: block; padding: 16px; border: 1px solid #e5e7eb; border-radius: 8px; text-decoration: none; color: inherit;">
-          <strong style="display: block; font-size: 15px; color: #262626;">Trust Badges →</strong>
-          <span style="font-size: 13px; color: #6b7280;">Domain-verified corporate identity badges for your site.</span>
-        </a>
-        <a href="tools/trust-badges" style="display: block; padding: 16px; border: 1px solid #e5e7eb; border-radius: 8px; text-decoration: none; color: inherit;">
-          <strong style="display: block; font-size: 15px; color: #262626;">Trust badge tool →</strong>
-          <span style="font-size: 13px; color: #6b7280;">Look up a public profile and copy the embed code.</span>
-        </a>
-      </div>
-    </section>
-  </article>
+  <h2>Related</h2>
+  <ul>
+    <li><a href="/tls">TLS certificates on docstoc</a> — same product, tls-oriented search intent</li>
+    <li><a href="/use-cases/free-ssl-for-your-domain">Free SSL for a client's domain</a></li>
+    <li><a href="/tools/ssl-certificate-calculator">SSL expiry calculator</a></li>
+    <li><a href="/trust-badges">Trust badges</a></li>
+    <li><a href="/monitoringssl">SSL monitoring</a> · <a href="/monitoringtls">TLS monitoring</a></li>
+  </ul>
+  <h2>FAQ</h2>
+  <details class="faq-item"><summary>Is this a free SSL certificate?</summary>
+<p>docstoc issues real Let's Encrypt DV certificates with no separate per-certificate fee. Automation is included on the paid plan — not a surprise SSL upsell at renewal.</p>
+</details>
+<details class="faq-item"><summary>SSL or TLS — which do I need?</summary>
+<p>Modern browsers use TLS. People still search “SSL certificate” for the same HTTPS padlock. docstoc covers both intents with the same automated Let's Encrypt flow. See also /tls.</p>
+</details>
+<details class="faq-item"><summary>Do I need to move my site to docstoc hosting?</summary>
+<p>No. Keep your host. Add one DNS TXT record for validation; renewals are handled in-product.</p>
+</details>
+<details class="faq-item"><summary>Can I get OV or EV certificates?</summary>
+<p>Not from docstoc. We automate DV Let's Encrypt certificates. If procurement requires OV/EV, use a commercial CA — we say so on every comparison page.</p>
+</details>
+  <p style="margin-top:28px"><a href="/app/login?start=1" class="nav-cta">Try docstoc free</a></p>
 </main>
 <footer class="site-footer">
   <div class="wrap site-footer-inner">
     <div class="site-footer-brand">
       <a href="/" class="logo" aria-label="docstoc home"><img class="logo-mark" src="/brand/docstoc-icon.png" alt="" width="24" height="24" /><span class="logo-word">docstoc</span></a>
-      <p data-i18n="footer.tagline">Free AI invoice follow-ups — paste unpaid invoices, get the reminder email already written.</p>
+      <p data-i18n="footer.tagline">The Trust Automation Layer for Modern Business — agreements, invoicing, domain security, and AI collections in one platform.</p>
     </div>
     <div class="site-footer-col">
       <h4 data-i18n="footer.product">Product</h4>
@@ -322,11 +506,11 @@
     </div>
     <div class="site-footer-col">
       <h4 data-i18n="footer.compareCol">Compare</h4>
-      <a href="/chasa-vs-chaser" data-i18n="footer.vsChaser">vs Chaser</a>
-      <a href="/chasa-vs-paidnice" data-i18n="footer.vsPaidnice">vs Paidnice</a>
-      <a href="/chasa-vs-duefy" data-i18n="footer.vsDuefy">vs Duefy</a>
-      <a href="/chasa-vs-satago" data-i18n="footer.vsSatago">vs Satago</a>
-      <a href="/chasa-vs-chaseai" data-i18n="footer.vsChaseai">vs ChaseAI</a>
+      <a href="/docstoc-vs-chaser" data-i18n="footer.vsChaser">vs Chaser</a>
+      <a href="/docstoc-vs-paidnice" data-i18n="footer.vsPaidnice">vs Paidnice</a>
+      <a href="/docstoc-vs-duefy" data-i18n="footer.vsDuefy">vs Duefy</a>
+      <a href="/docstoc-vs-satago" data-i18n="footer.vsSatago">vs Satago</a>
+      <a href="/docstoc-vs-chaseai" data-i18n="footer.vsChaseai">vs ChaseAI</a>
       <a href="/switch-to-chasa" data-i18n="footer.switch">Switch to docstoc</a>
     </div>
     <div class="site-footer-col">

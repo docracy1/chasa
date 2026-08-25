@@ -1,0 +1,39 @@
+<p>People still search “types of SSL certificates” even though the wire protocol is TLS. This guide lists the certificate products you will actually see on invoices and host panels — validation levels, name coverage, and specialty certs — and which ones a small business usually needs.</p>
+
+<h2 id="by-validation">By validation level</h2>
+<ul>
+  <li><strong>DV (Domain Validated)</strong> — proves control of the domain (DNS/HTTP/email challenges). Fast, automatable, enough for the HTTPS padlock on most sites. This is what docstoc automates via Let's Encrypt.</li>
+  <li><strong>OV (Organization Validated)</strong> — CA checks business identity documents. Slower, paid, used when contracts demand it.</li>
+  <li><strong>EV (Extended Validation)</strong> — stricter org checks historically tied to green-bar UI (mostly gone). Still sold for policy checkboxes.</li>
+</ul>
+
+<h2 id="by-names">By names covered</h2>
+<ul>
+  <li><strong>Single-domain</strong> — one hostname (often <code>www</code> and apex handled carefully).</li>
+  <li><strong>SAN / multi-domain</strong> — several explicit names on one cert.</li>
+  <li><strong>Wildcard</strong> — <code>*.example.com</code> (not unlimited nested levels). Common commercially; not what docstoc’s SMB DV automation is for.</li>
+</ul>
+
+<h2 id="specialty">Specialty certificates people confuse with “SSL”</h2>
+<ul>
+  <li><strong>Code signing</strong> — signs software, not websites.</li>
+  <li><strong>Email/S/MIME</strong> — identity for mail.</li>
+  <li><strong>Document signing / eIDAS-style</strong> — different trust frameworks than web DV.</li>
+  <li><strong>Client certificates</strong> — mutually authenticate users/devices (mTLS).</li>
+</ul>
+<p>If your goal is “turn on HTTPS for my domain,” you want a <strong>server TLS certificate</strong> — usually DV — not a code-signing SKU.</p>
+
+
+<aside class="blog-inline-cta" style="margin:28px 0;padding:20px 22px;border:1px solid #e5e7eb;border-radius:12px;background:#fff8f3">
+  <strong style="display:block;margin-bottom:8px">Want SSL/TLS without running certbot?</strong>
+  <p style="margin:0 0 12px;font-size:14.5px;line-height:1.55;color:#4b5563">docstoc issues real Let's Encrypt DV certificates for your domain — one DNS TXT record, automated renewals, next to invoices and documents.</p>
+  <p style="margin:0;font-size:14.5px"><a href="/app/login?start=1"><strong>Try docstoc free →</strong></a> · <a href="/ssl">SSL overview</a> · <a href="/tls">TLS overview</a></p>
+</aside>
+
+<h2 id="what-smbs-should-buy">What SMBs should actually buy</h2>
+<p>Default recommendation: automated DV for the hostnames you serve publicly. Skip OV/EV unless required. Skip wildcards unless you truly operate many first-level subdomains and understand key compromise blast radius.</p>
+<p>Compare options: <a href="/docstoc-vs-sectigo">Sectigo</a>, <a href="/docstoc-vs-digicert">DigiCert</a>, <a href="/docstoc-vs-sslforfree">SSL For Free</a>, <a href="/ssl">docstoc SSL</a>. Migrating off a paid SKU? Start at <a href="/switch-from-godaddy-ssl">switch from GoDaddy SSL</a> or the matching switch-from page on the SSL hub.</p>
+
+<h2 id="faq">FAQ</h2>
+<details class="faq-item"><summary>Is a wildcard more secure?</summary><p>No — it is more convenient and riskier if the private key leaks, because many hostnames share one key.</p></details>
+<details class="faq-item"><summary>Do I need separate SSL and TLS certificates?</summary><p>No. One certificate is used by TLS to provide what people still call “SSL.” See <a href="/blog/types-of-tls-certificates/">types of TLS certificates</a>.</p></details>

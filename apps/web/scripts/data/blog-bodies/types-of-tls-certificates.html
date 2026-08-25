@@ -1,0 +1,27 @@
+<p>TLS (Transport Layer Security) is the modern protocol family that replaced legacy SSL versions. A “TLS certificate” is the X.509 credential a server presents during the handshake. This article explains TLS certificate types in protocol-aware language — without pretending SSL and TLS are two different products you must purchase twice.</p>
+
+<h2 id="ssl-vs-tls-naming">SSL vs TLS naming (stop buying twice)</h2>
+<p>Vendors say SSL; browsers speak TLS (1.2/1.3 in practice). The certificate is the same class of object. If you landed here from a TLS search, the practical buyer’s guide matches our <a href="/blog/types-of-ssl-certificates/">SSL certificate types</a> article — validation (DV/OV/EV), name coverage (single/SAN/wildcard), and specialty non-web certs.</p>
+
+<h2 id="server-auth">Server authentication certificates</h2>
+<p>These bind a public key to a hostname (SAN). Clients verify the chain to a trusted root and that the name matches. That is HTTPS for websites and APIs. docstoc automates <strong>DV server certificates</strong> from Let's Encrypt for your domain.</p>
+
+<h2 id="client-auth">Client authentication certificates</h2>
+<p>Used in mTLS so the client proves identity too. Common in enterprise APIs and device fleets — not a substitute for public website DV.</p>
+
+<h2 id="short-lived-tls">Short-lived TLS certificates</h2>
+<p>Industry direction is shorter lifetimes (Let's Encrypt popularized ~90 days; further shortening is actively discussed). Shorter life reduces the damage window if a key leaks — and makes <strong>automation mandatory</strong>. See <a href="/blog/ssl-tls-certificate-lifetime-shortening/">certificate lifetime shortening</a> and <a href="/blog/acme-protocol-certificate-automation/">ACME automation</a>.</p>
+
+
+<aside class="blog-inline-cta" style="margin:28px 0;padding:20px 22px;border:1px solid #e5e7eb;border-radius:12px;background:#fff8f3">
+  <strong style="display:block;margin-bottom:8px">Want SSL/TLS without running certbot?</strong>
+  <p style="margin:0 0 12px;font-size:14.5px;line-height:1.55;color:#4b5563">docstoc issues real Let's Encrypt DV certificates for your domain — one DNS TXT record, automated renewals, next to invoices and documents.</p>
+  <p style="margin:0;font-size:14.5px"><a href="/app/login?start=1"><strong>Try docstoc free →</strong></a> · <a href="/ssl">SSL overview</a> · <a href="/tls">TLS overview</a></p>
+</aside>
+
+<h2 id="where-tls-fits-in-docstoc">Where TLS fits in docstoc</h2>
+<p>Use the <a href="/tls">TLS product page</a> for the conversion-oriented overview, <a href="/ssl">SSL</a> for the classic search wording, and comparison pages like <a href="/docstoc-vs-cloudflare-ssl">Cloudflare SSL</a> when your edge architecture differs from origin issuance.</p>
+
+<h2 id="faq">FAQ</h2>
+<details class="faq-item"><summary>Can I still get an “SSL 3.0 certificate”?</summary><p>You should not use SSL 3.0 — it is obsolete and unsafe. Buy/issue a modern certificate and enable TLS 1.2+ on the server.</p></details>
+<details class="faq-item"><summary>Does TLS 1.3 need a special certificate?</summary><p>Generally no — the same DV/OV certificates work; the server negotiates TLS 1.3 when both sides support it.</p></details>

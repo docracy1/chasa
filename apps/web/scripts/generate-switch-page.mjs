@@ -107,7 +107,7 @@ function buildMain() {
     .slice(0, 5)
     .map((name) => {
       const slug = name.toLowerCase();
-      return `<a href="/chasa-vs-${slug}">${escapeHtml(name)}</a>`;
+      return `<a href="/docstoc-vs-${slug}">${escapeHtml(name)}</a>`;
     })
     .join(", ");
 

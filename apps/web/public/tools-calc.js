@@ -552,12 +552,24 @@
   function scrollFocus(selector, focusSelector) {
     const el = document.querySelector(selector);
     if (!el) return;
-    el.scrollIntoView({ behavior: "smooth", block: "start" });
+    const headerOffset = 96;
+    const top = el.getBoundingClientRect().top + window.pageYOffset - headerOffset;
+    window.scrollTo({ top: Math.max(0, top), behavior: "smooth" });
+    flash(el);
     flash(el.querySelector(".tool-panel") || el);
     flash(el.querySelector(".tool-results"));
-    const focusEl = focusSelector ? el.querySelector(focusSelector) || document.querySelector(focusSelector) : null;
+    const focusEl = focusSelector
+      ? el.querySelector(focusSelector) || document.querySelector(focusSelector)
+      : null;
     if (focusEl && typeof focusEl.focus === "function") {
-      setTimeout(() => focusEl.focus({ preventScroll: true }), 280);
+      setTimeout(() => {
+        try {
+          focusEl.focus({ preventScroll: true });
+          if (typeof focusEl.select === "function") focusEl.select();
+        } catch (_) {
+          focusEl.focus();
+        }
+      }, 320);
     }
   }
 
@@ -567,7 +579,10 @@
     if (!action) return;
 
     if (action === "index") {
-      const go = () => scrollFocus("#tool-list, .tool-card-grid");
+      const go = (e) => {
+        if (e) e.preventDefault();
+        scrollFocus("#tool-list");
+      };
       circle.addEventListener("click", go);
       circle.addEventListener("keydown", (e) => {
         if (e.key === "Enter" || e.key === " ") {
@@ -579,7 +594,10 @@
     }
 
     if (action === "invoice") {
-      const go = () => scrollFocus("[data-calc='invoice-preview']", "[data-inv-client]");
+      const go = (e) => {
+        if (e) e.preventDefault();
+        scrollFocus("#invoice-builder", "[data-inv-client]");
+      };
       circle.addEventListener("click", go);
       circle.addEventListener("keydown", (e) => {
         if (e.key === "Enter" || e.key === " ") {
@@ -591,7 +609,10 @@
     }
 
     if (action === "chase") {
-      const go = () => scrollFocus("[data-calc='late-payment']", "[data-lp-amount]");
+      const go = (e) => {
+        if (e) e.preventDefault();
+        scrollFocus("#chase-calc", "[data-lp-amount]");
+      };
       circle.addEventListener("click", go);
       circle.addEventListener("keydown", (e) => {
         if (e.key === "Enter" || e.key === " ") {

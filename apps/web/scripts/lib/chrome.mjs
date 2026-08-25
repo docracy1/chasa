@@ -96,7 +96,7 @@ const PRODUCTS_ITEMS = [
   { path: "/document-templates/", icon: "store", titleKey: "nav.mega.products.templates.title", title: "Document templates", descKey: "nav.mega.products.templates.desc", desc: "1,000+ free business & legal templates, plus kits." },
   { path: "/tools/invoice-generator", icon: "briefcase", titleKey: "nav.mega.products.invoices.title", title: "Invoice generator", descKey: "nav.mega.products.invoices.desc", desc: "Create a shareable invoice — then chase it if it goes overdue." },
   { path: "/verify/DOC-DEMO0001", icon: "shield", titleKey: "nav.mega.products.certificates.title", title: "Document certificates", descKey: "nav.mega.products.certificates.desc", desc: "Free tamper-evident hash verification for any file." },
-  { path: "/app/login?start=1", icon: "lock", titleKey: "nav.mega.products.ssl.title", title: "SSL / TLS automation", descKey: "nav.mega.products.ssl.desc", desc: "Free Let's Encrypt certificates for your own domain." },
+  { path: "/ssl", icon: "lock", titleKey: "nav.mega.products.ssl.title", title: "SSL / TLS automation", descKey: "nav.mega.products.ssl.desc", desc: "Free Let's Encrypt certificates for your own domain." },
   { path: "/features/ai-tone", icon: "bolt", titleKey: "nav.mega.products.chasing.title", title: "AI invoice chasing", descKey: "nav.mega.products.chasing.desc", desc: "Tone-matched follow-up drafts for overdue invoices." },
 ];
 
@@ -112,9 +112,9 @@ const FEATURE_ITEMS = [
 ];
 
 const COMPARE_ITEMS = [
-  { path: "/chasa-vs-chaser", icon: "scale", titleKey: "footer.vsChaser", title: "vs Chaser", descKey: "nav.mega.compare.chaser.desc", desc: "Lighter, no per-seat pricing." },
-  { path: "/chasa-vs-paidnice", icon: "scale", titleKey: "footer.vsPaidnice", title: "vs Paidnice", descKey: "nav.mega.compare.paidnice.desc", desc: "Free AI drafts, not just Shopify dunning." },
-  { path: "/chasa-vs-duefy", icon: "scale", titleKey: "footer.vsDuefy", title: "vs Duefy", descKey: "nav.mega.compare.duefy.desc", desc: "Tone-matched AI, not template-only reminders." },
+  { path: "/docstoc-vs-chaser", icon: "scale", titleKey: "footer.vsChaser", title: "vs Chaser", descKey: "nav.mega.compare.chaser.desc", desc: "Lighter, no per-seat pricing." },
+  { path: "/docstoc-vs-paidnice", icon: "scale", titleKey: "footer.vsPaidnice", title: "vs Paidnice", descKey: "nav.mega.compare.paidnice.desc", desc: "Free AI drafts, not just Shopify dunning." },
+  { path: "/docstoc-vs-duefy", icon: "scale", titleKey: "footer.vsDuefy", title: "vs Duefy", descKey: "nav.mega.compare.duefy.desc", desc: "Tone-matched AI, not template-only reminders." },
 ];
 
 const USE_CASE_ITEMS = [
@@ -310,7 +310,7 @@ ${jsonLd ? `<script type="application/ld+json">\n${jsonLd}\n</script>` : `<scrip
       <span class="header-revival-badge-thumb" aria-hidden="true"></span>
       <span class="header-revival-badge-text">
         <span class="header-revival-badge-title" data-i18n="nav.revivalBadge">docstoc is back</span>
-        <span class="header-revival-badge-sub" data-i18n="nav.revivalBadgeSub">the automation layer — watch the story</span>
+        <span class="header-revival-badge-sub" data-i18n="nav.revivalBadgeSub">the trust automation layer — watch the story</span>
       </span>
       <span class="header-revival-badge-play" aria-hidden="true">
         <svg viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z" /></svg>
@@ -350,7 +350,7 @@ ${mainHtml}
   <div class="wrap site-footer-inner">
     <div class="site-footer-brand">
       <a href="${link("/")}" class="logo" aria-label="docstoc home"><img class="logo-mark" src="${link("/brand/docstoc-icon.png")}" alt="" width="24" height="24" /><span class="logo-word">docstoc</span></a>
-      <p data-i18n="footer.tagline">Free AI invoice follow-ups — paste unpaid invoices, get the reminder email already written.</p>
+      <p data-i18n="footer.tagline">The Trust Automation Layer for Modern Business — agreements, invoicing, domain security, and AI collections in one platform.</p>
     </div>
     <div class="site-footer-col">
       <h4 data-i18n="footer.product">Product</h4>
@@ -380,11 +380,11 @@ ${mainHtml}
     </div>
     <div class="site-footer-col">
       <h4 data-i18n="footer.compareCol">Compare</h4>
-      <a href="${link("/chasa-vs-chaser")}" data-i18n="footer.vsChaser">vs Chaser</a>
-      <a href="${link("/chasa-vs-paidnice")}" data-i18n="footer.vsPaidnice">vs Paidnice</a>
-      <a href="${link("/chasa-vs-duefy")}" data-i18n="footer.vsDuefy">vs Duefy</a>
-      <a href="${link("/chasa-vs-satago")}" data-i18n="footer.vsSatago">vs Satago</a>
-      <a href="${link("/chasa-vs-chaseai")}" data-i18n="footer.vsChaseai">vs ChaseAI</a>
+      <a href="${link("/docstoc-vs-chaser")}" data-i18n="footer.vsChaser">vs Chaser</a>
+      <a href="${link("/docstoc-vs-paidnice")}" data-i18n="footer.vsPaidnice">vs Paidnice</a>
+      <a href="${link("/docstoc-vs-duefy")}" data-i18n="footer.vsDuefy">vs Duefy</a>
+      <a href="${link("/docstoc-vs-satago")}" data-i18n="footer.vsSatago">vs Satago</a>
+      <a href="${link("/docstoc-vs-chaseai")}" data-i18n="footer.vsChaseai">vs ChaseAI</a>
       <a href="${link("/switch-to-chasa")}" data-i18n="footer.switch">Switch to docstoc</a>
     </div>
     <div class="site-footer-col">

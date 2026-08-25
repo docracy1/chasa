@@ -2603,17 +2603,17 @@ a { color: inherit; }
   padding-bottom: 16px;
   border-bottom: none;
 }
-.compare-table thead th.col-chasa {
+.compare-table thead th.col-docstoc {
   background: color-mix(in srgb, var(--accent) 88%, var(--ink));
 }
 .compare-table tbody tr:nth-child(even) td { background: var(--paper); }
 .compare-table tbody tr:last-child td { border-bottom: none; }
-.compare-table .col-chasa {
+.compare-table .col-docstoc {
   background: color-mix(in srgb, var(--accent) 10%, var(--white));
   font-weight: 600;
   color: var(--ink);
 }
-.compare-table tbody tr:nth-child(even) .col-chasa {
+.compare-table tbody tr:nth-child(even) .col-docstoc {
   background: color-mix(in srgb, var(--accent) 14%, var(--paper));
 }
 .compare-table .check { color: var(--accent); font-weight: 700; }

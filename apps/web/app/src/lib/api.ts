@@ -970,3 +970,13 @@ export function renewCustomHostname(id: string) {
     dnsRecord: { name: string; type: "TXT"; value: string };
   }>(`/ssl/domains/${id}/renew`, { method: "POST" });
 }
+
+export function downloadCustomHostname(id: string) {
+  return jsonFetch<{
+    domain: string;
+    certificatePem: string;
+    privateKeyPem: string;
+    expiresAt: string | null;
+    formats: { nginx: string; apache: string; caddy: string };
+  }>(`/ssl/domains/${id}/download`);
+}

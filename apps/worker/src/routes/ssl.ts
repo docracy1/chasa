@@ -1,6 +1,6 @@
 import { Hono } from "hono";
 import type { AuthEnv } from "../lib/auth";
-import { requireProAccount } from "../lib/auth";
+import { requirePaidAccount } from "../lib/auth";
 import { createOrder, finalizeAndDownload, getDns01Challenge, getOrder, loadOrCreateAccount, verifyDns01 } from "../lib/acme";
 import {
   createCertificateRow,
@@ -12,20 +12,20 @@ import {
   setOrderDetails,
   setVerifying,
 } from "../lib/customerCertificates";
-import { encryptSecret } from "../lib/secretCrypto";
+import { encryptSecret, decryptSecret } from "../lib/secretCrypto";
 import { customHostnameCreateSchema, parseJsonBody } from "../lib/schemas";
 import { ensureTrustProfile, submitTrustProfileTimestamp } from "../lib/trustProfile";
+import { sslDomainLimit } from "../lib/plan";
 
 const ssl = new Hono<AuthEnv>();
 
-/** Custom-domain SSL is Pro/Business only for v1 — each certificate involves real ACME API
- *  calls against Let's Encrypt's rate limits, shared across the whole chasa account. */
-ssl.use("*", requireProAccount);
+/** Custom-domain SSL: Pro = 1 domain, Business = multi-domain (see sslDomainLimit). */
+ssl.use("*", requirePaidAccount);
 
 ssl.get("/domains", async (c) => {
   const acc = c.get("account")!;
   const certificates = await listCertificatesForAccount(c.env, acc.workspaceId);
-  return c.json({ certificates });
+  return c.json({ certificates, limit: sslDomainLimit(acc.plan) });
 });
 
 ssl.post("/domains", async (c) => {
@@ -33,6 +33,22 @@ ssl.post("/domains", async (c) => {
   const parsed = await parseJsonBody(c.req, customHostnameCreateSchema);
   if (!parsed.ok) return c.json({ error: parsed.error }, 400);
   const domain = parsed.data.hostname;
+
+  const limit = sslDomainLimit(acc.plan);
+  const existing = await listCertificatesForAccount(c.env, acc.workspaceId);
+  if (existing.length >= limit) {
+    return c.json(
+      {
+        error:
+          limit <= 1
+            ? "Pro includes 1 custom domain. Upgrade to Business for more domains and trust badges."
+            : `Business plan allows up to ${limit} custom domains.`,
+        limit,
+        used: existing.length,
+      },
+      402
+    );
+  }
 
   const row = await createCertificateRow(c.env, acc.workspaceId, domain);
   try {
@@ -144,5 +160,49 @@ ssl.delete("/domains/:id", async (c) => {
   if (!deleted) return c.json({ error: "Not found" }, 404);
   return c.json({ ok: true });
 });
+
+/** Download issued certificate material for server installation (certificate PEM + private key PEM). */
+ssl.get("/domains/:id/download", async (c) => {
+  const acc = c.get("account")!;
+  const row = await getCertificateRow(c.env, acc.workspaceId, c.req.param("id"));
+  if (!row) return c.json({ error: "Not found" }, 404);
+  if (row.status !== "issued" && row.status !== "expiring") {
+    return c.json({ error: "Certificate is not issued yet" }, 400);
+  }
+  if (!row.cert_pem || !row.cert_key_enc) {
+    return c.json({ error: "Certificate files are not available" }, 404);
+  }
+
+  try {
+    const jwkJson = await decryptSecret(row.cert_key_enc, c.env.TOKEN_SECRET);
+    const jwk = JSON.parse(jwkJson) as JsonWebKey;
+    const key = await crypto.subtle.importKey("jwk", jwk, { name: "ECDSA", namedCurve: "P-256" }, true, ["sign"]);
+    const pkcs8 = await crypto.subtle.exportKey("pkcs8", key);
+    const privateKeyPem = arrayBufferToPem(pkcs8, "PRIVATE KEY");
+    return c.json({
+      domain: row.domain,
+      certificatePem: row.cert_pem,
+      privateKeyPem,
+      expiresAt: row.expires_at,
+      formats: {
+        nginx: "Use certificatePem as fullchain (or split leaf+chain) and privateKeyPem as the key file.",
+        apache: "Use certificatePem for SSLCertificateFile and privateKeyPem for SSLCertificateKeyFile.",
+        caddy: "Point tls directives at the PEM files, or paste into your Caddyfile as needed.",
+      },
+    });
+  } catch (err) {
+    const message = err instanceof Error ? err.message : "Could not export certificate";
+    return c.json({ error: message }, 500);
+  }
+});
+
+function arrayBufferToPem(buf: ArrayBuffer, label: string): string {
+  const bytes = new Uint8Array(buf);
+  let binary = "";
+  for (let i = 0; i < bytes.length; i++) binary += String.fromCharCode(bytes[i]!);
+  const b64 = btoa(binary);
+  const lines = b64.match(/.{1,64}/g) ?? [b64];
+  return `-----BEGIN ${label}-----\n${lines.join("\n")}\n-----END ${label}-----\n`;
+}
 
 export default ssl;

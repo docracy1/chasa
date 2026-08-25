@@ -188,14 +188,47 @@ body:has(.tool-sell-main) { background: #060504; }
   text-decoration: none;
 }
 .tool-circle-extra a:hover { text-decoration: underline; }
+.tool-circle-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 4px 0;
+  margin: 10px 0 0;
+  max-width: 11.5rem;
+  line-height: 1.45;
+  font-size: 12.5px;
+  font-weight: 700;
+}
+.tool-circle-links a {
+  color: var(--accent);
+  text-decoration: none;
+}
+.tool-circle-links a:hover,
+.tool-circle-links a:focus-visible {
+  text-decoration: underline;
+}
+.tool-circle-links .sep {
+  color: var(--ink-soft);
+  font-weight: 500;
+  margin: 0 0.28em;
+  user-select: none;
+}
 .finder-card.is-hidden { display: none; }
 .tool-panel.is-flash,
-.tool-results.is-flash {
+.tool-results.is-flash,
+.tool-section.is-flash {
   animation: tool-flash 0.9s ease;
 }
 @keyframes tool-flash {
   0%, 100% { box-shadow: none; }
   35% { box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 45%, transparent); }
+}
+.tool-section[id] {
+  scroll-margin-top: 96px;
+}
+a.tool-circle {
+  text-decoration: none;
+  color: inherit;
 }
 .tool-circle-stat {
   font-size: clamp(22px, 4vw, 30px);
@@ -653,11 +686,11 @@ body:has(.tool-sell-main) { background: #060504; }
     <div class="tool-hero-pill" aria-hidden="true"></div>
     <h1><span class="accent">Create. Share.</span><br>Get paid.</h1>
     <p class="tool-hero-sub">Build a professional invoice with line items and tax. Preview totals free — then create a shareable client link in docstoc.</p>
-    <div class="tool-ring"><div class="tool-circle is-action" data-tool-action="invoice" tabindex="0" role="button" aria-label="Jump to the invoice generator form">
+    <div class="tool-ring"><a class="tool-circle is-action" href="#invoice-builder" data-tool-action="invoice" aria-label="Jump to the invoice generator form">
       <span class="tool-circle-icon" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h8l4 4v14H7V3z"/><path d="M15 3v4h4"/><path d="M10 12h6M10 16h6M10 8h2"/></svg></span>
       <p class="tool-circle-title">Create an invoice</p>
       <p class="tool-circle-sub">Add line items · live totals below</p>
-    </div></div>
+    </a></div>
     <p class="tool-caption">Preview free · shareable /invoice/… link when you create it</p>
     <form class="tool-signup" action="/app/login" method="get">
   <input type="hidden" name="start" value="1" />
@@ -771,11 +804,11 @@ body:has(.tool-sell-main) { background: #060504; }
     </div>
     <div class="site-footer-col">
       <h4 data-i18n="footer.compareCol">Compare</h4>
-      <a href="../chasa-vs-chaser" data-i18n="footer.vsChaser">vs Chaser</a>
-      <a href="../chasa-vs-paidnice" data-i18n="footer.vsPaidnice">vs Paidnice</a>
-      <a href="../chasa-vs-duefy" data-i18n="footer.vsDuefy">vs Duefy</a>
-      <a href="../chasa-vs-satago" data-i18n="footer.vsSatago">vs Satago</a>
-      <a href="../chasa-vs-chaseai" data-i18n="footer.vsChaseai">vs ChaseAI</a>
+      <a href="../docstoc-vs-chaser" data-i18n="footer.vsChaser">vs Chaser</a>
+      <a href="../docstoc-vs-paidnice" data-i18n="footer.vsPaidnice">vs Paidnice</a>
+      <a href="../docstoc-vs-duefy" data-i18n="footer.vsDuefy">vs Duefy</a>
+      <a href="../docstoc-vs-satago" data-i18n="footer.vsSatago">vs Satago</a>
+      <a href="../docstoc-vs-chaseai" data-i18n="footer.vsChaseai">vs ChaseAI</a>
       <a href="../switch-to-chasa" data-i18n="footer.switch">Switch to docstoc</a>
     </div>
     <div class="site-footer-col">

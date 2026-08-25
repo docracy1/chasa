@@ -4033,7 +4033,7 @@ Sincerely,
 [Your Name/Title]
 [Your Company Name]
 
-*Unlike Chasa's email reminder templates, this printable letter format is meant for a more serious, later-stage stage — a physical or formal-looking letter often gets attention an email didn't.*`,
+*Unlike docstoc's email reminder templates, this printable letter format is meant for a more serious, later-stage stage — a physical or formal-looking letter often gets attention an email didn't.*`,
   },
   {
     slug: "incident-report-template",
@@ -6051,7 +6051,7 @@ This license terminates automatically if you violate its terms. Upon termination
 ## 9. Governing Law
 This Agreement is governed by the laws of [State/Country].
 
-*This document is provided for informational and educational purposes only and does not constitute legal advice. If your software collects personal data, this EULA needs to work alongside a real Privacy Policy — see Chasa's separate Privacy Policy template — and possibly platform-specific terms if distributed via an app store.*`,
+*This document is provided for informational and educational purposes only and does not constitute legal advice. If your software collects personal data, this EULA needs to work alongside a real Privacy Policy — see docstoc's separate Privacy Policy template — and possibly platform-specific terms if distributed via an app store.*`,
   },
   {
     slug: "project-summary-template",
@@ -6700,7 +6700,7 @@ We, the undersigned, wish to be formed into a company pursuant to this Memorandu
 ---
 Subscriber signature: ______________________  Date: ____________
 
-*This document follows a UK/Commonwealth-style format — company formation documents and required content differ significantly by country. In the US, the equivalent is Articles of Incorporation (see Chasa's separate template) — confirm which your jurisdiction actually requires.*`,
+*This document follows a UK/Commonwealth-style format — company formation documents and required content differ significantly by country. In the US, the equivalent is Articles of Incorporation (see docstoc's separate template) — confirm which your jurisdiction actually requires.*`,
   },
   {
     slug: "finders-fee-agreement-template",
@@ -7230,7 +7230,7 @@ I may revoke this Power of Attorney at any time by written notice to the Agent.
 Principal: ______________________  Date: ____________
 [Notarization block, if required for your specific use — e.g. real estate transactions typically require it]
 
-*Unlike a General Power of Attorney, this document should name the SPECIFIC task explicitly and narrowly — the narrower the scope, the less risk if it's misused. For a broader, ongoing authorization, see Chasa's General Power of Attorney template instead.*`,
+*Unlike a General Power of Attorney, this document should name the SPECIFIC task explicitly and narrowly — the narrower the scope, the less risk if it's misused. For a broader, ongoing authorization, see docstoc's General Power of Attorney template instead.*`,
   },
   {
     slug: "affiliate-program-agreement-template",

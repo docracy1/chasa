@@ -2,7 +2,7 @@
   var root = document.querySelector("[data-price-compare]");
   if (!root) return;
 
-  var CHASA = 14.99;
+  var DOCSTOC = 14.99;
   var GBP_USD = 1.28;
 
   function chaser(n) {
@@ -117,7 +117,7 @@
       var totalEl = row.querySelector("[data-pc-total]");
       if (titleEl) titleEl.textContent = result.title;
       if (formulaEl) formulaEl.textContent = result.formula;
-      var delta = result.total - CHASA;
+      var delta = result.total - DOCSTOC;
       if (deltaEl) {
         deltaEl.textContent = (delta >= 0 ? "+$" : "-$") + Math.abs(delta) + "/mo";
         deltaEl.classList.toggle("is-zero", delta === 0);

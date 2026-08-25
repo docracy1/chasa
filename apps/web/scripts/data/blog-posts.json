@@ -1,13 +1,55 @@
 [
   {
-    "title": "Building an AR policy that works with Chasa",
+    "title": "ACME protocol certificate automation explained",
+    "slug": "acme-protocol-certificate-automation",
+    "description": "How ACME proves domain control, which clients and panels use it, common pitfalls, and how to migrate to automated DV without certbot babysitting.",
+    "publishedAt": "2026-08-20",
+    "category": "Guide"
+  },
+  {
+    "title": "Why SSL/TLS certificate lifetimes are getting shorter",
+    "slug": "ssl-tls-certificate-lifetime-shortening",
+    "description": "Why 90-day (and shorter) certificates exist, what is changing in CA/Browser rules, and how automation keeps HTTPS from breaking.",
+    "publishedAt": "2026-08-21",
+    "category": "Guide"
+  },
+  {
+    "title": "Types of TLS certificates (and how they relate to SSL)",
+    "slug": "types-of-tls-certificates",
+    "description": "TLS vs SSL naming, server vs client certificates, short-lived TLS, and how to pick the right certificate for modern HTTPS.",
+    "publishedAt": "2026-08-22",
+    "category": "Guide"
+  },
+  {
+    "title": "Types of SSL certificates explained",
+    "slug": "types-of-ssl-certificates",
+    "description": "DV, OV, EV, wildcards, SAN, and specialty certs \u2014 what small businesses actually need for HTTPS versus what vendors upsell.",
+    "publishedAt": "2026-08-23",
+    "category": "Guide"
+  },
+  {
+    "title": "Certificate authority types \u2014 pros and cons",
+    "slug": "certificate-authority-types-pros-cons",
+    "description": "Public vs private CAs, nonprofit vs commercial, cloud/edge SSL, and resellers \u2014 honest trade-offs for freelancers and small businesses.",
+    "publishedAt": "2026-08-24",
+    "category": "Guide"
+  },
+  {
+    "title": "SSL certificate authorities worldwide \u2014 who issues the padlock?",
+    "slug": "ssl-certificate-authorities-market-share",
+    "description": "How CA market share is measured, which authorities dominate globally and regionally, and what that means when you choose SSL/TLS for a small business site.",
+    "publishedAt": "2026-08-25",
+    "category": "Guide"
+  },
+  {
+    "title": "Building an AR policy that works with docstoc",
     "slug": "ar-policy-that-works-with-chasa",
-    "description": "What a practical accounts receivable policy should cover — terms, credit limits, chase stages, disputes, write-offs — and how each maps to Chasa’s tools.",
+    "description": "What a practical accounts receivable policy should cover \u2014 terms, credit limits, chase stages, disputes, write-offs \u2014 and how each maps to docstoc\u2019s tools.",
     "publishedAt": "2026-07-31",
     "category": "Guide"
   },
   {
-    "title": "Chasa vs Chaser, Paidnice, Duefy & More",
+    "title": "docstoc vs Chaser, Paidnice, Duefy & More",
     "slug": "invoice-chase-software-comparison",
     "description": "Side-by-side comparison of invoice chase tools for freelancers and SMBs: price, auto-send vs draft-only, AI drafts, sequences, and tracking.",
     "publishedAt": "2026-07-27",
@@ -16,7 +58,7 @@
   {
     "title": "How to Follow Up on Overdue Invoices",
     "slug": "how-to-follow-up-on-overdue-invoices",
-    "description": "Timing, tone, and email structure for overdue invoice follow-ups — written for freelancers and small teams chasing payment without burning the relationship.",
+    "description": "Timing, tone, and email structure for overdue invoice follow-ups \u2014 written for freelancers and small teams chasing payment without burning the relationship.",
     "publishedAt": "2026-07-20",
     "category": "Guide"
   },

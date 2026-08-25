@@ -1,0 +1,48 @@
+<p>If you have ever wondered who actually issues the certificates behind the padlock in Chrome, you are asking about <strong>certificate authorities (CAs)</strong> — the organizations browsers and operating systems trust to vouch for domains. This guide maps the major CAs worldwide, how market share is usually measured, and what that means if you are choosing SSL/TLS for a small business site.</p>
+
+<h2 id="how-market-share-is-measured">How CA market share is usually measured</h2>
+<p>Public “market share” charts rarely mean the same thing. Researchers typically count <strong>valid certificates observed across large certificate transparency (CT) logs</strong>, or certificates seen on popular websites (Tranco/Alexa-style lists), sometimes filtered to DV-only or excluding free short-lived certs. Numbers move weekly. Treat any percentage as directional, not a purchase decision by itself.</p>
+<ul>
+  <li><strong>CT-log volume</strong> — favors high-volume free CAs (especially Let's Encrypt) because every issuance is logged.</li>
+  <li><strong>Top-site share</strong> — can look different because enterprises still buy DigiCert, Sectigo, GlobalSign, and others for OV/EV and fleets.</li>
+  <li><strong>Reseller channels</strong> — GoDaddy Group and hosting brands often sell another CA’s certificates under their own storefront.</li>
+</ul>
+
+<h2 id="the-big-players">The big players you will see in 2026</h2>
+<h3>Let's Encrypt (ISRG)</h3>
+<p>The nonprofit Internet Security Research Group runs Let's Encrypt — the dominant issuer by raw certificate count for years. It issues free <strong>domain-validated (DV)</strong> certificates, typically short-lived (commonly 90 days, with shorter options evolving). docstoc’s automated SSL/TLS feature issues real Let's Encrypt certificates.</p>
+<h3>DigiCert Group</h3>
+<p>DigiCert is the enterprise heavyweight: OV/EV, warranties, and broader PKI (devices, code signing, S/MIME). It shows strongly on large corporate and regulated sites even when Let's Encrypt leads CT volume.</p>
+<h3>Sectigo (formerly Comodo CA)</h3>
+<p>A major commercial CA sold heavily through resellers — DV through EV, wildcards, and multi-domain products. Common when a host or IT reseller bundles “SSL” as a paid SKU.</p>
+<h3>GlobalSign, Entrust, and other commercial CAs</h3>
+<p>GlobalSign leans enterprise/PKI and IoT. Entrust and similar vendors appear in government and large-org PKI. Share varies by region and vertical more than by blog-chart rank.</p>
+<h3>Google Trust Services, Amazon, Microsoft</h3>
+<p>Cloud providers operate CAs used heavily inside their own clouds and for customer workloads. You may never “buy Google SSL” as a freestanding product, yet their trust roots matter at internet scale.</p>
+<h3>Regional and specialist CAs</h3>
+<p>Examples include <a href="/docstoc-vs-actalis">Actalis</a> (often via European host/reseller channels), <a href="/docstoc-vs-certum">Certum</a>, <a href="/docstoc-vs-secom-trust">Secom Trust</a> (Japan-oriented commercial trust), and national/government CAs. They can dominate locally without topping global CT charts.</p>
+<h3>Free / ACME-oriented brands</h3>
+<p><a href="/docstoc-vs-zerossl">ZeroSSL</a>, <a href="/docstoc-vs-ssl-com">SSL.com</a>’s free ACME tier, and host-integrated free SSL (for example <a href="/docstoc-vs-hostinger-ssl">Hostinger</a> or <a href="/docstoc-vs-cloudflare-ssl">Cloudflare Universal SSL</a>) compete on convenience more than on “who owns the root.” Always ask which CA actually signs the leaf certificate.</p>
+
+
+<aside class="blog-inline-cta" style="margin:28px 0;padding:20px 22px;border:1px solid #e5e7eb;border-radius:12px;background:#fff8f3">
+  <strong style="display:block;margin-bottom:8px">Want SSL/TLS without running certbot?</strong>
+  <p style="margin:0 0 12px;font-size:14.5px;line-height:1.55;color:#4b5563">docstoc issues real Let's Encrypt DV certificates for your domain — one DNS TXT record, automated renewals, next to invoices and documents.</p>
+  <p style="margin:0;font-size:14.5px"><a href="/app/login?start=1"><strong>Try docstoc free →</strong></a> · <a href="/ssl">SSL overview</a> · <a href="/tls">TLS overview</a></p>
+</aside>
+
+<h2 id="what-share-means-for-smbs">What market share means for a small business</h2>
+<p>For a freelancer or SMB marketing site, the browser padlock from a DV Let's Encrypt certificate is the same class of trust users see on millions of other sites. You do <em>not</em> need DigiCert-level share to be “secure enough” for HTTPS. You <em>do</em> need reliable issuance and renewal — which is why automation beats brand prestige for most small teams.</p>
+<p>Choose a commercial CA when you have a real requirement for <strong>OV/EV</strong>, a contractual warranty, code signing, or an enterprise PKI program — not because a pie chart said they are #2.</p>
+
+<h2 id="practical-next-steps">Practical next steps</h2>
+<ul>
+  <li>Compare automation vs dashboards: <a href="/docstoc-vs-letsencrypt">docstoc vs Let's Encrypt DIY</a>, <a href="/docstoc-vs-zerossl">vs ZeroSSL</a>, <a href="/docstoc-vs-digicert">vs DigiCert</a>.</li>
+  <li>If you are leaving a paid CA or free-SSL site, use a <a href="/ssl">switch-from guide from the SSL hub</a>.</li>
+  <li>Check expiry math with the <a href="/tools/ssl-certificate-calculator">SSL expiry calculator</a>.</li>
+</ul>
+
+<h2 id="faq">FAQ</h2>
+<details class="faq-item"><summary>Is Let's Encrypt “less trusted” because it is free?</summary><p>No. Browsers trust Let's Encrypt’s roots like other public CAs for DV HTTPS. Free means automated domain validation at scale, not a weaker padlock for normal websites.</p></details>
+<details class="faq-item"><summary>Why do enterprise sites still buy DigiCert or Sectigo?</summary><p>OV/EV policies, warranties, procurement lists, wildcards at scale, and broader PKI — not because DV Let's Encrypt fails to encrypt traffic.</p></details>
+<details class="faq-item"><summary>Does docstoc run its own CA?</summary><p>No. docstoc automates issuance of real Let's Encrypt DV certificates for your domain inside the same workspace as invoices and documents.</p></details>

@@ -8,3 +8,10 @@ export function normalizePlan(raw: string | null | undefined, isPaid: boolean): 
   if (raw === "pro" || raw === "business" || raw === "free") return raw;
   return isPaid ? "pro" : "free";
 }
+
+/** Custom-domain SSL caps — Pro competes with ZeroSSL Basic (1 domain); Business is multi-domain. */
+export function sslDomainLimit(plan: Plan): number {
+  if (plan === "business") return 25;
+  if (plan === "pro") return 1;
+  return 0;
+}

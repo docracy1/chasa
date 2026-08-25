@@ -188,14 +188,47 @@ body:has(.tool-sell-main) { background: #060504; }
   text-decoration: none;
 }
 .tool-circle-extra a:hover { text-decoration: underline; }
+.tool-circle-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 4px 0;
+  margin: 10px 0 0;
+  max-width: 11.5rem;
+  line-height: 1.45;
+  font-size: 12.5px;
+  font-weight: 700;
+}
+.tool-circle-links a {
+  color: var(--accent);
+  text-decoration: none;
+}
+.tool-circle-links a:hover,
+.tool-circle-links a:focus-visible {
+  text-decoration: underline;
+}
+.tool-circle-links .sep {
+  color: var(--ink-soft);
+  font-weight: 500;
+  margin: 0 0.28em;
+  user-select: none;
+}
 .finder-card.is-hidden { display: none; }
 .tool-panel.is-flash,
-.tool-results.is-flash {
+.tool-results.is-flash,
+.tool-section.is-flash {
   animation: tool-flash 0.9s ease;
 }
 @keyframes tool-flash {
   0%, 100% { box-shadow: none; }
   35% { box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 45%, transparent); }
+}
+.tool-section[id] {
+  scroll-margin-top: 96px;
+}
+a.tool-circle {
+  text-decoration: none;
+  color: inherit;
 }
 .tool-circle-stat {
   font-size: clamp(22px, 4vw, 30px);
@@ -485,12 +518,43 @@ function dropCircle({
     </div>`;
 }
 
-/** Click/keyboard circle that jumps into the page tool (invoice, chase, index). */
-function actionCircle({ action, title, sub, icon, ariaLabel }) {
-  return `<div class="tool-circle is-action" data-tool-action="${action}" tabindex="0" role="button" aria-label="${ariaLabel || title}">
+/** Click/keyboard circle that jumps into the page tool (invoice, chase). Uses a real href so it works even if JS fails. */
+function actionCircle({ action, title, sub, icon, ariaLabel, href }) {
+  const label = ariaLabel || title;
+  if (href) {
+    return `<a class="tool-circle is-action" href="${href}" data-tool-action="${action}" aria-label="${label}">
       <span class="tool-circle-icon" aria-hidden="true">${icon}</span>
       <p class="tool-circle-title">${title}</p>
       <p class="tool-circle-sub">${sub}</p>
+    </a>`;
+  }
+  return `<div class="tool-circle is-action" data-tool-action="${action}" tabindex="0" role="button" aria-label="${label}">
+      <span class="tool-circle-icon" aria-hidden="true">${icon}</span>
+      <p class="tool-circle-title">${title}</p>
+      <p class="tool-circle-sub">${sub}</p>
+    </div>`;
+}
+
+/** Index hero circle — short links to every tool page. */
+function toolsIndexCircle() {
+  const links = [
+    ["Templates", "/tools/template-finder"],
+    ["Hash", "/tools/file-hash-checker"],
+    ["SSL", "/tools/ssl-certificate-calculator"],
+    ["Badges", "/tools/trust-badges"],
+    ["Invoice", "/tools/invoice-generator"],
+    ["Chase", "/tools/invoice-chase-calculator"],
+  ];
+  const linked = links
+    .map(([label, href], i) => {
+      const sep = i === 0 ? "" : `<span class="sep" aria-hidden="true">·</span>`;
+      return `${sep}<a href="${href}">${label}</a>`;
+    })
+    .join("");
+  return `<div class="tool-circle" role="navigation" aria-label="Free tools">
+      <span class="tool-circle-icon" aria-hidden="true">${searchIcon}</span>
+      <p class="tool-circle-title">Choose a tool</p>
+      <p class="tool-circle-links">${linked}</p>
     </div>`;
 }
 
@@ -645,15 +709,9 @@ const toolsIndexMain = `
 ${hero({
   accent: "Free tools.",
   rest: "One workflow.",
-  sub: "Templates, file hash, SSL expiry, trust badges, invoice generator, and chase estimates — tap the circle to jump to the toolkit.",
-  ringInner: actionCircle({
-    action: "index",
-    icon: searchIcon,
-    title: "Choose a tool",
-    sub: "Templates · hash · SSL · invoices · badges",
-    ariaLabel: "Scroll to the list of free tools",
-  }),
-  caption: "Each tool does a different job — pick the one you need below",
+  sub: "Templates, file hash, SSL expiry, trust badges, invoice generator, and chase estimates — open any tool from the circle.",
+  ringInner: toolsIndexCircle(),
+  caption: "Each link opens that tool — cards below have the full descriptions",
   source: "tool_index_hero",
 })}
 <section class="tool-section" id="tool-list">
@@ -852,6 +910,7 @@ ${hero({
     title: "Create an invoice",
     sub: "Add line items · live totals below",
     ariaLabel: "Jump to the invoice generator form",
+    href: "#invoice-builder",
   }),
   caption: "Preview free · shareable /invoice/… link when you create it",
   source: "tool_invoice_generator",
@@ -935,6 +994,7 @@ ${hero({
     title: "Run the calculator",
     sub: "Interest + cash unlocked below",
     ariaLabel: "Jump to the late payment calculator",
+    href: "#chase-calc",
   }),
   caption: "Draft-only AI follow-ups · you stay in control of every send",
   source: "tool_invoice_chase",

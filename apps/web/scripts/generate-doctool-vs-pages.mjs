@@ -180,7 +180,7 @@ function buildJsonLd(c) {
               "@type": "ListItem",
               position: 2,
               name: `docstoc vs ${c.name}`,
-              item: `https://chasa.io/chasa-vs-${c.slug}`,
+              item: `https://chasa.io/docstoc-vs-${c.slug}`,
             },
           ],
         },
@@ -214,10 +214,10 @@ function buildMain(c) {
 
   const tableRows = rows
     .map(
-      ([label, chasaVal, otherVal]) =>
+      ([label, docstocVal, otherVal]) =>
         `          <tr>
             <td>${escapeHtml(label)}</td>
-            <td class="col-chasa">${chasaVal}</td>
+            <td class="col-docstoc">${docstocVal}</td>
             <td>${escapeHtml(otherVal)}</td>
           </tr>`
     )
@@ -240,7 +240,7 @@ function buildMain(c) {
       <thead>
         <tr>
           <th scope="col"></th>
-          <th scope="col" class="col-chasa">docstoc</th>
+          <th scope="col" class="col-docstoc">docstoc</th>
           <th scope="col">${escapeHtml(c.name)}</th>
         </tr>
       </thead>
@@ -260,7 +260,7 @@ ${tableRows}
 mkdirSync(publicDir, { recursive: true });
 
 for (const c of COMPETITORS) {
-  const slug = `chasa-vs-${c.slug}`;
+  const slug = `docstoc-vs-${c.slug}`;
   const title = `docstoc vs ${c.name} — Free Document Templates &amp; AI Chasing | docstoc`;
   const description = `docstoc vs ${c.name}: pricing, free document templates, AI invoice chasing, and document certification compared side by side.`;
 

@@ -1,0 +1,43 @@
+<p>Not every “SSL company” is the same kind of organization. Some are nonprofit public CAs, some are commercial CAs, some are cloud trust services, and some are just storefronts reselling someone else’s certificates. This article breaks down the main CA categories, with honest pros and cons for small businesses.</p>
+
+<h2 id="public-trusted-cas">Publicly trusted CAs</h2>
+<p>These CAs have roots in major browser and OS trust stores. A certificate they issue can validate on the public internet without installing a private root. Let's Encrypt, DigiCert, Sectigo, GlobalSign, and most host-sold SSL products sit here (sometimes via intermediate chains).</p>
+<p><strong>Pros:</strong> Works everywhere visitors already trust. No custom root install. Clear path to HTTPS for customers.</p>
+<p><strong>Cons:</strong> Must follow CA/Browser Forum rules, CT logging, and revocation expectations. Mis-issuance can trigger distrust events (rare but industry-defining).</p>
+
+<h2 id="private-cas">Private / internal CAs</h2>
+<p>Enterprises run private CAs for intranet apps, mTLS between services, or device identity. Browsers on the public internet will <em>not</em> trust these unless the private root is deployed to every client.</p>
+<p><strong>Pros:</strong> Full control, custom policies, no public CT exposure of internal names.</p>
+<p><strong>Cons:</strong> Useless for a public marketing site unless you control every visitor’s trust store — which you do not.</p>
+
+<h2 id="nonprofit-vs-commercial">Nonprofit vs commercial public CAs</h2>
+<h3>Nonprofit / community (e.g. Let's Encrypt)</h3>
+<p><strong>Pros:</strong> Free DV, excellent ACME automation story, huge ecosystem. <strong>Cons:</strong> DV-focused; no commercial OV/EV warranty product; short lifetimes by design.</p>
+<h3>Commercial CAs (DigiCert, Sectigo, GlobalSign, Certum, Actalis, …)</h3>
+<p><strong>Pros:</strong> OV/EV, support contracts, wildcards, insurance narratives, reseller programs. <strong>Cons:</strong> Cost, paperwork, renewal pricing games (especially reseller intros), slower for simple DV needs.</p>
+
+
+<aside class="blog-inline-cta" style="margin:28px 0;padding:20px 22px;border:1px solid #e5e7eb;border-radius:12px;background:#fff8f3">
+  <strong style="display:block;margin-bottom:8px">Want SSL/TLS without running certbot?</strong>
+  <p style="margin:0 0 12px;font-size:14.5px;line-height:1.55;color:#4b5563">docstoc issues real Let's Encrypt DV certificates for your domain — one DNS TXT record, automated renewals, next to invoices and documents.</p>
+  <p style="margin:0;font-size:14.5px"><a href="/app/login?start=1"><strong>Try docstoc free →</strong></a> · <a href="/ssl">SSL overview</a> · <a href="/tls">TLS overview</a></p>
+</aside>
+
+<h2 id="cloud-and-edge">Cloud and edge “SSL” that is still a CA chain</h2>
+<p><a href="/docstoc-vs-cloudflare-ssl">Cloudflare Universal SSL</a> encrypts visitor↔edge when you proxy through Cloudflare. Host panels (e.g. <a href="/docstoc-vs-hostinger-ssl">Hostinger</a>) often automate Let's Encrypt for sites on that host. Pros: one-click if you already live there. Cons: architecture lock-in; not always the right control plane if your domain is elsewhere.</p>
+
+<h2 id="resellers-vs-cas">Resellers vs authorities</h2>
+<p>Buying “GoDaddy SSL” or a host SSL add-on often means a commercial CA certificate sold through a storefront. Pros: bundled support. Cons: you may pay retail markup and face renewal spikes — see <a href="/docstoc-vs-godaddy-ssl">docstoc vs GoDaddy SSL</a>.</p>
+
+<h2 id="how-to-choose">How to choose without overbuying</h2>
+<ol>
+  <li>Need a public website padlock? → Public DV (Let's Encrypt via automation is enough for most SMBs).</li>
+  <li>Need organization-validated trust for procurement? → Commercial OV/EV CA.</li>
+  <li>Need intranet-only trust? → Private CA (not docstoc, not Let's Encrypt public DV alone).</li>
+  <li>Already on Cloudflare/Hostinger and happy? → Keep their SSL; add docstoc when you want platform-bundled automation outside that host.</li>
+</ol>
+<p>Read the companion pieces on <a href="/blog/types-of-ssl-certificates/">SSL certificate types</a> and <a href="/blog/acme-protocol-certificate-automation/">ACME automation</a> next.</p>
+
+<h2 id="faq">FAQ</h2>
+<details class="faq-item"><summary>Is a commercial CA more secure for DV?</summary><p>For encrypting traffic to a domain-validated name, no meaningful “more secure” story — validation class and key hygiene matter more than the logo on the receipt.</p></details>
+<details class="faq-item"><summary>When is OV/EV worth it?</summary><p>When a partner, bank, or policy explicitly requires organization validation — not because a salesperson said EV looks more trustworthy in the address bar (modern browsers largely de-emphasized EV UI).</p></details>

@@ -188,14 +188,47 @@ body:has(.tool-sell-main) { background: #060504; }
   text-decoration: none;
 }
 .tool-circle-extra a:hover { text-decoration: underline; }
+.tool-circle-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 4px 0;
+  margin: 10px 0 0;
+  max-width: 11.5rem;
+  line-height: 1.45;
+  font-size: 12.5px;
+  font-weight: 700;
+}
+.tool-circle-links a {
+  color: var(--accent);
+  text-decoration: none;
+}
+.tool-circle-links a:hover,
+.tool-circle-links a:focus-visible {
+  text-decoration: underline;
+}
+.tool-circle-links .sep {
+  color: var(--ink-soft);
+  font-weight: 500;
+  margin: 0 0.28em;
+  user-select: none;
+}
 .finder-card.is-hidden { display: none; }
 .tool-panel.is-flash,
-.tool-results.is-flash {
+.tool-results.is-flash,
+.tool-section.is-flash {
   animation: tool-flash 0.9s ease;
 }
 @keyframes tool-flash {
   0%, 100% { box-shadow: none; }
   35% { box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 45%, transparent); }
+}
+.tool-section[id] {
+  scroll-margin-top: 96px;
+}
+a.tool-circle {
+  text-decoration: none;
+  color: inherit;
 }
 .tool-circle-stat {
   font-size: clamp(22px, 4vw, 30px);
@@ -589,13 +622,13 @@ body:has(.tool-sell-main) { background: #060504; }
   <div class="tool-hero-inner">
     <div class="tool-hero-pill" aria-hidden="true"></div>
     <h1><span class="accent">Free tools.</span><br>One workflow.</h1>
-    <p class="tool-hero-sub">Templates, file hash, SSL expiry, trust badges, invoice generator, and chase estimates — tap the circle to jump to the toolkit.</p>
-    <div class="tool-ring"><div class="tool-circle is-action" data-tool-action="index" tabindex="0" role="button" aria-label="Scroll to the list of free tools">
+    <p class="tool-hero-sub">Templates, file hash, SSL expiry, trust badges, invoice generator, and chase estimates — open any tool from the circle.</p>
+    <div class="tool-ring"><div class="tool-circle" role="navigation" aria-label="Free tools">
       <span class="tool-circle-icon" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg></span>
       <p class="tool-circle-title">Choose a tool</p>
-      <p class="tool-circle-sub">Templates · hash · SSL · invoices · badges</p>
+      <p class="tool-circle-links"><a href="/tools/template-finder">Templates</a><span class="sep" aria-hidden="true">·</span><a href="/tools/file-hash-checker">Hash</a><span class="sep" aria-hidden="true">·</span><a href="/tools/ssl-certificate-calculator">SSL</a><span class="sep" aria-hidden="true">·</span><a href="/tools/trust-badges">Badges</a><span class="sep" aria-hidden="true">·</span><a href="/tools/invoice-generator">Invoice</a><span class="sep" aria-hidden="true">·</span><a href="/tools/invoice-chase-calculator">Chase</a></p>
     </div></div>
-    <p class="tool-caption">Each tool does a different job — pick the one you need below</p>
+    <p class="tool-caption">Each link opens that tool — cards below have the full descriptions</p>
     <form class="tool-signup" action="/app/login" method="get">
   <input type="hidden" name="start" value="1" />
   <input class="tool-signup-input" type="email" name="email" autocomplete="email" placeholder="Enter your work email" aria-label="Enter your work email" required />
@@ -652,11 +685,11 @@ body:has(.tool-sell-main) { background: #060504; }
     </div>
     <div class="site-footer-col">
       <h4 data-i18n="footer.compareCol">Compare</h4>
-      <a href="../chasa-vs-chaser" data-i18n="footer.vsChaser">vs Chaser</a>
-      <a href="../chasa-vs-paidnice" data-i18n="footer.vsPaidnice">vs Paidnice</a>
-      <a href="../chasa-vs-duefy" data-i18n="footer.vsDuefy">vs Duefy</a>
-      <a href="../chasa-vs-satago" data-i18n="footer.vsSatago">vs Satago</a>
-      <a href="../chasa-vs-chaseai" data-i18n="footer.vsChaseai">vs ChaseAI</a>
+      <a href="../docstoc-vs-chaser" data-i18n="footer.vsChaser">vs Chaser</a>
+      <a href="../docstoc-vs-paidnice" data-i18n="footer.vsPaidnice">vs Paidnice</a>
+      <a href="../docstoc-vs-duefy" data-i18n="footer.vsDuefy">vs Duefy</a>
+      <a href="../docstoc-vs-satago" data-i18n="footer.vsSatago">vs Satago</a>
+      <a href="../docstoc-vs-chaseai" data-i18n="footer.vsChaseai">vs ChaseAI</a>
       <a href="../switch-to-chasa" data-i18n="footer.switch">Switch to docstoc</a>
     </div>
     <div class="site-footer-col">

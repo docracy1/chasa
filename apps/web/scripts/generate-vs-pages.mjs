@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * Generates one dedicated "docstoc vs {Competitor}" SEO landing page per competitor, so each can
- * rank for its own "chasa vs X" / "X alternative" search query instead of sharing a section on
+ * rank for its own "docstoc vs X" / "X alternative" search query instead of sharing a section on
  * the single big /blog/invoice-chase-software-comparison/ post. Figures below are the same
  * vetted numbers already published on that post — not re-derived, just reused per-competitor.
  * Run: node apps/web/scripts/generate-vs-pages.mjs
@@ -569,7 +569,7 @@ function buildJsonLd(c) {
               "@type": "ListItem",
               position: 2,
               name: `docstoc vs ${c.name}`,
-              item: `https://chasa.io/chasa-vs-${c.slug}`,
+              item: `https://chasa.io/docstoc-vs-${c.slug}`,
             },
           ],
         },
@@ -607,10 +607,10 @@ function buildMain(c) {
 
   const tableRows = rows
     .map(
-      ([label, chasaVal, otherVal]) =>
+      ([label, docstocVal, otherVal]) =>
         `          <tr>
             <td>${escapeHtml(label)}</td>
-            <td class="col-chasa">${chasaVal}</td>
+            <td class="col-docstoc">${docstocVal}</td>
             <td>${escapeHtml(otherVal)}</td>
           </tr>`
     )
@@ -633,7 +633,7 @@ function buildMain(c) {
       <thead>
         <tr>
           <th scope="col"></th>
-          <th scope="col" class="col-chasa">docstoc</th>
+          <th scope="col" class="col-docstoc">docstoc</th>
           <th scope="col">${escapeHtml(c.name)}</th>
         </tr>
       </thead>
@@ -657,7 +657,7 @@ ${tableRows}
 mkdirSync(publicDir, { recursive: true });
 
 for (const c of COMPETITORS) {
-  const slug = `chasa-vs-${c.slug}`;
+  const slug = `docstoc-vs-${c.slug}`;
   const title = `docstoc vs ${c.name} — Which Invoice Chase Tool Fits? | docstoc`;
   const description = `docstoc vs ${c.name}: price, auto-send vs draft-only, AI drafts, and tracking compared side by side — pick the right invoice chase tool for a freelancer or small team.`;
 

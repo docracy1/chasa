@@ -28,7 +28,7 @@ export const en = {
   "nav.mega.products.chasing.title": "AI invoice chasing",
   "nav.mega.products.chasing.desc": "Tone-matched follow-up drafts for overdue invoices.",
   "nav.revivalBadge": "docstoc is back",
-  "nav.revivalBadgeSub": "the automation layer — watch the story",
+  "nav.revivalBadgeSub": "the trust automation layer — watch the story",
   "nav.about": "About",
   "nav.signIn": "Sign in",
   "nav.tryFree": "Try free",
@@ -96,7 +96,7 @@ export const en = {
   "nav.mega.resource.contact.desc": "Questions before you sign up? Ask us.",
 
   "footer.tagline":
-    "Free AI invoice follow-ups — paste unpaid invoices, get the reminder email already written.",
+    "The Trust Automation Layer for Modern Business — agreements, invoicing, domain security, and AI collections in one platform.",
   "footer.product": "Product",
   "footer.company": "Company",
   "footer.legal": "Legal",
@@ -133,9 +133,10 @@ export const en = {
   "a11y.included": "Included",
   "a11y.notIncluded": "Not included",
 
-  "home.hero.title": "Get paid faster.\nAI writes the chase — you stay in control.",
+  "home.hero.title":
+    '<span class="hero-slab-accent">The Trust Automation Layer</span><br>for Modern Business',
   "home.hero.sub":
-    "One place to draft from free business & legal templates, generate and send invoices, certify any document, automate SSL for your domain, and chase overdue invoices with AI — you stay in control of every send.",
+    "Stop juggling fragmented tools. One unified platform handles your entire lifecycle of trust—from legally binding agreements and automated invoicing to domain security and AI-driven collections.",
   "home.hero.ctaPrimary": "Try free",
   "home.hero.startFree": "Start free →",
   "home.hero.emailPlaceholder": "Enter your work email",
@@ -173,7 +174,7 @@ export const en = {
   "chat.close": "Close chat",
 
   "home.how.title": "How it works",
-  "home.how.sub": "One place for the paperwork side of running a business, start to finish.",
+  "home.how.sub": "One unified platform for the full lifecycle of trust — from draft to payment to proof.",
   "home.how.step1.title": "Draft from a free template",
   "home.how.step1.body": "488+ free business & legal templates — contracts, agreements, notices. Copy and go.",
   "home.how.step2.title": "Certify what you send",
@@ -212,7 +213,8 @@ export const en = {
   "home.why.templates.title": "Templates included",
   "home.why.templates.body": "488+ free business & legal templates, plus 18 invoice follow-up emails — copy anytime.",
   "home.why.control.title": "You stay in control",
-  "home.why.control.body": "We never email your clients. You send every message.",
+  "home.why.control.body":
+    "Every send, signature, and security policy requires your green light — we just remove the friction.",
 
   "home.templates.title": "Free templates for every part of the business",
   "home.templates.sub":
@@ -438,7 +440,7 @@ export const es = {
   "nav.mega.products.chasing.title": "Seguimiento de facturas con IA",
   "nav.mega.products.chasing.desc": "Borradores de seguimiento con tono ajustado para facturas vencidas.",
   "nav.revivalBadge": "docstoc ha vuelto",
-  "nav.revivalBadgeSub": "la capa de automatización — mira la historia",
+  "nav.revivalBadgeSub": "la capa de automatización de confianza — mira la historia",
   "nav.about": "Nosotros",
   "nav.signIn": "Iniciar sesión",
   "nav.tryFree": "Probar gratis",
@@ -506,7 +508,7 @@ export const es = {
   "nav.mega.resource.contact.desc": "¿Dudas antes de registrarte? Pregúntanos.",
 
   "footer.tagline":
-    "Seguimientos de facturas con IA gratis — pega facturas impagas y recibe el correo de recordatorio ya redactado.",
+    "La capa de automatización de confianza para el negocio moderno — acuerdos, facturación, seguridad de dominio y cobros con IA en una sola plataforma.",
   "footer.product": "Producto",
   "footer.company": "Empresa",
   "footer.legal": "Legal",
@@ -543,9 +545,10 @@ export const es = {
   "a11y.included": "Incluido",
   "a11y.notIncluded": "No incluido",
 
-  "home.hero.title": "Cobra más rápido.\nLa IA escribe el seguimiento — tú mantienes el control.",
+  "home.hero.title":
+    '<span class="hero-slab-accent">La capa de automatización de confianza</span><br>para el negocio moderno',
   "home.hero.sub":
-    "Un solo lugar para redactar desde plantillas gratis de negocios y legales, generar y enviar facturas, certificar cualquier documento, automatizar el SSL de tu dominio, y dar seguimiento a facturas vencidas con IA — tú mantienes el control de cada envío.",
+    "Deja de hacer malabares con herramientas fragmentadas. Una plataforma unificada gestiona todo el ciclo de confianza—desde acuerdos legalmente vinculantes y facturación automatizada hasta seguridad de dominio y cobros impulsados por IA.",
   "home.hero.ctaPrimary": "Probar gratis",
   "home.hero.startFree": "Empezar gratis →",
   "home.hero.emailPlaceholder": "Tu email de trabajo",
@@ -583,7 +586,7 @@ export const es = {
   "chat.close": "Cerrar chat",
 
   "home.how.title": "Cómo funciona",
-  "home.how.sub": "Un solo lugar para el papeleo de tu negocio, de principio a fin.",
+  "home.how.sub": "Una plataforma unificada para todo el ciclo de confianza — del borrador al pago y a la prueba.",
   "home.how.step1.title": "Redacta desde una plantilla gratis",
   "home.how.step1.body": "488+ plantillas gratis de negocios y legales — contratos, acuerdos, avisos. Copia y listo.",
   "home.how.step2.title": "Certifica lo que envías",
@@ -626,7 +629,8 @@ export const es = {
   "home.why.templates.body":
     "488+ plantillas gratis de negocios y legales, más 18 correos de seguimiento de facturas — copia cuando quieras.",
   "home.why.control.title": "Tú tienes el control",
-  "home.why.control.body": "Nunca enviamos correos a tus clientes. Tú envías cada mensaje.",
+  "home.why.control.body":
+    "Cada envío, firma y política de seguridad necesita tu luz verde — nosotros solo quitamos la fricción.",
 
   "home.templates.title": "Plantillas gratis para cada parte del negocio",
   "home.templates.sub":
