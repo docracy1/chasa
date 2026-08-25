@@ -45,7 +45,7 @@ export function UsageBar({ usedCount, atLimit, isPaid, isSignedIn }: UsageBarPro
             track("upgrade_clicked", { source: "quota_wall", signedIn: isSignedIn });
           }}
         >
-          {t("usage.upgradeSolo")}
+          {t("usage.upgradePro")}
         </Link>
         {!isSignedIn && (
           <Link

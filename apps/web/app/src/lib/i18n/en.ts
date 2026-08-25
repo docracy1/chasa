@@ -244,7 +244,7 @@ const en: Messages = {
   "usage.wallTitle": "You've written {{limit}} chase emails this month",
   "usage.wallBody":
     "That's the free monthly cap. Pro lifts it entirely — unlimited drafts, plus soften and firm-up rewrites, chase plans with calendar dates, and saved clients.",
-  "usage.upgradeSolo": "Upgrade to Pro — $14.99/mo",
+  "usage.upgradePro": "Upgrade to Pro — $14.99/mo",
   "usage.orSignIn": "or sign in free to keep your drafts",
   "usage.resetNote": "Free drafts reset on the 1st. Your invoices stay on this device either way.",
 

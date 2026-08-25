@@ -248,7 +248,7 @@ const es: Messages = {
   "usage.wallTitle": "Ya escribiste {{limit}} correos de seguimiento este mes",
   "usage.wallBody":
     "Ese es el límite gratis mensual. Pro lo elimina por completo — borradores ilimitados, más suavizar y endurecer, planes de seguimiento con fechas y clientes guardados.",
-  "usage.upgradeSolo": "Pasar a Pro — $14.99/mes",
+  "usage.upgradePro": "Pasar a Pro — $14.99/mes",
   "usage.orSignIn": "o inicia sesión gratis para conservar tus borradores",
   "usage.resetNote":
     "Los borradores gratis se reinician el día 1. Tus facturas se quedan en este dispositivo de todos modos.",
