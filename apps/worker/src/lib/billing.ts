@@ -2,8 +2,8 @@ import type { Env } from "../types";
 
 // Renamed from the original 4-tier scheme (free/solo/pro/enterprise) to a 3-tier one
 // (free/pro/business): old "solo" is now called "pro" ($14.99/mo), and old "pro" + "enterprise"
-// are merged into "business" ($39/mo) — the enterprise Stripe price (previously a one-time
-// custom/yearly price) is being converted to that same $39/mo recurring price, so new "business"
+// are merged into "business" ($39.99/mo) — the enterprise Stripe price (previously a one-time
+// custom/yearly price) is being converted to that same $39.99/mo recurring price, so new "business"
 // checkouts point at STRIPE_PRICE_ENTERPRISE, not STRIPE_PRICE_PRO. STRIPE_PRICE_PRO is kept only
 // so existing subscribers still on that price continue to resolve correctly (see
 // planFromPriceId) — no new checkout ever points at it.

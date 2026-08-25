@@ -182,7 +182,7 @@ const en: Messages = {
   "account.checkoutCancel": "Checkout cancelled. You can try again anytime.",
   "account.subscription": "Subscription",
   "account.upgradePro": "Upgrade to Pro — $14.99/mo",
-  "account.upgradeBusiness": "Upgrade to Business — $39/mo",
+  "account.upgradeBusiness": "Upgrade to Business — $39.99/mo",
   "account.manageBilling": "Manage billing",
   "account.digestTitle": "Daily chase digest",
   "account.digestBody":
@@ -197,7 +197,7 @@ const en: Messages = {
   "account.featPro":
     "Pro ($14.99/mo): unlimited AI, PDF/cloud import, branding, webhooks, team, digest, Zapier/API",
   "account.featBusiness":
-    "Business ($39/mo): smart reply, risk score, demand letter, evidence pack, custom certificate branding, free SSL automation for your domain",
+    "Business ($39.99/mo): smart reply, risk score, demand letter, evidence pack, custom certificate branding, free SSL automation for your domain",
   "account.businessNudge":
     "Upgrade to Business for AI reply classification and formal overdue / collection-notice letters.",
   "account.signOut": "Sign out",
@@ -339,7 +339,7 @@ const en: Messages = {
   "invoice.sequenceSub": "Pro+ · calendar dates",
   "invoice.unlockSoloPlans": "Unlock chase plans on Pro ($14.99/mo) →",
   "invoice.unlockAiTools": "Unlock AI tools from Pro ($14.99/mo) →",
-  "invoice.unlockProReply": "Smart reply on Business ($39/mo) →",
+  "invoice.unlockProReply": "Smart reply on Business ($39.99/mo) →",
   "invoice.unlockDemandLetter": "Demand letter on Pro →",
   "invoice.unlockEvidence": "Evidence pack on Pro →",
   "invoice.inDaysOne": "In {{days}} day",
@@ -386,7 +386,7 @@ const en: Messages = {
   "connector.accountingStep": "Accounting — connect QuickBooks Online or Xero → import overdue invoices",
   "connector.zapierStep": "Zapier / API — push overdue invoices from FreshBooks, Wave, Zoho, and more into a chase draft",
   "connector.afterImport": "After import, open the Tool to generate AI follow-ups.",
-  "connector.upgradeNudge": "Cloud storage and API keys are on Pro ($14.99) and Business ($39).",
+  "connector.upgradeNudge": "Cloud storage and API keys are on Pro ($14.99) and Business ($39.99).",
   "connector.upgradeLink": "Upgrade",
   "connector.allTested": "All four cloud connectors tested OK.",
   "connector.showChecklist": "Show checklist",
@@ -623,7 +623,7 @@ const en: Messages = {
   "connector.apiHow3": "Point Zapier at POST /api/v1/chase/draft with Authorization: Bearer …",
   "connector.apiHow4": "Open drafted follow-ups in the Tool and send from your inbox",
   "connector.apiUpgrade":
-    "Zapier / Make API keys are on Pro ($14.99) and Business ($39).",
+    "Zapier / Make API keys are on Pro ($14.99) and Business ($39.99).",
   "connector.creating": "Creating…",
   "connector.createTestKey": "Create test key",
   "connector.freshbooksZap": "FreshBooks Zap",

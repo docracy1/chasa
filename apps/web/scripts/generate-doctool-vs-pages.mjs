@@ -62,7 +62,7 @@ const COMPETITORS = [
     coreStrength: "Client-facing branded portal, scheduler, lead-capture forms",
     freeTier: "Trial only — no free plan",
     summary:
-      "HoneyBook is built for creative and service-based solopreneurs who want a branded client portal with scheduling, lead forms, and payment automations in one place. Its entry price ($29/mo annual, $36/mo month-to-month) is well above docstoc's Pro tier ($14.99/mo) or even Business ($39/mo), and it has no AI-drafted invoice chasing, no public document-template library, and no certification feature. docstoc is narrower in client-acquisition tooling but adds those three things HoneyBook doesn't have.",
+      "HoneyBook is built for creative and service-based solopreneurs who want a branded client portal with scheduling, lead forms, and payment automations in one place. Its entry price ($29/mo annual, $36/mo month-to-month) is well above docstoc's Pro tier ($14.99/mo) or even Business ($39.99/mo), and it has no AI-drafted invoice chasing, no public document-template library, and no certification feature. docstoc is narrower in client-acquisition tooling but adds those three things HoneyBook doesn't have.",
     faq: [
       {
         q: "Is docstoc a HoneyBook alternative?",

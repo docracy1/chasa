@@ -34,7 +34,7 @@ link; (3) tamper-evident document certificates — hash any file in your browser
 verification link anchored to the Bitcoin blockchain via OpenTimestamps, free; (4) free SSL/TLS
 automation for your own domain, plus AI-drafted invoice follow-up emails (warm at 1-7 days
 overdue, firmer at 30+) that users copy and send from their own inbox — docstoc never sends on
-their behalf. Pro plan is a flat $14.99/mo per workspace (Business $39/mo); the free tier works with no
+their behalf. Pro plan is a flat $14.99/mo per workspace (Business $39.99/mo); the free tier works with no
 signup (18 templates + 5 AI chase drafts/month).
 `.trim();
 

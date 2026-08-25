@@ -109,7 +109,7 @@ billing.post("/checkout", requireAccount, async (c) => {
   }
 
   // Pro is a recurring subscription. Business's Stripe price (STRIPE_PRICE_ENTERPRISE, being
-  // converted from a one-time price to a $39/mo recurring one) is detected dynamically here —
+  // converted from a one-time price to a $39.99/mo recurring one) is detected dynamically here —
   // whichever it currently is in Stripe decides the checkout mode, no code change needed either way.
   const mode = priceLookup.price.type === "recurring" ? "subscription" : "payment";
 

@@ -345,7 +345,7 @@ export const requireAccount: MiddlewareHandler<AuthEnv> = async (c, next) => {
 };
 
 /**
- * Pro ($14.99) / Business ($39) — any paid plan.
+ * Pro ($14.99) / Business ($39.99) — any paid plan.
  * Use for connectors, webhooks, branding, chase plans, tracking, team, QBO/Xero, SMS drafts.
  * Do NOT gate those to requireProAccount — parity features are Pro+.
  */

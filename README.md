@@ -46,7 +46,7 @@ Requests that arrive without a trusted origin — provider OAuth callbacks hitti
 |------|-------|-----------|------------|-------|
 | **Free** | $0 | **5 / month** (server-enforced) | 1 (owner only) | No signup required for drafts; sign in to upgrade |
 | **Pro** | **$14.99 / mo** | Unlimited | **5** (owner + invites) | Flat workspace fee — not per-seat; most popular |
-| **Business** | **$39 / mo** | Unlimited | **20** | Smart reply, risk score, demand letters, cert branding, SSL automation |
+| **Business** | **$39.99 / mo** | Unlimited | **20** | Smart reply, risk score, demand letters, cert branding, SSL automation |
 
 Stripe price IDs live in `apps/worker/wrangler.toml` as `STRIPE_PRICE_SOLO` (maps to Pro), `STRIPE_PRICE_PRO` / `STRIPE_PRICE_ENTERPRISE` (map to Business; non-secret). Billing portal and webhooks update `accounts.plan` and `is_paid`.
 
@@ -259,7 +259,7 @@ Protects `/api/auth/request` and admin login.
 
 1. `cd apps/worker && wrangler d1 create chasa-db` — paste `database_id` into `wrangler.toml`
 2. `wrangler d1 migrations apply chasa-db --remote`
-3. **Stripe (test mode first):** create two recurring Prices (Pro $14.99, Business $39). Copy `price_…` IDs into `wrangler.toml`:
+3. **Stripe (test mode first):** create two recurring Prices (Pro $14.99, Business $39.99). Copy `price_…` IDs into `wrangler.toml`:
    - `STRIPE_PRICE_SOLO`, `STRIPE_PRICE_PRO`, `STRIPE_PRICE_ENTERPRISE`
 4. `wrangler secret put TOKEN_SECRET` — `openssl rand -hex 32`
 5. `wrangler secret put STRIPE_SECRET_KEY` (test key first)

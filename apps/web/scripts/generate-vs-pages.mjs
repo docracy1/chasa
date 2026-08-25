@@ -175,7 +175,7 @@ const COMPETITORS = [
     paymentPortal: "✗",
     freeTier: "Free plan",
     summary:
-      "ChaseAI now matches docstoc on price ($14.99/mo Pro, $39/mo Business) and also targets freelancers, but it's chasing-only: it auto-sends the AI draft on a schedule rather than handing it back to you first, and it has no native QuickBooks/Xero sync (PDF/manual import only). docstoc keeps every message draft-only, adds Pro+ OAuth sync to QuickBooks Online and Xero, and the same subscription also includes free business & legal document templates, document certification, and (on Business) free SSL automation for your own domain.",
+      "ChaseAI now matches docstoc on price ($14.99/mo Pro, $39.99/mo Business) and also targets freelancers, but it's chasing-only: it auto-sends the AI draft on a schedule rather than handing it back to you first, and it has no native QuickBooks/Xero sync (PDF/manual import only). docstoc keeps every message draft-only, adds Pro+ OAuth sync to QuickBooks Online and Xero, and the same subscription also includes free business & legal document templates, document certification, and (on Business) free SSL automation for your own domain.",
     faq: [
       {
         q: "Is docstoc a ChaseAI alternative?",
@@ -183,7 +183,7 @@ const COMPETITORS = [
       },
       {
         q: "Is docstoc cheaper than ChaseAI?",
-        a: "No — ChaseAI Starter is $9/mo; docstoc Pro is $14.99/mo (Business $39/mo). The difference is scope, not price: docstoc's subscription also covers native accounting sync, free document templates, and document certification, which ChaseAI's chasing-only product doesn't include.",
+        a: "No — ChaseAI Starter is $9/mo; docstoc Pro is $14.99/mo (Business $39.99/mo). The difference is scope, not price: docstoc's subscription also covers native accounting sync, free document templates, and document certification, which ChaseAI's chasing-only product doesn't include.",
       },
       {
         q: "Does ChaseAI connect to QuickBooks or Xero?",

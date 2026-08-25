@@ -184,7 +184,7 @@ const es: Messages = {
   "account.checkoutCancel": "Pago cancelado. Puedes intentarlo de nuevo cuando quieras.",
   "account.subscription": "Suscripción",
   "account.upgradePro": "Pasar a Pro — $14.99/mes",
-  "account.upgradeBusiness": "Pasar a Business — $39/mes",
+  "account.upgradeBusiness": "Pasar a Business — $39.99/mes",
   "account.manageBilling": "Gestionar facturación",
   "account.digestTitle": "Resumen diario de seguimientos",
   "account.digestBody":
@@ -199,7 +199,7 @@ const es: Messages = {
   "account.featPro":
     "Pro ($14.99/mes): IA ilimitada, importar PDF/nube, marca, webhooks, equipo, resumen, Zapier/API",
   "account.featBusiness":
-    "Business ($39/mes): respuesta inteligente, riesgo, carta de cobro, paquete de evidencias, marca personalizada en certificados, SSL automático para tu dominio",
+    "Business ($39.99/mes): respuesta inteligente, riesgo, carta de cobro, paquete de evidencias, marca personalizada en certificados, SSL automático para tu dominio",
   "account.businessNudge":
     "Pasa a Business para clasificación de respuestas con IA y cartas formales de cobro.",
   "account.signOut": "Cerrar sesión",
@@ -345,7 +345,7 @@ const es: Messages = {
   "invoice.sequenceSub": "Pro+ · fechas en calendario",
   "invoice.unlockSoloPlans": "Desbloquea planes de seguimiento en Pro ($14.99/mes) →",
   "invoice.unlockAiTools": "Desbloquea herramientas de IA en Pro ($14.99/mes) →",
-  "invoice.unlockProReply": "Respuesta inteligente en Business ($39/mes) →",
+  "invoice.unlockProReply": "Respuesta inteligente en Business ($39.99/mes) →",
   "invoice.unlockDemandLetter": "Carta de requerimiento en Pro →",
   "invoice.unlockEvidence": "Paquete de evidencia en Pro →",
   "invoice.inDaysOne": "En {{days}} día",
@@ -396,7 +396,7 @@ const es: Messages = {
     "Zapier / API — envía facturas vencidas desde FreshBooks, Wave, Zoho y más a un borrador de seguimiento",
   "connector.afterImport": "Después de importar, abre la Herramienta para generar seguimientos con IA.",
   "connector.upgradeNudge":
-    "Almacenamiento en la nube y claves API están en Pro ($14.99) y Business ($39).",
+    "Almacenamiento en la nube y claves API están en Pro ($14.99) y Business ($39.99).",
   "connector.upgradeLink": "Mejorar plan",
   "connector.allTested": "Los cuatro conectores de nube probaron OK.",
   "connector.showChecklist": "Mostrar lista",
@@ -634,7 +634,7 @@ const es: Messages = {
   "connector.apiHow3": "Apunta Zapier a POST /api/v1/chase/draft con Authorization: Bearer …",
   "connector.apiHow4": "Abre los seguimientos redactados en la Herramienta y envía desde tu bandeja",
   "connector.apiUpgrade":
-    "Las claves API de Zapier / Make están en Pro ($14.99) y Business ($39).",
+    "Las claves API de Zapier / Make están en Pro ($14.99) y Business ($39.99).",
   "connector.creating": "Creando…",
   "connector.createTestKey": "Crear clave de prueba",
   "connector.freshbooksZap": "Zap FreshBooks",

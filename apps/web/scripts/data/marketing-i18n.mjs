@@ -315,7 +315,7 @@ export const en = {
     "An AI invoice follow-up tool. Paste unpaid invoices and get payment reminder emails written in the right tone for how late each one is.",
   "home.faq.q2": "Do I need an account?",
   "home.faq.a2":
-    'No — Free works without signup (5 AI drafts per month + templates). Sign in to upgrade to Pro ($14.99/mo) or Business ($39/mo).',
+    'No — Free works without signup (5 AI drafts per month + templates). Sign in to upgrade to Pro ($14.99/mo) or Business ($39.99/mo).',
   "home.faq.q3": "Does docstoc send emails for me?",
   "home.faq.a3":
     "No. You copy the draft into your own inbox (or open a mailto link). Clients hear from you, not from us.",
@@ -727,7 +727,7 @@ export const es = {
     "Una herramienta de seguimiento de facturas con IA. Pega facturas impagas y recibe correos de recordatorio de pago redactados con el tono correcto según cuánto llevan de retraso.",
   "home.faq.q2": "¿Necesito una cuenta?",
   "home.faq.a2":
-    'No — Gratis funciona sin registro (5 borradores con IA al mes + plantillas). Inicia sesión para pasar a Pro ($14.99/mes) o Business ($39/mes).',
+    'No — Gratis funciona sin registro (5 borradores con IA al mes + plantillas). Inicia sesión para pasar a Pro ($14.99/mes) o Business ($39.99/mes).',
   "home.faq.q3": "¿docstoc envía correos por mí?",
   "home.faq.a3":
     "No. Copias el borrador en tu propia bandeja (o abres un enlace mailto). Tus clientes te escuchan a ti, no a nosotros.",
