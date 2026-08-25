@@ -260,33 +260,25 @@
               parsed.days +
               " days.";
           }
+          if (title) title.textContent = "Expiry set";
+          if (sub) {
+            const expEl = scope.querySelector("[data-ssl-out-expiry]");
+            sub.textContent = expEl && expEl.textContent !== "—" ? "Expires " + expEl.textContent : parsed.days + " day validity";
+          }
+          const calc = scope.querySelector("[data-calc='ssl-expiry']");
+          if (calc) {
+            calc.scrollIntoView({ behavior: "smooth", block: "nearest" });
+            const results = calc.querySelector(".tool-results");
+            if (results) {
+              results.classList.add("is-flash");
+              setTimeout(() => results.classList.remove("is-flash"), 900);
+            }
+          }
         } else if (outNext) {
           outNext.hidden = false;
           outNext.textContent =
             "Fingerprint ready. If this wasn’t a readable .pem/.crt, enter the issue date manually below.";
         }
-      } else if (intent === "invoice") {
-        const desc = scope.querySelector("[data-inv-desc]");
-        if (desc && !desc.value.trim()) {
-          desc.value = file.name.replace(/\.[^.]+$/, "").replace(/[_-]+/g, " ");
-          desc.dispatchEvent(new Event("input", { bubbles: true }));
-        }
-        if (outNext) {
-          outNext.hidden = false;
-          outNext.textContent = "Line item filled from filename — adjust qty/price in the form below.";
-        }
-      } else if (intent === "templates" && outNext) {
-        outNext.hidden = false;
-        outNext.innerHTML =
-          'Fingerprint ready. <a href="#situations">Pick a template below</a> or <a href="/app/certificates">certify this file</a>.';
-      } else if (intent === "chase" && outNext) {
-        outNext.hidden = false;
-        outNext.innerHTML =
-          'Invoice fingerprinted. Run the numbers below, then <a href="/app/">draft the chase</a>.';
-      } else if (intent === "trust" && outNext) {
-        outNext.hidden = false;
-        outNext.innerHTML =
-          'Evidence fingerprinted. <a href="/app/certificates">Certify it</a> or look up a trust profile below.';
       } else if (outNext) {
         outNext.hidden = false;
         outNext.innerHTML = 'Fingerprint ready. <a href="/app/certificates">Save as a free certificate →</a>';
@@ -551,6 +543,133 @@
     recalc();
   }
 
+  function flash(el) {
+    if (!el) return;
+    el.classList.add("is-flash");
+    setTimeout(() => el.classList.remove("is-flash"), 900);
+  }
+
+  function scrollFocus(selector, focusSelector) {
+    const el = document.querySelector(selector);
+    if (!el) return;
+    el.scrollIntoView({ behavior: "smooth", block: "start" });
+    flash(el.querySelector(".tool-panel") || el);
+    flash(el.querySelector(".tool-results"));
+    const focusEl = focusSelector ? el.querySelector(focusSelector) || document.querySelector(focusSelector) : null;
+    if (focusEl && typeof focusEl.focus === "function") {
+      setTimeout(() => focusEl.focus({ preventScroll: true }), 280);
+    }
+  }
+
+  function bindToolAction(circle) {
+    const action = circle.getAttribute("data-tool-action");
+    const input = circle.querySelector("[data-tool-input]");
+    if (!action) return;
+
+    if (action === "index") {
+      const go = () => scrollFocus("#tool-list, .tool-card-grid");
+      circle.addEventListener("click", go);
+      circle.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          go();
+        }
+      });
+      return;
+    }
+
+    if (action === "invoice") {
+      const go = () => scrollFocus("[data-calc='invoice-preview']", "[data-inv-client]");
+      circle.addEventListener("click", go);
+      circle.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          go();
+        }
+      });
+      return;
+    }
+
+    if (action === "chase") {
+      const go = () => scrollFocus("[data-calc='late-payment']", "[data-lp-amount]");
+      circle.addEventListener("click", go);
+      circle.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          go();
+        }
+      });
+      return;
+    }
+
+    if (action === "templates" && input) {
+      const cards = [...document.querySelectorAll(".finder-card")];
+      const note = document.querySelector("[data-template-filter-note]");
+      function filter() {
+        const q = (input.value || "").trim().toLowerCase();
+        let shown = 0;
+        cards.forEach((card) => {
+          const hay =
+            ((card.getAttribute("data-finder-tags") || "") + " " + (card.textContent || "")).toLowerCase();
+          const match = !q || hay.includes(q) || q.split(/\s+/).every((w) => hay.includes(w));
+          card.classList.toggle("is-hidden", !match);
+          if (match) shown += 1;
+        });
+        if (note) {
+          if (!q) {
+            note.hidden = true;
+            note.textContent = "";
+          } else {
+            note.hidden = false;
+            note.textContent =
+              shown === 0
+                ? "No matches in common situations — try Browse all templates, or submit your own."
+                : shown + " situation" + (shown === 1 ? "" : "s") + " matched.";
+          }
+        }
+      }
+      input.addEventListener("input", filter);
+      input.addEventListener("keydown", (e) => {
+        if (e.key !== "Enter") return;
+        e.preventDefault();
+        filter();
+        const visible = cards.filter((c) => !c.classList.contains("is-hidden"));
+        if (visible.length === 1) {
+          window.location.href = visible[0].href;
+          return;
+        }
+        const section = document.querySelector("#situations");
+        if (section) section.scrollIntoView({ behavior: "smooth", block: "start" });
+        if (visible.length === 0) {
+          window.location.href =
+            "/document-templates/" +
+            (input.value.trim() ? "?q=" + encodeURIComponent(input.value.trim()) : "");
+        }
+      });
+      return;
+    }
+
+    if (action === "trust" && input) {
+      function runLookup() {
+        const dest = document.querySelector("[data-trust-id]");
+        const btn = document.querySelector("[data-trust-lookup]");
+        if (dest) dest.value = input.value.trim();
+        scrollFocus("[data-calc='trust-badge']", "[data-trust-id]");
+        if (btn) btn.click();
+      }
+      input.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+          e.preventDefault();
+          runLookup();
+        }
+      });
+      circle.addEventListener("click", (e) => {
+        if (e.target === input || e.target.closest("a")) return;
+        input.focus();
+      });
+    }
+  }
+
   function safeBind(fn, el) {
     try {
       fn(el);
@@ -564,4 +683,5 @@
   document.querySelectorAll("[data-hash-drop]").forEach((el) => safeBind(bindHashChecker, el));
   document.querySelectorAll("[data-calc='trust-badge']").forEach((el) => safeBind(bindTrustBadge, el));
   document.querySelectorAll("[data-calc='invoice-preview']").forEach((el) => safeBind(bindInvoicePreview, el));
+  document.querySelectorAll("[data-tool-action]").forEach((el) => safeBind(bindToolAction, el));
 })();

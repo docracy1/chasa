@@ -116,9 +116,9 @@ body:has(.tool-sell-main) { background: #060504; }
   z-index: 2;
   font-size: 0;
 }
-.tool-circle-icon,
-.tool-circle-title,
-.tool-circle-sub {
+.tool-circle[data-hash-drop] .tool-circle-icon,
+.tool-circle[data-hash-drop] .tool-circle-title,
+.tool-circle[data-hash-drop] .tool-circle-sub {
   position: relative;
   z-index: 1;
   pointer-events: none;
@@ -131,7 +131,8 @@ body:has(.tool-sell-main) { background: #060504; }
   color: var(--accent);
   display: grid;
   place-items: center;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
+  flex-shrink: 0;
 }
 .tool-circle-title {
   font-size: 15px;
@@ -145,6 +146,56 @@ body:has(.tool-sell-main) { background: #060504; }
   color: var(--ink-soft);
   margin: 0;
   line-height: 1.35;
+}
+.tool-circle-form {
+  cursor: default;
+  padding: 18px 16px;
+}
+.tool-circle-form .tool-circle-title,
+.tool-circle-form .tool-circle-sub {
+  pointer-events: none;
+}
+.tool-circle-input {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 11.5rem;
+  margin: 10px 0 0;
+  padding: 8px 10px;
+  border: 1px solid var(--line, #e5e2dc);
+  border-radius: 999px;
+  font: inherit;
+  font-size: 12px;
+  text-align: center;
+  background: #fff;
+  color: var(--ink);
+  box-sizing: border-box;
+}
+.tool-circle-input:focus {
+  outline: 2px solid color-mix(in srgb, var(--accent) 45%, transparent);
+  outline-offset: 1px;
+  border-color: var(--accent);
+}
+.tool-circle-extra {
+  position: relative;
+  z-index: 2;
+  margin: 8px 0 0;
+  font-size: 11.5px;
+  font-weight: 700;
+}
+.tool-circle-extra a {
+  color: var(--accent);
+  text-decoration: none;
+}
+.tool-circle-extra a:hover { text-decoration: underline; }
+.finder-card.is-hidden { display: none; }
+.tool-panel.is-flash,
+.tool-results.is-flash {
+  animation: tool-flash 0.9s ease;
+}
+@keyframes tool-flash {
+  0%, 100% { box-shadow: none; }
+  35% { box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 45%, transparent); }
 }
 .tool-circle-stat {
   font-size: clamp(22px, 4vw, 30px);
@@ -563,7 +614,7 @@ body:has(.tool-sell-main) { background: #060504; }
       <span class="header-revival-badge-thumb" aria-hidden="true"></span>
       <span class="header-revival-badge-text">
         <span class="header-revival-badge-title" data-i18n="nav.revivalBadge">docstoc is back</span>
-        <span class="header-revival-badge-sub" data-i18n="nav.revivalBadgeSub">the automation layer — watch the story</span>
+        <span class="header-revival-badge-sub" data-i18n="nav.revivalBadgeSub">the trust automation layer — watch the story</span>
       </span>
       <span class="header-revival-badge-play" aria-hidden="true">
         <svg viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z" /></svg>
@@ -601,14 +652,15 @@ body:has(.tool-sell-main) { background: #060504; }
   <div class="tool-hero-inner">
     <div class="tool-hero-pill" aria-hidden="true"></div>
     <h1><span class="accent">Verified domain.</span><br>Visible trust.</h1>
-    <p class="tool-hero-sub">Drop a file to fingerprint proof materials, then look up any public trust profile or embed your domain-verified badge.</p>
-    <div class="tool-ring"><div class="tool-circle is-action" data-hash-drop data-drop-intent="trust" tabindex="0" role="button" aria-label="Drop a file or click to choose one">
-      <span class="tool-circle-icon" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4M12 4l-4 4M12 4l4 4" /><path d="M4 16v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3" /></svg></span>
-      <p class="tool-circle-title">Click or drag a file here</p>
-      <p class="tool-circle-sub">Fingerprint evidence · then look up a badge</p>
-      <input type="file" class="tool-circle-file" data-hash-input aria-label="Choose a file" />
+    <p class="tool-hero-sub">Look up any public trust profile, preview the domain-verified badge, and copy the embed snippet for your site.</p>
+    <div class="tool-ring"><div class="tool-circle is-action tool-circle-form" data-tool-action="trust">
+      <span class="tool-circle-icon" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="1.5"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></span>
+      <p class="tool-circle-title">Look up a badge</p>
+      <p class="tool-circle-sub">Paste account ID or /trust/… URL</p>
+      <input class="tool-circle-input" data-tool-input type="search" placeholder="ID or trust URL…" aria-label="ID or trust URL…" autocomplete="off" />
+      
     </div></div>
-    <p class="tool-caption">SHA-256 · computed in your browser · nothing ever uploaded</p>
+    <p class="tool-caption">Public profiles only · embed when SSL is active</p>
     <form class="tool-signup" action="/app/login" method="get">
   <input type="hidden" name="start" value="1" />
   <input class="tool-signup-input" type="email" name="email" autocomplete="email" placeholder="Enter your work email" aria-label="Enter your work email" required />
@@ -619,15 +671,6 @@ body:has(.tool-sell-main) { background: #060504; }
 </section>
 <section class="tool-section">
   <div class="tool-section-inner">
-    <div class="hash-out" data-hash-out hidden>
-  <div class="hash-out-row">
-    <code data-hash-value>—</code>
-    <button type="button" class="hash-copy-btn" data-hash-copy>Copy</button>
-  </div>
-  <p class="tool-note" data-hash-meta></p>
-  <p class="tool-note" data-hash-next hidden></p>
-  <p style="margin-top:12px"><a href="/app/certificates">Certify this file →</a> · <a href="/trust-badges">Trust badges overview →</a></p>
-</div>
     <h2>Look up a public profile</h2>
     <div class="tool-panel-grid" data-calc="trust-badge">
       <div class="tool-panel">
@@ -671,7 +714,7 @@ body:has(.tool-sell-main) { background: #060504; }
   <div class="wrap site-footer-inner">
     <div class="site-footer-brand">
       <a href="../" class="logo" aria-label="docstoc home"><img class="logo-mark" src="../brand/docstoc-icon.png" alt="" width="24" height="24" /><span class="logo-word">docstoc</span></a>
-      <p data-i18n="footer.tagline">Free AI invoice follow-ups — paste unpaid invoices, get the reminder email already written.</p>
+      <p data-i18n="footer.tagline">The Trust Automation Layer for Modern Business — agreements, invoicing, domain security, and AI collections in one platform.</p>
     </div>
     <div class="site-footer-col">
       <h4 data-i18n="footer.product">Product</h4>

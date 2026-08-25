@@ -116,9 +116,9 @@ body:has(.tool-sell-main) { background: #060504; }
   z-index: 2;
   font-size: 0;
 }
-.tool-circle-icon,
-.tool-circle-title,
-.tool-circle-sub {
+.tool-circle[data-hash-drop] .tool-circle-icon,
+.tool-circle[data-hash-drop] .tool-circle-title,
+.tool-circle[data-hash-drop] .tool-circle-sub {
   position: relative;
   z-index: 1;
   pointer-events: none;
@@ -131,7 +131,8 @@ body:has(.tool-sell-main) { background: #060504; }
   color: var(--accent);
   display: grid;
   place-items: center;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
+  flex-shrink: 0;
 }
 .tool-circle-title {
   font-size: 15px;
@@ -145,6 +146,56 @@ body:has(.tool-sell-main) { background: #060504; }
   color: var(--ink-soft);
   margin: 0;
   line-height: 1.35;
+}
+.tool-circle-form {
+  cursor: default;
+  padding: 18px 16px;
+}
+.tool-circle-form .tool-circle-title,
+.tool-circle-form .tool-circle-sub {
+  pointer-events: none;
+}
+.tool-circle-input {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 11.5rem;
+  margin: 10px 0 0;
+  padding: 8px 10px;
+  border: 1px solid var(--line, #e5e2dc);
+  border-radius: 999px;
+  font: inherit;
+  font-size: 12px;
+  text-align: center;
+  background: #fff;
+  color: var(--ink);
+  box-sizing: border-box;
+}
+.tool-circle-input:focus {
+  outline: 2px solid color-mix(in srgb, var(--accent) 45%, transparent);
+  outline-offset: 1px;
+  border-color: var(--accent);
+}
+.tool-circle-extra {
+  position: relative;
+  z-index: 2;
+  margin: 8px 0 0;
+  font-size: 11.5px;
+  font-weight: 700;
+}
+.tool-circle-extra a {
+  color: var(--accent);
+  text-decoration: none;
+}
+.tool-circle-extra a:hover { text-decoration: underline; }
+.finder-card.is-hidden { display: none; }
+.tool-panel.is-flash,
+.tool-results.is-flash {
+  animation: tool-flash 0.9s ease;
+}
+@keyframes tool-flash {
+  0%, 100% { box-shadow: none; }
+  35% { box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 45%, transparent); }
 }
 .tool-circle-stat {
   font-size: clamp(22px, 4vw, 30px);
@@ -416,13 +467,41 @@ function signupForm(source) {
 <p class="tool-cta-hint">No credit card required · your account in one click</p>`.trim();
 }
 
-/** Every hero circle is a real file drop zone — never decorative. */
-function dropCircle({ sub, intent = "hash", title = "Click or drag a file here" }) {
-  return `<div class="tool-circle is-action" data-hash-drop data-drop-intent="${intent}" tabindex="0" role="button" aria-label="Drop a file or click to choose one">
-      <span class="tool-circle-icon" aria-hidden="true">${uploadIcon}</span>
+/** File-drop circle — hash checker + SSL cert parser only. */
+function dropCircle({
+  sub,
+  intent = "hash",
+  title = "Click or drag a file here",
+  accept = "",
+  icon = uploadIcon,
+  ariaLabel = "Drop a file or click to choose one",
+}) {
+  const acceptAttr = accept ? ` accept="${accept}"` : "";
+  return `<div class="tool-circle is-action" data-hash-drop data-drop-intent="${intent}" tabindex="0" role="button" aria-label="${ariaLabel}">
+      <span class="tool-circle-icon" aria-hidden="true">${icon}</span>
       <p class="tool-circle-title">${title}</p>
       <p class="tool-circle-sub">${sub}</p>
-      <input type="file" class="tool-circle-file" data-hash-input aria-label="Choose a file" />
+      <input type="file" class="tool-circle-file" data-hash-input${acceptAttr} aria-label="Choose a file" />
+    </div>`;
+}
+
+/** Click/keyboard circle that jumps into the page tool (invoice, chase, index). */
+function actionCircle({ action, title, sub, icon, ariaLabel }) {
+  return `<div class="tool-circle is-action" data-tool-action="${action}" tabindex="0" role="button" aria-label="${ariaLabel || title}">
+      <span class="tool-circle-icon" aria-hidden="true">${icon}</span>
+      <p class="tool-circle-title">${title}</p>
+      <p class="tool-circle-sub">${sub}</p>
+    </div>`;
+}
+
+/** Circle with an inline input (template search, trust lookup). */
+function inputCircle({ action, title, sub, icon, placeholder, extraHtml = "" }) {
+  return `<div class="tool-circle is-action tool-circle-form" data-tool-action="${action}">
+      <span class="tool-circle-icon" aria-hidden="true">${icon}</span>
+      <p class="tool-circle-title">${title}</p>
+      <p class="tool-circle-sub">${sub}</p>
+      <input class="tool-circle-input" data-tool-input type="search" placeholder="${placeholder}" aria-label="${placeholder}" autocomplete="off" />
+      ${extraHtml}
     </div>`;
 }
 
@@ -566,17 +645,19 @@ const toolsIndexMain = `
 ${hero({
   accent: "Free tools.",
   rest: "One workflow.",
-  sub: "Templates, file hash, SSL expiry, trust badges, invoice generator, and chase estimates — drop any file on the circle to fingerprint it, then pick the tool you need.",
-  ringInner: dropCircle({
-    intent: "index",
-    sub: "SHA-256 fingerprint · then pick a tool below",
+  sub: "Templates, file hash, SSL expiry, trust badges, invoice generator, and chase estimates — tap the circle to jump to the toolkit.",
+  ringInner: actionCircle({
+    action: "index",
+    icon: searchIcon,
+    title: "Choose a tool",
+    sub: "Templates · hash · SSL · invoices · badges",
+    ariaLabel: "Scroll to the list of free tools",
   }),
-  caption: "SHA-256 · computed in your browser · nothing ever uploaded",
+  caption: "Each tool does a different job — pick the one you need below",
   source: "tool_index_hero",
 })}
-<section class="tool-section">
+<section class="tool-section" id="tool-list">
   <div class="tool-section-inner">
-    ${hashResultBlock(`<p style="margin-top:12px"><a href="/app/certificates">Save as a free certificate →</a></p>`)}
     <h2>Choose your tool</h2>
     <div class="tool-card-grid">
       <a class="tool-card" href="/tools/template-finder"><h2>Template finder</h2><p>Pick your situation, get a direct link to the right free business or legal template.</p></a>
@@ -594,28 +675,33 @@ const templateFinderMain = `
 ${hero({
   accent: "Find. Copy.",
   rest: "Ship the doc.",
-  sub: "Drop the file you're working from to fingerprint it, then pick the situation closest to yours and copy a free template. No signup to browse.",
-  ringInner: dropCircle({
-    intent: "templates",
-    sub: "Fingerprint your draft · then pick a template",
+  sub: "Search situations below or submit a template you've already used. No signup to browse.",
+  ringInner: inputCircle({
+    action: "templates",
+    icon: searchIcon,
+    title: "Find a template",
+    sub: "Type a situation or document type",
+    placeholder: "NDA, lease, offer…",
+    extraHtml: `<p class="tool-circle-extra"><a href="/free-templates/submit">Submit a template →</a></p>`,
   }),
-  caption: "SHA-256 · computed in your browser · nothing ever uploaded",
+  caption: "Filter the situations below · or browse all 1,000+ templates",
   source: "tool_template_finder",
 })}
 <section class="tool-section" id="situations">
   <div class="tool-section-inner">
-    ${hashResultBlock(`<p style="margin-top:12px"><a href="/app/certificates">Certify this file →</a> · <a href="#situations">Browse templates ↓</a></p>`)}
     <h2>Pick your situation</h2>
+    <p class="tool-note" data-template-filter-note hidden style="margin-bottom:12px"></p>
     <div class="finder-grid">
-      <a class="finder-card" href="/document-templates/independent-contractor-agreement-template"><strong>Hiring a freelance contractor</strong><span>Independent Contractor Agreement</span></a>
-      <a class="finder-card" href="/document-templates/non-disclosure-and-non-circumvention-agreement-template"><strong>Sharing confidential information</strong><span>Non-Disclosure &amp; Non-Circumvention Agreement</span></a>
-      <a class="finder-card" href="/document-templates/employee-offer-letter-template"><strong>Hiring a new employee</strong><span>Employee Offer Letter</span></a>
-      <a class="finder-card" href="/document-templates/employment-termination-letter-template"><strong>Ending someone's employment</strong><span>Employment Termination Letter</span></a>
-      <a class="finder-card" href="/document-templates/commercial-lease-agreement-template"><strong>Renting out a commercial property</strong><span>Commercial Lease Agreement</span></a>
-      <a class="finder-card" href="/document-templates/eviction-notice-template"><strong>Evicting a tenant</strong><span>Eviction Notice</span></a>
-      <a class="finder-card" href="/document-templates/demand-letter-unpaid-invoice-template"><strong>An invoice went unpaid</strong><span>Demand Letter for Unpaid Invoice</span></a>
-      <a class="finder-card" href="/document-templates/"><strong>Something else</strong><span>Browse all 1,000+ free templates →</span></a>
+      <a class="finder-card" data-finder-tags="freelance contractor independent hire" href="/document-templates/independent-contractor-agreement-template"><strong>Hiring a freelance contractor</strong><span>Independent Contractor Agreement</span></a>
+      <a class="finder-card" data-finder-tags="nda confidential non-disclosure secrecy" href="/document-templates/non-disclosure-and-non-circumvention-agreement-template"><strong>Sharing confidential information</strong><span>Non-Disclosure &amp; Non-Circumvention Agreement</span></a>
+      <a class="finder-card" data-finder-tags="employee hire offer letter job" href="/document-templates/employee-offer-letter-template"><strong>Hiring a new employee</strong><span>Employee Offer Letter</span></a>
+      <a class="finder-card" data-finder-tags="termination fire end employment" href="/document-templates/employment-termination-letter-template"><strong>Ending someone's employment</strong><span>Employment Termination Letter</span></a>
+      <a class="finder-card" data-finder-tags="commercial lease rent property office" href="/document-templates/commercial-lease-agreement-template"><strong>Renting out a commercial property</strong><span>Commercial Lease Agreement</span></a>
+      <a class="finder-card" data-finder-tags="eviction tenant landlord notice" href="/document-templates/eviction-notice-template"><strong>Evicting a tenant</strong><span>Eviction Notice</span></a>
+      <a class="finder-card" data-finder-tags="unpaid invoice demand payment overdue" href="/document-templates/demand-letter-unpaid-invoice-template"><strong>An invoice went unpaid</strong><span>Demand Letter for Unpaid Invoice</span></a>
+      <a class="finder-card" data-finder-tags="browse all other something else" href="/document-templates/"><strong>Something else</strong><span>Browse all 1,000+ free templates →</span></a>
     </div>
+    <p style="margin-top:16px"><a href="/free-templates/submit">Got a template that worked for you? Submit it →</a></p>
     <h3>After you pick a template</h3>
     <p>Copy it directly — no account needed. If it's the final version of something a client needs proof of receiving, <a href="/app/certificates">certify it</a>. If it's tied to an invoice that goes unpaid, docstoc can <a href="/app/">draft the follow-up</a> for you.</p>
     <h3>FAQs</h3>
@@ -631,6 +717,8 @@ ${hero({
   sub: "Drop any file to compute its SHA-256 fingerprint in your browser — the same math behind docstoc's free tamper-evident certificates.",
   ringInner: dropCircle({
     intent: "hash",
+    icon: uploadIcon,
+    title: "Click or drag a file here",
     sub: "Get a free tamper-evident fingerprint",
   }),
   caption: "SHA-256 · computed in your browser · nothing ever uploaded",
@@ -652,12 +740,16 @@ const sslCalcMain = `
 ${hero({
   accent: "Know the expiry.",
   rest: "Before browsers do.",
-  sub: "Drop a certificate file (.pem / .crt) to fingerprint it and try to read the dates — or enter issue date and validity below.",
+  sub: "Drop a certificate file (.pem / .crt) to read issue and expiry dates — or enter them in the calculator below.",
   ringInner: dropCircle({
     intent: "ssl",
-    sub: "Drop a .pem / .crt · or use the form below",
+    icon: lockIcon,
+    title: "Drop a certificate",
+    sub: ".pem / .crt · fills expiry below",
+    accept: ".pem,.crt,.cer,.cert",
+    ariaLabel: "Drop a certificate file or click to choose one",
   }),
-  caption: "SHA-256 · cert dates filled when we can read them · nothing uploaded",
+  caption: "Cert dates filled when we can read them · nothing uploaded",
   source: "tool_ssl_calc",
 })}
 <section class="tool-section">
@@ -699,17 +791,19 @@ const trustBadgesMain = `
 ${hero({
   accent: "Verified domain.",
   rest: "Visible trust.",
-  sub: "Drop a file to fingerprint proof materials, then look up any public trust profile or embed your domain-verified badge.",
-  ringInner: dropCircle({
-    intent: "trust",
-    sub: "Fingerprint evidence · then look up a badge",
+  sub: "Look up any public trust profile, preview the domain-verified badge, and copy the embed snippet for your site.",
+  ringInner: inputCircle({
+    action: "trust",
+    icon: lockIcon,
+    title: "Look up a badge",
+    sub: "Paste account ID or /trust/… URL",
+    placeholder: "ID or trust URL…",
   }),
-  caption: "SHA-256 · computed in your browser · nothing ever uploaded",
+  caption: "Public profiles only · embed when SSL is active",
   source: "tool_trust_badges",
 })}
 <section class="tool-section">
   <div class="tool-section-inner">
-    ${hashResultBlock(`<p style="margin-top:12px"><a href="/app/certificates">Certify this file →</a> · <a href="/trust-badges">Trust badges overview →</a></p>`)}
     <h2>Look up a public profile</h2>
     <div class="tool-panel-grid" data-calc="trust-badge">
       <div class="tool-panel">
@@ -751,17 +845,19 @@ const invoiceGeneratorMain = `
 ${hero({
   accent: "Create. Share.",
   rest: "Get paid.",
-  sub: "Drop a scope PDF or quote to fingerprint it, then build the invoice with line items and tax. Preview totals free — create a shareable client link in docstoc.",
-  ringInner: dropCircle({
-    intent: "invoice",
-    sub: "Drop a quote / SOW · then fill line items",
+  sub: "Build a professional invoice with line items and tax. Preview totals free — then create a shareable client link in docstoc.",
+  ringInner: actionCircle({
+    action: "invoice",
+    icon: invoiceIcon,
+    title: "Create an invoice",
+    sub: "Add line items · live totals below",
+    ariaLabel: "Jump to the invoice generator form",
   }),
-  caption: "SHA-256 · filename becomes a line item · nothing ever uploaded",
+  caption: "Preview free · shareable /invoice/… link when you create it",
   source: "tool_invoice_generator",
 })}
-<section class="tool-section">
+<section class="tool-section" id="invoice-builder">
   <div class="tool-section-inner">
-    ${hashResultBlock(`<p style="margin-top:12px"><a href="/app/invoices">Create the invoice in docstoc →</a></p>`)}
     <h2>Preview an invoice</h2>
     <p style="margin-bottom:16px">Totals update live below. Nothing is saved until you create the invoice in your account.</p>
     <div class="tool-panel-grid" data-calc="invoice-preview">
@@ -832,17 +928,19 @@ const chaseCalcMain = `
 ${hero({
   accent: "Late fees.",
   rest: "Cash unlocked.",
-  sub: "Drop the overdue invoice file to fingerprint it, then estimate interest and the working capital you free when chasing shortens days outstanding.",
-  ringInner: dropCircle({
-    intent: "chase",
-    sub: "Drop an overdue invoice · then run the numbers",
+  sub: "Estimate late payment interest and the working capital you free when chasing shortens days outstanding.",
+  ringInner: actionCircle({
+    action: "chase",
+    icon: cashIcon,
+    title: "Run the calculator",
+    sub: "Interest + cash unlocked below",
+    ariaLabel: "Jump to the late payment calculator",
   }),
-  caption: "SHA-256 · draft-only AI follow-ups · you stay in control of every send",
+  caption: "Draft-only AI follow-ups · you stay in control of every send",
   source: "tool_invoice_chase",
 })}
-<section class="tool-section">
+<section class="tool-section" id="chase-calc">
   <div class="tool-section-inner">
-    ${hashResultBlock(`<p style="margin-top:12px"><a href="/app/">Draft the chase email →</a></p>`)}
     <h2>Late payment interest</h2>
     <div class="tool-panel-grid" data-calc="late-payment">
       <div class="tool-panel">
