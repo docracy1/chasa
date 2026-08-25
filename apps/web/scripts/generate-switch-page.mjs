@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Generates /switch-to-chasa — a migration guide for someone leaving another invoice-chasing
+ * Generates /switch-to-docstoc — a migration guide for someone leaving another invoice-chasing
  * tool (Chaser, Paidnice, Duefy, Satago, ChaseAI, or a spreadsheet) for docstoc. Complements the
  * per-competitor "docstoc vs X" pages (generate-vs-pages.mjs) with the practical "how do I actually
  * move" page those don't cover.
@@ -65,7 +65,7 @@ function buildJsonLd() {
               "@type": "ListItem",
               position: 2,
               name: "Switch to docstoc",
-              item: "https://chasa.io/switch-to-chasa",
+              item: "https://chasa.io/switch-to-docstoc",
             },
           ],
         },
@@ -135,12 +135,12 @@ const html = chrome({
   title: "Switch to docstoc — Migration Guide from Chaser, Paidnice, Duefy & More | docstoc",
   description:
     "Moving from another invoice-chasing tool or a spreadsheet? Step-by-step guide to exporting your clients and invoices, importing into docstoc, and cancelling your old plan.",
-  canonical: "/switch-to-chasa",
+  canonical: "/switch-to-docstoc",
   activeNav: "",
   mainHtml: buildMain(),
   jsonLd: buildJsonLd(),
   depth: 0,
 });
 
-writeFileSync(join(publicDir, "switch-to-chasa.html"), html, "utf8");
-console.log("Generated switch-to-chasa.html");
+writeFileSync(join(publicDir, "switch-to-docstoc.html"), html, "utf8");
+console.log("Generated switch-to-docstoc.html");

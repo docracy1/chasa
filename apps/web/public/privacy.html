@@ -161,7 +161,7 @@
       <div class="header-nav-actions">
         <div class="locale-switch" data-locale-switch role="group" data-i18n-aria="nav.language" data-es-href="/es/privacy"></div>
         <!--email_off-->
-        <a href="mailto:sales@chasa.io" class="header-nav-sales header-nav-collapse" data-sales-mail data-sales-subject="docstoc sales" data-i18n="nav.contactSales">Contact sales</a>
+        <a href="mailto:sales@docstoc.io" class="header-nav-sales header-nav-collapse" data-sales-mail data-sales-subject="docstoc sales" data-i18n="nav.contactSales">Contact sales</a>
         <!--/email_off-->
         <a href="/app/login?start=1" class="nav-cta" data-i18n="nav.tryFree">Try free</a>
         <a href="/app/login" class="header-login-btn header-nav-collapse" data-i18n="nav.signIn">Sign in</a>
@@ -203,7 +203,7 @@
     <a href="/app/login?start=1" class="mobile-panel-cta-primary" data-i18n="nav.tryFree">Try free</a>
     <a href="/app/login" class="mobile-panel-cta-secondary" data-i18n="nav.signIn">Sign in</a>
     <!--email_off-->
-    <a href="mailto:sales@chasa.io" class="mobile-panel-cta-secondary" data-sales-mail data-sales-subject="docstoc sales" data-i18n="nav.contactSales">Contact sales</a>
+    <a href="mailto:sales@docstoc.io" class="mobile-panel-cta-secondary" data-sales-mail data-sales-subject="docstoc sales" data-i18n="nav.contactSales">Contact sales</a>
     <!--/email_off-->
   </div>
 </div>
@@ -240,7 +240,7 @@
     your separate consent (the banner on first visit), we also use first-party page analytics and
     <a href="https://clarity.microsoft.com/" rel="noopener noreferrer" target="_blank">Microsoft Clarity</a>
     (heatmaps and session recordings) to understand how people use docstoc. Decline, and we skip both —
-    you can change your mind anytime by clearing the <code>chasa_cookie_consent</code> value in your
+    you can change your mind anytime by clearing the <code>docstoc_cookie_consent</code> value in your
     browser. Our host (Cloudflare) may still log standard request metadata (IP, user agent) for
     security and abuse prevention regardless of consent, as that's an unavoidable part of serving the
     request. We don't use advertising trackers or share data with ad networks.
@@ -293,7 +293,7 @@
     If you're in the EU/EEA/UK, you can ask us to access, correct, delete, or export (portability) the
     personal data we hold on you, and you can object to or restrict processing, or withdraw consent for
     analytics at any time — none of this affects the lawfulness of processing before the withdrawal.
-    Email <!--email_off--><a href="mailto:founder@chasa.io">founder@chasa.io</a><!--/email_off--> and we'll respond within a reasonable
+    Email <!--email_off--><a href="mailto:founder@docstoc.io">founder@docstoc.io</a><!--/email_off--> and we'll respond within a reasonable
     time. You also have the right to lodge a complaint with your local data protection authority — in
     Austria, the
     <a href="https://www.dsb.gv.at/" rel="noopener noreferrer" target="_blank">Datenschutzbehörde (DSB)</a>.
@@ -319,7 +319,7 @@
   <h3 data-i18n="privacy.contact.title">Contact</h3>
   <p data-i18n-html="privacy.contact.body">
     Questions about your data, or want to exercise any of the rights above? Reach out at
-    <!--email_off--><a href="mailto:founder@chasa.io">founder@chasa.io</a><!--/email_off-->.
+    <!--email_off--><a href="mailto:founder@docstoc.io">founder@docstoc.io</a><!--/email_off-->.
   </p>
 </main>
 <footer class="site-footer">
@@ -349,7 +349,7 @@
       <a href="/use-cases/audit-ready-workflows">Audit Workflows</a>
       <a href="/compliance/sox">SOX AR Evidence</a>
       <a href="/use-cases/compliance-dashboard">Compliance Board</a>
-      <a href="/use-cases/chasa-certificate-monitoring">Certificate Proof</a>
+      <a href="/use-cases/docstoc-certificate-monitoring">Certificate Proof</a>
       <a href="/use-cases/document-signing-api">Follow-up API</a>
       <a href="/use-cases/freelance-contract-templates">Contract Templates</a>
       <a href="/use-cases/free-ssl-for-your-domain">Free SSL Setup</a>
@@ -361,14 +361,14 @@
       <a href="/docstoc-vs-duefy" data-i18n="footer.vsDuefy">vs Duefy</a>
       <a href="/docstoc-vs-satago" data-i18n="footer.vsSatago">vs Satago</a>
       <a href="/docstoc-vs-chaseai" data-i18n="footer.vsChaseai">vs ChaseAI</a>
-      <a href="/switch-to-chasa" data-i18n="footer.switch">Switch to docstoc</a>
+      <a href="/switch-to-docstoc" data-i18n="footer.switch">Switch to docstoc</a>
     </div>
     <div class="site-footer-col">
       <h4 data-i18n="footer.company">Company</h4>
       <a href="/about" data-i18n="footer.about">About</a>
       <a href="/press" data-i18n="footer.press">Press</a>
       <a href="/imprint" data-i18n="footer.imprint">Imprint</a>
-      <!--email_off--><a href="mailto:founder@chasa.io" data-i18n="footer.contact">Contact</a><!--/email_off-->
+      <!--email_off--><a href="mailto:founder@docstoc.io" data-i18n="footer.contact">Contact</a><!--/email_off-->
     </div>
     <div class="site-footer-col">
       <h4 data-i18n="footer.legal">Legal</h4>
@@ -411,7 +411,7 @@
       : null;
     if (!el) return;
     e.preventDefault();
-    window.dispatchEvent(new CustomEvent("chasa:open-chat", { detail: { intent: "sales" } }));
+    window.dispatchEvent(new CustomEvent("docstoc:open-chat", { detail: { intent: "sales" } }));
   }, true);
 })();
 </script>

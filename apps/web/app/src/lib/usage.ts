@@ -2,7 +2,7 @@ const FREE_LIMIT = 5;
 
 function monthKey(): string {
   const now = new Date();
-  return `chasa_usage_${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
+  return `docstoc_usage_${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
 }
 
 export function getUsedCount(): number {

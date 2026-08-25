@@ -59,7 +59,7 @@
       <a href="/docs/" class="header-nav-link header-nav-collapse" data-i18n="nav.api">API</a>
       <div class="locale-switch" data-locale-switch role="group" data-i18n-aria="nav.language"></div>
       <!--email_off-->
-      <a href="mailto:sales@chasa.io" class="header-nav-sales header-nav-collapse" data-sales-mail data-sales-subject="docstoc sales" data-i18n="nav.contactSales">Contact sales</a>
+      <a href="mailto:sales@docstoc.io" class="header-nav-sales header-nav-collapse" data-sales-mail data-sales-subject="docstoc sales" data-i18n="nav.contactSales">Contact sales</a>
       <!--/email_off-->
       <a href="/app/login?start=1" class="nav-cta" data-i18n="nav.tryFree">Try free</a>
       <a href="/app/login" class="header-login-btn header-nav-collapse" data-i18n="nav.signIn">Sign in</a>
@@ -86,7 +86,7 @@
     <a href="/app/login?start=1" class="mobile-panel-cta-primary" data-i18n="nav.tryFree">Try free</a>
     <a href="/app/login" class="mobile-panel-cta-secondary" data-i18n="nav.signIn">Sign in</a>
     <!--email_off-->
-    <a href="mailto:sales@chasa.io" class="mobile-panel-cta-secondary" data-sales-mail data-sales-subject="docstoc sales" data-i18n="nav.contactSales">Contact sales</a>
+    <a href="mailto:sales@docstoc.io" class="mobile-panel-cta-secondary" data-sales-mail data-sales-subject="docstoc sales" data-i18n="nav.contactSales">Contact sales</a>
     <!--/email_off-->
   </div>
 </div>
@@ -153,7 +153,7 @@
     <h3 style="font-size: 20px; font-weight: 700; margin-bottom: 8px;">Planning a vendor security review?</h3>
     <p style="font-size: 15px; color: #4b5563; margin-bottom: 20px;">Send us your security questionnaire or talk to us directly — we'll answer in plain language, not just checkboxes.</p>
     <!--email_off-->
-    <a href="mailto:sales@chasa.io" data-sales-mail data-sales-subject="docstoc security review" style="display: inline-block; padding: 12px 24px; background: #262626; color: #fff; border-radius: 8px; text-decoration: none; font-weight: 600;">Talk to us about security</a>
+    <a href="mailto:sales@docstoc.io" data-sales-mail data-sales-subject="docstoc security review" style="display: inline-block; padding: 12px 24px; background: #262626; color: #fff; border-radius: 8px; text-decoration: none; font-weight: 600;">Talk to us about security</a>
     <!--/email_off-->
     <p style="font-size: 13px; color: #9ca3af; margin-top: 16px;">See also: <a href="/privacy">Privacy policy</a> · <a href="/terms">Terms</a></p>
   </section>
@@ -209,7 +209,7 @@
       <a href="/about" data-i18n="footer.about">About</a>
       <a href="/press" data-i18n="footer.press">Press</a>
       <a href="/imprint" data-i18n="footer.imprint">Imprint</a>
-      <!--email_off--><a href="mailto:founder@chasa.io" data-i18n="footer.contact">Contact</a><!--/email_off-->
+      <!--email_off--><a href="mailto:founder@docstoc.io" data-i18n="footer.contact">Contact</a><!--/email_off-->
     </div>
     <div class="site-footer-col">
       <h4 data-i18n="footer.legal">Legal</h4>
@@ -234,7 +234,7 @@
       : null;
     if (!el) return;
     e.preventDefault();
-    window.dispatchEvent(new CustomEvent("chasa:open-chat", { detail: { intent: "sales" } }));
+    window.dispatchEvent(new CustomEvent("docstoc:open-chat", { detail: { intent: "sales" } }));
   }, true);
 })();
 </script>

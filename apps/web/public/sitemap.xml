@@ -49,7 +49,7 @@
     <priority>0.70</priority>
   </url>
   <url>
-    <loc>https://chasa.io/blog/ar-policy-that-works-with-chasa/</loc>
+    <loc>https://chasa.io/blog/ar-policy-that-works-with-docstoc/</loc>
     <lastmod>2026-08-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.70</priority>
@@ -7105,7 +7105,7 @@
     <priority>0.75</priority>
   </url>
   <url>
-    <loc>https://chasa.io/switch-to-chasa</loc>
+    <loc>https://chasa.io/switch-to-docstoc</loc>
     <lastmod>2026-08-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
@@ -7195,7 +7195,7 @@
     <priority>0.60</priority>
   </url>
   <url>
-    <loc>https://chasa.io/use-cases/chasa-certificate-monitoring</loc>
+    <loc>https://chasa.io/use-cases/docstoc-certificate-monitoring</loc>
     <lastmod>2026-08-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.60</priority>

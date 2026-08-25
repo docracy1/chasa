@@ -1,8 +1,8 @@
 (function () {
-  if (window.__chasaAssistant) return;
-  window.__chasaAssistant = true;
+  if (window.__docstocAssistant) return;
+  window.__docstocAssistant = true;
 
-  var SALES = "sales@" + "chasa.io";
+  var SALES = "sales@" + "docstoc.io";
   var JOKES = [
     "Why did the freelancer chase the invoice? Because it was outstanding.",
     "I told my unpaid invoice a joke. Still no response — tough crowd.",
@@ -16,44 +16,44 @@
   ];
 
   var CSS =
-    ".chasa-asst{position:fixed;right:20px;bottom:20px;z-index:99999;font-family:Inter,system-ui,-apple-system,sans-serif;}" +
-    ".chasa-asst-fab{width:56px;height:56px;border-radius:999px;border:0;background:#C24A28;color:#fff;cursor:pointer;" +
+    ".docstoc-asst{position:fixed;right:20px;bottom:20px;z-index:99999;font-family:Inter,system-ui,-apple-system,sans-serif;}" +
+    ".docstoc-asst-fab{width:56px;height:56px;border-radius:999px;border:0;background:#C24A28;color:#fff;cursor:pointer;" +
     "display:grid;place-items:center;box-shadow:0 8px 24px rgba(194,74,40,.28);padding:0;line-height:1;}" +
-    ".chasa-asst-fab img{display:block;width:22px;height:22px;}" +
-    ".chasa-asst-fab.is-open{background:#EC683C;font-size:28px;font-weight:300;}" +
-    ".chasa-asst-panel{position:absolute;right:0;bottom:70px;width:min(360px,calc(100vw - 32px));" +
+    ".docstoc-asst-fab img{display:block;width:22px;height:22px;}" +
+    ".docstoc-asst-fab.is-open{background:#EC683C;font-size:28px;font-weight:300;}" +
+    ".docstoc-asst-panel{position:absolute;right:0;bottom:70px;width:min(360px,calc(100vw - 32px));" +
     "background:#fff;border-radius:16px;box-shadow:0 16px 48px rgba(42,20,16,.22);" +
     "overflow:hidden;border:1px solid rgba(42,20,16,.08);}" +
-    ".chasa-asst-panel[hidden]{display:none!important;}" +
-    ".chasa-asst-head{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;background:#C24A28;color:#fff;}" +
-    ".chasa-asst-title{display:flex;align-items:center;gap:8px;font-weight:700;font-size:14px;}" +
-    ".chasa-asst-title img{width:18px;height:18px;border-radius:999px;background:#fff;padding:2px;box-sizing:border-box;}" +
-    ".chasa-asst-x{background:none;border:0;color:#fff;font-size:22px;cursor:pointer;line-height:1;opacity:.85;padding:0 2px;}" +
-    ".chasa-asst-x:hover{opacity:1;}" +
-    ".chasa-asst-body{padding:14px;max-height:min(460px,62vh);overflow:auto;display:flex;flex-direction:column;gap:10px;background:#F7F3F0;}" +
-    ".chasa-asst-msg{padding:10px 12px;border-radius:12px;font-size:13.5px;line-height:1.45;max-width:95%;}" +
-    ".chasa-asst-msg.bot{background:#fff;color:#2A1410;align-self:flex-start;}" +
-    ".chasa-asst-msg.user{background:#EC683C;color:#fff;align-self:flex-end;}" +
-    ".chasa-asst-msg a{color:#C24A28;font-weight:700;}" +
-    ".chasa-asst-msg.user a{color:#fff;text-decoration:underline;}" +
-    ".chasa-asst-chips{display:flex;flex-direction:column;gap:8px;}" +
-    ".chasa-asst-chips button,.chasa-asst-link{display:block;width:100%;text-align:left;padding:10px 12px;" +
+    ".docstoc-asst-panel[hidden]{display:none!important;}" +
+    ".docstoc-asst-head{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;background:#C24A28;color:#fff;}" +
+    ".docstoc-asst-title{display:flex;align-items:center;gap:8px;font-weight:700;font-size:14px;}" +
+    ".docstoc-asst-title img{width:18px;height:18px;border-radius:999px;background:#fff;padding:2px;box-sizing:border-box;}" +
+    ".docstoc-asst-x{background:none;border:0;color:#fff;font-size:22px;cursor:pointer;line-height:1;opacity:.85;padding:0 2px;}" +
+    ".docstoc-asst-x:hover{opacity:1;}" +
+    ".docstoc-asst-body{padding:14px;max-height:min(460px,62vh);overflow:auto;display:flex;flex-direction:column;gap:10px;background:#F7F3F0;}" +
+    ".docstoc-asst-msg{padding:10px 12px;border-radius:12px;font-size:13.5px;line-height:1.45;max-width:95%;}" +
+    ".docstoc-asst-msg.bot{background:#fff;color:#2A1410;align-self:flex-start;}" +
+    ".docstoc-asst-msg.user{background:#EC683C;color:#fff;align-self:flex-end;}" +
+    ".docstoc-asst-msg a{color:#C24A28;font-weight:700;}" +
+    ".docstoc-asst-msg.user a{color:#fff;text-decoration:underline;}" +
+    ".docstoc-asst-chips{display:flex;flex-direction:column;gap:8px;}" +
+    ".docstoc-asst-chips button,.docstoc-asst-link{display:block;width:100%;text-align:left;padding:10px 12px;" +
     "border:1px solid #e8ddd6;border-radius:10px;background:#fff;font:inherit;font-size:13.5px;" +
     "cursor:pointer;color:#2A1410;text-decoration:none;box-sizing:border-box;}" +
-    ".chasa-asst-chips button:hover,.chasa-asst-link:hover{border-color:#EC683C;}" +
-    ".chasa-asst-form{display:flex;flex-direction:column;gap:8px;margin-top:4px;}" +
-    ".chasa-asst-form input,.chasa-asst-form textarea{width:100%;box-sizing:border-box;border:1px solid #e8ddd6;" +
+    ".docstoc-asst-chips button:hover,.docstoc-asst-link:hover{border-color:#EC683C;}" +
+    ".docstoc-asst-form{display:flex;flex-direction:column;gap:8px;margin-top:4px;}" +
+    ".docstoc-asst-form input,.docstoc-asst-form textarea{width:100%;box-sizing:border-box;border:1px solid #e8ddd6;" +
     "border-radius:10px;padding:10px 12px;font:inherit;font-size:13.5px;color:#2A1410;background:#fff;}" +
-    ".chasa-asst-form textarea{min-height:72px;resize:vertical;}" +
-    ".chasa-asst-form input:focus,.chasa-asst-form textarea:focus{outline:2px solid rgba(236,104,60,.35);border-color:#EC683C;}" +
-    ".chasa-asst-form button[type=submit]{border:0;border-radius:10px;padding:10px 12px;font:inherit;font-size:13.5px;" +
+    ".docstoc-asst-form textarea{min-height:72px;resize:vertical;}" +
+    ".docstoc-asst-form input:focus,.docstoc-asst-form textarea:focus{outline:2px solid rgba(236,104,60,.35);border-color:#EC683C;}" +
+    ".docstoc-asst-form button[type=submit]{border:0;border-radius:10px;padding:10px 12px;font:inherit;font-size:13.5px;" +
     "font-weight:700;cursor:pointer;background:#00E8A8;color:#04241C;}" +
-    ".chasa-asst-form button[type=submit]:disabled{opacity:.6;cursor:wait;}" +
-    ".chasa-asst-err{color:#b42318;font-size:12.5px;}";
+    ".docstoc-asst-form button[type=submit]:disabled{opacity:.6;cursor:wait;}" +
+    ".docstoc-asst-err{color:#b42318;font-size:12.5px;}";
 
   function t(key, fallback) {
     try {
-      var lang = window.chasaSiteLang;
+      var lang = window.docstocSiteLang;
       if (lang && typeof lang.t === "function") {
         var v = lang.t(key);
         if (v && v !== key) return v;
@@ -64,16 +64,16 @@
 
   function isEs() {
     try {
-      return window.chasaSiteLang && window.chasaSiteLang.locale() === "es";
+      return window.docstocSiteLang && window.docstocSiteLang.locale() === "es";
     } catch (e) {
       return false;
     }
   }
 
   function ensureStyles() {
-    if (document.getElementById("chasa-asst-css")) return;
+    if (document.getElementById("docstoc-asst-css")) return;
     var style = document.createElement("style");
-    style.id = "chasa-asst-css";
+    style.id = "docstoc-asst-css";
     style.textContent = CSS;
     document.head.appendChild(style);
   }
@@ -81,34 +81,34 @@
   function mount() {
     if (!document.body) return;
     ensureStyles();
-    if (document.querySelector(".chasa-asst")) return;
+    if (document.querySelector(".docstoc-asst")) return;
 
     var root = document.createElement("div");
-    root.className = "chasa-asst";
+    root.className = "docstoc-asst";
     root.innerHTML =
-      '<button type="button" class="chasa-asst-fab" aria-label="Open docstoc Assistant" data-asst-toggle>' +
+      '<button type="button" class="docstoc-asst-fab" aria-label="Open docstoc Assistant" data-asst-toggle>' +
       '<img src="/brand/docstoc-icon.png?v=20260823" alt="" width="22" height="22" />' +
       "</button>" +
-      '<div class="chasa-asst-panel" hidden data-asst-panel>' +
-      '<div class="chasa-asst-head">' +
-      '<div class="chasa-asst-title"><img src="/brand/docstoc-icon.png?v=20260823" alt="" width="18" height="18" /> ' +
+      '<div class="docstoc-asst-panel" hidden data-asst-panel>' +
+      '<div class="docstoc-asst-head">' +
+      '<div class="docstoc-asst-title"><img src="/brand/docstoc-icon.png?v=20260823" alt="" width="18" height="18" /> ' +
       '<span data-asst-title>docstoc Assistant</span></div>' +
-      '<button type="button" class="chasa-asst-x" aria-label="Close" data-asst-toggle>×</button>' +
+      '<button type="button" class="docstoc-asst-x" aria-label="Close" data-asst-toggle>×</button>' +
       "</div>" +
-      '<div class="chasa-asst-body" data-asst-body></div>' +
+      '<div class="docstoc-asst-body" data-asst-body></div>' +
       "</div>";
     document.body.appendChild(root);
 
     var panel = root.querySelector("[data-asst-panel]");
     var body = root.querySelector("[data-asst-body]");
-    var fab = root.querySelector(".chasa-asst-fab");
+    var fab = root.querySelector(".docstoc-asst-fab");
     var titleEl = root.querySelector("[data-asst-title]");
     var open = false;
     var formVisible = false;
 
     function bubble(text, who, opts) {
       var d = document.createElement("div");
-      d.className = "chasa-asst-msg " + (who || "bot");
+      d.className = "docstoc-asst-msg " + (who || "bot");
       if (opts && opts.href && opts.hrefLabel) {
         d.appendChild(document.createTextNode(text + " "));
         var a = document.createElement("a");
@@ -124,7 +124,7 @@
 
     function chips(items) {
       var wrap = document.createElement("div");
-      wrap.className = "chasa-asst-chips";
+      wrap.className = "docstoc-asst-chips";
       items.forEach(function (item) {
         var b = document.createElement("button");
         b.type = "button";
@@ -142,7 +142,7 @@
 
     function linkBtn(label, href) {
       var a = document.createElement("a");
-      a.className = "chasa-asst-link";
+      a.className = "docstoc-asst-link";
       a.href = href;
       a.textContent = label;
       body.appendChild(a);
@@ -152,7 +152,7 @@
       if (formVisible) return;
       formVisible = true;
       var form = document.createElement("form");
-      form.className = "chasa-asst-form";
+      form.className = "docstoc-asst-form";
       form.innerHTML =
         '<input type="email" name="email" required autocomplete="email" placeholder="' +
         t("chat.emailPlaceholder", "you@email.com") +
@@ -167,7 +167,7 @@
         '<button type="submit">' +
         t("chat.send", "Send message") +
         "</button>" +
-        '<div class="chasa-asst-err" hidden data-asst-err></div>';
+        '<div class="docstoc-asst-err" hidden data-asst-err></div>';
 
       form.addEventListener("submit", function (e) {
         e.preventDefault();
@@ -321,12 +321,12 @@
       });
     });
 
-    window.addEventListener("chasa:open-chat", function (ev) {
+    window.addEventListener("docstoc:open-chat", function (ev) {
       var detail = (ev && ev.detail) || {};
       openAssistant({ intent: detail.intent || null });
     });
 
-    window.chasaAssistant = {
+    window.docstocAssistant = {
       open: openAssistant,
       close: function () {
         setOpen(false);

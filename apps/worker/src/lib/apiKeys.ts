@@ -15,7 +15,7 @@ export async function createApiKey(
   accountId: string,
   name = "Default"
 ): Promise<{ id: string; token: string; prefix: string; createdAt: string }> {
-  const raw = `chasa_${crypto.randomUUID().replace(/-/g, "")}${crypto.randomUUID().replace(/-/g, "").slice(0, 16)}`;
+  const raw = `docstoc_${crypto.randomUUID().replace(/-/g, "")}${crypto.randomUUID().replace(/-/g, "").slice(0, 16)}`;
   const token_hash = await hashOpaqueToken(raw, env.TOKEN_SECRET, "api-key");
   const id = crypto.randomUUID();
   const created_at = new Date().toISOString();

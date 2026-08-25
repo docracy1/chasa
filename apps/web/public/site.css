@@ -73,7 +73,7 @@
 /* Shared chrome — palette + header/footer (mirrored from docracy.io structure) */
 
 :root {
-  /* Chasa palette: Docstoc-style — dark charcoal primary + orange accent + white/light-gray background */
+  /* Docstoc palette: Docstoc-style — dark charcoal primary + orange accent + white/light-gray background */
   --ink: #262626;
   --accent: #F58025;
   --paper: #F7F7F7;
@@ -121,7 +121,7 @@ a { color: inherit; }
   padding: 0 28px;
 }
 
-/* ---------- HEADER (deep Chasa orange — Docracy layout, orange palette) ---------- */
+/* ---------- HEADER (deep Docstoc orange — Docracy layout, orange palette) ---------- */
 .site-header {
   position: sticky;
   top: 0;
@@ -981,6 +981,20 @@ a { color: inherit; }
 }
 .docs-section a { color: var(--accent); font-weight: 600; text-decoration: none; }
 .docs-section a:hover { text-decoration: underline; }
+.docs-section a.nav-cta {
+  color: var(--on-signal);
+  background: var(--signal);
+  border: 1.5px solid var(--signal);
+  padding: 10px 18px;
+  border-radius: 999px;
+  display: inline-block;
+  text-decoration: none;
+}
+.docs-section a.nav-cta:hover {
+  background: var(--signal-hover);
+  border-color: var(--signal-hover);
+  text-decoration: none;
+}
 @media (max-width: 760px) {
   .docs-layout { grid-template-columns: 1fr; }
   .docs-sidebar {
@@ -1994,39 +2008,39 @@ a { color: inherit; }
   color: var(--accent);
 }
 
-.why-chasa {
+.why-docstoc {
   margin: 40px 0;
   padding: 32px 0;
   border-top: 1px solid var(--line);
 }
-.why-chasa h2 {
+.why-docstoc h2 {
   margin: 0 0 20px;
   font-size: 22px;
 }
-.why-chasa-grid {
+.why-docstoc-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 20px;
 }
 @media (max-width: 720px) {
-  .why-chasa-grid { grid-template-columns: repeat(2, 1fr); }
+  .why-docstoc-grid { grid-template-columns: repeat(2, 1fr); }
 }
 @media (max-width: 480px) {
-  .why-chasa-grid { grid-template-columns: 1fr; }
+  .why-docstoc-grid { grid-template-columns: 1fr; }
 }
-.why-chasa-item h3 {
+.why-docstoc-item h3 {
   margin: 0 0 6px;
   font-size: 15px;
   font-weight: 700;
   color: var(--ink);
 }
-.why-chasa-item p {
+.why-docstoc-item p {
   margin: 0;
   font-size: 13.5px;
   line-height: 1.5;
   color: var(--ink-soft);
 }
-.why-chasa-item a {
+.why-docstoc-item a {
   color: var(--accent);
   font-weight: 600;
   text-decoration: none;
@@ -2316,44 +2330,44 @@ a { color: inherit; }
   border-radius: 0;
 }
 
-/* Chasa Assistant (styles also injected by assistant.js for /app) */
-.chasa-asst { position: fixed; right: 20px; bottom: 20px; z-index: 99999; font-family: Inter, system-ui, sans-serif; }
-.chasa-asst-fab {
+/* Docstoc Assistant (styles also injected by assistant.js for /app) */
+.docstoc-asst { position: fixed; right: 20px; bottom: 20px; z-index: 99999; font-family: Inter, system-ui, sans-serif; }
+.docstoc-asst-fab {
   width: 56px; height: 56px; border-radius: 999px; border: 0;
   background: var(--ink, #2A1410); color: #fff; cursor: pointer;
   display: grid; place-items: center; box-shadow: 0 8px 24px rgba(27,49,85,.28);
   padding: 0; line-height: 1;
 }
-.chasa-asst-fab img { display: block; width: 22px; height: 22px; }
-.chasa-asst-fab.is-open { background: var(--accent, #EC683C); font-size: 28px; font-weight: 300; }
-.chasa-asst-panel {
+.docstoc-asst-fab img { display: block; width: 22px; height: 22px; }
+.docstoc-asst-fab.is-open { background: var(--accent, #EC683C); font-size: 28px; font-weight: 300; }
+.docstoc-asst-panel {
   position: absolute; right: 0; bottom: 70px; width: min(340px, calc(100vw - 32px));
   background: #fff; border-radius: 16px; box-shadow: 0 16px 48px rgba(27,49,85,.22);
   overflow: hidden; border: 1px solid rgba(27,49,85,.08);
 }
-.chasa-asst-panel[hidden] { display: none !important; }
-.chasa-asst-head {
+.docstoc-asst-panel[hidden] { display: none !important; }
+.docstoc-asst-head {
   display: flex; align-items: center; justify-content: space-between;
   padding: 12px 14px; background: var(--ink, #2A1410); color: #fff;
 }
-.chasa-asst-title { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 14px; }
-.chasa-asst-title img {
+.docstoc-asst-title { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 14px; }
+.docstoc-asst-title img {
   width: 18px; height: 18px; border-radius: 999px; background: #fff; padding: 2px; box-sizing: border-box;
 }
-.chasa-asst-x { background: none; border: 0; color: #fff; font-size: 22px; cursor: pointer; line-height: 1; opacity: .85; }
-.chasa-asst-x:hover { opacity: 1; }
-.chasa-asst-body { padding: 14px; max-height: min(420px, 60vh); overflow: auto; display: flex; flex-direction: column; gap: 10px; }
-.chasa-asst-msg { padding: 10px 12px; border-radius: 12px; font-size: 13.5px; line-height: 1.45; max-width: 95%; }
-.chasa-asst-msg.bot { background: #f7f3f0; color: #2A1410; align-self: flex-start; }
-.chasa-asst-msg.user { background: #fde8e0; color: #2A1410; align-self: flex-end; }
-.chasa-asst-chips { display: flex; flex-direction: column; gap: 8px; }
-.chasa-asst-chips button, .chasa-asst-link {
+.docstoc-asst-x { background: none; border: 0; color: #fff; font-size: 22px; cursor: pointer; line-height: 1; opacity: .85; }
+.docstoc-asst-x:hover { opacity: 1; }
+.docstoc-asst-body { padding: 14px; max-height: min(420px, 60vh); overflow: auto; display: flex; flex-direction: column; gap: 10px; }
+.docstoc-asst-msg { padding: 10px 12px; border-radius: 12px; font-size: 13.5px; line-height: 1.45; max-width: 95%; }
+.docstoc-asst-msg.bot { background: #f7f3f0; color: #2A1410; align-self: flex-start; }
+.docstoc-asst-msg.user { background: #fde8e0; color: #2A1410; align-self: flex-end; }
+.docstoc-asst-chips { display: flex; flex-direction: column; gap: 8px; }
+.docstoc-asst-chips button, .docstoc-asst-link {
   display: block; width: 100%; text-align: left; padding: 10px 12px;
   border: 1px solid #d5dbe7; border-radius: 10px; background: #fff;
   font: inherit; font-size: 13.5px; cursor: pointer; color: #2A1410; text-decoration: none;
   box-sizing: border-box;
 }
-.chasa-asst-chips button:hover, .chasa-asst-link:hover { border-color: var(--accent, #EC683C); }
+.docstoc-asst-chips button:hover, .docstoc-asst-link:hover { border-color: var(--accent, #EC683C); }
 
 /* ---------- COMPARE (blog) ---------- */
 .compare-price {
@@ -2464,7 +2478,7 @@ a { color: inherit; }
   padding: 18px 22px;
   scroll-margin-top: 90px;
 }
-.pc-row-chasa {
+.pc-row-docstoc {
   border: 2px solid var(--accent);
   background: color-mix(in srgb, var(--accent) 6%, var(--white));
 }
@@ -2478,7 +2492,7 @@ a { color: inherit; }
   align-items: baseline;
   gap: 6px 10px;
 }
-.pc-row-chasa .pc-row-name {
+.pc-row-docstoc .pc-row-name {
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.06em;

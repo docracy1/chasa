@@ -1,6 +1,6 @@
 {
   "serverInfo": {
-    "name": "chasa",
+    "name": "docstoc",
     "version": "1.0.0",
     "websiteUrl": "https://chasa.io"
   },
@@ -15,7 +15,7 @@
   },
   "authentication": {
     "required": false,
-    "note": "Public tools do not require authentication. draft_chase_email requires either a signed-in session or a Bearer API key created from the Chasa Connector page.",
+    "note": "Public tools do not require authentication. draft_chase_email requires either a signed-in session or a Bearer API key created from the Docstoc Connector page.",
     "schemes": ["none", "bearer"]
   },
   "tools": [
@@ -27,12 +27,12 @@
     {
       "name": "recommend_template",
       "tier": "free",
-      "description": "Recommend a Chasa payment reminder template for the given days-overdue stage."
+      "description": "Recommend a Docstoc payment reminder template for the given days-overdue stage."
     },
     {
       "name": "list_templates",
       "tier": "free",
-      "description": "List Chasa free invoice follow-up templates with URLs."
+      "description": "List Docstoc free invoice follow-up templates with URLs."
     },
     {
       "name": "draft_chase_email",

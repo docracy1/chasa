@@ -2,7 +2,7 @@ export type Locale = "en" | "es";
 
 export const LOCALES: Locale[] = ["en", "es"];
 export const LOCALE_LABELS: Record<Locale, string> = { en: "EN", es: "ES" };
-export const STORAGE_KEY = "chasa_locale";
+export const STORAGE_KEY = "docstoc_locale";
 
 export function detectLocale(): Locale {
   try {

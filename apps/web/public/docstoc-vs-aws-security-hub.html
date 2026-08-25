@@ -192,7 +192,7 @@
       <span class="nav-megamenu-item-desc" data-i18n="nav.mega.useCase.compliance.desc">Aging buckets and follow-up status at a glance.</span>
     </span>
   </a>
-<a href="/use-cases/chasa-certificate-monitoring" class="nav-megamenu-item">
+<a href="/use-cases/docstoc-certificate-monitoring" class="nav-megamenu-item">
     <span class="nav-megamenu-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5.5" width="18" height="13" rx="1.5" /><path d="M3.5 6.5L12 13l8.5-6.5" /></svg></span>
     <span>
       <span class="nav-megamenu-item-title" data-i18n="nav.mega.useCase.certificate.title">Certificate monitoring</span>
@@ -243,7 +243,7 @@
       <span class="nav-megamenu-item-desc" data-i18n="nav.mega.resource.about.desc">Why docstoc exists and who runs it.</span>
     </span>
   </a>
-<!--email_off--><a href="mailto:founder@chasa.io" class="nav-megamenu-item">
+<!--email_off--><a href="mailto:founder@docstoc.io" class="nav-megamenu-item">
     <span class="nav-megamenu-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5.5" width="18" height="13" rx="1.5" /><path d="M3.5 6.5L12 13l8.5-6.5" /></svg></span>
     <span>
       <span class="nav-megamenu-item-title" data-i18n="nav.mega.resource.contact.title">Contact</span>
@@ -256,7 +256,7 @@
       <a href="/free-templates/" class="header-nav-link header-nav-collapse" data-i18n="nav.templates">Free templates</a>
       <div class="locale-switch" data-locale-switch role="group" data-i18n-aria="nav.language"></div>
       <!--email_off-->
-      <a href="mailto:sales@chasa.io" class="header-nav-sales header-nav-collapse" data-sales-mail data-sales-subject="docstoc sales" data-i18n="nav.contactSales">Contact sales</a>
+      <a href="mailto:sales@docstoc.io" class="header-nav-sales header-nav-collapse" data-sales-mail data-sales-subject="docstoc sales" data-i18n="nav.contactSales">Contact sales</a>
       <!--/email_off-->
       <a href="/app/login?start=1" class="nav-cta" data-i18n="nav.tryFree">Try free</a>
       <a href="/app/login" class="header-login-btn header-nav-collapse" data-i18n="nav.signIn">Sign in</a>
@@ -285,7 +285,7 @@
     <a href="/app/login?start=1" class="mobile-panel-cta-primary" data-i18n="nav.tryFree">Try free</a>
     <a href="/app/login" class="mobile-panel-cta-secondary" data-i18n="nav.signIn">Sign in</a>
     <!--email_off-->
-    <a href="mailto:sales@chasa.io" class="mobile-panel-cta-secondary" data-sales-mail data-sales-subject="docstoc sales" data-i18n="nav.contactSales">Contact sales</a>
+    <a href="mailto:sales@docstoc.io" class="mobile-panel-cta-secondary" data-sales-mail data-sales-subject="docstoc sales" data-i18n="nav.contactSales">Contact sales</a>
     <!--/email_off-->
   </div>
 </div>
@@ -347,7 +347,7 @@
 
   <p style="margin-top:28px"><a href="/app/login?start=1" class="nav-cta">Try docstoc free</a></p>
   <!--email_off-->
-  <p id="contact-sales"><a href="mailto:sales@chasa.io" data-sales-mail data-sales-subject="docstoc evidence automation updates">Get notified when full evidence automation ships</a></p>
+  <p id="contact-sales"><a href="mailto:sales@docstoc.io" data-sales-mail data-sales-subject="docstoc evidence automation updates">Get notified when full evidence automation ships</a></p>
   <!--/email_off-->
 
   <h2>FAQ</h2>
@@ -403,7 +403,7 @@
       <a href="/use-cases/audit-ready-workflows">Audit Workflows</a>
       <a href="/compliance/sox">SOX AR Evidence</a>
       <a href="/use-cases/compliance-dashboard">Compliance Board</a>
-      <a href="/use-cases/chasa-certificate-monitoring">Certificate Proof</a>
+      <a href="/use-cases/docstoc-certificate-monitoring">Certificate Proof</a>
       <a href="/use-cases/document-signing-api">Follow-up API</a>
     </div>
     <div class="site-footer-col">
@@ -413,7 +413,7 @@
       <a href="/docstoc-vs-duefy" data-i18n="footer.vsDuefy">vs Duefy</a>
       <a href="/docstoc-vs-satago" data-i18n="footer.vsSatago">vs Satago</a>
       <a href="/docstoc-vs-chaseai" data-i18n="footer.vsChaseai">vs ChaseAI</a>
-      <a href="/switch-to-chasa" data-i18n="footer.switch">Switch to docstoc</a>
+      <a href="/switch-to-docstoc" data-i18n="footer.switch">Switch to docstoc</a>
       <a href="/compare/">All comparisons</a>
     </div>
     <div class="site-footer-col">
@@ -421,7 +421,7 @@
       <a href="/about" data-i18n="footer.about">About</a>
       <a href="/press" data-i18n="footer.press">Press</a>
       <a href="/imprint" data-i18n="footer.imprint">Imprint</a>
-      <!--email_off--><a href="mailto:founder@chasa.io" data-i18n="footer.contact">Contact</a><!--/email_off-->
+      <!--email_off--><a href="mailto:founder@docstoc.io" data-i18n="footer.contact">Contact</a><!--/email_off-->
     </div>
     <div class="site-footer-col">
       <h4 data-i18n="footer.legal">Legal</h4>
@@ -446,7 +446,7 @@
       : null;
     if (!el) return;
     e.preventDefault();
-    window.dispatchEvent(new CustomEvent("chasa:open-chat", { detail: { intent: "sales" } }));
+    window.dispatchEvent(new CustomEvent("docstoc:open-chat", { detail: { intent: "sales" } }));
   }, true);
 })();
 </script>

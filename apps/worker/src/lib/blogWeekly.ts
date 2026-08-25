@@ -26,7 +26,7 @@ interface DraftedPost {
   slug: string;
 }
 
-const CHASA_BLURB = `
+const DOCSTOC_BLURB = `
 docstoc (chasa.io) is a free automation layer for small businesses and freelancers, with four
 parts: (1) hundreds of free business & legal document templates, no signup required; (2) a
 document generator that creates real invoices with line items, tax, and a shareable/printable
@@ -56,7 +56,7 @@ Rules:
  *  limit). Plain text has no such failure mode — the response IS the body, nothing to parse. */
 const BODY_SYSTEM_PROMPT = `
 You write SEO blog post bodies for docstoc (chasa.io), an AI invoice follow-up tool for freelancers
-and small businesses. ${CHASA_BLURB}
+and small businesses. ${DOCSTOC_BLURB}
 
 Respond with ONLY the article body as plain text — no JSON, no markdown fences, no title line.
 Use these markers only:

@@ -106,7 +106,7 @@
         turnstileToken: turnstileToken || undefined,
         lang: (function () {
           try {
-            return localStorage.getItem("chasa_locale") === "es" ? "es" : undefined;
+            return localStorage.getItem("docstoc_locale") === "es" ? "es" : undefined;
           } catch (e) {
             return undefined;
           }
@@ -123,7 +123,7 @@
           setStatus((res.data && res.data.error) || "Something went wrong. Try again.", true);
           return;
         }
-        var url = res.data.downloadUrl || "/free-templates/chasa-polite-invoice-templates.pdf";
+        var url = res.data.downloadUrl || "/free-templates/docstoc-polite-invoice-templates.pdf";
         setStatus(
           res.data.welcomeEmail
             ? "Download starting — we also emailed you the PDF with a few useful reads."
@@ -131,7 +131,7 @@
         );
         var a = document.createElement("a");
         a.href = url;
-        a.download = "chasa-polite-invoice-templates.pdf";
+        a.download = "docstoc-polite-invoice-templates.pdf";
         a.rel = "noopener";
         document.body.appendChild(a);
         a.click();

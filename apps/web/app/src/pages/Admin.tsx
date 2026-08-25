@@ -156,7 +156,7 @@ function DayChart({
   );
 }
 
-const SELF_HOST_RE = /chasa/i;
+const SELF_HOST_RE = /docstoc/i;
 
 const HOST_LABELS: Record<string, string> = {
   "t.co": "Twitter/X",
@@ -374,7 +374,7 @@ function DashAccountMenu({
         <button type="button" role="menuitem" className="is-active-soft" onClick={onAdmin}>
           {t("admin.title")}
         </button>
-        <a href="mailto:founder@chasa.io" role="menuitem">
+        <a href="mailto:founder@docstoc.io" role="menuitem">
           {t("nav.support")}
         </a>
         <button type="button" role="menuitem" className="dash-logout" onClick={onLogout}>
@@ -731,7 +731,7 @@ export default function Admin() {
     return (
       <div className="dash-shell">
         <header className="dash-topnav">
-          <a href="/" className="dash-brand" aria-label={t("admin.chasaHome")}>
+          <a href="/" className="dash-brand" aria-label={t("admin.docstocHome")}>
             <img src="/brand/docstoc-icon.png" alt="" width="22" height="22" />
             <span>docstoc</span>
           </a>
@@ -772,7 +772,7 @@ export default function Admin() {
   return (
     <div className="dash-shell">
       <header className="dash-topnav">
-        <a href="/" className="dash-brand" aria-label={t("admin.chasaHome")}>
+        <a href="/" className="dash-brand" aria-label={t("admin.docstocHome")}>
           <img src="/brand/docstoc-icon.png" alt="" width="22" height="22" />
           <span>docstoc</span>
         </a>

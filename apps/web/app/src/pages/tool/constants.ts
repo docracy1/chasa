@@ -1,9 +1,9 @@
 export { CLOUD_LABELS } from "../../lib/cloudImport";
 
-export const TOOL_STORAGE_KEY = "chasa.tool.invoices";
-export const PAYMENT_LINK_STORAGE_KEY = "chasa.tool.paymentLink";
+export const TOOL_STORAGE_KEY = "docstoc.tool.invoices";
+export const PAYMENT_LINK_STORAGE_KEY = "docstoc.tool.paymentLink";
 
-// Unified aliases for QBO / FreshBooks / Xero / Wave / Zoho / sevDesk (+ Chasa). Exact match after normalize.
+// Unified aliases for QBO / FreshBooks / Xero / Wave / Zoho / sevDesk (+ Docstoc). Exact match after normalize.
 export const CLIENT_HEADERS = [
   "organization", // FreshBooks
   "customer name", // FreshBooks

@@ -521,7 +521,7 @@ const es: Messages = {
     "Recibe avisos en una URL que controles cuando se redacta, envía o completa un seguimiento en tu flujo. El payload es JSON — nunca se envía correo por ti.",
   "webhooks.upgradeNudge": "Los webhooks están incluidos en Pro y superiores.",
   "webhooks.upgradeHint": "para agregar endpoints.",
-  "webhooks.urlPlaceholder": "https://ejemplo.com/hooks/chasa",
+  "webhooks.urlPlaceholder": "https://ejemplo.com/hooks/docstoc",
   "webhooks.loadFailed": "No se pudieron cargar los webhooks",
   "webhooks.addFailed": "No se pudo agregar el webhook",
   "webhooks.deleteFailed": "No se pudo eliminar el webhook",
@@ -641,7 +641,7 @@ const es: Messages = {
   "connector.waveZap": "Zap Wave",
   "connector.zohoZap": "Zap Zoho Books",
   "connector.curlWarn":
-    "Ejecuta toda la línea curl en Terminal — no pegues la clave API sola. Una clave suelta no es un comando de shell (a menudo imprime command not found: chasa_…).",
+    "Ejecuta toda la línea curl en Terminal — no pegues la clave API sola. Una clave suelta no es un comando de shell (a menudo imprime command not found: docstoc_…).",
   "connector.curlPreferred":
     "1. Preferido — copia curl completo (incluye la clave de forma segura dentro de Authorization: Bearer …):",
   "connector.copiedFullCurl": "Curl completo copiado ✓",
@@ -706,7 +706,7 @@ const es: Messages = {
   "admin.title": "Admin",
   "admin.signInSub": "Inicia sesión como admin para administrar docstoc.",
   "admin.loginFailed": "Error al iniciar sesión",
-  "admin.chasaHome": "Inicio de docstoc",
+  "admin.docstocHome": "Inicio de docstoc",
   "admin.pricing": "Precios",
   "admin.freeTemplates": "Plantillas gratis",
   "admin.blog": "Blog",

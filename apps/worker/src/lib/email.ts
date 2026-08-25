@@ -45,7 +45,7 @@ export function emailShell(appUrl: string, bodyHtml: string, locale: Locale = "e
       <table role="presentation" width="520" cellpadding="0" cellspacing="0" style="max-width:520px;width:100%;">
         <tr>
           <td style="padding:24px 32px 0 32px;text-align:center;font-size:12px;color:${MUTED_HEX};line-height:1.6;">
-            ${FOOTER_TEXT[locale]} · <a href="${appUrl}" style="color:${MUTED_HEX};text-decoration:underline;">chasa.io</a>
+            ${FOOTER_TEXT[locale]} · <a href="${appUrl}" style="color:${MUTED_HEX};text-decoration:underline;">docstoc</a>
           </td>
         </tr>
       </table>
@@ -319,7 +319,7 @@ function greetingName(email: string): string {
 // Spanish title for an English page would be worse than an honest English link.
 const TEMPLATES_ARTICLES = [
   { title: "How to follow up on overdue invoices (without burning bridges)", href: "/blog/how-to-follow-up-on-overdue-invoices/" },
-  { title: "Building an AR policy that works with docstoc", href: "/blog/ar-policy-that-works-with-chasa/" },
+  { title: "Building an AR policy that works with docstoc", href: "/blog/ar-policy-that-works-with-docstoc/" },
   { title: "Freelancer late payment policy", href: "/blog/freelancer-late-payment-policy/" },
 ];
 

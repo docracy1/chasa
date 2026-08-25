@@ -36261,7 +36261,7 @@ ${downloadJsonLd}
   <header class="lead-pack-topbar">
     <a href="/" class="lead-pack-brand" aria-label="docstoc home">
       <img src="/brand/docstoc-icon.png" alt="" width="28" height="28" />
-      <span>chasa</span>
+      <span>docstoc</span>
     </a>
     <a href="/free-templates/" class="lead-pack-top-link">Browse templates</a>
   </header>
@@ -36281,7 +36281,7 @@ ${downloadJsonLd}
         <div class="lead-pack-book lead-pack-book-back"></div>
         <div class="lead-pack-book lead-pack-book-mid"></div>
         <div class="lead-pack-book lead-pack-book-front">
-          <div class="lead-pack-book-mark">chasa</div>
+          <div class="lead-pack-book-mark">docstoc</div>
           <div class="lead-pack-book-title">${tplCount} politely worded templates</div>
           <div class="lead-pack-book-sub">to get invoices paid</div>
           <ul class="lead-pack-book-bullets">
@@ -36388,7 +36388,7 @@ ${submitJsonLd}
   <header class="lead-pack-topbar">
     <a href="/" class="lead-pack-brand" aria-label="docstoc home">
       <img src="/brand/docstoc-icon.png" alt="" width="28" height="28" />
-      <span>chasa</span>
+      <span>docstoc</span>
     </a>
     <a href="/free-templates/" class="lead-pack-top-link">Browse templates</a>
   </header>
@@ -36553,7 +36553,7 @@ ${newTemplatesJsonLd}
   <header class="lead-pack-topbar">
     <a href="/" class="lead-pack-brand" aria-label="docstoc home">
       <img src="/brand/docstoc-icon.png" alt="" width="28" height="28" />
-      <span>chasa</span>
+      <span>docstoc</span>
     </a>
     <a href="/free-templates/" class="lead-pack-top-link">Browse all ${tplCount} templates</a>
   </header>
@@ -37393,9 +37393,9 @@ for (const t of TEMPLATES) {
   </div>
 </main>
 <script>
-if (window.chasaTrack) {
-  window.chasaTrack("template_opened");
-  window.chasaTrack("template_used");
+if (window.docstocTrack) {
+  window.docstocTrack("template_opened");
+  window.docstocTrack("template_used");
 }
 document.querySelectorAll(".btn-copy").forEach(function (btn) {
   btn.addEventListener("click", function () {
@@ -37403,10 +37403,10 @@ document.querySelectorAll(".btn-copy").forEach(function (btn) {
     navigator.clipboard.writeText(text).then(function () {
       btn.textContent = "Copied";
       setTimeout(function () { btn.textContent = "Copy subject + body"; }, 1500);
-      if (window.chasaTrack) {
-        window.chasaTrack("template_started");
-        window.chasaTrack("template_completed");
-        window.chasaTrack("document_sent", { method: "copy" });
+      if (window.docstocTrack) {
+        window.docstocTrack("template_started");
+        window.docstocTrack("template_completed");
+        window.docstocTrack("document_sent", { method: "copy" });
       }
     });
   });

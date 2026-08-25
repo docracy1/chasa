@@ -4,7 +4,7 @@ import type { Env } from "../types";
  * Set by the Pages `/api` proxy to the origin the browser is actually on. Anyone can send this
  * header straight to api.chasa.io, so it is only honoured when it passes `isAllowedAppOrigin`.
  */
-export const APP_ORIGIN_HEADER = "x-chasa-app-origin";
+export const APP_ORIGIN_HEADER = "x-docstoc-app-origin";
 
 /**
  * Trusted regardless of `PUBLIC_APP_URL`, so the domain cutover works in both directions: pages.dev
@@ -12,7 +12,7 @@ export const APP_ORIGIN_HEADER = "x-chasa-app-origin";
  */
 const PRODUCTION_ORIGINS = ["https://chasa.io", "https://www.chasa.io"];
 /** Project domain plus branch/commit preview subdomains, e.g. `abc123.chasa-71s.pages.dev`. */
-const PAGES_ORIGIN = /^https:\/\/([a-z0-9-]+\.)?chasa(-[a-z0-9-]+)?\.pages\.dev$/;
+const PAGES_ORIGIN = /^https:\/\/([a-z0-9-]+\.)?docstoc(-[a-z0-9-]+)?\.pages\.dev$/;
 const LOCALHOST_ORIGIN = /^http:\/\/(localhost|127\.0\.0\.1)(:\d{1,5})?$/;
 
 /** Normalises to a bare origin (lowercased host, no path or trailing slash); "" when unparseable. */

@@ -56,7 +56,7 @@ function parseCsvRow(
     dueRaw = cols.due >= 0 ? row[cols.due] : undefined;
     daysRaw = cols.days >= 0 ? row[cols.days] : undefined;
   } else {
-    // Legacy Chasa positional: client, amount, due date
+    // Legacy Docstoc positional: client, amount, due date
     [name, amtRaw, dueRaw] = row;
   }
 

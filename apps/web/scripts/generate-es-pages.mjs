@@ -129,7 +129,7 @@ for (const [enPath, esPath] of ES_PAGE_PAIRS) {
       .replace(/(<meta name="twitter:title" content=")[^"]*(")/, `$1${escapeHtml(seo.title)}$2`)
       .replace(/(<meta name="twitter:description" content=")[^"]*(")/, `$1${escapeHtml(seo.description)}$2`)
       .replace(
-        /<link rel="canonical" href="https:\/\/chasa\.io\/">\n<link rel="alternate" hreflang="en" href="https:\/\/chasa\.io\/">\n<link rel="alternate" hreflang="es" href="https:\/\/chasa\.io\/es\/">\n<link rel="alternate" hreflang="x-default" href="https:\/\/chasa\.io\/">/,
+        /<link rel="canonical" href="https:\/\/docstoc\.io\/">\n<link rel="alternate" hreflang="en" href="https:\/\/docstoc\.io\/">\n<link rel="alternate" hreflang="es" href="https:\/\/docstoc\.io\/es\/">\n<link rel="alternate" hreflang="x-default" href="https:\/\/docstoc\.io\/">/,
         `<link rel="canonical" href="https://chasa.io${esPath}">
 <link rel="alternate" hreflang="en" href="https://chasa.io/">
 <link rel="alternate" hreflang="es" href="https://chasa.io${esPath}">

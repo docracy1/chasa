@@ -1,13 +1,18 @@
 (function () {
-  var CONSENT_KEY = "chasa_cookie_consent";
-  var VISITOR_KEY = "chasa_vid";
-  var REFERRAL_KEY = "chasa_ref_tracked";
-  var EXCLUDE_KEY = "chasa_exclude_self";
+  var CONSENT_KEY = "docstoc_cookie_consent";
+  var VISITOR_KEY = "docstoc_vid";
+  var REFERRAL_KEY = "docstoc_ref_tracked";
+  var EXCLUDE_KEY = "docstoc_exclude_self";
   var initedConsented = false;
 
   function hasConsent() {
     try {
-      return localStorage.getItem(CONSENT_KEY) === "accepted";
+      if (localStorage.getItem(CONSENT_KEY) === "accepted") return true;
+      if (localStorage.getItem("chasa_cookie_consent") === "accepted") {
+        localStorage.setItem(CONSENT_KEY, "accepted");
+        return true;
+      }
+      return false;
     } catch (e) {
       return false;
     }
@@ -75,8 +80,8 @@
     }).catch(function () {});
   }
 
-  window.chasaTrack = track;
-  window.chasaExcludeSelf = excludeSelf;
+  window.docstocTrack = track;
+  window.docstocExcludeSelf = excludeSelf;
 
   // Aggregate page-view counting (just the path and the day — no cookie, no visitor ID, no IP
   // stored) doesn't need cookie consent under ePrivacy's anonymous-statistics carve-out, so this
@@ -86,7 +91,7 @@
   pageview();
 
   /** Everything that needs consent — called immediately if consent already exists at load time,
-   *  and re-callable (via window.chasaInitAnalytics) from the cookie banner's Accept handler for
+   *  and re-callable (via window.docstocInitAnalytics) from the cookie banner's Accept handler for
    *  a visitor who consents mid-session, since this script itself now always loads regardless of
    *  consent state and only runs this once. */
   function initConsented() {
@@ -94,14 +99,14 @@
     initedConsented = true;
 
     // Microsoft Clarity (session heatmaps) — same consent gate as first-party event analytics.
-    if (!document.querySelector('script[data-chasa-clarity-loader],script[data-chasa-clarity]')) {
+    if (!document.querySelector('script[data-docstoc-clarity-loader],script[data-docstoc-clarity]')) {
       var clarityLoader = document.createElement("script");
       clarityLoader.src = "/clarity.js";
       clarityLoader.async = true;
-      clarityLoader.setAttribute("data-chasa-clarity-loader", "1");
+      clarityLoader.setAttribute("data-docstoc-clarity-loader", "1");
       document.body.appendChild(clarityLoader);
-    } else if (typeof window.chasaLoadClarity === "function") {
-      window.chasaLoadClarity();
+    } else if (typeof window.docstocLoadClarity === "function") {
+      window.docstocLoadClarity();
     }
 
     var path = location.pathname.replace(/\/+$/, "") || "/";
@@ -238,6 +243,6 @@
     }
   }
 
-  window.chasaInitAnalytics = initConsented;
+  window.docstocInitAnalytics = initConsented;
   initConsented();
 })();

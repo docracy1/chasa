@@ -15,7 +15,7 @@ import { clientIp, turnstileSiteKey, verifyTurnstile } from "../lib/turnstile";
 
 const leads = new Hono<AuthEnv>();
 
-const PDF_PATH = "/free-templates/chasa-polite-invoice-templates.pdf";
+const PDF_PATH = "/free-templates/docstoc-polite-invoice-templates.pdf";
 
 leads.get("/config", (c) => {
   return c.json({

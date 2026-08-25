@@ -89,9 +89,9 @@ export async function dispatchWebhooks(
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            "User-Agent": "Chasa-Webhooks/1.0",
-            "X-Chasa-Event": event,
-            "X-Chasa-Signature": `sha256=${signature}`,
+            "User-Agent": "Docstoc-Webhooks/1.0",
+            "X-Docstoc-Event": event,
+            "X-Docstoc-Signature": `sha256=${signature}`,
           },
           body: payload,
           signal: controller.signal,

@@ -5,7 +5,7 @@
     <link>https://chasa.io/blog/</link>
     <description>Invoice follow-up, payment reminders, and freelancer cash flow.</description>
     <language>en</language>
-    <lastBuildDate>Tue, 25 Aug 2026 20:56:34 GMT</lastBuildDate>
+    <lastBuildDate>Tue, 25 Aug 2026 21:27:24 GMT</lastBuildDate>
     <item>
       <title>ACME protocol certificate automation explained</title>
       <link>https://chasa.io/blog/acme-protocol-certificate-automation/</link>
@@ -50,8 +50,8 @@
     </item>
     <item>
       <title>Building an AR policy that works with docstoc</title>
-      <link>https://chasa.io/blog/ar-policy-that-works-with-chasa/</link>
-      <guid isPermaLink="true">https://chasa.io/blog/ar-policy-that-works-with-chasa/</guid>
+      <link>https://chasa.io/blog/ar-policy-that-works-with-docstoc/</link>
+      <guid isPermaLink="true">https://chasa.io/blog/ar-policy-that-works-with-docstoc/</guid>
       <description>What a practical accounts receivable policy should cover — terms, credit limits, chase stages, disputes, write-offs — and how each maps to docstoc’s tools.</description>
       <pubDate>Fri, 31 Jul 2026 00:00:00 GMT</pubDate>
     </item>

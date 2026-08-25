@@ -61,7 +61,7 @@ a { color: inherit; }
   color: var(--white);
 }
 .app-topbar-brand {
-  /* Desktop: brand lives in the sidebar only — avoid double “chasa”. */
+  /* Desktop: brand lives in the sidebar only — avoid double “docstoc”. */
   display: none;
   align-items: center;
   gap: 10px;

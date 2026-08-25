@@ -5,7 +5,7 @@
   var closeBtn = document.querySelector("[data-mobile-close]");
   if (btn && panel) {
     function menuAriaLabel(open) {
-      var lang = window.chasaSiteLang;
+      var lang = window.docstocSiteLang;
       if (lang && lang.t) return lang.t(open ? "nav.closeMenu" : "nav.openMenu");
       return open ? "Close menu" : "Open menu";
     }
@@ -115,7 +115,7 @@
 (function () {
   function openSalesChat(e) {
     if (e) e.preventDefault();
-    window.dispatchEvent(new CustomEvent("chasa:open-chat", { detail: { intent: "sales" } }));
+    window.dispatchEvent(new CustomEvent("docstoc:open-chat", { detail: { intent: "sales" } }));
   }
 
   function bind(selector) {
@@ -132,7 +132,7 @@
 })();
 
 (function () {
-  if (window.__chasaAssistant || document.querySelector('script[src*="assistant.js"]')) return;
+  if (window.__docstocAssistant || document.querySelector('script[src*="assistant.js"]')) return;
   function inject() {
     if (!document.body) return;
     var selfScript = document.querySelector('script[src*="site-nav.js"]');

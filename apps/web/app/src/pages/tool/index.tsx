@@ -1352,7 +1352,7 @@ export default function Tool({ account }: { account: Account | null }) {
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = "chasa-drafts.csv";
+    a.download = "docstoc-drafts.csv";
     a.click();
     URL.revokeObjectURL(url);
     track("chase_downloaded", { rows: rows.length });

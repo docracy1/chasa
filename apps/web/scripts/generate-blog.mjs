@@ -367,7 +367,7 @@ function buildJsonLd(post) {
 
   const faqBySlug = {
     "invoice-chase-software-comparison": COMPARISON_FAQ,
-    "ar-policy-that-works-with-chasa": AR_POLICY_FAQ,
+    "ar-policy-that-works-with-docstoc": AR_POLICY_FAQ,
   };
   const faq = faqBySlug[post.slug];
   if (!faq) {

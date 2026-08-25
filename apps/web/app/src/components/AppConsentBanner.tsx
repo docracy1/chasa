@@ -15,7 +15,7 @@ export default function AppConsentBanner() {
 
   return (
     <div
-      className="chasa-app-consent"
+      className="docstoc-app-consent"
       role="dialog"
       aria-modal="true"
       aria-label={t("consent.aria")}

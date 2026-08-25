@@ -43,7 +43,7 @@ export const MARKETING_PAGES = [
   { file: "invoice-follow-up.html" },
   { file: "freelancer-invoice-follow-up.html" },
   { file: "chase-invoices.html" },
-  // Keyword-targeted product landing pages (clean slugs, no "chasa" prefix)
+  // Keyword-targeted product landing pages (clean slugs, no "docstoc" prefix)
   { file: "marketplace.html", activeNav: "templates" },
   { file: "freetemplates.html", activeNav: "templates" },
   { file: "monitoring.html" },
@@ -129,7 +129,7 @@ export const MARKETING_PAGES = [
   { file: "use-cases/risk-scoring-automation.html", depth: 1, activeNav: "use-cases" },
   { file: "use-cases/audit-ready-workflows.html", depth: 1, activeNav: "use-cases" },
   { file: "use-cases/compliance-dashboard.html", depth: 1, activeNav: "use-cases" },
-  { file: "use-cases/chasa-certificate-monitoring.html", depth: 1, activeNav: "use-cases" },
+  { file: "use-cases/docstoc-certificate-monitoring.html", depth: 1, activeNav: "use-cases" },
   { file: "use-cases/document-signing-api.html", depth: 1, activeNav: "use-cases" },
   { file: "use-cases/flat-fee-esign.html", depth: 1, activeNav: "use-cases" },
   { file: "use-cases/freelance-contract-templates.html", depth: 1, activeNav: "use-cases" },

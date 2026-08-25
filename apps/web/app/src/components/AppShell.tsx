@@ -638,7 +638,7 @@ export default function AppShell({
                 <span>{t("nav.admin")}</span>
               </Link>
             ) : null}
-            <a href="mailto:founder@chasa.io" onClick={() => setMoreSheetOpen(false)}>
+            <a href="mailto:founder@docstoc.io" onClick={() => setMoreSheetOpen(false)}>
               <NavIcon name="support" />
               <span>{t("nav.support")}</span>
             </a>

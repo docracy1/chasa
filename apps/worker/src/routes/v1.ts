@@ -7,7 +7,7 @@ import { parseJsonBody, v1ChaseDraftSchema } from "../lib/schemas";
 
 /**
  * Public HTTP API for Zapier / Make / US accounting automation.
- * Auth: Authorization: Bearer chasa_…
+ * Auth: Authorization: Bearer docstoc_…
  *
  * POST /api/v1/chase/draft
  * { client_name, invoice_amount, days_overdue? | due_date? }

@@ -1,7 +1,7 @@
 import { hasAnalyticsConsent } from "./consent";
 
-const VISITOR_KEY = "chasa_vid";
-const EXCLUDE_KEY = "chasa_exclude_self";
+const VISITOR_KEY = "docstoc_vid";
+const EXCLUDE_KEY = "docstoc_exclude_self";
 
 function visitorId(): string {
   try {
@@ -32,7 +32,7 @@ export function setExcludeSelf(on: boolean): void {
   }
 }
 
-/** Chasa chase product events — keep in sync with worker allowlist */
+/** Docstoc chase product events — keep in sync with worker allowlist */
 export type AnalyticsEvent =
   | "signup_started"
   | "signup_completed"

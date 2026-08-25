@@ -176,7 +176,7 @@ export type AcmeAccount = {
 };
 
 /** Loads the single stored ACME account, registering a new one with Let's Encrypt on first use.
- *  One account per chasa deployment, shared across all customer certificates (the normal ACME
+ *  One account per docstoc deployment, shared across all customer certificates (the normal ACME
  *  pattern — Let's Encrypt rate-limits are per-account, not per-domain-owner). */
 export async function loadOrCreateAccount(env: Env): Promise<AcmeAccount> {
   const directory = await getDirectory(env);

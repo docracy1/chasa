@@ -1447,7 +1447,7 @@
       line-height: 1.2;
     }
     /* Keep chat launcher above the fixed pricing bar */
-    body:has(.pricing) .chasa-asst {
+    body:has(.pricing) .docstoc-asst {
       bottom: calc(340px + env(safe-area-inset-bottom, 0px));
       right: 16px;
     }
@@ -1616,7 +1616,7 @@
       </div>
       <div class="header-nav-actions">        <div class="locale-switch" data-locale-switch role="group" data-i18n-aria="nav.language" data-es-href="/es/"></div>
         <!--email_off-->
-        <a href="mailto:sales@chasa.io" class="header-nav-sales header-nav-collapse" data-sales-mail data-sales-subject="docstoc sales" data-i18n="nav.contactSales">Contact sales</a>
+        <a href="mailto:sales@docstoc.io" class="header-nav-sales header-nav-collapse" data-sales-mail data-sales-subject="docstoc sales" data-i18n="nav.contactSales">Contact sales</a>
         <!--/email_off-->
         <a href="/app/login?start=1" class="nav-cta" data-i18n="nav.tryFree">Try free</a>
         <a href="/app/login" class="header-login-btn header-nav-collapse" data-i18n="nav.signIn">Sign in</a>
@@ -1658,7 +1658,7 @@
     <a href="/app/login?start=1" class="mobile-panel-cta-primary" data-i18n="nav.tryFree">Try free</a>
     <a href="/app/login" class="mobile-panel-cta-secondary" data-i18n="nav.signIn">Sign in</a>
     <!--email_off-->
-    <a href="mailto:sales@chasa.io" class="mobile-panel-cta-secondary" data-sales-mail data-sales-subject="docstoc sales" data-i18n="nav.contactSales">Contact sales</a>
+    <a href="mailto:sales@docstoc.io" class="mobile-panel-cta-secondary" data-sales-mail data-sales-subject="docstoc sales" data-i18n="nav.contactSales">Contact sales</a>
     <!--/email_off-->
   </div>
 </div>
@@ -2379,7 +2379,7 @@
         <div class="pc-range-ends"><span>1</span><span>20</span></div>
       </div>
 
-      <div class="pc-row pc-row-chasa">
+      <div class="pc-row pc-row-docstoc">
         <div class="pc-row-main">
           <div class="pc-row-name">docstoc Pro</div>
           <div class="pc-row-formula">Flat workspace fee · Business is $39.99/mo, also flat</div>
@@ -2542,7 +2542,7 @@
       <a href="/use-cases/audit-ready-workflows">Audit Workflows</a>
       <a href="/compliance/sox">SOX AR Evidence</a>
       <a href="/use-cases/compliance-dashboard">Compliance Board</a>
-      <a href="/use-cases/chasa-certificate-monitoring">Certificate Proof</a>
+      <a href="/use-cases/docstoc-certificate-monitoring">Certificate Proof</a>
       <a href="/use-cases/document-signing-api">Follow-up API</a>
     </div>
     <div class="site-footer-col">
@@ -2573,15 +2573,15 @@
       <a href="/docstoc-vs-vanta">vs Vanta</a>
       <a href="/docstoc-vs-drata">vs Drata</a>
       <a href="/compare/">All comparisons</a>
-      <a href="/switch-to-chasa" data-i18n="footer.switch">Switch to docstoc</a>
+      <a href="/switch-to-docstoc" data-i18n="footer.switch">Switch to docstoc</a>
     </div>
     <div class="site-footer-col">
       <h4 data-i18n="footer.company">Company</h4>
       <a href="/about">About</a>
-      <a href="https://docracy.io?utm_source=chasa&utm_medium=footer" target="_blank" rel="noopener noreferrer" data-i18n="footer.docracyLink">Docracy — free e-signatures</a>
+      <a href="https://docracy.io?utm_source=docstoc&utm_medium=footer" target="_blank" rel="noopener noreferrer" data-i18n="footer.docracyLink">Docracy — free e-signatures</a>
       <a href="/press" data-i18n="footer.press">Press</a>
       <a href="/imprint">Imprint</a>
-      <!--email_off--><a href="mailto:founder@chasa.io" data-i18n="footer.contact">Contact</a><!--/email_off-->
+      <!--email_off--><a href="mailto:founder@docstoc.io" data-i18n="footer.contact">Contact</a><!--/email_off-->
       <a href="https://www.linkedin.com/company/chasa-io" target="_blank" rel="noopener noreferrer" data-i18n="footer.linkedin">LinkedIn</a>
       <a href="https://x.com/chasaHQ" target="_blank" rel="noopener noreferrer" data-i18n="footer.x">X</a>
       <a href="https://www.facebook.com/profile.php?id=61593311134413" target="_blank" rel="noopener noreferrer" data-i18n="footer.facebook">Facebook</a>
@@ -2649,7 +2649,7 @@
         : null;
       if (!el) return;
       e.preventDefault();
-      window.dispatchEvent(new CustomEvent("chasa:open-chat", { detail: { intent: "sales" } }));
+      window.dispatchEvent(new CustomEvent("docstoc:open-chat", { detail: { intent: "sales" } }));
     }, true);
 
     /* Personalize the hero for outreach clicks — /go/dm?who=sarah forwards ?who= here. */

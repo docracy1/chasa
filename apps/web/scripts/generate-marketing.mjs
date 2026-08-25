@@ -31,7 +31,7 @@ function extractDescription(html) {
 function extractCanonical(html) {
   const match = html.match(/<link rel="canonical" href="([^"]*)"/i);
   if (!match) return "/";
-  return match[1].replace(/^https:\/\/chasa\.io/, "") || "/";
+  return match[1].replace(/^https:\/\/docstoc\.io/, "") || "/";
 }
 
 function extractJsonLd(html) {

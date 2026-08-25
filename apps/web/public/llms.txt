@@ -48,6 +48,6 @@ Every template and document page follows the same structure: a plain-text previe
 content, a "What's included" bullet list, named use-cases, and an FAQ with direct Q&A pairs —
 written to be easy to extract and cite directly rather than requiring JS rendering.
 
-Contact: founder@chasa.io
+Contact: founder@docstoc.io
 Sitemap: https://chasa.io/sitemap.xml
 RSS: https://chasa.io/blog/feed.xml

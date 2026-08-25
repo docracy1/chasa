@@ -109,7 +109,7 @@ export const SITEMAP_ROUTES = [
   { path: "/switch-from-certkit", priority: 0.75, changefreq: "monthly" },
   { path: "/docstoc-vs-hostinger-ssl", priority: 0.8, changefreq: "monthly" },
   { path: "/switch-from-hostinger-ssl", priority: 0.75, changefreq: "monthly" },
-  { path: "/switch-to-chasa", priority: 0.75, changefreq: "monthly" },
+  { path: "/switch-to-docstoc", priority: 0.75, changefreq: "monthly" },
   { path: "/press", priority: 0.55, changefreq: "monthly" },
   { path: "/about", priority: 0.6, changefreq: "monthly" },
   { path: "/imprint", priority: 0.3, changefreq: "yearly" },

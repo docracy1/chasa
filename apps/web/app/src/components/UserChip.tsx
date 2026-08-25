@@ -155,7 +155,7 @@ export default function UserChip({
             {t("nav.admin")}
           </Link>
         )}
-        <a href="mailto:founder@chasa.io" role="menuitem">
+        <a href="mailto:founder@docstoc.io" role="menuitem">
           <MenuIcon name="support" />
           {t("nav.support")}
         </a>

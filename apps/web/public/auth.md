@@ -1,13 +1,13 @@
-# Chasa — Agent Authentication
+# Docstoc — Agent Authentication
 
-Chasa does not use OAuth or OpenID Connect for agents. There is no dynamic client registration
+Docstoc does not use OAuth or OpenID Connect for agents. There is no dynamic client registration
 endpoint, no authorization/token endpoint, and no `/.well-known/oauth-authorization-server`.
 
 ## How authentication actually works
 
 - **Human users**: passwordless magic-link email sign-in at `https://chasa.io/app/login`. Clicking
   the one-time link creates a session cookie. The first sign-in also creates the account.
-- **Agents and the HTTP API**: a static Bearer API key (format `chasa_...`), created by a signed-in
+- **Agents and the HTTP API**: a static Bearer API key (format `docstoc_...`), created by a signed-in
   paid user from `https://chasa.io/app/connector`.
 - **MCP**: mixed auth.
   - `get_chase_tip`, `recommend_template`, and `list_templates` are public.
@@ -34,6 +34,6 @@ This works for:
 
 ## Authentication guidance for agents
 
-- Do not assume Chasa can send email on the user's behalf. It drafts follow-up copy only.
+- Do not assume Docstoc can send email on the user's behalf. It drafts follow-up copy only.
 - Prefer public MCP tools for template lookup and chase-tone guidance when no user auth is present.
 - Use the paid API key only when a human has already created it from the app.

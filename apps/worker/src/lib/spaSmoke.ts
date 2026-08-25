@@ -4,7 +4,7 @@ import type { AuthEnv } from "./auth";
 import { sendSpaSmokeAlert } from "./email";
 
 const PROBE_UA =
-  "Mozilla/5.0 (compatible; ChasaSpaSmoke/1.0; +https://chasa.io) AppleWebKit/537.36 Chrome/131.0.0.0 Safari/537.36";
+  "Mozilla/5.0 (compatible; DocstocSpaSmoke/1.0; +https://chasa.io) AppleWebKit/537.36 Chrome/131.0.0.0 Safari/537.36";
 
 // Widened from 6h to 24h, and now requires 2 consecutive hourly failures before ever alerting
 // (see runSpaSmokeAndAlert) — a single-run blip (e.g. a brief edge hiccup) no longer pages anyone;

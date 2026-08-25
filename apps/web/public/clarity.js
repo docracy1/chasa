@@ -1,8 +1,8 @@
-/** Microsoft Clarity — load only after analytics cookie consent. Project: Chasa (xtl7mhg00w). */
+/** Microsoft Clarity — load only after analytics cookie consent. Project: Docstoc (xtl7mhg00w). */
 (function () {
   var PROJECT_ID = "xtl7mhg00w";
-  var CONSENT_KEY = "chasa_cookie_consent";
-  var EXCLUDE_KEY = "chasa_exclude_self";
+  var CONSENT_KEY = "docstoc_cookie_consent";
+  var EXCLUDE_KEY = "docstoc_exclude_self";
 
   function hasConsent() {
     try {
@@ -22,7 +22,7 @@
 
   function loadClarity() {
     if (!hasConsent() || excludeSelf()) return;
-    if (document.querySelector('script[data-chasa-clarity]')) return;
+    if (document.querySelector('script[data-docstoc-clarity]')) return;
     if (typeof window.clarity === "function") return;
 
     (function (c, l, a, r, i, t, y) {
@@ -34,12 +34,12 @@
       t = l.createElement(r);
       t.async = 1;
       t.src = "https://www.clarity.ms/tag/" + i;
-      t.setAttribute("data-chasa-clarity", "1");
+      t.setAttribute("data-docstoc-clarity", "1");
       y = l.getElementsByTagName(r)[0];
       y.parentNode.insertBefore(t, y);
     })(window, document, "clarity", "script", PROJECT_ID);
   }
 
-  window.chasaLoadClarity = loadClarity;
+  window.docstocLoadClarity = loadClarity;
   loadClarity();
 })();

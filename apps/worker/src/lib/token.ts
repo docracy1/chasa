@@ -34,7 +34,7 @@ async function purposeHmacKey(secret: string, purpose: TokenPurpose): Promise<Cr
       name: "HKDF",
       hash: "SHA-256",
       salt: new Uint8Array(0),
-      info: new TextEncoder().encode(`chasa:v1:${purpose}`),
+      info: new TextEncoder().encode(`docstoc:v1:${purpose}`),
     },
     master,
     { name: "HMAC", hash: "SHA-256", length: 256 },

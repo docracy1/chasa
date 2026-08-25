@@ -69,7 +69,7 @@ export async function resolveAccountFromApiKeyBearer(
   env: Env,
   bearer: string
 ): Promise<AccountContext | null> {
-  if (!bearer.startsWith("chasa_")) return null;
+  if (!bearer.startsWith("docstoc_")) return null;
   const [primaryHash, legacyHash] = await hashOpaqueTokenLookup(bearer, env.TOKEN_SECRET, "api-key");
   const sql = `SELECT k.id as key_id, a.id as id, a.email as email, a.is_paid as is_paid, a.plan as plan,
             a.workspace_owner_id as workspace_owner_id

@@ -1,7 +1,7 @@
 import type { Env } from "../types";
 
 /**
- * Chasa analytics catalog (invoice chase product).
+ * Docstoc analytics catalog (invoice chase product).
  * Structure: { name, properties?, visitorId?, accountId?, path?, created_at }
  *
  * Priority: Activation > Growth > Completion > Templates > Traffic > Email > Errors
@@ -45,7 +45,7 @@ export const ACTIVATION_FUNNEL = [
 
 /** 2. Completion — KPI: chase_completed. chase_opened fires from the tracked-email open pixel
  *  (chaseTracking.ts recordOpen, first open only); chase_completed fires when an invoice is marked
- *  paid (routes/aging.ts mark-paid) — neither requires the recipient to do anything Chasa-specific,
+ *  paid (routes/aging.ts mark-paid) — neither requires the recipient to do anything Docstoc-specific,
  *  so this funnel only reflects traffic that used the HTML tracked-chase feature. */
 export const COMPLETION_FUNNEL = [
   "chase_sent",

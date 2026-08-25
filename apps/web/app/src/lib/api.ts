@@ -20,7 +20,7 @@ export function setUnauthorizedHandler(handler: () => void): void {
 
 function visitorId(): string | undefined {
   try {
-    return localStorage.getItem("chasa_vid") || undefined;
+    return localStorage.getItem("docstoc_vid") || undefined;
   } catch {
     return undefined;
   }
@@ -415,11 +415,11 @@ export type CloudConnectorTestResult = {
 };
 
 /** sessionStorage key — Connector / New chase write, Tool reads + clears */
-export const CLOUD_IMPORT_STORAGE_KEY = "chasa.cloudImport";
+export const CLOUD_IMPORT_STORAGE_KEY = "docstoc.cloudImport";
 /** sessionStorage key — New chase manual/CSV rows → Tool adds on mount */
-export const PENDING_INVOICES_STORAGE_KEY = "chasa.pendingInvoices";
+export const PENDING_INVOICES_STORAGE_KEY = "docstoc.pendingInvoices";
 /** sessionStorage key — free template subject/body applied after first generate */
-export const PENDING_TEMPLATE_STORAGE_KEY = "chasa.pendingTemplate";
+export const PENDING_TEMPLATE_STORAGE_KEY = "docstoc.pendingTemplate";
 
 export function importLocalPdf(filename: string, base64: string) {
   return jsonFetch<CloudFileImport>("/account/pdf/import", {

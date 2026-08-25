@@ -1,6 +1,6 @@
 {
-  "name": "Chasa — Import overdue invoices from FreshBooks",
-  "description": "When a FreshBooks invoice becomes overdue, POST to Chasa API to draft a chase email.",
+  "name": "Docstoc — Import overdue invoices from FreshBooks",
+  "description": "When a FreshBooks invoice becomes overdue, POST to Docstoc API to draft a chase email.",
   "steps": [
     {
       "app": "FreshBooks",
@@ -12,7 +12,7 @@
       "action": "POST",
       "url": "https://api.chasa.io/api/v1/chase/draft",
       "headers": {
-        "Authorization": "Bearer YOUR_CHASA_API_KEY",
+        "Authorization": "Bearer YOUR_DOCSTOC_API_KEY",
         "Content-Type": "application/json"
       },
       "body": {

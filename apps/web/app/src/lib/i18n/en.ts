@@ -511,7 +511,7 @@ const en: Messages = {
     "Get notified at a URL you control when a chase is drafted, sent, or completed in your workflow. Payload is JSON — nothing is emailed for you.",
   "webhooks.upgradeNudge": "Webhooks are included on Pro and up.",
   "webhooks.upgradeHint": "to add endpoints.",
-  "webhooks.urlPlaceholder": "https://example.com/hooks/chasa",
+  "webhooks.urlPlaceholder": "https://example.com/hooks/docstoc",
   "webhooks.loadFailed": "Could not load webhooks",
   "webhooks.addFailed": "Could not add webhook",
   "webhooks.deleteFailed": "Could not delete webhook",
@@ -630,7 +630,7 @@ const en: Messages = {
   "connector.waveZap": "Wave Zap",
   "connector.zohoZap": "Zoho Books Zap",
   "connector.curlWarn":
-    "Run the entire curl line in Terminal — do not paste the API key by itself. A bare key is not a shell command (that often prints command not found: chasa_…).",
+    "Run the entire curl line in Terminal — do not paste the API key by itself. A bare key is not a shell command (that often prints command not found: docstoc_…).",
   "connector.curlPreferred":
     "1. Preferred — copy full curl (includes the key safely inside Authorization: Bearer …):",
   "connector.copiedFullCurl": "Copied full curl ✓",
@@ -694,7 +694,7 @@ const en: Messages = {
   "admin.title": "Admin",
   "admin.signInSub": "Sign in as admin to manage docstoc.",
   "admin.loginFailed": "Login failed",
-  "admin.chasaHome": "docstoc home",
+  "admin.docstocHome": "docstoc home",
   "admin.pricing": "Pricing",
   "admin.freeTemplates": "Free templates",
   "admin.blog": "Blog",

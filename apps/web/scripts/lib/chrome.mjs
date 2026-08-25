@@ -122,7 +122,7 @@ const USE_CASE_ITEMS = [
   { path: "/use-cases/audit-ready-workflows", icon: "scale", titleKey: "nav.mega.useCase.audit.title", title: "Audit-ready workflows", descKey: "nav.mega.useCase.audit.desc", desc: "Timestamped evidence packs and demand letters." },
   { path: "/compliance/sox", icon: "shield", titleKey: "nav.mega.useCase.sox.title", title: "SOX evidence automation", descKey: "nav.mega.useCase.sox.desc", desc: "Immutable AR activity logs for auditors." },
   { path: "/use-cases/compliance-dashboard", icon: "briefcase", titleKey: "nav.mega.useCase.compliance.title", title: "Compliance dashboard", descKey: "nav.mega.useCase.compliance.desc", desc: "Aging buckets and follow-up status at a glance." },
-  { path: "/use-cases/chasa-certificate-monitoring", icon: "mail", titleKey: "nav.mega.useCase.certificate.title", title: "Certificate monitoring", descKey: "nav.mega.useCase.certificate.desc", desc: "Proof of delivery and chase-history verification." },
+  { path: "/use-cases/docstoc-certificate-monitoring", icon: "mail", titleKey: "nav.mega.useCase.certificate.title", title: "Certificate monitoring", descKey: "nav.mega.useCase.certificate.desc", desc: "Proof of delivery and chase-history verification." },
   { path: "/use-cases/document-signing-api", icon: "duplicate", titleKey: "nav.mega.useCase.api.title", title: "Follow-up API", descKey: "nav.mega.useCase.api.desc", desc: "Integrate chase drafts into your own stack." },
   { path: "/use-cases/flat-fee-esign", icon: "users", titleKey: "nav.mega.useCase.flatFee.title", title: "Flat-fee pricing", descKey: "nav.mega.useCase.flatFee.desc", desc: "No per-document fees — unlimited chases from $14.99/mo." },
   { path: "/use-cases/freelance-contract-templates", icon: "store", titleKey: "nav.mega.useCase.templates.title", title: "Freelance contract templates", descKey: "nav.mega.useCase.templates.desc", desc: "Free Independent Contractor Agreement, ready to send." },
@@ -182,30 +182,30 @@ export function trustBadgesHtml() {
  *  be true today — do not add customer counts, certifications, or testimonials that aren't real.
  *  Placeholders are commented inline for whoever adds real numbers/testimonials later. */
 export function conversionSectionHtml() {
-  return `<section class="why-chasa">
+  return `<section class="why-docstoc">
     <h2>Why use this instead of a generic template</h2>
-    <div class="why-chasa-grid">
-      <div class="why-chasa-item">
+    <div class="why-docstoc-grid">
+      <div class="why-docstoc-item">
         <h3>Security</h3>
         <p>Served over SSL from Cloudflare's edge network — no ad trackers, no third-party scripts on template pages.</p>
       </div>
-      <div class="why-chasa-item">
+      <div class="why-docstoc-item">
         <h3>Legality</h3>
         <p>Templates are drafted for general use, not a substitute for legal advice — check the note on each page for specifics.</p>
       </div>
-      <div class="why-chasa-item">
+      <div class="why-docstoc-item">
         <h3>Privacy</h3>
         <p>No account or signup needed to copy a template — nothing you type here is stored unless you choose to sign up.</p>
       </div>
-      <div class="why-chasa-item">
+      <div class="why-docstoc-item">
         <h3>Speed</h3>
         <p>Copy the subject and body directly — no form to fill in, no export step, no waiting on a download link.</p>
       </div>
-      <div class="why-chasa-item">
+      <div class="why-docstoc-item">
         <h3>Mobile-friendly</h3>
         <p>Every template page works the same on a phone as a desktop — copy on the go, no app required.</p>
       </div>
-      <div class="why-chasa-item">
+      <div class="why-docstoc-item">
         <h3>API available</h3>
         <p>Building your own tool? docstoc's <a href="/docs/">API</a> covers invoices, reminders, and templates directly.</p>
       </div>
@@ -297,7 +297,7 @@ ${jsonLd ? `<script type="application/ld+json">\n${jsonLd}\n</script>` : `<scrip
       <div class="header-nav-actions">
         <div class="locale-switch" data-locale-switch role="group" data-i18n-aria="nav.language"${localeSwitchAttrs}></div>
         <!--email_off-->
-        <a href="mailto:sales@chasa.io" class="header-nav-sales header-nav-collapse" data-sales-mail data-sales-subject="docstoc sales" data-i18n="nav.contactSales">Contact sales</a>
+        <a href="mailto:sales@docstoc.io" class="header-nav-sales header-nav-collapse" data-sales-mail data-sales-subject="docstoc sales" data-i18n="nav.contactSales">Contact sales</a>
         <!--/email_off-->
         <a href="${link("/app/")}login?start=1" class="nav-cta" data-i18n="nav.tryFree">Try free</a>
         <a href="${link("/app/login")}" class="header-login-btn header-nav-collapse" data-i18n="nav.signIn">Sign in</a>
@@ -339,7 +339,7 @@ ${jsonLd ? `<script type="application/ld+json">\n${jsonLd}\n</script>` : `<scrip
     <a href="${link("/app/")}login?start=1" class="mobile-panel-cta-primary" data-i18n="nav.tryFree">Try free</a>
     <a href="${link("/app/login")}" class="mobile-panel-cta-secondary" data-i18n="nav.signIn">Sign in</a>
     <!--email_off-->
-    <a href="mailto:sales@chasa.io" class="mobile-panel-cta-secondary" data-sales-mail data-sales-subject="docstoc sales" data-i18n="nav.contactSales">Contact sales</a>
+    <a href="mailto:sales@docstoc.io" class="mobile-panel-cta-secondary" data-sales-mail data-sales-subject="docstoc sales" data-i18n="nav.contactSales">Contact sales</a>
     <!--/email_off-->
   </div>
 </div>
@@ -373,7 +373,7 @@ ${mainHtml}
       <a href="${link("/use-cases/audit-ready-workflows")}">Audit Workflows</a>
       <a href="${link("/compliance/sox")}">SOX AR Evidence</a>
       <a href="${link("/use-cases/compliance-dashboard")}">Compliance Board</a>
-      <a href="${link("/use-cases/chasa-certificate-monitoring")}">Certificate Proof</a>
+      <a href="${link("/use-cases/docstoc-certificate-monitoring")}">Certificate Proof</a>
       <a href="${link("/use-cases/document-signing-api")}">Follow-up API</a>
       <a href="${link("/use-cases/freelance-contract-templates")}">Contract Templates</a>
       <a href="${link("/use-cases/free-ssl-for-your-domain")}">Free SSL Setup</a>
@@ -385,14 +385,14 @@ ${mainHtml}
       <a href="${link("/docstoc-vs-duefy")}" data-i18n="footer.vsDuefy">vs Duefy</a>
       <a href="${link("/docstoc-vs-satago")}" data-i18n="footer.vsSatago">vs Satago</a>
       <a href="${link("/docstoc-vs-chaseai")}" data-i18n="footer.vsChaseai">vs ChaseAI</a>
-      <a href="${link("/switch-to-chasa")}" data-i18n="footer.switch">Switch to docstoc</a>
+      <a href="${link("/switch-to-docstoc")}" data-i18n="footer.switch">Switch to docstoc</a>
     </div>
     <div class="site-footer-col">
       <h4 data-i18n="footer.company">Company</h4>
       <a href="${link("/about")}" data-i18n="footer.about">About</a>
       <a href="${link("/press")}" data-i18n="footer.press">Press</a>
       <a href="${link("/imprint")}" data-i18n="footer.imprint">Imprint</a>
-      <!--email_off--><a href="mailto:founder@chasa.io" data-i18n="footer.contact">Contact</a><!--/email_off-->
+      <!--email_off--><a href="mailto:founder@docstoc.io" data-i18n="footer.contact">Contact</a><!--/email_off-->
     </div>
     <div class="site-footer-col">
       <h4 data-i18n="footer.legal">Legal</h4>
@@ -435,7 +435,7 @@ ${mainHtml}
       : null;
     if (!el) return;
     e.preventDefault();
-    window.dispatchEvent(new CustomEvent("chasa:open-chat", { detail: { intent: "sales" } }));
+    window.dispatchEvent(new CustomEvent("docstoc:open-chat", { detail: { intent: "sales" } }));
   }, true);
 })();
 </script>

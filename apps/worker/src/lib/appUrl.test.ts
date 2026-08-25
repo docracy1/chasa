@@ -36,8 +36,8 @@ describe("isAllowedAppOrigin", () => {
   it("rejects lookalike and unrelated origins", () => {
     expect(isAllowedAppOrigin("https://chasa.io.evil.com", prod)).toBe(false);
     expect(isAllowedAppOrigin("https://evil.com", prod)).toBe(false);
-    expect(isAllowedAppOrigin("https://evil-chasa.pages.dev", prod)).toBe(false);
-    expect(isAllowedAppOrigin("https://chasa.pages.dev.evil.com", prod)).toBe(false);
+    expect(isAllowedAppOrigin("https://evil-docstoc.pages.dev", prod)).toBe(false);
+    expect(isAllowedAppOrigin("https://docstoc.pages.dev.evil.com", prod)).toBe(false);
     expect(isAllowedAppOrigin("", prod)).toBe(false);
   });
 

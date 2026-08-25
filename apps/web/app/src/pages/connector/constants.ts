@@ -3,8 +3,8 @@ import { CLOUD_REDIRECT_URIS, type AccountingProvider, type CloudProvider } from
 export const DRAFT_URL = "https://api.chasa.io/api/v1/chase/draft";
 export const PROVIDERS: CloudProvider[] = ["dropbox", "onedrive", "box", "google"];
 export const ACCOUNTING_PROVIDERS: AccountingProvider[] = ["quickbooks", "xero"];
-export const TEST_OK_STORAGE_KEY = "chasa.connectorTestOk";
-export const API_KEY_TEST_OK_STORAGE_KEY = "chasa.apiKeyTestOk";
+export const TEST_OK_STORAGE_KEY = "docstoc.connectorTestOk";
+export const API_KEY_TEST_OK_STORAGE_KEY = "docstoc.apiKeyTestOk";
 export const ONEDRIVE_REDIRECT = CLOUD_REDIRECT_URIS.onedrive;
 
 export const ACCOUNTING_LABELS: Record<AccountingProvider, string> = {

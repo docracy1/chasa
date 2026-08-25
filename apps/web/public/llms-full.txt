@@ -6,7 +6,7 @@ automated SSL for a customer's own domain. docstoc is not a debt collection agen
 advice, and does not send email on the user's behalf.
 
 Operated by RELACON GmbH, Elisabethstraße 15/5b, 1010 Vienna, Austria. Contact:
-founder@chasa.io.
+founder@docstoc.io.
 
 ---
 
@@ -106,7 +106,7 @@ Authentication:
 - Public tools can be called without authentication.
 - `draft_chase_email` requires either:
   - a signed-in browser session, or
-  - `Authorization: Bearer chasa_...`
+  - `Authorization: Bearer docstoc_...`
 
 docstoc MCP is read-only / draft-only. It does not send email, edit invoices, or trigger outreach.
 
@@ -120,7 +120,7 @@ Primary endpoint:
 
 Authentication:
 
-- `Authorization: Bearer chasa_...`
+- `Authorization: Bearer docstoc_...`
 
 Typical use cases:
 

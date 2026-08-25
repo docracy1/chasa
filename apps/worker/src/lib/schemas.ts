@@ -13,7 +13,7 @@ export const templatesPackLeadSchema = z.object({
   role: z.string().trim().max(80).optional(),
   invoiceTool: z.string().trim().max(80).optional(),
   turnstileToken: z.string().optional(),
-  /** Site language the form was submitted in (chasa_locale) — more reliable than Accept-Language
+  /** Site language the form was submitted in (docstoc_locale) — more reliable than Accept-Language
    *  for picking the welcome email's language, since it reflects an explicit user choice. */
   lang: z.enum(["en", "es"]).optional(),
 });

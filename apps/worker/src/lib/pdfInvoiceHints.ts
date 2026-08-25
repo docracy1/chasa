@@ -168,7 +168,7 @@ function parseLooseDate(raw: string): string | null {
     const a = +m[1];
     const b = +m[2];
     const y = +m[3];
-    // Prefer D/M/Y when first > 12, else assume D/M/Y (EU-leaning for Chasa)
+    // Prefer D/M/Y when first > 12, else assume D/M/Y (EU-leaning for Docstoc)
     if (a > 12) return toIsoDate(y, b, a);
     if (b > 12) return toIsoDate(y, a, b);
     return toIsoDate(y, b, a);
