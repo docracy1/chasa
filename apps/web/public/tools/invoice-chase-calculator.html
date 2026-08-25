@@ -90,6 +90,7 @@ body:has(.tool-sell-main) { background: #060504; }
   padding: 22px;
   box-sizing: border-box;
   color: var(--ink);
+  position: relative;
 }
 .tool-circle.is-action {
   cursor: pointer;
@@ -580,13 +581,14 @@ body:has(.tool-sell-main) { background: #060504; }
   <div class="tool-hero-inner">
     <div class="tool-hero-pill" aria-hidden="true"></div>
     <h1><span class="accent">Late fees.</span><br>Cash unlocked.</h1>
-    <p class="tool-hero-sub">Estimate interest on one overdue invoice — and the working capital you free when consistent chasing shortens days outstanding.</p>
-    <div class="tool-ring"><div class="tool-circle">
-      <span class="tool-circle-icon" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v10M9.5 9.5c.8-1 2-1.5 2.5-1.5s1.7.5 1.7 1.5-1 1.5-2.7 2-2.7 1.2-2.7 2.5 1.2 2.2 2.7 2.2 1.8-.5 2.5-1.5"/></svg></span>
-      <p class="tool-circle-stat" data-sv-out-cash>—</p>
-      <p class="tool-circle-sub">cash unlocked (est.)</p>
+    <p class="tool-hero-sub">Drop the overdue invoice file to fingerprint it, then estimate interest and the working capital you free when chasing shortens days outstanding.</p>
+    <div class="tool-ring"><div class="tool-circle is-action" data-hash-drop data-drop-intent="chase" tabindex="0" role="button" aria-label="Drop a file or click to choose one">
+      <span class="tool-circle-icon" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4M12 4l-4 4M12 4l4 4" /><path d="M4 16v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3" /></svg></span>
+      <p class="tool-circle-title">Click or drag a file here</p>
+      <p class="tool-circle-sub">Drop an overdue invoice · then run the numbers</p>
+      <input type="file" data-hash-input style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;" />
     </div></div>
-    <p class="tool-caption">Draft-only AI follow-ups · you stay in control of every send</p>
+    <p class="tool-caption">SHA-256 · draft-only AI follow-ups · you stay in control of every send</p>
     <form class="tool-signup" action="/app/login" method="get">
   <input type="hidden" name="start" value="1" />
   <input class="tool-signup-input" type="email" name="email" autocomplete="email" placeholder="Enter your work email" aria-label="Enter your work email" required />
@@ -597,6 +599,15 @@ body:has(.tool-sell-main) { background: #060504; }
 </section>
 <section class="tool-section">
   <div class="tool-section-inner">
+    <div class="hash-out" data-hash-out hidden>
+  <div class="hash-out-row">
+    <code data-hash-value>—</code>
+    <button type="button" class="hash-copy-btn" data-hash-copy>Copy</button>
+  </div>
+  <p class="tool-note" data-hash-meta></p>
+  <p class="tool-note" data-hash-next hidden></p>
+  <p style="margin-top:12px"><a href="/app/">Draft the chase email →</a></p>
+</div>
     <h2>Late payment interest</h2>
     <div class="tool-panel-grid" data-calc="late-payment">
       <div class="tool-panel">

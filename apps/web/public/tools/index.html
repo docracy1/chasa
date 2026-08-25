@@ -90,6 +90,7 @@ body:has(.tool-sell-main) { background: #060504; }
   padding: 22px;
   box-sizing: border-box;
   color: var(--ink);
+  position: relative;
 }
 .tool-circle.is-action {
   cursor: pointer;
@@ -517,9 +518,14 @@ body:has(.tool-sell-main) { background: #060504; }
   <div class="tool-hero-inner">
     <div class="tool-hero-pill" aria-hidden="true"></div>
     <h1><span class="accent">Free tools.</span><br>One workflow.</h1>
-    <p class="tool-hero-sub">Templates, file hash, SSL expiry, trust badges, invoice generator, and chase estimates — same dark selling surface as the rest of docstoc. No signup to try the calculators.</p>
-    <div class="tool-ring"><div class="tool-circle"><span class="tool-circle-icon" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg></span><p class="tool-circle-title">Pick a tool below</p><p class="tool-circle-sub">Six free utilities · zero friction</p></div></div>
-    <p class="tool-caption">Built for freelancers &amp; small teams · same brand as Secure. Automate. Certify.</p>
+    <p class="tool-hero-sub">Templates, file hash, SSL expiry, trust badges, invoice generator, and chase estimates — drop any file on the circle to fingerprint it, then pick the tool you need.</p>
+    <div class="tool-ring"><div class="tool-circle is-action" data-hash-drop data-drop-intent="index" tabindex="0" role="button" aria-label="Drop a file or click to choose one">
+      <span class="tool-circle-icon" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4M12 4l-4 4M12 4l4 4" /><path d="M4 16v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3" /></svg></span>
+      <p class="tool-circle-title">Click or drag a file here</p>
+      <p class="tool-circle-sub">SHA-256 fingerprint · then pick a tool below</p>
+      <input type="file" data-hash-input style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;" />
+    </div></div>
+    <p class="tool-caption">SHA-256 · computed in your browser · nothing ever uploaded</p>
     <form class="tool-signup" action="/app/login" method="get">
   <input type="hidden" name="start" value="1" />
   <input class="tool-signup-input" type="email" name="email" autocomplete="email" placeholder="Enter your work email" aria-label="Enter your work email" required />
@@ -530,11 +536,20 @@ body:has(.tool-sell-main) { background: #060504; }
 </section>
 <section class="tool-section">
   <div class="tool-section-inner">
+    <div class="hash-out" data-hash-out hidden>
+  <div class="hash-out-row">
+    <code data-hash-value>—</code>
+    <button type="button" class="hash-copy-btn" data-hash-copy>Copy</button>
+  </div>
+  <p class="tool-note" data-hash-meta></p>
+  <p class="tool-note" data-hash-next hidden></p>
+  <p style="margin-top:12px"><a href="/app/certificates">Save as a free certificate →</a></p>
+</div>
     <h2>Choose your tool</h2>
     <div class="tool-card-grid">
       <a class="tool-card" href="/tools/template-finder"><h2>Template finder</h2><p>Pick your situation, get a direct link to the right free business or legal template.</p></a>
       <a class="tool-card" href="/tools/file-hash-checker"><h2>File hash checker</h2><p>Compute a file's SHA-256 hash in your browser — the same check behind docstoc certificates.</p></a>
-      <a class="tool-card" href="/tools/ssl-certificate-calculator"><h2>SSL expiry calculator</h2><p>Enter an issue date and validity period, get the exact expiry date and days remaining.</p></a>
+      <a class="tool-card" href="/tools/ssl-certificate-calculator"><h2>SSL expiry calculator</h2><p>Drop a cert file or enter dates — get the exact expiry date and days remaining.</p></a>
       <a class="tool-card" href="/tools/trust-badges"><h2>Trust badges</h2><p>Preview the domain-verified badge, look up a public trust profile, copy the embed snippet.</p></a>
       <a class="tool-card" href="/tools/invoice-generator"><h2>Invoice generator</h2><p>Build a professional invoice with line items and tax — preview totals free, then create a shareable client link.</p></a>
       <a class="tool-card" href="/tools/invoice-chase-calculator"><h2>Invoice chase calculator</h2><p>Estimate late payment interest and the cash you unlock when overdue invoices get paid sooner.</p></a>

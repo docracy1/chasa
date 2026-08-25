@@ -90,6 +90,7 @@ body:has(.tool-sell-main) { background: #060504; }
   padding: 22px;
   box-sizing: border-box;
   color: var(--ink);
+  position: relative;
 }
 .tool-circle.is-action {
   cursor: pointer;
@@ -553,9 +554,14 @@ body:has(.tool-sell-main) { background: #060504; }
   <div class="tool-hero-inner">
     <div class="tool-hero-pill" aria-hidden="true"></div>
     <h1><span class="accent">Find. Copy.</span><br>Ship the doc.</h1>
-    <p class="tool-hero-sub">1,000+ free business &amp; legal templates — pick the situation closest to yours and copy straight into your own document. No signup.</p>
-    <div class="tool-ring"><a class="tool-circle is-action" href="#situations"><span class="tool-circle-icon" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg></span><p class="tool-circle-title">Browse situations</p><p class="tool-circle-sub">Jump to the template that fits</p></a></div>
-    <p class="tool-caption">Free forever · plain text · no account required to copy</p>
+    <p class="tool-hero-sub">Drop the file you're working from to fingerprint it, then pick the situation closest to yours and copy a free template. No signup to browse.</p>
+    <div class="tool-ring"><div class="tool-circle is-action" data-hash-drop data-drop-intent="templates" tabindex="0" role="button" aria-label="Drop a file or click to choose one">
+      <span class="tool-circle-icon" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4M12 4l-4 4M12 4l4 4" /><path d="M4 16v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3" /></svg></span>
+      <p class="tool-circle-title">Click or drag a file here</p>
+      <p class="tool-circle-sub">Fingerprint your draft · then pick a template</p>
+      <input type="file" data-hash-input style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;" />
+    </div></div>
+    <p class="tool-caption">SHA-256 · computed in your browser · nothing ever uploaded</p>
     <form class="tool-signup" action="/app/login" method="get">
   <input type="hidden" name="start" value="1" />
   <input class="tool-signup-input" type="email" name="email" autocomplete="email" placeholder="Enter your work email" aria-label="Enter your work email" required />
@@ -566,6 +572,15 @@ body:has(.tool-sell-main) { background: #060504; }
 </section>
 <section class="tool-section" id="situations">
   <div class="tool-section-inner">
+    <div class="hash-out" data-hash-out hidden>
+  <div class="hash-out-row">
+    <code data-hash-value>—</code>
+    <button type="button" class="hash-copy-btn" data-hash-copy>Copy</button>
+  </div>
+  <p class="tool-note" data-hash-meta></p>
+  <p class="tool-note" data-hash-next hidden></p>
+  <p style="margin-top:12px"><a href="/app/certificates">Certify this file →</a> · <a href="#situations">Browse templates ↓</a></p>
+</div>
     <h2>Pick your situation</h2>
     <div class="finder-grid">
       <a class="finder-card" href="/document-templates/independent-contractor-agreement-template"><strong>Hiring a freelance contractor</strong><span>Independent Contractor Agreement</span></a>

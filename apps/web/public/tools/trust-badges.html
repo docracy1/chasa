@@ -90,6 +90,7 @@ body:has(.tool-sell-main) { background: #060504; }
   padding: 22px;
   box-sizing: border-box;
   color: var(--ink);
+  position: relative;
 }
 .tool-circle.is-action {
   cursor: pointer;
@@ -580,13 +581,14 @@ body:has(.tool-sell-main) { background: #060504; }
   <div class="tool-hero-inner">
     <div class="tool-hero-pill" aria-hidden="true"></div>
     <h1><span class="accent">Verified domain.</span><br>Visible trust.</h1>
-    <p class="tool-hero-sub">Show clients you control your domain — public trust profile, embeddable badge, optional Bitcoin timestamp. Look up any public profile free.</p>
-    <div class="tool-ring"><div class="tool-circle">
-      <span class="tool-circle-icon" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="1.5"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></span>
-      <p class="tool-circle-title">Domain-verified</p>
-      <p class="tool-circle-sub" style="margin-top:10px"><span class="trust-badge-demo" data-trust-badge-preview><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#2e7d32" stroke-width="2" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="1.5"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg> Domain-verified via docstoc</span></p>
+    <p class="tool-hero-sub">Drop a file to fingerprint proof materials, then look up any public trust profile or embed your domain-verified badge.</p>
+    <div class="tool-ring"><div class="tool-circle is-action" data-hash-drop data-drop-intent="trust" tabindex="0" role="button" aria-label="Drop a file or click to choose one">
+      <span class="tool-circle-icon" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4M12 4l-4 4M12 4l4 4" /><path d="M4 16v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3" /></svg></span>
+      <p class="tool-circle-title">Click or drag a file here</p>
+      <p class="tool-circle-sub">Fingerprint evidence · then look up a badge</p>
+      <input type="file" data-hash-input style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;" />
     </div></div>
-    <p class="tool-caption">DNS control · live SSL status · Bitcoin-anchored verified-since</p>
+    <p class="tool-caption">SHA-256 · computed in your browser · nothing ever uploaded</p>
     <form class="tool-signup" action="/app/login" method="get">
   <input type="hidden" name="start" value="1" />
   <input class="tool-signup-input" type="email" name="email" autocomplete="email" placeholder="Enter your work email" aria-label="Enter your work email" required />
@@ -597,6 +599,15 @@ body:has(.tool-sell-main) { background: #060504; }
 </section>
 <section class="tool-section">
   <div class="tool-section-inner">
+    <div class="hash-out" data-hash-out hidden>
+  <div class="hash-out-row">
+    <code data-hash-value>—</code>
+    <button type="button" class="hash-copy-btn" data-hash-copy>Copy</button>
+  </div>
+  <p class="tool-note" data-hash-meta></p>
+  <p class="tool-note" data-hash-next hidden></p>
+  <p style="margin-top:12px"><a href="/app/certificates">Certify this file →</a> · <a href="/trust-badges">Trust badges overview →</a></p>
+</div>
     <h2>Look up a public profile</h2>
     <div class="tool-panel-grid" data-calc="trust-badge">
       <div class="tool-panel">
@@ -615,6 +626,7 @@ body:has(.tool-sell-main) { background: #060504; }
         <p class="tool-stat"><span>Domain</span><strong data-trust-out-domain>—</strong></p>
         <p class="tool-stat"><span>SSL status</span><strong data-trust-out-status>—</strong></p>
         <p class="tool-stat"><span>Verified since</span><strong data-trust-out-since>—</strong></p>
+        <p style="margin: 8px 0 12px"><span class="trust-badge-demo" data-trust-badge-preview><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#2e7d32" stroke-width="2" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="1.5"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg> Domain-verified via docstoc</span></p>
         <p class="tool-note" data-trust-out-note>Paste an ID above to load a live public profile.</p>
         <p class="trust-embed-box" data-trust-embed hidden></p>
         <p style="margin-top:14px" data-trust-profile-link-wrap hidden>

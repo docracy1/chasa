@@ -98,10 +98,6 @@
       const cashText = money(cashUnlocked, currency);
       if (outCash) outCash.textContent = cashText;
       if (outCashPanel) outCashPanel.textContent = cashText;
-      // Hero circle may use the same data-sv-out-cash outside this root
-      document.querySelectorAll(".tool-circle [data-sv-out-cash]").forEach((el) => {
-        el.textContent = cashText;
-      });
       if (outHours) outHours.textContent = Math.round(hoursYear).toLocaleString() + " hrs/yr";
       if (outTimeCost) outTimeCost.textContent = money(timeCost, currency);
       if (outRoi) outRoi.textContent = roi >= 0 ? Math.round(roi).toLocaleString() + "%" : "—";
@@ -119,16 +115,14 @@
     const issuedEl = root.querySelector("[data-ssl-issued]");
     const validityEl = root.querySelector("[data-ssl-validity]");
     const outExpiry = root.querySelector("[data-ssl-out-expiry]");
-    const outRemainingEls = document.querySelectorAll("[data-ssl-out-remaining], [data-ssl-out-remaining-panel]");
+    const outRemainingPanel = root.querySelector("[data-ssl-out-remaining-panel]");
 
     function recalc() {
       const issued = issuedEl.value;
       const validityDays = Number(validityEl.value) || 90;
       if (!issued) {
         if (outExpiry) outExpiry.textContent = "—";
-        outRemainingEls.forEach((el) => {
-          el.textContent = "—";
-        });
+        if (outRemainingPanel) outRemainingPanel.textContent = "—";
         return;
       }
       const issuedDate = new Date(issued + "T00:00:00Z");
@@ -142,19 +136,12 @@
           day: "numeric",
         });
       }
-      const remText =
-        remainingDays < 0
-          ? Math.abs(remainingDays) + " days ago (expired)"
-          : remainingDays + " days";
-      outRemainingEls.forEach((el) => {
-        el.textContent = el.hasAttribute("data-ssl-out-remaining") && !el.hasAttribute("data-ssl-out-remaining-panel")
-          ? String(remainingDays < 0 ? "0" : remainingDays)
-          : remText;
-      });
-      // Hero circle prefers a short number
-      document.querySelectorAll(".tool-circle [data-ssl-out-remaining]").forEach((el) => {
-        el.textContent = remainingDays < 0 ? "0" : String(remainingDays);
-      });
+      if (outRemainingPanel) {
+        outRemainingPanel.textContent =
+          remainingDays < 0
+            ? Math.abs(remainingDays) + " days ago (expired)"
+            : remainingDays + " days";
+      }
     }
 
     [issuedEl, validityEl].forEach((el) => {
@@ -178,29 +165,140 @@
     return (n / (1024 * 1024)).toFixed(1) + " MB";
   }
 
+  function parseUtcTime(raw) {
+    // UTCTime YYMMDDHHMMSSZ or GeneralizedTime YYYYMMDDHHMMSSZ
+    const s = raw.replace(/Z$/i, "");
+    let y, mo, d;
+    if (s.length === 12) {
+      y = 2000 + Number(s.slice(0, 2));
+      mo = Number(s.slice(2, 4));
+      d = Number(s.slice(4, 6));
+    } else if (s.length === 14) {
+      y = Number(s.slice(0, 4));
+      mo = Number(s.slice(4, 6));
+      d = Number(s.slice(6, 8));
+    } else return null;
+    if (!y || !mo || !d) return null;
+    return new Date(Date.UTC(y, mo - 1, d));
+  }
+
+  function tryParseCertDates(buffer) {
+    try {
+      const latin = new TextDecoder("latin1").decode(buffer);
+      let bytes = new Uint8Array(buffer);
+      const pem = latin.match(/-----BEGIN CERTIFICATE-----([\s\S]+?)-----END CERTIFICATE-----/);
+      if (pem) {
+        const b64 = pem[1].replace(/\s+/g, "");
+        const bin = atob(b64);
+        bytes = new Uint8Array(bin.length);
+        for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+      }
+      const scan = new TextDecoder("latin1").decode(bytes);
+      const matches = [...scan.matchAll(/([0-9]{12}Z|[0-9]{14}Z)/g)].map((m) => m[1]);
+      if (matches.length < 2) return null;
+      const notBefore = parseUtcTime(matches[0]);
+      const notAfter = parseUtcTime(matches[1]);
+      if (!notBefore || !notAfter || !(notAfter > notBefore)) return null;
+      const days = Math.max(1, Math.round((notAfter - notBefore) / 86400000));
+      return {
+        issued: notBefore.toISOString().slice(0, 10),
+        days,
+      };
+    } catch {
+      return null;
+    }
+  }
+
   function bindHashChecker(drop) {
     const scope = document.querySelector(".tool-sell-main") || document;
-    const input = drop.querySelector("[data-hash-input]") || scope.querySelector("[data-hash-input]");
+    const input = drop.querySelector("[data-hash-input]");
     const out = scope.querySelector("[data-hash-out]");
     const outValue = scope.querySelector("[data-hash-value]");
     const outMeta = scope.querySelector("[data-hash-meta]");
+    const outNext = scope.querySelector("[data-hash-next]");
     const copyBtn = scope.querySelector("[data-hash-copy]");
     if (!drop || !input) return;
+    const intent = drop.getAttribute("data-drop-intent") || "hash";
 
     async function handleFile(file) {
       if (!file) return;
       if (outValue) outValue.textContent = "Computing…";
       if (out) out.hidden = false;
+      if (outNext) {
+        outNext.hidden = true;
+        outNext.textContent = "";
+      }
       const buffer = await file.arrayBuffer();
       const digest = await crypto.subtle.digest("SHA-256", buffer);
       const hex = bufferToHex(digest);
       if (outValue) outValue.textContent = hex;
       if (outMeta) outMeta.textContent = `${file.name} · ${formatBytes(file.size)} · SHA-256`;
       const title = drop.querySelector(".tool-circle-title");
+      const sub = drop.querySelector(".tool-circle-sub");
       if (title) title.textContent = "Hash ready";
+      if (sub) sub.textContent = hex.slice(0, 12) + "…" + hex.slice(-8);
+
+      if (intent === "ssl") {
+        const parsed = tryParseCertDates(buffer);
+        const issuedEl = scope.querySelector("[data-ssl-issued]");
+        const validityEl = scope.querySelector("[data-ssl-validity]");
+        if (parsed && issuedEl) {
+          issuedEl.value = parsed.issued;
+          if (validityEl) {
+            const opt = [...validityEl.options].find((o) => Number(o.value) === parsed.days);
+            if (opt) validityEl.value = String(parsed.days);
+            else {
+              // closest common option or custom via selecting 90 and noting
+              validityEl.value = parsed.days <= 120 ? "90" : parsed.days <= 400 ? "398" : "365";
+            }
+            issuedEl.dispatchEvent(new Event("change", { bubbles: true }));
+          }
+          if (outNext) {
+            outNext.hidden = false;
+            outNext.textContent =
+              "Read certificate dates from the file — check the calculator below (validity snapped to a common period if needed). Exact span ≈ " +
+              parsed.days +
+              " days.";
+          }
+        } else if (outNext) {
+          outNext.hidden = false;
+          outNext.textContent =
+            "Fingerprint ready. If this wasn’t a readable .pem/.crt, enter the issue date manually below.";
+        }
+      } else if (intent === "invoice") {
+        const desc = scope.querySelector("[data-inv-desc]");
+        if (desc && !desc.value.trim()) {
+          desc.value = file.name.replace(/\.[^.]+$/, "").replace(/[_-]+/g, " ");
+          desc.dispatchEvent(new Event("input", { bubbles: true }));
+        }
+        if (outNext) {
+          outNext.hidden = false;
+          outNext.textContent = "Line item filled from filename — adjust qty/price in the form below.";
+        }
+      } else if (intent === "templates" && outNext) {
+        outNext.hidden = false;
+        outNext.innerHTML =
+          'Fingerprint ready. <a href="#situations">Pick a template below</a> or <a href="/app/certificates">certify this file</a>.';
+      } else if (intent === "chase" && outNext) {
+        outNext.hidden = false;
+        outNext.innerHTML =
+          'Invoice fingerprinted. Run the numbers below, then <a href="/app/">draft the chase</a>.';
+      } else if (intent === "trust" && outNext) {
+        outNext.hidden = false;
+        outNext.innerHTML =
+          'Evidence fingerprinted. <a href="/app/certificates">Certify it</a> or look up a trust profile below.';
+      } else if (outNext) {
+        outNext.hidden = false;
+        outNext.innerHTML = 'Fingerprint ready. <a href="/app/certificates">Save as a free certificate →</a>';
+      }
+
+      if (out) out.scrollIntoView({ behavior: "smooth", block: "nearest" });
     }
 
-    drop.addEventListener("click", () => input.click());
+    drop.addEventListener("click", (e) => {
+      if (e.target.closest("a")) return;
+      input.click();
+    });
     drop.addEventListener("keydown", (e) => {
       if (e.key === "Enter" || e.key === " ") {
         e.preventDefault();
@@ -430,9 +528,6 @@
       if (outTax) outTax.textContent = money(taxAmount, currency);
       const totalText = money(total, currency);
       if (outTotalPanel) outTotalPanel.textContent = totalText;
-      document.querySelectorAll(".tool-circle [data-inv-out-total]").forEach((el) => {
-        el.textContent = totalText;
-      });
     }
 
     itemsEl.querySelectorAll(".tool-line-item").forEach(bindRow);

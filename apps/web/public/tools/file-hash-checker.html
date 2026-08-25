@@ -90,6 +90,7 @@ body:has(.tool-sell-main) { background: #060504; }
   padding: 22px;
   box-sizing: border-box;
   color: var(--ink);
+  position: relative;
 }
 .tool-circle.is-action {
   cursor: pointer;
@@ -573,7 +574,7 @@ body:has(.tool-sell-main) { background: #060504; }
     <div class="tool-hero-pill" aria-hidden="true"></div>
     <h1><span class="accent">Hash. Prove.</span><br>Never upload.</h1>
     <p class="tool-hero-sub">Drop any file to compute its SHA-256 fingerprint in your browser — the same math behind docstoc's free tamper-evident certificates.</p>
-    <div class="tool-ring"><div class="tool-circle is-action" data-hash-drop tabindex="0" role="button" aria-label="Drop a file or click to choose one">
+    <div class="tool-ring"><div class="tool-circle is-action" data-hash-drop data-drop-intent="hash" tabindex="0" role="button" aria-label="Drop a file or click to choose one">
       <span class="tool-circle-icon" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4M12 4l-4 4M12 4l4 4" /><path d="M4 16v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3" /></svg></span>
       <p class="tool-circle-title">Click or drag a file here</p>
       <p class="tool-circle-sub">Get a free tamper-evident fingerprint</p>
@@ -591,12 +592,14 @@ body:has(.tool-sell-main) { background: #060504; }
 <section class="tool-section">
   <div class="tool-section-inner">
     <div class="hash-out" data-hash-out hidden>
-      <div class="hash-out-row">
-        <code data-hash-value>—</code>
-        <button type="button" class="hash-copy-btn" data-hash-copy>Copy</button>
-      </div>
-      <p class="tool-note" data-hash-meta></p>
-    </div>
+  <div class="hash-out-row">
+    <code data-hash-value>—</code>
+    <button type="button" class="hash-copy-btn" data-hash-copy>Copy</button>
+  </div>
+  <p class="tool-note" data-hash-meta></p>
+  <p class="tool-note" data-hash-next hidden></p>
+  <p style="margin-top:12px"><a href="/app/certificates">Turn this into a shareable certificate →</a></p>
+</div>
     <h2>What this proves</h2>
     <p>Hash the same file twice — even on different computers — and you get the exact same result. Change a single character and the hash changes completely. That's how you confirm a file wasn't altered after you last checked it.</p>
     <p style="margin-top:16px"><a href="/app/certificates">Turn this into a shareable certificate →</a></p>

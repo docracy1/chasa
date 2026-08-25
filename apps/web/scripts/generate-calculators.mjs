@@ -90,6 +90,7 @@ body:has(.tool-sell-main) { background: #060504; }
   padding: 22px;
   box-sizing: border-box;
   color: var(--ink);
+  position: relative;
 }
 .tool-circle.is-action {
   cursor: pointer;
@@ -395,6 +396,28 @@ function signupForm(source) {
 <p class="tool-cta-hint">No credit card required · your account in one click</p>`.trim();
 }
 
+/** Every hero circle is a real file drop zone — never decorative. */
+function dropCircle({ sub, intent = "hash", title = "Click or drag a file here" }) {
+  return `<div class="tool-circle is-action" data-hash-drop data-drop-intent="${intent}" tabindex="0" role="button" aria-label="Drop a file or click to choose one">
+      <span class="tool-circle-icon" aria-hidden="true">${uploadIcon}</span>
+      <p class="tool-circle-title">${title}</p>
+      <p class="tool-circle-sub">${sub}</p>
+      <input type="file" data-hash-input style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;" />
+    </div>`;
+}
+
+function hashResultBlock(extraHtml = "") {
+  return `<div class="hash-out" data-hash-out hidden>
+  <div class="hash-out-row">
+    <code data-hash-value>—</code>
+    <button type="button" class="hash-copy-btn" data-hash-copy>Copy</button>
+  </div>
+  <p class="tool-note" data-hash-meta></p>
+  <p class="tool-note" data-hash-next hidden></p>
+  ${extraHtml}
+</div>`;
+}
+
 function hero({ accent, rest, sub, ringInner, caption, source }) {
   return `
 <section class="tool-hero">
@@ -523,18 +546,22 @@ const toolsIndexMain = `
 ${hero({
   accent: "Free tools.",
   rest: "One workflow.",
-  sub: "Templates, file hash, SSL expiry, trust badges, invoice generator, and chase estimates — same dark selling surface as the rest of docstoc. No signup to try the calculators.",
-  ringInner: `<div class="tool-circle"><span class="tool-circle-icon" aria-hidden="true">${searchIcon}</span><p class="tool-circle-title">Pick a tool below</p><p class="tool-circle-sub">Six free utilities · zero friction</p></div>`,
-  caption: "Built for freelancers &amp; small teams · same brand as Secure. Automate. Certify.",
+  sub: "Templates, file hash, SSL expiry, trust badges, invoice generator, and chase estimates — drop any file on the circle to fingerprint it, then pick the tool you need.",
+  ringInner: dropCircle({
+    intent: "index",
+    sub: "SHA-256 fingerprint · then pick a tool below",
+  }),
+  caption: "SHA-256 · computed in your browser · nothing ever uploaded",
   source: "tool_index_hero",
 })}
 <section class="tool-section">
   <div class="tool-section-inner">
+    ${hashResultBlock(`<p style="margin-top:12px"><a href="/app/certificates">Save as a free certificate →</a></p>`)}
     <h2>Choose your tool</h2>
     <div class="tool-card-grid">
       <a class="tool-card" href="/tools/template-finder"><h2>Template finder</h2><p>Pick your situation, get a direct link to the right free business or legal template.</p></a>
       <a class="tool-card" href="/tools/file-hash-checker"><h2>File hash checker</h2><p>Compute a file's SHA-256 hash in your browser — the same check behind docstoc certificates.</p></a>
-      <a class="tool-card" href="/tools/ssl-certificate-calculator"><h2>SSL expiry calculator</h2><p>Enter an issue date and validity period, get the exact expiry date and days remaining.</p></a>
+      <a class="tool-card" href="/tools/ssl-certificate-calculator"><h2>SSL expiry calculator</h2><p>Drop a cert file or enter dates — get the exact expiry date and days remaining.</p></a>
       <a class="tool-card" href="/tools/trust-badges"><h2>Trust badges</h2><p>Preview the domain-verified badge, look up a public trust profile, copy the embed snippet.</p></a>
       <a class="tool-card" href="/tools/invoice-generator"><h2>Invoice generator</h2><p>Build a professional invoice with line items and tax — preview totals free, then create a shareable client link.</p></a>
       <a class="tool-card" href="/tools/invoice-chase-calculator"><h2>Invoice chase calculator</h2><p>Estimate late payment interest and the cash you unlock when overdue invoices get paid sooner.</p></a>
@@ -547,13 +574,17 @@ const templateFinderMain = `
 ${hero({
   accent: "Find. Copy.",
   rest: "Ship the doc.",
-  sub: "1,000+ free business &amp; legal templates — pick the situation closest to yours and copy straight into your own document. No signup.",
-  ringInner: `<a class="tool-circle is-action" href="#situations"><span class="tool-circle-icon" aria-hidden="true">${searchIcon}</span><p class="tool-circle-title">Browse situations</p><p class="tool-circle-sub">Jump to the template that fits</p></a>`,
-  caption: "Free forever · plain text · no account required to copy",
+  sub: "Drop the file you're working from to fingerprint it, then pick the situation closest to yours and copy a free template. No signup to browse.",
+  ringInner: dropCircle({
+    intent: "templates",
+    sub: "Fingerprint your draft · then pick a template",
+  }),
+  caption: "SHA-256 · computed in your browser · nothing ever uploaded",
   source: "tool_template_finder",
 })}
 <section class="tool-section" id="situations">
   <div class="tool-section-inner">
+    ${hashResultBlock(`<p style="margin-top:12px"><a href="/app/certificates">Certify this file →</a> · <a href="#situations">Browse templates ↓</a></p>`)}
     <h2>Pick your situation</h2>
     <div class="finder-grid">
       <a class="finder-card" href="/document-templates/independent-contractor-agreement-template"><strong>Hiring a freelance contractor</strong><span>Independent Contractor Agreement</span></a>
@@ -578,24 +609,16 @@ ${hero({
   accent: "Hash. Prove.",
   rest: "Never upload.",
   sub: "Drop any file to compute its SHA-256 fingerprint in your browser — the same math behind docstoc's free tamper-evident certificates.",
-  ringInner: `<div class="tool-circle is-action" data-hash-drop tabindex="0" role="button" aria-label="Drop a file or click to choose one">
-      <span class="tool-circle-icon" aria-hidden="true">${uploadIcon}</span>
-      <p class="tool-circle-title">Click or drag a file here</p>
-      <p class="tool-circle-sub">Get a free tamper-evident fingerprint</p>
-      <input type="file" data-hash-input style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;" />
-    </div>`,
+  ringInner: dropCircle({
+    intent: "hash",
+    sub: "Get a free tamper-evident fingerprint",
+  }),
   caption: "SHA-256 · computed in your browser · nothing ever uploaded",
   source: "tool_file_hash",
 })}
 <section class="tool-section">
   <div class="tool-section-inner">
-    <div class="hash-out" data-hash-out hidden>
-      <div class="hash-out-row">
-        <code data-hash-value>—</code>
-        <button type="button" class="hash-copy-btn" data-hash-copy>Copy</button>
-      </div>
-      <p class="tool-note" data-hash-meta></p>
-    </div>
+    ${hashResultBlock(`<p style="margin-top:12px"><a href="/app/certificates">Turn this into a shareable certificate →</a></p>`)}
     <h2>What this proves</h2>
     <p>Hash the same file twice — even on different computers — and you get the exact same result. Change a single character and the hash changes completely. That's how you confirm a file wasn't altered after you last checked it.</p>
     <p style="margin-top:16px"><a href="/app/certificates">Turn this into a shareable certificate →</a></p>
@@ -609,17 +632,17 @@ const sslCalcMain = `
 ${hero({
   accent: "Know the expiry.",
   rest: "Before browsers do.",
-  sub: "Enter when a certificate was issued and how long it's valid — see the exact expiry date and days remaining, then automate renewals with docstoc.",
-  ringInner: `<div class="tool-circle">
-      <span class="tool-circle-icon" aria-hidden="true">${calendarIcon}</span>
-      <p class="tool-circle-stat" data-ssl-out-remaining>—</p>
-      <p class="tool-circle-sub">days remaining</p>
-    </div>`,
-  caption: "Let's Encrypt default · 90 days · docstoc reminds you before renewal",
+  sub: "Drop a certificate file (.pem / .crt) to fingerprint it and try to read the dates — or enter issue date and validity below.",
+  ringInner: dropCircle({
+    intent: "ssl",
+    sub: "Drop a .pem / .crt · or use the form below",
+  }),
+  caption: "SHA-256 · cert dates filled when we can read them · nothing uploaded",
   source: "tool_ssl_calc",
 })}
 <section class="tool-section">
   <div class="tool-section-inner">
+    ${hashResultBlock("")}
     <h2>Calculate expiry</h2>
     <div class="tool-panel-grid" data-calc="ssl-expiry">
       <div class="tool-panel">
@@ -656,17 +679,17 @@ const trustBadgesMain = `
 ${hero({
   accent: "Verified domain.",
   rest: "Visible trust.",
-  sub: "Show clients you control your domain — public trust profile, embeddable badge, optional Bitcoin timestamp. Look up any public profile free.",
-  ringInner: `<div class="tool-circle">
-      <span class="tool-circle-icon" aria-hidden="true">${lockIcon}</span>
-      <p class="tool-circle-title">Domain-verified</p>
-      <p class="tool-circle-sub" style="margin-top:10px"><span class="trust-badge-demo" data-trust-badge-preview>${trustBadgeSvg} Domain-verified via docstoc</span></p>
-    </div>`,
-  caption: "DNS control · live SSL status · Bitcoin-anchored verified-since",
+  sub: "Drop a file to fingerprint proof materials, then look up any public trust profile or embed your domain-verified badge.",
+  ringInner: dropCircle({
+    intent: "trust",
+    sub: "Fingerprint evidence · then look up a badge",
+  }),
+  caption: "SHA-256 · computed in your browser · nothing ever uploaded",
   source: "tool_trust_badges",
 })}
 <section class="tool-section">
   <div class="tool-section-inner">
+    ${hashResultBlock(`<p style="margin-top:12px"><a href="/app/certificates">Certify this file →</a> · <a href="/trust-badges">Trust badges overview →</a></p>`)}
     <h2>Look up a public profile</h2>
     <div class="tool-panel-grid" data-calc="trust-badge">
       <div class="tool-panel">
@@ -685,6 +708,7 @@ ${hero({
         <p class="tool-stat"><span>Domain</span><strong data-trust-out-domain>—</strong></p>
         <p class="tool-stat"><span>SSL status</span><strong data-trust-out-status>—</strong></p>
         <p class="tool-stat"><span>Verified since</span><strong data-trust-out-since>—</strong></p>
+        <p style="margin: 8px 0 12px"><span class="trust-badge-demo" data-trust-badge-preview>${trustBadgeSvg} Domain-verified via docstoc</span></p>
         <p class="tool-note" data-trust-out-note>Paste an ID above to load a live public profile.</p>
         <p class="trust-embed-box" data-trust-embed hidden></p>
         <p style="margin-top:14px" data-trust-profile-link-wrap hidden>
@@ -707,17 +731,17 @@ const invoiceGeneratorMain = `
 ${hero({
   accent: "Create. Share.",
   rest: "Get paid.",
-  sub: "Build a professional invoice with line items and tax. Preview totals free in your browser — then create a shareable client link in docstoc that can flow into chase follow-ups if it goes overdue.",
-  ringInner: `<div class="tool-circle">
-      <span class="tool-circle-icon" aria-hidden="true">${invoiceIcon}</span>
-      <p class="tool-circle-stat" data-inv-out-total>—</p>
-      <p class="tool-circle-sub">invoice total (preview)</p>
-    </div>`,
-  caption: "Shareable /invoice/… link · optional certificate · chase-ready when overdue",
+  sub: "Drop a scope PDF or quote to fingerprint it, then build the invoice with line items and tax. Preview totals free — create a shareable client link in docstoc.",
+  ringInner: dropCircle({
+    intent: "invoice",
+    sub: "Drop a quote / SOW · then fill line items",
+  }),
+  caption: "SHA-256 · filename becomes a line item · nothing ever uploaded",
   source: "tool_invoice_generator",
 })}
 <section class="tool-section">
   <div class="tool-section-inner">
+    ${hashResultBlock(`<p style="margin-top:12px"><a href="/app/invoices">Create the invoice in docstoc →</a></p>`)}
     <h2>Preview an invoice</h2>
     <p style="margin-bottom:16px">Totals update live below. Nothing is saved until you create the invoice in your account.</p>
     <div class="tool-panel-grid" data-calc="invoice-preview">
@@ -788,17 +812,17 @@ const chaseCalcMain = `
 ${hero({
   accent: "Late fees.",
   rest: "Cash unlocked.",
-  sub: "Estimate interest on one overdue invoice — and the working capital you free when consistent chasing shortens days outstanding.",
-  ringInner: `<div class="tool-circle">
-      <span class="tool-circle-icon" aria-hidden="true">${cashIcon}</span>
-      <p class="tool-circle-stat" data-sv-out-cash>—</p>
-      <p class="tool-circle-sub">cash unlocked (est.)</p>
-    </div>`,
-  caption: "Draft-only AI follow-ups · you stay in control of every send",
+  sub: "Drop the overdue invoice file to fingerprint it, then estimate interest and the working capital you free when chasing shortens days outstanding.",
+  ringInner: dropCircle({
+    intent: "chase",
+    sub: "Drop an overdue invoice · then run the numbers",
+  }),
+  caption: "SHA-256 · draft-only AI follow-ups · you stay in control of every send",
   source: "tool_invoice_chase",
 })}
 <section class="tool-section">
   <div class="tool-section-inner">
+    ${hashResultBlock(`<p style="margin-top:12px"><a href="/app/">Draft the chase email →</a></p>`)}
     <h2>Late payment interest</h2>
     <div class="tool-panel-grid" data-calc="late-payment">
       <div class="tool-panel">

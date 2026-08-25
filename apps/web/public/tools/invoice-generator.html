@@ -90,6 +90,7 @@ body:has(.tool-sell-main) { background: #060504; }
   padding: 22px;
   box-sizing: border-box;
   color: var(--ink);
+  position: relative;
 }
 .tool-circle.is-action {
   cursor: pointer;
@@ -580,13 +581,14 @@ body:has(.tool-sell-main) { background: #060504; }
   <div class="tool-hero-inner">
     <div class="tool-hero-pill" aria-hidden="true"></div>
     <h1><span class="accent">Create. Share.</span><br>Get paid.</h1>
-    <p class="tool-hero-sub">Build a professional invoice with line items and tax. Preview totals free in your browser — then create a shareable client link in docstoc that can flow into chase follow-ups if it goes overdue.</p>
-    <div class="tool-ring"><div class="tool-circle">
-      <span class="tool-circle-icon" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h8l4 4v14H7V3z"/><path d="M15 3v4h4"/><path d="M10 12h6M10 16h6M10 8h2"/></svg></span>
-      <p class="tool-circle-stat" data-inv-out-total>—</p>
-      <p class="tool-circle-sub">invoice total (preview)</p>
+    <p class="tool-hero-sub">Drop a scope PDF or quote to fingerprint it, then build the invoice with line items and tax. Preview totals free — create a shareable client link in docstoc.</p>
+    <div class="tool-ring"><div class="tool-circle is-action" data-hash-drop data-drop-intent="invoice" tabindex="0" role="button" aria-label="Drop a file or click to choose one">
+      <span class="tool-circle-icon" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4M12 4l-4 4M12 4l4 4" /><path d="M4 16v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3" /></svg></span>
+      <p class="tool-circle-title">Click or drag a file here</p>
+      <p class="tool-circle-sub">Drop a quote / SOW · then fill line items</p>
+      <input type="file" data-hash-input style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;" />
     </div></div>
-    <p class="tool-caption">Shareable /invoice/… link · optional certificate · chase-ready when overdue</p>
+    <p class="tool-caption">SHA-256 · filename becomes a line item · nothing ever uploaded</p>
     <form class="tool-signup" action="/app/login" method="get">
   <input type="hidden" name="start" value="1" />
   <input class="tool-signup-input" type="email" name="email" autocomplete="email" placeholder="Enter your work email" aria-label="Enter your work email" required />
@@ -597,6 +599,15 @@ body:has(.tool-sell-main) { background: #060504; }
 </section>
 <section class="tool-section">
   <div class="tool-section-inner">
+    <div class="hash-out" data-hash-out hidden>
+  <div class="hash-out-row">
+    <code data-hash-value>—</code>
+    <button type="button" class="hash-copy-btn" data-hash-copy>Copy</button>
+  </div>
+  <p class="tool-note" data-hash-meta></p>
+  <p class="tool-note" data-hash-next hidden></p>
+  <p style="margin-top:12px"><a href="/app/invoices">Create the invoice in docstoc →</a></p>
+</div>
     <h2>Preview an invoice</h2>
     <p style="margin-bottom:16px">Totals update live below. Nothing is saved until you create the invoice in your account.</p>
     <div class="tool-panel-grid" data-calc="invoice-preview">
