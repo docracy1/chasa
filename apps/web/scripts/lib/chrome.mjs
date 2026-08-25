@@ -123,7 +123,7 @@ const USE_CASE_ITEMS = [
   { path: "/use-cases/compliance-dashboard", icon: "briefcase", titleKey: "nav.mega.useCase.compliance.title", title: "Compliance dashboard", descKey: "nav.mega.useCase.compliance.desc", desc: "Aging buckets and follow-up status at a glance." },
   { path: "/use-cases/chasa-certificate-monitoring", icon: "mail", titleKey: "nav.mega.useCase.certificate.title", title: "Certificate monitoring", descKey: "nav.mega.useCase.certificate.desc", desc: "Proof of delivery and chase-history verification." },
   { path: "/use-cases/document-signing-api", icon: "duplicate", titleKey: "nav.mega.useCase.api.title", title: "Follow-up API", descKey: "nav.mega.useCase.api.desc", desc: "Integrate chase drafts into your own stack." },
-  { path: "/use-cases/flat-fee-esign", icon: "users", titleKey: "nav.mega.useCase.flatFee.title", title: "Flat-fee pricing", descKey: "nav.mega.useCase.flatFee.desc", desc: "No per-document fees — unlimited chases from $9/mo." },
+  { path: "/use-cases/flat-fee-esign", icon: "users", titleKey: "nav.mega.useCase.flatFee.title", title: "Flat-fee pricing", descKey: "nav.mega.useCase.flatFee.desc", desc: "No per-document fees — unlimited chases from $14.99/mo." },
   { path: "/use-cases/freelance-contract-templates", icon: "store", titleKey: "nav.mega.useCase.templates.title", title: "Freelance contract templates", descKey: "nav.mega.useCase.templates.desc", desc: "Free Independent Contractor Agreement, ready to send." },
   { path: "/use-cases/free-ssl-for-your-domain", icon: "lock", titleKey: "nav.mega.useCase.ssl.title", title: "Free SSL for a client's domain", descKey: "nav.mega.useCase.ssl.desc", desc: "Real Let's Encrypt certificates, no ACME setup." },
 ];

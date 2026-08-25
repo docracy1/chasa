@@ -41,7 +41,7 @@ const COMPETITORS = [
       },
       {
         q: "Is docstoc cheaper than Bonsai?",
-        a: "Yes for most team sizes — Bonsai's cheapest paid plan is $9/mo per user (so a 2-person team pays $18/mo), where docstoc Solo is a flat $9/mo regardless of seats up to the plan's limit.",
+        a: "Yes for most team sizes — Bonsai's cheapest paid plan is $9/mo per user (so a 2-person team pays $18/mo), where docstoc Pro is a flat $14.99/mo regardless of seats up to the plan's limit.",
       },
       {
         q: "Does Bonsai have AI invoice-chasing or document certification?",
@@ -62,7 +62,7 @@ const COMPETITORS = [
     coreStrength: "Client-facing branded portal, scheduler, lead-capture forms",
     freeTier: "Trial only — no free plan",
     summary:
-      "HoneyBook is built for creative and service-based solopreneurs who want a branded client portal with scheduling, lead forms, and payment automations in one place. Its entry price ($29/mo annual, $36/mo month-to-month) is well above docstoc's Solo tier ($9/mo) or even Pro ($19/mo), and it has no AI-drafted invoice chasing, no public document-template library, and no certification feature. docstoc is narrower in client-acquisition tooling but adds those three things HoneyBook doesn't have.",
+      "HoneyBook is built for creative and service-based solopreneurs who want a branded client portal with scheduling, lead forms, and payment automations in one place. Its entry price ($29/mo annual, $36/mo month-to-month) is well above docstoc's Pro tier ($14.99/mo) or even Business ($39/mo), and it has no AI-drafted invoice chasing, no public document-template library, and no certification feature. docstoc is narrower in client-acquisition tooling but adds those three things HoneyBook doesn't have.",
     faq: [
       {
         q: "Is docstoc a HoneyBook alternative?",
@@ -70,7 +70,7 @@ const COMPETITORS = [
       },
       {
         q: "Is docstoc cheaper than HoneyBook?",
-        a: "Yes — HoneyBook starts at $29/mo (annual) or $36/mo (monthly). docstoc's free tier costs nothing, and Solo is $9/mo.",
+        a: "Yes — HoneyBook starts at $29/mo (annual) or $36/mo (monthly). docstoc's free tier costs nothing, and Pro is $14.99/mo.",
       },
       {
         q: "Does HoneyBook have document certification or a free template library?",
@@ -149,7 +149,7 @@ const COMPETITORS = [
     coreStrength: "LLC/business formation, registered agent, and compliance filings",
     freeTier: "Filing-only — document templates need a paid legal-plan subscription",
     summary:
-      "LegalZoom's core product is business formation and compliance filing (LLC setup, EIN, registered agent, annual reports) — real services docstoc doesn't offer at all. Its legal-document generation is bundled into a separate ongoing subscription reported at roughly $31–$49/mo, several times docstoc's Solo tier, for a narrower feature set with no invoicing, no AI invoice-chasing, and no document certification.",
+      "LegalZoom's core product is business formation and compliance filing (LLC setup, EIN, registered agent, annual reports) — real services docstoc doesn't offer at all. Its legal-document generation is bundled into a separate ongoing subscription reported at roughly $31–$49/mo, several times docstoc's Pro tier, for a narrower feature set with no invoicing, no AI invoice-chasing, and no document certification.",
     faq: [
       {
         q: "Is docstoc a LegalZoom alternative?",
@@ -157,7 +157,7 @@ const COMPETITORS = [
       },
       {
         q: "Is docstoc cheaper than LegalZoom's document plans?",
-        a: "Yes — LegalZoom's ongoing legal-document subscription is reported around $31–$49/mo. docstoc's document-template library is free with no subscription, and Solo (with invoice chasing and certification added) is $9/mo.",
+        a: "Yes — LegalZoom's ongoing legal-document subscription is reported around $31–$49/mo. docstoc's document-template library is free with no subscription, and Pro (with invoice chasing and certification added) is $14.99/mo.",
       },
       {
         q: "Does LegalZoom offer invoice chasing or document certification?",
@@ -203,7 +203,7 @@ function buildMain(c) {
   const title = `docstoc vs ${c.name}`;
   const rows = [
     ["Best fit", "Freelancers & small teams needing docs + chasing", c.bestFit],
-    ["Entry paid price", "$9/mo Solo, flat", c.entryPrice],
+    ["Entry paid price", "$14.99/mo Pro, flat", c.entryPrice],
     ["Pricing model", "Flat per workspace, no per-seat multiplier", c.pricingModel],
     ["Free business & legal document templates", "✓ free, no signup, no cap", c.freeTemplates],
     ["AI-drafted invoice chasing", "✓ tone-matched to days overdue", c.invoiceChasing],

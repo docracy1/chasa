@@ -36709,7 +36709,7 @@ function buildTemplateFaq(t) {
     },
     {
       q: "Does docstoc's AI tool improve on this template?",
-      a: "Yes. This page gives you the wording for free with no signup. docstoc's AI tool goes further on Solo and Pro plans — it drafts a version matched to your exact invoice amount, client name, and how many days overdue it is, and can soften, firm up, or shorten a draft on request.",
+      a: "Yes. This page gives you the wording for free with no signup. docstoc's AI tool goes further on Pro and Business plans — it drafts a version matched to your exact invoice amount, client name, and how many days overdue it is, and can soften, firm up, or shorten a draft on request.",
     },
     {
       q: "What if the client still doesn't pay after I send this?",
@@ -37349,7 +37349,7 @@ for (const t of TEMPLATES) {
 
   <div class="ai-tools-panel tpl-ai-teaser">
     <div class="ai-tools-label">AI tools <span class="paid-pill">Paid</span></div>
-    <p class="tpl-ai-intro">Copy this template free. Soften, firm up, or shorten a draft for your exact invoice on Solo or Pro.</p>
+    <p class="tpl-ai-intro">Copy this template free. Soften, firm up, or shorten a draft for your exact invoice on Pro or Business.</p>
     <div class="ai-tool-card ai-tool-teaser" aria-disabled="true">
       <span class="ai-tool-icon" aria-hidden="true">↓</span>
       <span class="ai-tool-copy">
@@ -37372,7 +37372,7 @@ for (const t of TEMPLATES) {
       </span>
     </div>
     <div class="tpl-cta tpl-cta-compact">
-      <p>Unlock AI tools from Solo · $9/mo</p>
+      <p>Unlock AI tools from Pro · $14.99/mo</p>
       <a class="nav-cta" href="/app/account">Upgrade to Solo</a>
     </div>
   </div>

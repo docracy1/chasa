@@ -268,7 +268,7 @@ const COMPETITORS = [
       },
       {
         q: "Is FreeSSL.org free like docstoc's SSL feature?",
-        a: "FreeSSL.org advertises a free tier, with paid plans starting at $9.90/mo for higher allotments. docstoc's SSL automation has no separate per-certificate charge — it's included in the Pro plan.",
+        a: "FreeSSL.org advertises a free tier, with paid plans starting at $9.90/mo for higher allotments. docstoc's SSL automation has no separate per-certificate charge — it's included in the Business plan.",
       },
       {
         q: "Do I need a separate account with FreeSSL.org?",

@@ -54,7 +54,7 @@ function buildJsonLd(slug, name, faq) {
 const FAQ_TEMPLATES = [
   {
     q: "Are these unpaid invoice follow-up templates really free?",
-    a: "Yes — every template linked above is free to copy and use, with no account required. AI tone adjustments (soften, firm up, shorten) are available on Solo ($9/mo) and Pro.",
+    a: "Yes — every template linked above is free to copy and use, with no account required. AI tone adjustments (soften, firm up, shorten) are available on Pro ($14.99/mo) and Business.",
   },
   {
     q: "Can I edit these templates for my own business?",
@@ -103,7 +103,7 @@ const FAQ_TOOL = [
   },
   {
     q: "Do I need to connect my accounting software?",
-    a: "No. You can paste invoice details manually or upload a CSV. QuickBooks and Xero sync are available as an optional add-on from Solo up.",
+    a: "No. You can paste invoice details manually or upload a CSV. QuickBooks and Xero sync are available as an optional add-on from Pro up.",
   },
   {
     q: "Is there a free plan for freelancers?",
@@ -135,7 +135,7 @@ const PAGES = [
   </ul>
 
   <h3>What makes a follow-up template actually work</h3>
-  <p>Every template above keeps three things constant: the invoice number and amount stated plainly, one clear next step (pay by a specific date, or reply with a status), and a tone that matches how late the payment is. Copy one as-is, or open it on Solo/Pro to soften, firm up, or shorten it for your exact invoice.</p>
+  <p>Every template above keeps three things constant: the invoice number and amount stated plainly, one clear next step (pay by a specific date, or reply with a status), and a tone that matches how late the payment is. Copy one as-is, or open it on Pro/Business to soften, firm up, or shorten it for your exact invoice.</p>
 
   <h3>When a template isn't enough</h3>
   <p>If you're chasing more than a couple of invoices, rewriting placeholders by hand gets old fast. docstoc lets you paste invoice details or upload a CSV from QuickBooks, Xero, or FreshBooks, and drafts the follow-up for you — matched to days overdue, ready to copy into your own inbox.</p>
@@ -213,7 +213,7 @@ const PAGES = [
   </ul>
 
   <h3>Free 30-day overdue invoice email template</h3>
-  <p>Use the <a href="/free-templates/formal-overdue-notice-30-days">formal 30-day notice template</a> for the full copy-paste version, or open it on Solo/Pro to adjust tone for your exact client.</p>
+  <p>Use the <a href="/free-templates/formal-overdue-notice-30-days">formal 30-day notice template</a> for the full copy-paste version, or open it on Pro/Business to adjust tone for your exact client.</p>
 
   <h3>What if 30 days passes without a response?</h3>
   <p>Move to a <a href="/free-templates/second-formal-notice-60-days">second formal notice at 60 days</a>, and if that also goes unanswered, the <a href="/free-templates/final-notice-before-collections">final notice before collections</a> template sets the last deadline before you consider outside help.</p>
@@ -249,7 +249,7 @@ const PAGES = [
   <p>Nothing auto-sends. There's no per-seat pricing, no collections workflow, and no dashboard you need to learn before your first reminder goes out. It's built for the reality of solo work: you invoice from a few tools, and you don't have time to rewrite the same email every week.</p>
 
   <h3>What's included free</h3>
-  <p>Five AI drafts per month, 18 copy-paste templates, CSV upload, and an aging board to see what's overdue at a glance. Solo ($9/mo) adds QuickBooks/Xero sync, tone adjustments, and unlimited drafts.</p>
+  <p>Five AI drafts per month, 18 copy-paste templates, CSV upload, and an aging board to see what's overdue at a glance. Pro ($14.99/mo) adds QuickBooks/Xero sync, tone adjustments, and unlimited drafts.</p>
 
   <p style="margin-top:28px"><a href="/app/" class="nav-cta">Try the tool free</a></p>
 

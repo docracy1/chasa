@@ -45,15 +45,14 @@ Requests that arrive without a trusted origin — provider OAuth callbacks hitti
 | Plan | Price | AI drafts | Team seats | Notes |
 |------|-------|-----------|------------|-------|
 | **Free** | $0 | **5 / month** (server-enforced) | 1 (owner only) | No signup required for drafts; sign in to upgrade |
-| **Solo** | **$7 / mo** | Unlimited | **3** (owner + invites) | Flat workspace fee — not per-seat |
-| **Pro** | **$17 / mo** | Unlimited | **5** | Most popular; same Solo+ feature parity |
-| **Enterprise** | Stripe checkout | Unlimited | **25** | Self-serve via `/app/account?plan=enterprise` |
+| **Pro** | **$14.99 / mo** | Unlimited | **5** (owner + invites) | Flat workspace fee — not per-seat; most popular |
+| **Business** | **$39 / mo** | Unlimited | **20** | Smart reply, risk score, demand letters, cert branding, SSL automation |
 
-Stripe price IDs live in `apps/worker/wrangler.toml` as `STRIPE_PRICE_SOLO`, `STRIPE_PRICE_PRO`, `STRIPE_PRICE_ENTERPRISE` (non-secret). Billing portal and webhooks update `accounts.plan` and `is_paid`.
+Stripe price IDs live in `apps/worker/wrangler.toml` as `STRIPE_PRICE_SOLO` (maps to Pro), `STRIPE_PRICE_PRO` / `STRIPE_PRICE_ENTERPRISE` (map to Business; non-secret). Billing portal and webhooks update `accounts.plan` and `is_paid`.
 
 ### Feature matrix (by plan)
 
-| Feature | Free | Solo+ |
+| Feature | Free | Pro+ |
 |---------|------|-------|
 | AI chase email drafts (tone by days overdue) | 5/mo | Unlimited |
 | 15+ copy-paste email templates (`/free-templates/`) | ✓ | ✓ |
@@ -70,9 +69,10 @@ Stripe price IDs live in `apps/worker/wrangler.toml` as `STRIPE_PRICE_SOLO`, `ST
 | Email open/click tracking on tracked HTML | — | ✓ |
 | Default payment link (Stripe, PayPal, Venmo, Zelle…) | — | ✓ |
 | Zapier templates (FreshBooks, Wave, Zoho Books) | — | ✓ |
-| Smart reply classifier + promised pay date detection | — | Pro plan |
-| Client payment risk score | — | Pro plan |
-| Formal demand letter + collections evidence pack | — | Pro plan |
+| Smart reply classifier + promised pay date detection | — | Business |
+| Client payment risk score | — | Business |
+| Formal demand letter + collections evidence pack | — | Business |
+| Custom certificate branding + SSL automation | — | Business |
 | Custom branding (logo, late-fee hint) | — | ✓ (admin role) |
 | Outbound webhooks (`chase.drafted`, `chase.sent`, …) + HMAC signatures | — | ✓ (admin) |
 | Click tracking (tracked copy HTML) | — | ✓ |
@@ -82,7 +82,7 @@ Stripe price IDs live in `apps/worker/wrangler.toml` as `STRIPE_PRICE_SOLO`, `ST
 | HTTP API + API keys (`/api/v1/chase/draft`) | — | ✓ |
 | Zapier / Make via API key | — | ✓ |
 
-**Workspace roles:** owner is always admin. Invited members can use Solo+ features; **admin-only** actions: branding, webhooks, connector OAuth connect/import, API key CRUD, team invites.
+**Workspace roles:** owner is always admin. Invited members can use Pro+ features; **admin-only** actions: branding, webhooks, connector OAuth connect/import, API key CRUD, team invites.
 
 ### App routes (`/app/*`)
 
@@ -91,8 +91,8 @@ Stripe price IDs live in `apps/worker/wrangler.toml` as `STRIPE_PRICE_SOLO`, `ST
 | `/` | Tool — invoice list, AI drafts, CSV/PDF import, multi-select batch |
 | `/login` | Magic-link login + Cloudflare Turnstile |
 | `/account` | Plan, billing portal, payment link |
-| `/team` | Invite members, roles (Solo+) |
-| `/clients` | Client CRM (Solo+) |
+| `/team` | Invite members, roles (Pro+) |
+| `/clients` | Client CRM (Pro+) |
 | `/branding` | Logo + late-fee hint (workspace admin) |
 | `/webhooks` | Outbound webhook URLs (workspace admin) |
 | `/connector` | Cloud storage + QBO/Xero OAuth + API keys |
@@ -259,7 +259,7 @@ Protects `/api/auth/request` and admin login.
 
 1. `cd apps/worker && wrangler d1 create chasa-db` — paste `database_id` into `wrangler.toml`
 2. `wrangler d1 migrations apply chasa-db --remote`
-3. **Stripe (test mode first):** create three recurring Prices (Solo $7, Pro $17, Enterprise). Copy `price_…` IDs into `wrangler.toml`:
+3. **Stripe (test mode first):** create two recurring Prices (Pro $14.99, Business $39). Copy `price_…` IDs into `wrangler.toml`:
    - `STRIPE_PRICE_SOLO`, `STRIPE_PRICE_PRO`, `STRIPE_PRICE_ENTERPRISE`
 4. `wrangler secret put TOKEN_SECRET` — `openssl rand -hex 32`
 5. `wrangler secret put STRIPE_SECRET_KEY` (test key first)
@@ -267,7 +267,7 @@ Protects `/api/auth/request` and admin login.
 7. `wrangler secret put RESEND_API_KEY` — verify sending domain in Resend
 8. Turnstile — see above
 9. `wrangler secret put ADMIN_PASSWORD` — for `/app/admin`
-10. **Cloud storage OAuth (optional, Solo+):**
+10. **Cloud storage OAuth (optional, Pro+):**
 
     | Provider | Redirect URI |
     |----------|--------------|
@@ -289,7 +289,7 @@ Protects `/api/auth/request` and admin login.
     wrangler secret put GOOGLE_INTEGRATIONS_CLIENT_SECRET
     ```
 
-11. **QuickBooks Online + Xero (optional, Solo+):**
+11. **QuickBooks Online + Xero (optional, Pro+):**
 
     | Provider | Redirect URI |
     |----------|--------------|

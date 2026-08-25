@@ -66,7 +66,7 @@
           "name": "Do I need an account?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "No — Free works without signup (5 AI drafts per month plus templates). Sign in to upgrade to Solo or Pro. Enterprise is custom yearly pricing — email sales@chasa.io."
+            "text": "No — Free works without signup (5 AI drafts per month plus templates). Sign in to upgrade to Pro ($14.99/mo) or Business ($39/mo)."
           }
         },
         {
@@ -82,7 +82,7 @@
           "name": "Does docstoc connect to QuickBooks, FreshBooks, or Xero?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Yes for QuickBooks Online and Xero on Solo and up via native OAuth. FreshBooks and Wave: use our Zapier template or CSV upload."
+            "text": "Yes for QuickBooks Online and Xero on Pro and up via native OAuth. FreshBooks and Wave: use our Zapier template or CSV upload."
           }
         },
         {
@@ -1176,9 +1176,9 @@
   }
   .pricing-compare {
     position: relative;
-    /* Shared column math so sticky prices line up under Free / Solo / Pro / Enterprise. */
-    --pricing-feature-col: 28%;
-    --pricing-plan-col: calc((100% - var(--pricing-feature-col)) / 4);
+    /* Shared column math so sticky prices line up under Free / Pro / Business. */
+    --pricing-feature-col: 34%;
+    --pricing-plan-col: calc((100% - var(--pricing-feature-col)) / 3);
   }
   .price-table-wrap {
     /* No overflow-x by default — it breaks sticky. Enable only on narrow screens. */
@@ -1311,7 +1311,6 @@
     display: grid;
     grid-template-columns:
       var(--pricing-feature-col)
-      var(--pricing-plan-col)
       var(--pricing-plan-col)
       var(--pricing-plan-col)
       var(--pricing-plan-col);
@@ -2084,8 +2083,8 @@
     <div class="integrations-inner">
       <h2 id="integrations-heading" data-i18n="home.integrations.title">Connect docstoc with the tools you already use</h2>
       <p class="integrations-lede" data-i18n="home.integrations.lede">
-        Plug into the platforms you already use — accounting, cloud storage, automation, and AI assistants. Solo and
-        Pro unlock native connectors; everything listed here is real today.
+        Plug into the platforms you already use — accounting, cloud storage, automation, and AI assistants. Pro and
+        Business unlock native connectors; everything listed here is real today.
       </p>
       <div class="integrations-grid" role="list">
         <div class="integrations-tile" role="listitem">
@@ -2226,22 +2225,19 @@
             <tr>
               <th scope="col"></th>
               <th scope="col" data-i18n="home.pricing.planFree">Free</th>
-              <th scope="col" data-i18n="home.pricing.planSolo">Solo</th>
-              <th scope="col" class="col-pro">Pro<span class="popular-tag" data-i18n="home.pricing.popularTag">Most popular</span></th>
-              <th scope="col" data-i18n="home.pricing.planEnterprise">Enterprise</th>
+              <th scope="col" class="col-pro"><span data-i18n="home.pricing.planPro">Pro</span><span class="popular-tag" data-i18n="home.pricing.popularTag">Most popular</span></th>
+              <th scope="col" data-i18n="home.pricing.planBusiness">Business</th>
             </tr>
           </thead>
           <tbody>
             <tr>
               <td data-i18n="home.pricing.row.aiDrafts">AI drafts / month</td>
               <td><span class="plan-cell-text">5</span></td>
-              <td><span class="plan-cell-text" data-i18n="home.pricing.unlimited">Unlimited</span></td>
               <td class="col-pro"><span class="plan-cell-text" data-i18n="home.pricing.unlimited">Unlimited</span></td>
               <td><span class="plan-cell-text" data-i18n="home.pricing.unlimited">Unlimited</span></td>
             </tr>
             <tr>
               <td data-i18n="home.pricing.row.docTemplates">Free business &amp; legal document templates</td>
-              <td><span class="check" role="img" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
               <td><span class="check" role="img" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
               <td class="col-pro"><span class="check" role="img" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
               <td><span class="check" role="img" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
@@ -2249,27 +2245,23 @@
             <tr>
               <td data-i18n="home.pricing.row.certificates">Document certificates &amp; verification</td>
               <td><span class="check" role="img" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
-              <td><span class="check" role="img" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
               <td class="col-pro"><span class="check" role="img" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
               <td><span class="check" role="img" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
             </tr>
             <tr>
               <td data-i18n="home.pricing.row.certBranding">Custom certificate branding</td>
               <td><span class="cross" role="img" data-i18n-aria="a11y.notIncluded" aria-label="Not included">—</span></td>
-              <td><span class="cross" role="img" data-i18n-aria="a11y.notIncluded" aria-label="Not included">—</span></td>
-              <td class="col-pro"><span class="check" role="img" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
+              <td class="col-pro"><span class="cross" role="img" data-i18n-aria="a11y.notIncluded" aria-label="Not included">—</span></td>
               <td><span class="check" role="img" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
             </tr>
             <tr>
               <td data-i18n="home.pricing.row.sslAutomation">Free SSL automation (custom domain)</td>
               <td><span class="cross" role="img" data-i18n-aria="a11y.notIncluded" aria-label="Not included">—</span></td>
-              <td><span class="cross" role="img" data-i18n-aria="a11y.notIncluded" aria-label="Not included">—</span></td>
-              <td class="col-pro"><span class="check" role="img" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
+              <td class="col-pro"><span class="cross" role="img" data-i18n-aria="a11y.notIncluded" aria-label="Not included">—</span></td>
               <td><span class="check" role="img" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
             </tr>
             <tr>
               <td data-i18n="home.pricing.row.freeTemplates">Free email templates</td>
-              <td><span class="check" role="img" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
               <td><span class="check" role="img" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
               <td class="col-pro"><span class="check" role="img" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
               <td><span class="check" role="img" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
@@ -2277,76 +2269,65 @@
             <tr>
               <td data-i18n="home.pricing.row.toneMatched">Tone-matched drafts</td>
               <td><span class="check" role="img" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
-              <td><span class="check" role="img" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
               <td class="col-pro"><span class="check" role="img" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
               <td><span class="check" role="img" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
             </tr>
             <tr>
               <td data-i18n="home.pricing.row.toneAdjust">Soften / firm up / shorten</td>
               <td><span class="cross" role="img" data-i18n-aria="a11y.notIncluded" aria-label="Not included">—</span></td>
-              <td><span class="check" role="img" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
               <td class="col-pro"><span class="check" role="img" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
               <td><span class="check" role="img" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
             </tr>
             <tr>
               <td data-i18n="home.pricing.row.thankYouReply">AI thank-you + reply drafts</td>
               <td><span class="cross" role="img" data-i18n-aria="a11y.notIncluded" aria-label="Not included">—</span></td>
-              <td><span class="check" role="img" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
               <td class="col-pro"><span class="check" role="img" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
               <td><span class="check" role="img" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
             </tr>
             <tr>
               <td data-i18n="home.pricing.row.chasePlans">AI 3-step chase plans</td>
               <td><span class="cross" role="img" data-i18n-aria="a11y.notIncluded" aria-label="Not included">—</span></td>
-              <td><span class="check" role="img" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
               <td class="col-pro"><span class="check" role="img" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
               <td><span class="check" role="img" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
             </tr>
             <tr>
               <td data-i18n="home.pricing.row.reminderCalendar">Reminder calendar (copy next / mark done)</td>
               <td><span class="cross" role="img" data-i18n-aria="a11y.notIncluded" aria-label="Not included">—</span></td>
-              <td><span class="check" role="img" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
               <td class="col-pro"><span class="check" role="img" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
               <td><span class="check" role="img" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
             </tr>
             <tr>
               <td data-i18n="home.pricing.row.emailTracking">Email open / click tracking (tracked HTML)</td>
               <td><span class="cross" role="img" data-i18n-aria="a11y.notIncluded" aria-label="Not included">—</span></td>
-              <td><span class="check" role="img" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
               <td class="col-pro"><span class="check" role="img" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
               <td><span class="check" role="img" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
             </tr>
             <tr>
               <td data-i18n="home.pricing.row.smsWhatsapp">SMS / WhatsApp drafts (copy / open link)</td>
               <td><span class="cross" role="img" data-i18n-aria="a11y.notIncluded" aria-label="Not included">—</span></td>
-              <td><span class="check" role="img" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
               <td class="col-pro"><span class="check" role="img" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
               <td><span class="check" role="img" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
             </tr>
             <tr>
               <td data-i18n="home.pricing.row.qboXero">Native QuickBooks Online + Xero OAuth</td>
               <td><span class="cross" role="img" data-i18n-aria="a11y.notIncluded" aria-label="Not included">—</span></td>
-              <td><span class="check" role="img" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
               <td class="col-pro"><span class="check" role="img" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
               <td><span class="check" role="img" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
             </tr>
             <tr>
               <td data-i18n="home.pricing.row.teamSeats">Team seats / roles</td>
               <td><span class="cross" role="img" data-i18n-aria="a11y.notIncluded" aria-label="Not included">—</span></td>
-              <td><span class="plan-cell-text" data-i18n="home.pricing.seats3">3 seats</span></td>
               <td class="col-pro"><span class="plan-cell-text" data-i18n="home.pricing.seats5">5 seats</span></td>
-              <td><span class="plan-cell-text" data-i18n="home.pricing.unlimited">Unlimited</span></td>
+              <td><span class="plan-cell-text" data-i18n="home.pricing.seats20">20 seats</span></td>
             </tr>
             <tr>
               <td data-i18n="home.pricing.row.lateFeeHint">Late-fee hint in drafts</td>
               <td><span class="cross" role="img" data-i18n-aria="a11y.notIncluded" aria-label="Not included">—</span></td>
-              <td><span class="check" role="img" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
               <td class="col-pro"><span class="check" role="img" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
               <td><span class="check" role="img" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
             </tr>
             <tr>
               <td data-i18n="home.pricing.row.csvUpload">CSV upload (QBO, FreshBooks, Xero, Wave, Zoho, sevDesk…)</td>
-              <td><span class="check" role="img" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
               <td><span class="check" role="img" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
               <td class="col-pro"><span class="check" role="img" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
               <td><span class="check" role="img" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
@@ -2354,13 +2335,11 @@
             <tr>
               <td data-i18n="home.pricing.row.agingBoard">Aging overview board</td>
               <td><span class="check" role="img" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
-              <td><span class="check" role="img" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
               <td class="col-pro"><span class="check" role="img" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
               <td><span class="check" role="img" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
             </tr>
             <tr>
               <td data-i18n="home.pricing.row.multiInvoice">Multi-invoice chase draft</td>
-              <td><span class="check" role="img" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
               <td><span class="check" role="img" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
               <td class="col-pro"><span class="check" role="img" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
               <td><span class="check" role="img" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
@@ -2368,27 +2347,23 @@
             <tr>
               <td data-i18n="home.pricing.row.paymentLink">Payment link in drafts</td>
               <td><span class="plan-cell-text" data-i18n="home.pricing.session">Session</span></td>
-              <td><span class="plan-cell-text" data-i18n="home.pricing.accountDefault">Account default</span></td>
-              <td class="col-pro"><span class="check" role="img" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
+              <td class="col-pro"><span class="plan-cell-text" data-i18n="home.pricing.accountDefault">Account default</span></td>
               <td><span class="check" role="img" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
             </tr>
             <tr>
               <td data-i18n="home.pricing.row.clientMgmt">Client management</td>
               <td><span class="cross" role="img" data-i18n-aria="a11y.notIncluded" aria-label="Not included">—</span></td>
-              <td><span class="check" role="img" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
               <td class="col-pro"><span class="check" role="img" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
               <td><span class="check" role="img" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
             </tr>
             <tr>
               <td data-i18n="home.pricing.row.csvExport">CSV export of drafts</td>
               <td><span class="cross" role="img" data-i18n-aria="a11y.notIncluded" aria-label="Not included">—</span></td>
-              <td><span class="check" role="img" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
               <td class="col-pro"><span class="check" role="img" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
               <td><span class="check" role="img" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
             </tr>
             <tr>
               <td data-i18n="home.pricing.row.scheduleTips">Chase schedule tips</td>
-              <td><span class="check" role="img" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
               <td><span class="check" role="img" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
               <td class="col-pro"><span class="check" role="img" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
               <td><span class="check" role="img" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
@@ -2396,34 +2371,29 @@
             <tr>
               <td data-i18n="home.pricing.row.prioritySupport">Priority support</td>
               <td><span class="cross" role="img" data-i18n-aria="a11y.notIncluded" aria-label="Not included">—</span></td>
-              <td><span class="cross" role="img" data-i18n-aria="a11y.notIncluded" aria-label="Not included">—</span></td>
-              <td class="col-pro"><span class="check" role="img" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
+              <td class="col-pro"><span class="cross" role="img" data-i18n-aria="a11y.notIncluded" aria-label="Not included">—</span></td>
               <td><span class="check" role="img" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
             </tr>
             <tr>
               <td data-i18n="home.pricing.row.zapierApi">Zapier / Make API (QBO, FreshBooks, Xero, Wave, Zoho…)</td>
               <td><span class="cross" role="img" data-i18n-aria="a11y.notIncluded" aria-label="Not included">—</span></td>
-              <td><span class="check" role="img" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
               <td class="col-pro"><span class="check" role="img" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
               <td><span class="check" role="img" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
             </tr>
             <tr>
               <td data-i18n="home.pricing.row.cloudStorage">Cloud storage — Dropbox, OneDrive, Box · PDF import</td>
               <td><span class="cross" role="img" data-i18n-aria="a11y.notIncluded" aria-label="Not included">—</span></td>
-              <td><span class="check" role="img" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
               <td class="col-pro"><span class="check" role="img" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
               <td><span class="check" role="img" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
             </tr>
             <tr>
               <td data-i18n="home.pricing.row.dedicatedDashboard">Dedicated chase dashboard</td>
               <td><span class="cross" role="img" data-i18n-aria="a11y.notIncluded" aria-label="Not included">—</span></td>
-              <td><span class="cross" role="img" data-i18n-aria="a11y.notIncluded" aria-label="Not included">—</span></td>
               <td class="col-pro"><span class="cross" role="img" data-i18n-aria="a11y.notIncluded" aria-label="Not included">—</span></td>
               <td><span class="check" role="img" data-i18n-aria="a11y.included" aria-label="Included"></span></td>
             </tr>
             <tr>
               <td data-i18n="home.pricing.row.customTone">Custom tone / volume</td>
-              <td><span class="cross" role="img" data-i18n-aria="a11y.notIncluded" aria-label="Not included">—</span></td>
               <td><span class="cross" role="img" data-i18n-aria="a11y.notIncluded" aria-label="Not included">—</span></td>
               <td class="col-pro"><span class="cross" role="img" data-i18n-aria="a11y.notIncluded" aria-label="Not included">—</span></td>
               <td><span class="muted" data-i18n="home.pricing.customScoped">Yes — scoped with you</span></td>
@@ -2439,29 +2409,24 @@
           <div class="pricing-sticky-price">$0<span class="pricing-sticky-note" data-i18n="home.pricing.forever">forever</span></div>
           <a class="pricing-sticky-cta signal" href="/app/login?start=1" data-i18n="home.pricing.startFree">Start free</a>
         </div>
-        <div class="pricing-sticky-col">
-          <div class="pricing-sticky-name" data-i18n="home.pricing.planSolo">Solo</div>
-          <div class="pricing-sticky-price">$9<span class="pricing-sticky-note" data-i18n="home.pricing.perMonth">per month</span></div>
-          <a class="pricing-sticky-cta" href="/app/account" data-i18n="home.pricing.getSolo">Get Solo</a>
-        </div>
         <div class="pricing-sticky-col is-pro">
           <div class="pricing-sticky-name" data-i18n="home.pricing.planPro">Pro</div>
-          <div class="pricing-sticky-price">$19<span class="pricing-sticky-note" data-i18n="home.pricing.perMonth">per month</span></div>
-          <a class="pricing-sticky-cta featured" href="/app/account" data-i18n="home.pricing.getPro">Get Pro</a>
+          <div class="pricing-sticky-price">$14.99<span class="pricing-sticky-note" data-i18n="home.pricing.perMonth">per month</span></div>
+          <a class="pricing-sticky-cta featured" href="/app/account?plan=pro" data-i18n="home.pricing.getPro">Get Pro</a>
         </div>
         <div class="pricing-sticky-col">
-          <div class="pricing-sticky-name" data-i18n="home.pricing.planEnterprise">Enterprise</div>
-          <div class="pricing-sticky-price">Custom<span class="pricing-sticky-note" data-i18n="home.pricing.billedYearly">billed yearly</span></div>
-          <!--email_off--><a class="pricing-sticky-cta" href="mailto:sales@chasa.io" data-sales-mail data-sales-subject="docstoc Enterprise" data-i18n="home.pricing.contactSales">Contact sales</a><!--/email_off-->
+          <div class="pricing-sticky-name" data-i18n="home.pricing.planBusiness">Business</div>
+          <div class="pricing-sticky-price">$39<span class="pricing-sticky-note" data-i18n="home.pricing.perMonth">per month</span></div>
+          <a class="pricing-sticky-cta" href="/app/account?plan=business" data-i18n="home.pricing.getBusiness">Get Business</a>
         </div>
       </div>
     </div>
   </section>
 
-<!-- [COMPARE] -->
+<!-- [COMPARE] --><!-- [COMPARE] -->
   <section class="section wrap" id="compare">
     <h2 id="price-comparison">Price comparison</h2>
-    <p>docstoc Solo is a flat <strong>$9/mo</strong> per workspace (Pro $19). Use the slider to estimate what the same team size costs on entry plans from each competitor.</p>
+    <p>docstoc Pro is a flat <strong>$14.99/mo</strong> per workspace (Business $39). Use the slider to estimate what the same team size costs on entry plans from each competitor.</p>
     <div class="pc-panel" data-price-compare>
       <div class="pc-slider-card">
         <div class="pc-slider-label">Team size</div>
@@ -2472,11 +2437,11 @@
 
       <div class="pc-row pc-row-chasa">
         <div class="pc-row-main">
-          <div class="pc-row-name">docstoc Solo</div>
-          <div class="pc-row-formula">Flat workspace fee · Pro is $19/mo, also flat</div>
+          <div class="pc-row-name">docstoc Pro</div>
+          <div class="pc-row-formula">Flat workspace fee · Business is $39/mo, also flat</div>
         </div>
         <div class="pc-row-nums">
-          <div class="pc-total">$7<small>/mo</small></div>
+          <div class="pc-total">$14.99<small>/mo</small></div>
         </div>
       </div>
 
@@ -2563,7 +2528,7 @@
       </details>
       <details class="faq-item">
         <summary data-i18n="home.faq.q2">Do I need an account?</summary>
-        <p data-i18n-html="home.faq.a2">No — Free works without signup (5 AI drafts per month + templates). Sign in to upgrade to Solo ($9) or Pro ($19). For Enterprise (custom, billed yearly), email <!--email_off--><a href="mailto:sales@chasa.io">sales@chasa.io</a><!--/email_off-->.</p>
+        <p data-i18n-html="home.faq.a2">No — Free works without signup (5 AI drafts per month + templates). Sign in to upgrade to Pro ($14.99/mo) or Business ($39/mo).</p>
       </details>
       <details class="faq-item">
         <summary data-i18n="home.faq.q3">Does docstoc send emails for me?</summary>
@@ -2571,7 +2536,7 @@
       </details>
       <details class="faq-item">
         <summary data-i18n="home.faq.q4">Does docstoc connect to QuickBooks, FreshBooks, or Xero?</summary>
-        <p data-i18n-html="home.faq.a4">Yes for <strong>QuickBooks Online</strong> and <strong>Xero</strong> on Solo and up — native OAuth in <a href="/app/connector">Connector</a> imports overdue invoices into aging. <strong>FreshBooks</strong> and Wave: create an API key and use our Zapier template, or export CSV and upload in the Tool (headers mapped automatically, Free too). Cloud storage (Dropbox, OneDrive, Box) PDF import is also Solo+.</p>
+        <p data-i18n-html="home.faq.a4">Yes for <strong>QuickBooks Online</strong> and <strong>Xero</strong> on Pro and up — native OAuth in <a href="/app/connector">Connector</a> imports overdue invoices into aging. <strong>FreshBooks</strong> and Wave: create an API key and use our Zapier template, or export CSV and upload in the Tool (headers mapped automatically, Free too). Cloud storage (Dropbox, OneDrive, Box) PDF import is also Pro+.</p>
       </details>
       <details class="faq-item">
         <summary data-i18n="home.faq.q5">How does the tone work?</summary>

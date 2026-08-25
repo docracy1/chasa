@@ -321,7 +321,7 @@ const COMPARISON_FAQ = [
   },
   {
     q: "How does docstoc pricing compare?",
-    a: "Solo is $9/mo flat per workspace; Pro is $19/mo. Competitors often use revenue tiers, seat caps, or higher entry plans (Paidnice from $69/mo, Chaser Compact from $259/mo).",
+    a: "Pro is $14.99/mo flat per workspace; Business is $39/mo. Competitors often use revenue tiers, seat caps, or higher entry plans (Paidnice from $69/mo, Chaser Compact from $259/mo).",
   },
   {
     q: "Can docstoc replace Paidnice or Duefy?",

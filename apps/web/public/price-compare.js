@@ -2,7 +2,7 @@
   var root = document.querySelector("[data-price-compare]");
   if (!root) return;
 
-  var CHASA = 7;
+  var CHASA = 14.99;
   var GBP_USD = 1.28;
 
   function chaser(n) {

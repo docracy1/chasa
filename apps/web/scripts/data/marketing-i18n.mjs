@@ -78,7 +78,7 @@ export const en = {
   "nav.mega.useCase.api.title": "Follow-up API",
   "nav.mega.useCase.api.desc": "Integrate chase drafts into your own stack.",
   "nav.mega.useCase.flatFee.title": "Flat-fee pricing",
-  "nav.mega.useCase.flatFee.desc": "No per-document fees — unlimited chases from $9/mo.",
+  "nav.mega.useCase.flatFee.desc": "No per-document fees — unlimited chases from $14.99/mo.",
   "nav.mega.useCase.templates.title": "Freelance contract templates",
   "nav.mega.useCase.templates.desc": "Free Independent Contractor Agreement, ready to send.",
   "nav.mega.useCase.ssl.title": "Free SSL for a client's domain",
@@ -254,19 +254,18 @@ export const en = {
 
   "home.integrations.title": "Connect docstoc with the tools you already use",
   "home.integrations.lede":
-    "Plug into the platforms you already use — accounting, cloud storage, automation, and AI assistants. Solo and Pro unlock native connectors; everything listed here is real today.",
+    "Plug into the platforms you already use — accounting, cloud storage, automation, and AI assistants. Pro and Business unlock native connectors; everything listed here is real today.",
   "home.integrations.footnote":
     "QuickBooks Online and Xero import overdue invoices into aging. Dropbox, OneDrive, Box, and Google import invoice PDFs (Google also unlocks Gmail drafts). Zapier and webhooks push overdue invoices. MCP connects Claude, ChatGPT, Grok, Perplexity, and Cursor to chase drafts.",
   "home.integrations.cta": "Learn more →",
 
   "home.pricing.planFree": "Free",
-  "home.pricing.planSolo": "Solo",
   "home.pricing.planPro": "Pro",
-  "home.pricing.planEnterprise": "Enterprise",
+  "home.pricing.planBusiness": "Business",
   "home.pricing.popularTag": "Most popular",
   "home.pricing.unlimited": "Unlimited",
-  "home.pricing.seats3": "3 seats",
   "home.pricing.seats5": "5 seats",
+  "home.pricing.seats20": "20 seats",
   "home.pricing.session": "Session",
   "home.pricing.accountDefault": "Account default",
   "home.pricing.customScoped": "Yes — scoped with you",
@@ -275,8 +274,8 @@ export const en = {
   "home.pricing.perMonth": "per month",
   "home.pricing.billedYearly": "billed yearly",
   "home.pricing.startFree": "Start free",
-  "home.pricing.getSolo": "Get Solo",
   "home.pricing.getPro": "Get Pro",
+  "home.pricing.getBusiness": "Get Business",
   "home.pricing.contactSales": "Contact sales",
   "home.pricing.row.aiDrafts": "AI drafts / month",
   "home.pricing.row.docTemplates": "Free business & legal document templates",
@@ -315,13 +314,13 @@ export const en = {
     "An AI invoice follow-up tool. Paste unpaid invoices and get payment reminder emails written in the right tone for how late each one is.",
   "home.faq.q2": "Do I need an account?",
   "home.faq.a2":
-    'No — Free works without signup (5 AI drafts per month + templates). Sign in to upgrade to Solo ($9) or Pro ($19). For Enterprise (custom, billed yearly), email <!--email_off--><a href="mailto:sales@chasa.io">sales@chasa.io</a><!--/email_off-->.',
+    'No — Free works without signup (5 AI drafts per month + templates). Sign in to upgrade to Pro ($14.99/mo) or Business ($39/mo).',
   "home.faq.q3": "Does docstoc send emails for me?",
   "home.faq.a3":
     "No. You copy the draft into your own inbox (or open a mailto link). Clients hear from you, not from us.",
   "home.faq.q4": "Does docstoc connect to QuickBooks, FreshBooks, or Xero?",
   "home.faq.a4":
-    'Yes for <strong>QuickBooks Online</strong> and <strong>Xero</strong> on Solo and up — native OAuth in <a href="/app/connector">Connector</a> imports overdue invoices into aging. <strong>FreshBooks</strong> and Wave: create an API key and use our Zapier template, or export CSV and upload in the Tool (headers mapped automatically, Free too). Cloud storage (Dropbox, OneDrive, Box) PDF import is also Solo+.',
+    'Yes for <strong>QuickBooks Online</strong> and <strong>Xero</strong> on Pro and up — native OAuth in <a href="/app/connector">Connector</a> imports overdue invoices into aging. <strong>FreshBooks</strong> and Wave: create an API key and use our Zapier template, or export CSV and upload in the Tool (headers mapped automatically, Free too). Cloud storage (Dropbox, OneDrive, Box) PDF import is also Pro+.',
   "home.faq.q5": "How does the tone work?",
   "home.faq.a5":
     "Friendly under a week overdue, professional at 8–30 days, direct past 30 days. Same invoice, escalating tone — no template picking.",
@@ -486,7 +485,7 @@ export const es = {
   "nav.mega.useCase.api.title": "API de seguimiento",
   "nav.mega.useCase.api.desc": "Integra los borradores de seguimiento en tu propio sistema.",
   "nav.mega.useCase.flatFee.title": "Precio fijo",
-  "nav.mega.useCase.flatFee.desc": "Sin cargos por documento — seguimientos ilimitados desde $9/mes.",
+  "nav.mega.useCase.flatFee.desc": "Sin cargos por documento — seguimientos ilimitados desde $14.99/mes.",
   "nav.mega.useCase.templates.title": "Plantillas de contrato freelance",
   "nav.mega.useCase.templates.desc": "Acuerdo de contratista independiente gratis, listo para enviar.",
   "nav.mega.useCase.ssl.title": "SSL gratis para el dominio de un cliente",
@@ -666,19 +665,18 @@ export const es = {
 
   "home.integrations.title": "Conecta docstoc con las herramientas que ya usas",
   "home.integrations.lede":
-    "Integra las plataformas que ya usas — contabilidad, almacenamiento en la nube, automatización y asistentes de IA. Solo y Pro desbloquean conectores nativos; todo lo listado aquí existe hoy.",
+    "Integra las plataformas que ya usas — contabilidad, almacenamiento en la nube, automatización y asistentes de IA. Pro y Business desbloquean conectores nativos; todo lo listado aquí existe hoy.",
   "home.integrations.footnote":
     "QuickBooks Online y Xero importan facturas vencidas al aging. Dropbox, OneDrive, Box y Google importan PDFs de facturas (Google también desbloquea borradores de Gmail). Zapier y webhooks envían facturas vencidas. MCP conecta Claude, ChatGPT, Grok, Perplexity y Cursor a borradores de seguimiento.",
   "home.integrations.cta": "Más información →",
 
   "home.pricing.planFree": "Gratis",
-  "home.pricing.planSolo": "Solo",
   "home.pricing.planPro": "Pro",
-  "home.pricing.planEnterprise": "Enterprise",
+  "home.pricing.planBusiness": "Business",
   "home.pricing.popularTag": "Más popular",
   "home.pricing.unlimited": "Ilimitado",
-  "home.pricing.seats3": "3 usuarios",
   "home.pricing.seats5": "5 usuarios",
+  "home.pricing.seats20": "20 usuarios",
   "home.pricing.session": "Sesión",
   "home.pricing.accountDefault": "Predeterminado de cuenta",
   "home.pricing.customScoped": "Sí — definido contigo",
@@ -687,8 +685,8 @@ export const es = {
   "home.pricing.perMonth": "al mes",
   "home.pricing.billedYearly": "facturación anual",
   "home.pricing.startFree": "Empezar gratis",
-  "home.pricing.getSolo": "Obtener Solo",
   "home.pricing.getPro": "Obtener Pro",
+  "home.pricing.getBusiness": "Obtener Business",
   "home.pricing.contactSales": "Contactar ventas",
   "home.pricing.row.aiDrafts": "Borradores con IA / mes",
   "home.pricing.row.docTemplates": "Plantillas gratis de documentos de negocios y legales",
@@ -727,13 +725,13 @@ export const es = {
     "Una herramienta de seguimiento de facturas con IA. Pega facturas impagas y recibe correos de recordatorio de pago redactados con el tono correcto según cuánto llevan de retraso.",
   "home.faq.q2": "¿Necesito una cuenta?",
   "home.faq.a2":
-    'No — Gratis funciona sin registro (5 borradores con IA al mes + plantillas). Inicia sesión para pasar a Solo ($9) o Pro ($19). Para Enterprise (personalizado, facturación anual), escribe a <!--email_off--><a href="mailto:sales@chasa.io">sales@chasa.io</a><!--/email_off-->.',
+    'No — Gratis funciona sin registro (5 borradores con IA al mes + plantillas). Inicia sesión para pasar a Pro ($14.99/mes) o Business ($39/mes).',
   "home.faq.q3": "¿docstoc envía correos por mí?",
   "home.faq.a3":
     "No. Copias el borrador en tu propia bandeja (o abres un enlace mailto). Tus clientes te escuchan a ti, no a nosotros.",
   "home.faq.q4": "¿docstoc se conecta con QuickBooks, FreshBooks o Xero?",
   "home.faq.a4":
-    'Sí para <strong>QuickBooks Online</strong> y <strong>Xero</strong> en Solo y superiores — OAuth nativo en <a href="/app/connector">Connector</a> importa facturas vencidas al tablero de antigüedad. <strong>FreshBooks</strong> y Wave: crea una clave API y usa nuestra plantilla de Zapier, o exporta CSV y súbelo en la Herramienta (encabezados mapeados automáticamente, también en Gratis). Importación de PDF desde almacenamiento en la nube (Dropbox, OneDrive, Box) también es Solo+.',
+    'Sí para <strong>QuickBooks Online</strong> y <strong>Xero</strong> en Pro y superiores — OAuth nativo en <a href="/app/connector">Connector</a> importa facturas vencidas al tablero de antigüedad. <strong>FreshBooks</strong> y Wave: crea una clave API y usa nuestra plantilla de Zapier, o exporta CSV y súbelo en la Herramienta (encabezados mapeados automáticamente, también en Gratis). Importación de PDF desde almacenamiento en la nube (Dropbox, OneDrive, Box) también es Pro+.',
   "home.faq.q5": "¿Cómo funciona el tono?",
   "home.faq.a5":
     "Amable con menos de una semana de retraso, profesional de 8 a 30 días, directo después de 30 días. Misma factura, tono escalonado — sin elegir plantilla.",
