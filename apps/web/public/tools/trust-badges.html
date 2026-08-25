@@ -3,18 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SSL Certificate Expiry Calculator | docstoc</title>
-<meta name="description" content="Enter a certificate's issue date and validity period to see the exact expiry date and days remaining. Free, no signup.">
-<link rel="canonical" href="https://chasa.io/tools/ssl-certificate-calculator">
+<title>Verified Corporate Identity &amp; Trust Badges — Lookup &amp; Embed | docstoc</title>
+<meta name="description" content="Look up a public domain-verified trust profile, preview the embeddable badge, and copy the script. Free lookup, no signup. Bitcoin-timestamped verified-since when confirmed.">
+<link rel="canonical" href="https://chasa.io/tools/trust-badges">
 
 <meta property="og:type" content="website">
-<meta property="og:title" content="SSL Certificate Expiry Calculator | docstoc">
-<meta property="og:description" content="Enter a certificate's issue date and validity period to see the exact expiry date and days remaining. Free, no signup.">
-<meta property="og:url" content="https://chasa.io/tools/ssl-certificate-calculator">
+<meta property="og:title" content="Verified Corporate Identity &amp; Trust Badges — Lookup &amp; Embed | docstoc">
+<meta property="og:description" content="Look up a public domain-verified trust profile, preview the embeddable badge, and copy the script. Free lookup, no signup. Bitcoin-timestamped verified-since when confirmed.">
+<meta property="og:url" content="https://chasa.io/tools/trust-badges">
 <meta property="og:image" content="https://chasa.io/brand/og/docstoc-og-1200x630.png">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="SSL Certificate Expiry Calculator | docstoc">
-<meta name="twitter:description" content="Enter a certificate's issue date and validity period to see the exact expiry date and days remaining. Free, no signup.">
+<meta name="twitter:title" content="Verified Corporate Identity &amp; Trust Badges — Lookup &amp; Embed | docstoc">
+<meta name="twitter:description" content="Look up a public domain-verified trust profile, preview the embeddable badge, and copy the script. Free lookup, no signup. Bitcoin-timestamped verified-since when confirmed.">
 <meta name="twitter:image" content="https://chasa.io/brand/og/docstoc-og-1200x630.png">
 <link rel="alternate" type="application/rss+xml" title="docstoc Blog" href="../blog/feed.xml">
 <link rel="me" href="https://www.linkedin.com/company/chasa-io">
@@ -131,17 +131,17 @@ main h1, main h2, main h3, .tools-card h2, .calc-stat strong, .finder-card stron
     {
       "@type": "ListItem",
       "position": 3,
-      "name": "SSL certificate expiry calculator",
-      "item": "https://chasa.io/tools/ssl-certificate-calculator"
+      "name": "Verified Corporate Identity & Trust Badges",
+      "item": "https://chasa.io/tools/trust-badges"
     }
   ]
 },
 {
   "@context": "https://schema.org",
   "@type": "WebApplication",
-  "name": "SSL certificate expiry calculator",
-  "description": "Calculate SSL/TLS certificate expiry date and days remaining.",
-  "url": "https://chasa.io/tools/ssl-certificate-calculator",
+  "name": "Verified Corporate Identity & Trust Badges",
+  "description": "Look up public trust profiles and preview embeddable domain-verified badges.",
+  "url": "https://chasa.io/tools/trust-badges",
   "applicationCategory": "UtilitiesApplication",
   "operatingSystem": "Any",
   "offers": {
@@ -161,26 +161,34 @@ main h1, main h2, main h3, .tools-card h2, .calc-stat strong, .finder-card stron
   "mainEntity": [
     {
       "@type": "Question",
-      "name": "Why 90 days for the default validity period?",
+      "name": "Is this a legal-entity or business-registry check?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Let's Encrypt — the certificate authority docstoc automates — issues certificates valid for 90 days by default, shorter than the 1-year certificates some paid providers sell."
+        "text": "No. The badge confirms DNS control of a domain (via a real Let's Encrypt certificate issued through docstoc) and, once Bitcoin-confirmed, the date that verified status began. It does not check company registries or claim KYC/identity verification."
       }
     },
     {
       "@type": "Question",
-      "name": "What happens if a certificate expires?",
+      "name": "Do I need an account to look up someone else's badge?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Browsers show a security warning and block or flag the site as untrusted. Renewing before expiry avoids any visible disruption to visitors."
+        "text": "No. Paste a workspace account ID or a /trust/… link below — the lookup is public. Getting your own badge requires securing a domain in docstoc first."
       }
     },
     {
       "@type": "Question",
-      "name": "Can docstoc remind me automatically instead of me tracking this by hand?",
+      "name": "Where does the embed script go?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Yes — once a domain is added in docstoc, it tracks expiry for you and emails a reminder before the certificate lapses, with a one-click renewal path."
+        "text": "Anywhere HTML is allowed — your website footer, proposals, or a client portal. The script loads a small domain-verified badge that links to the public trust profile."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "When does the Bitcoin timestamp show up?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Usually within a few hours of first verification. Until then the badge still says domain-verified; once confirmed it upgrades to include the verified-since date."
       }
     }
   ]
@@ -343,47 +351,70 @@ main h1, main h2, main h3, .tools-card h2, .calc-stat strong, .finder-card stron
   </div>
 </div>
 <main class="wrap page-main">
-<p class="crumb"><a href="/">Home</a> / <a href="/tools/">Tools</a> / SSL certificate expiry calculator</p>
-<h1>SSL certificate expiry calculator</h1>
-<p class="lede">Enter when a certificate was issued and how long it's valid for — see the exact expiry date and how many days are left, before you're caught by a browser warning.</p>
+<p class="crumb"><a href="/">Home</a> / <a href="/tools/">Tools</a> / Trust badges</p>
+<h1>Verified Corporate Identity &amp; Trust Badges</h1>
+<p class="lede">Show clients you control your domain — with a public trust profile and an embeddable badge backed by a real SSL certificate and an optional Bitcoin timestamp. Look up any public profile below; no signup required.</p>
 
-<div class="calc-grid" data-calc="ssl-expiry">
+<div class="calc-grid" data-calc="trust-badge">
   <div class="calc-panel">
     <div class="calc-field">
-      <label for="ssl-issued">Date the certificate was issued</label>
-      <input id="ssl-issued" data-ssl-issued type="date" />
+      <label for="trust-id">Account ID or trust profile URL</label>
+      <input id="trust-id" data-trust-id type="text" placeholder="e.g. abc123… or https://chasa.io/trust/…" autocomplete="off" />
+      <p class="calc-hint">Find the ID on your SSL Certificates page after a domain is verified, or in any public /trust/… link.</p>
     </div>
-    <div class="calc-field">
-      <label for="ssl-validity">Validity period (days)</label>
-      <select id="ssl-validity" data-ssl-validity>
-        <option value="90">90 days — Let's Encrypt (default)</option>
-        <option value="398">398 days — max allowed by browsers today</option>
-        <option value="365">365 days — 1 year</option>
-      </select>
-      <p class="calc-hint">docstoc issues 90-day Let's Encrypt certificates and reminds you before renewal is due.</p>
+    <div class="trust-lookup-actions">
+      <button type="button" data-trust-lookup>Look up profile</button>
+      <button type="button" data-trust-copy-embed hidden>Copy embed code</button>
     </div>
   </div>
   <div class="calc-results" aria-live="polite">
-    <p class="calc-stat"><span>Expiry date</span><strong data-ssl-out-expiry>—</strong></p>
-    <p class="calc-stat"><span>Days remaining</span><strong data-ssl-out-remaining>—</strong></p>
-    <p class="calc-note">Renew with a comfortable margin before the expiry date — DNS propagation and validation can take time.</p>
+    <p class="calc-stat"><span>Workspace</span><strong data-trust-out-name>—</strong></p>
+    <p class="calc-stat"><span>Domain</span><strong data-trust-out-domain>—</strong></p>
+    <p class="calc-stat"><span>SSL status</span><strong data-trust-out-status>—</strong></p>
+    <p class="calc-stat"><span>Verified since</span><strong data-trust-out-since>—</strong></p>
+    <p class="calc-note" data-trust-out-note>Paste an ID above to load a live public profile. Demo badge style:</p>
+    <p style="margin-top:14px">
+      <span class="trust-badge-demo" data-trust-badge-preview><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#2e7d32" stroke-width="2" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="1.5"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg> Domain-verified via docstoc</span>
+    </p>
+    <p class="trust-embed-box" data-trust-embed hidden></p>
+    <p style="margin-top:14px" data-trust-profile-link-wrap hidden>
+      <a href="#" data-trust-profile-link target="_blank" rel="noopener noreferrer">Open public trust profile →</a>
+    </p>
   </div>
 </div>
 
-<h2>Why this matters</h2>
-<p>An expired SSL/TLS certificate shows visitors a security warning and can block access entirely, depending on the browser. Automated renewal reminders — like docstoc's — exist because manually tracking expiry across every domain doesn't scale.</p>
-<p style="margin-top:20px"><a href="/app/login?start=1" class="nav-cta" data-cta data-cta-source="tool_ssl_calc">Secure a domain with automated renewal reminders →</a></p>
+<h2>What this verifies</h2>
+<p>When you issue a domain's SSL certificate through docstoc, the platform proves you control that domain's DNS. That creates a public trust profile with a "verified since" date. Once the OpenTimestamps Bitcoin anchor confirms, anyone can independently check the claim — not only against docstoc's database.</p>
+<ul>
+  <li><strong>Domain control</strong> — proven by a live Let's Encrypt certificate for your domain</li>
+  <li><strong>Verified-since date</strong> — Bitcoin-timestamped when confirmation completes</li>
+  <li><strong>Embeddable badge</strong> — one script tag for your site, proposals, or portal</li>
+</ul>
+
+<h2>What it does not claim</h2>
+<p>docstoc does not check business registries, government IDs, or legal-entity filings. The badge never says it does. Use it as domain-verified corporate presence — not as KYC or a chamber-of-commerce seal.</p>
+
+<h2>How to get your own badge</h2>
+<ol>
+  <li>Secure a domain with <a href="/ssl">docstoc SSL automation</a> (Business plan).</li>
+  <li>Open <a href="/app/ssl">SSL Certificates</a> — your trust profile and embed snippet appear once the domain is active.</li>
+  <li>Paste the script on your site, or share your <code>/trust/…</code> link.</li>
+</ol>
+<p style="margin-top:20px"><a href="/trust-badges" class="nav-cta">Read the full product overview →</a></p>
+<p style="margin-top:12px"><a href="/app/login?start=1" data-cta data-cta-source="tool_trust_badges">Secure a domain and get a badge →</a></p>
 
 <h2>FAQs</h2>
-<details class="faq-item"><summary>Why 90 days for the default validity period?</summary><p>Let's Encrypt — the certificate authority docstoc automates — issues certificates valid for 90 days by default, shorter than the 1-year certificates some paid providers sell.</p></details>
-<details class="faq-item"><summary>What happens if a certificate expires?</summary><p>Browsers show a security warning and block or flag the site as untrusted. Renewing before expiry avoids any visible disruption to visitors.</p></details>
-<details class="faq-item"><summary>Can docstoc remind me automatically instead of me tracking this by hand?</summary><p>Yes — once a domain is added in docstoc, it tracks expiry for you and emails a reminder before the certificate lapses, with a one-click renewal path.</p></details>
+<details class="faq-item"><summary>Is this a legal-entity or business-registry check?</summary><p>No. The badge confirms DNS control of a domain (via a real Let's Encrypt certificate issued through docstoc) and, once Bitcoin-confirmed, the date that verified status began. It does not check company registries or claim KYC/identity verification.</p></details>
+<details class="faq-item"><summary>Do I need an account to look up someone else's badge?</summary><p>No. Paste a workspace account ID or a /trust/… link below — the lookup is public. Getting your own badge requires securing a domain in docstoc first.</p></details>
+<details class="faq-item"><summary>Where does the embed script go?</summary><p>Anywhere HTML is allowed — your website footer, proposals, or a client portal. The script loads a small domain-verified badge that links to the public trust profile.</p></details>
+<details class="faq-item"><summary>When does the Bitcoin timestamp show up?</summary><p>Usually within a few hours of first verification. Until then the badge still says domain-verified; once confirmed it upgrades to include the verified-since date.</p></details>
 
 <h3>Related</h3>
 <ul>
-  <li><a href="/tools/trust-badges">Verified Corporate Identity &amp; Trust Badges</a></li>
-  <li><a href="/monitoringssl">SSL certificate monitoring</a></li>
-  <li><a href="/ssl">How docstoc's SSL automation works</a></li>
+  <li><a href="/trust-badges">Trust badges product page</a></li>
+  <li><a href="/ssl">Free SSL automation</a></li>
+  <li><a href="/tools/ssl-certificate-calculator">SSL certificate expiry calculator</a></li>
+  <li><a href="/tools/file-hash-checker">File hash checker</a></li>
 </ul>
 </main>
 <footer class="site-footer">

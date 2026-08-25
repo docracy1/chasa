@@ -50,6 +50,7 @@ export const MARKETING_PAGES = [
   { file: "monitoringssl.html" },
   { file: "monitoringtls.html" },
   { file: "ssl.html" },
+  { file: "trust-badges.html" },
   { file: "tsl.html" },
   { file: "certificate.html" },
   { file: "invoices.html" },

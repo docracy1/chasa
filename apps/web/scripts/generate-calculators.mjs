@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
- * Generates SEO tool pages under /tools/ — one per product (templates, certificates,
- * SSL, invoice chasing), in that order, so invoice chasing isn't the lead/only tool.
+ * Generates SEO tool pages under /tools/ — templates, certificates, SSL, trust badges,
+ * invoice chasing — so invoice chasing isn't the lead/only tool.
  * Run: node apps/web/scripts/generate-calculators.mjs
  */
 import { mkdirSync, writeFileSync } from "node:fs";
@@ -14,6 +14,10 @@ const outDir = join(__dirname, "../public/tools");
 mkdirSync(outDir, { recursive: true });
 
 const extraHead = `<style>
+/* Classic docstoc-style sans hierarchy on tools (not Fraunces). */
+main h1, main h2, main h3, .tools-card h2, .calc-stat strong, .finder-card strong {
+  font-family: Inter, "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
 .calc-grid { display: grid; gap: 28px; margin: 28px 0 36px; }
 @media (min-width: 860px) {
   .calc-grid { grid-template-columns: 1.1fr 0.9fr; align-items: start; }
@@ -36,20 +40,42 @@ const extraHead = `<style>
 .calc-field input[type="range"] { padding: 0; background: transparent; border: none; }
 .calc-hint { font-size: 12.5px; color: var(--ink-soft); margin-top: 4px; }
 .calc-stat { margin: 0 0 14px; }
-.calc-stat strong { display: block; font-family: Fraunces, Georgia, serif; font-size: 28px; margin-top: 2px; }
+.calc-stat strong { display: block; font-size: 28px; margin-top: 2px; font-weight: 700; }
 .calc-stat span { font-size: 13px; color: var(--ink-soft); font-weight: 600; }
 .calc-note { font-size: 12.5px; color: var(--ink-soft); margin-top: 12px; line-height: 1.45; }
 .calc-divider { border: none; border-top: 1px solid var(--line); margin: 40px 0; }
 .tools-card-grid { display: grid; gap: 14px; margin: 22px 0 8px; }
 @media (min-width: 700px) { .tools-card-grid { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 1040px) { .tools-card-grid { grid-template-columns: 1fr 1fr 1fr; } }
 .tools-card {
   display: block; text-decoration: none; color: inherit;
   border: 1px solid var(--line); border-radius: 12px; padding: 18px 20px;
   background: var(--white); transition: border-color 0.15s ease, transform 0.12s ease;
 }
 .tools-card:hover { border-color: var(--accent); transform: translateY(-1px); }
-.tools-card h2 { font-size: 20px; margin: 0 0 8px; font-family: Fraunces, Georgia, serif; }
+.tools-card h2 { font-size: 20px; margin: 0 0 8px; font-weight: 700; }
 .tools-card p { margin: 0; color: var(--ink-soft); font-size: 14.5px; line-height: 1.45; }
+.trust-badge-demo {
+  display: inline-flex; align-items: center; gap: 6px;
+  font: 12px/1.2 -apple-system, system-ui, sans-serif; color: #1B3155;
+  text-decoration: none; border: 1px solid #d8dee8; border-radius: 6px;
+  padding: 6px 10px; background: #fafbfc;
+}
+.trust-badge-demo svg { flex-shrink: 0; }
+.trust-embed-box {
+  margin-top: 12px; padding: 10px 12px; background: var(--paper);
+  border: 1px solid var(--line); border-radius: 6px; font-size: 12.5px;
+  word-break: break-all; font-family: "IBM Plex Mono", ui-monospace, monospace;
+}
+.trust-lookup-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 4px; }
+.trust-lookup-actions button {
+  font-size: 13px; font-weight: 600; padding: 10px 14px;
+  border: 1px solid var(--line); border-radius: 8px; background: var(--white); cursor: pointer;
+}
+.trust-lookup-actions button[data-trust-lookup] {
+  background: var(--accent); color: #fff; border-color: var(--accent);
+}
+.trust-lookup-actions button:hover { filter: brightness(0.97); }
 .finder-grid { display: grid; gap: 12px; margin: 22px 0 8px; }
 @media (min-width: 700px) { .finder-grid { grid-template-columns: 1fr 1fr; } }
 .finder-card {
@@ -199,10 +225,31 @@ const sslFaqs = [
   },
 ];
 
+const trustBadgeFaqs = [
+  {
+    q: "Is this a legal-entity or business-registry check?",
+    a: "No. The badge confirms DNS control of a domain (via a real Let's Encrypt certificate issued through docstoc) and, once Bitcoin-confirmed, the date that verified status began. It does not check company registries or claim KYC/identity verification.",
+  },
+  {
+    q: "Do I need an account to look up someone else's badge?",
+    a: "No. Paste a workspace account ID or a /trust/… link below — the lookup is public. Getting your own badge requires securing a domain in docstoc first.",
+  },
+  {
+    q: "Where does the embed script go?",
+    a: "Anywhere HTML is allowed — your website footer, proposals, or a client portal. The script loads a small domain-verified badge that links to the public trust profile.",
+  },
+  {
+    q: "When does the Bitcoin timestamp show up?",
+    a: "Usually within a few hours of first verification. Until then the badge still says domain-verified; once confirmed it upgrades to include the verified-since date.",
+  },
+];
+
+const trustBadgeSvg = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#2e7d32" stroke-width="2" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="1.5"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>`;
+
 const toolsIndexMain = `
 <p class="crumb"><a href="/">Home</a> / Tools</p>
 <h1>Free tools — one for each part of the workflow</h1>
-<p class="lede">Small, no-signup utilities that match docstoc's four products: finding the right template, checking a file's hash, tracking an SSL certificate's expiry, and estimating what late payments actually cost.</p>
+<p class="lede">Small, no-signup utilities that match docstoc's products: finding the right template, checking a file's hash, tracking SSL expiry, verifying corporate domain trust badges, and estimating what late payments cost.</p>
 
 <div class="tools-card-grid">
   <a class="tools-card" href="/tools/template-finder">
@@ -217,6 +264,10 @@ const toolsIndexMain = `
     <h2>SSL certificate expiry calculator</h2>
     <p>Enter an issue date and validity period, get the exact expiry date and days remaining.</p>
   </a>
+  <a class="tools-card" href="/tools/trust-badges">
+    <h2>Verified Corporate Identity &amp; Trust Badges</h2>
+    <p>Preview the domain-verified badge, look up a public trust profile, and copy the embed snippet.</p>
+  </a>
   <a class="tools-card" href="/tools/invoice-chase-calculator">
     <h2>Invoice chase calculator</h2>
     <p>Estimate late payment interest and the cash you unlock when overdue invoices get paid sooner.</p>
@@ -224,7 +275,7 @@ const toolsIndexMain = `
 </div>
 
 <h2>Why these tools</h2>
-<p>Every tool here runs entirely in your browser — no signup, no data upload. Use them to size a decision, then do the actual work in <a href="/app/">docstoc</a> if it's a fit.</p>
+<p>Most tools here run entirely in your browser — no signup, no data upload. The trust-badge lookup only fetches a public profile you already have a link for. Use them to size a decision, then do the actual work in <a href="/app/">docstoc</a> if it's a fit.</p>
 `.trim();
 
 const templateFinderMain = `
@@ -309,6 +360,7 @@ ${hashFaqs.map((f) => `<details class="faq-item"><summary>${f.q}</summary><p>${f
 <h3>Related</h3>
 <ul>
   <li><a href="/use-cases/chasa-certificate-monitoring">Document certificate monitoring</a></li>
+  <li><a href="/tools/trust-badges">Verified Corporate Identity &amp; Trust Badges</a></li>
   <li><a href="/verify/DOC-DEMO0001">See a sample verification page</a></li>
 </ul>
 `.trim();
@@ -350,8 +402,74 @@ ${sslFaqs.map((f) => `<details class="faq-item"><summary>${f.q}</summary><p>${f.
 
 <h3>Related</h3>
 <ul>
+  <li><a href="/tools/trust-badges">Verified Corporate Identity &amp; Trust Badges</a></li>
   <li><a href="/monitoringssl">SSL certificate monitoring</a></li>
   <li><a href="/ssl">How docstoc's SSL automation works</a></li>
+</ul>
+`.trim();
+
+const trustBadgesMain = `
+<p class="crumb"><a href="/">Home</a> / <a href="/tools/">Tools</a> / Trust badges</p>
+<h1>Verified Corporate Identity &amp; Trust Badges</h1>
+<p class="lede">Show clients you control your domain — with a public trust profile and an embeddable badge backed by a real SSL certificate and an optional Bitcoin timestamp. Look up any public profile below; no signup required.</p>
+
+<div class="calc-grid" data-calc="trust-badge">
+  <div class="calc-panel">
+    <div class="calc-field">
+      <label for="trust-id">Account ID or trust profile URL</label>
+      <input id="trust-id" data-trust-id type="text" placeholder="e.g. abc123… or https://chasa.io/trust/…" autocomplete="off" />
+      <p class="calc-hint">Find the ID on your SSL Certificates page after a domain is verified, or in any public /trust/… link.</p>
+    </div>
+    <div class="trust-lookup-actions">
+      <button type="button" data-trust-lookup>Look up profile</button>
+      <button type="button" data-trust-copy-embed hidden>Copy embed code</button>
+    </div>
+  </div>
+  <div class="calc-results" aria-live="polite">
+    <p class="calc-stat"><span>Workspace</span><strong data-trust-out-name>—</strong></p>
+    <p class="calc-stat"><span>Domain</span><strong data-trust-out-domain>—</strong></p>
+    <p class="calc-stat"><span>SSL status</span><strong data-trust-out-status>—</strong></p>
+    <p class="calc-stat"><span>Verified since</span><strong data-trust-out-since>—</strong></p>
+    <p class="calc-note" data-trust-out-note>Paste an ID above to load a live public profile. Demo badge style:</p>
+    <p style="margin-top:14px">
+      <span class="trust-badge-demo" data-trust-badge-preview>${trustBadgeSvg} Domain-verified via docstoc</span>
+    </p>
+    <p class="trust-embed-box" data-trust-embed hidden></p>
+    <p style="margin-top:14px" data-trust-profile-link-wrap hidden>
+      <a href="#" data-trust-profile-link target="_blank" rel="noopener noreferrer">Open public trust profile →</a>
+    </p>
+  </div>
+</div>
+
+<h2>What this verifies</h2>
+<p>When you issue a domain's SSL certificate through docstoc, the platform proves you control that domain's DNS. That creates a public trust profile with a "verified since" date. Once the OpenTimestamps Bitcoin anchor confirms, anyone can independently check the claim — not only against docstoc's database.</p>
+<ul>
+  <li><strong>Domain control</strong> — proven by a live Let's Encrypt certificate for your domain</li>
+  <li><strong>Verified-since date</strong> — Bitcoin-timestamped when confirmation completes</li>
+  <li><strong>Embeddable badge</strong> — one script tag for your site, proposals, or portal</li>
+</ul>
+
+<h2>What it does not claim</h2>
+<p>docstoc does not check business registries, government IDs, or legal-entity filings. The badge never says it does. Use it as domain-verified corporate presence — not as KYC or a chamber-of-commerce seal.</p>
+
+<h2>How to get your own badge</h2>
+<ol>
+  <li>Secure a domain with <a href="/ssl">docstoc SSL automation</a> (Business plan).</li>
+  <li>Open <a href="/app/ssl">SSL Certificates</a> — your trust profile and embed snippet appear once the domain is active.</li>
+  <li>Paste the script on your site, or share your <code>/trust/…</code> link.</li>
+</ol>
+<p style="margin-top:20px"><a href="/trust-badges" class="nav-cta">Read the full product overview →</a></p>
+<p style="margin-top:12px"><a href="/app/login?start=1" data-cta data-cta-source="tool_trust_badges">Secure a domain and get a badge →</a></p>
+
+<h2>FAQs</h2>
+${trustBadgeFaqs.map((f) => `<details class="faq-item"><summary>${f.q}</summary><p>${f.a}</p></details>`).join("\n")}
+
+<h3>Related</h3>
+<ul>
+  <li><a href="/trust-badges">Trust badges product page</a></li>
+  <li><a href="/ssl">Free SSL automation</a></li>
+  <li><a href="/tools/ssl-certificate-calculator">SSL certificate expiry calculator</a></li>
+  <li><a href="/tools/file-hash-checker">File hash checker</a></li>
 </ul>
 `.trim();
 
@@ -465,9 +583,9 @@ ${chaseFaqs.map((f) => `<details class="faq-item"><summary>${f.q}</summary><p>${
 const pages = [
   {
     file: "index.html",
-    title: "Free Tools — Template Finder, File Hash, SSL Expiry, Invoice Chase | docstoc",
+    title: "Free Tools — Templates, Hash, SSL, Trust Badges, Invoice Chase | docstoc",
     description:
-      "Free no-signup tools: find the right template, check a file's SHA-256 hash, calculate SSL certificate expiry, and estimate invoice chase savings.",
+      "Free no-signup tools: find templates, check SHA-256 hashes, calculate SSL expiry, look up verified corporate trust badges, and estimate invoice chase savings.",
     canonical: "/tools/",
     mainHtml: toolsIndexMain,
     jsonLd: multiJsonLd(
@@ -533,6 +651,27 @@ const pages = [
         url: "https://chasa.io/tools/ssl-certificate-calculator",
       }),
       faqJsonLd(sslFaqs)
+    ),
+  },
+  {
+    file: "trust-badges.html",
+    title: "Verified Corporate Identity & Trust Badges — Lookup & Embed | docstoc",
+    description:
+      "Look up a public domain-verified trust profile, preview the embeddable badge, and copy the script. Free lookup, no signup. Bitcoin-timestamped verified-since when confirmed.",
+    canonical: "/tools/trust-badges",
+    mainHtml: trustBadgesMain,
+    jsonLd: multiJsonLd(
+      breadcrumbJsonLd([
+        { name: "Home", item: "https://chasa.io/" },
+        { name: "Tools", item: "https://chasa.io/tools/" },
+        { name: "Verified Corporate Identity & Trust Badges", item: "https://chasa.io/tools/trust-badges" },
+      ]),
+      webAppJsonLd({
+        name: "Verified Corporate Identity & Trust Badges",
+        description: "Look up public trust profiles and preview embeddable domain-verified badges.",
+        url: "https://chasa.io/tools/trust-badges",
+      }),
+      faqJsonLd(trustBadgeFaqs)
     ),
   },
   {

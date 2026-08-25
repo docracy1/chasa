@@ -20,6 +20,10 @@
 <link rel="me" href="https://www.linkedin.com/company/chasa-io">
 <link rel="me" href="https://x.com/chasaHQ">
 <style>
+/* Classic docstoc-style sans hierarchy on tools (not Fraunces). */
+main h1, main h2, main h3, .tools-card h2, .calc-stat strong, .finder-card strong {
+  font-family: Inter, "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
 .calc-grid { display: grid; gap: 28px; margin: 28px 0 36px; }
 @media (min-width: 860px) {
   .calc-grid { grid-template-columns: 1.1fr 0.9fr; align-items: start; }
@@ -42,20 +46,42 @@
 .calc-field input[type="range"] { padding: 0; background: transparent; border: none; }
 .calc-hint { font-size: 12.5px; color: var(--ink-soft); margin-top: 4px; }
 .calc-stat { margin: 0 0 14px; }
-.calc-stat strong { display: block; font-family: Fraunces, Georgia, serif; font-size: 28px; margin-top: 2px; }
+.calc-stat strong { display: block; font-size: 28px; margin-top: 2px; font-weight: 700; }
 .calc-stat span { font-size: 13px; color: var(--ink-soft); font-weight: 600; }
 .calc-note { font-size: 12.5px; color: var(--ink-soft); margin-top: 12px; line-height: 1.45; }
 .calc-divider { border: none; border-top: 1px solid var(--line); margin: 40px 0; }
 .tools-card-grid { display: grid; gap: 14px; margin: 22px 0 8px; }
 @media (min-width: 700px) { .tools-card-grid { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 1040px) { .tools-card-grid { grid-template-columns: 1fr 1fr 1fr; } }
 .tools-card {
   display: block; text-decoration: none; color: inherit;
   border: 1px solid var(--line); border-radius: 12px; padding: 18px 20px;
   background: var(--white); transition: border-color 0.15s ease, transform 0.12s ease;
 }
 .tools-card:hover { border-color: var(--accent); transform: translateY(-1px); }
-.tools-card h2 { font-size: 20px; margin: 0 0 8px; font-family: Fraunces, Georgia, serif; }
+.tools-card h2 { font-size: 20px; margin: 0 0 8px; font-weight: 700; }
 .tools-card p { margin: 0; color: var(--ink-soft); font-size: 14.5px; line-height: 1.45; }
+.trust-badge-demo {
+  display: inline-flex; align-items: center; gap: 6px;
+  font: 12px/1.2 -apple-system, system-ui, sans-serif; color: #1B3155;
+  text-decoration: none; border: 1px solid #d8dee8; border-radius: 6px;
+  padding: 6px 10px; background: #fafbfc;
+}
+.trust-badge-demo svg { flex-shrink: 0; }
+.trust-embed-box {
+  margin-top: 12px; padding: 10px 12px; background: var(--paper);
+  border: 1px solid var(--line); border-radius: 6px; font-size: 12.5px;
+  word-break: break-all; font-family: "IBM Plex Mono", ui-monospace, monospace;
+}
+.trust-lookup-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 4px; }
+.trust-lookup-actions button {
+  font-size: 13px; font-weight: 600; padding: 10px 14px;
+  border: 1px solid var(--line); border-radius: 8px; background: var(--white); cursor: pointer;
+}
+.trust-lookup-actions button[data-trust-lookup] {
+  background: var(--accent); color: #fff; border-color: var(--accent);
+}
+.trust-lookup-actions button:hover { filter: brightness(0.97); }
 .finder-grid { display: grid; gap: 12px; margin: 22px 0 8px; }
 @media (min-width: 700px) { .finder-grid { grid-template-columns: 1fr 1fr; } }
 .finder-card {

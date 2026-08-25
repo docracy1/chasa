@@ -78,7 +78,7 @@
     const outTimeCost = root.querySelector("[data-sv-out-timecost]");
     const outRoi = root.querySelector("[data-sv-out-roi]");
     const outReduceLabel = root.querySelector("[data-sv-reduce-label]");
-    const SOLO_ANNUAL = 9 * 12;
+    const PRO_ANNUAL = 14.99 * 12;
 
     function recalc() {
       const ar = Math.max(0, Number(arEl.value) || 0);
@@ -93,7 +93,7 @@
       const hoursYear = hoursWeek * 52 * 0.5;
       const timeCost = hoursYear * wage;
       const totalBenefit = cashUnlocked + timeCost;
-      const roi = SOLO_ANNUAL > 0 ? ((totalBenefit - SOLO_ANNUAL) / SOLO_ANNUAL) * 100 : 0;
+      const roi = PRO_ANNUAL > 0 ? ((totalBenefit - PRO_ANNUAL) / PRO_ANNUAL) * 100 : 0;
       if (outReduceLabel) outReduceLabel.textContent = String(reduce);
       if (outCash) outCash.textContent = money(cashUnlocked, currency);
       if (outHours) outHours.textContent = Math.round(hoursYear).toLocaleString() + " hrs/yr";
@@ -215,8 +215,150 @@
     }
   }
 
+  function parseTrustId(raw) {
+    const s = (raw || "").trim();
+    if (!s) return "";
+    try {
+      const u = new URL(s, "https://chasa.io");
+      const m = u.pathname.match(/\/trust\/([^/?#]+)/i);
+      if (m) return decodeURIComponent(m[1]);
+    } catch {
+      /* not a URL */
+    }
+    return s.replace(/^\/+/, "").split(/[/?#]/)[0];
+  }
+
+  function bindTrustBadge(root) {
+    const input = root.querySelector("[data-trust-id]");
+    const lookupBtn = root.querySelector("[data-trust-lookup]");
+    const copyBtn = root.querySelector("[data-trust-copy-embed]");
+    const outName = root.querySelector("[data-trust-out-name]");
+    const outDomain = root.querySelector("[data-trust-out-domain]");
+    const outStatus = root.querySelector("[data-trust-out-status]");
+    const outSince = root.querySelector("[data-trust-out-since]");
+    const outNote = root.querySelector("[data-trust-out-note]");
+    const badge = root.querySelector("[data-trust-badge-preview]");
+    const embedBox = root.querySelector("[data-trust-embed]");
+    const linkWrap = root.querySelector("[data-trust-profile-link-wrap]");
+    const link = root.querySelector("[data-trust-profile-link]");
+    if (!input || !lookupBtn) return;
+
+    const lockSvg =
+      '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#2e7d32" stroke-width="2" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="1.5"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>';
+
+    function statusLabel(status) {
+      if (status === "active") return "SSL active";
+      if (status === "expiring") return "SSL renewal due";
+      if (status === "expired") return "SSL expired";
+      return "No verified domain";
+    }
+
+    function setDemoBadge(label) {
+      if (badge) badge.innerHTML = lockSvg + " " + label;
+    }
+
+    async function lookup() {
+      const id = parseTrustId(input.value);
+      if (!id) {
+        if (outNote) outNote.textContent = "Enter an account ID or a full /trust/… URL.";
+        return;
+      }
+      if (outNote) outNote.textContent = "Looking up…";
+      if (copyBtn) copyBtn.hidden = true;
+      if (embedBox) embedBox.hidden = true;
+      if (linkWrap) linkWrap.hidden = true;
+
+      try {
+        const res = await fetch("/api/trust/public/" + encodeURIComponent(id));
+        if (res.status === 404) {
+          if (outName) outName.textContent = "—";
+          if (outDomain) outDomain.textContent = "—";
+          if (outStatus) outStatus.textContent = "—";
+          if (outSince) outSince.textContent = "—";
+          if (outNote)
+            outNote.textContent =
+              "No trust profile found for that ID — the domain may not be verified yet.";
+          setDemoBadge("Domain-verified via docstoc");
+          return;
+        }
+        if (!res.ok) throw new Error("lookup failed");
+        const profile = await res.json();
+        const since =
+          profile.verifiedSince &&
+          new Date(profile.verifiedSince).toLocaleDateString(undefined, {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          });
+        const label =
+          profile.otsStatus === "confirmed" && profile.verifiedSince
+            ? "Domain-verified since " + profile.verifiedSince.slice(0, 10)
+            : "Domain-verified via docstoc";
+        if (outName) outName.textContent = profile.workspaceName || "—";
+        if (outDomain) outDomain.textContent = profile.domain || "—";
+        if (outStatus) outStatus.textContent = statusLabel(profile.domainStatus);
+        if (outSince) outSince.textContent = since || "—";
+        setDemoBadge(label);
+        const origin = window.location.origin;
+        const profileUrl = origin + "/trust/" + encodeURIComponent(id);
+        const embed =
+          '<script src="' +
+          origin +
+          "/api/trust/badge/" +
+          encodeURIComponent(id) +
+          '.js" async></' +
+          "script>";
+        if (embedBox) {
+          embedBox.textContent = embed;
+          embedBox.hidden = false;
+        }
+        if (link) link.href = profileUrl;
+        if (linkWrap) linkWrap.hidden = false;
+        if (copyBtn) {
+          copyBtn.hidden = false;
+          copyBtn.dataset.embed = embed;
+        }
+        if (outNote) {
+          outNote.textContent =
+            profile.domainStatus === "active"
+              ? "Live public profile loaded. Copy the embed snippet to put this badge on a site."
+              : "Profile found, but the domain is not currently active — the live badge script only serves when SSL is active.";
+        }
+      } catch {
+        if (outNote) outNote.textContent = "Lookup failed — try again in a moment.";
+      }
+    }
+
+    lookupBtn.addEventListener("click", lookup);
+    input.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        lookup();
+      }
+    });
+    if (copyBtn) {
+      copyBtn.addEventListener("click", () => {
+        const text = copyBtn.dataset.embed;
+        if (!text) return;
+        navigator.clipboard.writeText(text).then(() => {
+          const original = copyBtn.textContent;
+          copyBtn.textContent = "Copied";
+          setTimeout(() => (copyBtn.textContent = original), 1500);
+        });
+      });
+    }
+
+    const params = new URLSearchParams(window.location.search);
+    const q = params.get("id") || params.get("account");
+    if (q) {
+      input.value = q;
+      lookup();
+    }
+  }
+
   document.querySelectorAll("[data-calc='late-payment']").forEach(bindLatePayment);
   document.querySelectorAll("[data-calc='chase-savings']").forEach(bindSavings);
   document.querySelectorAll("[data-calc='ssl-expiry']").forEach(bindSslExpiry);
   document.querySelectorAll("[data-hash-drop]").forEach((el) => bindHashChecker(el.parentElement));
+  document.querySelectorAll("[data-calc='trust-badge']").forEach(bindTrustBadge);
 })();

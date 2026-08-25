@@ -6925,6 +6925,18 @@
     <priority>0.80</priority>
   </url>
   <url>
+    <loc>https://chasa.io/tools/trust-badges</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://chasa.io/trust-badges</loc>
+    <lastmod>2026-08-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
     <loc>https://chasa.io/tsl</loc>
     <lastmod>2026-08-25</lastmod>
     <changefreq>monthly</changefreq>

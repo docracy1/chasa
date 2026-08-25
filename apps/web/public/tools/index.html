@@ -3,23 +3,27 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Free Tools — Template Finder, File Hash, SSL Expiry, Invoice Chase | docstoc</title>
-<meta name="description" content="Free no-signup tools: find the right template, check a file's SHA-256 hash, calculate SSL certificate expiry, and estimate invoice chase savings.">
+<title>Free Tools — Templates, Hash, SSL, Trust Badges, Invoice Chase | docstoc</title>
+<meta name="description" content="Free no-signup tools: find templates, check SHA-256 hashes, calculate SSL expiry, look up verified corporate trust badges, and estimate invoice chase savings.">
 <link rel="canonical" href="https://chasa.io/tools/">
 
 <meta property="og:type" content="website">
-<meta property="og:title" content="Free Tools — Template Finder, File Hash, SSL Expiry, Invoice Chase | docstoc">
-<meta property="og:description" content="Free no-signup tools: find the right template, check a file's SHA-256 hash, calculate SSL certificate expiry, and estimate invoice chase savings.">
+<meta property="og:title" content="Free Tools — Templates, Hash, SSL, Trust Badges, Invoice Chase | docstoc">
+<meta property="og:description" content="Free no-signup tools: find templates, check SHA-256 hashes, calculate SSL expiry, look up verified corporate trust badges, and estimate invoice chase savings.">
 <meta property="og:url" content="https://chasa.io/tools/">
 <meta property="og:image" content="https://chasa.io/brand/og/docstoc-og-1200x630.png">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Free Tools — Template Finder, File Hash, SSL Expiry, Invoice Chase | docstoc">
-<meta name="twitter:description" content="Free no-signup tools: find the right template, check a file's SHA-256 hash, calculate SSL certificate expiry, and estimate invoice chase savings.">
+<meta name="twitter:title" content="Free Tools — Templates, Hash, SSL, Trust Badges, Invoice Chase | docstoc">
+<meta name="twitter:description" content="Free no-signup tools: find templates, check SHA-256 hashes, calculate SSL expiry, look up verified corporate trust badges, and estimate invoice chase savings.">
 <meta name="twitter:image" content="https://chasa.io/brand/og/docstoc-og-1200x630.png">
 <link rel="alternate" type="application/rss+xml" title="docstoc Blog" href="../blog/feed.xml">
 <link rel="me" href="https://www.linkedin.com/company/chasa-io">
 <link rel="me" href="https://x.com/chasaHQ">
 <style>
+/* Classic docstoc-style sans hierarchy on tools (not Fraunces). */
+main h1, main h2, main h3, .tools-card h2, .calc-stat strong, .finder-card strong {
+  font-family: Inter, "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
 .calc-grid { display: grid; gap: 28px; margin: 28px 0 36px; }
 @media (min-width: 860px) {
   .calc-grid { grid-template-columns: 1.1fr 0.9fr; align-items: start; }
@@ -42,20 +46,42 @@
 .calc-field input[type="range"] { padding: 0; background: transparent; border: none; }
 .calc-hint { font-size: 12.5px; color: var(--ink-soft); margin-top: 4px; }
 .calc-stat { margin: 0 0 14px; }
-.calc-stat strong { display: block; font-family: Fraunces, Georgia, serif; font-size: 28px; margin-top: 2px; }
+.calc-stat strong { display: block; font-size: 28px; margin-top: 2px; font-weight: 700; }
 .calc-stat span { font-size: 13px; color: var(--ink-soft); font-weight: 600; }
 .calc-note { font-size: 12.5px; color: var(--ink-soft); margin-top: 12px; line-height: 1.45; }
 .calc-divider { border: none; border-top: 1px solid var(--line); margin: 40px 0; }
 .tools-card-grid { display: grid; gap: 14px; margin: 22px 0 8px; }
 @media (min-width: 700px) { .tools-card-grid { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 1040px) { .tools-card-grid { grid-template-columns: 1fr 1fr 1fr; } }
 .tools-card {
   display: block; text-decoration: none; color: inherit;
   border: 1px solid var(--line); border-radius: 12px; padding: 18px 20px;
   background: var(--white); transition: border-color 0.15s ease, transform 0.12s ease;
 }
 .tools-card:hover { border-color: var(--accent); transform: translateY(-1px); }
-.tools-card h2 { font-size: 20px; margin: 0 0 8px; font-family: Fraunces, Georgia, serif; }
+.tools-card h2 { font-size: 20px; margin: 0 0 8px; font-weight: 700; }
 .tools-card p { margin: 0; color: var(--ink-soft); font-size: 14.5px; line-height: 1.45; }
+.trust-badge-demo {
+  display: inline-flex; align-items: center; gap: 6px;
+  font: 12px/1.2 -apple-system, system-ui, sans-serif; color: #1B3155;
+  text-decoration: none; border: 1px solid #d8dee8; border-radius: 6px;
+  padding: 6px 10px; background: #fafbfc;
+}
+.trust-badge-demo svg { flex-shrink: 0; }
+.trust-embed-box {
+  margin-top: 12px; padding: 10px 12px; background: var(--paper);
+  border: 1px solid var(--line); border-radius: 6px; font-size: 12.5px;
+  word-break: break-all; font-family: "IBM Plex Mono", ui-monospace, monospace;
+}
+.trust-lookup-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 4px; }
+.trust-lookup-actions button {
+  font-size: 13px; font-weight: 600; padding: 10px 14px;
+  border: 1px solid var(--line); border-radius: 8px; background: var(--white); cursor: pointer;
+}
+.trust-lookup-actions button[data-trust-lookup] {
+  background: var(--accent); color: #fff; border-color: var(--accent);
+}
+.trust-lookup-actions button:hover { filter: brightness(0.97); }
 .finder-grid { display: grid; gap: 12px; margin: 22px 0 8px; }
 @media (min-width: 700px) { .finder-grid { grid-template-columns: 1fr 1fr; } }
 .finder-card {
@@ -264,7 +290,7 @@
 <main class="wrap page-main">
 <p class="crumb"><a href="/">Home</a> / Tools</p>
 <h1>Free tools — one for each part of the workflow</h1>
-<p class="lede">Small, no-signup utilities that match docstoc's four products: finding the right template, checking a file's hash, tracking an SSL certificate's expiry, and estimating what late payments actually cost.</p>
+<p class="lede">Small, no-signup utilities that match docstoc's products: finding the right template, checking a file's hash, tracking SSL expiry, verifying corporate domain trust badges, and estimating what late payments cost.</p>
 
 <div class="tools-card-grid">
   <a class="tools-card" href="/tools/template-finder">
@@ -279,6 +305,10 @@
     <h2>SSL certificate expiry calculator</h2>
     <p>Enter an issue date and validity period, get the exact expiry date and days remaining.</p>
   </a>
+  <a class="tools-card" href="/tools/trust-badges">
+    <h2>Verified Corporate Identity &amp; Trust Badges</h2>
+    <p>Preview the domain-verified badge, look up a public trust profile, and copy the embed snippet.</p>
+  </a>
   <a class="tools-card" href="/tools/invoice-chase-calculator">
     <h2>Invoice chase calculator</h2>
     <p>Estimate late payment interest and the cash you unlock when overdue invoices get paid sooner.</p>
@@ -286,7 +316,7 @@
 </div>
 
 <h2>Why these tools</h2>
-<p>Every tool here runs entirely in your browser — no signup, no data upload. Use them to size a decision, then do the actual work in <a href="/app/">docstoc</a> if it's a fit.</p>
+<p>Most tools here run entirely in your browser — no signup, no data upload. The trust-badge lookup only fetches a public profile you already have a link for. Use them to size a decision, then do the actual work in <a href="/app/">docstoc</a> if it's a fit.</p>
 </main>
 <footer class="site-footer">
   <div class="wrap site-footer-inner">
