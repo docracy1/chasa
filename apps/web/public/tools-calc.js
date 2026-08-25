@@ -74,6 +74,7 @@
     const wageEl = root.querySelector("[data-sv-wage]");
     const currencyEl = root.querySelector("[data-sv-currency]");
     const outCash = root.querySelector("[data-sv-out-cash]");
+    const outCashPanel = root.querySelector("[data-sv-out-cash-panel]");
     const outHours = root.querySelector("[data-sv-out-hours]");
     const outTimeCost = root.querySelector("[data-sv-out-timecost]");
     const outRoi = root.querySelector("[data-sv-out-roi]");
@@ -89,16 +90,21 @@
       const currency = (currencyEl && currencyEl.value) || "USD";
       const daily = ar / dso;
       const cashUnlocked = daily * reduce;
-      // Assume consistent follow-ups cut chase time ~50% for freelancers/SMBs
       const hoursYear = hoursWeek * 52 * 0.5;
       const timeCost = hoursYear * wage;
       const totalBenefit = cashUnlocked + timeCost;
       const roi = PRO_ANNUAL > 0 ? ((totalBenefit - PRO_ANNUAL) / PRO_ANNUAL) * 100 : 0;
       if (outReduceLabel) outReduceLabel.textContent = String(reduce);
-      if (outCash) outCash.textContent = money(cashUnlocked, currency);
+      const cashText = money(cashUnlocked, currency);
+      if (outCash) outCash.textContent = cashText;
+      if (outCashPanel) outCashPanel.textContent = cashText;
+      // Hero circle may use the same data-sv-out-cash outside this root
+      document.querySelectorAll(".tool-circle [data-sv-out-cash]").forEach((el) => {
+        el.textContent = cashText;
+      });
       if (outHours) outHours.textContent = Math.round(hoursYear).toLocaleString() + " hrs/yr";
       if (outTimeCost) outTimeCost.textContent = money(timeCost, currency);
-      if (outRoi) outRoi.textContent = (roi >= 0 ? Math.round(roi).toLocaleString() + "%" : "—");
+      if (outRoi) outRoi.textContent = roi >= 0 ? Math.round(roi).toLocaleString() + "%" : "—";
     }
 
     [arEl, dsoEl, reduceEl, hoursEl, wageEl, currencyEl].forEach((el) => {
@@ -113,14 +119,16 @@
     const issuedEl = root.querySelector("[data-ssl-issued]");
     const validityEl = root.querySelector("[data-ssl-validity]");
     const outExpiry = root.querySelector("[data-ssl-out-expiry]");
-    const outRemaining = root.querySelector("[data-ssl-out-remaining]");
+    const outRemainingEls = document.querySelectorAll("[data-ssl-out-remaining], [data-ssl-out-remaining-panel]");
 
     function recalc() {
       const issued = issuedEl.value;
       const validityDays = Number(validityEl.value) || 90;
       if (!issued) {
         if (outExpiry) outExpiry.textContent = "—";
-        if (outRemaining) outRemaining.textContent = "—";
+        outRemainingEls.forEach((el) => {
+          el.textContent = "—";
+        });
         return;
       }
       const issuedDate = new Date(issued + "T00:00:00Z");
@@ -134,12 +142,19 @@
           day: "numeric",
         });
       }
-      if (outRemaining) {
-        outRemaining.textContent =
-          remainingDays < 0
-            ? Math.abs(remainingDays) + " days ago (expired)"
-            : remainingDays + " days";
-      }
+      const remText =
+        remainingDays < 0
+          ? Math.abs(remainingDays) + " days ago (expired)"
+          : remainingDays + " days";
+      outRemainingEls.forEach((el) => {
+        el.textContent = el.hasAttribute("data-ssl-out-remaining") && !el.hasAttribute("data-ssl-out-remaining-panel")
+          ? String(remainingDays < 0 ? "0" : remainingDays)
+          : remText;
+      });
+      // Hero circle prefers a short number
+      document.querySelectorAll(".tool-circle [data-ssl-out-remaining]").forEach((el) => {
+        el.textContent = remainingDays < 0 ? "0" : String(remainingDays);
+      });
     }
 
     [issuedEl, validityEl].forEach((el) => {
@@ -163,24 +178,26 @@
     return (n / (1024 * 1024)).toFixed(1) + " MB";
   }
 
-  function bindHashChecker(root) {
-    const drop = root.querySelector("[data-hash-drop]");
-    const input = root.querySelector("[data-hash-input]");
-    const out = root.querySelector("[data-hash-out]");
-    const outValue = root.querySelector("[data-hash-value]");
-    const outMeta = root.querySelector("[data-hash-meta]");
-    const copyBtn = root.querySelector("[data-hash-copy]");
+  function bindHashChecker(drop) {
+    const scope = document.querySelector(".tool-sell-main") || document;
+    const input = drop.querySelector("[data-hash-input]") || scope.querySelector("[data-hash-input]");
+    const out = scope.querySelector("[data-hash-out]");
+    const outValue = scope.querySelector("[data-hash-value]");
+    const outMeta = scope.querySelector("[data-hash-meta]");
+    const copyBtn = scope.querySelector("[data-hash-copy]");
     if (!drop || !input) return;
 
     async function handleFile(file) {
       if (!file) return;
-      outValue.textContent = "Computing…";
-      out.hidden = false;
+      if (outValue) outValue.textContent = "Computing…";
+      if (out) out.hidden = false;
       const buffer = await file.arrayBuffer();
       const digest = await crypto.subtle.digest("SHA-256", buffer);
       const hex = bufferToHex(digest);
-      outValue.textContent = hex;
-      outMeta.textContent = `${file.name} · ${formatBytes(file.size)} · SHA-256`;
+      if (outValue) outValue.textContent = hex;
+      if (outMeta) outMeta.textContent = `${file.name} · ${formatBytes(file.size)} · SHA-256`;
+      const title = drop.querySelector(".tool-circle-title");
+      if (title) title.textContent = "Hash ready";
     }
 
     drop.addEventListener("click", () => input.click());
@@ -204,7 +221,7 @@
     });
     if (copyBtn) {
       copyBtn.addEventListener("click", () => {
-        const text = outValue.textContent;
+        const text = outValue && outValue.textContent;
         if (!text || text === "Computing…") return;
         navigator.clipboard.writeText(text).then(() => {
           const original = copyBtn.textContent;
@@ -237,7 +254,9 @@
     const outStatus = root.querySelector("[data-trust-out-status]");
     const outSince = root.querySelector("[data-trust-out-since]");
     const outNote = root.querySelector("[data-trust-out-note]");
-    const badge = root.querySelector("[data-trust-badge-preview]");
+    const badge =
+      root.querySelector("[data-trust-badge-preview]") ||
+      document.querySelector("[data-trust-badge-preview]");
     const embedBox = root.querySelector("[data-trust-embed]");
     const linkWrap = root.querySelector("[data-trust-profile-link-wrap]");
     const link = root.querySelector("[data-trust-profile-link]");
@@ -359,6 +378,6 @@
   document.querySelectorAll("[data-calc='late-payment']").forEach(bindLatePayment);
   document.querySelectorAll("[data-calc='chase-savings']").forEach(bindSavings);
   document.querySelectorAll("[data-calc='ssl-expiry']").forEach(bindSslExpiry);
-  document.querySelectorAll("[data-hash-drop]").forEach((el) => bindHashChecker(el.parentElement));
+  document.querySelectorAll("[data-hash-drop]").forEach((el) => bindHashChecker(el));
   document.querySelectorAll("[data-calc='trust-badge']").forEach(bindTrustBadge);
 })();

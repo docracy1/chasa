@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 /**
- * Generates SEO tool pages under /tools/ — templates, certificates, SSL, trust badges,
- * invoice chasing — so invoice chasing isn't the lead/only tool.
+ * Generates selling landing pages under /tools/ — dark hero style matching the homepage.
  * Run: node apps/web/scripts/generate-calculators.mjs
  */
 import { mkdirSync, writeFileSync } from "node:fs";
@@ -13,96 +12,310 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const outDir = join(__dirname, "../public/tools");
 mkdirSync(outDir, { recursive: true });
 
+const uploadIcon = `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4M12 4l-4 4M12 4l4 4" /><path d="M4 16v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3" /></svg>`;
+const searchIcon = `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>`;
+const lockIcon = `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="1.5"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>`;
+const calendarIcon = `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 11h18"/></svg>`;
+const cashIcon = `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v10M9.5 9.5c.8-1 2-1.5 2.5-1.5s1.7.5 1.7 1.5-1 1.5-2.7 2-2.7 1.2-2.7 2.5 1.2 2.2 2.7 2.2 1.8-.5 2.5-1.5"/></svg>`;
+
 const extraHead = `<style>
-/* Classic docstoc-style sans hierarchy on tools (not Fraunces). */
-main h1, main h2, main h3, .tools-card h2, .calc-stat strong, .finder-card strong {
-  font-family: Inter, "Helvetica Neue", Helvetica, Arial, sans-serif;
+.tool-sell-main { max-width: none; padding: 0; margin: 0; }
+body:has(.tool-sell-main) { background: #060504; }
+.tool-hero {
+  --hero-body: rgba(255, 255, 255, 0.78);
+  position: relative;
+  background:
+    radial-gradient(circle at 50% 0%, color-mix(in srgb, var(--accent) 30%, transparent) 0%, transparent 55%),
+    radial-gradient(ellipse at 15% 85%, color-mix(in srgb, var(--accent) 16%, transparent) 0%, transparent 50%),
+    linear-gradient(180deg, #14100d 0%, #0b0908 55%, #060504 100%);
+  color: #fff;
+  padding: 36px 24px 64px;
+  overflow: hidden;
+  text-align: center;
 }
-.calc-grid { display: grid; gap: 28px; margin: 28px 0 36px; }
-@media (min-width: 860px) {
-  .calc-grid { grid-template-columns: 1.1fr 0.9fr; align-items: start; }
+.tool-hero-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 720px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
-.calc-panel, .calc-results {
-  border: 1px solid var(--line);
-  border-radius: 12px;
+.tool-hero-pill {
+  width: 42px;
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.18);
+  margin: 0 0 22px;
+}
+.tool-hero h1 {
+  font-family: Inter, system-ui, sans-serif;
+  font-weight: 800;
+  font-size: clamp(34px, 5vw, 56px);
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+  color: #fff;
+  margin: 0 0 14px;
+  max-width: 14em;
+}
+.tool-hero h1 .accent { color: var(--accent); }
+.tool-hero-sub {
+  font-size: 17px;
+  line-height: 1.45;
+  color: var(--hero-body);
+  margin: 0 0 22px;
+  max-width: 34em;
+}
+.tool-ring {
+  width: 260px;
+  height: 260px;
+  border-radius: 50%;
+  background: conic-gradient(from -90deg, var(--accent) 0% 88%, rgba(255, 255, 255, 0.14) 88% 100%);
+  padding: 8px;
+  box-shadow: 0 30px 70px rgba(245, 128, 37, 0.22);
+  margin: 0 auto 14px;
+}
+.tool-circle {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 22px;
+  box-sizing: border-box;
+  color: var(--ink);
+}
+.tool-circle.is-action {
+  cursor: pointer;
+  border: 2px dashed transparent;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+.tool-circle.is-action:hover,
+.tool-circle.is-action:focus-visible,
+.tool-circle.is-action.is-drag {
+  border-color: color-mix(in srgb, var(--accent) 55%, transparent);
+  background: color-mix(in srgb, var(--accent) 8%, #fff);
+}
+.tool-circle-icon {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: var(--accent-soft);
+  color: var(--accent);
+  display: grid;
+  place-items: center;
+  margin-bottom: 12px;
+}
+.tool-circle-title {
+  font-size: 15px;
+  font-weight: 800;
+  margin: 0 0 4px;
+  line-height: 1.3;
+  color: var(--ink);
+}
+.tool-circle-sub {
+  font-size: 12.5px;
+  color: var(--ink-soft);
+  margin: 0;
+  line-height: 1.35;
+}
+.tool-circle-stat {
+  font-size: clamp(22px, 4vw, 30px);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+  margin: 0 0 4px;
+  line-height: 1.15;
+  word-break: break-word;
+}
+.tool-caption {
+  margin: 0 0 22px;
+  font-size: 12.5px;
+  color: rgba(255, 255, 255, 0.6);
+}
+.tool-signup {
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+  max-width: 480px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.18);
+}
+.tool-signup-input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  outline: none;
+  padding: 14px 18px;
+  font: inherit;
+  font-size: 15px;
+  color: var(--ink);
+  background: transparent;
+}
+.tool-signup-input::placeholder { color: #8a96a8; }
+.tool-signup-btn {
+  flex-shrink: 0;
+  border: none;
+  cursor: pointer;
+  padding: 14px 22px;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 800;
+  background: var(--signal, #F58025);
+  color: var(--on-signal, #fff);
+  white-space: nowrap;
+}
+.tool-signup-btn:hover { background: var(--signal-hover, #FF9A47); }
+.tool-cta-hint {
+  margin: 12px 0 0;
+  font-size: 12.5px;
+  color: rgba(255, 255, 255, 0.55);
+}
+.tool-section {
+  background: #0b0908;
+  color: rgba(255, 255, 255, 0.86);
+  padding: 48px 24px 64px;
+}
+.tool-section-inner {
+  max-width: 860px;
+  margin: 0 auto;
+}
+.tool-section h2 {
+  font-family: Inter, system-ui, sans-serif;
+  font-size: clamp(22px, 3vw, 28px);
+  font-weight: 800;
+  color: #fff;
+  margin: 0 0 12px;
+  letter-spacing: -0.02em;
+}
+.tool-section h3 {
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: #fff;
+  margin: 28px 0 12px;
+}
+.tool-section p, .tool-section li {
+  font-size: 15.5px;
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.72);
+}
+.tool-section a { color: var(--accent); font-weight: 600; }
+.tool-section ul, .tool-section ol { padding-left: 1.2em; margin: 0 0 12px; }
+.tool-panel-grid {
+  display: grid;
+  gap: 16px;
+  margin: 24px 0 8px;
+}
+@media (min-width: 800px) {
+  .tool-panel-grid { grid-template-columns: 1.05fr 0.95fr; align-items: start; }
+}
+.tool-panel, .tool-results {
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 16px;
   padding: 20px 22px;
-  background: var(--white);
+  background: rgba(255, 255, 255, 0.04);
+  text-align: left;
 }
-.calc-results { background: color-mix(in srgb, var(--accent) 6%, var(--white)); }
-.calc-field { margin-bottom: 14px; }
-.calc-field label {
-  display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; color: var(--ink);
+.tool-results { background: color-mix(in srgb, var(--accent) 10%, transparent); }
+.tool-field { margin-bottom: 14px; }
+.tool-field label {
+  display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; color: rgba(255,255,255,0.88);
 }
-.calc-field input, .calc-field select {
-  width: 100%; box-sizing: border-box; padding: 10px 12px;
-  border: 1px solid var(--line); border-radius: 8px; font: inherit; background: var(--paper);
+.tool-field input, .tool-field select {
+  width: 100%; box-sizing: border-box; padding: 11px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.16); border-radius: 10px;
+  font: inherit; background: rgba(0,0,0,0.35); color: #fff;
 }
-.calc-field input[type="range"] { padding: 0; background: transparent; border: none; }
-.calc-hint { font-size: 12.5px; color: var(--ink-soft); margin-top: 4px; }
-.calc-stat { margin: 0 0 14px; }
-.calc-stat strong { display: block; font-size: 28px; margin-top: 2px; font-weight: 700; }
-.calc-stat span { font-size: 13px; color: var(--ink-soft); font-weight: 600; }
-.calc-note { font-size: 12.5px; color: var(--ink-soft); margin-top: 12px; line-height: 1.45; }
-.calc-divider { border: none; border-top: 1px solid var(--line); margin: 40px 0; }
-.tools-card-grid { display: grid; gap: 14px; margin: 22px 0 8px; }
-@media (min-width: 700px) { .tools-card-grid { grid-template-columns: 1fr 1fr; } }
-@media (min-width: 1040px) { .tools-card-grid { grid-template-columns: 1fr 1fr 1fr; } }
-.tools-card {
+.tool-field input[type="range"] { padding: 0; background: transparent; border: none; }
+.tool-hint { font-size: 12.5px; color: rgba(255,255,255,0.5); margin-top: 4px; }
+.tool-stat { margin: 0 0 14px; }
+.tool-stat span { display: block; font-size: 12.5px; color: rgba(255,255,255,0.55); font-weight: 600; }
+.tool-stat strong { display: block; font-size: 26px; margin-top: 2px; font-weight: 800; color: #fff; }
+.tool-note { font-size: 12.5px; color: rgba(255,255,255,0.5); margin-top: 12px; line-height: 1.45; }
+.tool-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 4px; }
+.tool-actions button {
+  font-size: 13px; font-weight: 700; padding: 10px 14px;
+  border: 1px solid rgba(255,255,255,0.18); border-radius: 999px;
+  background: rgba(255,255,255,0.06); color: #fff; cursor: pointer;
+}
+.tool-actions button[data-trust-lookup],
+.tool-actions button.primary {
+  background: var(--accent); border-color: var(--accent); color: #fff;
+}
+.tool-card-grid {
+  display: grid;
+  gap: 14px;
+  margin: 22px 0 8px;
+  text-align: left;
+}
+@media (min-width: 700px) { .tool-card-grid { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 1040px) { .tool-card-grid { grid-template-columns: 1fr 1fr 1fr; } }
+.tool-card {
   display: block; text-decoration: none; color: inherit;
-  border: 1px solid var(--line); border-radius: 12px; padding: 18px 20px;
-  background: var(--white); transition: border-color 0.15s ease, transform 0.12s ease;
+  border: 1px solid rgba(255,255,255,0.12); border-radius: 16px; padding: 18px 20px;
+  background: rgba(255,255,255,0.04); transition: border-color 0.15s ease, transform 0.12s ease;
 }
-.tools-card:hover { border-color: var(--accent); transform: translateY(-1px); }
-.tools-card h2 { font-size: 20px; margin: 0 0 8px; font-weight: 700; }
-.tools-card p { margin: 0; color: var(--ink-soft); font-size: 14.5px; line-height: 1.45; }
+.tool-card:hover { border-color: var(--accent); transform: translateY(-1px); }
+.tool-card h2 { font-size: 18px; margin: 0 0 8px; font-weight: 800; color: #fff; font-family: Inter, system-ui, sans-serif; }
+.tool-card p { margin: 0; color: rgba(255,255,255,0.62); font-size: 14.5px; line-height: 1.45; }
+.finder-grid {
+  display: grid; gap: 12px; margin: 18px 0 8px; text-align: left;
+}
+@media (min-width: 700px) { .finder-grid { grid-template-columns: 1fr 1fr; } }
+.finder-card {
+  display: block; text-decoration: none; color: inherit;
+  border: 1px solid rgba(255,255,255,0.12); border-radius: 12px; padding: 14px 16px;
+  background: rgba(255,255,255,0.04);
+}
+.finder-card:hover { border-color: var(--accent); }
+.finder-card strong { display: block; font-size: 15px; margin-bottom: 3px; color: #fff; }
+.finder-card span { font-size: 13px; color: rgba(255,255,255,0.55); }
+.tool-faq { margin-top: 8px; text-align: left; }
+.tool-faq details {
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  padding: 14px 0;
+}
+.tool-faq summary {
+  cursor: pointer;
+  font-weight: 700;
+  color: #fff;
+  list-style: none;
+}
+.tool-faq summary::-webkit-details-marker { display: none; }
+.tool-faq p { margin-top: 8px; }
 .trust-badge-demo {
   display: inline-flex; align-items: center; gap: 6px;
   font: 12px/1.2 -apple-system, system-ui, sans-serif; color: #1B3155;
   text-decoration: none; border: 1px solid #d8dee8; border-radius: 6px;
   padding: 6px 10px; background: #fafbfc;
 }
-.trust-badge-demo svg { flex-shrink: 0; }
 .trust-embed-box {
-  margin-top: 12px; padding: 10px 12px; background: var(--paper);
-  border: 1px solid var(--line); border-radius: 6px; font-size: 12.5px;
-  word-break: break-all; font-family: "IBM Plex Mono", ui-monospace, monospace;
+  margin-top: 12px; padding: 10px 12px; background: rgba(0,0,0,0.35);
+  border: 1px solid rgba(255,255,255,0.12); border-radius: 8px; font-size: 12.5px;
+  word-break: break-all; font-family: "IBM Plex Mono", ui-monospace, monospace; color: rgba(255,255,255,0.8);
 }
-.trust-lookup-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 4px; }
-.trust-lookup-actions button {
-  font-size: 13px; font-weight: 600; padding: 10px 14px;
-  border: 1px solid var(--line); border-radius: 8px; background: var(--white); cursor: pointer;
-}
-.trust-lookup-actions button[data-trust-lookup] {
-  background: var(--accent); color: #fff; border-color: var(--accent);
-}
-.trust-lookup-actions button:hover { filter: brightness(0.97); }
-.finder-grid { display: grid; gap: 12px; margin: 22px 0 8px; }
-@media (min-width: 700px) { .finder-grid { grid-template-columns: 1fr 1fr; } }
-.finder-card {
-  display: block; text-decoration: none; color: inherit;
-  border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px;
-  background: var(--white); transition: border-color 0.15s ease;
-}
-.finder-card:hover { border-color: var(--accent); }
-.finder-card strong { display: block; font-size: 15px; margin-bottom: 3px; }
-.finder-card span { font-size: 13px; color: var(--ink-soft); }
-.hash-drop {
-  border: 2px dashed var(--line); border-radius: 12px; padding: 32px 20px; text-align: center;
-  cursor: pointer; background: var(--white); transition: border-color 0.15s ease;
-}
-.hash-drop.is-drag { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 6%, var(--white)); }
-.hash-drop p { margin: 6px 0 0; color: var(--ink-soft); font-size: 13.5px; }
-.hash-out { margin-top: 20px; }
+.hash-out { margin-top: 16px; text-align: left; }
 .hash-out-row { display: flex; gap: 8px; align-items: center; margin-bottom: 10px; }
 .hash-out-row code {
   flex: 1; font-size: 12.5px; word-break: break-all; padding: 8px 10px;
-  background: var(--paper); border: 1px solid var(--line); border-radius: 6px;
+  background: rgba(0,0,0,0.35); border: 1px solid rgba(255,255,255,0.12); border-radius: 8px; color: #fff;
 }
 .hash-copy-btn {
-  flex-shrink: 0; font-size: 12.5px; font-weight: 600; padding: 8px 12px;
-  border: 1px solid var(--line); border-radius: 6px; background: var(--white); cursor: pointer;
+  flex-shrink: 0; font-size: 12.5px; font-weight: 700; padding: 8px 12px;
+  border: 1px solid rgba(255,255,255,0.18); border-radius: 999px; background: rgba(255,255,255,0.06); color: #fff; cursor: pointer;
 }
-.hash-copy-btn:hover { border-color: var(--accent); color: var(--accent); }
+@media (max-width: 640px) {
+  .tool-ring { width: 210px; height: 210px; }
+  .tool-hero { padding: 28px 18px 48px; }
+}
 </style>
 <script src="/tools-calc.js" defer></script>`;
 
@@ -161,6 +374,36 @@ function multiJsonLd(...blocks) {
   return `[${blocks.join(",\n")}]`;
 }
 
+function signupForm(source) {
+  return `
+<form class="tool-signup" action="/app/login" method="get">
+  <input type="hidden" name="start" value="1" />
+  <input class="tool-signup-input" type="email" name="email" autocomplete="email" placeholder="Enter your work email" aria-label="Enter your work email" required />
+  <button type="submit" class="tool-signup-btn" data-cta data-cta-source="${source}">Start free →</button>
+</form>
+<p class="tool-cta-hint">No credit card required · your account in one click</p>`.trim();
+}
+
+function hero({ accent, rest, sub, ringInner, caption, source }) {
+  return `
+<section class="tool-hero">
+  <div class="tool-hero-inner">
+    <div class="tool-hero-pill" aria-hidden="true"></div>
+    <h1><span class="accent">${accent}</span>${rest ? `<br>${rest}` : ""}</h1>
+    <p class="tool-hero-sub">${sub}</p>
+    <div class="tool-ring">${ringInner}</div>
+    ${caption ? `<p class="tool-caption">${caption}</p>` : ""}
+    ${signupForm(source)}
+  </div>
+</section>`.trim();
+}
+
+function faqsHtml(faqs) {
+  return `<div class="tool-faq">${faqs
+    .map((f) => `<details><summary>${f.q}</summary><p>${f.a}</p></details>`)
+    .join("\n")}</div>`;
+}
+
 const chaseFaqs = [
   {
     q: "How do you calculate late payment interest on an unpaid invoice?",
@@ -187,7 +430,7 @@ const finderFaqs = [
   },
   {
     q: "What if my situation isn't listed?",
-    a: "The eight situations above are the most common starting points, not the full list. Browse all 488+ templates for anything more specific — business, legal, real estate, finance, and HR documents are all covered.",
+    a: "The situations above are common starting points, not the full list. Browse all 1,000+ templates for anything more specific — business, legal, real estate, finance, and HR documents are all covered.",
   },
   {
     q: "Can I edit the template after copying it?",
@@ -247,337 +490,293 @@ const trustBadgeFaqs = [
 const trustBadgeSvg = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#2e7d32" stroke-width="2" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="1.5"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>`;
 
 const toolsIndexMain = `
-<p class="crumb"><a href="/">Home</a> / Tools</p>
-<h1>Free tools — one for each part of the workflow</h1>
-<p class="lede">Small, no-signup utilities that match docstoc's products: finding the right template, checking a file's hash, tracking SSL expiry, verifying corporate domain trust badges, and estimating what late payments cost.</p>
-
-<div class="tools-card-grid">
-  <a class="tools-card" href="/tools/template-finder">
-    <h2>Template finder</h2>
-    <p>Pick your situation, get a direct link to the right free business or legal template.</p>
-  </a>
-  <a class="tools-card" href="/tools/file-hash-checker">
-    <h2>File hash checker</h2>
-    <p>Compute a file's SHA-256 hash in your browser — the same check behind docstoc's document certificates.</p>
-  </a>
-  <a class="tools-card" href="/tools/ssl-certificate-calculator">
-    <h2>SSL certificate expiry calculator</h2>
-    <p>Enter an issue date and validity period, get the exact expiry date and days remaining.</p>
-  </a>
-  <a class="tools-card" href="/tools/trust-badges">
-    <h2>Verified Corporate Identity &amp; Trust Badges</h2>
-    <p>Preview the domain-verified badge, look up a public trust profile, and copy the embed snippet.</p>
-  </a>
-  <a class="tools-card" href="/tools/invoice-chase-calculator">
-    <h2>Invoice chase calculator</h2>
-    <p>Estimate late payment interest and the cash you unlock when overdue invoices get paid sooner.</p>
-  </a>
-</div>
-
-<h2>Why these tools</h2>
-<p>Most tools here run entirely in your browser — no signup, no data upload. The trust-badge lookup only fetches a public profile you already have a link for. Use them to size a decision, then do the actual work in <a href="/app/">docstoc</a> if it's a fit.</p>
+${hero({
+  accent: "Free tools.",
+  rest: "One workflow.",
+  sub: "Template finder, file hash, SSL expiry, trust badges, and invoice chase estimates — same dark selling surface as the rest of docstoc. No signup to try.",
+  ringInner: `<div class="tool-circle"><span class="tool-circle-icon" aria-hidden="true">${searchIcon}</span><p class="tool-circle-title">Pick a tool below</p><p class="tool-circle-sub">Five free utilities · zero friction</p></div>`,
+  caption: "Built for freelancers &amp; small teams · same brand as Secure. Automate. Certify.",
+  source: "tool_index_hero",
+})}
+<section class="tool-section">
+  <div class="tool-section-inner">
+    <h2>Choose your tool</h2>
+    <div class="tool-card-grid">
+      <a class="tool-card" href="/tools/template-finder"><h2>Template finder</h2><p>Pick your situation, get a direct link to the right free business or legal template.</p></a>
+      <a class="tool-card" href="/tools/file-hash-checker"><h2>File hash checker</h2><p>Compute a file's SHA-256 hash in your browser — the same check behind docstoc certificates.</p></a>
+      <a class="tool-card" href="/tools/ssl-certificate-calculator"><h2>SSL expiry calculator</h2><p>Enter an issue date and validity period, get the exact expiry date and days remaining.</p></a>
+      <a class="tool-card" href="/tools/trust-badges"><h2>Trust badges</h2><p>Preview the domain-verified badge, look up a public trust profile, copy the embed snippet.</p></a>
+      <a class="tool-card" href="/tools/invoice-chase-calculator"><h2>Invoice chase calculator</h2><p>Estimate late payment interest and the cash you unlock when overdue invoices get paid sooner.</p></a>
+    </div>
+  </div>
+</section>
 `.trim();
 
 const templateFinderMain = `
-<p class="crumb"><a href="/">Home</a> / <a href="/tools/">Tools</a> / Template finder</p>
-<h1>Template finder</h1>
-<p class="lede">Pick the situation closest to yours — each links straight to a free, ready-to-copy template. No signup, no search required.</p>
-
-<div class="finder-grid">
-  <a class="finder-card" href="/document-templates/independent-contractor-agreement-template">
-    <strong>Hiring a freelance contractor</strong>
-    <span>Independent Contractor Agreement</span>
-  </a>
-  <a class="finder-card" href="/document-templates/non-disclosure-and-non-circumvention-agreement-template">
-    <strong>Sharing confidential information</strong>
-    <span>Non-Disclosure &amp; Non-Circumvention Agreement</span>
-  </a>
-  <a class="finder-card" href="/document-templates/employee-offer-letter-template">
-    <strong>Hiring a new employee</strong>
-    <span>Employee Offer Letter</span>
-  </a>
-  <a class="finder-card" href="/document-templates/employment-termination-letter-template">
-    <strong>Ending someone's employment</strong>
-    <span>Employment Termination Letter</span>
-  </a>
-  <a class="finder-card" href="/document-templates/commercial-lease-agreement-template">
-    <strong>Renting out a commercial property</strong>
-    <span>Commercial Lease Agreement</span>
-  </a>
-  <a class="finder-card" href="/document-templates/eviction-notice-template">
-    <strong>Evicting a tenant</strong>
-    <span>Eviction Notice</span>
-  </a>
-  <a class="finder-card" href="/document-templates/demand-letter-unpaid-invoice-template">
-    <strong>An invoice went unpaid</strong>
-    <span>Demand Letter for Unpaid Invoice</span>
-  </a>
-  <a class="finder-card" href="/document-templates/">
-    <strong>Something else</strong>
-    <span>Browse all 488+ free templates →</span>
-  </a>
-</div>
-
-<h2>After you pick a template</h2>
-<p>Copy it directly — no account needed. If it's the final version of something a client needs proof of receiving, <a href="/app/certificates">certify it</a>. If it's tied to an invoice that goes unpaid, docstoc can <a href="/app/">draft the follow-up</a> for you.</p>
-
-<h2>FAQs</h2>
-${finderFaqs.map((f) => `<details class="faq-item"><summary>${f.q}</summary><p>${f.a}</p></details>`).join("\n")}
-
-<h3>Related</h3>
-<ul>
-  <li><a href="/marketplace">The document marketplace</a></li>
-  <li><a href="/use-cases/freelance-contract-templates">Real use case: hiring a freelance contractor</a></li>
-</ul>
+${hero({
+  accent: "Find. Copy.",
+  rest: "Ship the doc.",
+  sub: "1,000+ free business &amp; legal templates — pick the situation closest to yours and copy straight into your own document. No signup.",
+  ringInner: `<a class="tool-circle is-action" href="#situations"><span class="tool-circle-icon" aria-hidden="true">${searchIcon}</span><p class="tool-circle-title">Browse situations</p><p class="tool-circle-sub">Jump to the template that fits</p></a>`,
+  caption: "Free forever · plain text · no account required to copy",
+  source: "tool_template_finder",
+})}
+<section class="tool-section" id="situations">
+  <div class="tool-section-inner">
+    <h2>Pick your situation</h2>
+    <div class="finder-grid">
+      <a class="finder-card" href="/document-templates/independent-contractor-agreement-template"><strong>Hiring a freelance contractor</strong><span>Independent Contractor Agreement</span></a>
+      <a class="finder-card" href="/document-templates/non-disclosure-and-non-circumvention-agreement-template"><strong>Sharing confidential information</strong><span>Non-Disclosure &amp; Non-Circumvention Agreement</span></a>
+      <a class="finder-card" href="/document-templates/employee-offer-letter-template"><strong>Hiring a new employee</strong><span>Employee Offer Letter</span></a>
+      <a class="finder-card" href="/document-templates/employment-termination-letter-template"><strong>Ending someone's employment</strong><span>Employment Termination Letter</span></a>
+      <a class="finder-card" href="/document-templates/commercial-lease-agreement-template"><strong>Renting out a commercial property</strong><span>Commercial Lease Agreement</span></a>
+      <a class="finder-card" href="/document-templates/eviction-notice-template"><strong>Evicting a tenant</strong><span>Eviction Notice</span></a>
+      <a class="finder-card" href="/document-templates/demand-letter-unpaid-invoice-template"><strong>An invoice went unpaid</strong><span>Demand Letter for Unpaid Invoice</span></a>
+      <a class="finder-card" href="/document-templates/"><strong>Something else</strong><span>Browse all 1,000+ free templates →</span></a>
+    </div>
+    <h3>After you pick a template</h3>
+    <p>Copy it directly — no account needed. If it's the final version of something a client needs proof of receiving, <a href="/app/certificates">certify it</a>. If it's tied to an invoice that goes unpaid, docstoc can <a href="/app/">draft the follow-up</a> for you.</p>
+    <h3>FAQs</h3>
+    ${faqsHtml(finderFaqs)}
+  </div>
+</section>
 `.trim();
 
 const hashCheckerMain = `
-<p class="crumb"><a href="/">Home</a> / <a href="/tools/">Tools</a> / File hash checker</p>
-<h1>File hash checker</h1>
-<p class="lede">Drop a file to compute its SHA-256 hash instantly. Nothing is uploaded — the hash is calculated entirely in your browser using the Web Crypto API.</p>
-
-<div class="hash-drop" data-hash-drop tabindex="0" role="button" aria-label="Drop a file or click to choose one">
-  <p><strong>Click or drag a file here</strong></p>
-  <p>Nothing leaves your browser</p>
-  <input type="file" data-hash-input style="position:absolute; width:1px; height:1px; opacity:0; pointer-events:none;" />
-</div>
-
-<div class="hash-out" data-hash-out hidden>
-  <div class="hash-out-row">
-    <code data-hash-value>—</code>
-    <button type="button" class="hash-copy-btn" data-hash-copy>Copy</button>
+${hero({
+  accent: "Hash. Prove.",
+  rest: "Never upload.",
+  sub: "Drop any file to compute its SHA-256 fingerprint in your browser — the same math behind docstoc's free tamper-evident certificates.",
+  ringInner: `<div class="tool-circle is-action" data-hash-drop tabindex="0" role="button" aria-label="Drop a file or click to choose one">
+      <span class="tool-circle-icon" aria-hidden="true">${uploadIcon}</span>
+      <p class="tool-circle-title">Click or drag a file here</p>
+      <p class="tool-circle-sub">Get a free tamper-evident fingerprint</p>
+      <input type="file" data-hash-input style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;" />
+    </div>`,
+  caption: "SHA-256 · computed in your browser · nothing ever uploaded",
+  source: "tool_file_hash",
+})}
+<section class="tool-section">
+  <div class="tool-section-inner">
+    <div class="hash-out" data-hash-out hidden>
+      <div class="hash-out-row">
+        <code data-hash-value>—</code>
+        <button type="button" class="hash-copy-btn" data-hash-copy>Copy</button>
+      </div>
+      <p class="tool-note" data-hash-meta></p>
+    </div>
+    <h2>What this proves</h2>
+    <p>Hash the same file twice — even on different computers — and you get the exact same result. Change a single character and the hash changes completely. That's how you confirm a file wasn't altered after you last checked it.</p>
+    <p style="margin-top:16px"><a href="/app/certificates">Turn this into a shareable certificate →</a></p>
+    <h3>FAQs</h3>
+    ${faqsHtml(hashFaqs)}
   </div>
-  <p class="calc-note" data-hash-meta></p>
-</div>
-
-<h2>What this proves</h2>
-<p>If you hash the same file twice — even on different computers — you get the exact same result. Change a single character inside the file and the hash changes completely. That makes it a reliable way to confirm a file wasn't altered after you last checked it.</p>
-<p style="margin-top:20px"><a href="/app/certificates" class="nav-cta">Turn this into a shareable certificate</a></p>
-
-<h2>FAQs</h2>
-${hashFaqs.map((f) => `<details class="faq-item"><summary>${f.q}</summary><p>${f.a}</p></details>`).join("\n")}
-
-<h3>Related</h3>
-<ul>
-  <li><a href="/use-cases/chasa-certificate-monitoring">Document certificate monitoring</a></li>
-  <li><a href="/tools/trust-badges">Verified Corporate Identity &amp; Trust Badges</a></li>
-  <li><a href="/verify/DOC-DEMO0001">See a sample verification page</a></li>
-</ul>
+</section>
 `.trim();
 
 const sslCalcMain = `
-<p class="crumb"><a href="/">Home</a> / <a href="/tools/">Tools</a> / SSL certificate expiry calculator</p>
-<h1>SSL certificate expiry calculator</h1>
-<p class="lede">Enter when a certificate was issued and how long it's valid for — see the exact expiry date and how many days are left, before you're caught by a browser warning.</p>
-
-<div class="calc-grid" data-calc="ssl-expiry">
-  <div class="calc-panel">
-    <div class="calc-field">
-      <label for="ssl-issued">Date the certificate was issued</label>
-      <input id="ssl-issued" data-ssl-issued type="date" />
+${hero({
+  accent: "Know the expiry.",
+  rest: "Before browsers do.",
+  sub: "Enter when a certificate was issued and how long it's valid — see the exact expiry date and days remaining, then automate renewals with docstoc.",
+  ringInner: `<div class="tool-circle">
+      <span class="tool-circle-icon" aria-hidden="true">${calendarIcon}</span>
+      <p class="tool-circle-stat" data-ssl-out-remaining>—</p>
+      <p class="tool-circle-sub">days remaining</p>
+    </div>`,
+  caption: "Let's Encrypt default · 90 days · docstoc reminds you before renewal",
+  source: "tool_ssl_calc",
+})}
+<section class="tool-section">
+  <div class="tool-section-inner">
+    <h2>Calculate expiry</h2>
+    <div class="tool-panel-grid" data-calc="ssl-expiry">
+      <div class="tool-panel">
+        <div class="tool-field">
+          <label for="ssl-issued">Date the certificate was issued</label>
+          <input id="ssl-issued" data-ssl-issued type="date" />
+        </div>
+        <div class="tool-field">
+          <label for="ssl-validity">Validity period (days)</label>
+          <select id="ssl-validity" data-ssl-validity>
+            <option value="90">90 days — Let's Encrypt (default)</option>
+            <option value="398">398 days — max allowed by browsers today</option>
+            <option value="365">365 days — 1 year</option>
+          </select>
+          <p class="tool-hint">docstoc issues 90-day Let's Encrypt certificates and reminds you before renewal is due.</p>
+        </div>
+      </div>
+      <div class="tool-results" aria-live="polite">
+        <p class="tool-stat"><span>Expiry date</span><strong data-ssl-out-expiry>—</strong></p>
+        <p class="tool-stat"><span>Days remaining</span><strong data-ssl-out-remaining-panel>—</strong></p>
+        <p class="tool-note">Renew with margin — DNS propagation and validation can take time.</p>
+      </div>
     </div>
-    <div class="calc-field">
-      <label for="ssl-validity">Validity period (days)</label>
-      <select id="ssl-validity" data-ssl-validity>
-        <option value="90">90 days — Let's Encrypt (default)</option>
-        <option value="398">398 days — max allowed by browsers today</option>
-        <option value="365">365 days — 1 year</option>
-      </select>
-      <p class="calc-hint">docstoc issues 90-day Let's Encrypt certificates and reminds you before renewal is due.</p>
-    </div>
+    <h3>Why this matters</h3>
+    <p>An expired SSL/TLS certificate shows visitors a security warning and can block access. Automated renewal reminders exist because manually tracking expiry across every domain doesn't scale.</p>
+    <p style="margin-top:12px"><a href="/ssl">How SSL automation works →</a> · <a href="/tools/trust-badges">Trust badges →</a></p>
+    <h3>FAQs</h3>
+    ${faqsHtml(sslFaqs)}
   </div>
-  <div class="calc-results" aria-live="polite">
-    <p class="calc-stat"><span>Expiry date</span><strong data-ssl-out-expiry>—</strong></p>
-    <p class="calc-stat"><span>Days remaining</span><strong data-ssl-out-remaining>—</strong></p>
-    <p class="calc-note">Renew with a comfortable margin before the expiry date — DNS propagation and validation can take time.</p>
-  </div>
-</div>
-
-<h2>Why this matters</h2>
-<p>An expired SSL/TLS certificate shows visitors a security warning and can block access entirely, depending on the browser. Automated renewal reminders — like docstoc's — exist because manually tracking expiry across every domain doesn't scale.</p>
-<p style="margin-top:20px"><a href="/app/login?start=1" class="nav-cta" data-cta data-cta-source="tool_ssl_calc">Secure a domain with automated renewal reminders →</a></p>
-
-<h2>FAQs</h2>
-${sslFaqs.map((f) => `<details class="faq-item"><summary>${f.q}</summary><p>${f.a}</p></details>`).join("\n")}
-
-<h3>Related</h3>
-<ul>
-  <li><a href="/tools/trust-badges">Verified Corporate Identity &amp; Trust Badges</a></li>
-  <li><a href="/monitoringssl">SSL certificate monitoring</a></li>
-  <li><a href="/ssl">How docstoc's SSL automation works</a></li>
-</ul>
+</section>
 `.trim();
 
 const trustBadgesMain = `
-<p class="crumb"><a href="/">Home</a> / <a href="/tools/">Tools</a> / Trust badges</p>
-<h1>Verified Corporate Identity &amp; Trust Badges</h1>
-<p class="lede">Show clients you control your domain — with a public trust profile and an embeddable badge backed by a real SSL certificate and an optional Bitcoin timestamp. Look up any public profile below; no signup required.</p>
-
-<div class="calc-grid" data-calc="trust-badge">
-  <div class="calc-panel">
-    <div class="calc-field">
-      <label for="trust-id">Account ID or trust profile URL</label>
-      <input id="trust-id" data-trust-id type="text" placeholder="e.g. abc123… or https://chasa.io/trust/…" autocomplete="off" />
-      <p class="calc-hint">Find the ID on your SSL Certificates page after a domain is verified, or in any public /trust/… link.</p>
+${hero({
+  accent: "Verified domain.",
+  rest: "Visible trust.",
+  sub: "Show clients you control your domain — public trust profile, embeddable badge, optional Bitcoin timestamp. Look up any public profile free.",
+  ringInner: `<div class="tool-circle">
+      <span class="tool-circle-icon" aria-hidden="true">${lockIcon}</span>
+      <p class="tool-circle-title">Domain-verified</p>
+      <p class="tool-circle-sub" style="margin-top:10px"><span class="trust-badge-demo" data-trust-badge-preview>${trustBadgeSvg} Domain-verified via docstoc</span></p>
+    </div>`,
+  caption: "DNS control · live SSL status · Bitcoin-anchored verified-since",
+  source: "tool_trust_badges",
+})}
+<section class="tool-section">
+  <div class="tool-section-inner">
+    <h2>Look up a public profile</h2>
+    <div class="tool-panel-grid" data-calc="trust-badge">
+      <div class="tool-panel">
+        <div class="tool-field">
+          <label for="trust-id">Account ID or trust profile URL</label>
+          <input id="trust-id" data-trust-id type="text" placeholder="e.g. abc123… or https://chasa.io/trust/…" autocomplete="off" />
+          <p class="tool-hint">Find the ID on SSL Certificates after a domain is verified, or in any /trust/… link.</p>
+        </div>
+        <div class="tool-actions">
+          <button type="button" data-trust-lookup>Look up profile</button>
+          <button type="button" data-trust-copy-embed hidden>Copy embed code</button>
+        </div>
+      </div>
+      <div class="tool-results" aria-live="polite">
+        <p class="tool-stat"><span>Workspace</span><strong data-trust-out-name>—</strong></p>
+        <p class="tool-stat"><span>Domain</span><strong data-trust-out-domain>—</strong></p>
+        <p class="tool-stat"><span>SSL status</span><strong data-trust-out-status>—</strong></p>
+        <p class="tool-stat"><span>Verified since</span><strong data-trust-out-since>—</strong></p>
+        <p class="tool-note" data-trust-out-note>Paste an ID above to load a live public profile.</p>
+        <p class="trust-embed-box" data-trust-embed hidden></p>
+        <p style="margin-top:14px" data-trust-profile-link-wrap hidden>
+          <a href="#" data-trust-profile-link target="_blank" rel="noopener noreferrer">Open public trust profile →</a>
+        </p>
+      </div>
     </div>
-    <div class="trust-lookup-actions">
-      <button type="button" data-trust-lookup>Look up profile</button>
-      <button type="button" data-trust-copy-embed hidden>Copy embed code</button>
-    </div>
+    <h3>What this verifies</h3>
+    <p>When you issue a domain's SSL certificate through docstoc, the platform proves DNS control. That creates a public trust profile with a verified-since date — and once OpenTimestamps confirms, anyone can check the claim independently.</p>
+    <h3>What it does not claim</h3>
+    <p>docstoc does not check business registries or government IDs. The badge never says it does.</p>
+    <p style="margin-top:12px"><a href="/trust-badges">Full product overview →</a> · <a href="/ssl">SSL automation →</a></p>
+    <h3>FAQs</h3>
+    ${faqsHtml(trustBadgeFaqs)}
   </div>
-  <div class="calc-results" aria-live="polite">
-    <p class="calc-stat"><span>Workspace</span><strong data-trust-out-name>—</strong></p>
-    <p class="calc-stat"><span>Domain</span><strong data-trust-out-domain>—</strong></p>
-    <p class="calc-stat"><span>SSL status</span><strong data-trust-out-status>—</strong></p>
-    <p class="calc-stat"><span>Verified since</span><strong data-trust-out-since>—</strong></p>
-    <p class="calc-note" data-trust-out-note>Paste an ID above to load a live public profile. Demo badge style:</p>
-    <p style="margin-top:14px">
-      <span class="trust-badge-demo" data-trust-badge-preview>${trustBadgeSvg} Domain-verified via docstoc</span>
-    </p>
-    <p class="trust-embed-box" data-trust-embed hidden></p>
-    <p style="margin-top:14px" data-trust-profile-link-wrap hidden>
-      <a href="#" data-trust-profile-link target="_blank" rel="noopener noreferrer">Open public trust profile →</a>
-    </p>
-  </div>
-</div>
-
-<h2>What this verifies</h2>
-<p>When you issue a domain's SSL certificate through docstoc, the platform proves you control that domain's DNS. That creates a public trust profile with a "verified since" date. Once the OpenTimestamps Bitcoin anchor confirms, anyone can independently check the claim — not only against docstoc's database.</p>
-<ul>
-  <li><strong>Domain control</strong> — proven by a live Let's Encrypt certificate for your domain</li>
-  <li><strong>Verified-since date</strong> — Bitcoin-timestamped when confirmation completes</li>
-  <li><strong>Embeddable badge</strong> — one script tag for your site, proposals, or portal</li>
-</ul>
-
-<h2>What it does not claim</h2>
-<p>docstoc does not check business registries, government IDs, or legal-entity filings. The badge never says it does. Use it as domain-verified corporate presence — not as KYC or a chamber-of-commerce seal.</p>
-
-<h2>How to get your own badge</h2>
-<ol>
-  <li>Secure a domain with <a href="/ssl">docstoc SSL automation</a> (Business plan).</li>
-  <li>Open <a href="/app/ssl">SSL Certificates</a> — your trust profile and embed snippet appear once the domain is active.</li>
-  <li>Paste the script on your site, or share your <code>/trust/…</code> link.</li>
-</ol>
-<p style="margin-top:20px"><a href="/trust-badges" class="nav-cta">Read the full product overview →</a></p>
-<p style="margin-top:12px"><a href="/app/login?start=1" data-cta data-cta-source="tool_trust_badges">Secure a domain and get a badge →</a></p>
-
-<h2>FAQs</h2>
-${trustBadgeFaqs.map((f) => `<details class="faq-item"><summary>${f.q}</summary><p>${f.a}</p></details>`).join("\n")}
-
-<h3>Related</h3>
-<ul>
-  <li><a href="/trust-badges">Trust badges product page</a></li>
-  <li><a href="/ssl">Free SSL automation</a></li>
-  <li><a href="/tools/ssl-certificate-calculator">SSL certificate expiry calculator</a></li>
-  <li><a href="/tools/file-hash-checker">File hash checker</a></li>
-</ul>
+</section>
 `.trim();
 
 const chaseCalcMain = `
-<p class="crumb"><a href="/">Home</a> / <a href="/tools/">Tools</a> / Invoice chase calculator</p>
-<h1>Invoice chase calculator</h1>
-<p class="lede">Two quick estimates: interest owed on one overdue invoice, and the cash + time you could unlock by chasing consistently across all of them.</p>
+${hero({
+  accent: "Late fees.",
+  rest: "Cash unlocked.",
+  sub: "Estimate interest on one overdue invoice — and the working capital you free when consistent chasing shortens days outstanding.",
+  ringInner: `<div class="tool-circle">
+      <span class="tool-circle-icon" aria-hidden="true">${cashIcon}</span>
+      <p class="tool-circle-stat" data-sv-out-cash>—</p>
+      <p class="tool-circle-sub">cash unlocked (est.)</p>
+    </div>`,
+  caption: "Draft-only AI follow-ups · you stay in control of every send",
+  source: "tool_invoice_chase",
+})}
+<section class="tool-section">
+  <div class="tool-section-inner">
+    <h2>Late payment interest</h2>
+    <div class="tool-panel-grid" data-calc="late-payment">
+      <div class="tool-panel">
+        <div class="tool-field">
+          <label for="lp-currency">Currency</label>
+          <select id="lp-currency" data-lp-currency>
+            <option value="USD">USD</option>
+            <option value="EUR">EUR</option>
+            <option value="GBP">GBP</option>
+            <option value="AUD">AUD</option>
+            <option value="CAD">CAD</option>
+          </select>
+        </div>
+        <div class="tool-field">
+          <label for="lp-amount">Invoice amount</label>
+          <input id="lp-amount" data-lp-amount type="number" min="0" step="0.01" value="2500" />
+        </div>
+        <div class="tool-field">
+          <label for="lp-overdue">Date payment became overdue</label>
+          <input id="lp-overdue" data-lp-overdue type="date" />
+        </div>
+        <div class="tool-field">
+          <label for="lp-paid">Date of payment (or today if still unpaid)</label>
+          <input id="lp-paid" data-lp-paid type="date" />
+        </div>
+        <div class="tool-field">
+          <label for="lp-rate">Annual interest rate (<span data-lp-rate-label>8.0%</span>)</label>
+          <input id="lp-rate" data-lp-rate type="range" min="0" max="30" step="0.1" value="8" />
+        </div>
+        <div class="tool-field">
+          <label for="lp-fee">Optional one-time late fee (% of invoice)</label>
+          <input id="lp-fee" data-lp-fee type="number" min="0" max="100" step="0.1" value="0" />
+        </div>
+      </div>
+      <div class="tool-results" aria-live="polite">
+        <p class="tool-stat"><span>Days overdue</span><strong data-lp-out-days>—</strong></p>
+        <p class="tool-stat"><span>Interest accrued</span><strong data-lp-out-interest>—</strong></p>
+        <p class="tool-stat"><span>Late fee</span><strong data-lp-out-fee>—</strong></p>
+        <p class="tool-stat"><span>Updated total due</span><strong data-lp-out-total>—</strong></p>
+        <p class="tool-note">Simple interest: amount × annual rate × (days ÷ 365). Not legal advice.</p>
+      </div>
+    </div>
 
-<h2>Late payment interest</h2>
-<div class="calc-grid" data-calc="late-payment">
-  <div class="calc-panel">
-    <div class="calc-field">
-      <label for="lp-currency">Currency</label>
-      <select id="lp-currency" data-lp-currency>
-        <option value="USD">USD</option>
-        <option value="EUR">EUR</option>
-        <option value="GBP">GBP</option>
-        <option value="AUD">AUD</option>
-        <option value="CAD">CAD</option>
-      </select>
+    <h2 style="margin-top:40px">Cash unlocked by chasing consistently</h2>
+    <div class="tool-panel-grid" data-calc="chase-savings">
+      <div class="tool-panel">
+        <div class="tool-field">
+          <label for="sv-currency">Currency</label>
+          <select id="sv-currency" data-sv-currency>
+            <option value="USD">USD</option>
+            <option value="EUR">EUR</option>
+            <option value="GBP">GBP</option>
+            <option value="AUD">AUD</option>
+            <option value="CAD">CAD</option>
+          </select>
+        </div>
+        <div class="tool-field">
+          <label for="sv-ar">Unpaid invoices / AR balance</label>
+          <input id="sv-ar" data-sv-ar type="number" min="0" step="100" value="50000" />
+        </div>
+        <div class="tool-field">
+          <label for="sv-dso">Current average days outstanding</label>
+          <input id="sv-dso" data-sv-dso type="number" min="1" step="1" value="45" />
+        </div>
+        <div class="tool-field">
+          <label for="sv-reduce">Days you could cut (<span data-sv-reduce-label>12</span>)</label>
+          <input id="sv-reduce" data-sv-reduce type="range" min="0" max="40" step="1" value="12" />
+        </div>
+        <div class="tool-field">
+          <label for="sv-hours">Hours per week spent chasing</label>
+          <input id="sv-hours" data-sv-hours type="number" min="0" step="0.5" value="4" />
+        </div>
+        <div class="tool-field">
+          <label for="sv-wage">Your hourly value (or staff cost)</label>
+          <input id="sv-wage" data-sv-wage type="number" min="0" step="1" value="50" />
+        </div>
+      </div>
+      <div class="tool-results" aria-live="polite">
+        <p class="tool-stat"><span>Cash unlocked</span><strong data-sv-out-cash-panel>—</strong></p>
+        <p class="tool-stat"><span>Chase time saved (est.)</span><strong data-sv-out-hours>—</strong></p>
+        <p class="tool-stat"><span>Value of time saved / year</span><strong data-sv-out-timecost>—</strong></p>
+        <p class="tool-stat"><span>Approx. ROI vs Pro ($14.99/mo)</span><strong data-sv-out-roi>—</strong></p>
+        <p class="tool-note">Cash unlocked ≈ (AR ÷ days outstanding) × days cut. Illustrative only.</p>
+      </div>
     </div>
-    <div class="calc-field">
-      <label for="lp-amount">Invoice amount</label>
-      <input id="lp-amount" data-lp-amount type="number" min="0" step="0.01" value="2500" />
-    </div>
-    <div class="calc-field">
-      <label for="lp-overdue">Date payment became overdue</label>
-      <input id="lp-overdue" data-lp-overdue type="date" />
-    </div>
-    <div class="calc-field">
-      <label for="lp-paid">Date of payment (or today if still unpaid)</label>
-      <input id="lp-paid" data-lp-paid type="date" />
-    </div>
-    <div class="calc-field">
-      <label for="lp-rate">Annual interest rate (<span data-lp-rate-label>8.0%</span>)</label>
-      <input id="lp-rate" data-lp-rate type="range" min="0" max="30" step="0.1" value="8" />
-      <p class="calc-hint">Use your contract rate, or a statutory commercial late-payment rate where it applies.</p>
-    </div>
-    <div class="calc-field">
-      <label for="lp-fee">Optional one-time late fee (% of invoice)</label>
-      <input id="lp-fee" data-lp-fee type="number" min="0" max="100" step="0.1" value="0" />
-    </div>
+    <p style="margin-top:20px"><a href="/app/">Draft the chase email →</a></p>
+    <h3>FAQs</h3>
+    ${faqsHtml(chaseFaqs)}
   </div>
-  <div class="calc-results" aria-live="polite">
-    <p class="calc-stat"><span>Days overdue</span><strong data-lp-out-days>—</strong></p>
-    <p class="calc-stat"><span>Interest accrued</span><strong data-lp-out-interest>—</strong></p>
-    <p class="calc-stat"><span>Late fee</span><strong data-lp-out-fee>—</strong></p>
-    <p class="calc-stat"><span>Updated total due</span><strong data-lp-out-total>—</strong></p>
-    <p class="calc-note">Simple interest: amount × annual rate × (days ÷ 365). Not legal advice — confirm rates and fees against your contract and local law.</p>
-  </div>
-</div>
-
-<hr class="calc-divider" />
-
-<h2>Cash unlocked by chasing consistently</h2>
-<div class="calc-grid" data-calc="chase-savings">
-  <div class="calc-panel">
-    <div class="calc-field">
-      <label for="sv-currency">Currency</label>
-      <select id="sv-currency" data-sv-currency>
-        <option value="USD">USD</option>
-        <option value="EUR">EUR</option>
-        <option value="GBP">GBP</option>
-        <option value="AUD">AUD</option>
-        <option value="CAD">CAD</option>
-      </select>
-    </div>
-    <div class="calc-field">
-      <label for="sv-ar">Unpaid invoices / AR balance</label>
-      <input id="sv-ar" data-sv-ar type="number" min="0" step="100" value="50000" />
-    </div>
-    <div class="calc-field">
-      <label for="sv-dso">Current average days outstanding</label>
-      <input id="sv-dso" data-sv-dso type="number" min="1" step="1" value="45" />
-    </div>
-    <div class="calc-field">
-      <label for="sv-reduce">Days you could cut with consistent chasing (<span data-sv-reduce-label>12</span>)</label>
-      <input id="sv-reduce" data-sv-reduce type="range" min="0" max="40" step="1" value="12" />
-      <p class="calc-hint">Many teams see faster payments when reminders go out on a fixed cadence.</p>
-    </div>
-    <div class="calc-field">
-      <label for="sv-hours">Hours per week spent chasing invoices</label>
-      <input id="sv-hours" data-sv-hours type="number" min="0" step="0.5" value="4" />
-    </div>
-    <div class="calc-field">
-      <label for="sv-wage">Your hourly value (or staff cost)</label>
-      <input id="sv-wage" data-sv-wage type="number" min="0" step="1" value="50" />
-    </div>
-  </div>
-  <div class="calc-results" aria-live="polite">
-    <p class="calc-stat"><span>Cash unlocked (working capital)</span><strong data-sv-out-cash>—</strong></p>
-    <p class="calc-stat"><span>Chase time saved (est.)</span><strong data-sv-out-hours>—</strong></p>
-    <p class="calc-stat"><span>Value of time saved / year</span><strong data-sv-out-timecost>—</strong></p>
-    <p class="calc-stat"><span>Approx. ROI vs Pro ($14.99/mo)</span><strong data-sv-out-roi>—</strong></p>
-    <p class="calc-note">Cash unlocked ≈ (AR ÷ days outstanding) × days cut. Time savings assume ~50% less manual chase work with a clear draft workflow. Illustrative only.</p>
-  </div>
-</div>
-
-<h2>FAQs</h2>
-${chaseFaqs.map((f) => `<details class="faq-item"><summary>${f.q}</summary><p>${f.a}</p></details>`).join("\n")}
-
-<h3>Related</h3>
-<ul>
-  <li><a href="/overdue-invoice">Overdue invoice follow-up</a></li>
-  <li><a href="/blog/freelancer-late-payment-policy/">Freelancer late payment policy</a></li>
-  <li><a href="/free-templates/">Free reminder templates</a></li>
-</ul>
-<p style="margin-top:28px"><a href="/app/" class="nav-cta">Draft the chase email</a></p>
+</section>
 `.trim();
 
 const pages = [
@@ -657,7 +856,7 @@ const pages = [
     file: "trust-badges.html",
     title: "Verified Corporate Identity & Trust Badges — Lookup & Embed | docstoc",
     description:
-      "Look up a public domain-verified trust profile, preview the embeddable badge, and copy the script. Free lookup, no signup. Bitcoin-timestamped verified-since when confirmed.",
+      "Look up a public domain-verified trust profile, preview the embeddable badge, and copy the script. Free lookup, no signup.",
     canonical: "/tools/trust-badges",
     mainHtml: trustBadgesMain,
     jsonLd: multiJsonLd(
@@ -707,6 +906,7 @@ for (const page of pages) {
     jsonLd: page.jsonLd,
     depth: 1,
     extraHead,
+    fullBleedMain: true,
   });
   writeFileSync(join(outDir, page.file), html, "utf8");
   console.log(`Wrote tools/${page.file}`);
