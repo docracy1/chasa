@@ -649,7 +649,8 @@ a { color: inherit; }
   display: none;
   position: fixed;
   inset: 0;
-  z-index: 299;
+  /* Above cookie banner (9999) and assistant FAB (99999) so Sign in stays tappable */
+  z-index: 100050;
   background: rgba(0, 0, 0, 0.4);
 }
 .mobile-panel {
@@ -659,13 +660,18 @@ a { color: inherit; }
   right: 0;
   bottom: 0;
   width: min(320px, 88vw);
-  z-index: 300;
+  z-index: 100060;
   background: var(--white);
   box-shadow: -8px 0 40px rgba(0, 0, 0, 0.16);
   flex-direction: column;
   padding: 24px 28px 40px;
   transform: translateX(100%);
   transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+}
+/* Hide chat FAB while the drawer is open — it sat on top of Sign in / Try free */
+body.mobile-nav-open .docstoc-asst {
+  visibility: hidden;
+  pointer-events: none;
 }
 .mobile-panel.is-open {
   transform: translateX(0);

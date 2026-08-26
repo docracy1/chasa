@@ -13,6 +13,7 @@
     function openPanel() {
       panel.classList.add("is-open");
       if (backdrop) backdrop.classList.add("is-open");
+      document.body.classList.add("mobile-nav-open");
       btn.setAttribute("aria-expanded", "true");
       btn.setAttribute("aria-label", menuAriaLabel(true));
     }
@@ -20,6 +21,7 @@
     function closePanel() {
       panel.classList.remove("is-open");
       if (backdrop) backdrop.classList.remove("is-open");
+      document.body.classList.remove("mobile-nav-open");
       btn.setAttribute("aria-expanded", "false");
       btn.setAttribute("aria-label", menuAriaLabel(false));
     }
