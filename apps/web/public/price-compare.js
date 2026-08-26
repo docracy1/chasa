@@ -415,24 +415,26 @@
     {
       id: "ssl",
       label: "SSL",
-      lede: "Real Let’s Encrypt certificates on your domain, renewed automatically. Compare Pro to dedicated SSL products.",
+      lede: "Real Let’s Encrypt certificates on your domain, renewed automatically. Automation layer — not a cert reseller. Compare Free/Pro/Business to dedicated SSL products.",
       sliderLabel: "Domains",
       sliderUnit: "domains",
       sliderMin: 1,
       sliderMax: 20,
       sliderDefault: 1,
       docstocFormula:
-        "Pro includes 1 SSL domain · Business $39.99 for more — no separate cert fee",
+        "Free: 5 × 90-day · Pro multi-SAN · Business wildcards — automation, not resale",
       docstocTotal: DOCSTOC_PRO,
       docstocTotalFor: function (n) {
-        return n <= 1 ? DOCSTOC_PRO : 39.99;
+        if (n <= 5) return 0;
+        if (n <= 10) return DOCSTOC_PRO;
+        return 39.99;
       },
       docstocFormulaFor: function (n) {
-        return n <= 1
-          ? "Pro $14.99 · 1 SSL domain included — no separate cert fee"
-          : "Business $39.99 · multiple SSL domains — no separate cert fee";
+        if (n <= 5) return "Free · up to 5 × 90-day Let's Encrypt certs — automation layer";
+        if (n <= 10) return "Pro $14.99 · multi-SAN + higher limit — no LE cert markup";
+        return "Business $39.99 · wildcards + volume — no LE cert markup";
       },
-      note: 'Figures use published list prices (approx., mid-2026). DigiCert/Sectigo are retail DV estimates converted monthly; OV/EV cost more. <a href="/ssl">SSL product →</a> · <a href="/docstoc-vs-zerossl">vs ZeroSSL →</a>',
+      note: 'Figures use published list prices (approx., mid-2026). DigiCert/Sectigo are retail DV estimates converted monthly; OV/EV cost more. docstoc does not resell CA SKUs — CA is Let\'s Encrypt. <a href="/ssl">SSL product →</a> · <a href="/docstoc-vs-zerossl">vs ZeroSSL →</a>',
       competitors: [
         { id: "zerossl", calc: zerossl, href: "/docstoc-vs-zerossl", link: "vs ZeroSSL →" },
         { id: "letsencrypt", calc: letsencrypt, href: "/docstoc-vs-letsencrypt", link: "vs Let’s Encrypt →" },

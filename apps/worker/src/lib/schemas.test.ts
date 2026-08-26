@@ -154,4 +154,29 @@ describe("schemas", () => {
     );
     expect(result.ok).toBe(false);
   });
+
+  it("parses multi-SAN hostnames", async () => {
+    const result = await parseJsonBody(
+      {
+        json: async () => ({
+          hostnames: ["Example.COM", "www.example.com"],
+        }),
+      },
+      customHostnameCreateSchema
+    );
+    expect(result.ok).toBe(true);
+    if (result.ok) {
+      expect(result.data.hostname).toBe("example.com");
+      expect(result.data.hostnames).toEqual(["example.com", "www.example.com"]);
+    }
+  });
+
+  it("parses a wildcard hostname", async () => {
+    const result = await parseJsonBody(
+      { json: async () => ({ hostname: "*.Example.COM" }) },
+      customHostnameCreateSchema
+    );
+    expect(result.ok).toBe(true);
+    if (result.ok) expect(result.data.hostname).toBe("*.example.com");
+  });
 });

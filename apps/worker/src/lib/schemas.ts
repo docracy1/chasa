@@ -76,15 +76,40 @@ export const digestSettingsSchema = z.object({
 });
 
 const HOSTNAME_RE = /^(?!-)[a-z0-9-]{1,63}(?<!-)(\.(?!-)[a-z0-9-]{1,63}(?<!-))+$/i;
+/** Wildcard LE identifier — single label star, then a normal FQDN (e.g. *.example.com). */
+const WILDCARD_HOSTNAME_RE = /^\*\.(?!-)[a-z0-9-]{1,63}(?<!-)(\.(?!-)[a-z0-9-]{1,63}(?<!-))+$/i;
 
-export const customHostnameCreateSchema = z.object({
-  hostname: z
-    .string()
-    .trim()
-    .toLowerCase()
-    .max(253)
-    .regex(HOSTNAME_RE, "Enter a valid domain, e.g. invoices.yourcompany.com"),
-});
+function normalizeHostnameList(raw: string | string[] | undefined): string[] {
+  const list = Array.isArray(raw) ? raw : raw ? [raw] : [];
+  return [...new Set(list.map((h) => h.trim().toLowerCase()).filter(Boolean))];
+}
+
+export const customHostnameCreateSchema = z
+  .object({
+    hostname: z.string().trim().toLowerCase().max(253).optional(),
+    hostnames: z.array(z.string().trim().toLowerCase().max(253)).max(100).optional(),
+  })
+  .superRefine((data, ctx) => {
+    const names = normalizeHostnameList(data.hostnames?.length ? data.hostnames : data.hostname ? [data.hostname] : []);
+    if (names.length === 0) {
+      ctx.addIssue({ code: "custom", message: "Enter a valid domain, e.g. invoices.yourcompany.com", path: ["hostname"] });
+      return;
+    }
+    for (const name of names) {
+      const ok = HOSTNAME_RE.test(name) || WILDCARD_HOSTNAME_RE.test(name);
+      if (!ok) {
+        ctx.addIssue({
+          code: "custom",
+          message: `Invalid hostname: ${name}`,
+          path: names.length > 1 ? ["hostnames"] : ["hostname"],
+        });
+      }
+    }
+  })
+  .transform((data) => {
+    const hostnames = normalizeHostnameList(data.hostnames?.length ? data.hostnames : data.hostname ? [data.hostname] : []);
+    return { hostname: hostnames[0]!, hostnames };
+  });
 
 export const certificateCreateSchema = z.object({
   sha256Hash: z.string().regex(/^[0-9a-f]{64}$/i, "Expected a SHA-256 hex digest"),

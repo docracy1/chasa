@@ -4,17 +4,17 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SSL Certificates — Automated Let's Encrypt DV | docstoc</title>
-<meta name="description" content="Get trusted SSL certificates for your domain with docstoc: real Let's Encrypt DV certs, Pro for one domain, Business for more — auto-renewal included, no separate cert fee.">
+<meta name="description" content="Get trusted SSL certificates with docstoc: real Let's Encrypt DV via managed automation. Free 5 × 90-day, Pro multi-SAN, Business wildcards — no reseller markup.">
 <link rel="canonical" href="https://chasa.io/ssl/features/certificates">
 
 <meta property="og:type" content="website">
 <meta property="og:title" content="SSL Certificates — Automated Let's Encrypt DV | docstoc">
-<meta property="og:description" content="Get trusted SSL certificates for your domain with docstoc: real Let's Encrypt DV certs, Pro for one domain, Business for more — auto-renewal included, no separate cert fee.">
+<meta property="og:description" content="Get trusted SSL certificates with docstoc: real Let's Encrypt DV via managed automation. Free 5 × 90-day, Pro multi-SAN, Business wildcards — no reseller markup.">
 <meta property="og:url" content="https://chasa.io/ssl/features/certificates">
 <meta property="og:image" content="https://chasa.io/brand/og/docstoc-og-1200x630.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="SSL Certificates — Automated Let's Encrypt DV | docstoc">
-<meta name="twitter:description" content="Get trusted SSL certificates for your domain with docstoc: real Let's Encrypt DV certs, Pro for one domain, Business for more — auto-renewal included, no separate cert fee.">
+<meta name="twitter:description" content="Get trusted SSL certificates with docstoc: real Let's Encrypt DV via managed automation. Free 5 × 90-day, Pro multi-SAN, Business wildcards — no reseller markup.">
 <meta name="twitter:image" content="https://chasa.io/brand/og/docstoc-og-1200x630.png">
 <link rel="alternate" type="application/rss+xml" title="docstoc Blog" href="../../blog/feed.xml">
 <link rel="me" href="https://www.linkedin.com/company/chasa-io">
@@ -97,7 +97,15 @@
           "name": "Are these free SSL certificates?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "The certificate itself is a Let's Encrypt DV cert (no CA fee). Automation lives on the paid Pro/Business plan — not a free forever standalone CA dashboard."
+            "text": "Let's Encrypt does not charge for the DV cert. Free on docstoc includes 5 × 90-day certificates. Pro and Business unlock multi-SAN, wildcards, and higher slot counts for the automation layer."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do you resell certificates?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. The issuing CA is Let's Encrypt. docstoc manages ACME orders, DNS-01 challenges, and renewals in your workspace."
           }
         },
         {
@@ -113,12 +121,12 @@
   ]
 }
 </script>
-<link rel="icon" href="../../favicon.png?v=20260826b" type="image/png">
-<link rel="icon" href="../../favicon.svg?v=20260826b" type="image/svg+xml">
-<link rel="apple-touch-icon" href="../../apple-touch-icon.png?v=20260826b">
+<link rel="icon" href="../../favicon.png?v=20260826d" type="image/png">
+<link rel="icon" href="../../favicon.svg?v=20260826d" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../../apple-touch-icon.png?v=20260826d">
 <link rel="preload" href="../../fonts/inter-400.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="../../fonts/inter-700.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="../../site.css?v=20260826b">
+<link rel="stylesheet" href="../../site.css?v=20260826d">
 </head>
 <body>
 <header class="site-header">
@@ -152,7 +160,7 @@
     <span class="nav-megamenu-icon nav-megamenu-icon-lg"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="1.5" /><path d="M8 11V7a4 4 0 0 1 8 0v4" /></svg></span>
     <span>
       <span class="nav-megamenu-item-title" data-i18n="nav.mega.products.ssl.title">SSL / TLS automation</span>
-      <span class="nav-megamenu-item-desc" data-i18n="nav.mega.products.ssl.desc">Free Let's Encrypt certificates for your own domain.</span>
+      <span class="nav-megamenu-item-desc" data-i18n="nav.mega.products.ssl.desc">Let's Encrypt automation for your domain — not a cert reseller.</span>
     </span>
   </a>
 <a href="../../certificate" class="nav-megamenu-item nav-megamenu-item-lg">
@@ -272,8 +280,8 @@
 <main class="wrap page-main">
 <section class="tpl-hero">
   <div class="wrap tpl-hero-inner">
-    <h1>Trusted SSL certificates without a separate CA storefront</h1>
-    <p class="tpl-hero-lede">docstoc issues real Let's Encrypt domain-validated certificates for hostnames you control. Browser-trusted HTTPS, automated renewals, priced as part of Pro or Business — not a surprise SSL upsell.</p>
+    <h1>Trusted SSL certificates without a reseller storefront</h1>
+    <p class="tpl-hero-lede">docstoc issues real Let's Encrypt domain-validated certificates for hostnames you control. Browser-trusted HTTPS, automated renewals — you pay for the automation layer, not a marked-up cert SKU.</p>
   </div>
 </section>
 <div class="prod-body">
@@ -282,6 +290,7 @@
   <a href="/ssl/features/certificates" aria-current="page">SSL certificates</a>
   <a href="/ssl/features/validation">DNS validation</a>
   <a href="/ssl/features/installation">Installation</a>
+  <a href="/ssl/features/wildcards">Wildcards</a>
   <a href="/ssl/features/monitoring">SSL monitoring</a>
   <a href="/ssl/features/protection">Trust &amp; protection</a>
   <a href="/ssl/features/acme">ACME automation</a>
@@ -290,18 +299,18 @@
 </nav>
     <div class="ssl-feat-block">
     <h2>Real Let's Encrypt DV</h2>
-    <p>Every certificate is signed by Let's Encrypt — the same CA millions of sites already trust. You get industry-standard HTTPS encryption and the browser padlock, without buying a retail SKU.</p>
-    <ul><li>Domain-validated (DV) certificates</li><li>Trusted by modern browsers</li><li>No separate per-certificate checkout</li><li>Renewals handled in-product while your plan is active</li></ul>
+    <p>Every certificate is signed by Let's Encrypt — the same CA millions of sites already trust. You get industry-standard HTTPS encryption and the browser padlock. We automate that path; we do not resell a commercial CA SKU.</p>
+    <ul><li>Domain-validated (DV) certificates</li><li>Trusted by modern browsers</li><li>No separate per-certificate CA checkout</li><li>Renewals handled in-product while your plan is active</li></ul>
   </div>
   <div class="ssl-feat-block">
     <h2>Plans that match how you work</h2>
-    <p>Pro includes automated SSL for one custom domain. Business unlocks more domains plus trust badges — useful for agencies and multi-site operators.</p>
-    <ul><li>Pro — 1 custom domain SSL</li><li>Business — multi-domain SSL + trust profile</li><li>Same account as invoices, templates, and chase tools</li></ul>
+    <p>Free is the ZeroSSL-style wedge: five 90-day certs. Pro adds multi-SAN. Business unlocks wildcards and volume — competing with dedicated SSL Premium pricing while LE remains the CA.</p>
+    <ul><li>Free — 5 × 90-day Let's Encrypt certificates</li><li>Pro — higher limit + multi-SAN on one cert</li><li>Business — wildcards (*.example.com) + up to 25 cert slots</li></ul>
   </div>
   <div class="ssl-feat-block">
     <h2>What we do not sell</h2>
-    <p>If procurement requires OV, EV, multi-year commercial warranties, or wildcard products as a line item, use a commercial CA. We say so on every comparison page.</p>
-    <ul><li>Not OV / EV validation</li><li>Not a wildcard-as-a-product storefront</li><li>Not a replacement for host/CDN edge SSL when that architecture fits better</li></ul>
+    <p>If procurement requires OV, EV, multi-year commercial warranties, or a retail wildcard SKU from a commercial CA, use that vendor. We say so on every comparison page.</p>
+    <ul><li>Not OV / EV validation</li><li>Not a certificate reseller storefront</li><li>Not a replacement for host/CDN edge SSL when that architecture fits better</li></ul>
   </div>
   <div class="prod-try">
     <h2>Try it</h2>
@@ -311,7 +320,10 @@
   </div>
   <h2>FAQ</h2>
 <details class="faq-item"><summary>Are these free SSL certificates?</summary>
-<p>The certificate itself is a Let's Encrypt DV cert (no CA fee). Automation lives on the paid Pro/Business plan — not a free forever standalone CA dashboard.</p>
+<p>Let's Encrypt does not charge for the DV cert. Free on docstoc includes 5 × 90-day certificates. Pro and Business unlock multi-SAN, wildcards, and higher slot counts for the automation layer.</p>
+</details>
+<details class="faq-item"><summary>Do you resell certificates?</summary>
+<p>No. The issuing CA is Let's Encrypt. docstoc manages ACME orders, DNS-01 challenges, and renewals in your workspace.</p>
 </details>
 <details class="faq-item"><summary>How long do certificates last?</summary>
 <p>Let's Encrypt lifetimes are short (~90 days historically, industry direction is shorter). docstoc renews before expiry so you do not babysit the calendar.</p>
@@ -383,21 +395,21 @@
     <video
       id="revival-modal-video"
       class="how-modal-video"
-      src="../../videos/docstoc-is-back.webm?v=20260826b"
-      poster="../../videos/docstoc-is-back-poster.jpg?v=20260826b"
+      src="../../videos/docstoc-is-back.webm?v=20260826d"
+      poster="../../videos/docstoc-is-back-poster.jpg?v=20260826d"
       controls
       playsinline
       preload="metadata"
     >
-      <track kind="captions" src="../../videos/docstoc-is-back.en.vtt?v=20260826b" srclang="en" label="English" default>
-      <track kind="captions" src="../../videos/docstoc-is-back.es.vtt?v=20260826b" srclang="es" label="Español">
+      <track kind="captions" src="../../videos/docstoc-is-back.en.vtt?v=20260826d" srclang="en" label="English" default>
+      <track kind="captions" src="../../videos/docstoc-is-back.es.vtt?v=20260826d" srclang="es" label="Español">
     </video>
   </div>
 </div>
-<script src="../../site-lang.js?v=20260826b" defer></script>
-<script src="../../site-nav.js?v=20260826b" defer></script>
-<script src="../../cookie-consent.js?v=20260826b" defer></script>
-<script src="../../analytics.js?v=20260826b" defer></script>
+<script src="../../site-lang.js?v=20260826d" defer></script>
+<script src="../../site-nav.js?v=20260826d" defer></script>
+<script src="../../cookie-consent.js?v=20260826d" defer></script>
+<script src="../../analytics.js?v=20260826d" defer></script>
 <script>
 /* Contact sales → docstoc Assistant (Docracy pattern). */
 (function () {

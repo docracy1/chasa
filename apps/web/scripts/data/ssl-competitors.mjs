@@ -4,13 +4,13 @@
  */
 
 export const DOCSTOC_SSL = {
-  bestFit: "Small businesses wanting one domain secured, zero setup",
-  pricing: "Bundled into the paid plan — no separate per-certificate SSL fee",
+  bestFit: "SMBs who want Let's Encrypt automation next to invoices & templates",
+  pricing: "Automation layer on Free / Pro / Business — no certificate resale markup",
   certTypes: "Domain-validated (DV) only — real Let's Encrypt certificates",
-  automation: "✓ fully automated — one DNS TXT record, then hands-off renewals",
-  setup: "Add a domain, add one DNS record, done",
+  automation: "✓ fully automated — DNS-01 TXT, then hands-off renewals",
+  setup: "Add a domain, add DNS TXT record(s), done",
   bundled: "✓ part of the same platform as invoicing, templates & documents",
-  freeTier: "Included with Pro/Business — no separate SSL purchase",
+  freeTier: "Free: 5 × 90-day LE certs · Pro: multi-SAN · Business: wildcards",
 };
 
 /** @type {Array<Record<string, any>>} */
@@ -26,27 +26,27 @@ export const SSL_COMPETITORS = [
     "setup": "Low — but still a separate cert-management dashboard to learn",
     "bundled": "✗ standalone certificate product, not part of a broader business platform",
     "freeTier": "3 free 90-day certs, renewable indefinitely",
-    "summary": "ZeroSSL and docstoc are both free, ACME-based DV issuers. The difference is exposure: ZeroSSL is a dedicated cert dashboard with its own account; docstoc's SSL is invisible plumbing inside the small-business platform you already use for invoicing and documents.",
+    "summary": "ZeroSSL and docstoc both help you get DV HTTPS without raw certbot. ZeroSSL is a dedicated cert dashboard (and its own CA for some products). docstoc is an automation layer on Let's Encrypt inside your business workspace — not a certificate reseller. Free includes 5 × 90-day LE certs; Pro adds multi-SAN; Business adds wildcards.",
     "faq": [
       {
         "q": "Is docstoc the same technology as ZeroSSL?",
-        "a": "Similar ACME DV automation. docstoc issues Let's Encrypt certs; ZeroSSL runs its own CA. Security for a standard DV padlock is equivalent."
+        "a": "Similar ACME DV automation. docstoc issues Let's Encrypt certs; ZeroSSL runs its own CA for some products. Security for a standard DV padlock is equivalent."
       },
       {
         "q": "Why use docstoc if ZeroSSL is free?",
-        "a": "Avoid a second product login. docstoc bundles issuance and renewal into the workspace you already use for invoices and templates."
+        "a": "Avoid a second product login. docstoc Free also includes 5 × 90-day Let's Encrypt certs, then Pro/Business unlock multi-SAN and wildcards next to invoices and templates."
       },
       {
         "q": "Does ZeroSSL charge for extras?",
-        "a": "Yes — annual certs and wildcards are paid tiers. docstoc has no separate per-certificate SSL fee on the paid plan."
+        "a": "Yes — annual certs and wildcards are paid tiers. docstoc charges for the automation/workspace layer (not a LE cert markup): Free 5 certs, Pro multi-SAN, Business wildcards."
       },
       {
         "q": "When stay on ZeroSSL?",
-        "a": "If you manage many unrelated domains and want a dedicated cert console with paid wildcards outside a business SaaS suite."
+        "a": "If you want a dedicated cert-only console, ZeroSSL’s own CA annual products, or Protect-style scanning outside a small-business SaaS suite."
       }
     ],
-    "pickDocstoc": "Choose docstoc when you want a real Let's Encrypt DV certificate on your own domain with one DNS TXT record, automatic renewals, and no separate certificate dashboard — inside the same account you use for invoices and documents.",
-    "stayWithThem": "Stay on ZeroSSL for a dedicated ACME dashboard, paid wildcards/annual certs, or multi-site ops not tied to a small-business platform.",
+    "pickDocstoc": "Choose docstoc when you want Let's Encrypt DV automation — not a reseller SKU — with Free 5 certs, Pro multi-SAN, Business wildcards, and the same account as invoices and documents.",
+    "stayWithThem": "Stay on ZeroSSL for a dedicated ACME dashboard, their annual CA products, or Protect-style scanning not tied to a small-business platform.",
     "switchWhy": "Teams leave ZeroSSL when a second login just for certificates becomes busywork — especially once they already run invoices and documents elsewhere.",
     "whatTransfers": "You keep your domain and DNS provider. Certificate private keys and commercial warranty programs do not transfer — docstoc issues a fresh Let's Encrypt DV certificate with automated renewal instead.",
     "switchSteps": [

@@ -7621,6 +7621,12 @@
     <priority>0.80</priority>
   </url>
   <url>
+    <loc>https://chasa.io/ssl/features/wildcards</loc>
+    <lastmod>2026-08-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
     <loc>https://chasa.io/sslforfree-alternative</loc>
     <lastmod>2026-08-26</lastmod>
     <changefreq>monthly</changefreq>

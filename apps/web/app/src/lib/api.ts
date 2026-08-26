@@ -930,27 +930,49 @@ export function revokeCertificate(id: string) {
   return jsonFetch<{ ok: true }>(`/verify/certificates/${id}`, { method: "DELETE" });
 }
 
+export type SslDns01Challenge = {
+  identifier: string;
+  recordName: string;
+  txtValue: string;
+};
+
 export type CustomerCertificate = {
   id: string;
   domain: string;
+  hostnames?: string[];
   status: "pending_dns" | "verifying" | "issued" | "expiring" | "expired" | "failed";
   dns01Token: string | null;
   dns01TxtValue: string | null;
+  dns01Challenges?: SslDns01Challenge[];
   lastError: string | null;
   issuedAt: string | null;
   expiresAt: string | null;
   createdAt: string;
 };
 
+export type SslFeatures = {
+  multiSan: boolean;
+  wildcard: boolean;
+  maxSansPerCert: number;
+  acmeApi: boolean;
+};
+
 export function listCustomHostnames() {
-  return jsonFetch<{ certificates: CustomerCertificate[] }>("/ssl/domains");
+  return jsonFetch<{ certificates: CustomerCertificate[]; limit: number; features: SslFeatures }>("/ssl/domains");
 }
 
-export function createCustomHostname(hostname: string) {
+export function createCustomHostname(hostname: string, hostnames?: string[]) {
   return jsonFetch<{
     certificate: CustomerCertificate;
-    dnsRecord: { name: string; type: "TXT"; value: string };
-  }>("/ssl/domains", { method: "POST", body: JSON.stringify({ hostname }) });
+    dnsRecord: { name: string; type: "TXT"; value: string; identifier?: string };
+    dnsRecords?: Array<{ name: string; type: "TXT"; value: string; identifier?: string }>;
+  }>(
+    "/ssl/domains",
+    {
+      method: "POST",
+      body: JSON.stringify(hostnames?.length ? { hostnames } : { hostname }),
+    }
+  );
 }
 
 export function verifyCustomHostname(id: string) {
@@ -968,6 +990,7 @@ export function renewCustomHostname(id: string) {
   return jsonFetch<{
     certificate: CustomerCertificate;
     dnsRecord: { name: string; type: "TXT"; value: string };
+    dnsRecords?: Array<{ name: string; type: "TXT"; value: string }>;
   }>(`/ssl/domains/${id}/renew`, { method: "POST" });
 }
 

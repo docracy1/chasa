@@ -232,9 +232,28 @@ export async function loadOrCreateAccount(env: Env): Promise<AcmeAccount> {
   return { privateKey: keyPair.privateKey, jwk: publicJwk, accountUrl: res.location, directory, env };
 }
 
-export type AcmeOrder = { orderUrl: string; authorizationUrl: string; finalizeUrl: string; status: string };
+export type AcmeOrder = {
+  orderUrl: string;
+  authorizationUrls: string[];
+  /** @deprecated use authorizationUrls[0] — kept for single-name call sites */
+  authorizationUrl: string;
+  finalizeUrl: string;
+  status: string;
+};
 
-export async function createOrder(account: AcmeAccount, domain: string): Promise<AcmeOrder> {
+/** DNS TXT name for an ACME identifier (wildcards validate on the parent domain). */
+export function dns01RecordName(identifier: string): string {
+  const host = identifier.startsWith("*.") ? identifier.slice(2) : identifier;
+  return `_acme-challenge.${host}`;
+}
+
+export async function createOrder(account: AcmeAccount, domains: string | string[]): Promise<AcmeOrder> {
+  const identifiers = (Array.isArray(domains) ? domains : [domains]).map((value) => ({
+    type: "dns" as const,
+    value: value.toLowerCase(),
+  }));
+  if (identifiers.length === 0) throw new Error("At least one hostname is required");
+
   const nonce = await fetchNonce(account.env, account.directory);
   const res = await acmePost<{ status: string; authorizations: string[]; finalize: string }>(
     account.env,
@@ -242,12 +261,15 @@ export async function createOrder(account: AcmeAccount, domain: string): Promise
     account.privateKey,
     { kid: account.accountUrl },
     nonce,
-    { identifiers: [{ type: "dns", value: domain }] }
+    { identifiers }
   );
   if (!res.ok || !res.location) throw new Error(`ACME order creation failed: ${JSON.stringify(res.body)}`);
+  const authorizationUrls = res.body.authorizations ?? [];
+  if (authorizationUrls.length === 0) throw new Error("ACME order returned no authorizations");
   return {
     orderUrl: res.location,
-    authorizationUrl: res.body.authorizations[0],
+    authorizationUrls,
+    authorizationUrl: authorizationUrls[0]!,
     finalizeUrl: res.body.finalize,
     status: res.body.status,
   };
@@ -266,22 +288,36 @@ export async function getOrder(account: AcmeAccount, orderUrl: string): Promise<
     null
   );
   if (!res.ok) throw new Error(`ACME order fetch failed: ${JSON.stringify(res.body)}`);
+  const authorizationUrls = res.body.authorizations ?? [];
   return {
     orderUrl,
-    authorizationUrl: res.body.authorizations[0],
+    authorizationUrls,
+    authorizationUrl: authorizationUrls[0]!,
     finalizeUrl: res.body.finalize,
     status: res.body.status,
   };
 }
 
-export type Dns01Challenge = { challengeUrl: string; token: string; txtValue: string; status: string };
+export type Dns01Challenge = {
+  identifier: string;
+  challengeUrl: string;
+  token: string;
+  txtValue: string;
+  status: string;
+  authorizationUrl: string;
+  recordName: string;
+};
 
 /** Fetches the order's authorization and returns its dns-01 challenge plus the exact TXT record
  *  value the customer needs to publish (RFC 8555 §8.1/§8.4). */
-export async function getDns01Challenge(account: AcmeAccount, authorizationUrl: string): Promise<Dns01Challenge> {
+export async function getDns01Challenge(
+  account: AcmeAccount,
+  authorizationUrl: string
+): Promise<Dns01Challenge> {
   const nonce = await fetchNonce(account.env, account.directory);
   const res = await acmePost<{
     status: string;
+    identifier?: { type: string; value: string };
     challenges: Array<{ type: string; url: string; token: string; status: string }>;
   }>(account.env, authorizationUrl, account.privateKey, { kid: account.accountUrl }, nonce, null);
   if (!res.ok) throw new Error(`ACME authorization fetch failed: ${JSON.stringify(res.body)}`);
@@ -289,11 +325,29 @@ export async function getDns01Challenge(account: AcmeAccount, authorizationUrl: 
   const challenge = res.body.challenges.find((c) => c.type === "dns-01");
   if (!challenge) throw new Error("No dns-01 challenge offered for this order");
 
+  const identifier = (res.body.identifier?.value || "").toLowerCase();
   const thumbprint = await jwkThumbprint(account.jwk);
   const keyAuthorization = `${challenge.token}.${thumbprint}`;
   const txtValue = base64UrlEncode(await sha256(new TextEncoder().encode(keyAuthorization)));
 
-  return { challengeUrl: challenge.url, token: challenge.token, txtValue, status: challenge.status };
+  return {
+    identifier,
+    challengeUrl: challenge.url,
+    token: challenge.token,
+    txtValue,
+    status: challenge.status,
+    authorizationUrl,
+    recordName: dns01RecordName(identifier),
+  };
+}
+
+/** Collect DNS-01 challenges for every authorization on an order (multi-SAN / wildcard). */
+export async function getAllDns01Challenges(account: AcmeAccount, order: AcmeOrder): Promise<Dns01Challenge[]> {
+  const out: Dns01Challenge[] = [];
+  for (const authUrl of order.authorizationUrls) {
+    out.push(await getDns01Challenge(account, authUrl));
+  }
+  return out;
 }
 
 /** Tells Let's Encrypt the challenge is ready to be checked, then polls the authorization a
@@ -331,10 +385,12 @@ export async function verifyDns01(
   return { status: "pending" };
 }
 
-async function buildCsr(domain: string, keyPair: CryptoKeyPair): Promise<Uint8Array> {
+async function buildCsr(domains: string[], keyPair: CryptoKeyPair): Promise<Uint8Array> {
+  const names = domains.map((d) => d.toLowerCase());
   const spkiDer = new Uint8Array((await crypto.subtle.exportKey("spki", keyPair.publicKey)) as ArrayBuffer);
 
-  const sanExtensionValue = derSequence(derContextPrimitive(2, new TextEncoder().encode(domain)));
+  const sanNames = concat(...names.map((d) => derContextPrimitive(2, new TextEncoder().encode(d))));
+  const sanExtensionValue = derSequence(sanNames);
   const sanExtension = derSequence(concat(derOid("2.5.29.17"), derOctetString(sanExtensionValue)));
   const extensionRequestAttr = derSequence(
     concat(derOid("1.2.840.113549.1.9.14"), derSet(derSequence(sanExtension)))
@@ -356,13 +412,14 @@ export type IssuedCertificate = { certPem: string; privateKeyJwk: EcJwk };
 export async function finalizeAndDownload(
   account: AcmeAccount,
   order: AcmeOrder,
-  domain: string
+  domains: string | string[]
 ): Promise<IssuedCertificate | { pending: true }> {
+  const names = Array.isArray(domains) ? domains : [domains];
   const certKeyPair = (await crypto.subtle.generateKey({ name: "ECDSA", namedCurve: "P-256" }, true, [
     "sign",
     "verify",
   ])) as CryptoKeyPair;
-  const csrDer = await buildCsr(domain, certKeyPair);
+  const csrDer = await buildCsr(names, certKeyPair);
 
   let nonce = await fetchNonce(account.env, account.directory);
   const finalizeRes = await acmePost<{ status: string; certificate?: string }>(

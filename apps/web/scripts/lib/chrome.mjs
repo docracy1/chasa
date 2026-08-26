@@ -5,7 +5,7 @@ import { renderSeoHead } from "./seo-head.mjs";
 import { EN_TO_ES, ES_TO_EN } from "../data/es-alternates.mjs";
 
 /** Bump when site.css / site-nav.js / site-lang.js change so Pages edge caches refresh. */
-export const ASSET_V = "20260826b";
+export const ASSET_V = "20260826d";
 
 /** Small inline icon set for the header mega-menus (mirrors the app's NavIcon component). */
 const ICON_PATHS = {
@@ -94,7 +94,7 @@ function megaMenu({ triggerKey, triggerLabel, items, panel, columns = 2, simple 
 const PRODUCTS_ITEMS = [
   { path: "/document-templates/", icon: "store", titleKey: "nav.mega.products.templates.title", title: "Document templates", descKey: "nav.mega.products.templates.desc", desc: "1,000+ free business & legal templates, plus kits." },
   { path: "/invoices", icon: "briefcase", titleKey: "nav.mega.products.invoices.title", title: "Invoice generator", descKey: "nav.mega.products.invoices.desc", desc: "Create a shareable invoice — then chase it if it goes overdue." },
-  { path: "/ssl", icon: "lock", titleKey: "nav.mega.products.ssl.title", title: "SSL / TLS automation", descKey: "nav.mega.products.ssl.desc", desc: "Free Let's Encrypt certificates for your own domain." },
+  { path: "/ssl", icon: "lock", titleKey: "nav.mega.products.ssl.title", title: "SSL / TLS automation", descKey: "nav.mega.products.ssl.desc", desc: "Let's Encrypt automation for your domain — not a cert reseller." },
   { path: "/certificate", icon: "shield", titleKey: "nav.mega.products.certificates.title", title: "Document certificates", descKey: "nav.mega.products.certificates.desc", desc: "Free tamper-evident hash verification for any file." },
 ];
 

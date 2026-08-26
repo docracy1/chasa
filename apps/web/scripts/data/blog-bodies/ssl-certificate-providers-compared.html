@@ -83,7 +83,7 @@
     <tr>
       <td><strong>docstoc</strong></td>
       <td>Very high (one DNS TXT)</td>
-      <td>SSL on Pro (1 domain) / Business (25)</td>
+      <td>Free 5 × 90-day; Pro multi-SAN; Business wildcards</td>
       <td>In-product + sales / support</td>
       <td>SMBs who want LE automation beside invoices &amp; templates</td>
     </tr>
@@ -155,7 +155,7 @@
 
 <aside class="blog-inline-cta" style="margin:28px 0;padding:20px 22px;border:1px solid #e5e7eb;border-radius:12px;background:#fff8f3">
   <strong style="display:block;margin-bottom:8px">Need HTTPS without a second SSL dashboard?</strong>
-  <p style="margin:0 0 12px;font-size:14.5px;line-height:1.55;color:#4b5563">docstoc automates real Let's Encrypt DV certificates for your domain — one DNS TXT record, renewals in-product, same account as invoices and document templates. Pro covers 1 domain; Business covers more.</p>
+  <p style="margin:0 0 12px;font-size:14.5px;line-height:1.55;color:#4b5563">docstoc is an automation layer on Let's Encrypt — not a certificate reseller. Free includes 5 × 90-day DV certs; Pro adds multi-SAN; Business adds wildcards. Same account as invoices and document templates.</p>
   <p style="margin:0;font-size:14.5px"><a href="/app/ssl-domains"><strong>Manage SSL domains →</strong></a> · <a href="/ssl">SSL product overview</a> · <a href="/#pricing">Pricing</a></p>
 </aside>
 
@@ -163,7 +163,7 @@
 <p><strong>docstoc is not a public certificate authority.</strong> It automates issuance and renewal of real <strong>Let's Encrypt domain-validated (DV)</strong> certificates for hostnames you control — then keeps that workflow next to invoices, free business/legal templates, and document certificates.</p>
 <ul>
   <li><strong>Ease of use:</strong> Very high for SMBs — add a domain, publish one DNS TXT record, download PEMs, renewals stay in the app. No certbot babysitting.</li>
-  <li><strong>Free / entry path:</strong> Custom-domain SSL is included on <strong>Pro (1 domain)</strong> and <strong>Business (up to 25 domains)</strong> — not a separate per-certificate SSL storefront. Templates and other free tools remain available without buying enterprise PKI.</li>
+  <li><strong>Free / entry path:</strong> <strong>Free includes 5 × 90-day</strong> Let's Encrypt certs; <strong>Pro</strong> unlocks multi-SAN and a higher slot count; <strong>Business</strong> unlocks wildcards and up to 25 slots — automation pricing, not a per-certificate reseller storefront. Templates and other free tools remain available without buying enterprise PKI.</li>
   <li><strong>What you get:</strong> Real Let's Encrypt DV trust in browsers — the same class of padlock users see on millions of sites. <strong>No OV/EV</strong>, no claim of enterprise warranties, and no claim of ZeroSSL Protect–style malware scanning bundled as a CA product.</li>
   <li><strong>Support:</strong> In-product SSL status checks plus sales/support contact for plan questions.</li>
   <li><strong>When to choose:</strong> Freelancers and small teams who want automated DV HTTPS without a second SSL-only login — especially if they already use docstoc for templates or invoicing.</li>
@@ -175,14 +175,14 @@
   <li><strong>Need OV/EV, code signing, or audited enterprise PKI?</strong> Start with DigiCert, GlobalSign, Sectigo, or SSL.com — not free DV automation.</li>
   <li><strong>Happy running ACME yourself?</strong> Let's Encrypt (or your host’s ACME checkbox) is enough.</li>
   <li><strong>Want a dedicated free-SSL GUI?</strong> ZeroSSL and similar dashboards compete there.</li>
-  <li><strong>Want Let's Encrypt automation inside a small-business workspace?</strong> Choose <a href="/ssl">docstoc</a> — one DNS TXT, renewals in-product, Pro for a single domain or Business for more.</li>
+  <li><strong>Want Let's Encrypt automation inside a small-business workspace?</strong> Choose <a href="/ssl">docstoc</a> — Free for 5 certs, Pro for multi-SAN, Business for wildcards.</li>
 </ol>
 <p>For most marketing sites and freelancer portfolios, a correctly renewed <strong>DV</strong> certificate is what browsers need. Buy commercial validation when you have a real policy requirement — not because a comparison table ranked a brand higher.</p>
 
 <h2 id="faq">FAQ</h2>
-<details class="faq-item"><summary>Which SSL certificate provider is best for small businesses?</summary><p>If you only need standard HTTPS (DV) and hate managing renewals, pick automation you will actually keep running: host-integrated ACME, a dedicated dashboard like ZeroSSL, or docstoc’s Let's Encrypt automation on Pro/Business. Choose DigiCert/GlobalSign/Sectigo when you need OV/EV or enterprise PKI.</p></details>
-<details class="faq-item"><summary>Is docstoc an SSL certificate authority?</summary><p>No. docstoc automates real Let's Encrypt DV certificates for your domain. The CA is Let's Encrypt (ISRG); docstoc handles issuance/renewal UX inside the same product as invoices and templates.</p></details>
+<details class="faq-item"><summary>Which SSL certificate provider is best for small businesses?</summary><p>If you only need standard HTTPS (DV) and hate managing renewals, pick automation you will actually keep running: host-integrated ACME, a dedicated dashboard like ZeroSSL, or docstoc’s Let's Encrypt automation (Free 5 certs; Pro/Business for multi-SAN and wildcards). Choose DigiCert/GlobalSign/Sectigo when you need OV/EV or enterprise PKI.</p></details>
+<details class="faq-item"><summary>Is docstoc an SSL certificate authority?</summary><p>No. docstoc is an automation layer: it manages real Let's Encrypt DV certificates for your domain. The CA is Let's Encrypt (ISRG); you pay for issuance/renewal UX inside the same product as invoices and templates — not a resold cert SKU.</p></details>
 <details class="faq-item"><summary>docstoc vs ZeroSSL — what’s the difference?</summary><p>Both help you get free-style DV HTTPS without raw CLI. ZeroSSL is a dedicated SSL dashboard (and runs its own CA for some products). docstoc issues Let's Encrypt certs and keeps SSL next to invoices and documents so you do not maintain a second cert-only account. See <a href="/docstoc-vs-zerossl">docstoc vs ZeroSSL</a>.</p></details>
 <details class="faq-item"><summary>Is Let's Encrypt less trusted because it’s free?</summary><p>No. Browsers trust Let's Encrypt’s roots for DV HTTPS like other public CAs. “Free” describes the automation model, not a weaker padlock for normal websites.</p></details>
 <details class="faq-item"><summary>Do I need DigiCert if I only need a padlock?</summary><p>Usually not. DigiCert shines for high-assurance and enterprise programs. A correctly issued DV certificate (Let's Encrypt via docstoc or another ACME path) is enough for typical SMB sites.</p></details>
-<details class="faq-item"><summary>How many domains does docstoc SSL cover?</summary><p>Pro includes 1 custom domain; Business includes up to 25. See <a href="/#pricing">pricing</a> and <a href="/ssl">SSL overview</a>.</p></details>
+<details class="faq-item"><summary>How many domains does docstoc SSL cover?</summary><p>Free: 5 × 90-day certificates. Pro: higher limit + multi-SAN. Business: wildcards + up to 25 certificate slots. See <a href="/#pricing">pricing</a>, <a href="/ssl/features/wildcards">wildcards</a>, and <a href="/ssl">SSL overview</a>.</p></details>

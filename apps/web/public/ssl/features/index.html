@@ -4,17 +4,17 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SSL Features — Certificates, Validation, Monitoring &amp; API | docstoc</title>
-<meta name="description" content="docstoc SSL features: automated Let's Encrypt certificates, DNS-01 validation, PEM install downloads, expiry monitoring, trust badges, Business multi-domain, and REST API.">
+<meta name="description" content="docstoc SSL features: Let's Encrypt automation (not a reseller), DNS-01 validation, wildcards on Business, PEM installs, monitoring, and REST API.">
 <link rel="canonical" href="https://chasa.io/ssl/features">
 
 <meta property="og:type" content="website">
 <meta property="og:title" content="SSL Features — Certificates, Validation, Monitoring &amp; API | docstoc">
-<meta property="og:description" content="docstoc SSL features: automated Let's Encrypt certificates, DNS-01 validation, PEM install downloads, expiry monitoring, trust badges, Business multi-domain, and REST API.">
+<meta property="og:description" content="docstoc SSL features: Let's Encrypt automation (not a reseller), DNS-01 validation, wildcards on Business, PEM installs, monitoring, and REST API.">
 <meta property="og:url" content="https://chasa.io/ssl/features">
 <meta property="og:image" content="https://chasa.io/brand/og/docstoc-og-1200x630.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="SSL Features — Certificates, Validation, Monitoring &amp; API | docstoc">
-<meta name="twitter:description" content="docstoc SSL features: automated Let's Encrypt certificates, DNS-01 validation, PEM install downloads, expiry monitoring, trust badges, Business multi-domain, and REST API.">
+<meta name="twitter:description" content="docstoc SSL features: Let's Encrypt automation (not a reseller), DNS-01 validation, wildcards on Business, PEM installs, monitoring, and REST API.">
 <meta name="twitter:image" content="https://chasa.io/brand/og/docstoc-og-1200x630.png">
 <link rel="alternate" type="application/rss+xml" title="docstoc Blog" href="../../blog/feed.xml">
 <link rel="me" href="https://www.linkedin.com/company/chasa-io">
@@ -97,7 +97,7 @@
           "name": "Is this the same as ZeroSSL features?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Same job class (issue and manage HTTPS certs) with different packaging. docstoc automates Let's Encrypt DNS-01 inside your business account. We do not sell OV/EV, wildcards-as-a-SKU, or malware Protect add-ons."
+            "text": "Same job class (issue and manage HTTPS certs) with different packaging. docstoc is an automation layer on Let's Encrypt inside your business account — not a certificate reseller. We do not sell OV/EV or malware Protect add-ons."
           }
         }
       ]
@@ -105,12 +105,12 @@
   ]
 }
 </script>
-<link rel="icon" href="../../favicon.png?v=20260826b" type="image/png">
-<link rel="icon" href="../../favicon.svg?v=20260826b" type="image/svg+xml">
-<link rel="apple-touch-icon" href="../../apple-touch-icon.png?v=20260826b">
+<link rel="icon" href="../../favicon.png?v=20260826d" type="image/png">
+<link rel="icon" href="../../favicon.svg?v=20260826d" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../../apple-touch-icon.png?v=20260826d">
 <link rel="preload" href="../../fonts/inter-400.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="../../fonts/inter-700.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="../../site.css?v=20260826b">
+<link rel="stylesheet" href="../../site.css?v=20260826d">
 </head>
 <body>
 <header class="site-header">
@@ -144,7 +144,7 @@
     <span class="nav-megamenu-icon nav-megamenu-icon-lg"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="1.5" /><path d="M8 11V7a4 4 0 0 1 8 0v4" /></svg></span>
     <span>
       <span class="nav-megamenu-item-title" data-i18n="nav.mega.products.ssl.title">SSL / TLS automation</span>
-      <span class="nav-megamenu-item-desc" data-i18n="nav.mega.products.ssl.desc">Free Let's Encrypt certificates for your own domain.</span>
+      <span class="nav-megamenu-item-desc" data-i18n="nav.mega.products.ssl.desc">Let's Encrypt automation for your domain — not a cert reseller.</span>
     </span>
   </a>
 <a href="../../certificate" class="nav-megamenu-item nav-megamenu-item-lg">
@@ -265,7 +265,7 @@
 <section class="tpl-hero">
   <div class="wrap tpl-hero-inner">
     <h1>SSL features that replace a separate certificate dashboard</h1>
-    <p class="tpl-hero-lede">Issue, validate, install, monitor, and automate domain SSL inside the same workspace as invoices and documents — powered by Let's Encrypt ACME, not a second vendor login.</p>
+    <p class="tpl-hero-lede">Issue, validate, install, monitor, and automate domain SSL inside the same workspace as invoices and documents — powered by Let's Encrypt ACME. We are an automation layer, not a certificate reseller.</p>
   </div>
 </section>
 <div class="prod-body">
@@ -274,6 +274,7 @@
   <a href="/ssl/features/certificates">SSL certificates</a>
   <a href="/ssl/features/validation">DNS validation</a>
   <a href="/ssl/features/installation">Installation</a>
+  <a href="/ssl/features/wildcards">Wildcards</a>
   <a href="/ssl/features/monitoring">SSL monitoring</a>
   <a href="/ssl/features/protection">Trust &amp; protection</a>
   <a href="/ssl/features/acme">ACME automation</a>
@@ -283,14 +284,15 @@
     <div class="ssl-feat-block">
     <h2>What you get</h2>
     <p>Each feature page explains how the product works and what it does <em>not</em> claim — so you can compare honestly to ZeroSSL-style dashboards and commercial CAs.</p>
-    <ul><li><a href="/ssl/features/certificates"><strong>SSL certificates</strong></a></li><li><a href="/ssl/features/validation"><strong>DNS validation</strong></a></li><li><a href="/ssl/features/installation"><strong>Installation</strong></a></li><li><a href="/ssl/features/monitoring"><strong>SSL monitoring</strong></a></li><li><a href="/ssl/features/protection"><strong>Trust &amp; protection</strong></a></li><li><a href="/ssl/features/acme"><strong>ACME automation</strong></a></li><li><a href="/ssl/features/enterprise"><strong>Business SSL</strong></a></li><li><a href="/ssl/developer"><strong>Developer API</strong></a></li></ul>
+    <ul><li><a href="/ssl/features/certificates"><strong>SSL certificates</strong></a></li><li><a href="/ssl/features/validation"><strong>DNS validation</strong></a></li><li><a href="/ssl/features/installation"><strong>Installation</strong></a></li><li><a href="/ssl/features/wildcards"><strong>Wildcards</strong></a></li><li><a href="/ssl/features/monitoring"><strong>SSL monitoring</strong></a></li><li><a href="/ssl/features/protection"><strong>Trust &amp; protection</strong></a></li><li><a href="/ssl/features/acme"><strong>ACME automation</strong></a></li><li><a href="/ssl/features/enterprise"><strong>Business SSL</strong></a></li><li><a href="/ssl/developer"><strong>Developer API</strong></a></li></ul>
   </div>
     <div class="ssl-feat-limits">
       <strong>Honest limits</strong>
       <ul>
-        <li><strong>DV only</strong> — Let's Encrypt domain validation. Not OV/EV.</li>
+        <li><strong>Automation layer</strong> — CA is Let's Encrypt; you pay for managed issuance/renewal, not a retail cert SKU.</li>
+        <li><strong>DV only</strong> — domain validation. Not OV/EV.</li>
         <li><strong>Not malware scanning</strong> — trust badges and domain verification, not ZeroSSL Protect-style surface/core scans.</li>
-        <li><strong>Not enterprise PKI</strong> — Business plan multi-domain + team workspace, not HID/CLM enterprise.</li>
+        <li><strong>Not enterprise PKI</strong> — Business wildcards + volume + team workspace, not HID/CLM enterprise.</li>
       </ul>
     </div>
   <div class="prod-try">
@@ -301,7 +303,7 @@
   </div>
   <h2>FAQ</h2>
 <details class="faq-item"><summary>Is this the same as ZeroSSL features?</summary>
-<p>Same job class (issue and manage HTTPS certs) with different packaging. docstoc automates Let's Encrypt DNS-01 inside your business account. We do not sell OV/EV, wildcards-as-a-SKU, or malware Protect add-ons.</p>
+<p>Same job class (issue and manage HTTPS certs) with different packaging. docstoc is an automation layer on Let's Encrypt inside your business account — not a certificate reseller. We do not sell OV/EV or malware Protect add-ons.</p>
 </details>
 </div>
 </main>
@@ -370,21 +372,21 @@
     <video
       id="revival-modal-video"
       class="how-modal-video"
-      src="../../videos/docstoc-is-back.webm?v=20260826b"
-      poster="../../videos/docstoc-is-back-poster.jpg?v=20260826b"
+      src="../../videos/docstoc-is-back.webm?v=20260826d"
+      poster="../../videos/docstoc-is-back-poster.jpg?v=20260826d"
       controls
       playsinline
       preload="metadata"
     >
-      <track kind="captions" src="../../videos/docstoc-is-back.en.vtt?v=20260826b" srclang="en" label="English" default>
-      <track kind="captions" src="../../videos/docstoc-is-back.es.vtt?v=20260826b" srclang="es" label="Español">
+      <track kind="captions" src="../../videos/docstoc-is-back.en.vtt?v=20260826d" srclang="en" label="English" default>
+      <track kind="captions" src="../../videos/docstoc-is-back.es.vtt?v=20260826d" srclang="es" label="Español">
     </video>
   </div>
 </div>
-<script src="../../site-lang.js?v=20260826b" defer></script>
-<script src="../../site-nav.js?v=20260826b" defer></script>
-<script src="../../cookie-consent.js?v=20260826b" defer></script>
-<script src="../../analytics.js?v=20260826b" defer></script>
+<script src="../../site-lang.js?v=20260826d" defer></script>
+<script src="../../site-nav.js?v=20260826d" defer></script>
+<script src="../../cookie-consent.js?v=20260826d" defer></script>
+<script src="../../analytics.js?v=20260826d" defer></script>
 <script>
 /* Contact sales → docstoc Assistant (Docracy pattern). */
 (function () {

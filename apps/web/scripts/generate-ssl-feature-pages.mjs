@@ -17,6 +17,7 @@ const FEATURE_NAV = [
   { href: "/ssl/features/certificates", label: "SSL certificates" },
   { href: "/ssl/features/validation", label: "DNS validation" },
   { href: "/ssl/features/installation", label: "Installation" },
+  { href: "/ssl/features/wildcards", label: "Wildcards" },
   { href: "/ssl/features/monitoring", label: "SSL monitoring" },
   { href: "/ssl/features/protection", label: "Trust & protection" },
   { href: "/ssl/features/acme", label: "ACME automation" },
@@ -144,12 +145,12 @@ const PAGES = [
     canonical: "/ssl/features",
     title: "SSL Features — Certificates, Validation, Monitoring & API | docstoc",
     description:
-      "docstoc SSL features: automated Let's Encrypt certificates, DNS-01 validation, PEM install downloads, expiry monitoring, trust badges, Business multi-domain, and REST API.",
+      "docstoc SSL features: Let's Encrypt automation (not a reseller), DNS-01 validation, wildcards on Business, PEM installs, monitoring, and REST API.",
     name: "SSL features",
     faqs: [
       {
         q: "Is this the same as ZeroSSL features?",
-        a: "Same job class (issue and manage HTTPS certs) with different packaging. docstoc automates Let's Encrypt DNS-01 inside your business account. We do not sell OV/EV, wildcards-as-a-SKU, or malware Protect add-ons.",
+        a: "Same job class (issue and manage HTTPS certs) with different packaging. docstoc is an automation layer on Let's Encrypt inside your business account — not a certificate reseller. We do not sell OV/EV or malware Protect add-ons.",
       },
     ],
     body: () => `${blocks([
@@ -162,15 +163,16 @@ const PAGES = [
     <div class="ssl-feat-limits">
       <strong>Honest limits</strong>
       <ul>
-        <li><strong>DV only</strong> — Let's Encrypt domain validation. Not OV/EV.</li>
+        <li><strong>Automation layer</strong> — CA is Let's Encrypt; you pay for managed issuance/renewal, not a retail cert SKU.</li>
+        <li><strong>DV only</strong> — domain validation. Not OV/EV.</li>
         <li><strong>Not malware scanning</strong> — trust badges and domain verification, not ZeroSSL Protect-style surface/core scans.</li>
-        <li><strong>Not enterprise PKI</strong> — Business plan multi-domain + team workspace, not HID/CLM enterprise.</li>
+        <li><strong>Not enterprise PKI</strong> — Business wildcards + volume + team workspace, not HID/CLM enterprise.</li>
       </ul>
     </div>`,
     shell: {
       crumb: "Features",
       h1: "SSL features that replace a separate certificate dashboard",
-      lede: "Issue, validate, install, monitor, and automate domain SSL inside the same workspace as invoices and documents — powered by Let's Encrypt ACME, not a second vendor login.",
+      lede: "Issue, validate, install, monitor, and automate domain SSL inside the same workspace as invoices and documents — powered by Let's Encrypt ACME. We are an automation layer, not a certificate reseller.",
       ctaPrimary: { href: "/app/login?start=1", label: "Secure a domain →" },
       ctaSecondary: { href: "/ssl", label: "Product overview" },
     },
@@ -181,12 +183,16 @@ const PAGES = [
     canonical: "/ssl/features/certificates",
     title: "SSL Certificates — Automated Let's Encrypt DV | docstoc",
     description:
-      "Get trusted SSL certificates for your domain with docstoc: real Let's Encrypt DV certs, Pro for one domain, Business for more — auto-renewal included, no separate cert fee.",
+      "Get trusted SSL certificates with docstoc: real Let's Encrypt DV via managed automation. Free 5 × 90-day, Pro multi-SAN, Business wildcards — no reseller markup.",
     name: "SSL certificates",
     faqs: [
       {
         q: "Are these free SSL certificates?",
-        a: "The certificate itself is a Let's Encrypt DV cert (no CA fee). Automation lives on the paid Pro/Business plan — not a free forever standalone CA dashboard.",
+        a: "Let's Encrypt does not charge for the DV cert. Free on docstoc includes 5 × 90-day certificates. Pro and Business unlock multi-SAN, wildcards, and higher slot counts for the automation layer.",
+      },
+      {
+        q: "Do you resell certificates?",
+        a: "No. The issuing CA is Let's Encrypt. docstoc manages ACME orders, DNS-01 challenges, and renewals in your workspace.",
       },
       {
         q: "How long do certificates last?",
@@ -197,37 +203,37 @@ const PAGES = [
       blocks([
         {
           title: "Real Let's Encrypt DV",
-          body: "Every certificate is signed by Let's Encrypt — the same CA millions of sites already trust. You get industry-standard HTTPS encryption and the browser padlock, without buying a retail SKU.",
+          body: "Every certificate is signed by Let's Encrypt — the same CA millions of sites already trust. You get industry-standard HTTPS encryption and the browser padlock. We automate that path; we do not resell a commercial CA SKU.",
           bullets: [
             "Domain-validated (DV) certificates",
             "Trusted by modern browsers",
-            "No separate per-certificate checkout",
+            "No separate per-certificate CA checkout",
             "Renewals handled in-product while your plan is active",
           ],
         },
         {
           title: "Plans that match how you work",
-          body: "Pro includes automated SSL for one custom domain. Business unlocks more domains plus trust badges — useful for agencies and multi-site operators.",
+          body: "Free is the ZeroSSL-style wedge: five 90-day certs. Pro adds multi-SAN. Business unlocks wildcards and volume — competing with dedicated SSL Premium pricing while LE remains the CA.",
           bullets: [
-            "Pro — 1 custom domain SSL",
-            "Business — multi-domain SSL + trust profile",
-            "Same account as invoices, templates, and chase tools",
+            "Free — 5 × 90-day Let's Encrypt certificates",
+            "Pro — higher limit + multi-SAN on one cert",
+            "Business — wildcards (*.example.com) + up to 25 cert slots",
           ],
         },
         {
           title: "What we do not sell",
-          body: "If procurement requires OV, EV, multi-year commercial warranties, or wildcard products as a line item, use a commercial CA. We say so on every comparison page.",
+          body: "If procurement requires OV, EV, multi-year commercial warranties, or a retail wildcard SKU from a commercial CA, use that vendor. We say so on every comparison page.",
           bullets: [
             "Not OV / EV validation",
-            "Not a wildcard-as-a-product storefront",
+            "Not a certificate reseller storefront",
             "Not a replacement for host/CDN edge SSL when that architecture fits better",
           ],
         },
       ]),
     shell: {
       crumb: "Certificates",
-      h1: "Trusted SSL certificates without a separate CA storefront",
-      lede: "docstoc issues real Let's Encrypt domain-validated certificates for hostnames you control. Browser-trusted HTTPS, automated renewals, priced as part of Pro or Business — not a surprise SSL upsell.",
+      h1: "Trusted SSL certificates without a reseller storefront",
+      lede: "docstoc issues real Let's Encrypt domain-validated certificates for hostnames you control. Browser-trusted HTTPS, automated renewals — you pay for the automation layer, not a marked-up cert SKU.",
       ctaPrimary: { href: "/app/login?start=1", label: "Issue a certificate →" },
       ctaSecondary: { href: "/blog/types-of-ssl-certificates/", label: "Certificate types guide" },
     },
@@ -335,6 +341,74 @@ const PAGES = [
       lede: "After issuance, download the certificate PEM and private key PEM from your SSL domains page. Point nginx, Apache, Caddy, or your panel at those files — keep hosting where it is.",
       ctaPrimary: { href: "/app/ssl-domains", label: "Download from SSL console →" },
       ctaSecondary: { href: "/ssl/features/monitoring", label: "Then set up monitoring" },
+    },
+  },
+  {
+    file: "ssl/features/wildcards.html",
+    depth: 2,
+    canonical: "/ssl/features/wildcards",
+    title: "Wildcard SSL Certificates — *.example.com via Let's Encrypt | docstoc",
+    description:
+      "Business plan wildcard SSL (*.example.com) with Let's Encrypt DNS-01 — automation layer, not a reseller. Compete with ZeroSSL Premium pricing while LE remains the CA.",
+    name: "Wildcards",
+    faqs: [
+      {
+        q: "Which plan includes wildcards?",
+        a: "Business. Free and Pro issue single-name (and Pro multi-SAN) certificates; Business unlocks *.example.com wildcards plus higher volume.",
+      },
+      {
+        q: "Is this a sold wildcard SKU from a commercial CA?",
+        a: "No. docstoc is an automation layer. The certificate is a Let's Encrypt DV wildcard. You pay for managed ACME and workspace features — not a marked-up retail wildcard product.",
+      },
+      {
+        q: "Why DNS-01 for wildcards?",
+        a: "Let's Encrypt requires DNS-01 for wildcards. docstoc shows the TXT challenge(s) to publish; HTTP file validation cannot issue *.example.com.",
+      },
+    ],
+    body: () => `${blocks([
+      {
+        title: "Cover every first-level subdomain with one cert",
+        body: "A wildcard like <code>*.example.com</code> secures app.example.com, staging.example.com, and other first-level names under that parent — without issuing a separate cert for each. The apex (<code>example.com</code>) is a separate name unless you add it as a SAN.",
+        bullets: [
+          "Business plan only",
+          "Let's Encrypt DV wildcard via DNS-01",
+          "Download PEMs and install where TLS terminates",
+          "Same renewals flow as single-name certs",
+        ],
+      },
+      {
+        title: "Vs ZeroSSL Premium–style pricing",
+        body: "Dedicated SSL dashboards often gate wildcards behind a Premium tier (~$55–$70/mo range historically). docstoc Business bundles wildcards with the rest of the workspace at Business pricing — still LE as the CA, still automation not resale.",
+        bullets: [
+          "No separate “buy a wildcard” checkout",
+          "Competes on automation + plan value, not CA brand shopping",
+          "Stay on a commercial CA if you need OV/EV wildcards or warranties",
+        ],
+      },
+      {
+        title: "Risks to understand",
+        body: "One private key covers many hostnames. Treat key storage carefully; prefer per-host certs when blast radius matters more than convenience.",
+        bullets: [
+          "Key compromise affects every name under the wildcard",
+          "Does not cover nested names like a.b.example.com",
+          "Not more “secure” than a single-name cert — only more convenient",
+        ],
+      },
+    ])}
+    <div class="ssl-feat-limits">
+      <strong>Plan ladder</strong>
+      <ul>
+        <li><strong>Free</strong> — 5 × 90-day single-name LE certs</li>
+        <li><strong>Pro</strong> — multi-SAN + higher slot count</li>
+        <li><strong>Business</strong> — wildcards + volume (up to 25 cert slots)</li>
+      </ul>
+    </div>`,
+    shell: {
+      crumb: "Wildcards",
+      h1: "Wildcard SSL without buying a retail CA SKU",
+      lede: "Business unlocks *.example.com Let's Encrypt wildcards via DNS-01. docstoc manages the ACME order — we are an automation layer, not a certificate reseller.",
+      ctaPrimary: { href: "/app/account", label: "Upgrade to Business →" },
+      ctaSecondary: { href: "/import-from-zerossl", label: "Coming from ZeroSSL?" },
     },
   },
   {
@@ -489,27 +563,28 @@ const PAGES = [
     body: () => `${blocks([
       {
         title: "What Business unlocks for SSL",
-        body: "Move past a single Pro domain when you run client sites, staging hostnames, or multiple brands.",
+        body: "Move past Free/Pro when you need wildcards, more slots, or agency-scale hostnames — still Let's Encrypt DV automation, not a commercial CA storefront.",
         bullets: [
-          "Higher custom-domain SSL limit",
+          "Wildcard certificates (*.example.com)",
+          "Up to 25 certificate slots + multi-SAN",
           "Trust profile and badge after verified SSL",
           "Same Business workspace for invoices, templates, and chase",
         ],
       },
       {
         title: "Predictable pricing",
-        body: "No per-certificate retail markup. SSL automation is part of the subscription — monthly or annual depending on how you bill the account.",
+        body: "No per-certificate retail markup. You pay for the automation layer and workspace — monthly or annual depending on how you bill the account.",
         bullets: [
-          "Pro for one domain",
-          "Business for multi-domain + team features",
-          "No hidden CA renewal spike for the LE cert itself",
+          "Free — 5 × 90-day LE certs",
+          "Pro — multi-SAN + higher limit",
+          "Business — wildcards + volume + team features",
         ],
       },
       {
         title: "What this is not",
         body: "If you need OV/EV, government-grade CLM, role-based certificate policy engines, or HID Account Certificate Manager, buy that stack from an enterprise PKI vendor. We will not rebrand Business as that.",
         bullets: [
-          "Not OV / EV / wildcard enterprise SKUs",
+          "Not OV / EV commercial CA wildcards",
           "Not HID partnership CLM",
           "Not SLA-backed dedicated PKI support desks",
         ],
@@ -517,14 +592,14 @@ const PAGES = [
     ])}
     <div class="ssl-feat-limits">
       <strong>Need true enterprise PKI?</strong>
-      <p style="margin:8px 0 0;font-size:14.5px;color:#4b5563">Use a commercial CA or CLM platform. Prefer docstoc when the goal is automated DV HTTPS inside a small-business ops suite.</p>
+      <p style="margin:8px 0 0;font-size:14.5px;color:#4b5563">Use a commercial CA or CLM platform. Prefer docstoc when the goal is automated DV HTTPS (including wildcards on Business) inside a small-business ops suite.</p>
     </div>`,
     shell: {
       crumb: "Business SSL",
-      h1: "Business SSL for multi-domain teams — not enterprise PKI theater",
-      lede: "ZeroSSL “Enterprise” pairs with HID for OV/EV/CLM at scale. docstoc Business is for freelancers, agencies, and SMBs who need more domains, trust badges, and one workspace — flat Pro/Business pricing.",
+      h1: "Business SSL for wildcards and volume — not enterprise PKI theater",
+      lede: "ZeroSSL “Enterprise” pairs with HID for OV/EV/CLM at scale. docstoc Business is for freelancers, agencies, and SMBs who need wildcards, more domains, trust badges, and one workspace — automation on Let's Encrypt, not a cert reseller.",
       ctaPrimary: { href: "/app/account", label: "See plans in account →" },
-      ctaSecondary: { href: "/ssl/features/certificates", label: "Certificate basics" },
+      ctaSecondary: { href: "/ssl/features/wildcards", label: "Wildcard guide" },
     },
   },
   {
@@ -538,7 +613,7 @@ const PAGES = [
     faqs: [
       {
         q: "Is the API free?",
-        a: "API access follows your paid plan. SSL domain limits still apply (Pro vs Business).",
+        a: "Developer / ACME-style API access is on Pro and Business. Free still uses managed ACME in the product UI for its 5 certificates.",
       },
       {
         q: "Where are full docs?",
@@ -548,7 +623,7 @@ const PAGES = [
     body: () => `${blocks([
       {
         title: "Auth",
-        body: "Paid plan required. Create a key under Webhooks &amp; API, then send it as a Bearer token.",
+        body: "Paid plan required for API keys. Create a key under Webhooks &amp; API, then send it as a Bearer token.",
       },
     ])}
     <pre class="ssl-feat-code">Authorization: Bearer YOUR_API_KEY
@@ -556,11 +631,11 @@ Base URL: https://chasa.io/api</pre>
     ${blocks([
       {
         title: "SSL endpoints",
-        body: "All routes are under <code>/api/ssl</code> and require a paid account.",
+        body: "All routes are under <code>/api/ssl</code>. Slot limits and multi-SAN/wildcard gates follow your plan.",
         bullets: [
-          "<code>GET /ssl/domains</code> — list certificates and plan limit",
-          "<code>POST /ssl/domains</code> — start issuance (<code>{\"hostname\":\"example.com\"}</code>)",
-          "<code>POST /ssl/domains/:id/verify</code> — after publishing the TXT record",
+          "<code>GET /ssl/domains</code> — list certificates, plan limit, and feature flags",
+          "<code>POST /ssl/domains</code> — start issuance (<code>{\"hostname\":\"example.com\"}</code> or <code>hostnames</code> array)",
+          "<code>POST /ssl/domains/:id/verify</code> — after publishing TXT record(s)",
           "<code>POST /ssl/domains/:id/renew</code> — start renewal order",
           "<code>GET /ssl/domains/:id/download</code> — certificatePem + privateKeyPem",
           "<code>DELETE /ssl/domains/:id</code> — remove domain",
@@ -568,7 +643,7 @@ Base URL: https://chasa.io/api</pre>
       },
       {
         title: "What this is not",
-        body: "This is not a public ACME directory you point certbot at, and not a ZeroSSL-compatible drop-in REST clone. It is docstoc’s workspace API for domains you manage here.",
+        body: "This is not a public ACME directory you point certbot at, and not a ZeroSSL-compatible drop-in REST clone. It is docstoc’s workspace API for domains you manage here — automation on Let's Encrypt, not a CA reseller API.",
         bullets: [
           "No public ACME CA endpoint",
           "No unlimited free-tier API CA console",

@@ -1,13 +1,24 @@
 import type { Env } from "../types";
 import { sendCertExpiryReminderEmail } from "./email";
 
+export type Dns01ChallengeStored = {
+  identifier: string;
+  recordName: string;
+  txtValue: string;
+  token: string;
+  challengeUrl: string;
+  authorizationUrl: string;
+};
+
 export type CustomerCertificate = {
   id: string;
   accountId: string;
   domain: string;
+  hostnames: string[];
   status: "pending_dns" | "verifying" | "issued" | "expiring" | "expired" | "failed";
   dns01Token: string | null;
   dns01TxtValue: string | null;
+  dns01Challenges: Dns01ChallengeStored[];
   lastError: string | null;
   issuedAt: string | null;
   expiresAt: string | null;
@@ -18,10 +29,12 @@ type Row = {
   id: string;
   account_id: string;
   domain: string;
+  hostnames_json: string | null;
   status: string;
   order_url: string | null;
   dns01_token: string | null;
   dns01_txt_value: string | null;
+  dns01_challenges_json: string | null;
   cert_key_enc: string | null;
   cert_pem: string | null;
   chain_pem: string | null;
@@ -32,14 +45,55 @@ type Row = {
   updated_at: string;
 };
 
+function parseHostnames(row: Row): string[] {
+  if (row.hostnames_json) {
+    try {
+      const parsed = JSON.parse(row.hostnames_json) as unknown;
+      if (Array.isArray(parsed) && parsed.every((x) => typeof x === "string")) {
+        return parsed.map((x) => x.toLowerCase());
+      }
+    } catch {
+      /* fall through */
+    }
+  }
+  return [row.domain];
+}
+
+function parseChallenges(row: Row): Dns01ChallengeStored[] {
+  if (row.dns01_challenges_json) {
+    try {
+      const parsed = JSON.parse(row.dns01_challenges_json) as unknown;
+      if (Array.isArray(parsed)) return parsed as Dns01ChallengeStored[];
+    } catch {
+      /* fall through */
+    }
+  }
+  if (row.dns01_token && row.dns01_txt_value) {
+    const host = row.domain.startsWith("*.") ? row.domain.slice(2) : row.domain;
+    return [
+      {
+        identifier: row.domain,
+        recordName: `_acme-challenge.${host}`,
+        txtValue: row.dns01_txt_value,
+        token: row.dns01_token,
+        challengeUrl: "",
+        authorizationUrl: "",
+      },
+    ];
+  }
+  return [];
+}
+
 function rowToPublic(row: Row): CustomerCertificate {
   return {
     id: row.id,
     accountId: row.account_id,
     domain: row.domain,
+    hostnames: parseHostnames(row),
     status: row.status as CustomerCertificate["status"],
     dns01Token: row.dns01_token,
     dns01TxtValue: row.dns01_txt_value,
+    dns01Challenges: parseChallenges(row),
     lastError: row.last_error,
     issuedAt: row.issued_at,
     expiresAt: row.expires_at,
@@ -62,26 +116,38 @@ export async function getCertificateRow(env: Env, accountId: string, id: string)
     .first<Row>();
 }
 
+export function hostnamesFromRow(row: Row): string[] {
+  return parseHostnames(row);
+}
+
+export function challengesFromRow(row: Row): Dns01ChallengeStored[] {
+  return parseChallenges(row);
+}
+
 export async function createCertificateRow(
   env: Env,
   accountId: string,
-  domain: string
+  hostnames: string[]
 ): Promise<CustomerCertificate> {
+  const names = hostnames.map((h) => h.toLowerCase());
+  const domain = names[0]!;
   const id = crypto.randomUUID();
   const now = new Date().toISOString();
   await env.CHASA_DB.prepare(
-    `INSERT INTO customer_certificates (id, account_id, domain, status, created_at, updated_at)
-     VALUES (?, ?, ?, 'pending_dns', ?, ?)`
+    `INSERT INTO customer_certificates (id, account_id, domain, hostnames_json, status, created_at, updated_at)
+     VALUES (?, ?, ?, ?, 'pending_dns', ?, ?)`
   )
-    .bind(id, accountId, domain, now, now)
+    .bind(id, accountId, domain, JSON.stringify(names), now, now)
     .run();
   return {
     id,
     accountId,
     domain,
+    hostnames: names,
     status: "pending_dns",
     dns01Token: null,
     dns01TxtValue: null,
+    dns01Challenges: [],
     lastError: null,
     issuedAt: null,
     expiresAt: null,
@@ -92,12 +158,24 @@ export async function createCertificateRow(
 export async function setOrderDetails(
   env: Env,
   id: string,
-  fields: { orderUrl: string; dns01Token: string; dns01TxtValue: string }
+  fields: {
+    orderUrl: string;
+    dns01Token: string;
+    dns01TxtValue: string;
+    dns01Challenges: Dns01ChallengeStored[];
+  }
 ): Promise<void> {
   await env.CHASA_DB.prepare(
-    `UPDATE customer_certificates SET order_url = ?, dns01_token = ?, dns01_txt_value = ?, status = 'pending_dns', updated_at = ? WHERE id = ?`
+    `UPDATE customer_certificates SET order_url = ?, dns01_token = ?, dns01_txt_value = ?, dns01_challenges_json = ?, status = 'pending_dns', updated_at = ? WHERE id = ?`
   )
-    .bind(fields.orderUrl, fields.dns01Token, fields.dns01TxtValue, new Date().toISOString(), id)
+    .bind(
+      fields.orderUrl,
+      fields.dns01Token,
+      fields.dns01TxtValue,
+      JSON.stringify(fields.dns01Challenges),
+      new Date().toISOString(),
+      id
+    )
     .run();
 }
 

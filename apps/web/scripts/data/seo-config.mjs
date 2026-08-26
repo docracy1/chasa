@@ -72,6 +72,7 @@ export const SITEMAP_ROUTES = [
   { path: "/ssl/features/certificates", priority: 0.85, changefreq: "monthly" },
   { path: "/ssl/features/validation", priority: 0.8, changefreq: "monthly" },
   { path: "/ssl/features/installation", priority: 0.85, changefreq: "monthly" },
+  { path: "/ssl/features/wildcards", priority: 0.85, changefreq: "monthly" },
   { path: "/ssl/features/monitoring", priority: 0.8, changefreq: "monthly" },
   { path: "/ssl/features/protection", priority: 0.8, changefreq: "monthly" },
   { path: "/ssl/features/acme", priority: 0.8, changefreq: "monthly" },

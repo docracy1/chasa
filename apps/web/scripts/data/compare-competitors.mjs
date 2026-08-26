@@ -514,13 +514,13 @@ export const COMPETITORS = [
     sub: "Same padlock job as ZeroSSL — inside the workspace you already use for documents and invoices.",
     problem:
       "ZeroSSL is a dedicated ACME dashboard. Free is capped (3 certs). Paid tiers exist for volume and wildcards. It is another login for a small business that already has somewhere to work.",
-    way: "docstoc issues real Let’s Encrypt DV certs with one DNS TXT record and hands-off renewals. No separate SSL product to learn. Not a ZeroSSL CA clone, not OV/EV.",
+    way: "docstoc is an automation layer on Let’s Encrypt — not a certificate reseller. Free includes 5 × 90-day DV certs; Pro adds multi-SAN; Business adds wildcards. One DNS TXT path, renewals in-product. Not OV/EV.",
     compares: [
       "No separate certificate console",
-      "Pro includes 1 domain; Business for more — no per-cert SSL SKU",
+      "Free: 5 × 90-day LE certs; Pro multi-SAN; Business wildcards",
       "Same account as templates and invoices",
       "You keep your host and DNS",
-      "Stay on ZeroSSL for dedicated wildcards / multi-site ops",
+      "Stay on ZeroSSL for a dedicated console / their annual CA products",
     ],
     importHero: "Move a domain from ZeroSSL to docstoc",
     importLede: "Do not upload private keys. Issue a new Let’s Encrypt cert, then retire ZeroSSL renewals.",

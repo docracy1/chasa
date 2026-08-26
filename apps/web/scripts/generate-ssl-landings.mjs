@@ -72,8 +72,8 @@ function sharedSections(kind) {
   <h2>What it can do</h2>
   <p>docstoc automates real Let's Encrypt domain-validated certificates for hostnames you control — one DNS TXT record, renewals in-product, same account as invoices and documents.</p>
   <ul>
-    <li><strong>Add a domain</strong> — Pro includes 1 custom domain; Business unlocks more.</li>
-    <li><strong>DNS-01 validation</strong> — publish one TXT record; no HTTP file drop or nameserver move.</li>
+    <li><strong>Add a domain</strong> — Free: 5 × 90-day LE certs; Pro: multi-SAN; Business: wildcards + volume.</li>
+    <li><strong>DNS-01 validation</strong> — publish TXT record(s); no HTTP file drop or nameserver move.</li>
     <li><strong>Auto-renew</strong> — reissue before expiry while your plan stays active.</li>
     <li><strong>Download PEMs</strong> — install on nginx, Apache, Caddy, or your host panel.</li>
   </ul>
@@ -95,6 +95,7 @@ function sharedSections(kind) {
   <div class="ssl-limits">
     <strong>Honest limits</strong>
     <ul>
+      <li><strong>Automation layer, not a reseller</strong> — the CA is Let's Encrypt; you pay for managed issuance/renewal in your workspace.</li>
       <li><strong>DV only</strong> — Let's Encrypt domain validation. Not OV/EV.</li>
       <li><strong>Not a commercial CA replacement</strong> for warranties or enterprise PKI.</li>
       <li><strong>Not your host/CDN</strong> — keep hosting; docstoc automates the certificate lifecycle.</li>
@@ -109,7 +110,7 @@ function sharedSections(kind) {
   <ul>
     <li><a href="/ssl/features">SSL features hub</a></li>
     <li><a href="/ssl/features/certificates">Certificates</a> · <a href="/ssl/features/validation">Validation</a> · <a href="/ssl/features/installation">Installation</a></li>
-    <li><a href="/ssl/features/monitoring">Monitoring</a> · <a href="/ssl/features/protection">Trust &amp; protection</a> · <a href="/ssl/features/acme">ACME</a></li>
+    <li><a href="/ssl/features/wildcards">Wildcards</a> · <a href="/ssl/features/monitoring">Monitoring</a> · <a href="/ssl/features/protection">Trust &amp; protection</a> · <a href="/ssl/features/acme">ACME</a></li>
     <li><a href="/ssl/features/enterprise">Business SSL</a> · <a href="/ssl/developer">Developer API</a></li>
   </ul>
 
@@ -169,7 +170,11 @@ function buildJsonLd(path, name, faqs) {
 const sslFaqs = [
   {
     q: "Is this a free SSL certificate?",
-    a: "docstoc issues real Let's Encrypt DV certificates with no separate per-certificate fee. Automation is included on the paid plan.",
+    a: "The CA (Let's Encrypt) does not charge for the DV cert. docstoc is an automation layer: Free includes 5 × 90-day certs; Pro/Business unlock multi-SAN, wildcards, and higher limits.",
+  },
+  {
+    q: "Are you a certificate reseller?",
+    a: "No. We do not resell commercial CA SKUs. We manage Let's Encrypt ACME orders for domains you control; you pay for the automation and workspace.",
   },
   {
     q: "SSL or TLS — which do I need?",
@@ -177,7 +182,7 @@ const sslFaqs = [
   },
   {
     q: "Do I need to move my site to docstoc hosting?",
-    a: "No. Keep your host. Add one DNS TXT record; renewals are handled in-product.",
+    a: "No. Keep your host. Add DNS TXT record(s); renewals are handled in-product.",
   },
   {
     q: "Can I get OV or EV certificates?",

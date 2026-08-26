@@ -3,53 +3,130 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>How to Ask a Client for Payment Without Sounding Desperate — docstoc</title>
-<meta name="description" content="Get paid on time with a clear and polite approach. Learn how to craft a payment request that works and avoid common mistakes.">
-<link rel="canonical" href="https://chasa.io/blog/how-to-ask-a-client-for-payment-without-sounding-desperate/">
+<title>Wildcard SSL Certificates — *.example.com via Let's Encrypt | docstoc</title>
+<meta name="description" content="Business plan wildcard SSL (*.example.com) with Let's Encrypt DNS-01 — automation layer, not a reseller. Compete with ZeroSSL Premium pricing while LE remains the CA.">
+<link rel="canonical" href="https://chasa.io/ssl/features/wildcards">
 
 <meta property="og:type" content="website">
-<meta property="og:title" content="How to Ask a Client for Payment Without Sounding Desperate — docstoc">
-<meta property="og:description" content="Get paid on time with a clear and polite approach. Learn how to craft a payment request that works and avoid common mistakes.">
-<meta property="og:url" content="https://chasa.io/blog/how-to-ask-a-client-for-payment-without-sounding-desperate/">
+<meta property="og:title" content="Wildcard SSL Certificates — *.example.com via Let's Encrypt | docstoc">
+<meta property="og:description" content="Business plan wildcard SSL (*.example.com) with Let's Encrypt DNS-01 — automation layer, not a reseller. Compete with ZeroSSL Premium pricing while LE remains the CA.">
+<meta property="og:url" content="https://chasa.io/ssl/features/wildcards">
 <meta property="og:image" content="https://chasa.io/brand/og/docstoc-og-1200x630.png">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="How to Ask a Client for Payment Without Sounding Desperate — docstoc">
-<meta name="twitter:description" content="Get paid on time with a clear and polite approach. Learn how to craft a payment request that works and avoid common mistakes.">
+<meta name="twitter:title" content="Wildcard SSL Certificates — *.example.com via Let's Encrypt | docstoc">
+<meta name="twitter:description" content="Business plan wildcard SSL (*.example.com) with Let's Encrypt DNS-01 — automation layer, not a reseller. Compete with ZeroSSL Premium pricing while LE remains the CA.">
 <meta name="twitter:image" content="https://chasa.io/brand/og/docstoc-og-1200x630.png">
 <link rel="alternate" type="application/rss+xml" title="docstoc Blog" href="../../blog/feed.xml">
 <link rel="me" href="https://www.linkedin.com/company/chasa-io">
 <link rel="me" href="https://x.com/chasaHQ">
-
+<style>
+.ssl-feat-nav { display:flex; flex-wrap:wrap; gap:8px 14px; margin:18px 0 28px; padding:14px 16px; background:#f7f5f2; border-radius:12px; font-size:13.5px; }
+.ssl-feat-nav a { font-weight:600; text-decoration:none; color:#1f2937; }
+.ssl-feat-nav a:hover { color: var(--accent, #c45c26); }
+.ssl-feat-nav a[aria-current="page"] { color: var(--accent, #c45c26); text-decoration:underline; }
+.prod-body { max-width: 720px; margin: 0 auto 48px; }
+.prod-body h2 {
+  font-family: 'Fraunces', serif;
+  font-weight: 600;
+  font-size: 1.45rem;
+  margin: 36px 0 12px;
+  color: var(--ink);
+}
+.prod-body h2:first-of-type { margin-top: 8px; }
+.prod-body p { font-size: 15.5px; line-height: 1.65; color: var(--ink-soft); margin: 0 0 14px; }
+.prod-body ul { margin: 0 0 18px; padding-left: 1.2em; color: var(--ink-soft); font-size: 15.5px; line-height: 1.65; }
+.prod-body li { margin-bottom: 8px; }
+.prod-body li strong { color: var(--ink); }
+.ssl-feat-block { margin: 0 0 8px; }
+.ssl-feat-limits { background:#f7f5f2; border-radius:12px; padding:18px 20px; margin:18px 0 28px; }
+.ssl-feat-limits ul { margin:8px 0 0; padding-left:18px; }
+.ssl-feat-code { display:block; background:#0f172a; color:#e2e8f0; padding:14px 16px; border-radius:10px; font-size:13px; overflow-x:auto; white-space:pre; margin:12px 0; }
+.prod-try {
+  margin: 40px 0 8px;
+  padding: 28px 24px;
+  background: #f7f5f2;
+  border-radius: 16px;
+  text-align: center;
+}
+.prod-try h2 { margin: 0 0 10px; font-family: 'Fraunces', serif; font-size: 1.35rem; }
+.prod-try p { margin: 0 0 18px; color: var(--ink-soft); font-size: 15px; }
+.prod-try .nav-cta { display: inline-block; }
+</style>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "Article",
-  "headline": "How to Ask a Client for Payment Without Sounding Desperate",
-  "description": "Get paid on time with a clear and polite approach. Learn how to craft a payment request that works and avoid common mistakes.",
-  "url": "https://chasa.io/blog/how-to-ask-a-client-for-payment-without-sounding-desperate/",
-  "datePublished": "2026-08-19T19:07:59.921Z",
-  "dateModified": "2026-08-19T19:07:59.921Z",
-  "author": {
-    "@type": "Organization",
-    "name": "docstoc"
-  },
-  "publisher": {
-    "@type": "Organization",
-    "name": "RELACON GmbH",
-    "logo": {
-      "@type": "ImageObject",
-      "url": "https://chasa.io/brand/docstoc-icon.png"
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://chasa.io/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "SSL",
+          "item": "https://chasa.io/ssl"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Wildcards",
+          "item": "https://chasa.io/ssl/features/wildcards"
+        }
+      ]
+    },
+    {
+      "@type": "WebPage",
+      "name": "docstoc Wildcards",
+      "url": "https://chasa.io/ssl/features/wildcards",
+      "isPartOf": {
+        "@type": "WebSite",
+        "name": "docstoc",
+        "url": "https://chasa.io/"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Which plan includes wildcards?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Business. Free and Pro issue single-name (and Pro multi-SAN) certificates; Business unlocks *.example.com wildcards plus higher volume."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is this a sold wildcard SKU from a commercial CA?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. docstoc is an automation layer. The certificate is a Let's Encrypt DV wildcard. You pay for managed ACME and workspace features — not a marked-up retail wildcard product."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why DNS-01 for wildcards?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Let's Encrypt requires DNS-01 for wildcards. docstoc shows the TXT challenge(s) to publish; HTTP file validation cannot issue *.example.com."
+          }
+        }
+      ]
     }
-  },
-  "mainEntityOfPage": "https://chasa.io/blog/how-to-ask-a-client-for-payment-without-sounding-desperate/"
+  ]
 }
 </script>
-<link rel="icon" href="../../favicon.png?v=20260826c" type="image/png">
-<link rel="icon" href="../../favicon.svg?v=20260826c" type="image/svg+xml">
-<link rel="apple-touch-icon" href="../../apple-touch-icon.png?v=20260826c">
+<link rel="icon" href="../../favicon.png?v=20260826d" type="image/png">
+<link rel="icon" href="../../favicon.svg?v=20260826d" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../../apple-touch-icon.png?v=20260826d">
 <link rel="preload" href="../../fonts/inter-400.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="../../fonts/inter-700.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="../../site.css?v=20260826c">
+<link rel="stylesheet" href="../../site.css?v=20260826d">
 </head>
 <body>
 <header class="site-header">
@@ -200,43 +277,66 @@
     <!--/email_off-->
   </div>
 </div>
-<main class="blog-article-main">
-<article class="blog-article">
-  <header class="blog-article-hero">
-    <div class="blog-article-hero-inner">
-      <a class="blog-article-back" href="../../blog/">← Blog</a>
-      <div class="blog-article-meta">
-        <span class="blog-article-tag">Guide</span>
-        <span class="blog-article-date">— 2026-08-19T19:07:59.921Z</span>
-        <span class="blog-article-read">3 min read</span>
-      </div>
-      <h1>How to Ask a Client for Payment Without Sounding Desperate</h1>
-      <p class="blog-article-lede">Get paid on time with a clear and polite approach. Learn how to craft a payment request that works and avoid common mistakes.</p>
-    </div>
-  </header>
-  <div class="blog-article-layout">
-    <aside class="blog-article-aside"><nav class="blog-toc blog-toc-side" aria-label="Table of contents"><div class="blog-toc-title">Table of contents</div><ol><li><a href="#why-wording-matters">Why Wording Matters</a></li><li><a href="#a-warm-but-clear-script">A Warm-But-Clear Script</a></li><li><a href="#common-mistakes-to-avoid">Common Mistakes to Avoid</a></li><li><a href="#chasa-your-free-follow-up-partner">Chasa: Your Free Follow-Up Partner</a></li></ol></nav></aside>
-    <div class="blog-article-content">
-      <div class="blog-body"><p>As a freelancer or small business owner, getting paid on time is crucial to your cash flow and ability to take on new projects. However, asking a client for payment can be a delicate matter, especially if it's their first time. You want to convey a sense of urgency without coming across as pushy or desperate.</p><h2 id="why-wording-matters">Why Wording Matters</h2><p>The tone of your request can make all the difference in how your client responds. A simple &quot;Hey, can you pay me?&quot; might seem straightforward, but it can also come across as abrupt or even entitled. On the other hand, a polite and clear request can help maintain a positive relationship with your client while still getting the payment you deserve.</p><h2 id="a-warm-but-clear-script">A Warm-But-Clear Script</h2><p>Here's a script you can use as a starting point:</p><p>&quot;Hi [Client], hope you're doing well. I wanted to follow up on the invoice for [project name] that was due on [due date]. I completely understand that things can get busy, but I'm counting on receiving payment soon to keep my business running smoothly. Can you please let me know when I can expect the payment to be made? If there's an issue or delay, please let me know and we can discuss possible arrangements. I appreciate your prompt attention to this matter.&quot;</p><p>This script is polite, clear, and concise. It:</p><ul><li>Acknowledges the client's time and potential busy schedule</li><li>Clearly states the purpose of the email</li><li>Shows appreciation for the client's prompt attention</li><li>Leaves room for discussion if needed</li></ul><h2 id="common-mistakes-to-avoid">Common Mistakes to Avoid</h2><p>When asking a client for payment, it's easy to fall into common pitfalls that can harm your relationship or even lead to a missed payment. Here are a few mistakes to watch out for:</p><ul><li>Over-apologizing: While it's essential to be polite, excessive apologies can come across as insincere or even weak.</li><li>Burying the ask: Make sure the main point of the email is clear and not buried under a lot of small talk or unnecessary details.</li><li>No clear next step: Leave room for discussion or provide a clear call-to-action, such as requesting a payment plan or a specific deadline.</li></ul><h2 id="chasa-your-free-follow-up-partner">Chasa: Your Free Follow-Up Partner</h2><p>If you're struggling to find the right words or need a reminder to follow up, Chasa is here to help. This free AI tool drafts tone-matched follow-up emails for you, so you can focus on more critical tasks. With Chasa, you can:</p><ul><li>Choose from 18 pre-written templates</li><li>Get 5 AI-drafted emails per month</li><li>Send follow-ups from your own inbox, not Chasa's</li></ul><p>Chasa takes the stress out of chasing payments, so you can focus on growing your business.</p><h3>Frequently Asked Questions</h3><h3>How many follow-up emails can I send with Chasa?</h3><p>You can get 5 AI-drafted emails per month with the free tier, and upgrade to more with a paid plan.</p><h3>Can I customize the templates?</h3><p>Yes, you can adjust the tone and language to fit your brand and style.</p><h3>Does Chasa send the emails on my behalf?</h3><p>No, you'll send the emails from your own inbox, ensuring a personal touch.</p><h3>Can I use Chasa with my existing invoicing tool?</h3><p>Yes, Chasa is designed to work seamlessly with your existing invoicing software.</p><h3>How does Chasa determine the tone of the follow-up emails?</h3><p>Chasa uses AI to analyze the situation and suggest a tone that's warm, friendly, or firmer, depending on the due date and your relationship with the client.</p><h3>Is Chasa suitable for large businesses or enterprises?</h3><p>Chasa is designed for freelancers and small businesses, but you can always contact their support team for custom solutions.</p><h3>Can I upgrade or downgrade my Chasa plan at any time?</h3><p>Yes, you can adjust your plan as needed to suit your business needs.</p><p>By using a clear and polite script, avoiding common mistakes, and leveraging tools like Chasa, you can effectively ask clients for payment without sounding desperate. Remember, timely communication is key to maintaining a positive relationship with your clients and getting paid on time.</p></div>
-      <section class="blog-article-footer">
-        <aside class="tpl-pack-strip" aria-label="Related resource">
-          <p class="tpl-pack-strip-copy">Get your polite invoice templates PDF to chase clients with confidence</p>
-          <a class="tpl-pack-strip-btn" href="../../free-templates/download">Download</a>
-        </aside>
-        <h2>Related resources</h2>
-        <ul>
-          <li><a href="../../tools/invoice-chase-calculator">Invoice chase calculator</a></li>
-      <li><a href="../../blog/invoice-chase-software-comparison/">docstoc vs Chaser, Paidnice &amp; other invoice chase tools</a></li>
-      <li><a href="../../free-templates/">Free payment reminder email templates</a></li>
-      <li><a href="../../app/">Try the AI invoice follow-up tool</a></li>
-      <li><a href="../../payment-reminder">Payment reminder emails guide</a></li>
-      <li><a href="../../overdue-invoice">Overdue invoice follow-up</a></li>
-      <li><a href="../../invoice-follow-up">Invoice follow-up best practices</a></li>
-        </ul>
-      </section>
-    </div>
+<main class="wrap page-main">
+<section class="tpl-hero">
+  <div class="wrap tpl-hero-inner">
+    <h1>Wildcard SSL without buying a retail CA SKU</h1>
+    <p class="tpl-hero-lede">Business unlocks *.example.com Let's Encrypt wildcards via DNS-01. docstoc manages the ACME order — we are an automation layer, not a certificate reseller.</p>
   </div>
-</article>
+</section>
+<div class="prod-body">
+  <p class="crumb"><a href="/">Home</a> / <a href="/ssl">SSL</a> / Wildcards</p>
+  <nav class="ssl-feat-nav" aria-label="SSL features">
+  <a href="/ssl/features/certificates">SSL certificates</a>
+  <a href="/ssl/features/validation">DNS validation</a>
+  <a href="/ssl/features/installation">Installation</a>
+  <a href="/ssl/features/wildcards" aria-current="page">Wildcards</a>
+  <a href="/ssl/features/monitoring">SSL monitoring</a>
+  <a href="/ssl/features/protection">Trust &amp; protection</a>
+  <a href="/ssl/features/acme">ACME automation</a>
+  <a href="/ssl/features/enterprise">Business SSL</a>
+  <a href="/ssl/developer">Developer API</a>
+</nav>
+    <div class="ssl-feat-block">
+    <h2>Cover every first-level subdomain with one cert</h2>
+    <p>A wildcard like <code>*.example.com</code> secures app.example.com, staging.example.com, and other first-level names under that parent — without issuing a separate cert for each. The apex (<code>example.com</code>) is a separate name unless you add it as a SAN.</p>
+    <ul><li>Business plan only</li><li>Let's Encrypt DV wildcard via DNS-01</li><li>Download PEMs and install where TLS terminates</li><li>Same renewals flow as single-name certs</li></ul>
+  </div>
+  <div class="ssl-feat-block">
+    <h2>Vs ZeroSSL Premium–style pricing</h2>
+    <p>Dedicated SSL dashboards often gate wildcards behind a Premium tier (~$55–$70/mo range historically). docstoc Business bundles wildcards with the rest of the workspace at Business pricing — still LE as the CA, still automation not resale.</p>
+    <ul><li>No separate “buy a wildcard” checkout</li><li>Competes on automation + plan value, not CA brand shopping</li><li>Stay on a commercial CA if you need OV/EV wildcards or warranties</li></ul>
+  </div>
+  <div class="ssl-feat-block">
+    <h2>Risks to understand</h2>
+    <p>One private key covers many hostnames. Treat key storage carefully; prefer per-host certs when blast radius matters more than convenience.</p>
+    <ul><li>Key compromise affects every name under the wildcard</li><li>Does not cover nested names like a.b.example.com</li><li>Not more “secure” than a single-name cert — only more convenient</li></ul>
+  </div>
+    <div class="ssl-feat-limits">
+      <strong>Plan ladder</strong>
+      <ul>
+        <li><strong>Free</strong> — 5 × 90-day single-name LE certs</li>
+        <li><strong>Pro</strong> — multi-SAN + higher slot count</li>
+        <li><strong>Business</strong> — wildcards + volume (up to 25 cert slots)</li>
+      </ul>
+    </div>
+  <div class="prod-try">
+    <h2>Try it</h2>
+    <p>Tools for a quick check — or open the product when you’re ready to issue.</p>
+    <a href="/app/account" class="nav-cta">Upgrade to Business →</a>
+     · <a href="/import-from-zerossl">Coming from ZeroSSL?</a>
+  </div>
+  <h2>FAQ</h2>
+<details class="faq-item"><summary>Which plan includes wildcards?</summary>
+<p>Business. Free and Pro issue single-name (and Pro multi-SAN) certificates; Business unlocks *.example.com wildcards plus higher volume.</p>
+</details>
+<details class="faq-item"><summary>Is this a sold wildcard SKU from a commercial CA?</summary>
+<p>No. docstoc is an automation layer. The certificate is a Let's Encrypt DV wildcard. You pay for managed ACME and workspace features — not a marked-up retail wildcard product.</p>
+</details>
+<details class="faq-item"><summary>Why DNS-01 for wildcards?</summary>
+<p>Let's Encrypt requires DNS-01 for wildcards. docstoc shows the TXT challenge(s) to publish; HTTP file validation cannot issue *.example.com.</p>
+</details>
+</div>
 </main>
 <footer class="site-footer">
   <div class="wrap site-footer-inner">
@@ -303,21 +403,21 @@
     <video
       id="revival-modal-video"
       class="how-modal-video"
-      src="../../videos/docstoc-is-back.webm?v=20260826c"
-      poster="../../videos/docstoc-is-back-poster.jpg?v=20260826c"
+      src="../../videos/docstoc-is-back.webm?v=20260826d"
+      poster="../../videos/docstoc-is-back-poster.jpg?v=20260826d"
       controls
       playsinline
       preload="metadata"
     >
-      <track kind="captions" src="../../videos/docstoc-is-back.en.vtt?v=20260826c" srclang="en" label="English" default>
-      <track kind="captions" src="../../videos/docstoc-is-back.es.vtt?v=20260826c" srclang="es" label="Español">
+      <track kind="captions" src="../../videos/docstoc-is-back.en.vtt?v=20260826d" srclang="en" label="English" default>
+      <track kind="captions" src="../../videos/docstoc-is-back.es.vtt?v=20260826d" srclang="es" label="Español">
     </video>
   </div>
 </div>
-<script src="../../site-lang.js?v=20260826c" defer></script>
-<script src="../../site-nav.js?v=20260826c" defer></script>
-<script src="../../cookie-consent.js?v=20260826c" defer></script>
-<script src="../../analytics.js?v=20260826c" defer></script>
+<script src="../../site-lang.js?v=20260826d" defer></script>
+<script src="../../site-nav.js?v=20260826d" defer></script>
+<script src="../../cookie-consent.js?v=20260826d" defer></script>
+<script src="../../analytics.js?v=20260826d" defer></script>
 <script>
 /* Contact sales → docstoc Assistant (Docracy pattern). */
 (function () {
