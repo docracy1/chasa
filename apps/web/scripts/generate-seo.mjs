@@ -169,7 +169,7 @@ function writeIndexNowKey() {
 function stripInjectedSeoHead(html) {
   return html
     .replace(/\n?<link rel="alternate" type="application\/rss\+xml"[^>]*>/gi, "")
-    .replace(/\n?<link rel="me" href="https:\/\/(www\.linkedin\.com\/company\/docstoc-io|x\.com\/docstocHQ)"[^>]*>/gi, "")
+    .replace(/\n?<link rel="me" href="https:\/\/(www\.linkedin\.com\/company\/(?:docstoc-io|chasa-io)|x\.com\/(?:docstocHQ|chasaHQ))"[^>]*>/gi, "")
     .replace(/\n?<meta name="google-site-verification"[^>]*>/gi, "")
     .replace(/\n?<meta name="msvalidate\.01"[^>]*>/gi, "");
 }
