@@ -95,7 +95,7 @@ const es: Messages = {
   "welcome.product.invoices.body": "Crea facturas, comparte enlaces de pago y sigue lo pendiente.",
   "welcome.product.invoices.cta": "Abrir facturas →",
   "welcome.product.ssl.title": "SSL / TLS",
-  "welcome.product.ssl.body": "Certificados reales de Let's Encrypt para tu dominio — un registro DNS.",
+  "welcome.product.ssl.body": "Automatización Let's Encrypt para tu dominio — no somos revendedor.",
   "welcome.product.ssl.cta": "Gestionar SSL →",
   "welcome.product.certificates.title": "Certificados",
   "welcome.product.certificates.body": "Prueba a prueba de manipulación (hash) para cualquier archivo que envíes.",

@@ -94,7 +94,7 @@ const en: Messages = {
   "welcome.product.invoices.body": "Create invoices, share payment links, and track what's owed.",
   "welcome.product.invoices.cta": "Open invoices →",
   "welcome.product.ssl.title": "SSL / TLS",
-  "welcome.product.ssl.body": "Real Let's Encrypt certificates for your domain — one DNS record.",
+  "welcome.product.ssl.body": "Let's Encrypt automation for your domain — not a cert reseller.",
   "welcome.product.ssl.cta": "Manage SSL →",
   "welcome.product.certificates.title": "Certificates",
   "welcome.product.certificates.body": "Tamper-evident hash proof for any file you send.",

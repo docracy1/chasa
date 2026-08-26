@@ -190,6 +190,9 @@ export default function AppShell({
   const [chasesExpanded, setChasesExpanded] = useState(false);
   const [toolsExpanded, setToolsExpanded] = useState(false);
   const [templatesExpanded, setTemplatesExpanded] = useState(false);
+  const [invoicesExpanded, setInvoicesExpanded] = useState(false);
+  const [sslExpanded, setSslExpanded] = useState(false);
+  const [certificatesExpanded, setCertificatesExpanded] = useState(false);
   const logoSrc = account?.logoDataUrl || "/brand/docstoc-icon.png";
   const wordmark = account?.workspaceName || "docstoc";
   const workspaceAdmin = isWorkspaceAdmin(account);
@@ -197,16 +200,13 @@ export default function AppShell({
   const view = new URLSearchParams(location.search).get("view");
   const onDashboard = location.pathname === "/" || location.pathname === "";
 
-  // Docracy-style sidebar: text items + Documents/Tools-style accordions. Team/Subscription stay
-  // in the account chip only. Branding / webhooks / connectors are workspace-admin only.
+  // Docracy-style sidebar: 5 core products with nested details, then Tools / workspace.
   const chasesNav = [
     { pathname: "/", search: "?view=overdue", view: "overdue" as const, label: t("nav.chasesOverdue") },
     { pathname: "/", search: "?view=waiting", view: "waiting" as const, label: t("nav.chasesWaiting") },
     { pathname: "/", search: "?view=paid", view: "paid" as const, label: t("nav.chasesPaid") },
   ];
 
-  // Docracy keeps Tools to admin-only workspace settings — Contacts/Team live outside it
-  // (Contacts gets its own sidebar slot, Team lives in the account popover).
   const toolsNav = (
     [
       workspaceAdmin
@@ -221,13 +221,26 @@ export default function AppShell({
   ).filter(Boolean) as Array<{ to: string; hash: string | undefined; label: string }>;
 
   const templatesNav = [
-    { to: "/templates", label: t("nav.templates") },
     { to: "/document-templates", label: t("nav.documentTemplates") },
+    { to: "/templates", label: t("nav.templatesEmails") },
+  ];
+
+  const invoicesNav = [{ to: "/invoices", label: t("nav.invoicesAll") }];
+
+  const sslNav = [{ to: "/ssl-domains", label: t("nav.sslDomainsManage") }];
+
+  const certificatesNav = [
+    { to: "/certificates", label: t("nav.certificatesAll") },
+    { to: "/audit-log", label: t("nav.auditLog") },
   ];
 
   const chasesPathActive = onDashboard && (view === "overdue" || view === "waiting" || view === "paid");
   const templatesPathActive =
     location.pathname.startsWith("/templates") || location.pathname.startsWith("/document-templates");
+  const invoicesPathActive = location.pathname.startsWith("/invoices");
+  const sslPathActive = location.pathname.startsWith("/ssl-domains");
+  const certificatesPathActive =
+    location.pathname.startsWith("/certificates") || location.pathname.startsWith("/audit-log");
   const toolsPathActive =
     workspaceAdmin &&
     (location.pathname.startsWith("/connector") ||
@@ -246,16 +259,30 @@ export default function AppShell({
     if (templatesPathActive) setTemplatesExpanded(true);
   }, [templatesPathActive]);
 
+  useEffect(() => {
+    if (invoicesPathActive) setInvoicesExpanded(true);
+  }, [invoicesPathActive]);
+
+  useEffect(() => {
+    if (sslPathActive) setSslExpanded(true);
+  }, [sslPathActive]);
+
+  useEffect(() => {
+    if (certificatesPathActive) setCertificatesExpanded(true);
+  }, [certificatesPathActive]);
+
   const moreLinks = (
     [
+      { to: "/document-templates", label: t("nav.documentTemplates"), icon: "docTemplates" as const },
+      { to: "/templates", label: t("nav.templatesEmails"), icon: "templates" as const },
+      { to: "/invoices", label: t("nav.invoices"), icon: "invoices" as const },
+      { to: "/ssl-domains", label: t("nav.sslDomains"), icon: "ssl" as const },
+      { to: "/certificates", label: t("nav.certificates"), icon: "certificates" as const },
+      { to: "/audit-log", label: t("nav.auditLog"), icon: "auditLog" as const },
       { to: "/?view=overdue", label: t("nav.chasesOverdue"), icon: "chases" as const },
       { to: "/?view=waiting", label: t("nav.chasesWaiting"), icon: "chases" as const },
       { to: "/?view=paid", label: t("nav.chasesPaid"), icon: "chases" as const },
       { to: "/clients", label: t("nav.clients"), icon: "clients" as const },
-      { to: "/invoices", label: t("nav.invoices"), icon: "invoices" as const },
-      { to: "/certificates", label: t("nav.certificates"), icon: "certificates" as const },
-      { to: "/audit-log", label: t("nav.auditLog"), icon: "auditLog" as const },
-      { to: "/document-templates", label: t("nav.documentTemplates"), icon: "docTemplates" as const },
       workspaceAdmin
         ? { to: "/connector", label: t("nav.connectorApi"), icon: "connector" as const }
         : null,
@@ -265,7 +292,6 @@ export default function AppShell({
       workspaceAdmin
         ? { to: "/branding", label: t("nav.branding"), icon: "branding" as const }
         : null,
-      { to: "/ssl-domains", label: t("nav.sslDomains"), icon: "ssl" as const },
       { to: "/team", label: t("nav.team"), icon: "team" as const },
       { to: "/account", label: t("nav.subscription"), icon: "account" as const },
     ] as const
@@ -283,6 +309,7 @@ export default function AppShell({
       | "certificates"
       | "auditLog"
       | "docTemplates"
+      | "templates"
       | "ssl"
       | "invoices";
   }>;
@@ -394,15 +421,7 @@ export default function AppShell({
             </span>
           </NavLink>
 
-          <NavLink
-            to="/invoices"
-            className={({ isActive }) => (isActive ? "dash-nav-item is-active" : "dash-nav-item")}
-          >
-            <span className="dash-nav-item-label">
-              <NavIcon name="invoices" />
-              <span>{t("nav.invoices")}</span>
-            </span>
-          </NavLink>
+          <div className="dash-side-nav-label">{t("nav.products")}</div>
 
           <div className="dash-nav-group">
             <button
@@ -435,35 +454,98 @@ export default function AppShell({
             ) : null}
           </div>
 
-          <NavLink
-            to="/certificates"
-            className={({ isActive }) => (isActive ? "dash-nav-item is-active" : "dash-nav-item")}
-          >
-            <span className="dash-nav-item-label">
-              <NavIcon name="certificates" />
-              <span>{t("nav.certificates")}</span>
-            </span>
-          </NavLink>
+          <div className="dash-nav-group">
+            <button
+              type="button"
+              className={`dash-nav-item dash-nav-group-header${invoicesPathActive ? " is-active" : ""}`}
+              aria-expanded={invoicesExpanded}
+              onClick={() => setInvoicesExpanded((open) => !open)}
+            >
+              <span className="dash-nav-item-label">
+                <NavIcon name="invoices" />
+                <span>{t("nav.invoices")}</span>
+              </span>
+              <span className={`dash-nav-chevron${invoicesExpanded ? " is-open" : ""}`} aria-hidden="true">
+                ⌄
+              </span>
+            </button>
+            {invoicesExpanded ? (
+              <div className="dash-nav-subitems">
+                {invoicesNav.map((item) => (
+                  <Link
+                    key={item.to}
+                    to={item.to}
+                    className={`dash-nav-subitem${location.pathname.startsWith(item.to) ? " is-active" : ""}`}
+                    onClick={() => setInvoicesExpanded(true)}
+                  >
+                    {item.label}
+                  </Link>
+                ))}
+              </div>
+            ) : null}
+          </div>
 
-          <NavLink
-            to="/audit-log"
-            className={({ isActive }) => (isActive ? "dash-nav-item is-active" : "dash-nav-item")}
-          >
-            <span className="dash-nav-item-label">
-              <NavIcon name="auditLog" />
-              <span>{t("nav.auditLog")}</span>
-            </span>
-          </NavLink>
+          <div className="dash-nav-group">
+            <button
+              type="button"
+              className={`dash-nav-item dash-nav-group-header${sslPathActive ? " is-active" : ""}`}
+              aria-expanded={sslExpanded}
+              onClick={() => setSslExpanded((open) => !open)}
+            >
+              <span className="dash-nav-item-label">
+                <NavIcon name="ssl" />
+                <span>{t("nav.sslDomains")}</span>
+              </span>
+              <span className={`dash-nav-chevron${sslExpanded ? " is-open" : ""}`} aria-hidden="true">
+                ⌄
+              </span>
+            </button>
+            {sslExpanded ? (
+              <div className="dash-nav-subitems">
+                {sslNav.map((item) => (
+                  <Link
+                    key={item.to}
+                    to={item.to}
+                    className={`dash-nav-subitem${location.pathname.startsWith(item.to) ? " is-active" : ""}`}
+                    onClick={() => setSslExpanded(true)}
+                  >
+                    {item.label}
+                  </Link>
+                ))}
+              </div>
+            ) : null}
+          </div>
 
-          <NavLink
-            to="/ssl-domains"
-            className={({ isActive }) => (isActive ? "dash-nav-item is-active" : "dash-nav-item")}
-          >
-            <span className="dash-nav-item-label">
-              <NavIcon name="ssl" />
-              <span>{t("nav.sslDomains")}</span>
-            </span>
-          </NavLink>
+          <div className="dash-nav-group">
+            <button
+              type="button"
+              className={`dash-nav-item dash-nav-group-header${certificatesPathActive ? " is-active" : ""}`}
+              aria-expanded={certificatesExpanded}
+              onClick={() => setCertificatesExpanded((open) => !open)}
+            >
+              <span className="dash-nav-item-label">
+                <NavIcon name="certificates" />
+                <span>{t("nav.certificates")}</span>
+              </span>
+              <span className={`dash-nav-chevron${certificatesExpanded ? " is-open" : ""}`} aria-hidden="true">
+                ⌄
+              </span>
+            </button>
+            {certificatesExpanded ? (
+              <div className="dash-nav-subitems">
+                {certificatesNav.map((item) => (
+                  <Link
+                    key={item.to}
+                    to={item.to}
+                    className={`dash-nav-subitem${location.pathname.startsWith(item.to) ? " is-active" : ""}`}
+                    onClick={() => setCertificatesExpanded(true)}
+                  >
+                    {item.label}
+                  </Link>
+                ))}
+              </div>
+            ) : null}
+          </div>
 
           <div className="dash-nav-group">
             <button
@@ -578,12 +660,12 @@ export default function AppShell({
           <span>{t("nav.dashboard")}</span>
         </NavLink>
         <NavLink
-          to="/clients"
+          to="/document-templates"
           className={({ isActive }) => `app-bottom-nav-item${isActive ? " is-active" : ""}`}
           onClick={() => setMoreSheetOpen(false)}
         >
-          <NavIcon name="clients" size={22} />
-          <span>{t("nav.clients")}</span>
+          <NavIcon name="templates" size={22} />
+          <span>{t("nav.templates")}</span>
         </NavLink>
         <Link
           to="/new"
@@ -594,12 +676,12 @@ export default function AppShell({
           <span aria-hidden="true">+</span>
         </Link>
         <NavLink
-          to={workspaceAdmin ? "/connector" : "/templates"}
+          to="/invoices"
           className={({ isActive }) => `app-bottom-nav-item${isActive ? " is-active" : ""}`}
           onClick={() => setMoreSheetOpen(false)}
         >
-          <NavIcon name={workspaceAdmin ? "tools" : "templates"} size={22} />
-          <span>{workspaceAdmin ? t("nav.tools") : t("nav.templates")}</span>
+          <NavIcon name="invoices" size={22} />
+          <span>{t("nav.invoices")}</span>
         </NavLink>
         <button
           type="button"

@@ -445,6 +445,51 @@ a { color: inherit; }
   margin: 22px 0 12px;
   color: var(--ink);
 }
+.welcome-products {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-bottom: 8px;
+}
+.welcome-product {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 16px 16px 14px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--white);
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.12s ease, box-shadow 0.12s ease;
+}
+.welcome-product:hover {
+  border-color: color-mix(in srgb, var(--accent) 35%, var(--line));
+  box-shadow: 0 8px 20px color-mix(in srgb, var(--ink) 6%, transparent);
+}
+.welcome-product-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+.welcome-product-copy strong {
+  font-size: 14.5px;
+  font-weight: 700;
+  color: var(--ink);
+}
+.welcome-product-copy span {
+  font-size: 13px;
+  color: var(--ink-soft);
+  line-height: 1.4;
+}
+.welcome-product-copy em {
+  font-style: normal;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--accent);
+  margin-top: 4px;
+}
 .welcome-actions {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -603,8 +648,10 @@ a { color: inherit; }
   .welcome-stat strong {
     font-size: 32px;
   }
-  /* FAB covers “Start something new” — hide the redundant block on phones. */
-  .welcome-section-title,
+  .welcome-products {
+    grid-template-columns: 1fr;
+  }
+  /* Legacy chase quick-actions were redundant under the FAB; products stay visible. */
   .welcome-actions {
     display: none;
   }
