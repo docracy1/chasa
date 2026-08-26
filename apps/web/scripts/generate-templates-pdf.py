@@ -9,8 +9,11 @@ Run from repo root (after generate-free-templates.mjs):
 """
 from __future__ import annotations
 
+import hashlib
 import json
+import re
 import sys
+from io import BytesIO
 from pathlib import Path
 
 from reportlab.lib.colors import Color, HexColor, white
@@ -328,8 +331,10 @@ def main() -> int:
 
     styles = build_styles()
     OUT_PDF.parent.mkdir(parents=True, exist_ok=True)
+
+    buf = BytesIO()
     doc = SimpleDocTemplate(
-        str(OUT_PDF),
+        buf,
         pagesize=A4,
         leftMargin=18 * mm,
         rightMargin=18 * mm,
@@ -338,6 +343,7 @@ def main() -> int:
         title=f"Chasa — {len(templates)} politely worded invoice templates",
         author="Chasa / RELACON GmbH",
         subject="Polite invoice payment reminder email templates",
+        creator="docstoc",
     )
 
     story = []
@@ -348,7 +354,24 @@ def main() -> int:
     story.extend(closing_page(styles))
 
     doc.build(story, onFirstPage=footer, onLaterPages=footer)
-    print(f"Wrote {OUT_PDF} ({len(templates)} templates)")
+    data = buf.getvalue()
+    # Pin PDF metadata + document ID so rebuilds stay git-clean.
+    fixed = b"D:20260801000000Z"
+    data = re.sub(rb"/CreationDate \(D:[^)]+\)", b"/CreationDate (" + fixed + b")", data, count=1)
+    data = re.sub(rb"/ModDate \(D:[^)]+\)", b"/ModDate (" + fixed + b")", data, count=1)
+    # Deterministic ID from template payload (not wall-clock / random).
+    digest = hashlib.md5(TEMPLATES_JSON.read_bytes()).hexdigest().encode("ascii")
+    data = re.sub(
+        rb"/ID\s*\[\s*<[0-9a-fA-F]+>\s*<[0-9a-fA-F]+>\s*\]",
+        b"/ID [<" + digest + b"><" + digest + b">]",
+        data,
+        count=1,
+    )
+    if OUT_PDF.exists() and OUT_PDF.read_bytes() == data:
+        print(f"Unchanged {OUT_PDF} ({len(templates)} templates)")
+    else:
+        OUT_PDF.write_bytes(data)
+        print(f"Wrote {OUT_PDF} ({len(templates)} templates)")
     return 0
 
 

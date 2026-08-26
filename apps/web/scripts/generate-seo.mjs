@@ -145,6 +145,13 @@ function writeBlogFeed() {
     </item>`
     )
     .join("\n");
+  // Deterministic: max post pubDate (not wall-clock), so rebuilds stay git-clean.
+  const latestMs = posts.reduce((max, p) => {
+    if (!p.publishedAt) return max;
+    const t = new Date(`${p.publishedAt}T12:00:00Z`).getTime();
+    return Number.isFinite(t) && t > max ? t : max;
+  }, 0);
+  const lastBuildDate = new Date(latestMs || Date.parse("2026-01-01T00:00:00Z")).toUTCString();
   const rss = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0">
   <channel>
@@ -152,7 +159,7 @@ function writeBlogFeed() {
     <link>${SITE_URL}/blog/</link>
     <description>Invoice follow-up, payment reminders, and freelancer cash flow.</description>
     <language>en</language>
-    <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>
+    <lastBuildDate>${lastBuildDate}</lastBuildDate>
 ${items}
   </channel>
 </rss>
