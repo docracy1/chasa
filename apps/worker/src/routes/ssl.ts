@@ -27,40 +27,52 @@ import { encryptSecret, decryptSecret } from "../lib/secretCrypto";
 import { customHostnameCreateSchema, parseJsonBody } from "../lib/schemas";
 import { ensureTrustProfile, submitTrustProfileTimestamp } from "../lib/trustProfile";
 import {
+  sslAllowsAcmeApi,
   sslAllowsMultiSan,
   sslAllowsWildcard,
   sslDomainLimit,
   sslMaxSansPerCert,
+  sslWildcardLimit,
 } from "../lib/plan";
 
 const ssl = new Hono<AuthEnv>();
 
 /**
  * Managed Let's Encrypt automation (not certificate resale).
- * Free: 5 × 90-day DV via product UI. Pro: multi-SAN. Business: wildcards.
+ * Free: 5 × 90-day DV via product UI.
+ * Pro: same 5 + multi-SAN + ACME API.
+ * Business: Pro features + 1 wildcard (within the 5 slots).
  */
 ssl.use("*", requireAccount);
 
-function limitError(plan: string, limit: number, used: number): string {
+function limitError(plan: string, limit: number): string {
   if (plan === "free") {
-    return `Free includes ${limit} Let's Encrypt certificates (90-day DV). Upgrade to Pro for multi-SAN or Business for wildcards.`;
+    return `Free includes ${limit} Let's Encrypt certificates (90-day DV). Upgrade to Pro for multi-SAN and ACME API, or Business for 1 wildcard.`;
   }
   if (plan === "pro") {
-    return `Pro includes up to ${limit} certificates with multi-SAN. Upgrade to Business for wildcards and more slots.`;
+    return `Pro includes ${limit} certificates with multi-SAN and ACME API. Upgrade to Business for 1 wildcard.`;
   }
-  return `Business plan allows up to ${limit} certificates.`;
+  return `Business includes ${limit} certificates (including up to 1 wildcard).`;
 }
 
 function assertPlanAllowsHostnames(
   plan: "free" | "pro" | "business",
-  hostnames: string[]
+  hostnames: string[],
+  existingWildcardCount: number
 ): { ok: true } | { ok: false; error: string; status: 402 | 400 } {
   const hasWildcard = hostnames.some((h) => h.startsWith("*."));
   if (hasWildcard && !sslAllowsWildcard(plan)) {
     return {
       ok: false,
       status: 402,
-      error: "Wildcard certificates (*.example.com) are included on Business — automation priced vs ZeroSSL Premium wildcards, Let's Encrypt as the CA.",
+      error: "Wildcard certificates (*.example.com) are included on Business — 1 wildcard among your 5 certificate slots.",
+    };
+  }
+  if (hasWildcard && existingWildcardCount >= sslWildcardLimit(plan)) {
+    return {
+      ok: false,
+      status: 402,
+      error: "Business includes 1 wildcard certificate. Remove the existing wildcard to issue another, or use multi-SAN names instead.",
     };
   }
   if (hostnames.length > 1 && !sslAllowsMultiSan(plan)) {
@@ -115,8 +127,9 @@ ssl.get("/domains", async (c) => {
     features: {
       multiSan: sslAllowsMultiSan(acc.plan),
       wildcard: sslAllowsWildcard(acc.plan),
+      wildcardLimit: sslWildcardLimit(acc.plan),
       maxSansPerCert: sslMaxSansPerCert(acc.plan),
-      acmeApi: acc.plan === "pro" || acc.plan === "business",
+      acmeApi: sslAllowsAcmeApi(acc.plan),
     },
   });
 });
@@ -127,13 +140,17 @@ ssl.post("/domains", async (c) => {
   if (!parsed.ok) return c.json({ error: parsed.error }, 400);
   const hostnames = parsed.data.hostnames;
 
-  const allowed = assertPlanAllowsHostnames(acc.plan, hostnames);
+  const existing = await listCertificatesForAccount(c.env, acc.workspaceId);
+  const existingWildcardCount = existing.filter((cert) =>
+    (cert.hostnames?.length ? cert.hostnames : [cert.domain]).some((h) => h.startsWith("*.") )
+  ).length;
+
+  const allowed = assertPlanAllowsHostnames(acc.plan, hostnames, existingWildcardCount);
   if (!allowed.ok) return c.json({ error: allowed.error }, allowed.status);
 
   const limit = sslDomainLimit(acc.plan);
-  const existing = await listCertificatesForAccount(c.env, acc.workspaceId);
   if (existing.length >= limit) {
-    return c.json({ error: limitError(acc.plan, limit, existing.length), limit, used: existing.length }, 402);
+    return c.json({ error: limitError(acc.plan, limit), limit, used: existing.length }, 402);
   }
 
   const row = await createCertificateRow(c.env, acc.workspaceId, hostnames);

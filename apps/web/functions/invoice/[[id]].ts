@@ -58,7 +58,17 @@ function renderPage(opts: { title: string; body: string; canonical: string }): s
 <link rel="canonical" href="${escapeHtml(opts.canonical)}">
 <meta name="robots" content="noindex">
 <style>
-  body { font-family: -apple-system, system-ui, "Segoe UI", sans-serif; max-width: 720px; margin: 40px auto; padding: 0 20px; line-height: 1.55; color: #1B3155; }
+  body { font-family: Inter, -apple-system, system-ui, "Segoe UI", sans-serif; max-width: 720px; margin: 40px auto; padding: 0 20px 48px; line-height: 1.55; color: #1B3155; background: #F2F4F8; }
+  .sheet { background: #fff; border: 1px solid color-mix(in srgb, #1B3155 14%, #fff); border-radius: 12px; padding: 28px 28px 32px; box-shadow: 0 8px 24px color-mix(in srgb, #1B3155 6%, transparent); }
+  .actions { display: flex; flex-wrap: wrap; gap: 10px; margin: 0 0 16px; }
+  .actions button, .actions a.btn {
+    appearance: none; border: none; cursor: pointer; font: inherit; font-size: 14px; font-weight: 600;
+    padding: 10px 16px; border-radius: 8px; text-decoration: none; display: inline-flex; align-items: center; gap: 8px;
+  }
+  .btn-download { background: #EC683C; color: #fff; }
+  .btn-download:hover { background: color-mix(in srgb, #EC683C 88%, #1B3155); }
+  .btn-secondary { background: #fff; color: #1B3155; border: 1px solid color-mix(in srgb, #1B3155 14%, #fff) !important; }
+  .btn-secondary:hover { background: #F2F4F8; }
   .brand { display: flex; align-items: center; gap: 10px; margin-bottom: 24px; }
   .brand img { width: 32px; height: 32px; border-radius: 6px; }
   .head-row { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 16px; }
@@ -84,11 +94,15 @@ function renderPage(opts: { title: string; body: string; canonical: string }): s
   .cert-badge.pending { color: #2e7d32; }
   .cert-badge.tampered { color: #b91c1c; font-size: 14px; }
   .cert-note { font-size: 12.5px; color: #6b7280; margin-top: 4px; }
-  .cert-note a { color: #2e5bdb; }
+  .cert-note a { color: #EC683C; }
   .cert-note.tampered-note { color: #7f1d1d; }
   footer { margin-top: 32px; font-size: 12px; color: #666; }
-  a { color: #2e5bdb; }
-  @media print { .pay-link { display: none; } }
+  a { color: #EC683C; }
+  @media print {
+    body { background: #fff; margin: 0; padding: 0; }
+    .sheet { border: none; box-shadow: none; border-radius: 0; padding: 0; }
+    .actions, .pay-link { display: none !important; }
+  }
 </style>
 </head>
 <body>
@@ -166,7 +180,15 @@ export const onRequest: PagesFunction<{ WORKER_URL: string }> = async (context) 
     )
     .join("");
 
+  const autoDownload = url.searchParams.get("download") === "1";
+  const printTitle = JSON.stringify(`Invoice ${invoice.invoiceNumber}`);
+
   const body = `
+<div class="actions" role="toolbar" aria-label="Invoice actions">
+  <button type="button" class="btn-download" id="download-pdf">Download PDF</button>
+  <button type="button" class="btn-secondary" id="copy-link">Copy share link</button>
+</div>
+<article class="sheet">
 <div class="brand">
   ${from.logoDataUrl ? `<img src="${escapeHtml(from.logoDataUrl)}" alt="">` : `<img src="https://chasa.io/brand/docstoc-icon.png" alt="">`}
   <strong>${escapeHtml(from.name)}</strong>
@@ -199,7 +221,27 @@ ${certBlock}
 
 <footer>
   Generated via <a href="https://chasa.io/">docstoc</a>.
-</footer>`;
+</footer>
+</article>
+<script>
+(function () {
+  var downloadBtn = document.getElementById("download-pdf");
+  var copyBtn = document.getElementById("copy-link");
+  function downloadPdf() {
+    document.title = ${printTitle};
+    window.print();
+  }
+  if (downloadBtn) downloadBtn.addEventListener("click", downloadPdf);
+  if (copyBtn) copyBtn.addEventListener("click", function () {
+    var shareUrl = location.href.replace(/[?&]download=1/, "").replace(/\\?$/, "");
+    navigator.clipboard.writeText(shareUrl).then(function () {
+      copyBtn.textContent = "Copied!";
+      setTimeout(function () { copyBtn.textContent = "Copy share link"; }, 1600);
+    }).catch(function () {});
+  });
+  ${autoDownload ? "window.addEventListener('load', function () { setTimeout(downloadPdf, 250); });" : ""}
+})();
+</script>`;
 
   return new Response(renderPage({ title, canonical, body }), {
     status: 200,

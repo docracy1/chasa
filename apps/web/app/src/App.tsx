@@ -25,6 +25,7 @@ const Certificates = lazy(() => import("./pages/Certificates"));
 const Invoices = lazy(() => import("./pages/Invoices"));
 const AuditLog = lazy(() => import("./pages/AuditLog"));
 const SslCertificates = lazy(() => import("./pages/SslCertificates"));
+const CompanyBadge = lazy(() => import("./pages/CompanyBadge"));
 
 function AppRoutes() {
   const t = useT();
@@ -177,6 +178,14 @@ function AppRoutes() {
               element={
                 <ProtectedRoute>
                   <SslCertificates account={account} />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/company-badge"
+              element={
+                <ProtectedRoute>
+                  <CompanyBadge account={account} />
                 </ProtectedRoute>
               }
             />

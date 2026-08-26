@@ -11,11 +11,10 @@ export function normalizePlan(raw: string | null | undefined, isPaid: boolean): 
 
 /**
  * Certificate slot caps (each row = one LE cert, which may cover multiple names on Pro/Business).
- * Free: 5 × 90-day DV (ZeroSSL-style free wedge). Pro: multi-SAN. Business: wildcards + volume.
+ * All plans: 5 × 90-day DV slots.
+ * Pro adds multi-SAN + ACME API. Business adds those plus 1 wildcard cert (within the 5).
  */
-export function sslDomainLimit(plan: Plan): number {
-  if (plan === "business") return 25;
-  if (plan === "pro") return 10;
+export function sslDomainLimit(_plan: Plan): number {
   return 5;
 }
 
@@ -24,9 +23,14 @@ export function sslAllowsMultiSan(plan: Plan): boolean {
   return plan === "pro" || plan === "business";
 }
 
-/** Wildcard certificates (*.example.com) — Business only (ZeroSSL Premium ~$69/mo wedge). */
+/** Wildcard certificates (*.example.com) — Business only. */
 export function sslAllowsWildcard(plan: Plan): boolean {
   return plan === "business";
+}
+
+/** How many wildcard certificates a plan may hold at once (among the 5 slots). */
+export function sslWildcardLimit(plan: Plan): number {
+  return plan === "business" ? 1 : 0;
 }
 
 /** Max identifiers per certificate order. */
@@ -37,7 +41,7 @@ export function sslMaxSansPerCert(plan: Plan): number {
 }
 
 /**
- * Developer / external ACME-style API positioning — paid plans only.
+ * Developer / external ACME-style API — Pro and Business.
  * Free still uses our managed ACME client in the product UI for its 5 certs.
  */
 export function sslAllowsAcmeApi(plan: Plan): boolean {

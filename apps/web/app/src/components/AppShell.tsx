@@ -23,7 +23,8 @@ type NavIconName =
   | "docTemplates"
   | "ssl"
   | "auditLog"
-  | "invoices";
+  | "invoices"
+  | "companyBadge";
 
 function NavIcon({ name, size = 20 }: { name: NavIconName; size?: number }) {
   const common = {
@@ -146,6 +147,13 @@ function NavIcon({ name, size = 20 }: { name: NavIconName; size?: number }) {
           <path d="M17 16.2v2.6M15.9 17.5h2.2" />
         </svg>
       );
+    case "companyBadge":
+      return (
+        <svg {...common}>
+          <path d="M12 3.5l7 2.2v5.4c0 4.3-2.9 7.4-7 9.4-4.1-2-7-5.1-7-9.4V5.7L12 3.5z" />
+          <path d="M9.2 12.1l1.8 1.8 3.8-3.8" />
+        </svg>
+      );
     case "account":
       return (
         <svg {...common}>
@@ -189,7 +197,7 @@ export default function AppShell({
   const [moreSheetOpen, setMoreSheetOpen] = useState(false);
   const [chasesExpanded, setChasesExpanded] = useState(false);
   const [toolsExpanded, setToolsExpanded] = useState(false);
-  const [templatesExpanded, setTemplatesExpanded] = useState(false);
+  const [marketplaceExpanded, setMarketplaceExpanded] = useState(false);
   const [invoicesExpanded, setInvoicesExpanded] = useState(false);
   const [sslExpanded, setSslExpanded] = useState(false);
   const [certificatesExpanded, setCertificatesExpanded] = useState(false);
@@ -200,11 +208,13 @@ export default function AppShell({
   const view = new URLSearchParams(location.search).get("view");
   const onDashboard = location.pathname === "/" || location.pathname === "";
 
-  // Docracy-style sidebar: 5 core products with nested details, then Tools / workspace.
+  // Product order: Marketplace → SSL → Certificates → Company badge → Invoices + Chases (linked).
   const chasesNav = [
     { pathname: "/", search: "?view=overdue", view: "overdue" as const, label: t("nav.chasesOverdue") },
     { pathname: "/", search: "?view=waiting", view: "waiting" as const, label: t("nav.chasesWaiting") },
     { pathname: "/", search: "?view=paid", view: "paid" as const, label: t("nav.chasesPaid") },
+    { pathname: "/templates", search: "", view: null, label: t("nav.templatesEmails") },
+    { pathname: "/clients", search: "", view: null, label: t("nav.clients") },
   ];
 
   const toolsNav = (
@@ -220,12 +230,12 @@ export default function AppShell({
     ] as const
   ).filter(Boolean) as Array<{ to: string; hash: string | undefined; label: string }>;
 
-  const templatesNav = [
-    { to: "/document-templates", label: t("nav.documentTemplates") },
-    { to: "/templates", label: t("nav.templatesEmails") },
-  ];
+  const marketplaceNav = [{ to: "/document-templates", label: t("nav.documentTemplates") }];
 
-  const invoicesNav = [{ to: "/invoices", label: t("nav.invoicesAll") }];
+  const invoicesNav = [
+    { to: "/invoices", label: t("nav.invoicesAll") },
+    { to: "/clients", label: t("nav.clients") },
+  ];
 
   const sslNav = [{ to: "/ssl-domains", label: t("nav.sslDomainsManage") }];
 
@@ -234,10 +244,13 @@ export default function AppShell({
     { to: "/audit-log", label: t("nav.auditLog") },
   ];
 
-  const chasesPathActive = onDashboard && (view === "overdue" || view === "waiting" || view === "paid");
-  const templatesPathActive =
-    location.pathname.startsWith("/templates") || location.pathname.startsWith("/document-templates");
-  const invoicesPathActive = location.pathname.startsWith("/invoices");
+  const chasesPathActive =
+    (onDashboard && (view === "overdue" || view === "waiting" || view === "paid")) ||
+    location.pathname.startsWith("/templates") ||
+    location.pathname.startsWith("/clients");
+  const marketplacePathActive = location.pathname.startsWith("/document-templates");
+  const invoicesPathActive =
+    location.pathname.startsWith("/invoices") || location.pathname.startsWith("/clients");
   const sslPathActive = location.pathname.startsWith("/ssl-domains");
   const certificatesPathActive =
     location.pathname.startsWith("/certificates") || location.pathname.startsWith("/audit-log");
@@ -256,8 +269,8 @@ export default function AppShell({
   }, [toolsPathActive]);
 
   useEffect(() => {
-    if (templatesPathActive) setTemplatesExpanded(true);
-  }, [templatesPathActive]);
+    if (marketplacePathActive) setMarketplaceExpanded(true);
+  }, [marketplacePathActive]);
 
   useEffect(() => {
     if (invoicesPathActive) setInvoicesExpanded(true);
@@ -274,11 +287,12 @@ export default function AppShell({
   const moreLinks = (
     [
       { to: "/document-templates", label: t("nav.documentTemplates"), icon: "docTemplates" as const },
-      { to: "/templates", label: t("nav.templatesEmails"), icon: "templates" as const },
-      { to: "/invoices", label: t("nav.invoices"), icon: "invoices" as const },
       { to: "/ssl-domains", label: t("nav.sslDomains"), icon: "ssl" as const },
       { to: "/certificates", label: t("nav.certificates"), icon: "certificates" as const },
       { to: "/audit-log", label: t("nav.auditLog"), icon: "auditLog" as const },
+      { to: "/company-badge", label: t("nav.companyBadge"), icon: "companyBadge" as const },
+      { to: "/invoices", label: t("nav.invoices"), icon: "invoices" as const },
+      { to: "/templates", label: t("nav.templatesEmails"), icon: "templates" as const },
       { to: "/?view=overdue", label: t("nav.chasesOverdue"), icon: "chases" as const },
       { to: "/?view=waiting", label: t("nav.chasesWaiting"), icon: "chases" as const },
       { to: "/?view=paid", label: t("nav.chasesPaid"), icon: "chases" as const },
@@ -311,7 +325,8 @@ export default function AppShell({
       | "docTemplates"
       | "templates"
       | "ssl"
-      | "invoices";
+      | "invoices"
+      | "companyBadge";
   }>;
 
   const pageTitles: Array<{ match: (path: string, search: string) => boolean; title: string }> = [
@@ -328,8 +343,9 @@ export default function AppShell({
       title: t("nav.chasesPaid"),
     },
     { match: (p) => p.startsWith("/new"), title: t("nav.newChase") },
-    { match: (p) => p.startsWith("/templates"), title: t("nav.templates") },
+    { match: (p) => p.startsWith("/templates"), title: t("nav.templatesEmails") },
     { match: (p) => p.startsWith("/document-templates"), title: t("nav.documentTemplates") },
+    { match: (p) => p.startsWith("/company-badge"), title: t("nav.companyBadge") },
     { match: (p) => p === "/" || p === "", title: t("nav.dashboard") },
     { match: (p) => p.startsWith("/clients"), title: t("nav.clients") },
     { match: (p) => p.startsWith("/invoices"), title: t("nav.invoices") },
@@ -403,10 +419,6 @@ export default function AppShell({
           <img src={logoSrc} alt="" width="28" height="28" />
           <span>{wordmark}</span>
         </Link>
-        <Link to="/new" className={`dash-new-btn${location.pathname.startsWith("/new") ? " is-active" : ""}`}>
-          {t("nav.new")}
-        </Link>
-
         <nav className="dash-side-nav" aria-label={t("nav.app")}>
           <NavLink
             to="/"
@@ -426,57 +438,26 @@ export default function AppShell({
           <div className="dash-nav-group">
             <button
               type="button"
-              className={`dash-nav-item dash-nav-group-header${templatesPathActive ? " is-active" : ""}`}
-              aria-expanded={templatesExpanded}
-              onClick={() => setTemplatesExpanded((open) => !open)}
+              className={`dash-nav-item dash-nav-group-header${marketplacePathActive ? " is-active" : ""}`}
+              aria-expanded={marketplaceExpanded}
+              onClick={() => setMarketplaceExpanded((open) => !open)}
             >
               <span className="dash-nav-item-label">
                 <NavIcon name="templates" />
-                <span>{t("nav.templates")}</span>
+                <span>{t("nav.marketplace")}</span>
               </span>
-              <span className={`dash-nav-chevron${templatesExpanded ? " is-open" : ""}`} aria-hidden="true">
+              <span className={`dash-nav-chevron${marketplaceExpanded ? " is-open" : ""}`} aria-hidden="true">
                 ⌄
               </span>
             </button>
-            {templatesExpanded ? (
+            {marketplaceExpanded ? (
               <div className="dash-nav-subitems">
-                {templatesNav.map((item) => (
+                {marketplaceNav.map((item) => (
                   <Link
                     key={item.to}
                     to={item.to}
                     className={`dash-nav-subitem${location.pathname.startsWith(item.to) ? " is-active" : ""}`}
-                    onClick={() => setTemplatesExpanded(true)}
-                  >
-                    {item.label}
-                  </Link>
-                ))}
-              </div>
-            ) : null}
-          </div>
-
-          <div className="dash-nav-group">
-            <button
-              type="button"
-              className={`dash-nav-item dash-nav-group-header${invoicesPathActive ? " is-active" : ""}`}
-              aria-expanded={invoicesExpanded}
-              onClick={() => setInvoicesExpanded((open) => !open)}
-            >
-              <span className="dash-nav-item-label">
-                <NavIcon name="invoices" />
-                <span>{t("nav.invoices")}</span>
-              </span>
-              <span className={`dash-nav-chevron${invoicesExpanded ? " is-open" : ""}`} aria-hidden="true">
-                ⌄
-              </span>
-            </button>
-            {invoicesExpanded ? (
-              <div className="dash-nav-subitems">
-                {invoicesNav.map((item) => (
-                  <Link
-                    key={item.to}
-                    to={item.to}
-                    className={`dash-nav-subitem${location.pathname.startsWith(item.to) ? " is-active" : ""}`}
-                    onClick={() => setInvoicesExpanded(true)}
+                    onClick={() => setMarketplaceExpanded(true)}
                   >
                     {item.label}
                   </Link>
@@ -547,51 +528,96 @@ export default function AppShell({
             ) : null}
           </div>
 
-          <div className="dash-nav-group">
-            <button
-              type="button"
-              className={`dash-nav-item dash-nav-group-header${chasesPathActive ? " is-active" : ""}`}
-              aria-expanded={chasesExpanded}
-              onClick={() => {
-                setChasesExpanded((open) => !open);
-                if (!onDashboard) navigate("/");
-              }}
-            >
-              <span className="dash-nav-item-label">
-                <NavIcon name="chases" />
-                <span>{t("nav.chases")}</span>
-              </span>
-              <span className={`dash-nav-chevron${chasesExpanded ? " is-open" : ""}`} aria-hidden="true">
-                ⌄
-              </span>
-            </button>
-            {chasesExpanded ? (
-              <div className="dash-nav-subitems">
-                {chasesNav.map((item) => (
-                  <Link
-                    key={item.view}
-                    to={{ pathname: item.pathname, search: item.search }}
-                    className={`dash-nav-subitem${onDashboard && view === item.view ? " is-active" : ""}`}
-                    onClick={() => setChasesExpanded(true)}
-                  >
-                    {item.label}
-                  </Link>
-                ))}
-              </div>
-            ) : null}
-          </div>
-
-          <div className="dash-side-nav-label">{t("nav.more")}</div>
-
           <NavLink
-            to="/clients"
+            to="/company-badge"
             className={({ isActive }) => (isActive ? "dash-nav-item is-active" : "dash-nav-item")}
           >
             <span className="dash-nav-item-label">
-              <NavIcon name="clients" />
-              <span>{t("nav.clients")}</span>
+              <NavIcon name="companyBadge" />
+              <span>{t("nav.companyBadge")}</span>
             </span>
           </NavLink>
+
+          <div className="dash-nav-cluster" aria-label={t("nav.invoicesAndChases")}>
+            <div className="dash-nav-group">
+              <button
+                type="button"
+                className={`dash-nav-item dash-nav-group-header${invoicesPathActive ? " is-active" : ""}`}
+                aria-expanded={invoicesExpanded}
+                onClick={() => setInvoicesExpanded((open) => !open)}
+              >
+                <span className="dash-nav-item-label">
+                  <NavIcon name="invoices" />
+                  <span>{t("nav.invoices")}</span>
+                </span>
+                <span className={`dash-nav-chevron${invoicesExpanded ? " is-open" : ""}`} aria-hidden="true">
+                  ⌄
+                </span>
+              </button>
+              {invoicesExpanded ? (
+                <div className="dash-nav-subitems">
+                  {invoicesNav.map((item) => (
+                    <Link
+                      key={item.to}
+                      to={item.to}
+                      className={`dash-nav-subitem${location.pathname.startsWith(item.to) ? " is-active" : ""}`}
+                      onClick={() => setInvoicesExpanded(true)}
+                    >
+                      {item.label}
+                    </Link>
+                  ))}
+                </div>
+              ) : null}
+            </div>
+
+            <div className="dash-nav-group">
+              <button
+                type="button"
+                className={`dash-nav-item dash-nav-group-header${chasesPathActive ? " is-active" : ""}`}
+                aria-expanded={chasesExpanded}
+                onClick={() => {
+                  setChasesExpanded((open) => !open);
+                  if (!onDashboard && !location.pathname.startsWith("/templates") && !location.pathname.startsWith("/clients")) {
+                    navigate("/");
+                  }
+                }}
+              >
+                <span className="dash-nav-item-label">
+                  <NavIcon name="chases" />
+                  <span>{t("nav.chases")}</span>
+                </span>
+                <span className={`dash-nav-chevron${chasesExpanded ? " is-open" : ""}`} aria-hidden="true">
+                  ⌄
+                </span>
+              </button>
+              {chasesExpanded ? (
+                <div className="dash-nav-subitems">
+                  {chasesNav.map((item) => {
+                    const to =
+                      item.view != null
+                        ? { pathname: item.pathname, search: item.search }
+                        : item.pathname;
+                    const active =
+                      item.view != null
+                        ? onDashboard && view === item.view
+                        : location.pathname.startsWith(item.pathname);
+                    return (
+                      <Link
+                        key={`${item.pathname}-${item.view ?? item.label}`}
+                        to={to}
+                        className={`dash-nav-subitem${active ? " is-active" : ""}`}
+                        onClick={() => setChasesExpanded(true)}
+                      >
+                        {item.label}
+                      </Link>
+                    );
+                  })}
+                </div>
+              ) : null}
+            </div>
+          </div>
+
+          <div className="dash-side-nav-label">{t("nav.more")}</div>
 
           <div className="dash-nav-group">
             <button
@@ -665,16 +691,8 @@ export default function AppShell({
           onClick={() => setMoreSheetOpen(false)}
         >
           <NavIcon name="templates" size={22} />
-          <span>{t("nav.templates")}</span>
+          <span>{t("nav.marketplace")}</span>
         </NavLink>
-        <Link
-          to="/new"
-          className="app-bottom-nav-fab"
-          aria-label={t("nav.newChase")}
-          onClick={() => setMoreSheetOpen(false)}
-        >
-          <span aria-hidden="true">+</span>
-        </Link>
         <NavLink
           to="/invoices"
           className={({ isActive }) => `app-bottom-nav-item${isActive ? " is-active" : ""}`}
@@ -682,6 +700,14 @@ export default function AppShell({
         >
           <NavIcon name="invoices" size={22} />
           <span>{t("nav.invoices")}</span>
+        </NavLink>
+        <NavLink
+          to="/company-badge"
+          className={({ isActive }) => `app-bottom-nav-item${isActive ? " is-active" : ""}`}
+          onClick={() => setMoreSheetOpen(false)}
+        >
+          <NavIcon name="companyBadge" size={22} />
+          <span>{t("nav.companyBadgeShort")}</span>
         </NavLink>
         <button
           type="button"
@@ -704,10 +730,6 @@ export default function AppShell({
           <div className="app-more-panel">
             <div className="app-more-handle" aria-hidden="true" />
             {account ? <p className="app-more-email">{account.email}</p> : null}
-            <Link to="/templates" onClick={() => setMoreSheetOpen(false)}>
-              <NavIcon name="templates" />
-              <span>{t("nav.templates")}</span>
-            </Link>
             {moreLinks.map((item) => (
               <Link key={item.to} to={item.to} onClick={() => setMoreSheetOpen(false)}>
                 <NavIcon name={item.icon} />

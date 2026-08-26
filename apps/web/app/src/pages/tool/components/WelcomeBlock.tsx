@@ -22,13 +22,6 @@ const PRODUCTS = [
     ctaKey: "welcome.product.templates.cta",
   },
   {
-    to: "/invoices",
-    icon: "☰",
-    titleKey: "welcome.product.invoices.title",
-    bodyKey: "welcome.product.invoices.body",
-    ctaKey: "welcome.product.invoices.cta",
-  },
-  {
     to: "/ssl-domains",
     icon: "◎",
     titleKey: "welcome.product.ssl.title",
@@ -41,6 +34,20 @@ const PRODUCTS = [
     titleKey: "welcome.product.certificates.title",
     bodyKey: "welcome.product.certificates.body",
     ctaKey: "welcome.product.certificates.cta",
+  },
+  {
+    to: "/company-badge",
+    icon: "✓",
+    titleKey: "welcome.product.companyBadge.title",
+    bodyKey: "welcome.product.companyBadge.body",
+    ctaKey: "welcome.product.companyBadge.cta",
+  },
+  {
+    to: "/invoices",
+    icon: "☰",
+    titleKey: "welcome.product.invoices.title",
+    bodyKey: "welcome.product.invoices.body",
+    ctaKey: "welcome.product.invoices.cta",
   },
   {
     to: "/?view=overdue",

@@ -1,10 +1,13 @@
 import { useEffect, useMemo, useState } from "react";
+import { Link } from "react-router-dom";
 import {
   createInvoice,
   deleteInvoice,
+  getBranding,
   listInvoices,
   setInvoiceStatus,
   type Account,
+  type Branding,
   type InvoiceLineItem,
   type InvoiceRecord,
 } from "../lib/api";
@@ -13,19 +16,39 @@ import { useT } from "../lib/i18n";
 
 const EMPTY_ITEM: InvoiceLineItem = { description: "", quantity: 1, unitPrice: 0 };
 
+const CURRENCIES = ["USD", "EUR", "GBP", "CAD", "AUD", "CHF", "MXN", "BRL"] as const;
+
+type DuePreset = "receipt" | "net15" | "net30" | "custom";
+
 function todayIso(): string {
   return new Date().toISOString().slice(0, 10);
 }
 
-function inTwoWeeksIso(): string {
-  const d = new Date();
-  d.setDate(d.getDate() + 14);
+function addDaysIso(iso: string, days: number): string {
+  const d = new Date(`${iso}T12:00:00`);
+  d.setDate(d.getDate() + days);
   return d.toISOString().slice(0, 10);
+}
+
+function formatMoney(n: number, currency: string): string {
+  try {
+    return new Intl.NumberFormat(undefined, { style: "currency", currency }).format(n);
+  } catch {
+    return `${currency} ${n.toFixed(2)}`;
+  }
+}
+
+function dueFromPreset(preset: DuePreset, issue: string): string {
+  if (preset === "receipt") return issue;
+  if (preset === "net15") return addDaysIso(issue, 15);
+  if (preset === "net30") return addDaysIso(issue, 30);
+  return addDaysIso(issue, 14);
 }
 
 export default function InvoicesPage({ account }: { account: Account | null }) {
   const t = useT();
   const [invoices, setInvoices] = useState<InvoiceRecord[]>([]);
+  const [branding, setBranding] = useState<Branding | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [creating, setCreating] = useState(false);
@@ -35,7 +58,8 @@ export default function InvoicesPage({ account }: { account: Account | null }) {
   const [clientName, setClientName] = useState("");
   const [clientEmail, setClientEmail] = useState("");
   const [issueDate, setIssueDate] = useState(todayIso());
-  const [dueDate, setDueDate] = useState(inTwoWeeksIso());
+  const [dueDate, setDueDate] = useState(addDaysIso(todayIso(), 14));
+  const [duePreset, setDuePreset] = useState<DuePreset>("net15");
   const [currency, setCurrency] = useState("USD");
   const [taxRate, setTaxRate] = useState(0);
   const [notes, setNotes] = useState("");
@@ -62,8 +86,23 @@ export default function InvoicesPage({ account }: { account: Account | null }) {
   }
 
   useEffect(() => {
-    if (account) refresh();
-    else setLoading(false);
+    if (!account) {
+      setLoading(false);
+      return;
+    }
+    refresh();
+    getBranding()
+      .then(setBranding)
+      .catch(() =>
+        setBranding({
+          workspaceName: null,
+          logoDataUrl: null,
+          paymentLink: null,
+          lateFeeEnabled: false,
+          lateFeeHint: null,
+          paid: false,
+        })
+      );
   }, [account?.email]);
 
   function updateItem(index: number, patch: Partial<InvoiceLineItem>) {
@@ -72,6 +111,23 @@ export default function InvoicesPage({ account }: { account: Account | null }) {
 
   function removeItem(index: number) {
     setLineItems((items) => (items.length > 1 ? items.filter((_, i) => i !== index) : items));
+  }
+
+  function duplicateItem(index: number) {
+    setLineItems((items) => {
+      const copy = { ...items[index]! };
+      return [...items.slice(0, index + 1), copy, ...items.slice(index + 1)];
+    });
+  }
+
+  function applyDuePreset(preset: DuePreset, issue = issueDate) {
+    setDuePreset(preset);
+    if (preset !== "custom") setDueDate(dueFromPreset(preset, issue));
+  }
+
+  function onIssueDateChange(next: string) {
+    setIssueDate(next);
+    if (duePreset !== "custom") setDueDate(dueFromPreset(duePreset, next));
   }
 
   async function handleCreate(e: React.FormEvent) {
@@ -100,6 +156,7 @@ export default function InvoicesPage({ account }: { account: Account | null }) {
       setClientEmail("");
       setNotes("");
       setLineItems([{ ...EMPTY_ITEM }]);
+      setTaxRate(0);
       await refresh();
     } catch (err) {
       setError(err instanceof Error ? err.message : t("invoices.createFailed"));
@@ -151,131 +208,283 @@ export default function InvoicesPage({ account }: { account: Account | null }) {
     );
   }
 
+  const fromName = branding?.workspaceName?.trim() || account.workspaceName?.trim() || account.email;
+  const logo = branding?.logoDataUrl || account.logoDataUrl || null;
+
   return (
-    <div className="webhooks-page">
-      <section className="branding-card">
-        <h1 className="webhooks-title">{t("invoices.title")}</h1>
-        <p className="branding-help">{t("invoices.pageSub")}</p>
+    <div className="invoice-gen-page">
+      <form className="invoice-editor" onSubmit={handleCreate}>
+        <div className="invoice-editor-bar">
+          <div className="invoice-editor-bar-spacer" />
+          <h1 className="invoice-editor-heading">{t("invoices.newTitle")}</h1>
+          <button type="submit" className="invoice-editor-save" disabled={creating}>
+            {creating ? t("invoices.creating") : t("invoices.save")}
+          </button>
+        </div>
 
-        <form onSubmit={handleCreate} style={{ marginTop: 16 }}>
-          <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
-            <label style={{ flex: "1 1 220px" }}>
-              {t("invoices.clientName")}
-              <input value={clientName} onChange={(e) => setClientName(e.target.value)} required />
-            </label>
-            <label style={{ flex: "1 1 220px" }}>
-              {t("invoices.clientEmail")}
-              <input type="email" value={clientEmail} onChange={(e) => setClientEmail(e.target.value)} />
-            </label>
-          </div>
-
-          <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginTop: 12 }}>
-            <label>
-              {t("invoices.issueDate")}
-              <input type="date" value={issueDate} onChange={(e) => setIssueDate(e.target.value)} required />
-            </label>
-            <label>
-              {t("invoices.dueDate")}
-              <input type="date" value={dueDate} onChange={(e) => setDueDate(e.target.value)} required />
-            </label>
-            <label>
-              {t("invoices.currency")}
-              <input value={currency} maxLength={3} onChange={(e) => setCurrency(e.target.value.toUpperCase())} style={{ width: 70 }} />
-            </label>
-            <label>
-              {t("invoices.taxRate")}
-              <input
-                type="number"
-                min={0}
-                max={100}
-                step={0.1}
-                value={taxRate}
-                onChange={(e) => setTaxRate(Number(e.target.value))}
-                style={{ width: 90 }}
-              />
-            </label>
-          </div>
-
-          <div style={{ marginTop: 16 }}>
-            {lineItems.map((item, i) => (
-              <div key={i} style={{ display: "flex", gap: 8, alignItems: "flex-end", marginBottom: 8, flexWrap: "wrap" }}>
-                <label style={{ flex: "1 1 240px" }}>
-                  {i === 0 ? t("invoices.itemDescription") : ""}
-                  <input
-                    value={item.description}
-                    onChange={(e) => updateItem(i, { description: e.target.value })}
-                    placeholder={t("invoices.itemDescriptionPlaceholder")}
-                  />
-                </label>
-                <label style={{ width: 80 }}>
-                  {i === 0 ? t("invoices.itemQty") : ""}
-                  <input
-                    type="number"
-                    min={0}
-                    step={1}
-                    value={item.quantity}
-                    onChange={(e) => updateItem(i, { quantity: Number(e.target.value) })}
-                  />
-                </label>
-                <label style={{ width: 110 }}>
-                  {i === 0 ? t("invoices.itemPrice") : ""}
-                  <input
-                    type="number"
-                    min={0}
-                    step={0.01}
-                    value={item.unitPrice}
-                    onChange={(e) => updateItem(i, { unitPrice: Number(e.target.value) })}
-                  />
-                </label>
-                <button type="button" className="btn-secondary" onClick={() => removeItem(i)}>
-                  {t("invoices.removeItem")}
-                </button>
+        <div className="invoice-sheet">
+          <div className="invoice-sheet-top">
+            <div className="invoice-sheet-intro">
+              <div className="invoice-sheet-title-row">
+                <span className="invoice-draft-badge">{t("invoices.statusDraft")}</span>
+                <span className="invoice-doc-label">{t("invoices.docTitle")}</span>
               </div>
-            ))}
+              <p className="invoice-sheet-hint">{t("invoices.pageSubShort")}</p>
+            </div>
+            <div className="invoice-logo" aria-hidden={logo ? undefined : true}>
+              {logo ? (
+                <img src={logo} alt="" />
+              ) : (
+                <span>{t("invoices.logoPlaceholder")}</span>
+              )}
+            </div>
+          </div>
+
+          <div className="invoice-meta-row">
+            <label className="invoice-field">
+              <span>{t("invoices.invoiceNo")}</span>
+              <div className="invoice-number-wrap">
+                <span className="invoice-hash">#</span>
+                <input value={t("invoices.numberPreview")} readOnly tabIndex={-1} />
+              </div>
+            </label>
+            <label className="invoice-field">
+              <span>{t("invoices.currency")}</span>
+              <select value={currency} onChange={(e) => setCurrency(e.target.value)}>
+                {CURRENCIES.map((c) => (
+                  <option key={c} value={c}>
+                    {c}
+                  </option>
+                ))}
+              </select>
+            </label>
+          </div>
+
+          <div className="invoice-parties">
+            <div className="invoice-party">
+              <div className="invoice-party-label">{t("invoices.from")}</div>
+              <div className="invoice-party-body">
+                <strong>{fromName}</strong>
+                {branding?.paymentLink ? (
+                  <div className="invoice-party-muted">{branding.paymentLink}</div>
+                ) : null}
+                <Link className="invoice-party-link" to="/branding">
+                  {t("invoices.editBusinessProfile")}
+                </Link>
+              </div>
+
+              <div className="invoice-party-label" style={{ marginTop: 22 }}>
+                {t("invoices.to")}
+              </div>
+              <div className="invoice-party-body">
+                <input
+                  className="invoice-client-name"
+                  value={clientName}
+                  onChange={(e) => setClientName(e.target.value)}
+                  placeholder={t("invoices.clientNamePlaceholder")}
+                  required
+                />
+                <input
+                  type="email"
+                  value={clientEmail}
+                  onChange={(e) => setClientEmail(e.target.value)}
+                  placeholder={t("invoices.clientEmail")}
+                />
+              </div>
+            </div>
+
+            <div className="invoice-dates">
+              <label className="invoice-field">
+                <span>{t("invoices.issueDate")}</span>
+                <input type="date" value={issueDate} onChange={(e) => onIssueDateChange(e.target.value)} required />
+              </label>
+              <label className="invoice-field">
+                <span>{t("invoices.dueDate")}</span>
+                <select
+                  value={duePreset}
+                  onChange={(e) => applyDuePreset(e.target.value as DuePreset)}
+                >
+                  <option value="receipt">{t("invoices.dueReceipt")}</option>
+                  <option value="net15">{t("invoices.dueNet15")}</option>
+                  <option value="net30">{t("invoices.dueNet30")}</option>
+                  <option value="custom">{t("invoices.dueCustom")}</option>
+                </select>
+              </label>
+              {duePreset === "custom" || duePreset !== "receipt" ? (
+                <label className="invoice-field">
+                  <span>{t("invoices.dueDateExact")}</span>
+                  <input
+                    type="date"
+                    value={dueDate}
+                    onChange={(e) => {
+                      setDuePreset("custom");
+                      setDueDate(e.target.value);
+                    }}
+                    required
+                  />
+                </label>
+              ) : null}
+            </div>
+          </div>
+
+          <div className="invoice-items">
+            <div className="invoice-items-head">
+              <span className="invoice-col-desc">{t("invoices.itemDescription")}</span>
+              <span className="invoice-col-qty">{t("invoices.itemQty")}</span>
+              <span className="invoice-col-rate">{t("invoices.itemPrice")}</span>
+              <span className="invoice-col-amt">{t("invoices.itemAmount")}</span>
+              <span className="invoice-col-actions" />
+            </div>
+
+            {lineItems.map((item, i) => {
+              const amount = item.quantity * item.unitPrice;
+              return (
+                <div key={i} className="invoice-item-row">
+                  <span className="invoice-drag" aria-hidden="true">
+                    ⠿
+                  </span>
+                  <div className="invoice-col-desc">
+                    <textarea
+                      rows={2}
+                      value={item.description}
+                      onChange={(e) => updateItem(i, { description: e.target.value })}
+                      placeholder={t("invoices.itemDescriptionPlaceholder")}
+                    />
+                    <div className="invoice-item-tools">
+                      <button
+                        type="button"
+                        className="invoice-icon-btn"
+                        title={t("invoices.duplicateItem")}
+                        onClick={() => duplicateItem(i)}
+                      >
+                        ⎘
+                      </button>
+                    </div>
+                  </div>
+                  <div className="invoice-col-qty">
+                    <input
+                      type="number"
+                      min={0}
+                      step={1}
+                      value={item.quantity}
+                      onChange={(e) => updateItem(i, { quantity: Number(e.target.value) })}
+                    />
+                  </div>
+                  <div className="invoice-col-rate">
+                    <input
+                      type="number"
+                      min={0}
+                      step={0.01}
+                      value={item.unitPrice}
+                      onChange={(e) => updateItem(i, { unitPrice: Number(e.target.value) })}
+                    />
+                  </div>
+                  <div className="invoice-col-amt">
+                    <span className="invoice-amount-readout">{formatMoney(amount, currency)}</span>
+                  </div>
+                  <div className="invoice-col-actions">
+                    <button
+                      type="button"
+                      className="invoice-icon-btn"
+                      title={t("invoices.removeItem")}
+                      onClick={() => removeItem(i)}
+                      disabled={lineItems.length <= 1}
+                    >
+                      ×
+                    </button>
+                  </div>
+                </div>
+              );
+            })}
+
             <button
               type="button"
-              className="btn-secondary"
+              className="invoice-new-line"
               onClick={() => setLineItems((items) => [...items, { ...EMPTY_ITEM }])}
             >
-              {t("invoices.addItem")}
+              {t("invoices.newLine")} ▾
             </button>
           </div>
 
-          <label style={{ display: "block", marginTop: 12 }}>
-            {t("invoices.notes")}
-            <textarea value={notes} onChange={(e) => setNotes(e.target.value)} rows={2} style={{ width: "100%" }} />
-          </label>
+          <div className="invoice-summary">
+            <div className="invoice-summary-row">
+              <span>{t("invoices.subtotal")}</span>
+              <span>{formatMoney(totals.subtotal, currency)}</span>
+            </div>
+            <div className="invoice-summary-row invoice-tax-row">
+              <span className="invoice-tax-label">
+                {t("invoices.tax")}
+                <input
+                  type="number"
+                  min={0}
+                  max={100}
+                  step={0.1}
+                  value={taxRate}
+                  onChange={(e) => setTaxRate(Number(e.target.value))}
+                  aria-label={t("invoices.taxRate")}
+                />
+                <span className="invoice-tax-pct">%</span>
+              </span>
+              <span>{formatMoney(totals.taxAmount, currency)}</span>
+            </div>
+            <div className="invoice-summary-row invoice-total-row">
+              <span>{t("invoices.totalLabel", { currency })}</span>
+              <span>{formatMoney(totals.total, currency)}</span>
+            </div>
+            <div className="invoice-balance">
+              <span className="invoice-balance-label">{t("invoices.balance")}</span>
+              <span className="invoice-balance-value">
+                {currency} {totals.total.toFixed(2)}
+              </span>
+            </div>
+          </div>
 
-          <div className="page-sub" style={{ marginTop: 12 }}>
-            {t("invoices.totalPreview", {
-              total: totals.total.toFixed(2),
-              currency,
-            })}
+          <div className="invoice-note-block">
+            <div className="invoice-note-label">{t("invoices.invoiceNote")}</div>
+            <textarea
+              rows={3}
+              value={notes}
+              onChange={(e) => setNotes(e.target.value)}
+              placeholder={t("invoices.notesPlaceholder")}
+            />
           </div>
 
           {error && <div className="error-msg">{error}</div>}
 
-          <button type="submit" className="btn-primary" disabled={creating} style={{ marginTop: 12 }}>
-            {creating ? t("invoices.creating") : t("invoices.create")}
-          </button>
-        </form>
-
-        {lastCreated && (
-          <div className="branding-card" style={{ marginTop: 16 }}>
-            <h2>{t("invoices.created")}</h2>
-            <p>{t("invoices.shareLink")}</p>
-            <code>{`${appOrigin}/invoice/${lastCreated.publicId}`}</code>
-            <div style={{ display: "flex", gap: 8, marginTop: 8, flexWrap: "wrap" }}>
-              <button type="button" className="btn-secondary" onClick={() => handleCopy(lastCreated.publicId)}>
-                {copiedId === lastCreated.publicId ? t("invoices.copied") : t("invoices.copyLink")}
-              </button>
-              <a className="btn-secondary" href={`/invoice/${lastCreated.publicId}`} target="_blank" rel="noopener noreferrer">
-                {t("invoices.viewInvoice")}
-              </a>
-            </div>
+          <div className="invoice-sheet-footer">
+            <button type="submit" className="invoice-new-line" disabled={creating}>
+              {creating ? t("invoices.creating") : t("invoices.create")}
+            </button>
           </div>
-        )}
+        </div>
+      </form>
 
+      {lastCreated && (
+        <div className="invoice-created-banner">
+          <h2>{t("invoices.created")}</h2>
+          <p>{t("invoices.shareLink")}</p>
+          <code>{`${appOrigin}/invoice/${lastCreated.publicId}`}</code>
+          <div className="invoice-created-actions">
+            <button type="button" className="btn-secondary" onClick={() => handleCopy(lastCreated.publicId)}>
+              {copiedId === lastCreated.publicId ? t("invoices.copied") : t("invoices.copyLink")}
+            </button>
+            <a className="btn-secondary" href={`/invoice/${lastCreated.publicId}`} target="_blank" rel="noopener noreferrer">
+              {t("invoices.viewInvoice")}
+            </a>
+            <a
+              className="btn-primary"
+              href={`/invoice/${lastCreated.publicId}?download=1`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {t("invoices.downloadPdf")}
+            </a>
+          </div>
+        </div>
+      )}
+
+      <section className="invoice-list-section">
+        <h2 className="invoice-list-title">{t("invoices.listTitle")}</h2>
         {loading ? (
           <p className="page-sub">{t("common.loading")}</p>
         ) : invoices.length === 0 ? (
@@ -291,8 +500,8 @@ export default function InvoicesPage({ account }: { account: Account | null }) {
                     {inv.status === "paid"
                       ? t("invoices.statusPaid")
                       : inv.status === "sent"
-                      ? t("invoices.statusSent")
-                      : t("invoices.statusDraft")}
+                        ? t("invoices.statusSent")
+                        : t("invoices.statusDraft")}
                     {inv.certificatePublicId && <> · {t("invoices.certified")}</>}
                   </div>
                 </div>
@@ -300,6 +509,14 @@ export default function InvoicesPage({ account }: { account: Account | null }) {
                   <button type="button" className="btn-secondary" onClick={() => handleCopy(inv.publicId)}>
                     {copiedId === inv.publicId ? t("invoices.copied") : t("invoices.copyLink")}
                   </button>
+                  <a
+                    className="btn-secondary"
+                    href={`/invoice/${inv.publicId}?download=1`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {t("invoices.downloadPdf")}
+                  </a>
                   {inv.certificatePublicId && (
                     <a
                       className="btn-secondary"
