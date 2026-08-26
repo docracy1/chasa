@@ -87,12 +87,12 @@
   ]
 }
 </script>
-<link rel="icon" href="/favicon.png?v=20260826e" type="image/png">
-<link rel="icon" href="/favicon.svg?v=20260826e" type="image/svg+xml">
-<link rel="apple-touch-icon" href="/apple-touch-icon.png?v=20260826e">
+<link rel="icon" href="/favicon.png?v=20260826f" type="image/png">
+<link rel="icon" href="/favicon.svg?v=20260826f" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png?v=20260826f">
 <link rel="preload" href="/fonts/inter-400.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/fonts/inter-700.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/site.css?v=20260826e">
+<link rel="stylesheet" href="/site.css?v=20260826f">
 </head>
 <body>
 <header class="site-header">
@@ -260,9 +260,15 @@
 
   <p class="tpl-seo-intro">Drafting a living will (advance healthcare directive) from scratch is slow, and generic templates often miss the sections that actually matter. This free template is built for individuals and small businesses handling a straightforward legal document themselves needing a clear, professional document without commissioning custom legal drafting for a routine situation. It's structured with the standard sections a document like this needs, with clearly marked [placeholder] fields so you can fill in your own details quickly. Copy it into your own word processor, fill in the placeholders, and review it — or adapt it — before use. It's part of docstoc's free document template library, alongside business, legal, real estate, finance, and HR templates. Every template here is free to copy with no signup required, and each one carries a plain disclaimer: this is a starting point for informational purposes, not a substitute for advice from a licensed professional in your jurisdiction.</p>
 
-  <div class="tpl-box">
-    <div class="tpl-label">Template</div>
-    <div class="tpl-doc-body"><h1>Living Will (Advance Healthcare Directive)</h1>
+  <div class="tpl-box tpl-editor" data-slug="living-will-template">
+    <div class="tpl-label">Template — click to edit</div>
+    <div class="tpl-editor-toolbar">
+      <button type="button" class="btn-download-pdf">Download PDF</button>
+      <button type="button" class="btn-copy btn-copy-secondary" data-copy="%23%20Living%20Will%20(Advance%20Healthcare%20Directive)%0A%0AI%2C%20%5BYour%20Full%20Legal%20Name%5D%2C%20being%20of%20sound%20mind%2C%20make%20this%20declaration%20of%20my%20wishes%20regarding%20medical%20treatment%20if%20I%20become%20unable%20to%20communicate%20them%20myself.%0A%0A%23%23%201.%20Statement%20of%20Wishes%0AIf%20I%20am%20diagnosed%20with%20a%20terminal%20condition%20or%20am%20permanently%20unconscious%2C%20and%20my%20doctors%20agree%20there%20is%20no%20reasonable%20hope%20of%20recovery%2C%20I%20direct%20that%3A%0A%0A%5B%20%5D%20I%20want%20life-sustaining%20treatment%20withheld%20or%20withdrawn%2C%20allowing%20natural%20death%2C%20except%20for%20treatment%20to%20keep%20me%20comfortable.%0A%5B%20%5D%20I%20want%20life-sustaining%20treatment%20provided%20regardless%20of%20my%20condition.%0A%5B%20%5D%20Other%20instructions%3A%20%5BDescribe%5D%0A%0A%23%23%202.%20Specific%20Treatments%0AArtificial%20nutrition%2Fhydration%3A%20%5BWishes%5D%0ACPR%3A%20%5BWishes%5D%0AMechanical%20ventilation%3A%20%5BWishes%5D%0A%0A%23%23%203.%20Healthcare%20Agent%20(if%20also%20naming%20one)%0AI%20appoint%20%5BName%5D%20as%20my%20healthcare%20agent%20to%20make%20medical%20decisions%20on%20my%20behalf%20if%20I%20cannot%2C%20consistent%20with%20the%20wishes%20stated%20above.%20%5BNote%3A%20a%20separate%20Healthcare%20Power%20of%20Attorney%20document%20may%20be%20required%20in%20your%20state%20for%20this%20appointment%20to%20be%20legally%20effective.%5D%0A%0A%23%23%204.%20Organ%20Donation%0A%5B%20%5D%20I%20wish%20to%20donate%20my%20organs%2Ftissues%20upon%20death.%0A%5B%20%5D%20I%20do%20not%20wish%20to%20donate.%0A%0A---%0ASignature%3A%20______________________%20%20Date%3A%20____________%0A%0A**Witnesses**%20(most%20states%20require%202%20witnesses%2C%20and%20some%20require%20notarization)%3A%0AWitness%201%3A%20______________________%20%20Date%3A%20____________%0AWitness%202%3A%20______________________%20%20Date%3A%20____________%0A%0A*This%20document%20is%20provided%20for%20informational%20and%20educational%20purposes%20only%20and%20is%20NOT%20a%20substitute%20for%20legal%20advice.%20Living%20wills%20have%20strict%2C%20state-specific%20execution%20requirements%2C%20and%20many%20states%20use%20their%20own%20official%20statutory%20form%20%E2%80%94%20check%20your%20state's%20specific%20form%20(often%20available%20free%20from%20your%20state%20health%20department%20or%20hospital)%20rather%20than%20relying%20solely%20on%20a%20generic%20template%20for%20something%20this%20important.*" data-copy-label="Copy markdown">Copy markdown</button>
+      <button type="button" class="btn-reset btn-copy-secondary">Reset</button>
+    </div>
+    <div class="tpl-doc-sheet" id="tpl-print-area">
+      <div class="tpl-doc-body tpl-doc-editor" contenteditable="true" spellcheck="true"><h1>Living Will (Advance Healthcare Directive)</h1>
 <p>I, [Your Full Legal Name], being of sound mind, make this declaration of my wishes regarding medical treatment if I become unable to communicate them myself.</p>
 <h2>1. Statement of Wishes</h2>
 <p>If I am diagnosed with a terminal condition or am permanently unconscious, and my doctors agree there is no reasonable hope of recovery, I direct that:</p>
@@ -277,17 +283,22 @@
 <p>Signature: ______________________  Date: ____________</p>
 <p><strong>Witnesses</strong> (most states require 2 witnesses, and some require notarization): Witness 1: ______________________  Date: ____________ Witness 2: ______________________  Date: ____________</p>
 <p>*This document is provided for informational and educational purposes only and is NOT a substitute for legal advice. Living wills have strict, state-specific execution requirements, and many states use their own official statutory form — check your state's specific form (often available free from your state health department or hospital) rather than relying solely on a generic template for something this important.*</p></div>
-    <button type="button" class="btn-copy" data-copy="%23%20Living%20Will%20(Advance%20Healthcare%20Directive)%0A%0AI%2C%20%5BYour%20Full%20Legal%20Name%5D%2C%20being%20of%20sound%20mind%2C%20make%20this%20declaration%20of%20my%20wishes%20regarding%20medical%20treatment%20if%20I%20become%20unable%20to%20communicate%20them%20myself.%0A%0A%23%23%201.%20Statement%20of%20Wishes%0AIf%20I%20am%20diagnosed%20with%20a%20terminal%20condition%20or%20am%20permanently%20unconscious%2C%20and%20my%20doctors%20agree%20there%20is%20no%20reasonable%20hope%20of%20recovery%2C%20I%20direct%20that%3A%0A%0A%5B%20%5D%20I%20want%20life-sustaining%20treatment%20withheld%20or%20withdrawn%2C%20allowing%20natural%20death%2C%20except%20for%20treatment%20to%20keep%20me%20comfortable.%0A%5B%20%5D%20I%20want%20life-sustaining%20treatment%20provided%20regardless%20of%20my%20condition.%0A%5B%20%5D%20Other%20instructions%3A%20%5BDescribe%5D%0A%0A%23%23%202.%20Specific%20Treatments%0AArtificial%20nutrition%2Fhydration%3A%20%5BWishes%5D%0ACPR%3A%20%5BWishes%5D%0AMechanical%20ventilation%3A%20%5BWishes%5D%0A%0A%23%23%203.%20Healthcare%20Agent%20(if%20also%20naming%20one)%0AI%20appoint%20%5BName%5D%20as%20my%20healthcare%20agent%20to%20make%20medical%20decisions%20on%20my%20behalf%20if%20I%20cannot%2C%20consistent%20with%20the%20wishes%20stated%20above.%20%5BNote%3A%20a%20separate%20Healthcare%20Power%20of%20Attorney%20document%20may%20be%20required%20in%20your%20state%20for%20this%20appointment%20to%20be%20legally%20effective.%5D%0A%0A%23%23%204.%20Organ%20Donation%0A%5B%20%5D%20I%20wish%20to%20donate%20my%20organs%2Ftissues%20upon%20death.%0A%5B%20%5D%20I%20do%20not%20wish%20to%20donate.%0A%0A---%0ASignature%3A%20______________________%20%20Date%3A%20____________%0A%0A**Witnesses**%20(most%20states%20require%202%20witnesses%2C%20and%20some%20require%20notarization)%3A%0AWitness%201%3A%20______________________%20%20Date%3A%20____________%0AWitness%202%3A%20______________________%20%20Date%3A%20____________%0A%0A*This%20document%20is%20provided%20for%20informational%20and%20educational%20purposes%20only%20and%20is%20NOT%20a%20substitute%20for%20legal%20advice.%20Living%20wills%20have%20strict%2C%20state-specific%20execution%20requirements%2C%20and%20many%20states%20use%20their%20own%20official%20statutory%20form%20%E2%80%94%20check%20your%20state's%20specific%20form%20(often%20available%20free%20from%20your%20state%20health%20department%20or%20hospital)%20rather%20than%20relying%20solely%20on%20a%20generic%20template%20for%20something%20this%20important.*">Copy template</button>
+      <footer class="tpl-doc-footer" contenteditable="false" aria-label="docstoc branding">
+        <img src="/brand/docstoc-icon.png" alt="" width="20" height="20" />
+        <span>docstoc.io</span>
+      </footer>
+    </div>
+    <p class="tpl-editor-hint">Edit directly in the box above. Download PDF anytime — the docstoc.io footer is always included and cannot be removed.</p>
   </div>
 
   <h2>What's included</h2>
   <ul class="tpl-included">
-        <li>A complete, ready-to-copy document structure with all standard sections</li>
+        <li>Edit online — click the document, fill in placeholders, download a PDF</li>
+        <li>A complete document structure with all standard sections</li>
         <li>Clearly marked [placeholder] fields for quick personalizing</li>
-        <li>Free to copy and use — no account or signup required</li>
-        <li>Plain-language sections instead of dense legal boilerplate</li>
+        <li>Free to use — no account or signup required</li>
         <li>Fully editable — adjust any clause to match your actual situation</li>
-        <li>A clear disclaimer noting this is not legal or tax advice</li>
+        <li>Fixed docstoc.io footer on every PDF (not removable)</li>
   </ul>
 
   <h2>Who this template is for</h2>
@@ -371,17 +382,7 @@
     <a class="nav-cta" href="/app/certificates">Create a free certificate</a>
   </div>
 </main>
-<script>
-document.querySelectorAll(".btn-copy").forEach(function (btn) {
-  btn.addEventListener("click", function () {
-    var text = decodeURIComponent(btn.getAttribute("data-copy"));
-    navigator.clipboard.writeText(text).then(function () {
-      btn.textContent = "Copied";
-      setTimeout(function () { btn.textContent = "Copy template"; }, 1500);
-    });
-  });
-});
-</script>
+<script src="/document-template-editor.js?v=20260826f" defer></script>
 </main>
 <footer class="site-footer">
   <div class="wrap site-footer-inner">
@@ -448,21 +449,21 @@ document.querySelectorAll(".btn-copy").forEach(function (btn) {
     <video
       id="revival-modal-video"
       class="how-modal-video"
-      src="/videos/docstoc-is-back.webm?v=20260826e"
-      poster="/videos/docstoc-is-back-poster.jpg?v=20260826e"
+      src="/videos/docstoc-is-back.webm?v=20260826f"
+      poster="/videos/docstoc-is-back-poster.jpg?v=20260826f"
       controls
       playsinline
       preload="metadata"
     >
-      <track kind="captions" src="/videos/docstoc-is-back.en.vtt?v=20260826e" srclang="en" label="English" default>
-      <track kind="captions" src="/videos/docstoc-is-back.es.vtt?v=20260826e" srclang="es" label="Español">
+      <track kind="captions" src="/videos/docstoc-is-back.en.vtt?v=20260826f" srclang="en" label="English" default>
+      <track kind="captions" src="/videos/docstoc-is-back.es.vtt?v=20260826f" srclang="es" label="Español">
     </video>
   </div>
 </div>
-<script src="/site-lang.js?v=20260826e" defer></script>
-<script src="/site-nav.js?v=20260826e" defer></script>
-<script src="/cookie-consent.js?v=20260826e" defer></script>
-<script src="/analytics.js?v=20260826e" defer></script>
+<script src="/site-lang.js?v=20260826f" defer></script>
+<script src="/site-nav.js?v=20260826f" defer></script>
+<script src="/cookie-consent.js?v=20260826f" defer></script>
+<script src="/analytics.js?v=20260826f" defer></script>
 <script>
 /* Contact sales → docstoc Assistant (Docracy pattern). */
 (function () {

@@ -6,11 +6,10 @@
 import { mkdirSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { chrome, escapeHtml, trustBadgesHtml, conversionSectionHtml } from "./lib/chrome.mjs";
+import { chrome, escapeHtml, trustBadgesHtml, conversionSectionHtml, ASSET_V } from "./lib/chrome.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const outDir = join(__dirname, "../public/free-templates");
-const ASSET_V = "20260804k";
 
 /** Category order controls both the "Categories" jump menu and section order on the page. */
 const CATEGORIES = [
@@ -36762,12 +36761,12 @@ function buildDocumentSeoIntro(t) {
 
 function buildDocumentWhatsIncluded(t) {
   return [
-    "A complete, ready-to-copy document structure with all standard sections",
+    "Edit online — click the document, fill in placeholders, download a PDF",
+    "A complete document structure with all standard sections",
     "Clearly marked [placeholder] fields for quick personalizing",
-    "Free to copy and use — no account or signup required",
-    "Plain-language sections instead of dense legal boilerplate",
+    "Free to use — no account or signup required",
     "Fully editable — adjust any clause to match your actual situation",
-    "A clear disclaimer noting this is not legal or tax advice",
+    "Fixed docstoc.io footer on every PDF (not removable)",
   ];
 }
 
@@ -36877,10 +36876,21 @@ for (const t of DOCUMENT_TEMPLATES) {
 
   <p class="tpl-seo-intro">${buildDocumentSeoIntro(t)}</p>
 
-  <div class="tpl-box">
-    <div class="tpl-label">Template</div>
-    <div class="tpl-doc-body">${bodyHtml}</div>
-    <button type="button" class="btn-copy" data-copy="${encodeURIComponent(t.bodyMarkdown)}">Copy template</button>
+  <div class="tpl-box tpl-editor" data-slug="${escapeHtml(t.slug)}">
+    <div class="tpl-label">Template — click to edit</div>
+    <div class="tpl-editor-toolbar">
+      <button type="button" class="btn-download-pdf">Download PDF</button>
+      <button type="button" class="btn-copy btn-copy-secondary" data-copy="${encodeURIComponent(t.bodyMarkdown)}" data-copy-label="Copy markdown">Copy markdown</button>
+      <button type="button" class="btn-reset btn-copy-secondary">Reset</button>
+    </div>
+    <div class="tpl-doc-sheet" id="tpl-print-area">
+      <div class="tpl-doc-body tpl-doc-editor" contenteditable="true" spellcheck="true">${bodyHtml}</div>
+      <footer class="tpl-doc-footer" contenteditable="false" aria-label="docstoc branding">
+        <img src="/brand/docstoc-icon.png" alt="" width="20" height="20" />
+        <span>docstoc.io</span>
+      </footer>
+    </div>
+    <p class="tpl-editor-hint">Edit directly in the box above. Download PDF anytime — the docstoc.io footer is always included and cannot be removed.</p>
   </div>
 
   <h2>What's included</h2>
@@ -36908,17 +36918,7 @@ for (const t of DOCUMENT_TEMPLATES) {
     <a class="nav-cta" href="/app/certificates">Create a free certificate</a>
   </div>
 </main>
-<script>
-document.querySelectorAll(".btn-copy").forEach(function (btn) {
-  btn.addEventListener("click", function () {
-    var text = decodeURIComponent(btn.getAttribute("data-copy"));
-    navigator.clipboard.writeText(text).then(function () {
-      btn.textContent = "Copied";
-      setTimeout(function () { btn.textContent = "Copy template"; }, 1500);
-    });
-  });
-});
-</script>`,
+<script src="/document-template-editor.js?v=${ASSET_V}" defer></script>`,
   });
 
   writeFileSync(join(docOutDir, `${t.slug}.html`), page);

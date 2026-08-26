@@ -87,12 +87,12 @@
   ]
 }
 </script>
-<link rel="icon" href="/favicon.png?v=20260826e" type="image/png">
-<link rel="icon" href="/favicon.svg?v=20260826e" type="image/svg+xml">
-<link rel="apple-touch-icon" href="/apple-touch-icon.png?v=20260826e">
+<link rel="icon" href="/favicon.png?v=20260826f" type="image/png">
+<link rel="icon" href="/favicon.svg?v=20260826f" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png?v=20260826f">
 <link rel="preload" href="/fonts/inter-400.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/fonts/inter-700.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/site.css?v=20260826e">
+<link rel="stylesheet" href="/site.css?v=20260826f">
 </head>
 <body>
 <header class="site-header">
@@ -260,9 +260,15 @@
 
   <p class="tpl-seo-intro">Drafting a corporate bylaws from scratch is slow, and generic templates often miss the sections that actually matter. This free template is built for individuals and small businesses handling a straightforward legal document themselves needing a clear, professional document without commissioning custom legal drafting for a routine situation. It's structured with the standard sections a document like this needs, with clearly marked [placeholder] fields so you can fill in your own details quickly. Copy it into your own word processor, fill in the placeholders, and review it — or adapt it — before use. It's part of docstoc's free document template library, alongside business, legal, real estate, finance, and HR templates. Every template here is free to copy with no signup required, and each one carries a plain disclaimer: this is a starting point for informational purposes, not a substitute for advice from a licensed professional in your jurisdiction.</p>
 
-  <div class="tpl-box">
-    <div class="tpl-label">Template</div>
-    <div class="tpl-doc-body"><h1>Bylaws of [Company Name]</h1>
+  <div class="tpl-box tpl-editor" data-slug="corporate-bylaws-template">
+    <div class="tpl-label">Template — click to edit</div>
+    <div class="tpl-editor-toolbar">
+      <button type="button" class="btn-download-pdf">Download PDF</button>
+      <button type="button" class="btn-copy btn-copy-secondary" data-copy="%23%20Bylaws%20of%20%5BCompany%20Name%5D%0A%0A%23%23%20Article%201%3A%20Offices%0AThe%20corporation's%20principal%20office%20is%20located%20at%20%5BAddress%5D.%20The%20corporation%20may%20have%20other%20offices%20as%20the%20board%20determines.%0A%0A%23%23%20Article%202%3A%20Shareholders%0AAnnual%20shareholder%20meetings%20are%20held%20%5BTiming%2C%20e.g.%20%22in%20the%20second%20quarter%20of%20each%20fiscal%20year%22%5D.%20Special%20meetings%20may%20be%20called%20by%20%5Bthe%20Board%20%2F%20holders%20of%20at%20least%20X%25%20of%20shares%5D.%20Notice%20must%20be%20given%20at%20least%20%5BNumber%5D%20days%20in%20advance.%0A%0A%23%23%20Article%203%3A%20Board%20of%20Directors%0AThe%20board%20consists%20of%20%5BNumber%5D%20director(s)%2C%20elected%20annually%20by%20shareholders.%20The%20board%20manages%20the%20corporation's%20business%20and%20affairs%20and%20may%20act%20by%20majority%20vote%20at%20a%20meeting%2C%20or%20by%20unanimous%20written%20consent.%0A%0A%23%23%20Article%204%3A%20Officers%0AThe%20corporation's%20officers%20are%3A%20%5BPresident%2FCEO%2C%20Secretary%2C%20Treasurer%2FCFO%20%E2%80%94%20describe%20duties%20briefly%5D.%20Officers%20are%20appointed%20by%20the%20board%20and%20serve%20at%20its%20discretion.%0A%0A%23%23%20Article%205%3A%20Stock%0AThe%20corporation%20is%20authorized%20to%20issue%20%5BNumber%5D%20shares%20of%20%5BClass%5D%20stock.%20Shares%20are%20transferable%20per%20%5BState%5D%20law%20and%20any%20shareholder%20agreement%20then%20in%20effect.%0A%0A%23%23%20Article%206%3A%20Indemnification%0AThe%20corporation%20will%20indemnify%20directors%20and%20officers%20to%20the%20fullest%20extent%20permitted%20by%20%5BState%5D%20law%20for%20actions%20taken%20in%20good%20faith%20on%20the%20corporation's%20behalf.%0A%0A%23%23%20Article%207%3A%20Amendments%0AThese%20Bylaws%20may%20be%20amended%20by%20%5Bboard%20resolution%20%2F%20shareholder%20vote%20of%20X%25%5D.%0A%0A---%0AAdopted%20by%20the%20Board%20of%20Directors%20on%20%5BDate%5D.%0ASecretary%20signature%3A%20______________________%0A%0A*This%20document%20is%20provided%20for%20informational%20and%20educational%20purposes%20only%20and%20does%20not%20constitute%20legal%20advice.%20Bylaw%20requirements%20vary%20by%20state%20%E2%80%94%20have%20a%20licensed%20attorney%20review%20the%20final%20version%20before%20adoption.*" data-copy-label="Copy markdown">Copy markdown</button>
+      <button type="button" class="btn-reset btn-copy-secondary">Reset</button>
+    </div>
+    <div class="tpl-doc-sheet" id="tpl-print-area">
+      <div class="tpl-doc-body tpl-doc-editor" contenteditable="true" spellcheck="true"><h1>Bylaws of [Company Name]</h1>
 <h2>Article 1: Offices</h2>
 <p>The corporation's principal office is located at [Address]. The corporation may have other offices as the board determines.</p>
 <h2>Article 2: Shareholders</h2>
@@ -280,17 +286,22 @@
 <hr>
 <p>Adopted by the Board of Directors on [Date]. Secretary signature: ______________________</p>
 <p>*This document is provided for informational and educational purposes only and does not constitute legal advice. Bylaw requirements vary by state — have a licensed attorney review the final version before adoption.*</p></div>
-    <button type="button" class="btn-copy" data-copy="%23%20Bylaws%20of%20%5BCompany%20Name%5D%0A%0A%23%23%20Article%201%3A%20Offices%0AThe%20corporation's%20principal%20office%20is%20located%20at%20%5BAddress%5D.%20The%20corporation%20may%20have%20other%20offices%20as%20the%20board%20determines.%0A%0A%23%23%20Article%202%3A%20Shareholders%0AAnnual%20shareholder%20meetings%20are%20held%20%5BTiming%2C%20e.g.%20%22in%20the%20second%20quarter%20of%20each%20fiscal%20year%22%5D.%20Special%20meetings%20may%20be%20called%20by%20%5Bthe%20Board%20%2F%20holders%20of%20at%20least%20X%25%20of%20shares%5D.%20Notice%20must%20be%20given%20at%20least%20%5BNumber%5D%20days%20in%20advance.%0A%0A%23%23%20Article%203%3A%20Board%20of%20Directors%0AThe%20board%20consists%20of%20%5BNumber%5D%20director(s)%2C%20elected%20annually%20by%20shareholders.%20The%20board%20manages%20the%20corporation's%20business%20and%20affairs%20and%20may%20act%20by%20majority%20vote%20at%20a%20meeting%2C%20or%20by%20unanimous%20written%20consent.%0A%0A%23%23%20Article%204%3A%20Officers%0AThe%20corporation's%20officers%20are%3A%20%5BPresident%2FCEO%2C%20Secretary%2C%20Treasurer%2FCFO%20%E2%80%94%20describe%20duties%20briefly%5D.%20Officers%20are%20appointed%20by%20the%20board%20and%20serve%20at%20its%20discretion.%0A%0A%23%23%20Article%205%3A%20Stock%0AThe%20corporation%20is%20authorized%20to%20issue%20%5BNumber%5D%20shares%20of%20%5BClass%5D%20stock.%20Shares%20are%20transferable%20per%20%5BState%5D%20law%20and%20any%20shareholder%20agreement%20then%20in%20effect.%0A%0A%23%23%20Article%206%3A%20Indemnification%0AThe%20corporation%20will%20indemnify%20directors%20and%20officers%20to%20the%20fullest%20extent%20permitted%20by%20%5BState%5D%20law%20for%20actions%20taken%20in%20good%20faith%20on%20the%20corporation's%20behalf.%0A%0A%23%23%20Article%207%3A%20Amendments%0AThese%20Bylaws%20may%20be%20amended%20by%20%5Bboard%20resolution%20%2F%20shareholder%20vote%20of%20X%25%5D.%0A%0A---%0AAdopted%20by%20the%20Board%20of%20Directors%20on%20%5BDate%5D.%0ASecretary%20signature%3A%20______________________%0A%0A*This%20document%20is%20provided%20for%20informational%20and%20educational%20purposes%20only%20and%20does%20not%20constitute%20legal%20advice.%20Bylaw%20requirements%20vary%20by%20state%20%E2%80%94%20have%20a%20licensed%20attorney%20review%20the%20final%20version%20before%20adoption.*">Copy template</button>
+      <footer class="tpl-doc-footer" contenteditable="false" aria-label="docstoc branding">
+        <img src="/brand/docstoc-icon.png" alt="" width="20" height="20" />
+        <span>docstoc.io</span>
+      </footer>
+    </div>
+    <p class="tpl-editor-hint">Edit directly in the box above. Download PDF anytime — the docstoc.io footer is always included and cannot be removed.</p>
   </div>
 
   <h2>What's included</h2>
   <ul class="tpl-included">
-        <li>A complete, ready-to-copy document structure with all standard sections</li>
+        <li>Edit online — click the document, fill in placeholders, download a PDF</li>
+        <li>A complete document structure with all standard sections</li>
         <li>Clearly marked [placeholder] fields for quick personalizing</li>
-        <li>Free to copy and use — no account or signup required</li>
-        <li>Plain-language sections instead of dense legal boilerplate</li>
+        <li>Free to use — no account or signup required</li>
         <li>Fully editable — adjust any clause to match your actual situation</li>
-        <li>A clear disclaimer noting this is not legal or tax advice</li>
+        <li>Fixed docstoc.io footer on every PDF (not removable)</li>
   </ul>
 
   <h2>Who this template is for</h2>
@@ -374,17 +385,7 @@
     <a class="nav-cta" href="/app/certificates">Create a free certificate</a>
   </div>
 </main>
-<script>
-document.querySelectorAll(".btn-copy").forEach(function (btn) {
-  btn.addEventListener("click", function () {
-    var text = decodeURIComponent(btn.getAttribute("data-copy"));
-    navigator.clipboard.writeText(text).then(function () {
-      btn.textContent = "Copied";
-      setTimeout(function () { btn.textContent = "Copy template"; }, 1500);
-    });
-  });
-});
-</script>
+<script src="/document-template-editor.js?v=20260826f" defer></script>
 </main>
 <footer class="site-footer">
   <div class="wrap site-footer-inner">
@@ -451,21 +452,21 @@ document.querySelectorAll(".btn-copy").forEach(function (btn) {
     <video
       id="revival-modal-video"
       class="how-modal-video"
-      src="/videos/docstoc-is-back.webm?v=20260826e"
-      poster="/videos/docstoc-is-back-poster.jpg?v=20260826e"
+      src="/videos/docstoc-is-back.webm?v=20260826f"
+      poster="/videos/docstoc-is-back-poster.jpg?v=20260826f"
       controls
       playsinline
       preload="metadata"
     >
-      <track kind="captions" src="/videos/docstoc-is-back.en.vtt?v=20260826e" srclang="en" label="English" default>
-      <track kind="captions" src="/videos/docstoc-is-back.es.vtt?v=20260826e" srclang="es" label="Español">
+      <track kind="captions" src="/videos/docstoc-is-back.en.vtt?v=20260826f" srclang="en" label="English" default>
+      <track kind="captions" src="/videos/docstoc-is-back.es.vtt?v=20260826f" srclang="es" label="Español">
     </video>
   </div>
 </div>
-<script src="/site-lang.js?v=20260826e" defer></script>
-<script src="/site-nav.js?v=20260826e" defer></script>
-<script src="/cookie-consent.js?v=20260826e" defer></script>
-<script src="/analytics.js?v=20260826e" defer></script>
+<script src="/site-lang.js?v=20260826f" defer></script>
+<script src="/site-nav.js?v=20260826f" defer></script>
+<script src="/cookie-consent.js?v=20260826f" defer></script>
+<script src="/analytics.js?v=20260826f" defer></script>
 <script>
 /* Contact sales → docstoc Assistant (Docracy pattern). */
 (function () {

@@ -87,12 +87,12 @@
   ]
 }
 </script>
-<link rel="icon" href="/favicon.png?v=20260826e" type="image/png">
-<link rel="icon" href="/favicon.svg?v=20260826e" type="image/svg+xml">
-<link rel="apple-touch-icon" href="/apple-touch-icon.png?v=20260826e">
+<link rel="icon" href="/favicon.png?v=20260826f" type="image/png">
+<link rel="icon" href="/favicon.svg?v=20260826f" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png?v=20260826f">
 <link rel="preload" href="/fonts/inter-400.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/fonts/inter-700.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/site.css?v=20260826e">
+<link rel="stylesheet" href="/site.css?v=20260826f">
 </head>
 <body>
 <header class="site-header">
@@ -260,9 +260,15 @@
 
   <p class="tpl-seo-intro">Drafting a data backup policy from scratch is slow, and generic templates often miss the sections that actually matter. This free template is built for founders, freelancers, and small business owners formalizing a business decision or agreement without paying a lawyer to draft it from scratch. It's structured with the standard sections a document like this needs, with clearly marked [placeholder] fields so you can fill in your own details quickly. Copy it into your own word processor, fill in the placeholders, and review it — or adapt it — before use. It's part of docstoc's free document template library, alongside business, legal, real estate, finance, and HR templates. Every template here is free to copy with no signup required, and each one carries a plain disclaimer: this is a starting point for informational purposes, not a substitute for advice from a licensed professional in your jurisdiction.</p>
 
-  <div class="tpl-box">
-    <div class="tpl-label">Template</div>
-    <div class="tpl-doc-body"><h1>Data Backup Policy</h1>
+  <div class="tpl-box tpl-editor" data-slug="data-backup-policy-template">
+    <div class="tpl-label">Template — click to edit</div>
+    <div class="tpl-editor-toolbar">
+      <button type="button" class="btn-download-pdf">Download PDF</button>
+      <button type="button" class="btn-copy btn-copy-secondary" data-copy="%23%20Data%20Backup%20Policy%0A%0A**Company%3A**%20%5BCompany%20Name%5D%20%C2%B7%20**Effective%20Date%3A**%20%5BDate%5D%0A%0A%23%23%20Purpose%0AThis%20policy%20ensures%20%5BCompany%20Name%5D's%20critical%20data%20can%20be%20recovered%20in%20the%20event%20of%20hardware%20failure%2C%20cyberattack%2C%20or%20other%20data%20loss%20event.%0A%0A%23%23%20Backup%20Schedule%0A%7C%20Data%20Type%20%7C%20Backup%20Frequency%20%7C%20Retention%20Period%20%7C%0A%7C----------------%7C------------------------%7C------------------------%7C%0A%7C%20%5BDatabase%2Fproduction%20data%5D%20%7C%20%5Be.g.%20daily%5D%20%7C%20%5Be.g.%2030%20days%5D%20%7C%0A%7C%20%5BFile%20servers%5D%20%7C%20%5Be.g.%20daily%5D%20%7C%20%5Be.g.%2090%20days%5D%20%7C%0A%7C%20%5BEmail%5D%20%7C%20%5Be.g.%20continuous%2Fdaily%5D%20%7C%20%5Be.g.%20per%20legal%20retention%20needs%5D%20%7C%0A%0A%23%23%20Backup%20Storage%0ABackups%20are%20stored%20%5Bon-site%20AND%20off-site%2Fcloud%5D%2C%20following%20the%203-2-1%20principle%3A%20at%20least%203%20copies%2C%20on%202%20different%20media%20types%2C%20with%201%20copy%20off-site.%0A%0A%23%23%20Encryption%0ABackups%20containing%20sensitive%20data%20are%20encrypted%20both%20in%20transit%20and%20at%20rest.%0A%0A%23%23%20Testing%0ABackup%20restoration%20is%20tested%20%5BFrequency%2C%20e.g.%20quarterly%5D%20to%20confirm%20backups%20are%20actually%20recoverable%2C%20not%20just%20being%20created.%0A%0A%23%23%20Access%20Control%0AAccess%20to%20backup%20systems%20and%20files%20is%20restricted%20to%20%5Bdesignated%20IT%20roles%5D.%0A%0A%23%23%20Incident%20Response%0AIn%20the%20event%20of%20data%20loss%2C%20%5BIT%20contact%5D%20will%20assess%20the%20situation%20and%20initiate%20recovery%20per%20the%20Incident%20Response%20Plan.%0A%0A---%0AAdopted%20by%3A%20______________________%20%20Date%3A%20____________%0A%0A*Testing%20actual%20restoration%20(not%20just%20confirming%20backups%20run%20successfully)%20is%20the%20step%20most%20organizations%20skip%20%E2%80%94%20and%20it's%20the%20one%20that%20matters%2C%20since%20a%20corrupted%20or%20incomplete%20backup%20that%20%22completed%20successfully%22%20every%20night%20can%20still%20fail%20completely%20when%20you%20actually%20need%20to%20restore%20from%20it.*" data-copy-label="Copy markdown">Copy markdown</button>
+      <button type="button" class="btn-reset btn-copy-secondary">Reset</button>
+    </div>
+    <div class="tpl-doc-sheet" id="tpl-print-area">
+      <div class="tpl-doc-body tpl-doc-editor" contenteditable="true" spellcheck="true"><h1>Data Backup Policy</h1>
 <p><strong>Company:</strong> [Company Name] · <strong>Effective Date:</strong> [Date]</p>
 <h2>Purpose</h2>
 <p>This policy ensures [Company Name]'s critical data can be recovered in the event of hardware failure, cyberattack, or other data loss event.</p>
@@ -286,17 +292,22 @@
 <hr>
 <p>Adopted by: ______________________  Date: ____________</p>
 <p>*Testing actual restoration (not just confirming backups run successfully) is the step most organizations skip — and it's the one that matters, since a corrupted or incomplete backup that &quot;completed successfully&quot; every night can still fail completely when you actually need to restore from it.*</p></div>
-    <button type="button" class="btn-copy" data-copy="%23%20Data%20Backup%20Policy%0A%0A**Company%3A**%20%5BCompany%20Name%5D%20%C2%B7%20**Effective%20Date%3A**%20%5BDate%5D%0A%0A%23%23%20Purpose%0AThis%20policy%20ensures%20%5BCompany%20Name%5D's%20critical%20data%20can%20be%20recovered%20in%20the%20event%20of%20hardware%20failure%2C%20cyberattack%2C%20or%20other%20data%20loss%20event.%0A%0A%23%23%20Backup%20Schedule%0A%7C%20Data%20Type%20%7C%20Backup%20Frequency%20%7C%20Retention%20Period%20%7C%0A%7C----------------%7C------------------------%7C------------------------%7C%0A%7C%20%5BDatabase%2Fproduction%20data%5D%20%7C%20%5Be.g.%20daily%5D%20%7C%20%5Be.g.%2030%20days%5D%20%7C%0A%7C%20%5BFile%20servers%5D%20%7C%20%5Be.g.%20daily%5D%20%7C%20%5Be.g.%2090%20days%5D%20%7C%0A%7C%20%5BEmail%5D%20%7C%20%5Be.g.%20continuous%2Fdaily%5D%20%7C%20%5Be.g.%20per%20legal%20retention%20needs%5D%20%7C%0A%0A%23%23%20Backup%20Storage%0ABackups%20are%20stored%20%5Bon-site%20AND%20off-site%2Fcloud%5D%2C%20following%20the%203-2-1%20principle%3A%20at%20least%203%20copies%2C%20on%202%20different%20media%20types%2C%20with%201%20copy%20off-site.%0A%0A%23%23%20Encryption%0ABackups%20containing%20sensitive%20data%20are%20encrypted%20both%20in%20transit%20and%20at%20rest.%0A%0A%23%23%20Testing%0ABackup%20restoration%20is%20tested%20%5BFrequency%2C%20e.g.%20quarterly%5D%20to%20confirm%20backups%20are%20actually%20recoverable%2C%20not%20just%20being%20created.%0A%0A%23%23%20Access%20Control%0AAccess%20to%20backup%20systems%20and%20files%20is%20restricted%20to%20%5Bdesignated%20IT%20roles%5D.%0A%0A%23%23%20Incident%20Response%0AIn%20the%20event%20of%20data%20loss%2C%20%5BIT%20contact%5D%20will%20assess%20the%20situation%20and%20initiate%20recovery%20per%20the%20Incident%20Response%20Plan.%0A%0A---%0AAdopted%20by%3A%20______________________%20%20Date%3A%20____________%0A%0A*Testing%20actual%20restoration%20(not%20just%20confirming%20backups%20run%20successfully)%20is%20the%20step%20most%20organizations%20skip%20%E2%80%94%20and%20it's%20the%20one%20that%20matters%2C%20since%20a%20corrupted%20or%20incomplete%20backup%20that%20%22completed%20successfully%22%20every%20night%20can%20still%20fail%20completely%20when%20you%20actually%20need%20to%20restore%20from%20it.*">Copy template</button>
+      <footer class="tpl-doc-footer" contenteditable="false" aria-label="docstoc branding">
+        <img src="/brand/docstoc-icon.png" alt="" width="20" height="20" />
+        <span>docstoc.io</span>
+      </footer>
+    </div>
+    <p class="tpl-editor-hint">Edit directly in the box above. Download PDF anytime — the docstoc.io footer is always included and cannot be removed.</p>
   </div>
 
   <h2>What's included</h2>
   <ul class="tpl-included">
-        <li>A complete, ready-to-copy document structure with all standard sections</li>
+        <li>Edit online — click the document, fill in placeholders, download a PDF</li>
+        <li>A complete document structure with all standard sections</li>
         <li>Clearly marked [placeholder] fields for quick personalizing</li>
-        <li>Free to copy and use — no account or signup required</li>
-        <li>Plain-language sections instead of dense legal boilerplate</li>
+        <li>Free to use — no account or signup required</li>
         <li>Fully editable — adjust any clause to match your actual situation</li>
-        <li>A clear disclaimer noting this is not legal or tax advice</li>
+        <li>Fixed docstoc.io footer on every PDF (not removable)</li>
   </ul>
 
   <h2>Who this template is for</h2>
@@ -380,17 +391,7 @@
     <a class="nav-cta" href="/app/certificates">Create a free certificate</a>
   </div>
 </main>
-<script>
-document.querySelectorAll(".btn-copy").forEach(function (btn) {
-  btn.addEventListener("click", function () {
-    var text = decodeURIComponent(btn.getAttribute("data-copy"));
-    navigator.clipboard.writeText(text).then(function () {
-      btn.textContent = "Copied";
-      setTimeout(function () { btn.textContent = "Copy template"; }, 1500);
-    });
-  });
-});
-</script>
+<script src="/document-template-editor.js?v=20260826f" defer></script>
 </main>
 <footer class="site-footer">
   <div class="wrap site-footer-inner">
@@ -457,21 +458,21 @@ document.querySelectorAll(".btn-copy").forEach(function (btn) {
     <video
       id="revival-modal-video"
       class="how-modal-video"
-      src="/videos/docstoc-is-back.webm?v=20260826e"
-      poster="/videos/docstoc-is-back-poster.jpg?v=20260826e"
+      src="/videos/docstoc-is-back.webm?v=20260826f"
+      poster="/videos/docstoc-is-back-poster.jpg?v=20260826f"
       controls
       playsinline
       preload="metadata"
     >
-      <track kind="captions" src="/videos/docstoc-is-back.en.vtt?v=20260826e" srclang="en" label="English" default>
-      <track kind="captions" src="/videos/docstoc-is-back.es.vtt?v=20260826e" srclang="es" label="Español">
+      <track kind="captions" src="/videos/docstoc-is-back.en.vtt?v=20260826f" srclang="en" label="English" default>
+      <track kind="captions" src="/videos/docstoc-is-back.es.vtt?v=20260826f" srclang="es" label="Español">
     </video>
   </div>
 </div>
-<script src="/site-lang.js?v=20260826e" defer></script>
-<script src="/site-nav.js?v=20260826e" defer></script>
-<script src="/cookie-consent.js?v=20260826e" defer></script>
-<script src="/analytics.js?v=20260826e" defer></script>
+<script src="/site-lang.js?v=20260826f" defer></script>
+<script src="/site-nav.js?v=20260826f" defer></script>
+<script src="/cookie-consent.js?v=20260826f" defer></script>
+<script src="/analytics.js?v=20260826f" defer></script>
 <script>
 /* Contact sales → docstoc Assistant (Docracy pattern). */
 (function () {

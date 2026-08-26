@@ -87,12 +87,12 @@
   ]
 }
 </script>
-<link rel="icon" href="/favicon.png?v=20260826e" type="image/png">
-<link rel="icon" href="/favicon.svg?v=20260826e" type="image/svg+xml">
-<link rel="apple-touch-icon" href="/apple-touch-icon.png?v=20260826e">
+<link rel="icon" href="/favicon.png?v=20260826f" type="image/png">
+<link rel="icon" href="/favicon.svg?v=20260826f" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png?v=20260826f">
 <link rel="preload" href="/fonts/inter-400.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/fonts/inter-700.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/site.css?v=20260826e">
+<link rel="stylesheet" href="/site.css?v=20260826f">
 </head>
 <body>
 <header class="site-header">
@@ -260,9 +260,15 @@
 
   <p class="tpl-seo-intro">Drafting a audit plan from scratch is slow, and generic templates often miss the sections that actually matter. This free template is built for founders, freelancers, and small business owners formalizing a business decision or agreement without paying a lawyer to draft it from scratch. It's structured with the standard sections a document like this needs, with clearly marked [placeholder] fields so you can fill in your own details quickly. Copy it into your own word processor, fill in the placeholders, and review it — or adapt it — before use. It's part of docstoc's free document template library, alongside business, legal, real estate, finance, and HR templates. Every template here is free to copy with no signup required, and each one carries a plain disclaimer: this is a starting point for informational purposes, not a substitute for advice from a licensed professional in your jurisdiction.</p>
 
-  <div class="tpl-box">
-    <div class="tpl-label">Template</div>
-    <div class="tpl-doc-body"><h1>Audit Plan: [Area to be Audited]</h1>
+  <div class="tpl-box tpl-editor" data-slug="audit-plan-template">
+    <div class="tpl-label">Template — click to edit</div>
+    <div class="tpl-editor-toolbar">
+      <button type="button" class="btn-download-pdf">Download PDF</button>
+      <button type="button" class="btn-copy btn-copy-secondary" data-copy="%23%20Audit%20Plan%3A%20%5BArea%20to%20be%20Audited%5D%0A%0A**Auditor%3A**%20%5BName%5D%20%C2%B7%20**Date%20Prepared%3A**%20%5BDate%5D%0A**Audit%20Period%3A**%20%5BFieldwork%20Start%20Date%5D%20%E2%80%93%20%5BEnd%20Date%5D%0A%0A%23%23%20Objectives%0A%5BWhat%20this%20audit%20is%20meant%20to%20determine%20%E2%80%94%20e.g.%20compliance%20with%20a%20policy%2C%20accuracy%20of%20a%20process%2C%20effectiveness%20of%20a%20control.%5D%0A%0A%23%23%20Scope%0A**In%20scope%3A**%20%5BWhat%20will%20be%20reviewed%5D%0A**Out%20of%20scope%3A**%20%5BWhat's%20excluded%2C%20and%20why%5D%0A%0A%23%23%20Approach%0A%5BMethodology%20%E2%80%94%20document%20review%2C%20interviews%2C%20sampling%2C%20testing%20%E2%80%94%20and%20the%20basis%20for%20any%20sample%20size.%5D%0A%0A%23%23%20Schedule%0A%7C%20Phase%20%7C%20Activity%20%7C%20Dates%20%7C%0A%7C-------%7C----------%7C-------%7C%0A%7C%20Planning%20%7C%20%5BActivity%5D%20%7C%20%5BDates%5D%20%7C%0A%7C%20Fieldwork%20%7C%20%5BActivity%5D%20%7C%20%5BDates%5D%20%7C%0A%7C%20Reporting%20%7C%20%5BActivity%5D%20%7C%20%5BDates%5D%20%7C%0A%0A%23%23%20Resources%20Needed%0A%5BWho's%20involved%2C%20and%20what%20access%2Fdocuments%20are%20needed%20from%20the%20audited%20area%5D%0A%0A%23%23%20Key%20Risks%20Being%20Assessed%0A%5BThe%20specific%20risks%20this%20audit%20is%20designed%20to%20test%20for%5D%0A%0A*An%20audit%20plan%20that's%20shared%20with%20the%20audited%20team%20in%20advance%20(rather%20than%20a%20surprise)%20tends%20to%20get%20better%20cooperation%20and%20access%20%E2%80%94%20surprise%20audits%20have%20their%20place%2C%20but%20they're%20the%20exception%2C%20not%20the%20default.*" data-copy-label="Copy markdown">Copy markdown</button>
+      <button type="button" class="btn-reset btn-copy-secondary">Reset</button>
+    </div>
+    <div class="tpl-doc-sheet" id="tpl-print-area">
+      <div class="tpl-doc-body tpl-doc-editor" contenteditable="true" spellcheck="true"><h1>Audit Plan: [Area to be Audited]</h1>
 <p><strong>Auditor:</strong> [Name] · <strong>Date Prepared:</strong> [Date] <strong>Audit Period:</strong> [Fieldwork Start Date] – [End Date]</p>
 <h2>Objectives</h2>
 <p>[What this audit is meant to determine — e.g. compliance with a policy, accuracy of a process, effectiveness of a control.]</p>
@@ -282,17 +288,22 @@
 <h2>Key Risks Being Assessed</h2>
 <p>[The specific risks this audit is designed to test for]</p>
 <p>*An audit plan that's shared with the audited team in advance (rather than a surprise) tends to get better cooperation and access — surprise audits have their place, but they're the exception, not the default.*</p></div>
-    <button type="button" class="btn-copy" data-copy="%23%20Audit%20Plan%3A%20%5BArea%20to%20be%20Audited%5D%0A%0A**Auditor%3A**%20%5BName%5D%20%C2%B7%20**Date%20Prepared%3A**%20%5BDate%5D%0A**Audit%20Period%3A**%20%5BFieldwork%20Start%20Date%5D%20%E2%80%93%20%5BEnd%20Date%5D%0A%0A%23%23%20Objectives%0A%5BWhat%20this%20audit%20is%20meant%20to%20determine%20%E2%80%94%20e.g.%20compliance%20with%20a%20policy%2C%20accuracy%20of%20a%20process%2C%20effectiveness%20of%20a%20control.%5D%0A%0A%23%23%20Scope%0A**In%20scope%3A**%20%5BWhat%20will%20be%20reviewed%5D%0A**Out%20of%20scope%3A**%20%5BWhat's%20excluded%2C%20and%20why%5D%0A%0A%23%23%20Approach%0A%5BMethodology%20%E2%80%94%20document%20review%2C%20interviews%2C%20sampling%2C%20testing%20%E2%80%94%20and%20the%20basis%20for%20any%20sample%20size.%5D%0A%0A%23%23%20Schedule%0A%7C%20Phase%20%7C%20Activity%20%7C%20Dates%20%7C%0A%7C-------%7C----------%7C-------%7C%0A%7C%20Planning%20%7C%20%5BActivity%5D%20%7C%20%5BDates%5D%20%7C%0A%7C%20Fieldwork%20%7C%20%5BActivity%5D%20%7C%20%5BDates%5D%20%7C%0A%7C%20Reporting%20%7C%20%5BActivity%5D%20%7C%20%5BDates%5D%20%7C%0A%0A%23%23%20Resources%20Needed%0A%5BWho's%20involved%2C%20and%20what%20access%2Fdocuments%20are%20needed%20from%20the%20audited%20area%5D%0A%0A%23%23%20Key%20Risks%20Being%20Assessed%0A%5BThe%20specific%20risks%20this%20audit%20is%20designed%20to%20test%20for%5D%0A%0A*An%20audit%20plan%20that's%20shared%20with%20the%20audited%20team%20in%20advance%20(rather%20than%20a%20surprise)%20tends%20to%20get%20better%20cooperation%20and%20access%20%E2%80%94%20surprise%20audits%20have%20their%20place%2C%20but%20they're%20the%20exception%2C%20not%20the%20default.*">Copy template</button>
+      <footer class="tpl-doc-footer" contenteditable="false" aria-label="docstoc branding">
+        <img src="/brand/docstoc-icon.png" alt="" width="20" height="20" />
+        <span>docstoc.io</span>
+      </footer>
+    </div>
+    <p class="tpl-editor-hint">Edit directly in the box above. Download PDF anytime — the docstoc.io footer is always included and cannot be removed.</p>
   </div>
 
   <h2>What's included</h2>
   <ul class="tpl-included">
-        <li>A complete, ready-to-copy document structure with all standard sections</li>
+        <li>Edit online — click the document, fill in placeholders, download a PDF</li>
+        <li>A complete document structure with all standard sections</li>
         <li>Clearly marked [placeholder] fields for quick personalizing</li>
-        <li>Free to copy and use — no account or signup required</li>
-        <li>Plain-language sections instead of dense legal boilerplate</li>
+        <li>Free to use — no account or signup required</li>
         <li>Fully editable — adjust any clause to match your actual situation</li>
-        <li>A clear disclaimer noting this is not legal or tax advice</li>
+        <li>Fixed docstoc.io footer on every PDF (not removable)</li>
   </ul>
 
   <h2>Who this template is for</h2>
@@ -376,17 +387,7 @@
     <a class="nav-cta" href="/app/certificates">Create a free certificate</a>
   </div>
 </main>
-<script>
-document.querySelectorAll(".btn-copy").forEach(function (btn) {
-  btn.addEventListener("click", function () {
-    var text = decodeURIComponent(btn.getAttribute("data-copy"));
-    navigator.clipboard.writeText(text).then(function () {
-      btn.textContent = "Copied";
-      setTimeout(function () { btn.textContent = "Copy template"; }, 1500);
-    });
-  });
-});
-</script>
+<script src="/document-template-editor.js?v=20260826f" defer></script>
 </main>
 <footer class="site-footer">
   <div class="wrap site-footer-inner">
@@ -453,21 +454,21 @@ document.querySelectorAll(".btn-copy").forEach(function (btn) {
     <video
       id="revival-modal-video"
       class="how-modal-video"
-      src="/videos/docstoc-is-back.webm?v=20260826e"
-      poster="/videos/docstoc-is-back-poster.jpg?v=20260826e"
+      src="/videos/docstoc-is-back.webm?v=20260826f"
+      poster="/videos/docstoc-is-back-poster.jpg?v=20260826f"
       controls
       playsinline
       preload="metadata"
     >
-      <track kind="captions" src="/videos/docstoc-is-back.en.vtt?v=20260826e" srclang="en" label="English" default>
-      <track kind="captions" src="/videos/docstoc-is-back.es.vtt?v=20260826e" srclang="es" label="Español">
+      <track kind="captions" src="/videos/docstoc-is-back.en.vtt?v=20260826f" srclang="en" label="English" default>
+      <track kind="captions" src="/videos/docstoc-is-back.es.vtt?v=20260826f" srclang="es" label="Español">
     </video>
   </div>
 </div>
-<script src="/site-lang.js?v=20260826e" defer></script>
-<script src="/site-nav.js?v=20260826e" defer></script>
-<script src="/cookie-consent.js?v=20260826e" defer></script>
-<script src="/analytics.js?v=20260826e" defer></script>
+<script src="/site-lang.js?v=20260826f" defer></script>
+<script src="/site-nav.js?v=20260826f" defer></script>
+<script src="/cookie-consent.js?v=20260826f" defer></script>
+<script src="/analytics.js?v=20260826f" defer></script>
 <script>
 /* Contact sales → docstoc Assistant (Docracy pattern). */
 (function () {
