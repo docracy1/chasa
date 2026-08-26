@@ -1,10 +1,12 @@
 {
+  // GitHub builds: set App directory to `apps/acme-relay` in the Deno Deploy dashboard
+  // (that path is repo-level only). Runtime config below is sourced from this file.
   "deploy": {
     "org": "docracy1",
-    "app": "docstoc-acme-relay"
+    "app": "docstoc-acme-relay",
+    "runtime": {
+      "type": "dynamic",
+      "entrypoint": "./main.ts"
+    }
   }
 }
-
-
-
-

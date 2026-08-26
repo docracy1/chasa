@@ -18,11 +18,14 @@ shared bearer secret, which just prevents randoms from using it as an open proxy
 
 ## Deploy on Deno Deploy (production)
 
-Config lives in `deno.jsonc` (`org: docracy1`, `app: docstoc-acme-relay`).
+Config lives in `deno.jsonc` (`org: docracy1`, `app: docstoc-acme-relay`, entrypoint `main.ts`).
+
+**GitHub (recommended):** link repo `docracy1/chasa`, set **App directory** to `apps/acme-relay`
+in the dashboard (required for monorepos — not configurable in source). Runtime settings come from
+`deno.jsonc`. Set `RELAY_SECRET` under environment variables (Production). Pushes to `main` auto-deploy.
 
 **Dashboard:** [console.deno.com](https://console.deno.com) → org **docracy1** → app
-**docstoc-acme-relay** → set `RELAY_SECRET` under environment variables → deploy from GitHub or
-trigger a manual build.
+**docstoc-acme-relay** → **Deploy default branch** to redeploy manually.
 
 **CLI** (from this directory, with Deno 2+ and `deno deploy` auth):
 
