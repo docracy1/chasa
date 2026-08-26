@@ -1906,6 +1906,132 @@ a { color: inherit; }
 /* ---------- Template detail: 7-section landing structure ---------- */
 .tpl-hero-cta { margin: 18px 0 8px; }
 
+/* ---------- Alternative / import-from landings (docstoc orange hero) ---------- */
+.alt-hero .tpl-hero-inner,
+.alt-hero-inner {
+  max-width: 720px;
+  text-align: left;
+  margin: 0 auto;
+}
+.alt-hero-ctas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 8px;
+}
+.alt-hero-primary {
+  display: inline-block;
+  background: var(--accent);
+  color: var(--white);
+  font-weight: 700;
+  font-size: 15px;
+  text-decoration: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+}
+.alt-hero-primary:hover { filter: brightness(1.05); }
+.alt-hero-secondary {
+  display: inline-block;
+  background: var(--white);
+  color: var(--ink);
+  font-weight: 700;
+  font-size: 15px;
+  text-decoration: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+}
+.alt-body {
+  max-width: 720px;
+  margin: 0 auto 56px;
+  padding-top: 8px;
+}
+.alt-body h2 {
+  font-family: 'Fraunces', serif;
+  font-weight: 600;
+  font-size: 1.45rem;
+  margin: 36px 0 12px;
+  color: var(--ink);
+}
+.alt-body h3 {
+  font-size: 1.05rem;
+  margin: 22px 0 8px;
+  color: var(--ink);
+}
+.alt-body p,
+.alt-body li {
+  font-size: 15.5px;
+  line-height: 1.65;
+  color: var(--ink-soft);
+}
+.alt-body ul { padding-left: 1.2em; margin: 0 0 18px; }
+.alt-body a { color: var(--accent); font-weight: 600; text-decoration: none; }
+.alt-body a:hover { text-decoration: underline; }
+.alt-steps {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 18px;
+}
+.alt-steps li {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  margin-bottom: 14px;
+}
+.alt-step-n {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--white);
+  font-size: 13px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2px;
+}
+.alt-note { font-size: 14.5px; }
+.alt-also { padding-left: 1.2em; }
+.alt-import-more { font-size: 14.5px; margin-top: 24px; }
+.alt-footer-cta {
+  margin: 40px 0 8px;
+  padding: 28px 0 8px;
+  border-top: 1px solid var(--line);
+}
+.alt-footer-cta p { margin: 0 0 16px; }
+.cmp-hub { max-width: 760px; }
+.cmp-sector { margin: 8px 0 40px; }
+.cmp-sector-lede { margin: 0 0 16px; }
+.cmp-grid {
+  display: flex;
+  flex-direction: column;
+}
+.cmp-row {
+  display: block;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--line);
+  text-decoration: none !important;
+}
+.cmp-row strong {
+  display: block;
+  font-size: 16px;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+.cmp-row span {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--ink-soft);
+  line-height: 1.45;
+}
+.cmp-row:hover strong { color: var(--accent); }
+.cmp-imports {
+  margin: 14px 0 0;
+  font-size: 13.5px;
+  line-height: 1.7;
+}
+
 .tpl-seo-intro {
   font-size: 15.5px;
   line-height: 1.65;
@@ -2394,6 +2520,41 @@ a { color: inherit; }
   flex-direction: column;
   gap: 14px;
 }
+.pc-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 0 4px;
+}
+.pc-tab {
+  appearance: none;
+  border: 1px solid var(--line);
+  background: var(--white);
+  color: var(--ink-soft);
+  font: inherit;
+  font-size: 13.5px;
+  font-weight: 600;
+  padding: 8px 14px;
+  border-radius: 999px;
+  cursor: pointer;
+  line-height: 1.2;
+}
+.pc-tab:hover {
+  border-color: color-mix(in srgb, var(--ink) 28%, var(--line));
+  color: var(--ink);
+}
+.pc-tab[aria-selected="true"] {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--white);
+}
+.pc-product-lede {
+  margin: 0 0 4px;
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--ink-soft);
+  max-width: 720px;
+}
 .pc-slider-card {
   background: color-mix(in srgb, var(--ink) 4%, var(--white));
   border: 1px solid var(--line);
@@ -2527,6 +2688,13 @@ a { color: inherit; }
   white-space: nowrap;
 }
 .pc-delta.is-zero { color: var(--ink-soft); }
+.pc-delta.is-cheaper { color: #1f7a4d; }
+.pc-delta.is-costlier { color: #c0392b; }
+[data-pc-rows] {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
 .pc-total {
   font-family: 'Fraunces', serif;
   font-size: 26px;

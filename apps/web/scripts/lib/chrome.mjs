@@ -112,9 +112,9 @@ const FEATURE_ITEMS = [
 ];
 
 const COMPARE_ITEMS = [
-  { path: "/docstoc-vs-chaser", icon: "scale", titleKey: "footer.vsChaser", title: "vs Chaser", descKey: "nav.mega.compare.chaser.desc", desc: "Lighter, no per-seat pricing." },
-  { path: "/docstoc-vs-paidnice", icon: "scale", titleKey: "footer.vsPaidnice", title: "vs Paidnice", descKey: "nav.mega.compare.paidnice.desc", desc: "Free AI drafts, not just Shopify dunning." },
-  { path: "/docstoc-vs-duefy", icon: "scale", titleKey: "footer.vsDuefy", title: "vs Duefy", descKey: "nav.mega.compare.duefy.desc", desc: "Tone-matched AI, not template-only reminders." },
+  { path: "/legalzoom-alternative", icon: "scale", titleKey: "footer.vsLegalzoom", title: "vs LegalZoom", descKey: "nav.mega.compare.legalzoom.desc", desc: "Free templates, no membership." },
+  { path: "/invoicely-alternative", icon: "scale", titleKey: "footer.vsInvoicely", title: "vs Invoicely", descKey: "nav.mega.compare.invoicely.desc", desc: "Invoices plus templates, SSL, and chase." },
+  { path: "/zerossl-alternative", icon: "scale", titleKey: "footer.vsZerossl", title: "vs ZeroSSL", descKey: "nav.mega.compare.zerossl.desc", desc: "Let’s Encrypt without a second dashboard." },
 ];
 
 const USE_CASE_ITEMS = [
@@ -380,11 +380,11 @@ ${mainHtml}
     </div>
     <div class="site-footer-col">
       <h4 data-i18n="footer.compareCol">Compare</h4>
-      <a href="${link("/docstoc-vs-chaser")}" data-i18n="footer.vsChaser">vs Chaser</a>
-      <a href="${link("/docstoc-vs-paidnice")}" data-i18n="footer.vsPaidnice">vs Paidnice</a>
-      <a href="${link("/docstoc-vs-duefy")}" data-i18n="footer.vsDuefy">vs Duefy</a>
-      <a href="${link("/docstoc-vs-satago")}" data-i18n="footer.vsSatago">vs Satago</a>
-      <a href="${link("/docstoc-vs-chaseai")}" data-i18n="footer.vsChaseai">vs ChaseAI</a>
+      <a href="${link("/compare/")}">All comparisons</a>
+      <a href="${link("/legalzoom-alternative")}">vs LegalZoom</a>
+      <a href="${link("/invoicely-alternative")}">vs Invoicely</a>
+      <a href="${link("/zerossl-alternative")}">vs ZeroSSL</a>
+      <a href="${link("/chaser-alternative")}" data-i18n="footer.vsChaser">vs Chaser</a>
       <a href="${link("/switch-to-docstoc")}" data-i18n="footer.switch">Switch to docstoc</a>
     </div>
     <div class="site-footer-col">
