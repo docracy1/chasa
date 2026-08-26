@@ -160,15 +160,23 @@ export async function backfillTrustProfiles(env: Env): Promise<{ created: number
   return { created };
 }
 
-export async function sweepPendingTrustProfiles(env: Env): Promise<{ checked: number; confirmed: number }> {
+export async function sweepPendingTrustProfiles(env: Env): Promise<{
+  checked: number;
+  confirmed: number;
+  resubmitted: number;
+}> {
   const { results } = await env.CHASA_DB.prepare(
-    `SELECT account_id, profile_hash, ots_calendar_url FROM trust_profiles
+    `SELECT account_id, profile_hash, ots_calendar_url, ots_submitted_at FROM trust_profiles
      WHERE ots_status = 'pending' AND ots_calendar_url IS NOT NULL
      ORDER BY ots_submitted_at ASC LIMIT 100`
-  ).all<{ account_id: string; profile_hash: string; ots_calendar_url: string }>();
+  ).all<{ account_id: string; profile_hash: string; ots_calendar_url: string; ots_submitted_at: string | null }>();
   const pending = results ?? [];
 
   let confirmed = 0;
+  let resubmitted = 0;
+  const staleMs = 12 * 60 * 60 * 1000;
+  const now = Date.now();
+
   for (const row of pending) {
     const result = await checkUpgrade(row.profile_hash, row.ots_calendar_url);
     if (result.ok && result.confirmed) {
@@ -178,9 +186,28 @@ export async function sweepPendingTrustProfiles(env: Env): Promise<{ checked: nu
         .bind(result.proofBase64, new Date().toISOString(), row.account_id)
         .run();
       confirmed++;
-    } else if (!result.ok) {
+      continue;
+    }
+    if (!result.ok) {
       console.error(`OpenTimestamps upgrade check failed for trust profile ${row.account_id}:`, result.error);
+      continue;
+    }
+
+    // Calendar still 404 / no Bitcoin attestation. Alice occasionally drops pending digests —
+    // resubmit after 12h so "verified since" can eventually confirm instead of hanging forever.
+    const submittedMs = row.ots_submitted_at ? Date.parse(row.ots_submitted_at) : 0;
+    if (!submittedMs || now - submittedMs < staleMs) continue;
+
+    const fresh = await submitTimestamp(row.profile_hash);
+    if (fresh.ok) {
+      await recordTrustTimestampSubmitted(env, row.account_id, {
+        calendarUrl: fresh.calendarUrl,
+        proofBase64: fresh.proofBase64,
+      });
+      resubmitted++;
+    } else {
+      console.error(`OpenTimestamps resubmit failed for trust profile ${row.account_id}:`, fresh.error);
     }
   }
-  return { checked: pending.length, confirmed };
+  return { checked: pending.length, confirmed, resubmitted };
 }

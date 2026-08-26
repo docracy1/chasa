@@ -23,6 +23,7 @@ import {
   listReminders,
   markAgingChase,
   markInvoicePaid,
+  listAging,
   notifyWebhook,
   recordChaseEvent,
   generateDemandLetter,
@@ -170,6 +171,55 @@ export default function Tool({ account }: { account: Account | null }) {
       .then((res) => setGoogleConnected(res.connectors.some((c) => c.provider === "google" && c.connected)))
       .catch(() => setGoogleConnected(false));
   }, [isPaid]);
+
+  // Pull aging rows created from outgoing invoices (Mark sent) into the chase board.
+  useEffect(() => {
+    if (!isPaid) return;
+    let cancelled = false;
+    listAging()
+      .then((res) => {
+        if (cancelled) return;
+        setInvoices((prev) => {
+          const byId = new Map(prev.map((inv) => [inv.id, inv]));
+          for (const row of res.invoices) {
+            const existing = byId.get(row.id);
+            const status = row.status === "paid" ? "paid" : "open";
+            if (existing) {
+              byId.set(row.id, {
+                ...existing,
+                clientName: row.clientName,
+                amount: row.amount,
+                dueDate: row.dueDate,
+                status,
+                paidAt: row.paidAt ?? existing.paidAt ?? null,
+                lastChaseStatus: row.lastChaseStatus ?? existing.lastChaseStatus ?? null,
+                lastChaseAt: row.lastChaseAt ?? existing.lastChaseAt ?? null,
+              });
+            } else {
+              byId.set(row.id, {
+                id: row.id,
+                clientName: row.clientName,
+                amount: row.amount,
+                dueDate: row.dueDate,
+                status,
+                paidAt: row.paidAt ?? null,
+                lastChaseStatus: row.lastChaseStatus,
+                lastChaseAt: row.lastChaseAt,
+                generating: false,
+                rewriting: null,
+              });
+            }
+          }
+          return Array.from(byId.values());
+        });
+      })
+      .catch(() => {
+        /* offline / free fallback — local rows still work */
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [isPaid, account?.email]);
 
   useEffect(() => {
     persistInvoices(invoices);
@@ -1382,8 +1432,9 @@ export default function Tool({ account }: { account: Account | null }) {
   }
 
   const overdueCount = invoices.filter((inv) => daysOverdue(inv.dueDate) > 0).length;
-  const draftedCount = invoices.filter((inv) => inv.draft).length;
   const chaseView = parseChaseView(searchParams.get("view"));
+  const focusInvoiceId = searchParams.get("focus");
+  const showChaseWorkspace = chaseView !== null || !!focusInvoiceId;
   const visibleInvoices = useMemo(
     () => invoices.filter((inv) => matchesChaseView(inv, chaseView)),
     [invoices, chaseView]
@@ -1397,12 +1448,12 @@ export default function Tool({ account }: { account: Account | null }) {
   );
 
   useEffect(() => {
-    if (!chaseView) return;
+    if (!showChaseWorkspace) return;
     const timer = window.setTimeout(() => {
       document.getElementById("aging-board")?.scrollIntoView({ behavior: "smooth", block: "start" });
     }, 60);
     return () => window.clearTimeout(timer);
-  }, [chaseView]);
+  }, [showChaseWorkspace, chaseView]);
 
   const firstName = account?.email?.split("@")[0]?.split(/[._-]/)[0] || null;
   const welcomeName = firstName
@@ -1411,179 +1462,173 @@ export default function Tool({ account }: { account: Account | null }) {
 
   return (
     <div>
-      {!chaseView && (
+      {!showChaseWorkspace && (
         <WelcomeBlock
           welcomeName={welcomeName}
           overdueCount={overdueCount}
-          draftedCount={draftedCount}
-          invoiceCount={invoices.length}
+          chaseCount={invoices.length}
           isPaid={isPaid}
           account={account}
-          usedCount={usedCount}
         />
       )}
 
-      {chaseView ? (
-        <section id="aging-board" className="chase-view-header">
-          <div className="chase-view-header-row">
-            <div>
-              <h1 className="chase-view-title">{t(chaseViewTitleKey(chaseView))}</h1>
-              <p className="page-sub">
-                {t("chaseView.count", { count: visibleInvoices.length })}
-              </p>
-            </div>
-            <Link to="/" className="btn-secondary">
-              {t("chaseView.clearFilter")}
-            </Link>
-          </div>
-          {visibleInvoices.length === 0 && (
-            <div className="panel chase-view-empty">
-              <p>{t(`chaseView.empty.${chaseView}`)}</p>
-              <Link to="/new" className="btn-primary">
-                {t("nav.newChase")}
+      {showChaseWorkspace ? (
+        <>
+          <section id="aging-board" className="chase-view-header">
+            <div className="chase-view-header-row">
+              <div>
+                <h1 className="chase-view-title">
+                  {chaseView ? t(chaseViewTitleKey(chaseView)) : t("nav.chases")}
+                </h1>
+                <p className="page-sub">
+                  {t("chaseView.count", { count: visibleInvoices.length })}
+                </p>
+              </div>
+              <Link to="/" className="btn-secondary">
+                {t("chaseView.clearFilter")}
               </Link>
             </div>
+            {visibleInvoices.length === 0 && (
+              <div className="panel chase-view-empty">
+                <p>
+                  {chaseView
+                    ? t(`chaseView.empty.${chaseView}`)
+                    : t("welcome.product.chases.empty")}
+                </p>
+                <Link to="/new" className="btn-primary">
+                  {t("nav.newChase")}
+                </Link>
+              </div>
+            )}
+          </section>
+
+          <UsageBar usedCount={usedCount} atLimit={atLimit} isPaid={isPaid} isSignedIn={!!account} />
+
+          {agingInvoices.length > 0 && (
+            <AgingOverviewPanel
+              invoices={agingInvoices}
+              isPaid={isPaid}
+              selectedIds={selectedIds}
+              selectedCount={selectedCount}
+              multiBusy={multiBusy}
+              atLimit={atLimit}
+              multiError={multiError}
+              multiDraft={multiDraft}
+              onSelectAll={selectAllOverdue}
+              onClearSelection={clearSelection}
+              onMultiDraft={handleMultiDraft}
+              onToggleSelect={toggleSelect}
+              onScrollToInvoice={scrollToInvoice}
+              onGenerate={handleGenerate}
+              onMultiDraftChange={setMultiDraft}
+            />
           )}
-        </section>
-      ) : (
-        <div id="chase-workspace">
-          <h2 className="welcome-section-title" style={{ marginTop: 8 }}>
-            {t("tool.workspaceTitle")}
-          </h2>
-          <p className="page-sub">{t("tool.workspaceSub")}</p>
-        </div>
-      )}
 
-      {!chaseView && (
-        <UsageBar usedCount={usedCount} atLimit={atLimit} isPaid={isPaid} isSignedIn={!!account} />
-      )}
+          {pendingImport && (
+            <CloudImportConfirm
+              pendingImport={pendingImport}
+              importClient={importClient}
+              importAmount={importAmount}
+              importDue={importDue}
+              onImportClientChange={setImportClient}
+              onImportAmountChange={setImportAmount}
+              onImportDueChange={setImportDue}
+              onConfirm={confirmCloudImport}
+              onDismiss={dismissCloudImport}
+            />
+          )}
 
-      {agingInvoices.length > 0 && (
-        <div id={chaseView ? undefined : "aging-board"}>
-          <AgingOverviewPanel
-            invoices={agingInvoices}
+          <InvoiceIntakePanel
+            clientName={clientName}
+            amount={amount}
+            dueDate={dueDate}
+            paymentLink={paymentLink}
             isPaid={isPaid}
-            selectedIds={selectedIds}
-            selectedCount={selectedCount}
-            multiBusy={multiBusy}
-            atLimit={atLimit}
-            multiError={multiError}
-            multiDraft={multiDraft}
-            onSelectAll={selectAllOverdue}
-            onClearSelection={clearSelection}
-            onMultiDraft={handleMultiDraft}
-            onToggleSelect={toggleSelect}
-            onScrollToInvoice={scrollToInvoice}
-            onGenerate={handleGenerate}
-            onMultiDraftChange={setMultiDraft}
+            invoices={invoices}
+            onClientNameChange={setClientName}
+            onAmountChange={setAmount}
+            onDueDateChange={setDueDate}
+            onPaymentLinkChange={setPaymentLink}
+            onAddManual={handleAddManual}
+            onCsvUpload={handleCsvUpload}
+            onOpenPdfPicker={openPdfPicker}
+            onOpenGooglePicker={handleOpenGooglePicker}
+            onSheetImport={handleSheetImport}
+            onSheetExport={handleSheetExport}
+            sheetId={sheetId}
+            onSheetIdChange={setSheetId}
+            sheetBusy={sheetBusy}
+            sheetMsg={sheetMsg}
+            googleConnected={googleConnected}
+            googlePickerEnabled={googlePickerEnabled()}
+            onDownloadCsv={downloadCsv}
+            onClearList={handleClearList}
           />
-        </div>
-      )}
 
-      {!chaseView && pendingImport && (
-        <CloudImportConfirm
-          pendingImport={pendingImport}
-          importClient={importClient}
-          importAmount={importAmount}
-          importDue={importDue}
-          onImportClientChange={setImportClient}
-          onImportAmountChange={setImportAmount}
-          onImportDueChange={setImportDue}
-          onConfirm={confirmCloudImport}
-          onDismiss={dismissCloudImport}
-        />
-      )}
+          {showPdfPicker && (
+            <PdfPickerPanel
+              pdfError={pdfError}
+              pdfBusy={pdfBusy}
+              pdfProviders={pdfProviders}
+              pdfProvider={pdfProvider}
+              pdfFiles={pdfFiles}
+              onClose={() => setShowPdfPicker(false)}
+              onLoadPdfFiles={loadPdfFiles}
+              onImportPdf={importPdfFromTool}
+            />
+          )}
 
-      {!chaseView && (
-        <InvoiceIntakePanel
-          clientName={clientName}
-          amount={amount}
-          dueDate={dueDate}
-          paymentLink={paymentLink}
-          isPaid={isPaid}
-          invoices={invoices}
-          onClientNameChange={setClientName}
-          onAmountChange={setAmount}
-          onDueDateChange={setDueDate}
-          onPaymentLinkChange={setPaymentLink}
-          onAddManual={handleAddManual}
-          onCsvUpload={handleCsvUpload}
-          onOpenPdfPicker={openPdfPicker}
-          onOpenGooglePicker={handleOpenGooglePicker}
-          onSheetImport={handleSheetImport}
-          onSheetExport={handleSheetExport}
-          sheetId={sheetId}
-          onSheetIdChange={setSheetId}
-          sheetBusy={sheetBusy}
-          sheetMsg={sheetMsg}
-          googleConnected={googleConnected}
-          googlePickerEnabled={googlePickerEnabled()}
-          onDownloadCsv={downloadCsv}
-          onClearList={handleClearList}
-        />
-      )}
+          {isPaid && (
+            <DueTodayBanner reminders={dueTodayReminders} onOpenReminder={handleOpenDueReminder} />
+          )}
 
-      {!chaseView && showPdfPicker && (
-        <PdfPickerPanel
-          pdfError={pdfError}
-          pdfBusy={pdfBusy}
-          pdfProviders={pdfProviders}
-          pdfProvider={pdfProvider}
-          pdfFiles={pdfFiles}
-          onClose={() => setShowPdfPicker(false)}
-          onLoadPdfFiles={loadPdfFiles}
-          onImportPdf={importPdfFromTool}
-        />
-      )}
-
-      {isPaid && (
-        <DueTodayBanner reminders={dueTodayReminders} onOpenReminder={handleOpenDueReminder} />
-      )}
-
-      {(chaseView === "paid" ? visibleInvoices : visibleInvoices.filter((inv) => inv.status !== "paid")).map(
-        (invoice) => (
-        <InvoiceCard
-          key={invoice.id}
-          invoice={invoice}
-          isPaid={isPaid}
-          isPro={isPro}
-          atLimit={atLimit}
-          selectedIds={selectedIds}
-          onToggleSelect={toggleSelect}
-          onGenerate={handleGenerate}
-          onUpdateDraft={updateDraft}
-          onRewrite={handleRewrite}
-          onThankYou={handleThankYou}
-          onSequence={handleSequence}
-          onSms={handleSms}
-          onClientReplyChange={handleClientReplyChange}
-          onReply={handleReply}
-          onReplySmart={handleReplySmart}
-          onReplySmartFromGmail={
-            isPro && googleConnected ? (id) => void handleReplySmart(id, true) : undefined
-          }
-          onFetchGmailReply={isPro && googleConnected ? handleFetchGmailReply : undefined}
-          onDemandLetter={handleDemandLetter}
-          onMarkSent={handleMarkSent}
-          onMarkPaid={handleMarkPaid}
-          onApplySequenceStep={applySequenceStep}
-          onCopyNextReminder={copyNextReminder}
-          onMarkReminderDone={markReminderDone}
-          onSnoozeReminder={handleSnoozeReminder}
-          onSyncReminderCalendar={isPaid ? handleSyncReminderCalendar : undefined}
-          onScheduleReplyFollowUp={handleScheduleReplyFollowUp}
-          onEvidencePack={handleEvidencePack}
-          openStats={openStatsMap[invoice.id]}
-          onCopyDraft={copyDraft}
-          onTrackedCopy={handleTrackedCopy}
-          onSaveGmailDraft={isPaid && googleConnected ? handleSaveGmailDraft : undefined}
-          googleConnected={googleConnected}
-          mailtoLink={mailtoLink}
-          onMailtoClick={handleMailtoClick}
-          sequenceSendDate={sequenceSendDate}
-        />
-      )
-      )}
+          {(chaseView === "paid"
+            ? visibleInvoices
+            : visibleInvoices.filter((inv) => inv.status !== "paid")
+          ).map((invoice) => (
+            <InvoiceCard
+              key={invoice.id}
+              invoice={invoice}
+              isPaid={isPaid}
+              isPro={isPro}
+              atLimit={atLimit}
+              selectedIds={selectedIds}
+              onToggleSelect={toggleSelect}
+              onGenerate={handleGenerate}
+              onUpdateDraft={updateDraft}
+              onRewrite={handleRewrite}
+              onThankYou={handleThankYou}
+              onSequence={handleSequence}
+              onSms={handleSms}
+              onClientReplyChange={handleClientReplyChange}
+              onReply={handleReply}
+              onReplySmart={handleReplySmart}
+              onReplySmartFromGmail={
+                isPro && googleConnected ? (id) => void handleReplySmart(id, true) : undefined
+              }
+              onFetchGmailReply={isPro && googleConnected ? handleFetchGmailReply : undefined}
+              onDemandLetter={handleDemandLetter}
+              onMarkSent={handleMarkSent}
+              onMarkPaid={handleMarkPaid}
+              onApplySequenceStep={applySequenceStep}
+              onCopyNextReminder={copyNextReminder}
+              onMarkReminderDone={markReminderDone}
+              onSnoozeReminder={handleSnoozeReminder}
+              onSyncReminderCalendar={isPaid ? handleSyncReminderCalendar : undefined}
+              onScheduleReplyFollowUp={handleScheduleReplyFollowUp}
+              onEvidencePack={handleEvidencePack}
+              openStats={openStatsMap[invoice.id]}
+              onCopyDraft={copyDraft}
+              onTrackedCopy={handleTrackedCopy}
+              onSaveGmailDraft={isPaid && googleConnected ? handleSaveGmailDraft : undefined}
+              googleConnected={googleConnected}
+              mailtoLink={mailtoLink}
+              onMailtoClick={handleMailtoClick}
+              sequenceSendDate={sequenceSendDate}
+            />
+          ))}
+        </>
+      ) : null}
     </div>
   );
 }

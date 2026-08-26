@@ -65,8 +65,8 @@ trust.get("/badge/:accountIdJs", async (c) => {
   a.href=${JSON.stringify(profileUrl)};
   a.target="_blank";
   a.rel="noopener noreferrer";
-  a.style.cssText="display:inline-flex;align-items:center;gap:6px;font:12px/1.2 -apple-system,system-ui,sans-serif;color:#1B3155;text-decoration:none;border:1px solid #d8dee8;border-radius:6px;padding:6px 10px;background:#fafbfc";
-  a.innerHTML='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#2e7d32" stroke-width="2"><rect x="5" y="11" width="14" height="9" rx="1.5"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>' + ${JSON.stringify(escapeHtml(label))};
+  a.style.cssText="display:inline-flex;align-items:center;gap:8px;font:12px/1.2 -apple-system,system-ui,sans-serif;color:#1B3155;text-decoration:none;border:1px solid #d8dee8;border-radius:8px;padding:7px 12px;background:#fafbfc";
+  a.innerHTML='<img src=${JSON.stringify(`${appOrigin}/brand/docstoc-icon.png`)} width="16" height="16" alt="" style="border-radius:3px">' + ${JSON.stringify(escapeHtml(label))};
   var s=document.currentScript;
   if(s&&s.parentNode){s.parentNode.insertBefore(a,s);}else{document.write(a.outerHTML);}
 })();`;

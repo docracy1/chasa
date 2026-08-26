@@ -14,6 +14,8 @@ export function loadStoredInvoices(): Invoice[] {
         clientName: r.clientName,
         amount: r.amount,
         dueDate: r.dueDate,
+        status: r.status === "paid" ? "paid" : "open",
+        paidAt: r.paidAt ?? null,
         lastChaseStatus: r.lastChaseStatus ?? null,
         lastChaseAt: r.lastChaseAt ?? null,
         generating: false,
@@ -30,8 +32,31 @@ export function persistInvoices(invoices: Invoice[]) {
     clientName: inv.clientName,
     amount: inv.amount,
     dueDate: inv.dueDate,
+    status: inv.status,
+    paidAt: inv.paidAt ?? null,
     lastChaseStatus: inv.lastChaseStatus ?? null,
     lastChaseAt: inv.lastChaseAt ?? null,
   }));
   localStorage.setItem(TOOL_STORAGE_KEY, JSON.stringify(slim));
+}
+
+/** Upsert a chase-board row (e.g. after marking an outgoing invoice Sent). */
+export function upsertStoredInvoice(row: StoredInvoice): void {
+  const existing = loadStoredInvoices();
+  const next: Invoice[] = [
+    {
+      id: row.id,
+      clientName: row.clientName,
+      amount: row.amount,
+      dueDate: row.dueDate,
+      status: row.status ?? "open",
+      paidAt: row.paidAt ?? null,
+      lastChaseStatus: row.lastChaseStatus ?? null,
+      lastChaseAt: row.lastChaseAt ?? null,
+      generating: false,
+      rewriting: null,
+    },
+    ...existing.filter((inv) => inv.id !== row.id),
+  ];
+  persistInvoices(next);
 }

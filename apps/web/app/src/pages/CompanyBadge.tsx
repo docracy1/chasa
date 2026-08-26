@@ -3,6 +3,15 @@ import { Link } from "react-router-dom";
 import { getMyTrustProfile, type Account, type TrustProfileRecord } from "../lib/api";
 import { useT } from "../lib/i18n";
 
+function formatUsDate(iso: string): string {
+  return new Date(iso).toLocaleDateString("en-US", {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+    timeZone: "UTC",
+  });
+}
+
 export default function CompanyBadgePage({ account }: { account: Account | null }) {
   const t = useT();
   const [profile, setProfile] = useState<TrustProfileRecord | null>(null);
@@ -32,6 +41,10 @@ export default function CompanyBadgePage({ account }: { account: Account | null 
     );
   }
 
+  const publicUrl = profile ? `/trust/${profile.accountId}` : "";
+  const downloadUrl = profile ? `${publicUrl}?download=1` : "";
+  const workspaceLabel = account.workspaceName?.trim() || "docstoc.io account";
+
   return (
     <div className="webhooks-page">
       <section className="branding-card">
@@ -42,25 +55,50 @@ export default function CompanyBadgePage({ account }: { account: Account | null 
           <p className="page-sub">{t("common.loading")}</p>
         ) : profile ? (
           <>
-            <p className="branding-help" style={{ marginTop: 16 }}>
+            <div className="company-badge-cert" aria-label={t("companyBadge.previewLabel")}>
+              <div className="company-badge-cert-brand">
+                <img src="/brand/docstoc-icon.png" width={36} height={36} alt="" />
+                <div>
+                  <strong>docstoc</strong>
+                  <span>{t("companyBadge.certTag")}</span>
+                </div>
+              </div>
+              <h2 className="company-badge-cert-title">{workspaceLabel}</h2>
+              <dl className="company-badge-cert-meta">
+                <div>
+                  <dt>{t("companyBadge.metaVerified")}</dt>
+                  <dd>{formatUsDate(profile.firstVerifiedAt)}</dd>
+                </div>
+                <div>
+                  <dt>{t("companyBadge.metaBitcoin")}</dt>
+                  <dd>
+                    {profile.otsStatus === "confirmed"
+                      ? t("companyBadge.otsConfirmed")
+                      : t("companyBadge.otsPending")}
+                  </dd>
+                </div>
+              </dl>
+            </div>
+
+            <div className="company-badge-actions">
+              <a className="btn-primary" href={downloadUrl} target="_blank" rel="noopener noreferrer">
+                {t("companyBadge.downloadPdf")}
+              </a>
+              <a className="btn-secondary" href={publicUrl} target="_blank" rel="noopener noreferrer">
+                {t("ssl.trustProfileView")}
+              </a>
+            </div>
+
+            <p className="branding-help" style={{ marginTop: 20 }}>
               {profile.otsStatus === "confirmed"
                 ? t("ssl.trustProfileConfirmed")
                 : t("ssl.trustProfilePending")}
             </p>
-            <p style={{ marginTop: 12 }}>
-              <a
-                className="btn-secondary"
-                href={`/trust/${profile.accountId}`}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {t("ssl.trustProfileView")}
-              </a>
-            </p>
+
             <p className="branding-help" style={{ marginTop: 16 }}>
               {t("ssl.trustProfileEmbed")}
             </p>
-            <code style={{ display: "block", whiteSpace: "pre-wrap", wordBreak: "break-all", marginTop: 8 }}>
+            <code className="company-badge-embed">
               {`<script src="${appOrigin}/api/trust/badge/${profile.accountId}.js" async></script>`}
             </code>
           </>
