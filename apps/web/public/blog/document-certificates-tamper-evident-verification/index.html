@@ -44,12 +44,12 @@
   "mainEntityOfPage": "https://chasa.io/blog/document-certificates-tamper-evident-verification/"
 }
 </script>
-<link rel="icon" href="../../favicon.png?v=20260825d" type="image/png">
-<link rel="icon" href="../../favicon.svg?v=20260825d" type="image/svg+xml">
-<link rel="apple-touch-icon" href="../../apple-touch-icon.png?v=20260825d">
+<link rel="icon" href="../../favicon.png?v=20260826b" type="image/png">
+<link rel="icon" href="../../favicon.svg?v=20260826b" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../../apple-touch-icon.png?v=20260826b">
 <link rel="preload" href="../../fonts/inter-400.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="../../fonts/inter-700.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="../../site.css?v=20260825d">
+<link rel="stylesheet" href="../../site.css?v=20260826b">
 </head>
 <body>
 <header class="site-header">
@@ -79,13 +79,6 @@
       <span class="nav-megamenu-item-desc" data-i18n="nav.mega.products.invoices.desc">Create a shareable invoice — then chase it if it goes overdue.</span>
     </span>
   </a>
-<a href="../../certificate" class="nav-megamenu-item nav-megamenu-item-lg">
-    <span class="nav-megamenu-icon nav-megamenu-icon-lg"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v5.5c0 5-3.5 8-7 9.5-3.5-1.5-7-4.5-7-9.5V6l7-3z" /><path d="M9 12l2 2 4-4" /></svg></span>
-    <span>
-      <span class="nav-megamenu-item-title" data-i18n="nav.mega.products.certificates.title">Document certificates</span>
-      <span class="nav-megamenu-item-desc" data-i18n="nav.mega.products.certificates.desc">Free tamper-evident hash verification for any file.</span>
-    </span>
-  </a>
 <a href="../../ssl" class="nav-megamenu-item nav-megamenu-item-lg">
     <span class="nav-megamenu-icon nav-megamenu-icon-lg"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="1.5" /><path d="M8 11V7a4 4 0 0 1 8 0v4" /></svg></span>
     <span>
@@ -93,11 +86,11 @@
       <span class="nav-megamenu-item-desc" data-i18n="nav.mega.products.ssl.desc">Free Let's Encrypt certificates for your own domain.</span>
     </span>
   </a>
-<a href="../../features/ai-tone" class="nav-megamenu-item nav-megamenu-item-lg">
-    <span class="nav-megamenu-icon nav-megamenu-icon-lg"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.5 2.5L4 14h6l-1 7.5L20 10h-6l-1.5-7.5z" /></svg></span>
+<a href="../../certificate" class="nav-megamenu-item nav-megamenu-item-lg">
+    <span class="nav-megamenu-icon nav-megamenu-icon-lg"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v5.5c0 5-3.5 8-7 9.5-3.5-1.5-7-4.5-7-9.5V6l7-3z" /><path d="M9 12l2 2 4-4" /></svg></span>
     <span>
-      <span class="nav-megamenu-item-title" data-i18n="nav.mega.products.chasing.title">AI invoice chasing</span>
-      <span class="nav-megamenu-item-desc" data-i18n="nav.mega.products.chasing.desc">Tone-matched follow-up drafts for overdue invoices.</span>
+      <span class="nav-megamenu-item-title" data-i18n="nav.mega.products.certificates.title">Document certificates</span>
+      <span class="nav-megamenu-item-desc" data-i18n="nav.mega.products.certificates.desc">Free tamper-evident hash verification for any file.</span>
     </span>
   </a></div>
       
@@ -207,24 +200,40 @@
     <!--/email_off-->
   </div>
 </div>
-<main class="wrap page-main">
-<p><a href="../../blog/">← Blog</a></p>
-  <h1>Document Certificates Explained: Proving a File Hasn't Been Altered</h1>
-  <p class="lede">How SHA-256 hashing and free Bitcoin timestamping via OpenTimestamps let you prove a document's exact contents at a point in time — without uploading the file.</p>
-  <nav class="blog-toc" aria-label="Table of contents"><div class="blog-toc-title">Table of contents</div><ol><li><a href="#the-idea-in-one-sentence">The idea in one sentence</a></li><li><a href="#why-the-file-itself-never-gets-uploaded">Why the file itself never gets uploaded</a></li><li><a href="#why-it-s-anchored-to-bitcoin-instead-of-just-a-database-timestamp">Why it's anchored to Bitcoin instead of just a database timestamp</a></li><li><a href="#what-a-certificate-is-actually-good-for-and-what-it-isn-t">What a certificate is actually good for (and what it isn't)</a></li><li><a href="#how-to-actually-check-a-certificate">How to actually check a certificate</a></li><li><a href="#faq">FAQ</a></li></ol></nav><div class="blog-body"><p>&quot;Can you prove this document hasn't been changed since you sent it?&quot; is a question that comes up more than people expect — a signed contract, a delivered invoice, a piece of design work, a legal filing. The usual answer is &quot;trust me&quot; or &quot;check the email timestamp,&quot; neither of which actually proves anything. A document certificate answers it properly, and it's simpler than it sounds.</p><h2 id="the-idea-in-one-sentence">The idea in one sentence</h2><p>A document certificate is a fingerprint of a file's exact contents, created in your browser, that anyone can check later to confirm the file hasn't been altered by even a single byte.</p><p>The fingerprint is a SHA-256 hash — a standard cryptographic function that turns any file into a fixed-length string of characters. Change one character anywhere in the original file — a comma, a date, a dollar figure — and the hash comes out completely different. That property is what makes it useful as proof: it's not &quot;probably the same,&quot; it's mathematically identical or it isn't.</p><h2 id="why-the-file-itself-never-gets-uploaded">Why the file itself never gets uploaded</h2><p>This is the part people usually assume works differently: docstoc never sees or stores your actual file. The hash is computed locally in your browser using the Web Crypto API — the same building block browsers use for HTTPS — and only the resulting hash (plus, optionally, the filename) gets sent to create the certificate. The document's actual contents never leave your device.</p><p>That matters for two reasons. First, privacy — you're not uploading a contract or financial document to a third-party server to prove something about it. Second, it means the proof doesn't depend on trusting docstoc to have handled your file carefully, because docstoc never had it.</p><h2 id="why-it-s-anchored-to-bitcoin-instead-of-just-a-database-timestamp">Why it's anchored to Bitcoin instead of just a database timestamp</h2><p>A timestamp docstoc generates and stores in its own database is only as trustworthy as docstoc is. If the whole point is proving something to someone who has no reason to trust docstoc — a client, a counterparty, a court — a database row isn't strong enough evidence on its own.</p><p>That's the actual reason for anchoring certificates to the Bitcoin blockchain via OpenTimestamps, a free, open protocol built exactly for this. The hash gets included in a Bitcoin transaction (batched with many other hashes to keep it free and efficient), and once that transaction is confirmed, the existence of that exact hash at that point in time becomes independently verifiable by anyone, using any OpenTimestamps-compatible tool — not just docstoc's own systems. If docstoc disappeared tomorrow, the Bitcoin anchor would still be checkable.</p><p>Anchoring isn't instant — a batch typically confirms within a few hours — so a fresh certificate shows &quot;Bitcoin timestamp pending&quot; until it does, then upgrades to &quot;Bitcoin-timestamped&quot; automatically. Every certificate also offers a downloadable `.ots` proof file, so the timestamp can be verified independently with the standard `ots` command-line tool, without relying on docstoc's verification page at all.</p><h2 id="what-a-certificate-is-actually-good-for-and-what-it-isn-t">What a certificate is actually good for (and what it isn't)</h2><p>Good, realistic uses:</p><ul><li>Proving a contract or deliverable had specific contents as of a specific date, if a dispute comes up later</li><li>Giving a client or collaborator a link where they can independently re-check a file against the original — dropping the current version in and seeing an instant match/mismatch, no account needed</li><li>Adding a lightweight &quot;this hasn't been tampered with&quot; signal to a document you're distributing publicly, via an embeddable badge</li></ul><p>What it is not:</p><ul><li>It is not a substitute for an electronic signature. A certificate proves a file's contents are unchanged since a point in time — it doesn't prove who agreed to it or that anyone signed anything.</li><li>It is not identity verification. It says nothing about who created the document or whether the parties named in it are who they say they are.</li><li>Revoking a certificate doesn't erase the Bitcoin anchor — the hash's historical existence stays independently verifiable — it only changes the status shown on docstoc's own verification page.</li></ul><h2 id="how-to-actually-check-a-certificate">How to actually check a certificate</h2><p>Every certificate gets its own public verification page. Anyone with the link can drop the current version of the file into that page, and the comparison happens entirely in their browser — same as creation, no upload, no server round-trip. Match means byte-for-byte identical to the original; no match means something changed, even something as small as re-saving the file in different software.</p><h2 id="faq">FAQ</h2><h3>Does this work for any file type?</h3><p>Yes — the hash function works on any file's raw bytes, so it works for PDFs, Word documents, images, spreadsheets, anything.</p><h3>What if I need to revoke a certificate I created by mistake?</h3><p>Certificates can be revoked from your account. A revoked certificate's page shows a clear &quot;revoked&quot; status instead of &quot;verified,&quot; though the underlying Bitcoin timestamp (if confirmed) remains independently checkable by design — that's the tradeoff of using a public, immutable anchor.</p><h3>Do I need to know anything about Bitcoin or own any cryptocurrency to use this?</h3><p>No. There's no wallet, no crypto to buy or hold. Bitcoin is used purely as a public, tamper-proof ledger for the timestamp — you never interact with it directly.</p><h3>Is my file's content ever visible to docstoc or anyone else?</h3><p>No — only the hash (a one-way fingerprint) and, if you choose to include it, the filename. The file's actual contents are never uploaded.</p><h3>How is this different from just emailing myself the document as proof?</h3><p>An email timestamp can be edited, forwarded, or disputed, and it only proves something to the extent people trust your inbox and your email provider's records. A Bitcoin-anchored hash is independently verifiable by a third party using public infrastructure, without needing to trust either docstoc or your email account.</p><h3>Does docstoc charge for the Bitcoin timestamping?</h3><p>No — OpenTimestamps itself is a free, donation-supported protocol, and docstoc doesn't add a fee on top of it for certificates.</p></div>
-  <section style="margin-top:40px;padding-top:24px;border-top:1px solid var(--line)">
-    <aside class="tpl-pack-strip" aria-label="Related resource">
-      <p class="tpl-pack-strip-copy">Certify your first document free — hashed in your browser, anchored to Bitcoin</p>
-      <a class="tpl-pack-strip-btn" href="../../certificate.html">Certify a document</a>
-    </aside>
-    <h2>Related resources</h2>
-    <ul>
-      <li><a href="../../certificate.html">Create a document certificate</a></li>
+<main class="blog-article-main">
+<article class="blog-article">
+  <header class="blog-article-hero">
+    <div class="blog-article-hero-inner">
+      <a class="blog-article-back" href="../../blog/">← Blog</a>
+      <div class="blog-article-meta">
+        <span class="blog-article-tag">Guide</span>
+        <span class="blog-article-date">— 2026-08-23T14:56:30.000Z</span>
+        <span class="blog-article-read">5 min read</span>
+      </div>
+      <h1>Document Certificates Explained: Proving a File Hasn't Been Altered</h1>
+      <p class="blog-article-lede">How SHA-256 hashing and free Bitcoin timestamping via OpenTimestamps let you prove a document's exact contents at a point in time — without uploading the file.</p>
+    </div>
+  </header>
+  <div class="blog-article-layout">
+    <aside class="blog-article-aside"><nav class="blog-toc blog-toc-side" aria-label="Table of contents"><div class="blog-toc-title">Table of contents</div><ol><li><a href="#the-idea-in-one-sentence">The idea in one sentence</a></li><li><a href="#why-the-file-itself-never-gets-uploaded">Why the file itself never gets uploaded</a></li><li><a href="#why-it-s-anchored-to-bitcoin-instead-of-just-a-database-timestamp">Why it's anchored to Bitcoin instead of just a database timestamp</a></li><li><a href="#what-a-certificate-is-actually-good-for-and-what-it-isn-t">What a certificate is actually good for (and what it isn't)</a></li><li><a href="#how-to-actually-check-a-certificate">How to actually check a certificate</a></li><li><a href="#faq">FAQ</a></li></ol></nav></aside>
+    <div class="blog-article-content">
+      <div class="blog-body"><p>&quot;Can you prove this document hasn't been changed since you sent it?&quot; is a question that comes up more than people expect — a signed contract, a delivered invoice, a piece of design work, a legal filing. The usual answer is &quot;trust me&quot; or &quot;check the email timestamp,&quot; neither of which actually proves anything. A document certificate answers it properly, and it's simpler than it sounds.</p><h2 id="the-idea-in-one-sentence">The idea in one sentence</h2><p>A document certificate is a fingerprint of a file's exact contents, created in your browser, that anyone can check later to confirm the file hasn't been altered by even a single byte.</p><p>The fingerprint is a SHA-256 hash — a standard cryptographic function that turns any file into a fixed-length string of characters. Change one character anywhere in the original file — a comma, a date, a dollar figure — and the hash comes out completely different. That property is what makes it useful as proof: it's not &quot;probably the same,&quot; it's mathematically identical or it isn't.</p><h2 id="why-the-file-itself-never-gets-uploaded">Why the file itself never gets uploaded</h2><p>This is the part people usually assume works differently: docstoc never sees or stores your actual file. The hash is computed locally in your browser using the Web Crypto API — the same building block browsers use for HTTPS — and only the resulting hash (plus, optionally, the filename) gets sent to create the certificate. The document's actual contents never leave your device.</p><p>That matters for two reasons. First, privacy — you're not uploading a contract or financial document to a third-party server to prove something about it. Second, it means the proof doesn't depend on trusting docstoc to have handled your file carefully, because docstoc never had it.</p><h2 id="why-it-s-anchored-to-bitcoin-instead-of-just-a-database-timestamp">Why it's anchored to Bitcoin instead of just a database timestamp</h2><p>A timestamp docstoc generates and stores in its own database is only as trustworthy as docstoc is. If the whole point is proving something to someone who has no reason to trust docstoc — a client, a counterparty, a court — a database row isn't strong enough evidence on its own.</p><p>That's the actual reason for anchoring certificates to the Bitcoin blockchain via OpenTimestamps, a free, open protocol built exactly for this. The hash gets included in a Bitcoin transaction (batched with many other hashes to keep it free and efficient), and once that transaction is confirmed, the existence of that exact hash at that point in time becomes independently verifiable by anyone, using any OpenTimestamps-compatible tool — not just docstoc's own systems. If docstoc disappeared tomorrow, the Bitcoin anchor would still be checkable.</p><p>Anchoring isn't instant — a batch typically confirms within a few hours — so a fresh certificate shows &quot;Bitcoin timestamp pending&quot; until it does, then upgrades to &quot;Bitcoin-timestamped&quot; automatically. Every certificate also offers a downloadable `.ots` proof file, so the timestamp can be verified independently with the standard `ots` command-line tool, without relying on docstoc's verification page at all.</p><h2 id="what-a-certificate-is-actually-good-for-and-what-it-isn-t">What a certificate is actually good for (and what it isn't)</h2><p>Good, realistic uses:</p><ul><li>Proving a contract or deliverable had specific contents as of a specific date, if a dispute comes up later</li><li>Giving a client or collaborator a link where they can independently re-check a file against the original — dropping the current version in and seeing an instant match/mismatch, no account needed</li><li>Adding a lightweight &quot;this hasn't been tampered with&quot; signal to a document you're distributing publicly, via an embeddable badge</li></ul><p>What it is not:</p><ul><li>It is not a substitute for an electronic signature. A certificate proves a file's contents are unchanged since a point in time — it doesn't prove who agreed to it or that anyone signed anything.</li><li>It is not identity verification. It says nothing about who created the document or whether the parties named in it are who they say they are.</li><li>Revoking a certificate doesn't erase the Bitcoin anchor — the hash's historical existence stays independently verifiable — it only changes the status shown on docstoc's own verification page.</li></ul><h2 id="how-to-actually-check-a-certificate">How to actually check a certificate</h2><p>Every certificate gets its own public verification page. Anyone with the link can drop the current version of the file into that page, and the comparison happens entirely in their browser — same as creation, no upload, no server round-trip. Match means byte-for-byte identical to the original; no match means something changed, even something as small as re-saving the file in different software.</p><h2 id="faq">FAQ</h2><h3>Does this work for any file type?</h3><p>Yes — the hash function works on any file's raw bytes, so it works for PDFs, Word documents, images, spreadsheets, anything.</p><h3>What if I need to revoke a certificate I created by mistake?</h3><p>Certificates can be revoked from your account. A revoked certificate's page shows a clear &quot;revoked&quot; status instead of &quot;verified,&quot; though the underlying Bitcoin timestamp (if confirmed) remains independently checkable by design — that's the tradeoff of using a public, immutable anchor.</p><h3>Do I need to know anything about Bitcoin or own any cryptocurrency to use this?</h3><p>No. There's no wallet, no crypto to buy or hold. Bitcoin is used purely as a public, tamper-proof ledger for the timestamp — you never interact with it directly.</p><h3>Is my file's content ever visible to docstoc or anyone else?</h3><p>No — only the hash (a one-way fingerprint) and, if you choose to include it, the filename. The file's actual contents are never uploaded.</p><h3>How is this different from just emailing myself the document as proof?</h3><p>An email timestamp can be edited, forwarded, or disputed, and it only proves something to the extent people trust your inbox and your email provider's records. A Bitcoin-anchored hash is independently verifiable by a third party using public infrastructure, without needing to trust either docstoc or your email account.</p><h3>Does docstoc charge for the Bitcoin timestamping?</h3><p>No — OpenTimestamps itself is a free, donation-supported protocol, and docstoc doesn't add a fee on top of it for certificates.</p></div>
+      <section class="blog-article-footer">
+        <aside class="tpl-pack-strip" aria-label="Related resource">
+          <p class="tpl-pack-strip-copy">Certify your first document free — hashed in your browser, anchored to Bitcoin</p>
+          <a class="tpl-pack-strip-btn" href="../../certificate.html">Certify a document</a>
+        </aside>
+        <h2>Related resources</h2>
+        <ul>
+          <li><a href="../../certificate.html">Create a document certificate</a></li>
       <li><a href="../../security.html">docstoc security & trust overview</a></li>
       <li><a href="../../document-templates/">Free business & legal document templates</a></li>
       <li><a href="../../app/">Try docstoc free</a></li>
-    </ul>
-  </section>
+        </ul>
+      </section>
+    </div>
+  </div>
+</article>
 </main>
 <footer class="site-footer">
   <div class="wrap site-footer-inner">
@@ -260,11 +269,11 @@
     </div>
     <div class="site-footer-col">
       <h4 data-i18n="footer.compareCol">Compare</h4>
-      <a href="../../docstoc-vs-chaser" data-i18n="footer.vsChaser">vs Chaser</a>
-      <a href="../../docstoc-vs-paidnice" data-i18n="footer.vsPaidnice">vs Paidnice</a>
-      <a href="../../docstoc-vs-duefy" data-i18n="footer.vsDuefy">vs Duefy</a>
-      <a href="../../docstoc-vs-satago" data-i18n="footer.vsSatago">vs Satago</a>
-      <a href="../../docstoc-vs-chaseai" data-i18n="footer.vsChaseai">vs ChaseAI</a>
+      <a href="../../compare/">All comparisons</a>
+      <a href="../../legalzoom-alternative">vs LegalZoom</a>
+      <a href="../../invoicely-alternative">vs Invoicely</a>
+      <a href="../../zerossl-alternative">vs ZeroSSL</a>
+      <a href="../../chaser-alternative" data-i18n="footer.vsChaser">vs Chaser</a>
       <a href="../../switch-to-docstoc" data-i18n="footer.switch">Switch to docstoc</a>
     </div>
     <div class="site-footer-col">
@@ -291,21 +300,21 @@
     <video
       id="revival-modal-video"
       class="how-modal-video"
-      src="../../videos/docstoc-is-back.webm?v=20260825d"
-      poster="../../videos/docstoc-is-back-poster.jpg?v=20260825d"
+      src="../../videos/docstoc-is-back.webm?v=20260826b"
+      poster="../../videos/docstoc-is-back-poster.jpg?v=20260826b"
       controls
       playsinline
       preload="metadata"
     >
-      <track kind="captions" src="../../videos/docstoc-is-back.en.vtt?v=20260825d" srclang="en" label="English" default>
-      <track kind="captions" src="../../videos/docstoc-is-back.es.vtt?v=20260825d" srclang="es" label="Español">
+      <track kind="captions" src="../../videos/docstoc-is-back.en.vtt?v=20260826b" srclang="en" label="English" default>
+      <track kind="captions" src="../../videos/docstoc-is-back.es.vtt?v=20260826b" srclang="es" label="Español">
     </video>
   </div>
 </div>
-<script src="../../site-lang.js?v=20260825d" defer></script>
-<script src="../../site-nav.js?v=20260825d" defer></script>
-<script src="../../cookie-consent.js?v=20260825d" defer></script>
-<script src="../../analytics.js?v=20260825d" defer></script>
+<script src="../../site-lang.js?v=20260826b" defer></script>
+<script src="../../site-nav.js?v=20260826b" defer></script>
+<script src="../../cookie-consent.js?v=20260826b" defer></script>
+<script src="../../analytics.js?v=20260826b" defer></script>
 <script>
 /* Contact sales → docstoc Assistant (Docracy pattern). */
 (function () {
@@ -314,8 +323,15 @@
       ? e.target.closest("[data-sales-mail], .header-nav-sales, a[data-i18n='nav.contactSales'], a[data-i18n='home.pricing.contactSales']")
       : null;
     if (!el) return;
+    var api = window.docstocAssistant || window.chasaAssistant;
+    if (api && typeof api.open === "function") {
+      e.preventDefault();
+      api.open({ intent: "sales" });
+      return;
+    }
     e.preventDefault();
     window.dispatchEvent(new CustomEvent("docstoc:open-chat", { detail: { intent: "sales" } }));
+    window.dispatchEvent(new CustomEvent("chasa:open-chat", { detail: { intent: "sales" } }));
   }, true);
 })();
 </script>

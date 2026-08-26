@@ -10,7 +10,7 @@
 <p>Used in mTLS so the client proves identity too. Common in enterprise APIs and device fleets — not a substitute for public website DV.</p>
 
 <h2 id="short-lived-tls">Short-lived TLS certificates</h2>
-<p>Industry direction is shorter lifetimes (Let's Encrypt popularized ~90 days; further shortening is actively discussed). Shorter life reduces the damage window if a key leaks — and makes <strong>automation mandatory</strong>. See <a href="/blog/ssl-tls-certificate-lifetime-shortening/">certificate lifetime shortening</a> and <a href="/blog/acme-protocol-certificate-automation/">ACME automation</a>.</p>
+<p>Industry direction is shorter lifetimes. Let's Encrypt popularized ~90-day DV certificates; CA/Browser Forum Ballot SC-081v3 now schedules industry-wide maximums down to <strong>47 days by March 2029</strong> (after 200-day and 100-day steps). Shorter life reduces the damage window if a key leaks — and makes <strong>automation mandatory</strong>. See the canonical guide: <a href="/blog/ssl-tls-certificate-lifetime-shortening/">47-day SSL certificate lifetime schedule</a> and <a href="/blog/acme-protocol-certificate-automation/">ACME automation</a>.</p>
 
 
 <aside class="blog-inline-cta" style="margin:28px 0;padding:20px 22px;border:1px solid #e5e7eb;border-radius:12px;background:#fff8f3">

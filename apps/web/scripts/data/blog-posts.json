@@ -1,5 +1,12 @@
 [
   {
+    "title": "SSL certificate providers compared (2026)",
+    "slug": "ssl-certificate-providers-compared",
+    "description": "Compare DigiCert, GlobalSign, Let's Encrypt, Sectigo, SSL.com, ZeroSSL, and docstoc on ease of use, free tiers, support, and who each SSL provider is actually for.",
+    "publishedAt": "2026-08-26",
+    "category": "Compare"
+  },
+  {
     "title": "ACME protocol certificate automation explained",
     "slug": "acme-protocol-certificate-automation",
     "description": "How ACME proves domain control, which clients and panels use it, common pitfalls, and how to migrate to automated DV without certbot babysitting.",
@@ -7,10 +14,10 @@
     "category": "Guide"
   },
   {
-    "title": "Why SSL/TLS certificate lifetimes are getting shorter",
+    "title": "47-day SSL certificates: the CA/B Forum lifetime schedule explained",
     "slug": "ssl-tls-certificate-lifetime-shortening",
-    "description": "Why 90-day (and shorter) certificates exist, what is changing in CA/Browser rules, and how automation keeps HTTPS from breaking.",
-    "publishedAt": "2026-08-21",
+    "description": "CA/B Forum Ballot SC-081v3 timeline: 200 days (2026), 100 days (2027), 47-day SSL/TLS max by March 2029 — why it happened, DCV reuse risks, and how automation keeps HTTPS online.",
+    "publishedAt": "2026-08-26",
     "category": "Guide"
   },
   {

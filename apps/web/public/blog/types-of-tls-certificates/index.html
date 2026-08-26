@@ -44,12 +44,12 @@
   "mainEntityOfPage": "https://chasa.io/blog/types-of-tls-certificates/"
 }
 </script>
-<link rel="icon" href="../../favicon.png?v=20260826a" type="image/png">
-<link rel="icon" href="../../favicon.svg?v=20260826a" type="image/svg+xml">
-<link rel="apple-touch-icon" href="../../apple-touch-icon.png?v=20260826a">
+<link rel="icon" href="../../favicon.png?v=20260826b" type="image/png">
+<link rel="icon" href="../../favicon.svg?v=20260826b" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../../apple-touch-icon.png?v=20260826b">
 <link rel="preload" href="../../fonts/inter-400.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="../../fonts/inter-700.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="../../site.css?v=20260826a">
+<link rel="stylesheet" href="../../site.css?v=20260826b">
 </head>
 <body>
 <header class="site-header">
@@ -200,11 +200,24 @@
     <!--/email_off-->
   </div>
 </div>
-<main class="wrap page-main">
-<p><a href="../../blog/">← Blog</a></p>
-  <h1>Types of TLS certificates (and how they relate to SSL)</h1>
-  <p class="lede">TLS vs SSL naming, server vs client certificates, short-lived TLS, and how to pick the right certificate for modern HTTPS.</p>
-  <p>TLS (Transport Layer Security) is the modern protocol family that replaced legacy SSL versions. A “TLS certificate” is the X.509 credential a server presents during the handshake. This article explains TLS certificate types in protocol-aware language — without pretending SSL and TLS are two different products you must purchase twice.</p>
+<main class="blog-article-main">
+<article class="blog-article">
+  <header class="blog-article-hero">
+    <div class="blog-article-hero-inner">
+      <a class="blog-article-back" href="../../blog/">← Blog</a>
+      <div class="blog-article-meta">
+        <span class="blog-article-tag">Guide</span>
+        <span class="blog-article-date">— August 22, 2026</span>
+        <span class="blog-article-read">2 min read</span>
+      </div>
+      <h1>Types of TLS certificates (and how they relate to SSL)</h1>
+      <p class="blog-article-lede">TLS vs SSL naming, server vs client certificates, short-lived TLS, and how to pick the right certificate for modern HTTPS.</p>
+    </div>
+  </header>
+  <div class="blog-article-layout">
+    <aside class="blog-article-aside"><nav class="blog-toc blog-toc-side" aria-label="Table of contents"><div class="blog-toc-title">Table of contents</div><ol><li><a href="#ssl-vs-tls-naming">SSL vs TLS naming (stop buying twice)</a></li><li><a href="#server-auth">Server authentication certificates</a></li><li><a href="#client-auth">Client authentication certificates</a></li><li><a href="#short-lived-tls">Short-lived TLS certificates</a></li><li><a href="#where-tls-fits-in-docstoc">Where TLS fits in docstoc</a></li><li><a href="#faq">FAQ</a></li></ol></nav></aside>
+    <div class="blog-article-content">
+      <div class="blog-body"><p>TLS (Transport Layer Security) is the modern protocol family that replaced legacy SSL versions. A “TLS certificate” is the X.509 credential a server presents during the handshake. This article explains TLS certificate types in protocol-aware language — without pretending SSL and TLS are two different products you must purchase twice.</p>
 
 <h2 id="ssl-vs-tls-naming">SSL vs TLS naming (stop buying twice)</h2>
 <p>Vendors say SSL; browsers speak TLS (1.2/1.3 in practice). The certificate is the same class of object. If you landed here from a TLS search, the practical buyer’s guide matches our <a href="/blog/types-of-ssl-certificates/">SSL certificate types</a> article — validation (DV/OV/EV), name coverage (single/SAN/wildcard), and specialty non-web certs.</p>
@@ -216,7 +229,7 @@
 <p>Used in mTLS so the client proves identity too. Common in enterprise APIs and device fleets — not a substitute for public website DV.</p>
 
 <h2 id="short-lived-tls">Short-lived TLS certificates</h2>
-<p>Industry direction is shorter lifetimes (Let's Encrypt popularized ~90 days; further shortening is actively discussed). Shorter life reduces the damage window if a key leaks — and makes <strong>automation mandatory</strong>. See <a href="/blog/ssl-tls-certificate-lifetime-shortening/">certificate lifetime shortening</a> and <a href="/blog/acme-protocol-certificate-automation/">ACME automation</a>.</p>
+<p>Industry direction is shorter lifetimes. Let's Encrypt popularized ~90-day DV certificates; CA/Browser Forum Ballot SC-081v3 now schedules industry-wide maximums down to <strong>47 days by March 2029</strong> (after 200-day and 100-day steps). Shorter life reduces the damage window if a key leaks — and makes <strong>automation mandatory</strong>. See the canonical guide: <a href="/blog/ssl-tls-certificate-lifetime-shortening/">47-day SSL certificate lifetime schedule</a> and <a href="/blog/acme-protocol-certificate-automation/">ACME automation</a>.</p>
 
 
 <aside class="blog-inline-cta" style="margin:28px 0;padding:20px 22px;border:1px solid #e5e7eb;border-radius:12px;background:#fff8f3">
@@ -230,23 +243,24 @@
 
 <h2 id="faq">FAQ</h2>
 <details class="faq-item"><summary>Can I still get an “SSL 3.0 certificate”?</summary><p>You should not use SSL 3.0 — it is obsolete and unsafe. Buy/issue a modern certificate and enable TLS 1.2+ on the server.</p></details>
-<details class="faq-item"><summary>Does TLS 1.3 need a special certificate?</summary><p>Generally no — the same DV/OV certificates work; the server negotiates TLS 1.3 when both sides support it.</p></details>
-  <section style="margin-top:40px;padding-top:24px;border-top:1px solid var(--line)">
-    <aside class="tpl-pack-strip" aria-label="Related resource">
-      <p class="tpl-pack-strip-copy">Get your polite invoice templates PDF to chase clients with confidence</p>
-      <a class="tpl-pack-strip-btn" href="../../free-templates/download">Download</a>
-    </aside>
-    <h2>Related resources</h2>
-    <ul>
-      <li><a href="../../tools/invoice-chase-calculator">Invoice chase calculator</a></li>
-      <li><a href="../../blog/invoice-chase-software-comparison/">docstoc vs Chaser, Paidnice &amp; other invoice chase tools</a></li>
-      <li><a href="../../free-templates/">Free payment reminder email templates</a></li>
-      <li><a href="../../app/">Try the AI invoice follow-up tool</a></li>
-      <li><a href="../../payment-reminder">Payment reminder emails guide</a></li>
-      <li><a href="../../overdue-invoice">Overdue invoice follow-up</a></li>
-      <li><a href="../../invoice-follow-up">Invoice follow-up best practices</a></li>
-    </ul>
-  </section>
+<details class="faq-item"><summary>Does TLS 1.3 need a special certificate?</summary><p>Generally no — the same DV/OV certificates work; the server negotiates TLS 1.3 when both sides support it.</p></details></div>
+      <section class="blog-article-footer">
+        <aside class="tpl-pack-strip" aria-label="Related resource">
+          <p class="tpl-pack-strip-copy">Add your domain and get a free, real Let's Encrypt certificate</p>
+          <a class="tpl-pack-strip-btn" href="../../ssl">Set up free SSL</a>
+        </aside>
+        <h2>Related resources</h2>
+        <ul>
+          <li><a href="../../ssl">Free SSL/TLS automation for your domain</a></li>
+      <li><a href="../../app/ssl-domains">Manage SSL domains</a></li>
+      <li><a href="../../tools/ssl-certificate-calculator">SSL expiry calculator</a></li>
+      <li><a href="../../zerossl-alternative">ZeroSSL alternative</a></li>
+      <li><a href="../../app/">Try docstoc free</a></li>
+        </ul>
+      </section>
+    </div>
+  </div>
+</article>
 </main>
 <footer class="site-footer">
   <div class="wrap site-footer-inner">
@@ -313,21 +327,21 @@
     <video
       id="revival-modal-video"
       class="how-modal-video"
-      src="../../videos/docstoc-is-back.webm?v=20260826a"
-      poster="../../videos/docstoc-is-back-poster.jpg?v=20260826a"
+      src="../../videos/docstoc-is-back.webm?v=20260826b"
+      poster="../../videos/docstoc-is-back-poster.jpg?v=20260826b"
       controls
       playsinline
       preload="metadata"
     >
-      <track kind="captions" src="../../videos/docstoc-is-back.en.vtt?v=20260826a" srclang="en" label="English" default>
-      <track kind="captions" src="../../videos/docstoc-is-back.es.vtt?v=20260826a" srclang="es" label="Español">
+      <track kind="captions" src="../../videos/docstoc-is-back.en.vtt?v=20260826b" srclang="en" label="English" default>
+      <track kind="captions" src="../../videos/docstoc-is-back.es.vtt?v=20260826b" srclang="es" label="Español">
     </video>
   </div>
 </div>
-<script src="../../site-lang.js?v=20260826a" defer></script>
-<script src="../../site-nav.js?v=20260826a" defer></script>
-<script src="../../cookie-consent.js?v=20260826a" defer></script>
-<script src="../../analytics.js?v=20260826a" defer></script>
+<script src="../../site-lang.js?v=20260826b" defer></script>
+<script src="../../site-nav.js?v=20260826b" defer></script>
+<script src="../../cookie-consent.js?v=20260826b" defer></script>
+<script src="../../analytics.js?v=20260826b" defer></script>
 <script>
 /* Contact sales → docstoc Assistant (Docracy pattern). */
 (function () {

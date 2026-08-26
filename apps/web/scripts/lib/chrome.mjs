@@ -5,7 +5,7 @@ import { renderSeoHead } from "./seo-head.mjs";
 import { EN_TO_ES, ES_TO_EN } from "../data/es-alternates.mjs";
 
 /** Bump when site.css / site-nav.js / site-lang.js change so Pages edge caches refresh. */
-export const ASSET_V = "20260826a";
+export const ASSET_V = "20260826b";
 
 /** Small inline icon set for the header mega-menus (mirrors the app's NavIcon component). */
 const ICON_PATHS = {
@@ -214,7 +214,7 @@ export function conversionSectionHtml() {
   // fabricate placeholder numbers or quotes in the meantime.
 }
 
-export function chrome({ title, description, canonical, activeNav = "", mainHtml, jsonLd, depth = 0, extraHead = "", lang = "en", fullBleedMain = false }) {
+export function chrome({ title, description, canonical, activeNav = "", mainHtml, jsonLd, depth = 0, extraHead = "", lang = "en", fullBleedMain = false, mainClass = "" }) {
   const prefix = depth > 0 ? "../".repeat(depth) : "";
   const root = depth > 0 ? "../".repeat(depth).slice(0, -1) || "." : "";
   const base = depth === 0 ? "" : "../".repeat(depth).replace(/\/$/, "") || ".";
@@ -341,7 +341,7 @@ ${jsonLd ? `<script type="application/ld+json">\n${jsonLd}\n</script>` : `<scrip
     <!--/email_off-->
   </div>
 </div>
-<main${fullBleedMain ? ' class="tool-sell-main"' : ' class="wrap page-main"'}>
+<main class="${fullBleedMain ? "tool-sell-main" : mainClass || "wrap page-main"}">
 ${mainHtml}
 </main>
 <footer class="site-footer">

@@ -156,6 +156,8 @@ function localBodyFile(slug) {
 
 function extractBodyFromMain(mainHtml) {
   let html = mainHtml;
+  const contentMatch = html.match(/<div class="blog-article-content">([\s\S]*?)<section class="blog-article-footer">/i);
+  if (contentMatch) return contentMatch[1].trim();
   html = html.replace(/^<p><a href="[^"]*">← Blog<\/a><\/p>\s*/i, "");
   html = html.replace(/^<h1>[\s\S]*?<\/h1>\s*/i, "");
   html = html.replace(/^<p class="lede">[\s\S]*?<\/p>\s*/i, "");
@@ -215,9 +217,59 @@ function buildIndexMain(posts) {
 }
 
 function renderBody(body) {
-  if (!body) return "";
-  if (/<[a-z][\s\S]*>/i.test(body)) return body;
-  return structuredBodyToHtml(body);
+  if (!body) return { html: "", tocHtml: "" };
+  let html = body;
+  if (!/<[a-z][\s\S]*>/i.test(html)) {
+    html = structuredBodyToHtml(html);
+  }
+
+  let tocHtml = "";
+  const tocMatch = html.match(/<nav\s+class="blog-toc"[^>]*>[\s\S]*?<\/nav>/i);
+  if (tocMatch) {
+    tocHtml = tocMatch[0]
+      .replace('class="blog-toc"', 'class="blog-toc blog-toc-side"')
+      .replace("class='blog-toc'", "class='blog-toc blog-toc-side'");
+    html = html.replace(tocMatch[0], "");
+  } else {
+    const headings = [...html.matchAll(/<h2([^>]*)>([\s\S]*?)<\/h2>/gi)];
+    if (headings.length >= 3) {
+      const items = [];
+      for (const m of headings) {
+        const attrs = m[1] || "";
+        const rawTitle = m[2].replace(/<[^>]+>/g, "").trim();
+        const idMatch = attrs.match(/\bid=["']([^"']+)["']/);
+        const id = idMatch ? idMatch[1] : slugifyHeading(rawTitle);
+        if (!idMatch && rawTitle) {
+          html = html.replace(m[0], `<h2 id="${id}">${m[2]}</h2>`);
+        }
+        items.push(`<li><a href="#${id}">${escapeHtml(rawTitle)}</a></li>`);
+      }
+      tocHtml = `<nav class="blog-toc blog-toc-side" aria-label="Table of contents"><div class="blog-toc-title">Table of contents</div><ol>${items.join("")}</ol></nav>`;
+    }
+  }
+
+  if (!/class=["'][^"']*\bblog-body\b/.test(html)) {
+    html = `<div class="blog-body">${html.trim()}</div>`;
+  }
+  return { html: html.trim(), tocHtml };
+}
+
+function estimateReadMinutes(html) {
+  const text = String(html || "")
+    .replace(/<script[\s\S]*?<\/script>/gi, " ")
+    .replace(/<style[\s\S]*?<\/style>/gi, " ")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+  const words = text ? text.split(" ").length : 0;
+  return Math.max(1, Math.round(words / 220));
+}
+
+function formatPostDate(iso) {
+  if (!iso) return "";
+  const d = new Date(`${iso}T12:00:00Z`);
+  if (Number.isNaN(d.getTime())) return iso;
+  return d.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric", timeZone: "UTC" });
 }
 
 const PILLAR_RESOURCES = {
@@ -245,12 +297,13 @@ const PILLAR_RESOURCES = {
   },
   ssl: {
     stripCopy: "Add your domain and get a free, real Let's Encrypt certificate",
-    stripHref: "/ssl.html",
+    stripHref: "/ssl",
     stripLabel: "Set up free SSL",
     links: [
-      ["/ssl.html", "Free SSL/TLS automation for your domain"],
-      ["/monitoring.html", "SSL certificate monitoring"],
-      ["/security.html", "docstoc security & trust overview"],
+      ["/ssl", "Free SSL/TLS automation for your domain"],
+      ["/app/ssl-domains", "Manage SSL domains"],
+      ["/tools/ssl-certificate-calculator", "SSL expiry calculator"],
+      ["/zerossl-alternative", "ZeroSSL alternative"],
       ["/app/", "Try docstoc free"],
     ],
   },
@@ -277,6 +330,13 @@ function pillarForPost(post) {
     case "document-certificates-tamper-evident-verification":
       return "certificates";
     case "free-ssl-automation-lets-encrypt-domain":
+    case "ssl-certificate-authorities-market-share":
+    case "ssl-certificate-providers-compared":
+    case "ssl-tls-certificate-lifetime-shortening":
+    case "types-of-ssl-certificates":
+    case "types-of-tls-certificates":
+    case "certificate-authority-types-pros-cons":
+    case "acme-protocol-certificate-automation":
       return "ssl";
     default:
       return "chasing";
@@ -294,20 +354,44 @@ function buildPostMain(post, body, depth = 2) {
   const resourceLinks = pillar.links
     .map(([path, label]) => `<li><a href="${href(path)}">${label}</a></li>`)
     .join("\n      ");
-  return `<p><a href="${href("/blog/")}">← Blog</a></p>
-  <h1>${escapeHtml(post.title)}</h1>
-  ${post.description ? `<p class="lede">${escapeHtml(post.description)}</p>` : ""}
-  ${renderBody(body)}
-  <section style="margin-top:40px;padding-top:24px;border-top:1px solid var(--line)">
-    <aside class="tpl-pack-strip" aria-label="Related resource">
-      <p class="tpl-pack-strip-copy">${pillar.stripCopy}</p>
-      <a class="tpl-pack-strip-btn" href="${href(pillar.stripHref)}">${pillar.stripLabel}</a>
-    </aside>
-    <h2>Related resources</h2>
-    <ul>
-      ${resourceLinks}
-    </ul>
-  </section>${script}`;
+  const { html: bodyHtml, tocHtml } = renderBody(body);
+  const minutes = estimateReadMinutes(`${post.title} ${post.description || ""} ${bodyHtml}`);
+  const dateLabel = formatPostDate(post.publishedAt);
+  const category = post.category || "Guide";
+  const aside = tocHtml
+    ? `<aside class="blog-article-aside">${tocHtml}</aside>`
+    : `<aside class="blog-article-aside" aria-hidden="true"></aside>`;
+
+  return `<article class="blog-article">
+  <header class="blog-article-hero">
+    <div class="blog-article-hero-inner">
+      <a class="blog-article-back" href="${href("/blog/")}">← Blog</a>
+      <div class="blog-article-meta">
+        <span class="blog-article-tag">${escapeHtml(category)}</span>
+        ${dateLabel ? `<span class="blog-article-date">— ${escapeHtml(dateLabel)}</span>` : ""}
+        <span class="blog-article-read">${minutes} min read</span>
+      </div>
+      <h1>${escapeHtml(post.title)}</h1>
+      ${post.description ? `<p class="blog-article-lede">${escapeHtml(post.description)}</p>` : ""}
+    </div>
+  </header>
+  <div class="blog-article-layout">
+    ${aside}
+    <div class="blog-article-content">
+      ${bodyHtml}
+      <section class="blog-article-footer">
+        <aside class="tpl-pack-strip" aria-label="Related resource">
+          <p class="tpl-pack-strip-copy">${pillar.stripCopy}</p>
+          <a class="tpl-pack-strip-btn" href="${href(pillar.stripHref)}">${pillar.stripLabel}</a>
+        </aside>
+        <h2>Related resources</h2>
+        <ul>
+          ${resourceLinks}
+        </ul>
+      </section>
+    </div>
+  </div>
+</article>${script}`;
 }
 
 const COMPARISON_FAQ = [
@@ -456,6 +540,7 @@ for (const post of posts) {
     mainHtml: buildPostMain(post, body),
     jsonLd: buildJsonLd(post),
     depth: 2,
+    mainClass: "blog-article-main",
   });
   writeFileSync(join(slugDir, "index.html"), postHtml, "utf8");
   console.log(`Generated blog/${post.slug}/index.html`);
