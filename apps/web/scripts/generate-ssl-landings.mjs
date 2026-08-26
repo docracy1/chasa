@@ -209,16 +209,20 @@ function pageMain({ crumbLabel, h1, lede, kind, faqs }) {
   <div class="wrap tpl-hero-inner">
     <h1>${escapeHtml(h1)}</h1>
     <p class="tpl-hero-lede">${lede}</p>
+    <p class="tpl-hero-actions" style="margin-top:20px;display:flex;flex-wrap:wrap;gap:12px;align-items:center">
+      <a href="/app/ssl-domains" class="nav-cta">Issue an SSL certificate →</a>
+      <a href="/#pricing" class="prod-try-secondary" style="margin-left:0">See pricing</a>
+    </p>
   </div>
 </section>
 <div class="prod-body">
   <p class="crumb"><a href="/">Home</a> / ${escapeHtml(crumbLabel)}</p>
   ${sharedSections(kind)}
   <div class="prod-try">
-    <h2>Try it in Tools</h2>
-    <p>Check expiry math free, or open SSL domains in the app to issue a certificate.</p>
-    <a href="/tools/ssl-certificate-calculator" class="nav-cta">SSL expiry calculator →</a>
-    <a class="prod-try-secondary" href="/app/ssl-domains">Manage SSL domains</a>
+    <h2>Open the SSL product</h2>
+    <p>Add your domain, publish one DNS TXT record, and download PEMs — renewals stay in the app.</p>
+    <a href="/app/ssl-domains" class="nav-cta">Manage SSL domains →</a>
+    <a class="prod-try-secondary" href="/tools/ssl-certificate-calculator">SSL expiry calculator</a>
   </div>
   <h2>FAQ</h2>
   ${faqHtml(faqs)}

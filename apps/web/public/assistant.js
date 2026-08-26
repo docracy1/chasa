@@ -1,6 +1,7 @@
 (function () {
-  if (window.__docstocAssistant) return;
+  if (window.__docstocAssistant || window.__chasaAssistant) return;
   window.__docstocAssistant = true;
+  window.__chasaAssistant = true;
 
   var SALES = "sales@" + "docstoc.io";
   var JOKES = [
@@ -81,7 +82,7 @@
   function mount() {
     if (!document.body) return;
     ensureStyles();
-    if (document.querySelector(".docstoc-asst")) return;
+    if (document.querySelector(".docstoc-asst, .chasa-asst")) return;
 
     var root = document.createElement("div");
     root.className = "docstoc-asst";
@@ -321,10 +322,13 @@
       });
     });
 
-    window.addEventListener("docstoc:open-chat", function (ev) {
+    function onOpenChat(ev) {
       var detail = (ev && ev.detail) || {};
       openAssistant({ intent: detail.intent || null });
-    });
+    }
+    window.addEventListener("docstoc:open-chat", onOpenChat);
+    /* Legacy alias — older cached pages still dispatch chasa:open-chat */
+    window.addEventListener("chasa:open-chat", onOpenChat);
 
     window.docstocAssistant = {
       open: openAssistant,
@@ -332,6 +336,8 @@
         setOpen(false);
       },
     };
+    /* Legacy alias for older callers */
+    window.chasaAssistant = window.docstocAssistant;
   }
 
   if (document.readyState === "loading") {

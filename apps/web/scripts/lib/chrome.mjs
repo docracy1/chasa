@@ -5,7 +5,7 @@ import { renderSeoHead } from "./seo-head.mjs";
 import { EN_TO_ES, ES_TO_EN } from "../data/es-alternates.mjs";
 
 /** Bump when site.css / site-nav.js / site-lang.js change so Pages edge caches refresh. */
-export const ASSET_V = "20260825d";
+export const ASSET_V = "20260826a";
 
 /** Small inline icon set for the header mega-menus (mirrors the app's NavIcon component). */
 const ICON_PATHS = {
@@ -89,15 +89,13 @@ function megaMenu({ triggerKey, triggerLabel, items, panel, columns = 2, simple 
   </div>`;
 }
 
-/** The main products, big-icon grid — LimeWire's "Products" dropdown pattern. Order matches
- *  the lifecycle: get the client (templates) → invoice → secure the deal (certify) → protect the
- *  connection (SSL) → get paid (chasing). */
+/** The main products, big-icon grid — LimeWire's "Products" dropdown pattern. Order:
+ *  templates → invoices → SSL → certificates. Chase lives under Features, not here. */
 const PRODUCTS_ITEMS = [
   { path: "/document-templates/", icon: "store", titleKey: "nav.mega.products.templates.title", title: "Document templates", descKey: "nav.mega.products.templates.desc", desc: "1,000+ free business & legal templates, plus kits." },
   { path: "/invoices", icon: "briefcase", titleKey: "nav.mega.products.invoices.title", title: "Invoice generator", descKey: "nav.mega.products.invoices.desc", desc: "Create a shareable invoice — then chase it if it goes overdue." },
-  { path: "/certificate", icon: "shield", titleKey: "nav.mega.products.certificates.title", title: "Document certificates", descKey: "nav.mega.products.certificates.desc", desc: "Free tamper-evident hash verification for any file." },
   { path: "/ssl", icon: "lock", titleKey: "nav.mega.products.ssl.title", title: "SSL / TLS automation", descKey: "nav.mega.products.ssl.desc", desc: "Free Let's Encrypt certificates for your own domain." },
-  { path: "/features/ai-tone", icon: "bolt", titleKey: "nav.mega.products.chasing.title", title: "AI invoice chasing", descKey: "nav.mega.products.chasing.desc", desc: "Tone-matched follow-up drafts for overdue invoices." },
+  { path: "/certificate", icon: "shield", titleKey: "nav.mega.products.certificates.title", title: "Document certificates", descKey: "nav.mega.products.certificates.desc", desc: "Free tamper-evident hash verification for any file." },
 ];
 
 const FEATURE_ITEMS = [
@@ -434,8 +432,15 @@ ${mainHtml}
       ? e.target.closest("[data-sales-mail], .header-nav-sales, a[data-i18n='nav.contactSales'], a[data-i18n='home.pricing.contactSales']")
       : null;
     if (!el) return;
+    var api = window.docstocAssistant || window.chasaAssistant;
+    if (api && typeof api.open === "function") {
+      e.preventDefault();
+      api.open({ intent: "sales" });
+      return;
+    }
     e.preventDefault();
     window.dispatchEvent(new CustomEvent("docstoc:open-chat", { detail: { intent: "sales" } }));
+    window.dispatchEvent(new CustomEvent("chasa:open-chat", { detail: { intent: "sales" } }));
   }, true);
 })();
 </script>

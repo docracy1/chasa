@@ -2565,11 +2565,11 @@
   </div>
 </div>
 
-<script src="/site-lang.js?v=20260825a" defer></script>
-<script src="/site-nav.js?v=20260825b" defer></script>
+<script src="/site-lang.js?v=20260826a" defer></script>
+<script src="/site-nav.js?v=20260826a" defer></script>
 <script src="/price-compare.js" defer></script>
 <script src="/cookie-consent.js?v=20260823d"></script>
-<script src="/assistant.js?v=20260823d"></script>
+<script src="/assistant.js?v=20260826a"></script>
 <script>
   (function () {
     /* Contact sales → docstoc Assistant with sales intent (Docracy pattern). */
@@ -2578,8 +2578,15 @@
         ? e.target.closest("[data-sales-mail], .header-nav-sales, a[data-i18n='nav.contactSales'], a[data-i18n='home.pricing.contactSales']")
         : null;
       if (!el) return;
+      var api = window.docstocAssistant || window.chasaAssistant;
+      if (api && typeof api.open === "function") {
+        e.preventDefault();
+        api.open({ intent: "sales" });
+        return;
+      }
       e.preventDefault();
       window.dispatchEvent(new CustomEvent("docstoc:open-chat", { detail: { intent: "sales" } }));
+      window.dispatchEvent(new CustomEvent("chasa:open-chat", { detail: { intent: "sales" } }));
     }, true);
 
     /* Personalize the hero for outreach clicks — /go/dm?who=sarah forwards ?who= here. */

@@ -114,13 +114,30 @@
 /* Contact sales → open docstoc Assistant with sales intent (Docracy pattern). */
 (function () {
   function openSalesChat(e) {
+    var api = window.docstocAssistant || window.chasaAssistant;
+    if (api && typeof api.open === "function") {
+      if (e) e.preventDefault();
+      api.open({ intent: "sales" });
+      return;
+    }
+    /* Assistant not mounted yet — still try the event, then fall back to mailto so the click never no-ops. */
     if (e) e.preventDefault();
     window.dispatchEvent(new CustomEvent("docstoc:open-chat", { detail: { intent: "sales" } }));
+    window.dispatchEvent(new CustomEvent("chasa:open-chat", { detail: { intent: "sales" } }));
+    setTimeout(function () {
+      var panel = document.querySelector(".docstoc-asst-panel:not([hidden]), .chasa-asst-panel:not([hidden])");
+      if (panel) return;
+      var mail = "mailto:sales@docstoc.io?subject=" + encodeURIComponent("docstoc sales");
+      window.location.href = mail;
+    }, 80);
   }
 
   function bind(selector) {
     document.querySelectorAll(selector).forEach(function (el) {
-      el.setAttribute("href", "#contact-sales");
+      var href = el.getAttribute("href") || "";
+      if (!href || href === "#" || href.indexOf("#contact-sales") === 0 || href.indexOf("mailto:") === 0) {
+        el.setAttribute("href", "mailto:sales@docstoc.io?subject=" + encodeURIComponent("docstoc sales"));
+      }
       el.addEventListener("click", openSalesChat);
     });
   }
@@ -132,9 +149,11 @@
 })();
 
 (function () {
-  if (window.__docstocAssistant || document.querySelector('script[src*="assistant.js"]')) return;
+  if (window.__docstocAssistant || window.__chasaAssistant) return;
+  if (document.querySelector(".docstoc-asst, .chasa-asst")) return;
   function inject() {
     if (!document.body) return;
+    if (document.querySelector('script[src*="assistant.js"]')) return;
     var selfScript = document.querySelector('script[src*="site-nav.js"]');
     var vMatch = selfScript && selfScript.src && selfScript.src.match(/[?&]v=([^&]+)/);
     var s = document.createElement("script");
