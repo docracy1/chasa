@@ -237,7 +237,12 @@ export default function AppShell({
     { to: "/clients", label: t("nav.clients") },
   ];
 
-  const sslNav = [{ to: "/ssl-domains", label: t("nav.sslDomainsManage") }];
+  const sslNav = [
+    { to: "/ssl-domains", hash: "", label: t("nav.sslDomainsManage") },
+    { to: "/ssl-domains#multi-san", hash: "#multi-san", label: t("nav.sslMultiSan") },
+    { to: "/ssl-domains#wildcards", hash: "#wildcards", label: t("nav.sslWildcards") },
+    { to: "/ssl-domains#acme", hash: "#acme", label: t("nav.sslAcme") },
+  ];
 
   const certificatesNav = [
     { to: "/certificates", label: t("nav.certificatesAll") },
@@ -483,16 +488,23 @@ export default function AppShell({
             </button>
             {sslExpanded ? (
               <div className="dash-nav-subitems">
-                {sslNav.map((item) => (
-                  <Link
-                    key={item.to}
-                    to={item.to}
-                    className={`dash-nav-subitem${location.pathname.startsWith(item.to) ? " is-active" : ""}`}
-                    onClick={() => setSslExpanded(true)}
-                  >
-                    {item.label}
-                  </Link>
-                ))}
+                {sslNav.map((item) => {
+                  const hashActive =
+                    location.pathname.startsWith("/ssl-domains") &&
+                    (item.hash
+                      ? location.hash === item.hash
+                      : !location.hash || location.hash === "#domains");
+                  return (
+                    <Link
+                      key={item.to}
+                      to={item.to}
+                      className={`dash-nav-subitem${hashActive ? " is-active" : ""}`}
+                      onClick={() => setSslExpanded(true)}
+                    >
+                      {item.label}
+                    </Link>
+                  );
+                })}
               </div>
             ) : null}
           </div>

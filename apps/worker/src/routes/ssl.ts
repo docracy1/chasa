@@ -8,6 +8,7 @@ import {
   getAllDns01Challenges,
   getOrder,
   loadOrCreateAccount,
+  probeAcmeConnectivity,
   verifyDns01,
 } from "../lib/acme";
 import {
@@ -44,6 +45,12 @@ const ssl = new Hono<AuthEnv>();
  * Business: Pro features + 1 wildcard (within the 5 slots).
  */
 ssl.use("*", requireAccount);
+
+/** Live Let's Encrypt connectivity check via the ACME relay. Always 200 — `ok` in the body. */
+ssl.get("/health", async (c) => {
+  const probe = await probeAcmeConnectivity(c.env);
+  return c.json(probe);
+});
 
 function limitError(plan: string, limit: number): string {
   if (plan === "free") {

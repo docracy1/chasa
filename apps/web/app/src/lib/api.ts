@@ -596,6 +596,8 @@ export type AgingInvoiceRecord = {
   clientName: string;
   amount: number;
   dueDate: string;
+  status?: "open" | "paid";
+  paidAt?: string | null;
   lastChaseStatus: string | null;
   lastChaseAt: string | null;
   createdAt?: string;
@@ -953,12 +955,27 @@ export type CustomerCertificate = {
 export type SslFeatures = {
   multiSan: boolean;
   wildcard: boolean;
+  wildcardLimit: number;
   maxSansPerCert: number;
   acmeApi: boolean;
 };
 
+export type SslHealth = {
+  ok: boolean;
+  relayConfigured: boolean;
+  relayReachable: boolean;
+  letsEncryptReachable: boolean;
+  directory: "production" | "staging" | "custom";
+  directoryUrl: string;
+  error?: string;
+};
+
 export function listCustomHostnames() {
   return jsonFetch<{ certificates: CustomerCertificate[]; limit: number; features: SslFeatures }>("/ssl/domains");
+}
+
+export function getSslHealth() {
+  return jsonFetch<SslHealth>("/ssl/health");
 }
 
 export function createCustomHostname(hostname: string, hostnames?: string[]) {

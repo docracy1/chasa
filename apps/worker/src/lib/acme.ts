@@ -8,10 +8,9 @@
 // a dumb, stateless forwarder with no secrets of its own — see relayFetch() below and
 // apps/acme-relay/README.md for why and how it's deployed.
 //
-// Defaults to Let's Encrypt STAGING (env.ACME_DIRECTORY_URL overrides). Staging certs aren't
-// browser-trusted but validate the whole flow without touching production's strict rate limits —
-// switch to https://acme-v02.api.letsencrypt.org/directory only once this has been exercised
-// end-to-end.
+// Defaults to Let's Encrypt PRODUCTION (env.ACME_DIRECTORY_URL overrides).
+// For safe dry-runs set ACME_DIRECTORY_URL to https://acme-staging-v02.api.letsencrypt.org/directory
+// — staging certs are not browser-trusted.
 import type { Env } from "../types";
 import { decryptSecret, encryptSecret } from "./secretCrypto";
 import {
@@ -28,9 +27,90 @@ import {
 } from "./asn1";
 
 const STAGING_DIRECTORY = "https://acme-staging-v02.api.letsencrypt.org/directory";
+const PRODUCTION_DIRECTORY = "https://acme-v02.api.letsencrypt.org/directory";
 
 function directoryUrl(env: Env): string {
-  return env.ACME_DIRECTORY_URL?.trim() || STAGING_DIRECTORY;
+  // Prefer explicit override; otherwise production. Staging certs are not browser-trusted.
+  return env.ACME_DIRECTORY_URL?.trim() || PRODUCTION_DIRECTORY;
+}
+
+export function acmeDirectoryLabel(env: Env): "production" | "staging" | "custom" {
+  const url = directoryUrl(env);
+  if (url === PRODUCTION_DIRECTORY || url.startsWith("https://acme-v02.api.letsencrypt.org/")) return "production";
+  if (url === STAGING_DIRECTORY || url.includes("acme-staging-v02")) return "staging";
+  return "custom";
+}
+
+/** Live probe: relay up → Let's Encrypt directory reachable → nonce available. */
+export async function probeAcmeConnectivity(env: Env): Promise<{
+  ok: boolean;
+  relayConfigured: boolean;
+  relayReachable: boolean;
+  letsEncryptReachable: boolean;
+  directory: "production" | "staging" | "custom";
+  directoryUrl: string;
+  error?: string;
+}> {
+  const directory = acmeDirectoryLabel(env);
+  const dirUrl = directoryUrl(env);
+  const base = {
+    relayConfigured: !!(env.ACME_RELAY_URL && env.ACME_RELAY_SECRET),
+    relayReachable: false,
+    letsEncryptReachable: false,
+    directory,
+    directoryUrl: dirUrl,
+  };
+  if (!env.ACME_RELAY_URL || !env.ACME_RELAY_SECRET) {
+    return {
+      ok: false,
+      ...base,
+      error: "ACME relay isn't configured (ACME_RELAY_URL / ACME_RELAY_SECRET)",
+    };
+  }
+  try {
+    const live = await fetch(env.ACME_RELAY_URL, { method: "GET" });
+    if (live.status === 404) {
+      const body = await live.text();
+      if (body.includes("DEPLOYMENT_NOT_FOUND")) {
+        return {
+          ok: false,
+          ...base,
+          error:
+            "ACME relay URL points at Deno Deploy Classic (*.deno.dev) — update ACME_RELAY_URL to https://docstoc-acme-relay.docracy1.deno.net (see apps/acme-relay/README.md)",
+        };
+      }
+    }
+    // 200 = current relay with GET liveness; 405 = older deploy without GET (still alive).
+    if (!live.ok && live.status !== 405) {
+      return {
+        ok: false,
+        ...base,
+        error: `ACME relay HTTP ${live.status} — redeploy apps/acme-relay on Deno Deploy (see apps/acme-relay/README.md)`,
+      };
+    }
+    base.relayReachable = true;
+  } catch (err) {
+    return {
+      ok: false,
+      ...base,
+      error: `ACME relay unreachable: ${err instanceof Error ? err.message : String(err)}`,
+    };
+  }
+  try {
+    const dir = await getDirectory(env);
+    if (!dir.newNonce || !dir.newOrder) {
+      return { ok: false, ...base, error: "Let's Encrypt directory missing newNonce/newOrder" };
+    }
+    await fetchNonce(env, dir);
+    return { ok: true, ...base, letsEncryptReachable: true };
+  } catch (err) {
+    return {
+      ok: false,
+      ...base,
+      letsEncryptReachable: false,
+      error: err instanceof Error ? err.message : String(err),
+    };
+  }
 }
 
 function base64UrlEncode(bytes: Uint8Array): string {

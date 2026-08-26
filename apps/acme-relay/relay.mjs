@@ -38,6 +38,11 @@ function readBody(req) {
 }
 
 const server = createServer(async (req, res) => {
+  if (req.method === "GET") {
+    res.writeHead(200, { "Content-Type": "application/json" });
+    res.end(JSON.stringify({ ok: true, service: "docstoc-acme-relay" }));
+    return;
+  }
   if (req.method !== "POST") {
     res.writeHead(405).end("Method not allowed");
     return;

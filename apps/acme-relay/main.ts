@@ -26,6 +26,13 @@ const ALLOWED_HOSTS = new Set([
 ]);
 
 Deno.serve(async (req: Request) => {
+  // Unauthenticated liveness probe — used by the worker SSL health check and uptime monitors.
+  if (req.method === "GET") {
+    return new Response(JSON.stringify({ ok: true, service: "docstoc-acme-relay" }), {
+      status: 200,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
   if (req.method !== "POST") {
     return new Response("Method not allowed", { status: 405 });
   }
