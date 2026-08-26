@@ -1,7 +1,5 @@
-# Hashed Vite assets must NEVER SPA-fallback to HTML. A stale HTML referencing a retired hash
-# (or a Bot Fight interstitial) would otherwise return text/html 200 for /assets/*.js — React
-# never boots. Status 404 here wins when no real file matches.
-/assets
+# Hashed Vite assets are real files under /assets/* — do not add a catch-all rewrite that
+# can serve HTML for missing JS hashes. Unknown asset paths fall through to the final 404 rule.
 # Old chasa-branded paths → docstoc
 /switch-to-chasa  /switch-to-docstoc  301
 /switch-to-chasa/  /switch-to-docstoc  301
@@ -55,9 +53,7 @@
 /tsl  /tls  301
 /tsl/  /tls  301
 
-/*  /404.html  404
-
-# SPA app shell (Vite builds to /app/)
+# SPA app shell (Vite builds to /app/) — must stay above the catch-all 404.
 /app/*  /app/index.html  200
 /app  /app/  301
 
@@ -113,48 +109,5 @@
 /solutions/iso27001-evidence-automation  /compliance/iso27001  301
 /use-cases/sox-evidence-automation  /compliance/sox  301
 
-
-# Compare pages: old chasa-vs-* URLs → docstoc-vs-* (product is docstoc)
-/chasa-vs-auditboard  /docstoc-vs-auditboard  301
-/chasa-vs-aws-security-hub  /docstoc-vs-aws-security-hub  301
-/chasa-vs-billomat  /docstoc-vs-billomat  301
-/chasa-vs-bonsai  /docstoc-vs-bonsai  301
-/chasa-vs-certum  /docstoc-vs-certum  301
-/chasa-vs-chaseai  /docstoc-vs-chaseai  301
-/chasa-vs-chaser  /docstoc-vs-chaser  301
-/chasa-vs-cloudflare-ssl  /docstoc-vs-cloudflare-ssl  301
-/chasa-vs-digicert  /docstoc-vs-digicert  301
-/chasa-vs-drata  /docstoc-vs-drata  301
-/chasa-vs-duefy  /docstoc-vs-duefy  301
-/chasa-vs-freessl-org  /docstoc-vs-freessl-org  301
-/chasa-vs-freshbooks  /docstoc-vs-freshbooks  301
-/chasa-vs-gaviti  /docstoc-vs-gaviti  301
-/chasa-vs-globalsign  /docstoc-vs-globalsign  301
-/chasa-vs-godaddy-ssl  /docstoc-vs-godaddy-ssl  301
-/chasa-vs-google-workspace  /docstoc-vs-google-workspace  301
-/chasa-vs-honeybook  /docstoc-vs-honeybook  301
-/chasa-vs-hyperproof  /docstoc-vs-hyperproof  301
-/chasa-vs-invoicesherpa  /docstoc-vs-invoicesherpa  301
-/chasa-vs-legalzoom  /docstoc-vs-legalzoom  301
-/chasa-vs-letsencrypt  /docstoc-vs-letsencrypt  301
-/chasa-vs-paidnice  /docstoc-vs-paidnice  301
-/chasa-vs-pandadoc  /docstoc-vs-pandadoc  301
-/chasa-vs-purview  /docstoc-vs-purview  301
-/chasa-vs-quickbooks  /docstoc-vs-quickbooks  301
-/chasa-vs-rocket-lawyer  /docstoc-vs-rocket-lawyer  301
-/chasa-vs-satago  /docstoc-vs-satago  301
-/chasa-vs-sectigo  /docstoc-vs-sectigo  301
-/chasa-vs-secureframe  /docstoc-vs-secureframe  301
-/chasa-vs-ssl-com  /docstoc-vs-ssl-com  301
-/chasa-vs-sslforfree  /docstoc-vs-sslforfree  301
-/chasa-vs-thoropass  /docstoc-vs-thoropass  301
-/chasa-vs-tugboat  /docstoc-vs-tugboat  301
-/chasa-vs-upflow  /docstoc-vs-upflow  301
-/chasa-vs-vanta  /docstoc-vs-vanta  301
-/chasa-vs-wave  /docstoc-vs-wave  301
-/chasa-vs-xero  /docstoc-vs-xero  301
-/chasa-vs-yaypay  /docstoc-vs-yaypay  301
-/chasa-vs-zerossl  /docstoc-vs-zerossl  301
-/chasa-vs-zervant  /docstoc-vs-zervant  301
-/chasa-vs-zoho-invoice  /docstoc-vs-zoho-invoice  301
+# Final catch-all — keep last so SPA and specific redirects win first.
 /*  /404.html  404
