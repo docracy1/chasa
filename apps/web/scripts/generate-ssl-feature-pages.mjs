@@ -25,20 +25,37 @@ const FEATURE_NAV = [
 ];
 
 const EXTRA_HEAD = `<style>
-.ssl-feat-nav { display:flex; flex-wrap:wrap; gap:8px 14px; margin:18px 0 28px; padding:14px 16px; background:#f9fafb; border:1px solid #e5e7eb; border-radius:12px; font-size:13.5px; }
+.ssl-feat-nav { display:flex; flex-wrap:wrap; gap:8px 14px; margin:18px 0 28px; padding:14px 16px; background:#f7f5f2; border-radius:12px; font-size:13.5px; }
 .ssl-feat-nav a { font-weight:600; text-decoration:none; color:#1f2937; }
-.ssl-feat-nav a:hover { color:#0f766e; }
-.ssl-feat-nav a[aria-current="page"] { color:#0f766e; text-decoration:underline; }
-.ssl-feat-blocks { display:grid; gap:20px; margin:22px 0 28px; }
-.ssl-feat-block { border:1px solid #e5e7eb; border-radius:12px; padding:20px 18px; background:#fff; }
-.ssl-feat-block h2 { margin:0 0 10px; font-size:1.15rem; }
-.ssl-feat-block p { margin:0 0 10px; font-size:14.5px; line-height:1.55; color:#4b5563; }
-.ssl-feat-block ul { margin:8px 0 0; padding-left:18px; color:#374151; font-size:14.5px; line-height:1.55; }
-.ssl-feat-block li { margin-bottom:6px; }
-.ssl-feat-cta { display:flex; flex-wrap:wrap; gap:12px; margin:24px 0 8px; align-items:center; }
-.ssl-feat-limits { background:#f9fafb; border:1px solid #e5e7eb; border-radius:12px; padding:18px 20px; margin:18px 0 28px; }
+.ssl-feat-nav a:hover { color: var(--accent, #c45c26); }
+.ssl-feat-nav a[aria-current="page"] { color: var(--accent, #c45c26); text-decoration:underline; }
+.prod-body { max-width: 720px; margin: 0 auto 48px; }
+.prod-body h2 {
+  font-family: 'Fraunces', serif;
+  font-weight: 600;
+  font-size: 1.45rem;
+  margin: 36px 0 12px;
+  color: var(--ink);
+}
+.prod-body h2:first-of-type { margin-top: 8px; }
+.prod-body p { font-size: 15.5px; line-height: 1.65; color: var(--ink-soft); margin: 0 0 14px; }
+.prod-body ul { margin: 0 0 18px; padding-left: 1.2em; color: var(--ink-soft); font-size: 15.5px; line-height: 1.65; }
+.prod-body li { margin-bottom: 8px; }
+.prod-body li strong { color: var(--ink); }
+.ssl-feat-block { margin: 0 0 8px; }
+.ssl-feat-limits { background:#f7f5f2; border-radius:12px; padding:18px 20px; margin:18px 0 28px; }
 .ssl-feat-limits ul { margin:8px 0 0; padding-left:18px; }
 .ssl-feat-code { display:block; background:#0f172a; color:#e2e8f0; padding:14px 16px; border-radius:10px; font-size:13px; overflow-x:auto; white-space:pre; margin:12px 0; }
+.prod-try {
+  margin: 40px 0 8px;
+  padding: 28px 24px;
+  background: #f7f5f2;
+  border-radius: 16px;
+  text-align: center;
+}
+.prod-try h2 { margin: 0 0 10px; font-family: 'Fraunces', serif; font-size: 1.35rem; }
+.prod-try p { margin: 0 0 18px; color: var(--ink-soft); font-size: 15px; }
+.prod-try .nav-cta { display: inline-block; }
 </style>`;
 
 function featureNav(activeHref) {
@@ -49,15 +66,15 @@ function featureNav(activeHref) {
 }
 
 function blocks(items) {
-  return `<div class="ssl-feat-blocks">\n${items
+  return items
     .map(
-      (b) => `  <section class="ssl-feat-block">
+      (b) => `  <div class="ssl-feat-block">
     <h2>${escapeHtml(b.title)}</h2>
     <p>${b.body}</p>
     ${b.bullets ? `<ul>${b.bullets.map((x) => `<li>${x}</li>`).join("")}</ul>` : ""}
-  </section>`
+  </div>`
     )
-    .join("\n")}\n</div>`;
+    .join("\n");
 }
 
 function faqHtml(faqs) {
@@ -100,17 +117,24 @@ function buildJsonLd(path, name, faqs) {
 }
 
 function pageShell({ crumb, h1, lede, path, ctaPrimary, ctaSecondary, body, faqs }) {
-  return `<p class="crumb"><a href="/">Home</a> / <a href="/ssl">SSL</a> / ${escapeHtml(crumb)}</p>
-<h1>${escapeHtml(h1)}</h1>
-<p class="lede">${lede}</p>
-<div class="ssl-feat-cta">
-  <a href="${ctaPrimary.href}" class="nav-cta">${escapeHtml(ctaPrimary.label)}</a>
-  ${ctaSecondary ? `<a href="${ctaSecondary.href}">${escapeHtml(ctaSecondary.label)}</a>` : ""}
-</div>
-${featureNav(path)}
-${body}
-${faqs?.length ? `<h2>FAQ</h2>\n${faqHtml(faqs)}` : ""}
-<p style="margin-top:28px"><a href="/app/login?start=1" class="nav-cta">Try docstoc free</a> · <a href="/ssl">SSL overview</a> · <a href="/tls">TLS overview</a></p>`;
+  return `<section class="tpl-hero">
+  <div class="wrap tpl-hero-inner">
+    <h1>${escapeHtml(h1)}</h1>
+    <p class="tpl-hero-lede">${lede}</p>
+  </div>
+</section>
+<div class="prod-body">
+  <p class="crumb"><a href="/">Home</a> / <a href="/ssl">SSL</a> / ${escapeHtml(crumb)}</p>
+  ${featureNav(path)}
+  ${body}
+  <div class="prod-try">
+    <h2>Try it</h2>
+    <p>Tools for a quick check — or open the product when you’re ready to issue.</p>
+    <a href="${ctaPrimary.href}" class="nav-cta">${escapeHtml(ctaPrimary.label)}</a>
+    ${ctaSecondary ? ` · <a href="${ctaSecondary.href}">${escapeHtml(ctaSecondary.label)}</a>` : ""}
+  </div>
+  ${faqs?.length ? `<h2>FAQ</h2>\n${faqHtml(faqs)}` : ""}
+</div>`;
 }
 
 const PAGES = [

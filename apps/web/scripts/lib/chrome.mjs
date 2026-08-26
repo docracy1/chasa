@@ -94,8 +94,8 @@ function megaMenu({ triggerKey, triggerLabel, items, panel, columns = 2, simple 
  *  connection (SSL) → get paid (chasing). */
 const PRODUCTS_ITEMS = [
   { path: "/document-templates/", icon: "store", titleKey: "nav.mega.products.templates.title", title: "Document templates", descKey: "nav.mega.products.templates.desc", desc: "1,000+ free business & legal templates, plus kits." },
-  { path: "/tools/invoice-generator", icon: "briefcase", titleKey: "nav.mega.products.invoices.title", title: "Invoice generator", descKey: "nav.mega.products.invoices.desc", desc: "Create a shareable invoice — then chase it if it goes overdue." },
-  { path: "/verify/DOC-DEMO0001", icon: "shield", titleKey: "nav.mega.products.certificates.title", title: "Document certificates", descKey: "nav.mega.products.certificates.desc", desc: "Free tamper-evident hash verification for any file." },
+  { path: "/invoices", icon: "briefcase", titleKey: "nav.mega.products.invoices.title", title: "Invoice generator", descKey: "nav.mega.products.invoices.desc", desc: "Create a shareable invoice — then chase it if it goes overdue." },
+  { path: "/certificate", icon: "shield", titleKey: "nav.mega.products.certificates.title", title: "Document certificates", descKey: "nav.mega.products.certificates.desc", desc: "Free tamper-evident hash verification for any file." },
   { path: "/ssl", icon: "lock", titleKey: "nav.mega.products.ssl.title", title: "SSL / TLS automation", descKey: "nav.mega.products.ssl.desc", desc: "Free Let's Encrypt certificates for your own domain." },
   { path: "/features/ai-tone", icon: "bolt", titleKey: "nav.mega.products.chasing.title", title: "AI invoice chasing", descKey: "nav.mega.products.chasing.desc", desc: "Tone-matched follow-up drafts for overdue invoices." },
 ];
@@ -106,7 +106,7 @@ const FEATURE_ITEMS = [
   { path: "/features/", icon: "bolt", titleKey: "nav.mega.feature.chasePlans.title", title: "AI chase plans", descKey: "nav.mega.feature.chasePlans.desc", desc: "3-step follow-up sequences drafted automatically." },
   { path: "/features/", icon: "briefcase", titleKey: "nav.mega.feature.sync.title", title: "Accounting sync", descKey: "nav.mega.feature.sync.desc", desc: "CSV, QuickBooks, Xero, FreshBooks, Wave, Zoho." },
   { path: "/document-templates/", icon: "store", titleKey: "nav.mega.feature.docTemplates.title", title: "Business & legal templates", descKey: "nav.mega.feature.docTemplates.desc", desc: "Free contracts, agreements, and notices — plus kits." },
-  { path: "/verify/DOC-DEMO0001", icon: "shield", titleKey: "nav.mega.feature.certificates.title", title: "Document certificates", descKey: "nav.mega.feature.certificates.desc", desc: "Tamper-evident hash verification, free to check." },
+  { path: "/certificate", icon: "shield", titleKey: "nav.mega.feature.certificates.title", title: "Document certificates", descKey: "nav.mega.feature.certificates.desc", desc: "Tamper-evident hash verification, free to check." },
   { path: "/#pricing", icon: "users", titleKey: "nav.mega.feature.team.title", title: "Team access", descKey: "nav.mega.feature.team.desc", desc: "Share chases and templates across your workspace." },
   { path: "/privacy", icon: "lock", titleKey: "nav.mega.feature.storage.title", title: "Secure & private", descKey: "nav.mega.feature.storage.desc", desc: "Encrypted storage, short automatic retention." },
 ];

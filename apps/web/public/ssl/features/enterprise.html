@@ -20,20 +20,37 @@
 <link rel="me" href="https://www.linkedin.com/company/chasa-io">
 <link rel="me" href="https://x.com/chasaHQ">
 <style>
-.ssl-feat-nav { display:flex; flex-wrap:wrap; gap:8px 14px; margin:18px 0 28px; padding:14px 16px; background:#f9fafb; border:1px solid #e5e7eb; border-radius:12px; font-size:13.5px; }
+.ssl-feat-nav { display:flex; flex-wrap:wrap; gap:8px 14px; margin:18px 0 28px; padding:14px 16px; background:#f7f5f2; border-radius:12px; font-size:13.5px; }
 .ssl-feat-nav a { font-weight:600; text-decoration:none; color:#1f2937; }
-.ssl-feat-nav a:hover { color:#0f766e; }
-.ssl-feat-nav a[aria-current="page"] { color:#0f766e; text-decoration:underline; }
-.ssl-feat-blocks { display:grid; gap:20px; margin:22px 0 28px; }
-.ssl-feat-block { border:1px solid #e5e7eb; border-radius:12px; padding:20px 18px; background:#fff; }
-.ssl-feat-block h2 { margin:0 0 10px; font-size:1.15rem; }
-.ssl-feat-block p { margin:0 0 10px; font-size:14.5px; line-height:1.55; color:#4b5563; }
-.ssl-feat-block ul { margin:8px 0 0; padding-left:18px; color:#374151; font-size:14.5px; line-height:1.55; }
-.ssl-feat-block li { margin-bottom:6px; }
-.ssl-feat-cta { display:flex; flex-wrap:wrap; gap:12px; margin:24px 0 8px; align-items:center; }
-.ssl-feat-limits { background:#f9fafb; border:1px solid #e5e7eb; border-radius:12px; padding:18px 20px; margin:18px 0 28px; }
+.ssl-feat-nav a:hover { color: var(--accent, #c45c26); }
+.ssl-feat-nav a[aria-current="page"] { color: var(--accent, #c45c26); text-decoration:underline; }
+.prod-body { max-width: 720px; margin: 0 auto 48px; }
+.prod-body h2 {
+  font-family: 'Fraunces', serif;
+  font-weight: 600;
+  font-size: 1.45rem;
+  margin: 36px 0 12px;
+  color: var(--ink);
+}
+.prod-body h2:first-of-type { margin-top: 8px; }
+.prod-body p { font-size: 15.5px; line-height: 1.65; color: var(--ink-soft); margin: 0 0 14px; }
+.prod-body ul { margin: 0 0 18px; padding-left: 1.2em; color: var(--ink-soft); font-size: 15.5px; line-height: 1.65; }
+.prod-body li { margin-bottom: 8px; }
+.prod-body li strong { color: var(--ink); }
+.ssl-feat-block { margin: 0 0 8px; }
+.ssl-feat-limits { background:#f7f5f2; border-radius:12px; padding:18px 20px; margin:18px 0 28px; }
 .ssl-feat-limits ul { margin:8px 0 0; padding-left:18px; }
 .ssl-feat-code { display:block; background:#0f172a; color:#e2e8f0; padding:14px 16px; border-radius:10px; font-size:13px; overflow-x:auto; white-space:pre; margin:12px 0; }
+.prod-try {
+  margin: 40px 0 8px;
+  padding: 28px 24px;
+  background: #f7f5f2;
+  border-radius: 16px;
+  text-align: center;
+}
+.prod-try h2 { margin: 0 0 10px; font-family: 'Fraunces', serif; font-size: 1.35rem; }
+.prod-try p { margin: 0 0 18px; color: var(--ink-soft); font-size: 15px; }
+.prod-try .nav-cta { display: inline-block; }
 </style>
 <script type="application/ld+json">
 {
@@ -116,14 +133,14 @@
       <span class="nav-megamenu-item-desc" data-i18n="nav.mega.products.templates.desc">1,000+ free business & legal templates, plus kits.</span>
     </span>
   </a>
-<a href="../../tools/invoice-generator" class="nav-megamenu-item nav-megamenu-item-lg">
+<a href="../../invoices" class="nav-megamenu-item nav-megamenu-item-lg">
     <span class="nav-megamenu-icon nav-megamenu-icon-lg"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7.5" width="18" height="12" rx="1.5" /><path d="M8 7.5V6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v1.5" /><path d="M3 12.5h18" /></svg></span>
     <span>
       <span class="nav-megamenu-item-title" data-i18n="nav.mega.products.invoices.title">Invoice generator</span>
       <span class="nav-megamenu-item-desc" data-i18n="nav.mega.products.invoices.desc">Create a shareable invoice — then chase it if it goes overdue.</span>
     </span>
   </a>
-<a href="../../verify/DOC-DEMO0001" class="nav-megamenu-item nav-megamenu-item-lg">
+<a href="../../certificate" class="nav-megamenu-item nav-megamenu-item-lg">
     <span class="nav-megamenu-icon nav-megamenu-icon-lg"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v5.5c0 5-3.5 8-7 9.5-3.5-1.5-7-4.5-7-9.5V6l7-3z" /><path d="M9 12l2 2 4-4" /></svg></span>
     <span>
       <span class="nav-megamenu-item-title" data-i18n="nav.mega.products.certificates.title">Document certificates</span>
@@ -252,14 +269,15 @@
   </div>
 </div>
 <main class="wrap page-main">
-<p class="crumb"><a href="/">Home</a> / <a href="/ssl">SSL</a> / Business SSL</p>
-<h1>Business SSL for multi-domain teams — not enterprise PKI theater</h1>
-<p class="lede">ZeroSSL “Enterprise” pairs with HID for OV/EV/CLM at scale. docstoc Business is for freelancers, agencies, and SMBs who need more domains, trust badges, and one workspace — flat Pro/Business pricing.</p>
-<div class="ssl-feat-cta">
-  <a href="/app/account" class="nav-cta">See plans in account →</a>
-  <a href="/ssl/features/certificates">Certificate basics</a>
-</div>
-<nav class="ssl-feat-nav" aria-label="SSL features">
+<section class="tpl-hero">
+  <div class="wrap tpl-hero-inner">
+    <h1>Business SSL for multi-domain teams — not enterprise PKI theater</h1>
+    <p class="tpl-hero-lede">ZeroSSL “Enterprise” pairs with HID for OV/EV/CLM at scale. docstoc Business is for freelancers, agencies, and SMBs who need more domains, trust badges, and one workspace — flat Pro/Business pricing.</p>
+  </div>
+</section>
+<div class="prod-body">
+  <p class="crumb"><a href="/">Home</a> / <a href="/ssl">SSL</a> / Business SSL</p>
+  <nav class="ssl-feat-nav" aria-label="SSL features">
   <a href="/ssl/features/certificates">SSL certificates</a>
   <a href="/ssl/features/validation">DNS validation</a>
   <a href="/ssl/features/installation">Installation</a>
@@ -269,32 +287,36 @@
   <a href="/ssl/features/enterprise" aria-current="page">Business SSL</a>
   <a href="/ssl/developer">Developer API</a>
 </nav>
-<div class="ssl-feat-blocks">
-  <section class="ssl-feat-block">
+    <div class="ssl-feat-block">
     <h2>What Business unlocks for SSL</h2>
     <p>Move past a single Pro domain when you run client sites, staging hostnames, or multiple brands.</p>
     <ul><li>Higher custom-domain SSL limit</li><li>Trust profile and badge after verified SSL</li><li>Same Business workspace for invoices, templates, and chase</li></ul>
-  </section>
-  <section class="ssl-feat-block">
+  </div>
+  <div class="ssl-feat-block">
     <h2>Predictable pricing</h2>
     <p>No per-certificate retail markup. SSL automation is part of the subscription — monthly or annual depending on how you bill the account.</p>
     <ul><li>Pro for one domain</li><li>Business for multi-domain + team features</li><li>No hidden CA renewal spike for the LE cert itself</li></ul>
-  </section>
-  <section class="ssl-feat-block">
+  </div>
+  <div class="ssl-feat-block">
     <h2>What this is not</h2>
     <p>If you need OV/EV, government-grade CLM, role-based certificate policy engines, or HID Account Certificate Manager, buy that stack from an enterprise PKI vendor. We will not rebrand Business as that.</p>
     <ul><li>Not OV / EV / wildcard enterprise SKUs</li><li>Not HID partnership CLM</li><li>Not SLA-backed dedicated PKI support desks</li></ul>
-  </section>
-</div>
+  </div>
     <div class="ssl-feat-limits">
       <strong>Need true enterprise PKI?</strong>
       <p style="margin:8px 0 0;font-size:14.5px;color:#4b5563">Use a commercial CA or CLM platform. Prefer docstoc when the goal is automated DV HTTPS inside a small-business ops suite.</p>
     </div>
-<h2>FAQ</h2>
+  <div class="prod-try">
+    <h2>Try it</h2>
+    <p>Tools for a quick check — or open the product when you’re ready to issue.</p>
+    <a href="/app/account" class="nav-cta">See plans in account →</a>
+     · <a href="/ssl/features/certificates">Certificate basics</a>
+  </div>
+  <h2>FAQ</h2>
 <details class="faq-item"><summary>Is Business the same as ZeroSSL Enterprise?</summary>
 <p>No. ZeroSSL Enterprise is HID-powered PKI. docstoc Business is multi-domain DV automation and workspace features for SMBs and agencies.</p>
 </details>
-<p style="margin-top:28px"><a href="/app/login?start=1" class="nav-cta">Try docstoc free</a> · <a href="/ssl">SSL overview</a> · <a href="/tls">TLS overview</a></p>
+</div>
 </main>
 <footer class="site-footer">
   <div class="wrap site-footer-inner">
