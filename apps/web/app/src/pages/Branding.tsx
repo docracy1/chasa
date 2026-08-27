@@ -27,6 +27,11 @@ export default function BrandingPage({
   const [paymentLink, setPaymentLink] = useState("");
   const [lateFeeEnabled, setLateFeeEnabled] = useState(false);
   const [lateFeeHint, setLateFeeHint] = useState("");
+  const [businessAddress, setBusinessAddress] = useState("");
+  const [businessState, setBusinessState] = useState("");
+  const [businessPostal, setBusinessPostal] = useState("");
+  const [businessCountry, setBusinessCountry] = useState("");
+  const [businessVat, setBusinessVat] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [saved, setSaved] = useState(false);
@@ -44,6 +49,11 @@ export default function BrandingPage({
         setPaymentLink(b.paymentLink ?? "");
         setLateFeeEnabled(!!b.lateFeeEnabled);
         setLateFeeHint(b.lateFeeHint ?? "");
+        setBusinessAddress(b.businessAddress ?? "");
+        setBusinessState(b.businessState ?? "");
+        setBusinessPostal(b.businessPostal ?? "");
+        setBusinessCountry(b.businessCountry ?? "");
+        setBusinessVat(b.businessVat ?? "");
       })
       .catch(() =>
         setBranding({
@@ -52,6 +62,11 @@ export default function BrandingPage({
           paymentLink: null,
           lateFeeEnabled: false,
           lateFeeHint: null,
+          businessAddress: null,
+          businessState: null,
+          businessPostal: null,
+          businessCountry: null,
+          businessVat: null,
           paid: false,
         })
       );
@@ -298,6 +313,82 @@ export default function BrandingPage({
           )}
         </form>
         {saved && <p className="branding-saved">{t("branding.saved")}</p>}
+      </section>
+
+      <section className="branding-card">
+        <h2>{t("branding.businessProfile")}</h2>
+        <p className="branding-help">{t("branding.businessProfileHelp")}</p>
+        <form
+          className="clients-form"
+          onSubmit={async (e) => {
+            e.preventDefault();
+            if (!isPaid) return;
+            setBusy(true);
+            setError(null);
+            setSaved(false);
+            try {
+              const next = await updateBranding({
+                businessAddress: businessAddress.trim(),
+                businessState: businessState.trim(),
+                businessPostal: businessPostal.trim(),
+                businessCountry: businessCountry.trim(),
+                businessVat: businessVat.trim(),
+              });
+              setBranding(next);
+              setBusinessAddress(next.businessAddress ?? "");
+              setBusinessState(next.businessState ?? "");
+              setBusinessPostal(next.businessPostal ?? "");
+              setBusinessCountry(next.businessCountry ?? "");
+              setBusinessVat(next.businessVat ?? "");
+              setSaved(true);
+            } catch (err) {
+              setError(err instanceof Error ? err.message : t("branding.saveFailed"));
+            } finally {
+              setBusy(false);
+            }
+          }}
+        >
+          <input
+            type="text"
+            value={businessAddress}
+            onChange={(e) => setBusinessAddress(e.target.value)}
+            placeholder={t("branding.address")}
+            disabled={!isPaid || busy}
+          />
+          <input
+            type="text"
+            value={businessPostal}
+            onChange={(e) => setBusinessPostal(e.target.value)}
+            placeholder={t("branding.postal")}
+            disabled={!isPaid || busy}
+          />
+          <input
+            type="text"
+            value={businessState}
+            onChange={(e) => setBusinessState(e.target.value)}
+            placeholder={t("branding.state")}
+            disabled={!isPaid || busy}
+          />
+          <input
+            type="text"
+            value={businessCountry}
+            onChange={(e) => setBusinessCountry(e.target.value)}
+            placeholder={t("branding.country")}
+            disabled={!isPaid || busy}
+          />
+          <input
+            type="text"
+            value={businessVat}
+            onChange={(e) => setBusinessVat(e.target.value)}
+            placeholder={t("branding.vat")}
+            disabled={!isPaid || busy}
+          />
+          {isPaid && (
+            <button type="submit" className="btn-primary" disabled={busy}>
+              {busy ? t("common.saving") : t("common.save")}
+            </button>
+          )}
+        </form>
       </section>
 
       <section className="branding-card">

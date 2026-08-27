@@ -24,6 +24,11 @@ type BrandingRow = {
   payment_link: string | null;
   late_fee_enabled: number | null;
   late_fee_hint: string | null;
+  business_address: string | null;
+  business_state: string | null;
+  business_postal: string | null;
+  business_country: string | null;
+  business_vat: string | null;
 };
 
 /** Single source of truth for reading an account's branding row — used by the account's own
@@ -31,7 +36,9 @@ type BrandingRow = {
  *  render another account's branding without duplicating this query. */
 export async function getBrandingRow(env: Env, accountId: string): Promise<BrandingRow | null> {
   return env.CHASA_DB.prepare(
-    `SELECT workspace_name, logo_data, payment_link, late_fee_enabled, late_fee_hint FROM accounts WHERE id = ?`
+    `SELECT workspace_name, logo_data, payment_link, late_fee_enabled, late_fee_hint,
+            business_address, business_state, business_postal, business_country, business_vat
+     FROM accounts WHERE id = ?`
   )
     .bind(accountId)
     .first<BrandingRow>();
@@ -79,6 +86,11 @@ account.get("/branding", requireAccount, async (c) => {
     paymentLink: row?.payment_link ?? null,
     lateFeeEnabled: !!(row?.late_fee_enabled),
     lateFeeHint: row?.late_fee_hint ?? null,
+    businessAddress: row?.business_address ?? null,
+    businessState: row?.business_state ?? null,
+    businessPostal: row?.business_postal ?? null,
+    businessCountry: row?.business_country ?? null,
+    businessVat: row?.business_vat ?? null,
     paid: acc.isPaid,
   });
 });
@@ -92,7 +104,9 @@ account.put("/branding", requireWorkspaceAdmin, async (c) => {
   const body = parsed.data;
 
   const current = await c.env.CHASA_DB.prepare(
-    `SELECT workspace_name, logo_data, payment_link, late_fee_enabled, late_fee_hint FROM accounts WHERE id = ?`
+    `SELECT workspace_name, logo_data, payment_link, late_fee_enabled, late_fee_hint,
+            business_address, business_state, business_postal, business_country, business_vat
+     FROM accounts WHERE id = ?`
   )
     .bind(acc.workspaceId)
     .first<{
@@ -101,6 +115,11 @@ account.put("/branding", requireWorkspaceAdmin, async (c) => {
       payment_link: string | null;
       late_fee_enabled: number | null;
       late_fee_hint: string | null;
+      business_address: string | null;
+      business_state: string | null;
+      business_postal: string | null;
+      business_country: string | null;
+      business_vat: string | null;
     }>();
 
   let workspaceName = current?.workspace_name ?? null;
@@ -108,6 +127,11 @@ account.put("/branding", requireWorkspaceAdmin, async (c) => {
   let paymentLink = current?.payment_link ?? null;
   let lateFeeEnabled = !!(current?.late_fee_enabled);
   let lateFeeHint = current?.late_fee_hint ?? null;
+  let businessAddress = current?.business_address ?? null;
+  let businessState = current?.business_state ?? null;
+  let businessPostal = current?.business_postal ?? null;
+  let businessCountry = current?.business_country ?? null;
+  let businessVat = current?.business_vat ?? null;
 
   if (body.removeName === true) {
     workspaceName = null;
@@ -168,8 +192,31 @@ account.put("/branding", requireWorkspaceAdmin, async (c) => {
     // keep hint stored but disabled
   }
 
+  if (typeof body.businessAddress === "string") {
+    const v = body.businessAddress.trim().slice(0, 300);
+    businessAddress = v.length ? v : null;
+  }
+  if (typeof body.businessState === "string") {
+    const v = body.businessState.trim().slice(0, 120);
+    businessState = v.length ? v : null;
+  }
+  if (typeof body.businessPostal === "string") {
+    const v = body.businessPostal.trim().slice(0, 32);
+    businessPostal = v.length ? v : null;
+  }
+  if (typeof body.businessCountry === "string") {
+    const v = body.businessCountry.trim().slice(0, 120);
+    businessCountry = v.length ? v : null;
+  }
+  if (typeof body.businessVat === "string") {
+    const v = body.businessVat.trim().slice(0, 64);
+    businessVat = v.length ? v : null;
+  }
+
   await c.env.CHASA_DB.prepare(
-    `UPDATE accounts SET workspace_name = ?, logo_data = ?, payment_link = ?, late_fee_enabled = ?, late_fee_hint = ? WHERE id = ?`
+    `UPDATE accounts SET workspace_name = ?, logo_data = ?, payment_link = ?, late_fee_enabled = ?, late_fee_hint = ?,
+       business_address = ?, business_state = ?, business_postal = ?, business_country = ?, business_vat = ?
+     WHERE id = ?`
   )
     .bind(
       workspaceName,
@@ -177,6 +224,11 @@ account.put("/branding", requireWorkspaceAdmin, async (c) => {
       paymentLink,
       lateFeeEnabled ? 1 : 0,
       lateFeeHint,
+      businessAddress,
+      businessState,
+      businessPostal,
+      businessCountry,
+      businessVat,
       acc.workspaceId
     )
     .run();
@@ -187,6 +239,11 @@ account.put("/branding", requireWorkspaceAdmin, async (c) => {
     paymentLink,
     lateFeeEnabled,
     lateFeeHint,
+    businessAddress,
+    businessState,
+    businessPostal,
+    businessCountry,
+    businessVat,
     paid: true,
   });
 });

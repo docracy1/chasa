@@ -1,6 +1,7 @@
 import type { Env } from "../types";
 import type { Plan } from "./billing";
 import { createCertificate, getCertificateByPublicId, sha256Hex } from "./certificates";
+import { normalizeOptionalText, partyAddressFromInput, type PartyAddress } from "./partyAddress";
 
 export type LineItem = { description: string; quantity: number; unitPrice: number };
 
@@ -9,9 +10,21 @@ export type Invoice = {
   publicId: string;
   accountId: string;
   agingInvoiceId: string | null;
+  clientId: string | null;
   invoiceNumber: string;
   clientName: string;
   clientEmail: string | null;
+  clientAddress: string | null;
+  clientState: string | null;
+  clientPostal: string | null;
+  clientCountry: string | null;
+  clientVat: string | null;
+  issuerName: string | null;
+  issuerAddress: string | null;
+  issuerState: string | null;
+  issuerPostal: string | null;
+  issuerCountry: string | null;
+  issuerVat: string | null;
   issueDate: string;
   dueDate: string;
   currency: string;
@@ -32,9 +45,21 @@ type Row = {
   public_id: string;
   account_id: string;
   aging_invoice_id: string | null;
+  client_id: string | null;
   invoice_number: string;
   client_name: string;
   client_email: string | null;
+  client_address: string | null;
+  client_state: string | null;
+  client_postal: string | null;
+  client_country: string | null;
+  client_vat: string | null;
+  issuer_name: string | null;
+  issuer_address: string | null;
+  issuer_state: string | null;
+  issuer_postal: string | null;
+  issuer_country: string | null;
+  issuer_vat: string | null;
   issue_date: string;
   due_date: string;
   currency: string;
@@ -56,9 +81,21 @@ function rowToInvoice(row: Row): Invoice {
     publicId: row.public_id,
     accountId: row.account_id,
     agingInvoiceId: row.aging_invoice_id,
+    clientId: row.client_id ?? null,
     invoiceNumber: row.invoice_number,
     clientName: row.client_name,
     clientEmail: row.client_email,
+    clientAddress: row.client_address ?? null,
+    clientState: row.client_state ?? null,
+    clientPostal: row.client_postal ?? null,
+    clientCountry: row.client_country ?? null,
+    clientVat: row.client_vat ?? null,
+    issuerName: row.issuer_name ?? null,
+    issuerAddress: row.issuer_address ?? null,
+    issuerState: row.issuer_state ?? null,
+    issuerPostal: row.issuer_postal ?? null,
+    issuerCountry: row.issuer_country ?? null,
+    issuerVat: row.issuer_vat ?? null,
     issueDate: row.issue_date,
     dueDate: row.due_date,
     currency: row.currency,
@@ -82,6 +119,17 @@ function canonicalInvoicePayload(invoice: Invoice): string {
     invoiceNumber: invoice.invoiceNumber,
     clientName: invoice.clientName,
     clientEmail: invoice.clientEmail,
+    clientAddress: invoice.clientAddress,
+    clientState: invoice.clientState,
+    clientPostal: invoice.clientPostal,
+    clientCountry: invoice.clientCountry,
+    clientVat: invoice.clientVat,
+    issuerName: invoice.issuerName,
+    issuerAddress: invoice.issuerAddress,
+    issuerState: invoice.issuerState,
+    issuerPostal: invoice.issuerPostal,
+    issuerCountry: invoice.issuerCountry,
+    issuerVat: invoice.issuerVat,
     issueDate: invoice.issueDate,
     dueDate: invoice.dueDate,
     currency: invoice.currency,
@@ -122,12 +170,111 @@ async function nextInvoiceNumber(env: Env, accountId: string): Promise<string> {
   return `INV-${String(n).padStart(4, "0")}`;
 }
 
+/** Create or update a Clients row from invoice TO fields so invoice contacts appear under Clients. */
+export async function upsertClientFromInvoice(
+  env: Env,
+  accountId: string,
+  input: {
+    name: string;
+    email: string | null;
+  } & PartyAddress
+): Promise<string> {
+  const name = input.name.trim().slice(0, 120);
+  const email = input.email;
+  const now = new Date().toISOString();
+
+  let existing: { id: string } | null = null;
+  if (email) {
+    existing = await env.CHASA_DB.prepare(
+      `SELECT id FROM clients WHERE account_id = ? AND lower(email) = lower(?) LIMIT 1`
+    )
+      .bind(accountId, email)
+      .first<{ id: string }>();
+  }
+  if (!existing) {
+    existing = await env.CHASA_DB.prepare(
+      `SELECT id FROM clients WHERE account_id = ? AND name = ? COLLATE NOCASE LIMIT 1`
+    )
+      .bind(accountId, name)
+      .first<{ id: string }>();
+  }
+
+  if (existing) {
+    await env.CHASA_DB.prepare(
+      `UPDATE clients SET name = ?, email = COALESCE(?, email), address = COALESCE(?, address),
+         state = COALESCE(?, state), postal = COALESCE(?, postal), country = COALESCE(?, country),
+         vat = COALESCE(?, vat), updated_at = ?
+       WHERE id = ? AND account_id = ?`
+    )
+      .bind(
+        name,
+        email,
+        input.address,
+        input.state,
+        input.postal,
+        input.country,
+        input.vat,
+        now,
+        existing.id,
+        accountId
+      )
+      .run();
+    return existing.id;
+  }
+
+  const id = crypto.randomUUID();
+  await env.CHASA_DB.prepare(
+    `INSERT INTO clients (id, account_id, name, email, notes, address, state, postal, country, vat, created_at, updated_at)
+     VALUES (?, ?, ?, ?, NULL, ?, ?, ?, ?, ?, ?, ?)`
+  )
+    .bind(id, accountId, name, email, input.address, input.state, input.postal, input.country, input.vat, now, now)
+    .run();
+  return id;
+}
+
+/** Persist FROM party fields onto the account business profile (best-effort). */
+export async function persistIssuerProfile(
+  env: Env,
+  accountId: string,
+  issuer: { name: string | null } & PartyAddress
+): Promise<void> {
+  await env.CHASA_DB.prepare(
+    `UPDATE accounts SET
+       business_address = COALESCE(?, business_address),
+       business_state = COALESCE(?, business_state),
+       business_postal = COALESCE(?, business_postal),
+       business_country = COALESCE(?, business_country),
+       business_vat = COALESCE(?, business_vat)
+     WHERE id = ?`
+  )
+    .bind(issuer.address, issuer.state, issuer.postal, issuer.country, issuer.vat, accountId)
+    .run();
+
+  const name = issuer.name?.trim() ?? "";
+  if (name.length >= 3 && name.length <= 30 && /^[a-zA-Z0-9][a-zA-Z0-9 _-]{1,28}[a-zA-Z0-9]$|^[a-zA-Z0-9]{3,30}$/.test(name)) {
+    await env.CHASA_DB.prepare(`UPDATE accounts SET workspace_name = ? WHERE id = ? AND (workspace_name IS NULL OR workspace_name = '')`)
+      .bind(name, accountId)
+      .run();
+  }
+}
+
 export async function createInvoice(
   env: Env,
   accountId: string,
   input: {
     clientName: string;
     clientEmail: string | null;
+    clientAddress?: string | null;
+    clientState?: string | null;
+    clientPostal?: string | null;
+    clientCountry?: string | null;
+    clientVat?: string | null;
+    issuerName?: string | null;
+    issuerAddress?: string | null;
+    issuerState?: string | null;
+    issuerPostal?: string | null;
+    issuerCountry?: string | null;
+    issuerVat?: string | null;
     issueDate: string;
     dueDate: string;
     currency: string;
@@ -141,21 +288,60 @@ export async function createInvoice(
   const { subtotal, taxAmount, total } = computeTotals(input.lineItems, input.taxRate);
   const invoiceNumber = await nextInvoiceNumber(env, accountId);
 
+  const clientParty = partyAddressFromInput({
+    address: input.clientAddress,
+    state: input.clientState,
+    postal: input.clientPostal,
+    country: input.clientCountry,
+    vat: input.clientVat,
+  });
+  const issuerParty = partyAddressFromInput({
+    address: input.issuerAddress,
+    state: input.issuerState,
+    postal: input.issuerPostal,
+    country: input.issuerCountry,
+    vat: input.issuerVat,
+  });
+  const issuerName = normalizeOptionalText(input.issuerName, 200);
+  const clientEmail = input.clientEmail;
+
+  const clientId = await upsertClientFromInvoice(env, accountId, {
+    name: input.clientName,
+    email: clientEmail,
+    ...clientParty,
+  });
+  await persistIssuerProfile(env, accountId, { name: issuerName, ...issuerParty });
+
   for (let attempt = 0; attempt < 5; attempt++) {
     const publicId = generatePublicId();
     try {
       await env.CHASA_DB.prepare(
         `INSERT INTO generated_invoices
-           (id, public_id, account_id, invoice_number, client_name, client_email, issue_date, due_date, currency, line_items, tax_rate, notes, subtotal, tax_amount, total, status, created_at, updated_at)
-         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'draft', ?, ?)`
+           (id, public_id, account_id, client_id, invoice_number, client_name, client_email,
+            client_address, client_state, client_postal, client_country, client_vat,
+            issuer_name, issuer_address, issuer_state, issuer_postal, issuer_country, issuer_vat,
+            issue_date, due_date, currency, line_items, tax_rate, notes, subtotal, tax_amount, total, status, created_at, updated_at)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'draft', ?, ?)`
       )
         .bind(
           id,
           publicId,
           accountId,
+          clientId,
           invoiceNumber,
           input.clientName,
-          input.clientEmail,
+          clientEmail,
+          clientParty.address,
+          clientParty.state,
+          clientParty.postal,
+          clientParty.country,
+          clientParty.vat,
+          issuerName,
+          issuerParty.address,
+          issuerParty.state,
+          issuerParty.postal,
+          issuerParty.country,
+          issuerParty.vat,
           input.issueDate,
           input.dueDate,
           input.currency.toUpperCase(),
@@ -174,9 +360,21 @@ export async function createInvoice(
         publicId,
         accountId,
         agingInvoiceId: null,
+        clientId,
         invoiceNumber,
         clientName: input.clientName,
-        clientEmail: input.clientEmail,
+        clientEmail,
+        clientAddress: clientParty.address,
+        clientState: clientParty.state,
+        clientPostal: clientParty.postal,
+        clientCountry: clientParty.country,
+        clientVat: clientParty.vat,
+        issuerName,
+        issuerAddress: issuerParty.address,
+        issuerState: issuerParty.state,
+        issuerPostal: issuerParty.postal,
+        issuerCountry: issuerParty.country,
+        issuerVat: issuerParty.vat,
         issueDate: input.issueDate,
         dueDate: input.dueDate,
         currency: input.currency.toUpperCase(),
@@ -287,11 +485,26 @@ export async function setInvoiceStatus(
   let agingInvoiceId = invoice.agingInvoiceId;
   if (status === "sent" && !agingInvoiceId) {
     agingInvoiceId = crypto.randomUUID();
+    let clientId = invoice.clientId;
+    if (!clientId) {
+      clientId = await upsertClientFromInvoice(env, accountId, {
+        name: invoice.clientName,
+        email: invoice.clientEmail,
+        address: invoice.clientAddress,
+        state: invoice.clientState,
+        postal: invoice.clientPostal,
+        country: invoice.clientCountry,
+        vat: invoice.clientVat,
+      });
+      await env.CHASA_DB.prepare(`UPDATE generated_invoices SET client_id = ? WHERE id = ?`)
+        .bind(clientId, id)
+        .run();
+    }
     await env.CHASA_DB.prepare(
       `INSERT INTO aging_invoices (id, account_id, client_id, client_name, amount, due_date, created_at, updated_at)
-       VALUES (?, ?, NULL, ?, ?, ?, ?, ?)`
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?)`
     )
-      .bind(agingInvoiceId, accountId, invoice.clientName, invoice.total, invoice.dueDate, now, now)
+      .bind(agingInvoiceId, accountId, clientId, invoice.clientName, invoice.total, invoice.dueDate, now, now)
       .run();
     await env.CHASA_DB.prepare(`UPDATE generated_invoices SET aging_invoice_id = ? WHERE id = ?`)
       .bind(agingInvoiceId, id)
@@ -331,7 +544,14 @@ export async function setInvoiceStatus(
     .run();
 
   return {
-    invoice: { ...invoice, status, agingInvoiceId, certificatePublicId, updatedAt: now },
+    invoice: {
+      ...invoice,
+      status,
+      agingInvoiceId,
+      certificatePublicId,
+      updatedAt: now,
+      clientId: invoice.clientId,
+    },
     newCertificate,
   };
 }

@@ -3589,6 +3589,18 @@ textarea {
   flex-direction: column;
   gap: 8px;
 }
+.invoice-party-fields input {
+  width: 100%;
+  box-sizing: border-box;
+}
+.invoice-party-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+@media (max-width: 520px) {
+  .invoice-party-row { grid-template-columns: 1fr; }
+}
 .invoice-client-suggest {
   position: relative;
 }

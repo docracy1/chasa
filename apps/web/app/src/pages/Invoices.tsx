@@ -59,6 +59,17 @@ export default function InvoicesPage({ account }: { account: Account | null }) {
 
   const [clientName, setClientName] = useState("");
   const [clientEmail, setClientEmail] = useState("");
+  const [clientAddress, setClientAddress] = useState("");
+  const [clientState, setClientState] = useState("");
+  const [clientPostal, setClientPostal] = useState("");
+  const [clientCountry, setClientCountry] = useState("");
+  const [clientVat, setClientVat] = useState("");
+  const [issuerName, setIssuerName] = useState("");
+  const [issuerAddress, setIssuerAddress] = useState("");
+  const [issuerState, setIssuerState] = useState("");
+  const [issuerPostal, setIssuerPostal] = useState("");
+  const [issuerCountry, setIssuerCountry] = useState("");
+  const [issuerVat, setIssuerVat] = useState("");
   const [clients, setClients] = useState<ClientRecord[]>([]);
   const [clientSuggestOpen, setClientSuggestOpen] = useState(false);
   const [clientHighlight, setClientHighlight] = useState(0);
@@ -107,7 +118,15 @@ export default function InvoicesPage({ account }: { account: Account | null }) {
     }
     refresh();
     getBranding()
-      .then(setBranding)
+      .then((b) => {
+        setBranding(b);
+        setIssuerName(b.workspaceName?.trim() || account?.workspaceName?.trim() || account?.email || "");
+        setIssuerAddress(b.businessAddress ?? "");
+        setIssuerState(b.businessState ?? "");
+        setIssuerPostal(b.businessPostal ?? "");
+        setIssuerCountry(b.businessCountry ?? "");
+        setIssuerVat(b.businessVat ?? "");
+      })
       .catch(() =>
         setBranding({
           workspaceName: null,
@@ -115,6 +134,11 @@ export default function InvoicesPage({ account }: { account: Account | null }) {
           paymentLink: null,
           lateFeeEnabled: false,
           lateFeeHint: null,
+          businessAddress: null,
+          businessState: null,
+          businessPostal: null,
+          businessCountry: null,
+          businessVat: null,
           paid: false,
         })
       );
@@ -143,6 +167,11 @@ export default function InvoicesPage({ account }: { account: Account | null }) {
   function pickClient(client: ClientRecord) {
     setClientName(client.name);
     setClientEmail(client.email ?? "");
+    setClientAddress(client.address ?? "");
+    setClientState(client.state ?? "");
+    setClientPostal(client.postal ?? "");
+    setClientCountry(client.country ?? "");
+    setClientVat(client.vat ?? "");
     setClientSuggestOpen(false);
   }
 
@@ -185,6 +214,17 @@ export default function InvoicesPage({ account }: { account: Account | null }) {
       const res = await createInvoice({
         clientName: clientName.trim(),
         clientEmail: clientEmail.trim() || undefined,
+        clientAddress: clientAddress.trim() || undefined,
+        clientState: clientState.trim() || undefined,
+        clientPostal: clientPostal.trim() || undefined,
+        clientCountry: clientCountry.trim() || undefined,
+        clientVat: clientVat.trim() || undefined,
+        issuerName: issuerName.trim() || undefined,
+        issuerAddress: issuerAddress.trim() || undefined,
+        issuerState: issuerState.trim() || undefined,
+        issuerPostal: issuerPostal.trim() || undefined,
+        issuerCountry: issuerCountry.trim() || undefined,
+        issuerVat: issuerVat.trim() || undefined,
         issueDate,
         dueDate,
         currency,
@@ -195,9 +235,19 @@ export default function InvoicesPage({ account }: { account: Account | null }) {
       setLastCreated({ publicId: res.invoice.publicId });
       setClientName("");
       setClientEmail("");
+      setClientAddress("");
+      setClientState("");
+      setClientPostal("");
+      setClientCountry("");
+      setClientVat("");
       setNotes("");
       setLineItems([{ ...EMPTY_ITEM }]);
       setTaxRate(0);
+      if (isPaid) {
+        listClients()
+          .then((r) => setClients(r.clients))
+          .catch(() => undefined);
+      }
       await refresh();
     } catch (err) {
       setError(err instanceof Error ? err.message : t("invoices.createFailed"));
@@ -249,7 +299,7 @@ export default function InvoicesPage({ account }: { account: Account | null }) {
     );
   }
 
-  const fromName = branding?.workspaceName?.trim() || account.workspaceName?.trim() || account.email;
+  const fromName = issuerName.trim() || branding?.workspaceName?.trim() || account.workspaceName?.trim() || account.email;
   const logo = branding?.logoDataUrl || account.logoDataUrl || null;
 
   return (
@@ -304,8 +354,44 @@ export default function InvoicesPage({ account }: { account: Account | null }) {
           <div className="invoice-parties">
             <div className="invoice-party">
               <div className="invoice-party-label">{t("invoices.from")}</div>
-              <div className="invoice-party-body">
-                <strong>{fromName}</strong>
+              <div className="invoice-party-body invoice-party-fields">
+                <input
+                  value={issuerName}
+                  onChange={(e) => setIssuerName(e.target.value)}
+                  placeholder={fromName || t("invoices.businessNamePlaceholder")}
+                  autoComplete="organization"
+                />
+                <input
+                  value={issuerAddress}
+                  onChange={(e) => setIssuerAddress(e.target.value)}
+                  placeholder={t("invoices.addressPlaceholder")}
+                  autoComplete="street-address"
+                />
+                <div className="invoice-party-row">
+                  <input
+                    value={issuerPostal}
+                    onChange={(e) => setIssuerPostal(e.target.value)}
+                    placeholder={t("invoices.postalPlaceholder")}
+                    autoComplete="postal-code"
+                  />
+                  <input
+                    value={issuerState}
+                    onChange={(e) => setIssuerState(e.target.value)}
+                    placeholder={t("invoices.statePlaceholder")}
+                    autoComplete="address-level1"
+                  />
+                </div>
+                <input
+                  value={issuerCountry}
+                  onChange={(e) => setIssuerCountry(e.target.value)}
+                  placeholder={t("invoices.countryPlaceholder")}
+                  autoComplete="country-name"
+                />
+                <input
+                  value={issuerVat}
+                  onChange={(e) => setIssuerVat(e.target.value)}
+                  placeholder={t("invoices.vatPlaceholder")}
+                />
                 {branding?.paymentLink ? (
                   <div className="invoice-party-muted">{branding.paymentLink}</div>
                 ) : null}
@@ -317,7 +403,7 @@ export default function InvoicesPage({ account }: { account: Account | null }) {
               <div className="invoice-party-label" style={{ marginTop: 22 }}>
                 {t("invoices.to")}
               </div>
-              <div className="invoice-party-body">
+              <div className="invoice-party-body invoice-party-fields">
                 <div className="invoice-client-suggest" ref={clientSuggestRef}>
                   <input
                     className="invoice-client-name"
@@ -379,6 +465,38 @@ export default function InvoicesPage({ account }: { account: Account | null }) {
                   value={clientEmail}
                   onChange={(e) => setClientEmail(e.target.value)}
                   placeholder={t("invoices.clientEmail")}
+                />
+                <input
+                  value={clientAddress}
+                  onChange={(e) => setClientAddress(e.target.value)}
+                  placeholder={t("invoices.addressPlaceholder")}
+                  autoComplete="off"
+                />
+                <div className="invoice-party-row">
+                  <input
+                    value={clientPostal}
+                    onChange={(e) => setClientPostal(e.target.value)}
+                    placeholder={t("invoices.postalPlaceholder")}
+                    autoComplete="off"
+                  />
+                  <input
+                    value={clientState}
+                    onChange={(e) => setClientState(e.target.value)}
+                    placeholder={t("invoices.statePlaceholder")}
+                    autoComplete="off"
+                  />
+                </div>
+                <input
+                  value={clientCountry}
+                  onChange={(e) => setClientCountry(e.target.value)}
+                  placeholder={t("invoices.countryPlaceholder")}
+                  autoComplete="off"
+                />
+                <input
+                  value={clientVat}
+                  onChange={(e) => setClientVat(e.target.value)}
+                  placeholder={t("invoices.vatPlaceholder")}
+                  autoComplete="off"
                 />
               </div>
             </div>

@@ -46,9 +46,19 @@ export default function ClientsPage({ account }: { account: Account | null }) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [notes, setNotes] = useState("");
+  const [address, setAddress] = useState("");
+  const [state, setState] = useState("");
+  const [postal, setPostal] = useState("");
+  const [country, setCountry] = useState("");
+  const [vat, setVat] = useState("");
   const [createName, setCreateName] = useState("");
   const [createEmail, setCreateEmail] = useState("");
   const [createNotes, setCreateNotes] = useState("");
+  const [createAddress, setCreateAddress] = useState("");
+  const [createState, setCreateState] = useState("");
+  const [createPostal, setCreatePostal] = useState("");
+  const [createCountry, setCreateCountry] = useState("");
+  const [createVat, setCreateVat] = useState("");
   const [contactNote, setContactNote] = useState("");
   const [busy, setBusy] = useState(false);
   const [draftBusy, setDraftBusy] = useState(false);
@@ -91,6 +101,11 @@ export default function ClientsPage({ account }: { account: Account | null }) {
         setName(res.client.name);
         setEmail(res.client.email ?? "");
         setNotes(res.client.notes ?? "");
+        setAddress(res.client.address ?? "");
+        setState(res.client.state ?? "");
+        setPostal(res.client.postal ?? "");
+        setCountry(res.client.country ?? "");
+        setVat(res.client.vat ?? "");
         setContactNote(res.client.lastContactNote ?? "");
         setDraft(null);
         try {
@@ -147,6 +162,11 @@ export default function ClientsPage({ account }: { account: Account | null }) {
         name: createName.trim(),
         email: createEmail.trim() || undefined,
         notes: createNotes.trim() || undefined,
+        address: createAddress.trim() || undefined,
+        state: createState.trim() || undefined,
+        postal: createPostal.trim() || undefined,
+        country: createCountry.trim() || undefined,
+        vat: createVat.trim() || undefined,
       });
       track("client_created");
       await refreshList();
@@ -154,6 +174,11 @@ export default function ClientsPage({ account }: { account: Account | null }) {
       setCreateName("");
       setCreateEmail("");
       setCreateNotes("");
+      setCreateAddress("");
+      setCreateState("");
+      setCreatePostal("");
+      setCreateCountry("");
+      setCreateVat("");
     } catch (err) {
       setError(err instanceof Error ? err.message : t("clients.createFailed"));
     } finally {
@@ -171,6 +196,11 @@ export default function ClientsPage({ account }: { account: Account | null }) {
         name: name.trim(),
         email: email.trim(),
         notes: notes.trim(),
+        address: address.trim(),
+        state: state.trim(),
+        postal: postal.trim(),
+        country: country.trim(),
+        vat: vat.trim(),
       });
       setDetail(updated);
       await refreshList();
@@ -358,6 +388,41 @@ export default function ClientsPage({ account }: { account: Account | null }) {
               onChange={(e) => setCreateEmail(e.target.value)}
               disabled={busy}
             />
+            <input
+              type="text"
+              placeholder={t("clients.address")}
+              value={createAddress}
+              onChange={(e) => setCreateAddress(e.target.value)}
+              disabled={busy}
+            />
+            <input
+              type="text"
+              placeholder={t("clients.postal")}
+              value={createPostal}
+              onChange={(e) => setCreatePostal(e.target.value)}
+              disabled={busy}
+            />
+            <input
+              type="text"
+              placeholder={t("clients.state")}
+              value={createState}
+              onChange={(e) => setCreateState(e.target.value)}
+              disabled={busy}
+            />
+            <input
+              type="text"
+              placeholder={t("clients.country")}
+              value={createCountry}
+              onChange={(e) => setCreateCountry(e.target.value)}
+              disabled={busy}
+            />
+            <input
+              type="text"
+              placeholder={t("clients.vat")}
+              value={createVat}
+              onChange={(e) => setCreateVat(e.target.value)}
+              disabled={busy}
+            />
             <textarea
               rows={2}
               placeholder={t("clients.notes")}
@@ -418,6 +483,26 @@ export default function ClientsPage({ account }: { account: Account | null }) {
                     onChange={(e) => setEmail(e.target.value)}
                     disabled={busy}
                   />
+                </label>
+                <label>
+                  {t("clients.address")}
+                  <input type="text" value={address} onChange={(e) => setAddress(e.target.value)} disabled={busy} />
+                </label>
+                <label>
+                  {t("clients.postal")}
+                  <input type="text" value={postal} onChange={(e) => setPostal(e.target.value)} disabled={busy} />
+                </label>
+                <label>
+                  {t("clients.state")}
+                  <input type="text" value={state} onChange={(e) => setState(e.target.value)} disabled={busy} />
+                </label>
+                <label>
+                  {t("clients.country")}
+                  <input type="text" value={country} onChange={(e) => setCountry(e.target.value)} disabled={busy} />
+                </label>
+                <label>
+                  {t("clients.vat")}
+                  <input type="text" value={vat} onChange={(e) => setVat(e.target.value)} disabled={busy} />
                 </label>
                 <label>
                   {t("clients.notesField")}

@@ -48,6 +48,11 @@ export type Branding = {
   paymentLink: string | null;
   lateFeeEnabled?: boolean;
   lateFeeHint?: string | null;
+  businessAddress?: string | null;
+  businessState?: string | null;
+  businessPostal?: string | null;
+  businessCountry?: string | null;
+  businessVat?: string | null;
   paid: boolean;
 };
 
@@ -61,6 +66,11 @@ export function updateBranding(input: {
   paymentLink?: string;
   lateFeeEnabled?: boolean;
   lateFeeHint?: string;
+  businessAddress?: string;
+  businessState?: string;
+  businessPostal?: string;
+  businessCountry?: string;
+  businessVat?: string;
   removeLogo?: boolean;
   removeName?: boolean;
   removePaymentLink?: boolean;
@@ -578,6 +588,11 @@ export type ClientRecord = {
   name: string;
   email: string | null;
   notes: string | null;
+  address: string | null;
+  state: string | null;
+  postal: string | null;
+  country: string | null;
+  vat: string | null;
   lastContactNote: string | null;
   lastContactAt: string | null;
   avgDaysLate?: number | null;
@@ -612,7 +627,16 @@ export function getClient(id: string) {
   return jsonFetch<{ client: ClientRecord; invoices: AgingInvoiceRecord[] }>(`/clients/${id}`);
 }
 
-export function createClient(input: { name: string; email?: string; notes?: string }) {
+export function createClient(input: {
+  name: string;
+  email?: string;
+  notes?: string;
+  address?: string;
+  state?: string;
+  postal?: string;
+  country?: string;
+  vat?: string;
+}) {
   return jsonFetch<ClientRecord>("/clients", { method: "POST", body: JSON.stringify(input) });
 }
 
@@ -622,6 +646,11 @@ export function updateClient(
     name?: string;
     email?: string;
     notes?: string;
+    address?: string;
+    state?: string;
+    postal?: string;
+    country?: string;
+    vat?: string;
     lastContactNote?: string;
     clearLastContact?: boolean;
   }
@@ -866,9 +895,21 @@ export type InvoiceRecord = {
   id: string;
   publicId: string;
   agingInvoiceId: string | null;
+  clientId?: string | null;
   invoiceNumber: string;
   clientName: string;
   clientEmail: string | null;
+  clientAddress?: string | null;
+  clientState?: string | null;
+  clientPostal?: string | null;
+  clientCountry?: string | null;
+  clientVat?: string | null;
+  issuerName?: string | null;
+  issuerAddress?: string | null;
+  issuerState?: string | null;
+  issuerPostal?: string | null;
+  issuerCountry?: string | null;
+  issuerVat?: string | null;
   issueDate: string;
   dueDate: string;
   currency: string;
@@ -891,6 +932,17 @@ export function listInvoices() {
 export function createInvoice(input: {
   clientName: string;
   clientEmail?: string;
+  clientAddress?: string;
+  clientState?: string;
+  clientPostal?: string;
+  clientCountry?: string;
+  clientVat?: string;
+  issuerName?: string;
+  issuerAddress?: string;
+  issuerState?: string;
+  issuerPostal?: string;
+  issuerCountry?: string;
+  issuerVat?: string;
   issueDate: string;
   dueDate: string;
   currency: string;

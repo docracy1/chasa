@@ -9,6 +9,11 @@ type ClientRow = {
   name: string;
   email: string | null;
   notes: string | null;
+  address: string | null;
+  state: string | null;
+  postal: string | null;
+  country: string | null;
+  vat: string | null;
   last_contact_note: string | null;
   last_contact_at: string | null;
   avg_days_late: number | null;
@@ -27,6 +32,11 @@ function mapClient(row: ClientRow) {
     name: row.name,
     email: row.email,
     notes: row.notes,
+    address: row.address ?? null,
+    state: row.state ?? null,
+    postal: row.postal ?? null,
+    country: row.country ?? null,
+    vat: row.vat ?? null,
     lastContactNote: row.last_contact_note,
     lastContactAt: row.last_contact_at,
     avgDaysLate: row.avg_days_late,
@@ -43,7 +53,8 @@ function mapClient(row: ClientRow) {
 clients.get("/", requirePaidAccount, async (c) => {
   const acc = c.get("account")!;
   const { results } = await c.env.CHASA_DB.prepare(
-    `SELECT c.id, c.name, c.email, c.notes, c.last_contact_note, c.last_contact_at,
+    `SELECT c.id, c.name, c.email, c.notes, c.address, c.state, c.postal, c.country, c.vat,
+            c.last_contact_note, c.last_contact_at,
             c.avg_days_late, c.risk_score, c.paid_invoice_count, c.late_invoice_count,
             c.created_at, c.updated_at,
             COALESCE(SUM(CASE WHEN a.status = 'open' OR a.status IS NULL THEN a.amount ELSE 0 END), 0) as outstanding_total,
@@ -64,7 +75,8 @@ clients.get("/:id", requirePaidAccount, async (c) => {
   const acc = c.get("account")!;
   const id = c.req.param("id");
   const row = await c.env.CHASA_DB.prepare(
-    `SELECT c.id, c.name, c.email, c.notes, c.last_contact_note, c.last_contact_at,
+    `SELECT c.id, c.name, c.email, c.notes, c.address, c.state, c.postal, c.country, c.vat,
+            c.last_contact_note, c.last_contact_at,
             c.avg_days_late, c.risk_score, c.paid_invoice_count, c.late_invoice_count,
             c.created_at, c.updated_at,
             COALESCE((SELECT SUM(amount) FROM aging_invoices WHERE client_id = c.id AND (status = 'open' OR status IS NULL)), 0) as outstanding_total,
@@ -108,17 +120,22 @@ clients.post("/", requirePaidAccount, async (c) => {
   const acc = c.get("account")!;
   const parsed = await parseJsonBody(c.req, clientCreateSchema);
   if (!parsed.ok) return c.json({ error: parsed.error }, 400);
-  const { name, email, notes } = parsed.data;
+  const { name, email, notes, address, state, postal, country, vat } = parsed.data;
   const emailVal = email?.trim() ? email.trim().slice(0, 200) : null;
   const notesVal = notes?.trim() ? notes.trim().slice(0, 2000) : null;
+  const addressVal = address?.trim() ? address.trim().slice(0, 300) : null;
+  const stateVal = state?.trim() ? state.trim().slice(0, 120) : null;
+  const postalVal = postal?.trim() ? postal.trim().slice(0, 32) : null;
+  const countryVal = country?.trim() ? country.trim().slice(0, 120) : null;
+  const vatVal = vat?.trim() ? vat.trim().slice(0, 64) : null;
 
   const id = crypto.randomUUID();
   const now = new Date().toISOString();
   await c.env.CHASA_DB.prepare(
-    `INSERT INTO clients (id, account_id, name, email, notes, created_at, updated_at)
-     VALUES (?, ?, ?, ?, ?, ?, ?)`
+    `INSERT INTO clients (id, account_id, name, email, notes, address, state, postal, country, vat, created_at, updated_at)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
   )
-    .bind(id, acc.workspaceId, name, emailVal, notesVal, now, now)
+    .bind(id, acc.workspaceId, name, emailVal, notesVal, addressVal, stateVal, postalVal, countryVal, vatVal, now, now)
     .run();
 
   return c.json(
@@ -127,6 +144,11 @@ clients.post("/", requirePaidAccount, async (c) => {
       name,
       email: emailVal,
       notes: notesVal,
+      address: addressVal,
+      state: stateVal,
+      postal: postalVal,
+      country: countryVal,
+      vat: vatVal,
       last_contact_note: null,
       last_contact_at: null,
       avg_days_late: null,
@@ -146,7 +168,8 @@ clients.put("/:id", requirePaidAccount, async (c) => {
   const acc = c.get("account")!;
   const id = c.req.param("id");
   const existing = await c.env.CHASA_DB.prepare(
-    `SELECT id, name, email, notes, last_contact_note, last_contact_at,
+    `SELECT id, name, email, notes, address, state, postal, country, vat,
+            last_contact_note, last_contact_at,
             avg_days_late, risk_score, paid_invoice_count, late_invoice_count,
             created_at, updated_at
      FROM clients WHERE id = ? AND account_id = ?`
@@ -157,6 +180,11 @@ clients.put("/:id", requirePaidAccount, async (c) => {
       name: string;
       email: string | null;
       notes: string | null;
+      address: string | null;
+      state: string | null;
+      postal: string | null;
+      country: string | null;
+      vat: string | null;
       last_contact_note: string | null;
       last_contact_at: string | null;
       avg_days_late: number | null;
@@ -175,6 +203,11 @@ clients.put("/:id", requirePaidAccount, async (c) => {
   let name = existing.name;
   let email = existing.email;
   let notes = existing.notes;
+  let address = existing.address;
+  let state = existing.state;
+  let postal = existing.postal;
+  let country = existing.country;
+  let vat = existing.vat;
   let lastContactNote = existing.last_contact_note;
   let lastContactAt = existing.last_contact_at;
 
@@ -187,6 +220,21 @@ clients.put("/:id", requirePaidAccount, async (c) => {
   if (typeof body.notes === "string") {
     notes = body.notes.trim() ? body.notes.trim().slice(0, 2000) : null;
   }
+  if (typeof body.address === "string") {
+    address = body.address.trim() ? body.address.trim().slice(0, 300) : null;
+  }
+  if (typeof body.state === "string") {
+    state = body.state.trim() ? body.state.trim().slice(0, 120) : null;
+  }
+  if (typeof body.postal === "string") {
+    postal = body.postal.trim() ? body.postal.trim().slice(0, 32) : null;
+  }
+  if (typeof body.country === "string") {
+    country = body.country.trim() ? body.country.trim().slice(0, 120) : null;
+  }
+  if (typeof body.vat === "string") {
+    vat = body.vat.trim() ? body.vat.trim().slice(0, 64) : null;
+  }
   if (body.clearLastContact === true) {
     lastContactNote = null;
     lastContactAt = null;
@@ -198,10 +246,11 @@ clients.put("/:id", requirePaidAccount, async (c) => {
 
   const now = new Date().toISOString();
   await c.env.CHASA_DB.prepare(
-    `UPDATE clients SET name = ?, email = ?, notes = ?, last_contact_note = ?, last_contact_at = ?, updated_at = ?
+    `UPDATE clients SET name = ?, email = ?, notes = ?, address = ?, state = ?, postal = ?, country = ?, vat = ?,
+       last_contact_note = ?, last_contact_at = ?, updated_at = ?
      WHERE id = ? AND account_id = ?`
   )
-    .bind(name, email, notes, lastContactNote, lastContactAt, now, id, acc.workspaceId)
+    .bind(name, email, notes, address, state, postal, country, vat, lastContactNote, lastContactAt, now, id, acc.workspaceId)
     .run();
 
   // Keep aging rows' display name in sync when renamed
@@ -226,6 +275,11 @@ clients.put("/:id", requirePaidAccount, async (c) => {
       name,
       email,
       notes,
+      address,
+      state,
+      postal,
+      country,
+      vat,
       last_contact_note: lastContactNote,
       last_contact_at: lastContactAt,
       avg_days_late: existing.avg_days_late,

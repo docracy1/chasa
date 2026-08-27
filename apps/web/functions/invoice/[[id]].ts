@@ -29,6 +29,11 @@ type InvoiceResponse = {
     invoiceNumber: string;
     clientName: string;
     clientEmail: string | null;
+    clientAddress?: string | null;
+    clientState?: string | null;
+    clientPostal?: string | null;
+    clientCountry?: string | null;
+    clientVat?: string | null;
     issueDate: string;
     dueDate: string;
     currency: string;
@@ -45,8 +50,37 @@ type InvoiceResponse = {
     | { certified: false }
     | { certified: true; matches: true; otsStatus: "none" | "pending" | "confirmed" | "failed" }
     | { certified: true; matches: false };
-  from: { name: string; logoDataUrl: string | null; paymentLink: string | null };
+  from: {
+    name: string;
+    address?: string | null;
+    state?: string | null;
+    postal?: string | null;
+    country?: string | null;
+    vat?: string | null;
+    logoDataUrl: string | null;
+    paymentLink: string | null;
+  };
 };
+
+function partyBlock(party: {
+  name?: string | null;
+  email?: string | null;
+  address?: string | null;
+  state?: string | null;
+  postal?: string | null;
+  country?: string | null;
+  vat?: string | null;
+}): string {
+  const lines: string[] = [];
+  if (party.name?.trim()) lines.push(escapeHtml(party.name.trim()));
+  if (party.email?.trim()) lines.push(escapeHtml(party.email.trim()));
+  if (party.address?.trim()) lines.push(escapeHtml(party.address.trim()));
+  const city = [party.postal, party.state].filter((p) => p?.trim()).join(" ");
+  if (city) lines.push(escapeHtml(city));
+  if (party.country?.trim()) lines.push(escapeHtml(party.country.trim()));
+  if (party.vat?.trim()) lines.push(`VAT: ${escapeHtml(party.vat.trim())}`);
+  return lines.map((l) => `<div>${l}</div>`).join("");
+}
 
 function renderPage(opts: { title: string; body: string; canonical: string }): string {
   return `<!DOCTYPE html>
@@ -72,6 +106,9 @@ function renderPage(opts: { title: string; body: string; canonical: string }): s
   .brand { display: flex; align-items: center; gap: 10px; margin-bottom: 24px; }
   .brand img { width: 32px; height: 32px; border-radius: 6px; }
   .head-row { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 16px; }
+  .parties { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 20px 0 8px; font-size: 14px; }
+  .parties .label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.04em; color: #6b7280; margin-bottom: 6px; font-weight: 600; }
+  @media (max-width: 560px) { .parties { grid-template-columns: 1fr; } }
   h1 { font-size: 22px; margin: 0 0 4px; }
   .status { display: inline-flex; align-items: center; gap: 6px; font-weight: 600; font-size: 13px; padding: 3px 10px; border-radius: 999px; }
   .status.paid { color: #1a7f37; background: #eaf6ec; }
@@ -196,10 +233,27 @@ export const onRequest: PagesFunction<{ WORKER_URL: string }> = async (context) 
 <div class="head-row">
   <div>
     <h1>Invoice ${escapeHtml(invoice.invoiceNumber)}</h1>
-    <p class="meta">Billed to ${escapeHtml(invoice.clientName)}${invoice.clientEmail ? ` (${escapeHtml(invoice.clientEmail)})` : ""}</p>
     <p class="meta">Issued ${escapeHtml(formatUsDate(invoice.issueDate))} &middot; Due ${escapeHtml(formatUsDate(invoice.dueDate))}</p>
   </div>
   <span class="status ${invoice.status}">${invoice.status === "paid" ? "✓ Paid" : invoice.status === "sent" ? "Sent" : "Draft"}</span>
+</div>
+<div class="parties">
+  <div>
+    <div class="label">From</div>
+    ${partyBlock(from)}
+  </div>
+  <div>
+    <div class="label">Bill to</div>
+    ${partyBlock({
+      name: invoice.clientName,
+      email: invoice.clientEmail,
+      address: invoice.clientAddress,
+      state: invoice.clientState,
+      postal: invoice.clientPostal,
+      country: invoice.clientCountry,
+      vat: invoice.clientVat,
+    })}
+  </div>
 </div>
 
 <table>
