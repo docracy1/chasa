@@ -368,6 +368,10 @@ export default function AppShell({
   const pageTitle =
     pageTitles.find((entry) => entry.match(location.pathname, location.search))?.title ?? "chasa";
 
+  useEffect(() => {
+    document.title = pageTitle === "chasa" ? "chasa" : `${pageTitle} — chasa`;
+  }, [pageTitle]);
+
   function toolItemActive(to: string, hash?: string): boolean {
     if (to === "/webhooks") return location.pathname.startsWith("/webhooks");
     if (to === "/branding") return location.pathname.startsWith("/branding");

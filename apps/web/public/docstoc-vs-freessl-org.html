@@ -3,21 +3,21 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>docstoc vs FreeSSL.org — Free Automated SSL/TLS Compared | docstoc</title>
-<meta name="description" content="docstoc vs FreeSSL.org: pricing, automation, DV vs OV/EV, and setup effort for small-business SSL/TLS — plus when to stay on FreeSSL.org.">
-<link rel="canonical" href="https://chasa.io/docstoc-vs-freessl-org">
+<title>docstoc vs FreeSSL.org | docstoc</title>
+<meta name="description" content="Automated DV on your domain when you do not need that vendor’s paid SKU.">
+<link rel="canonical" href="https://chasa.io/freessl-org-alternative">
 
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="chasa">
 <meta property="og:locale" content="en_US">
-<meta property="og:title" content="docstoc vs FreeSSL.org — Free Automated SSL/TLS Compared | docstoc">
-<meta property="og:description" content="docstoc vs FreeSSL.org: pricing, automation, DV vs OV/EV, and setup effort for small-business SSL/TLS — plus when to stay on FreeSSL.org.">
-<meta property="og:url" content="https://chasa.io/docstoc-vs-freessl-org">
+<meta property="og:title" content="docstoc vs FreeSSL.org | docstoc">
+<meta property="og:description" content="Automated DV on your domain when you do not need that vendor’s paid SKU.">
+<meta property="og:url" content="https://chasa.io/freessl-org-alternative">
 <meta property="og:image" content="https://chasa.io/brand/og/docstoc-og-1200x630.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@chasaHQ">
-<meta name="twitter:title" content="docstoc vs FreeSSL.org — Free Automated SSL/TLS Compared | docstoc">
-<meta name="twitter:description" content="docstoc vs FreeSSL.org: pricing, automation, DV vs OV/EV, and setup effort for small-business SSL/TLS — plus when to stay on FreeSSL.org.">
+<meta name="twitter:title" content="docstoc vs FreeSSL.org | docstoc">
+<meta name="twitter:description" content="Automated DV on your domain when you do not need that vendor’s paid SKU.">
 <meta name="twitter:image" content="https://chasa.io/brand/og/docstoc-og-1200x630.png">
 <link rel="alternate" type="application/rss+xml" title="chasa Blog" href="/blog/feed.xml">
 <link rel="me" href="https://www.linkedin.com/company/chasa-io">
@@ -39,53 +39,22 @@
         {
           "@type": "ListItem",
           "position": 2,
-          "name": "SSL",
-          "item": "https://chasa.io/ssl"
+          "name": "Compare",
+          "item": "https://chasa.io/compare/"
         },
         {
           "@type": "ListItem",
           "position": 3,
-          "name": "docstoc vs FreeSSL.org",
-          "item": "https://chasa.io/docstoc-vs-freessl-org"
+          "name": "FreeSSL.org alternative",
+          "item": "https://chasa.io/freessl-org-alternative"
         }
       ]
     },
     {
-      "@type": "FAQPage",
-      "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "More transparent than FreeSSL.org?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "docstoc states Let's Encrypt. Confirm FreeSSL.org's backing CA on their docs before relying on it."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Is FreeSSL.org free like docstoc?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "They advertise a free tier; paid plans add allotments. docstoc has no separate per-cert SSL SKU."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Separate account?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Yes for FreeSSL.org. docstoc SSL lives in your existing workspace."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "When stay?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "If you want their API/UI specifically for multi-domain ACME outside docstoc."
-          }
-        }
-      ]
+      "@type": "WebPage",
+      "name": "FreeSSL.org alternative",
+      "url": "https://chasa.io/freessl-org-alternative",
+      "description": "Automated DV on your domain when you do not need that vendor’s paid SKU."
     }
   ]
 }
@@ -254,97 +223,34 @@
   </div>
 </div>
 <main class="wrap page-main">
-<p class="crumb"><a href="/">Home</a> / <a href="/ssl">SSL</a> / docstoc vs FreeSSL.org</p>
-<h1>docstoc vs FreeSSL.org — free automated SSL/TLS, compared</h1>
-  <p class="lede">FreeSSL.org is another ACME-oriented tool with free and paid tiers. docstoc discloses Let's Encrypt plainly and bundles automation into invoicing/documents — no separate cert product account.</p>
-
-  <h2>docstoc vs FreeSSL.org at a glance</h2>
-  <div class="compare-table-wrap">
-    <table class="compare-table">
-      <thead>
-        <tr>
-          <th scope="col"></th>
-          <th scope="col" class="col-docstoc">docstoc</th>
-          <th scope="col">FreeSSL.org</th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr>
-            <td>Best fit</td>
-            <td class="col-docstoc">SMBs who want Let's Encrypt automation next to invoices &amp; templates</td>
-            <td>Developers wanting ACME/API with a nicer UI than raw certbot</td>
-          </tr>
-          <tr>
-            <td>Pricing</td>
-            <td class="col-docstoc">Automation layer on Free / Pro / Business — no certificate resale markup</td>
-            <td>Free tier; paid from about $9.90/mo</td>
-          </tr>
-          <tr>
-            <td>Certificate types</td>
-            <td class="col-docstoc">Domain-validated (DV) only — real Let's Encrypt certificates</td>
-            <td>90-day DV, wildcard, multi-domain via ACME/API</td>
-          </tr>
-          <tr>
-            <td>Automation</td>
-            <td class="col-docstoc">✓ fully automated — DNS-01 TXT, then hands-off renewals</td>
-            <td>ACME/API available; free tier still needs you to operate renewal</td>
-          </tr>
-          <tr>
-            <td>Setup</td>
-            <td class="col-docstoc">Add a domain, add DNS TXT record(s), done</td>
-            <td>Low–moderate; confirm which CA backs issued certs on their site</td>
-          </tr>
-          <tr>
-            <td>Bundled with a business platform</td>
-            <td class="col-docstoc">✓ part of the same platform as invoicing, templates &amp; documents</td>
-            <td>✗ standalone certificate tool</td>
-          </tr>
-          <tr>
-            <td>Free / included tier</td>
-            <td class="col-docstoc">Free: 5 × 90-day LE certs · Pro: multi-SAN · Business: wildcards</td>
-            <td>Free tier advertised; paid for higher allotments</td>
-          </tr>
-      </tbody>
-    </table>
+<section class="tpl-hero alt-hero">
+  <div class="wrap tpl-hero-inner alt-hero-inner">
+    <h1>Let’s Encrypt instead of FreeSSL.org.</h1>
+    <p class="tpl-hero-lede">Automated DV on your domain when you do not need that vendor’s paid SKU.</p>
+    <div class="alt-hero-ctas">
+      <a href="/ssl" class="alt-hero-primary">SSL product</a>
+      <a href="/#pricing" class="alt-hero-secondary">See pricing</a>
+    </div>
   </div>
-  <p class="pc-note">Pricing and feature figures reflect publicly available information as of August 2026 — certificate vendors change plans often, so check <a href="https://freessl.org/" target="_blank" rel="noopener noreferrer">FreeSSL.org's own site</a> before you buy.</p>
-
-  <h2>Who should pick which</h2>
-  <p><strong>Pick docstoc</strong> — Choose docstoc when you want a real Let's Encrypt DV certificate on your own domain with one DNS TXT record, automatic renewals, and no separate certificate dashboard — inside the same account you use for invoices and documents.</p>
-  <p><strong>Stay with FreeSSL.org</strong> — Stay for their API/allotments if you are already standardized on that tool.</p>
-
-  <h2>Honest limits (read this)</h2>
-  <ul>
-    <li>docstoc issues <strong>domain-validated (DV)</strong> Let's Encrypt certificates — enough for the browser padlock on most small-business sites.</li>
-    <li>docstoc does <strong>not</strong> replace OV/EV organization validation, commercial warranties, or enterprise PKI fleets.</li>
-    <li>You add <strong>one DNS TXT record</strong>; docstoc is not your CDN, nameserver, or web host.</li>
-  </ul>
-
-  <h2>Switching from FreeSSL.org</h2>
-  <p>Switch when you want transparent Let's Encrypt automation inside a business platform instead of another cert SaaS.</p>
-  <p><a href="/switch-from-freessl-org">Step-by-step: switch from FreeSSL.org to docstoc →</a></p>
-
-  <p style="margin-top:28px">
-    <a href="/app/login?start=1" class="nav-cta">Try docstoc free</a>
-    &nbsp; <a href="/ssl">SSL product overview</a>
-    &nbsp; · <a href="/tls">TLS overview</a>
-    &nbsp; · <a href="/tools/ssl-certificate-calculator">SSL expiry calculator</a>
-    &nbsp; · <a href="/trust-badges">Trust badges</a>
-  </p>
-
-  <h2>FAQ</h2>
-  <details class="faq-item"><summary>More transparent than FreeSSL.org?</summary>
-<p>docstoc states Let's Encrypt. Confirm FreeSSL.org's backing CA on their docs before relying on it.</p>
-</details>
-<details class="faq-item"><summary>Is FreeSSL.org free like docstoc?</summary>
-<p>They advertise a free tier; paid plans add allotments. docstoc has no separate per-cert SSL SKU.</p>
-</details>
-<details class="faq-item"><summary>Separate account?</summary>
-<p>Yes for FreeSSL.org. docstoc SSL lives in your existing workspace.</p>
-</details>
-<details class="faq-item"><summary>When stay?</summary>
-<p>If you want their API/UI specifically for multi-domain ACME outside docstoc.</p>
-</details>
+</section>
+<div class="wrap alt-body">
+  <h2>The problem</h2>
+  <p>FreeSSL.org is a dedicated SSL path — another dashboard, often another invoice, sometimes a manual renew.</p>
+  <h2>The docstoc way</h2>
+  <p>docstoc issues Let’s Encrypt DV with one DNS TXT inside your business workspace.</p>
+  <h2>How docstoc compares</h2>
+  <ul><li>Bundled SSL</li><li>Auto-renew</li><li>DV only</li><li>Keep your host</li><li>No key import</li></ul>
+  <p><a href="/import-from-freessl-org">Import from FreeSSL.org →</a></p>
+  <h2>Also see</h2>
+<ul class="alt-also">
+  <li><a href="/zerossl-alternative">ZeroSSL alternative</a></li><li><a href="/letsencrypt-alternative">Let's Encrypt alternative</a></li><li><a href="/digicert-alternative">DigiCert alternative</a></li><li><a href="/sectigo-alternative">Sectigo alternative</a></li>
+  <li><a href="/compare/">All comparisons</a></li>
+</ul>
+  <div class="alt-footer-cta">
+    <p>Free to start — no account needed for templates and a first hash check.</p>
+    <a href="/ssl" class="nav-cta">SSL product</a>
+  </div>
+</div>
 </main>
 <footer class="site-footer">
   <div class="wrap site-footer-inner">
