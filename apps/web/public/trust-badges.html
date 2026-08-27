@@ -3,31 +3,145 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Verified Corporate Identity &amp; Trust Badges | docstoc</title>
-<meta name="description" content="Domain-verified corporate trust badges for your site and proposals — backed by a real Let's Encrypt certificate and an optional Bitcoin timestamp. Look up profiles free; embed with one script tag.">
+<title>Company Badge — Domain-Verified Trust Badge | docstoc</title>
+<meta name="description" content="Domain-verified corporate trust badges for your site and proposals — backed by a real Let's Encrypt certificate and an optional Bitcoin timestamp. Look up profiles free; manage yours in the app.">
 <link rel="canonical" href="https://chasa.io/trust-badges">
 
 <meta property="og:type" content="website">
-<meta property="og:title" content="Verified Corporate Identity &amp; Trust Badges | docstoc">
-<meta property="og:description" content="Domain-verified corporate trust badges for your site and proposals — backed by a real Let's Encrypt certificate and an optional Bitcoin timestamp. Look up profiles free; embed with one script tag.">
+<meta property="og:title" content="Company Badge — Domain-Verified Trust Badge | docstoc">
+<meta property="og:description" content="Domain-verified corporate trust badges for your site and proposals — backed by a real Let's Encrypt certificate and an optional Bitcoin timestamp. Look up profiles free; manage yours in the app.">
 <meta property="og:url" content="https://chasa.io/trust-badges">
 <meta property="og:image" content="https://chasa.io/brand/og/docstoc-og-1200x630.png">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Verified Corporate Identity &amp; Trust Badges | docstoc">
-<meta name="twitter:description" content="Domain-verified corporate trust badges for your site and proposals — backed by a real Let's Encrypt certificate and an optional Bitcoin timestamp. Look up profiles free; embed with one script tag.">
+<meta name="twitter:title" content="Company Badge — Domain-Verified Trust Badge | docstoc">
+<meta name="twitter:description" content="Domain-verified corporate trust badges for your site and proposals — backed by a real Let's Encrypt certificate and an optional Bitcoin timestamp. Look up profiles free; manage yours in the app.">
 <meta name="twitter:image" content="https://chasa.io/brand/og/docstoc-og-1200x630.png">
 <link rel="alternate" type="application/rss+xml" title="docstoc Blog" href="/blog/feed.xml">
 <link rel="me" href="https://www.linkedin.com/company/chasa-io">
 <link rel="me" href="https://x.com/chasaHQ">
-
+<style>
+.prod-body { max-width: 720px; margin: 0 auto 48px; }
+.prod-body h2 {
+  font-family: 'Fraunces', serif;
+  font-weight: 600;
+  font-size: 1.45rem;
+  margin: 36px 0 12px;
+  color: var(--ink);
+}
+.prod-body h2:first-of-type { margin-top: 8px; }
+.prod-body p { font-size: 15.5px; line-height: 1.65; color: var(--ink-soft); margin: 0 0 14px; }
+.prod-body ul { margin: 0 0 18px; padding-left: 1.2em; color: var(--ink-soft); font-size: 15.5px; line-height: 1.65; }
+.prod-body li { margin-bottom: 8px; }
+.prod-body li strong { color: var(--ink); }
+.prod-try {
+  margin: 40px 0 8px;
+  padding: 28px 24px;
+  background: #f7f5f2;
+  border-radius: 16px;
+  text-align: center;
+}
+.prod-try h2 { margin: 0 0 10px; font-family: 'Fraunces', serif; font-size: 1.35rem; }
+.prod-try p { margin: 0 0 18px; color: var(--ink-soft); font-size: 15px; }
+.prod-try .nav-cta { display: inline-block; }
+.prod-try-secondary { display: inline-block; margin-left: 14px; font-weight: 600; font-size: 14px; color: var(--accent); text-decoration: none; }
+.prod-try-secondary:hover { text-decoration: underline; }
+.prod-grid {
+  display: grid;
+  gap: 18px;
+  margin: 24px 0 36px;
+  grid-template-columns: 1fr;
+}
+@media (min-width: 640px) {
+  .prod-grid { grid-template-columns: repeat(2, 1fr); }
+}
+.prod-card {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  padding: 18px 16px;
+  text-decoration: none;
+  color: inherit;
+  border-radius: 14px;
+  transition: background 0.15s ease;
+}
+.prod-card:hover { background: #f7f5f2; }
+.prod-card-icon {
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: var(--accent);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 16px color-mix(in srgb, var(--accent) 35%, transparent);
+}
+.prod-card-icon svg { width: 24px; height: 24px; }
+.prod-card-title { display: block; font-weight: 700; font-size: 16px; color: var(--ink); margin-bottom: 4px; }
+.prod-card-desc { display: block; font-size: 13.5px; line-height: 1.45; color: var(--ink-soft); }
+</style>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "WebPage",
-  "name": "Verified Corporate Identity & Trust Badges",
-  "description": "Domain-verified corporate trust badges backed by SSL and Bitcoin timestamps.",
-  "url": "https://chasa.io/trust-badges",
-  "isPartOf": { "@type": "WebSite", "name": "docstoc", "url": "https://chasa.io/" }
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://chasa.io/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Company badge",
+          "item": "https://chasa.io/trust-badges"
+        }
+      ]
+    },
+    {
+      "@type": "WebPage",
+      "name": "docstoc Company badge",
+      "url": "https://chasa.io/trust-badges",
+      "isPartOf": {
+        "@type": "WebSite",
+        "name": "docstoc",
+        "url": "https://chasa.io/"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Is this the same as a document certificate?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. Document certificates fingerprint a specific file. Company badges prove ongoing domain control for a workspace — complementary signals."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Which plan includes company badges?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "They're created automatically with SSL automation on the Business plan. Looking up someone else's public profile is free for everyone."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can clients verify without trusting docstoc?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Once the Bitcoin timestamp confirms, they can download the .ots proof from the public trust profile and check it with OpenTimestamps tools independently."
+          }
+        }
+      ]
+    }
+  ]
 }
 </script>
 <link rel="icon" href="/favicon.png?v=20260827a" type="image/png">
@@ -194,90 +308,40 @@
   </div>
 </div>
 <main class="wrap page-main">
-<article>
-    <div style="margin-bottom: 40px; text-align: center;">
-      <span style="font-size: 13px; font-weight: 700; text-transform: uppercase; color: var(--accent, #F58025); letter-spacing: 0.05em;">Product / Trust</span>
-      <h1 style="font-family: Inter, Helvetica Neue, Helvetica, Arial, sans-serif; font-size: 38px; font-weight: 700; margin: 12px 0 16px;">Verified Corporate Identity &amp; Trust Badges</h1>
-      <p style="font-size: 18px; color: #4b5563; line-height: 1.6; max-width: 720px; margin: 0 auto;">Prove you control your domain — then show it. When docstoc issues your SSL certificate, you get a public trust profile and an embeddable badge clients can check themselves.</p>
-    </div>
+<section class="tpl-hero">
+  <div class="wrap tpl-hero-inner">
+    <h1>Company badge</h1>
+    <p class="tpl-hero-lede">Prove you control your domain — then show it. When docstoc issues your SSL certificate, you get a public trust profile and an embeddable badge clients can check themselves.</p>
+  </div>
+</section>
+<div class="prod-body">
+  <p class="crumb"><a href="/">Home</a> / Company badge</p>
+  <h2>What it can do</h2>
+<p>A company badge is a client-facing credibility signal tied to live domain control — not a generic seal you buy and forget.</p>
+<ul><li><strong>Secure a domain</strong> with <a href="/ssl">docstoc SSL automation</a> — real Let's Encrypt, DNS-01 challenge.</li><li><strong>Trust profile created automatically</strong> when that certificate goes active — no separate signup.</li><li><strong>Bitcoin timestamp</strong> anchors the “verified since” date (usually within a few hours).</li><li><strong>Embed the badge</strong> with one script tag on your site, proposals, or client portal.</li><li><strong>Live SSL status</strong> — always fetched fresh, never frozen into a stale “active” claim.</li></ul>
+<h2>Who it’s for</h2>
+<p>Freelancers, agencies, and small businesses that need a simple credibility signal against larger vendors — and want clients to verify domain control themselves.</p>
 
-    <section style="background: #fff; border: 1px solid #e5e7eb; border-radius: 12px; padding: 32px; margin-bottom: 28px; text-align: center;">
-      <p style="margin: 0 0 16px; color: #6b7280; font-size: 14px;">Badge preview</p>
-      <a class="trust-badge-demo" href="/tools/trust-badges" style="display:inline-flex;align-items:center;gap:6px;font:12px/1.2 -apple-system,system-ui,sans-serif;color:#1B3155;text-decoration:none;border:1px solid #d8dee8;border-radius:6px;padding:6px 10px;background:#fafbfc;">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#2e7d32" stroke-width="2" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="1.5"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
-        Domain-verified via docstoc
-      </a>
-    </section>
+<h2>What it is not</h2>
+<p>The badge is deliberately narrow so it stays honest. It verifies DNS control of a domain (via a live certificate) and, once confirmed, the date verified status began. It does <strong>not</strong> claim business registration, legal-entity status, or government ID checks — docstoc doesn’t run those, so the badge never says it does.</p>
 
-    <section style="background: #fff; border: 1px solid #e5e7eb; border-radius: 12px; padding: 32px; margin-bottom: 40px;">
-      <h2 style="font-size: 24px; font-weight: 700; margin-bottom: 16px;">How it works</h2>
-      <ul style="font-size: 16px; line-height: 1.8; color: #374151; padding-left: 20px;">
-        <li><strong>Secure a domain</strong> with <a href="/ssl">docstoc SSL automation</a> — real Let's Encrypt, DNS-01 challenge.</li>
-        <li><strong>Trust profile is created automatically</strong> the moment that certificate goes active — no separate signup.</li>
-        <li><strong>Bitcoin timestamp</strong> anchors the "verified since" date (usually within a few hours).</li>
-        <li><strong>Embed the badge</strong> with one script tag on your site, proposals, or client portal.</li>
-      </ul>
-    </section>
-
-    <section style="background: #fff; border: 1px solid #e5e7eb; border-radius: 12px; padding: 32px; margin-bottom: 40px;">
-      <h2 style="font-size: 24px; font-weight: 700; margin-bottom: 16px;">What it verifies — and what it doesn't</h2>
-      <p style="font-size: 16px; line-height: 1.7; color: #374151; margin-bottom: 16px;">Small businesses often need a simple credibility signal against larger vendors. This badge is deliberately narrow so it stays honest:</p>
-      <ul style="font-size: 16px; line-height: 1.8; color: #374151; padding-left: 20px;">
-        <li><strong>Verifies:</strong> DNS control of a domain (via a live certificate) and, once confirmed, the date verified status began.</li>
-        <li><strong>Does not claim:</strong> business registration, legal-entity status, or government ID checks — docstoc doesn't run those, so the badge never says it does.</li>
-        <li><strong>Live SSL status:</strong> always fetched fresh — never frozen into a stale "active" claim.</li>
-      </ul>
-    </section>
-
-    <section style="background: #fafbfc; border: 1px solid #e5e7eb; border-radius: 12px; padding: 32px; margin-bottom: 40px; text-align: center;">
-      <h3 style="font-size: 20px; font-weight: 700; margin-bottom: 8px;">Look up a badge or get your own</h3>
-      <p style="font-size: 15px; color: #4b5563; margin-bottom: 20px;">Free public lookup — paste any account ID or /trust/… link. Your own badge unlocks after a domain is secured.</p>
-      <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
-        <a href="/tools/trust-badges" class="nav-cta">Open the trust badge tool →</a>
-        <a href="/app/login?start=1" style="display: inline-flex; align-items: center; padding: 10px 18px; border: 1px solid #d8dee8; border-radius: 8px; color: #1B3155; text-decoration: none; font-weight: 600; font-size: 14px;" data-cta data-cta-source="trust_badges_landing">Secure a domain →</a>
-      </div>
-    </section>
-
-    <section style="margin-bottom: 40px;">
-      <h3 style="font-size: 20px; font-weight: 700; margin-bottom: 16px;">FAQ</h3>
-      <div style="display: flex; flex-direction: column; gap: 16px;">
-        <div>
-          <p style="font-size: 15px; font-weight: 700; color: #262626; margin-bottom: 4px;">Is this the same as a document certificate?</p>
-          <p style="font-size: 14px; color: #4b5563; line-height: 1.6;">No. Document certificates fingerprint a specific file. Trust badges prove ongoing domain control for a workspace — complementary signals.</p>
-        </div>
-        <div>
-          <p style="font-size: 15px; font-weight: 700; color: #262626; margin-bottom: 4px;">Which plan includes trust badges?</p>
-          <p style="font-size: 14px; color: #4b5563; line-height: 1.6;">They're created automatically with SSL automation on the Business plan. Looking up someone else's public profile is free for everyone.</p>
-        </div>
-        <div>
-          <p style="font-size: 15px; font-weight: 700; color: #262626; margin-bottom: 4px;">Can clients verify without trusting docstoc?</p>
-          <p style="font-size: 14px; color: #4b5563; line-height: 1.6;">Once the Bitcoin timestamp confirms, they can download the .ots proof from the public trust profile and check it with OpenTimestamps tools independently.</p>
-        </div>
-      </div>
-    </section>
-
-    <section style="margin-bottom: 48px;">
-      <h3 style="font-size: 20px; font-weight: 700; margin-bottom: 16px;">Related</h3>
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px;">
-        <a href="/tools/trust-badges" style="display: block; padding: 16px; border: 1px solid #e5e7eb; border-radius: 8px; text-decoration: none; color: inherit;">
-          <strong style="display: block; font-size: 15px; color: #262626;">Trust badge tool →</strong>
-          <span style="font-size: 13px; color: #6b7280;">Look up profiles and copy the embed snippet.</span>
-        </a>
-        <a href="/ssl" style="display: block; padding: 16px; border: 1px solid #e5e7eb; border-radius: 8px; text-decoration: none; color: inherit;">
-          <strong style="display: block; font-size: 15px; color: #262626;">Free SSL automation →</strong>
-          <span style="font-size: 13px; color: #6b7280;">Issue the certificate that unlocks your badge.</span>
-        </a>
-        <a href="/tools/ssl-certificate-calculator" style="display: block; padding: 16px; border: 1px solid #e5e7eb; border-radius: 8px; text-decoration: none; color: inherit;">
-          <strong style="display: block; font-size: 15px; color: #262626;">SSL expiry calculator →</strong>
-          <span style="font-size: 13px; color: #6b7280;">See days remaining before a cert lapses.</span>
-        </a>
-        <a href="/tools/" style="display: block; padding: 16px; border: 1px solid #e5e7eb; border-radius: 8px; text-decoration: none; color: inherit;">
-          <strong style="display: block; font-size: 15px; color: #262626;">All free tools →</strong>
-          <span style="font-size: 13px; color: #6b7280;">Templates, hash checker, chase calculator, and more.</span>
-        </a>
-      </div>
-    </section>
-  </article>
+  <div class="prod-try">
+    <h2>Get your company badge</h2>
+    <p>Manage your badge in the app after a domain is secured, or look up any public trust profile free in Tools.</p>
+    <a href="/app/company-badge" class="nav-cta">Open company badge →</a>
+    <a class="prod-try-secondary" href="/tools/trust-badges">Look up a badge in Tools</a>
+  </div>
+  <h2>FAQ</h2>
+<details class="faq-item"><summary>Is this the same as a document certificate?</summary>
+<p>No. Document certificates fingerprint a specific file. Company badges prove ongoing domain control for a workspace — complementary signals.</p>
+</details>
+<details class="faq-item"><summary>Which plan includes company badges?</summary>
+<p>They're created automatically with SSL automation on the Business plan. Looking up someone else's public profile is free for everyone.</p>
+</details>
+<details class="faq-item"><summary>Can clients verify without trusting docstoc?</summary>
+<p>Once the Bitcoin timestamp confirms, they can download the .ots proof from the public trust profile and check it with OpenTimestamps tools independently.</p>
+</details>
+</div>
 </main>
 <footer class="site-footer">
   <div class="wrap site-footer-inner">

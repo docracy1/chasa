@@ -81,6 +81,8 @@ const ICONS = {
     '<rect x="3" y="7.5" width="18" height="12" rx="1.5" /><path d="M8 7.5V6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v1.5" /><path d="M3 12.5h18" />',
   shield: '<path d="M12 3l7 3v5.5c0 5-3.5 8-7 9.5-3.5-1.5-7-4.5-7-9.5V6l7-3z" /><path d="M9 12l2 2 4-4" />',
   lock: '<rect x="5" y="11" width="14" height="9" rx="1.5" /><path d="M8 11V7a4 4 0 0 1 8 0v4" />',
+  building:
+    '<rect x="5" y="3.5" width="10" height="17" rx="1" /><path d="M15 20.5h4v-8l-4-3" /><path d="M8.5 7.5h.01M11.5 7.5h.01M8.5 11h.01M11.5 11h.01M8.5 14.5h.01M11.5 14.5h.01" />',
   bolt: '<path d="M12.5 2.5L4 14h6l-1 7.5L20 10h-6l-1.5-7.5z" />',
   duplicate: '<rect x="8" y="8" width="12" height="13" rx="1.5" /><path d="M4 15V4.5A1.5 1.5 0 0 1 5.5 3H15" />',
   sparkles: '<path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8L12 3z" />',
@@ -269,6 +271,61 @@ const PRODUCTS = [
     },
   },
   {
+    file: "trust-badges.html",
+    depth: 0,
+    canonical: "/trust-badges",
+    activeNav: "",
+    title: "Company Badge — Domain-Verified Trust Badge | docstoc",
+    description:
+      "Domain-verified corporate trust badges for your site and proposals — backed by a real Let's Encrypt certificate and an optional Bitcoin timestamp. Look up profiles free; manage yours in the app.",
+    name: "Company badge",
+    page: {
+      crumb: `<a href="/">Home</a> / Company badge`,
+      h1: "Company badge",
+      lede: "Prove you control your domain — then show it. When docstoc issues your SSL certificate, you get a public trust profile and an embeddable badge clients can check themselves.",
+      sections: [
+        {
+          title: "What it can do",
+          body: "A company badge is a client-facing credibility signal tied to live domain control — not a generic seal you buy and forget.",
+          bullets: [
+            "<strong>Secure a domain</strong> with <a href=\"/ssl\">docstoc SSL automation</a> — real Let's Encrypt, DNS-01 challenge.",
+            "<strong>Trust profile created automatically</strong> when that certificate goes active — no separate signup.",
+            "<strong>Bitcoin timestamp</strong> anchors the “verified since” date (usually within a few hours).",
+            "<strong>Embed the badge</strong> with one script tag on your site, proposals, or client portal.",
+            "<strong>Live SSL status</strong> — always fetched fresh, never frozen into a stale “active” claim.",
+          ],
+        },
+        {
+          title: "Who it’s for",
+          body: "Freelancers, agencies, and small businesses that need a simple credibility signal against larger vendors — and want clients to verify domain control themselves.",
+        },
+        {
+          title: "What it is not",
+          body: "The badge is deliberately narrow so it stays honest. It verifies DNS control of a domain (via a live certificate) and, once confirmed, the date verified status began. It does <strong>not</strong> claim business registration, legal-entity status, or government ID checks — docstoc doesn’t run those, so the badge never says it does.",
+        },
+      ],
+      tryTitle: "Get your company badge",
+      tryBody: "Manage your badge in the app after a domain is secured, or look up any public trust profile free in Tools.",
+      tryHref: "/app/company-badge",
+      tryLabel: "Open company badge →",
+      trySecondary: { href: "/tools/trust-badges", label: "Look up a badge in Tools" },
+      faqs: [
+        {
+          q: "Is this the same as a document certificate?",
+          a: "No. Document certificates fingerprint a specific file. Company badges prove ongoing domain control for a workspace — complementary signals.",
+        },
+        {
+          q: "Which plan includes company badges?",
+          a: "They're created automatically with SSL automation on the Business plan. Looking up someone else's public profile is free for everyone.",
+        },
+        {
+          q: "Can clients verify without trusting docstoc?",
+          a: "Once the Bitcoin timestamp confirms, they can download the .ots proof from the public trust profile and check it with OpenTimestamps tools independently.",
+        },
+      ],
+    },
+  },
+  {
     file: "features/ai-tone.html",
     depth: 1,
     canonical: "/features/ai-tone",
@@ -389,6 +446,12 @@ const FEATURES_HUB_CARDS = [
     desc: "Free Let's Encrypt certificates for your own domain.",
   },
   {
+    href: "/trust-badges",
+    icon: "building",
+    title: "Company badge",
+    desc: "Domain-verified trust badge for your site and proposals.",
+  },
+  {
     href: "/features/ai-tone",
     icon: "bolt",
     title: "AI invoice chasing",
@@ -452,7 +515,6 @@ ${FEATURES_HUB_CARDS.map(
   </div>
   <h2>Also in the platform</h2>
   <ul>
-    <li><a href="/tools/trust-badges">Trust badges</a> — verified domain reputation for your site and proposals</li>
     <li><a href="/use-cases/">Use cases</a> — risk scoring, audit-ready workflows, compliance boards</li>
     <li><a href="/docs/">API &amp; docs</a> — webhooks, chase draft API, MCP</li>
   </ul>
