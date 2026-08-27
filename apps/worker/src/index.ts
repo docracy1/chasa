@@ -92,8 +92,10 @@ export default {
   scheduled: async (event: ScheduledEvent, env: Env, ctx: ExecutionContext) => {
     // Always: SPA Sign in / Start free smoke (fast outage signal).
     ctx.waitUntil(runSpaSmokeAndAlert(env, app).catch((err) => console.error("SPA smoke sweep failed:", err)));
-    // Hourly: upgrade pending trust-profile Bitcoin stamps (calendars confirm on their own schedule).
+    // Hourly: upgrade / resubmit pending Bitcoin stamps (calendars confirm on their own schedule).
     ctx.waitUntil(sweepPendingTrustProfiles(env).catch((err) => console.error("Trust profile OTS sweep failed:", err)));
+    ctx.waitUntil(sweepPendingTimestamps(env).catch((err) => console.error("OpenTimestamps sweep failed:", err)));
+    ctx.waitUntil(sweepPendingAuditAnchors(env).catch((err) => console.error("Audit anchor OTS sweep failed:", err)));
 
     // Once daily at 08:00 UTC — same hourly trigger, gated by clock (no second cron; account limit).
     const hourUtc = new Date().getUTCHours();
@@ -103,9 +105,7 @@ export default {
           await purgeExpiredSessions(env);
           await sendDailyChaseDigests(env);
           await sendCertExpiryReminders(env).catch((err) => console.error("Cert expiry reminders failed:", err));
-          await sweepPendingTimestamps(env).catch((err) => console.error("OpenTimestamps sweep failed:", err));
           await runDailyAuditAnchors(env).catch((err) => console.error("Daily audit anchor run failed:", err));
-          await sweepPendingAuditAnchors(env).catch((err) => console.error("Audit anchor OTS sweep failed:", err));
           await backfillTrustProfiles(env).catch((err) => console.error("Trust profile backfill failed:", err));
           if (isWeeklyBlogMondayUtc()) {
             await runWeeklyBlogPublish(env).catch((err) => console.error("Weekly blog publish failed:", err));

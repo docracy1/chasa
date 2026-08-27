@@ -1,23 +1,36 @@
 import type { Env } from "../types";
-import { listPendingTimestamps, recordTimestampConfirmed } from "./certificates";
+import {
+  listPendingTimestamps,
+  recordTimestampConfirmed,
+  recordTimestampSubmitted,
+} from "./certificates";
 
 /**
  * Minimal OpenTimestamps client — anchors a document's SHA-256 hash to the Bitcoin blockchain
- * via a public calendar server (https://opentimestamps.org). We never parse the .ots binary
+ * via public calendar servers (https://opentimestamps.org). We never parse the .ots binary
  * format ourselves; we treat both the initial "pending" proof and the later "upgraded" proof as
  * opaque bytes, store them, and re-serve them for independent verification with the `ots` CLI or
  * any OpenTimestamps-compatible verifier. That's a deliberate scope choice: reimplementing the
  * Merkle-proof + Bitcoin-header verification logic ourselves would add real complexity for zero
  * trust benefit — the point of anchoring to Bitcoin is that verification doesn't have to trust us.
  *
- * Protocol (confirmed against the live calendar server):
+ * Protocol (confirmed against the live calendar servers):
  *   POST {calendar}/digest        body = raw 32-byte SHA-256 digest → pending proof bytes
  *   GET  {calendar}/timestamp/{hex digest} → 200 + upgraded proof bytes once Bitcoin-confirmed,
  *                                            404 while still pending (can take hours).
+ *
+ * Alice occasionally drops pending digests before anchoring. We therefore submit to multiple
+ * calendars and, on upgrade checks, probe every known calendar for the same digest.
  */
 
-const CALENDAR_URL = "https://alice.btc.calendar.opentimestamps.org";
+const CALENDAR_URLS = [
+  "https://alice.btc.calendar.opentimestamps.org",
+  "https://bob.btc.calendar.opentimestamps.org",
+] as const;
+
 const REQUEST_TIMEOUT_MS = 10_000;
+/** Resubmit when a calendar still has no proof after this long — Alice/Bob can drop digests. */
+export const OTS_STALE_MS = 4 * 60 * 60 * 1000;
 
 function hexToBytes(hex: string): Uint8Array {
   const bytes = new Uint8Array(hex.length / 2);
@@ -54,25 +67,36 @@ export type SubmitResult =
   | { ok: true; proofBase64: string; calendarUrl: string }
   | { ok: false; error: string };
 
-/** Submit a document's SHA-256 hex digest for Bitcoin timestamping. Returns the initial
- *  "pending" proof — the calendar batches submissions and only anchors the aggregate root to
- *  Bitcoin periodically, so this does not mean confirmed yet. */
+/** Submit a SHA-256 hex digest to every known calendar. Returns the first successful pending
+ *  proof (Alice preferred via list order). Multi-submit raises the odds that at least one
+ *  calendar keeps the digest long enough to anchor. */
 export async function submitTimestamp(sha256HexDigest: string): Promise<SubmitResult> {
   const digest = hexToBytes(sha256HexDigest);
-  const res = await fetchWithTimeout(`${CALENDAR_URL}/digest`, {
-    method: "POST",
-    headers: { "Content-Type": "application/vnd.opentimestamps.v1" },
-    body: digest,
-  });
-  if (!res || !res.ok) {
-    return { ok: false, error: res ? `Calendar returned ${res.status}` : "Calendar unreachable" };
+  const errors: string[] = [];
+  let firstOk: { proofBase64: string; calendarUrl: string } | null = null;
+
+  for (const calendarUrl of CALENDAR_URLS) {
+    const res = await fetchWithTimeout(`${calendarUrl}/digest`, {
+      method: "POST",
+      headers: { "Content-Type": "application/vnd.opentimestamps.v1" },
+      body: digest,
+    });
+    if (!res || !res.ok) {
+      errors.push(`${calendarUrl}: ${res ? `HTTP ${res.status}` : "unreachable"}`);
+      continue;
+    }
+    const bytes = new Uint8Array(await res.arrayBuffer());
+    if (!firstOk) {
+      firstOk = { proofBase64: bytesToBase64(bytes), calendarUrl };
+    }
   }
-  const bytes = new Uint8Array(await res.arrayBuffer());
-  return { ok: true, proofBase64: bytesToBase64(bytes), calendarUrl: CALENDAR_URL };
+
+  if (firstOk) return { ok: true, ...firstOk };
+  return { ok: false, error: errors.join("; ") || "All calendars unreachable" };
 }
 
 export type UpgradeResult =
-  | { ok: true; confirmed: true; proofBase64: string }
+  | { ok: true; confirmed: true; proofBase64: string; calendarUrl: string }
   | { ok: true; confirmed: false }
   | { ok: false; error: string };
 
@@ -93,35 +117,83 @@ function containsSubsequence(haystack: Uint8Array, needle: Uint8Array): boolean 
   return false;
 }
 
-/** Check whether a previously-submitted digest now has a Bitcoin-confirmed proof available.
- *  404 means "not yet" (still aggregating / waiting on confirmations) — normal, not an error. */
-export async function checkUpgrade(sha256HexDigest: string, calendarUrl: string): Promise<UpgradeResult> {
-  const res = await fetchWithTimeout(`${calendarUrl}/timestamp/${sha256HexDigest}`, { method: "GET" });
-  if (!res) return { ok: false, error: "Calendar unreachable" };
-  if (res.status === 404) return { ok: true, confirmed: false };
-  if (!res.ok) return { ok: false, error: `Calendar returned ${res.status}` };
-  const bytes = new Uint8Array(await res.arrayBuffer());
-  if (!containsSubsequence(bytes, BITCOIN_ATTESTATION_TAG)) {
-    // Calendar aggregated it into a Merkle tree already, but that tree's root hasn't itself
-    // been anchored to a confirmed Bitcoin block yet — genuinely still pending.
-    return { ok: true, confirmed: false };
+function calendarsToProbe(preferred?: string | null): string[] {
+  const ordered: string[] = [];
+  if (preferred) ordered.push(preferred.replace(/\/$/, ""));
+  for (const url of CALENDAR_URLS) {
+    if (!ordered.includes(url)) ordered.push(url);
   }
-  return { ok: true, confirmed: true, proofBase64: bytesToBase64(bytes) };
+  return ordered;
+}
+
+/** Check whether a previously-submitted digest now has a Bitcoin-confirmed proof available.
+ *  Tries the stored calendar first, then the other known calendars (we multi-submit).
+ *  404 everywhere means "not yet" — normal, not an error. */
+export async function checkUpgrade(sha256HexDigest: string, calendarUrl: string): Promise<UpgradeResult> {
+  let sawReachable = false;
+  let lastError: string | null = null;
+
+  for (const url of calendarsToProbe(calendarUrl)) {
+    const res = await fetchWithTimeout(`${url}/timestamp/${sha256HexDigest}`, { method: "GET" });
+    if (!res) {
+      lastError = `${url}: unreachable`;
+      continue;
+    }
+    sawReachable = true;
+    if (res.status === 404) continue;
+    if (!res.ok) {
+      lastError = `${url}: HTTP ${res.status}`;
+      continue;
+    }
+    const bytes = new Uint8Array(await res.arrayBuffer());
+    if (!containsSubsequence(bytes, BITCOIN_ATTESTATION_TAG)) {
+      // Aggregated into a Merkle tree, but that tree's root isn't in a confirmed Bitcoin block yet.
+      return { ok: true, confirmed: false };
+    }
+    return { ok: true, confirmed: true, proofBase64: bytesToBase64(bytes), calendarUrl: url };
+  }
+
+  if (sawReachable) return { ok: true, confirmed: false };
+  return { ok: false, error: lastError || "All calendars unreachable" };
 }
 
 export { base64ToBytes };
 
-export async function sweepPendingTimestamps(env: Env): Promise<{ checked: number; confirmed: number }> {
+export async function sweepPendingTimestamps(env: Env): Promise<{
+  checked: number;
+  confirmed: number;
+  resubmitted: number;
+}> {
   const pending = await listPendingTimestamps(env, 100);
   let confirmed = 0;
+  let resubmitted = 0;
+  const now = Date.now();
+
   for (const row of pending) {
     const result = await checkUpgrade(row.sha256_hash, row.ots_calendar_url);
     if (result.ok && result.confirmed) {
       await recordTimestampConfirmed(env, row.id, result.proofBase64);
       confirmed++;
-    } else if (!result.ok) {
+      continue;
+    }
+    if (!result.ok) {
       console.error(`OpenTimestamps upgrade check failed for cert ${row.id}:`, result.error);
+      continue;
+    }
+
+    const submittedMs = row.ots_submitted_at ? Date.parse(row.ots_submitted_at) : 0;
+    if (!submittedMs || now - submittedMs < OTS_STALE_MS) continue;
+
+    const fresh = await submitTimestamp(row.sha256_hash);
+    if (fresh.ok) {
+      await recordTimestampSubmitted(env, row.id, {
+        calendarUrl: fresh.calendarUrl,
+        proofBase64: fresh.proofBase64,
+      });
+      resubmitted++;
+    } else {
+      console.error(`OpenTimestamps resubmit failed for cert ${row.id}:`, fresh.error);
     }
   }
-  return { checked: pending.length, confirmed };
+  return { checked: pending.length, confirmed, resubmitted };
 }

@@ -1,5 +1,5 @@
 import type { Env } from "../types";
-import { checkUpgrade, submitTimestamp } from "./openTimestamps";
+import { checkUpgrade, OTS_STALE_MS, submitTimestamp } from "./openTimestamps";
 import { listCertificatesForAccount } from "./customerCertificates";
 import { getBrandingRow } from "../routes/account";
 
@@ -174,16 +174,15 @@ export async function sweepPendingTrustProfiles(env: Env): Promise<{
 
   let confirmed = 0;
   let resubmitted = 0;
-  const staleMs = 12 * 60 * 60 * 1000;
   const now = Date.now();
 
   for (const row of pending) {
     const result = await checkUpgrade(row.profile_hash, row.ots_calendar_url);
     if (result.ok && result.confirmed) {
       await env.CHASA_DB.prepare(
-        `UPDATE trust_profiles SET ots_status = 'confirmed', ots_proof_base64 = ?, ots_confirmed_at = ? WHERE account_id = ?`
+        `UPDATE trust_profiles SET ots_status = 'confirmed', ots_proof_base64 = ?, ots_confirmed_at = ?, ots_calendar_url = ? WHERE account_id = ?`
       )
-        .bind(result.proofBase64, new Date().toISOString(), row.account_id)
+        .bind(result.proofBase64, new Date().toISOString(), result.calendarUrl, row.account_id)
         .run();
       confirmed++;
       continue;
@@ -193,10 +192,10 @@ export async function sweepPendingTrustProfiles(env: Env): Promise<{
       continue;
     }
 
-    // Calendar still 404 / no Bitcoin attestation. Alice occasionally drops pending digests —
-    // resubmit after 12h so "verified since" can eventually confirm instead of hanging forever.
+    // Calendar still 404 / no Bitcoin attestation. Public calendars occasionally drop pending
+    // digests — resubmit (to Alice + Bob) after OTS_STALE_MS so "verified since" can confirm.
     const submittedMs = row.ots_submitted_at ? Date.parse(row.ots_submitted_at) : 0;
-    if (!submittedMs || now - submittedMs < staleMs) continue;
+    if (!submittedMs || now - submittedMs < OTS_STALE_MS) continue;
 
     const fresh = await submitTimestamp(row.profile_hash);
     if (fresh.ok) {

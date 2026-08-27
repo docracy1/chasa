@@ -1,5 +1,5 @@
 import type { Env } from "../types";
-import { checkUpgrade, submitTimestamp } from "./openTimestamps";
+import { checkUpgrade, OTS_STALE_MS, submitTimestamp } from "./openTimestamps";
 
 type ChaseEventRow = {
   id: string;
@@ -148,30 +148,55 @@ export async function runDailyAuditAnchors(env: Env): Promise<{ anchored: number
   return { anchored };
 }
 
-/** Same upgrade sweep pattern as document certificates, applied to audit anchors. */
-export async function sweepPendingAuditAnchors(env: Env): Promise<{ checked: number; confirmed: number }> {
+/** Same upgrade / stale-resubmit sweep as document certificates, applied to audit anchors. */
+export async function sweepPendingAuditAnchors(env: Env): Promise<{
+  checked: number;
+  confirmed: number;
+  resubmitted: number;
+}> {
   const { results } = await env.CHASA_DB.prepare(
-    `SELECT id, chain_hash, ots_calendar_url FROM audit_log_anchors
+    `SELECT id, chain_hash, ots_calendar_url, ots_submitted_at FROM audit_log_anchors
      WHERE ots_status = 'pending' AND ots_calendar_url IS NOT NULL
      ORDER BY ots_submitted_at ASC LIMIT 100`
-  ).all<{ id: string; chain_hash: string; ots_calendar_url: string }>();
+  ).all<{ id: string; chain_hash: string; ots_calendar_url: string; ots_submitted_at: string | null }>();
   const pending = results ?? [];
 
   let confirmed = 0;
+  let resubmitted = 0;
+  const now = Date.now();
+
   for (const row of pending) {
     const result = await checkUpgrade(row.chain_hash, row.ots_calendar_url);
     if (result.ok && result.confirmed) {
       await env.CHASA_DB.prepare(
-        `UPDATE audit_log_anchors SET ots_status = 'confirmed', ots_proof_base64 = ?, ots_confirmed_at = ? WHERE id = ?`
+        `UPDATE audit_log_anchors SET ots_status = 'confirmed', ots_proof_base64 = ?, ots_confirmed_at = ?, ots_calendar_url = ? WHERE id = ?`
       )
-        .bind(result.proofBase64, new Date().toISOString(), row.id)
+        .bind(result.proofBase64, new Date().toISOString(), result.calendarUrl, row.id)
         .run();
       confirmed++;
-    } else if (!result.ok) {
+      continue;
+    }
+    if (!result.ok) {
       console.error(`OpenTimestamps upgrade check failed for audit anchor ${row.id}:`, result.error);
+      continue;
+    }
+
+    const submittedMs = row.ots_submitted_at ? Date.parse(row.ots_submitted_at) : 0;
+    if (!submittedMs || now - submittedMs < OTS_STALE_MS) continue;
+
+    const fresh = await submitTimestamp(row.chain_hash);
+    if (fresh.ok) {
+      await env.CHASA_DB.prepare(
+        `UPDATE audit_log_anchors SET ots_status = 'pending', ots_calendar_url = ?, ots_proof_base64 = ?, ots_submitted_at = ? WHERE id = ?`
+      )
+        .bind(fresh.calendarUrl, fresh.proofBase64, new Date().toISOString(), row.id)
+        .run();
+      resubmitted++;
+    } else {
+      console.error(`OpenTimestamps resubmit failed for audit anchor ${row.id}:`, fresh.error);
     }
   }
-  return { checked: pending.length, confirmed };
+  return { checked: pending.length, confirmed, resubmitted };
 }
 
 export async function listAuditAnchors(env: Env, accountId: string, limit = 90): Promise<AuditAnchor[]> {

@@ -236,11 +236,16 @@ export async function recordTimestampConfirmed(env: Env, id: string, proofBase64
     .run();
 }
 
-type PendingTimestampRow = { id: string; sha256_hash: string; ots_calendar_url: string };
+type PendingTimestampRow = {
+  id: string;
+  sha256_hash: string;
+  ots_calendar_url: string;
+  ots_submitted_at: string | null;
+};
 
 export async function listPendingTimestamps(env: Env, limit = 100): Promise<PendingTimestampRow[]> {
   const { results } = await env.CHASA_DB.prepare(
-    `SELECT id, sha256_hash, ots_calendar_url FROM document_certificates
+    `SELECT id, sha256_hash, ots_calendar_url, ots_submitted_at FROM document_certificates
      WHERE ots_status = 'pending' AND ots_calendar_url IS NOT NULL
      ORDER BY ots_submitted_at ASC LIMIT ?`
   )
