@@ -5,7 +5,7 @@ import { renderSeoHead } from "./seo-head.mjs";
 import { EN_TO_ES, ES_TO_EN } from "../data/es-alternates.mjs";
 
 /** Bump when site.css / site-nav.js / site-lang.js change so Pages edge caches refresh. */
-export const ASSET_V = "20260827c";
+export const ASSET_V = "20260827d";
 
 /** Small inline icon set for the header mega-menus (mirrors the app's NavIcon component). */
 const ICON_PATHS = {
@@ -117,14 +117,13 @@ const COMPARE_ITEMS = [
 ];
 
 const USE_CASE_ITEMS = [
-  { path: "/use-cases/risk-scoring-automation", icon: "sparkles", titleKey: "nav.mega.useCase.risk.title", title: "Risk scoring automation", descKey: "nav.mega.useCase.risk.desc", desc: "Flag late-payment risk before invoices go delinquent." },
-  { path: "/use-cases/audit-ready-workflows", icon: "scale", titleKey: "nav.mega.useCase.audit.title", title: "Audit-ready workflows", descKey: "nav.mega.useCase.audit.desc", desc: "Timestamped evidence packs and demand letters." },
-  { path: "/compliance/sox", icon: "shield", titleKey: "nav.mega.useCase.sox.title", title: "SOX evidence automation", descKey: "nav.mega.useCase.sox.desc", desc: "Immutable AR activity logs for auditors." },
-  { path: "/use-cases/compliance-dashboard", icon: "briefcase", titleKey: "nav.mega.useCase.compliance.title", title: "Compliance dashboard", descKey: "nav.mega.useCase.compliance.desc", desc: "Aging buckets and follow-up status at a glance." },
-  { path: "/use-cases/docstoc-certificate-monitoring", icon: "mail", titleKey: "nav.mega.useCase.certificate.title", title: "Certificate monitoring", descKey: "nav.mega.useCase.certificate.desc", desc: "Proof of delivery and chase-history verification." },
-  { path: "/use-cases/document-signing-api", icon: "duplicate", titleKey: "nav.mega.useCase.api.title", title: "Follow-up API", descKey: "nav.mega.useCase.api.desc", desc: "Integrate chase drafts into your own stack." },
-  { path: "/use-cases/flat-fee-esign", icon: "users", titleKey: "nav.mega.useCase.flatFee.title", title: "Flat-fee pricing", descKey: "nav.mega.useCase.flatFee.desc", desc: "No per-document fees — unlimited chases from $14.99/mo." },
-  { path: "/use-cases/freelance-contract-templates", icon: "store", titleKey: "nav.mega.useCase.templates.title", title: "Freelance contract templates", descKey: "nav.mega.useCase.templates.desc", desc: "Free Independent Contractor Agreement, ready to send." },
+  { path: "/document-templates/", icon: "store", titleKey: "nav.mega.useCase.marketplace.title", title: "Document marketplace", descKey: "nav.mega.useCase.marketplace.desc", desc: "1,000+ business & legal templates — edit online, PDF, certify." },
+  { path: "/invoices", icon: "briefcase", titleKey: "nav.mega.useCase.invoices.title", title: "Shareable invoices", descKey: "nav.mega.useCase.invoices.desc", desc: "Create an invoice, share the link, chase it if it goes overdue." },
+  { path: "/features/ai-tone", icon: "sparkles", titleKey: "nav.mega.useCase.chase.title", title: "AI invoice chasing", descKey: "nav.mega.useCase.chase.desc", desc: "Tone-matched follow-up drafts matched to days overdue." },
+  { path: "/certificate", icon: "shield", titleKey: "nav.mega.useCase.docCert.title", title: "Document certificates", descKey: "nav.mega.useCase.docCert.desc", desc: "Tamper-evident hash verification — free to create and check." },
+  { path: "/ssl", icon: "lock", titleKey: "nav.mega.useCase.sslAuto.title", title: "SSL / TLS automation", descKey: "nav.mega.useCase.sslAuto.desc", desc: "Let's Encrypt for domains you control — DNS-01, renewals in-app." },
+  { path: "/trust-badges", icon: "building", titleKey: "nav.mega.useCase.badge.title", title: "Company trust badge", descKey: "nav.mega.useCase.badge.desc", desc: "Domain-verified badge for your site and proposals." },
+  { path: "/use-cases/freelance-contract-templates", icon: "duplicate", titleKey: "nav.mega.useCase.templates.title", title: "Freelance contract templates", descKey: "nav.mega.useCase.templates.desc", desc: "Free Independent Contractor Agreement, ready to send." },
   { path: "/use-cases/free-ssl-for-your-domain", icon: "lock", titleKey: "nav.mega.useCase.ssl.title", title: "Free SSL for a client's domain", descKey: "nav.mega.useCase.ssl.desc", desc: "Real Let's Encrypt certificates, no ACME setup." },
 ];
 
@@ -150,7 +149,7 @@ const MORE_ITEMS = [
   { path: "/industry/freelancers", titleKey: "nav.industry", title: "Industry" },
   { path: "/#pricing", titleKey: "nav.pricing", title: "Pricing" },
   { path: "/use-cases/", titleKey: "nav.useCases", title: "Use Cases" },
-  { path: "/free-templates/", titleKey: "nav.templates", title: "Free templates" },
+  { path: "/marketplace", titleKey: "nav.templates", title: "Marketplace" },
   { path: "/ai", titleKey: "nav.ai", title: "AI" },
   { path: "/compare/", titleKey: "footer.compareCol", title: "Compare" },
   { path: "/about", titleKey: "nav.mega.resource.about.title", title: "About" },
@@ -360,7 +359,7 @@ ${jsonLd ? `<script type="application/ld+json">\n${jsonLd}\n</script>` : `<scrip
       <a href="${link("/blog/")}" class="mobile-panel-nav-link" data-i18n="nav.blog">Blog</a>
       <a href="${link("/docs/")}" class="mobile-panel-nav-link" data-i18n="nav.api">API</a>
       <a href="${link("/about")}" class="mobile-panel-nav-link" data-i18n="nav.about">About</a>
-      <a href="${link("/free-templates/")}" class="mobile-panel-nav-link" data-i18n="nav.templates">Free templates</a>
+      <a href="${link("/marketplace")}" class="mobile-panel-nav-link" data-i18n="nav.templates">Marketplace</a>
       <a href="${link("/ai")}" class="mobile-panel-nav-link" data-i18n="nav.ai">AI</a>
       <a href="${link("/tools/")}" class="mobile-panel-nav-link" data-i18n="nav.tools">Tools</a>
       <a href="${link("/app/login")}" class="mobile-panel-nav-link" data-i18n="nav.signIn">Sign in</a>
@@ -394,20 +393,20 @@ ${mainHtml}
       <a href="${link("/blog/")}" data-i18n="footer.blog">Blog</a>
       <a href="${link("/overdue-invoices-guide")}">Overdue Invoices Guide</a>
       <a href="${link("/docs/")}" data-i18n="footer.docs">API & Docs</a>
-      <a href="${link("/free-templates/")}" data-i18n="footer.templates">Free templates</a>
+      <a href="${link("/marketplace")}" data-i18n="footer.templates">Marketplace</a>
       <a href="${link("/tools/")}" data-i18n="footer.calculators">Calculators</a>
       <a href="${link("/ai")}" data-i18n="footer.ai">AI</a>
     </div>
     <div class="site-footer-col">
       <h4 data-i18n="footer.useCasesHeader">Use Cases</h4>
-      <a href="${link("/use-cases/risk-scoring-automation")}">Risk Scoring</a>
-      <a href="${link("/use-cases/audit-ready-workflows")}">Audit Workflows</a>
-      <a href="${link("/compliance/sox")}">SOX AR Evidence</a>
-      <a href="${link("/use-cases/compliance-dashboard")}">Compliance Board</a>
-      <a href="${link("/use-cases/docstoc-certificate-monitoring")}">Certificate Proof</a>
-      <a href="${link("/use-cases/document-signing-api")}">Follow-up API</a>
-      <a href="${link("/use-cases/freelance-contract-templates")}">Contract Templates</a>
-      <a href="${link("/use-cases/free-ssl-for-your-domain")}">Free SSL Setup</a>
+      <a href="${link("/document-templates/")}">Document marketplace</a>
+      <a href="${link("/invoices")}">Shareable invoices</a>
+      <a href="${link("/features/ai-tone")}">AI invoice chasing</a>
+      <a href="${link("/certificate")}">Document certificates</a>
+      <a href="${link("/ssl")}">SSL automation</a>
+      <a href="${link("/trust-badges")}">Company badge</a>
+      <a href="${link("/use-cases/freelance-contract-templates")}">Contract templates</a>
+      <a href="${link("/use-cases/free-ssl-for-your-domain")}">Free SSL setup</a>
     </div>
     <div class="site-footer-col">
       <h4 data-i18n="footer.compareCol">Compare</h4>

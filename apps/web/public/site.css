@@ -199,7 +199,8 @@ a { color: inherit; }
   display: flex;
   align-items: center;
   flex: 1;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
+  min-width: 0;
 }
 
 /* LimeWire pattern: a small, loosely-spaced nav cluster sits right after the logo; the
@@ -209,13 +210,15 @@ a { color: inherit; }
   display: flex;
   align-items: center;
   gap: 30px;
+  min-width: 0;
 }
 .header-nav-actions {
   margin-left: auto;
   display: flex;
   align-items: center;
-  gap: 16px;
-  flex-wrap: wrap;
+  gap: 12px;
+  flex-wrap: nowrap;
+  flex-shrink: 0;
   justify-content: flex-end;
 }
 
@@ -740,14 +743,40 @@ body.mobile-nav-open .docstoc-asst {
   background: transparent;
 }
 
-/* The full desktop nav (11 items + 3 CTA buttons since Industry/Use Cases were added) stops
-   fitting on one row below ~1150px and wraps into a broken multi-row header instead of
-   shrinking gracefully — collapsing to the mobile panel earlier avoids that outright. */
+/* The full desktop nav stops fitting on one row below ~1200px — collapse to the mobile
+   panel earlier instead of wrapping into a broken multi-row header. */
 @media (max-width: 1200px) {
   .header-nav-collapse { display: none; }
   .header-menu-toggle { display: inline-flex; }
   .mobile-panel-backdrop.is-open { display: block; }
   .mobile-panel { display: flex; }
+  .site-header-inner {
+    padding: 12px 16px;
+    gap: 10px;
+  }
+  .header-nav-right {
+    margin-left: auto;
+    flex: 0 0 auto;
+  }
+  /* All primary nav links use header-nav-collapse — hide the empty cluster on mobile. */
+  .header-nav-links {
+    display: none;
+  }
+  /* After collapse, only locale + Try free + hamburger remain — keep one tight row. */
+  .header-nav-actions {
+    gap: 8px;
+  }
+  .logo-word {
+    font-size: 18px;
+  }
+  .site-header .nav-cta {
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+  .locale-switch-trigger {
+    padding: 6px 8px;
+    font-size: 12px;
+  }
 }
 
 /* ---------- FOOTER ---------- */
