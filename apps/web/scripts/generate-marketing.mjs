@@ -8,6 +8,7 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { chrome } from "./lib/chrome.mjs";
 import { MARKETING_PAGES } from "./data/marketing-manifest.mjs";
+import { SITE_URL } from "./data/seo-config.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const publicDir = join(__dirname, "../public");
@@ -31,12 +32,19 @@ function extractDescription(html) {
 function extractCanonical(html) {
   const match = html.match(/<link rel="canonical" href="([^"]*)"/i);
   if (!match) return "/";
-  return match[1].replace(/^https:\/\/docstoc\.io/, "") || "/";
+  // Normalize legacy hosts so chrome() always rebuilds absolute URLs from SITE_URL.
+  return match[1].replace(/^https:\/\/(?:docstoc|chasa)\.io/, "") || "/";
 }
 
 function extractJsonLd(html) {
   const match = html.match(/<script type="application\/ld\+json">\s*([\s\S]*?)\s*<\/script>/i);
-  return match ? match[1].trim() : null;
+  if (!match) return null;
+  // Keep graph content, but force public host to current SITE_URL (via path-only rewrite later in chrome consumers).
+  return match[1]
+    .trim()
+    .replace(/https:\/\/api\.chasa\.io/g, "<<<API>>>")
+    .replace(/https:\/\/(?:chasa|docstoc)\.io/g, SITE_URL)
+    .replace(/<<<API>>>/g, "https://api.chasa.io");
 }
 
 function decodeHtmlEntities(s) {

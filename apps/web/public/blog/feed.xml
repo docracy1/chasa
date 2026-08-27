@@ -1,92 +1,92 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0">
   <channel>
-    <title>chasa Blog</title>
-    <link>https://chasa.io/blog/</link>
+    <title>docstoc Blog</title>
+    <link>https://docstoc.io/blog/</link>
     <description>Invoice follow-up, payment reminders, and freelancer cash flow.</description>
     <language>en</language>
     <lastBuildDate>Wed, 26 Aug 2026 12:00:00 GMT</lastBuildDate>
     <item>
       <title>SSL certificate providers compared (2026)</title>
-      <link>https://chasa.io/blog/ssl-certificate-providers-compared/</link>
-      <guid isPermaLink="true">https://chasa.io/blog/ssl-certificate-providers-compared/</guid>
+      <link>https://docstoc.io/blog/ssl-certificate-providers-compared/</link>
+      <guid isPermaLink="true">https://docstoc.io/blog/ssl-certificate-providers-compared/</guid>
       <description>Compare DigiCert, GlobalSign, Let's Encrypt, Sectigo, SSL.com, ZeroSSL, and docstoc on ease of use, free tiers, support, and who each SSL provider is actually for.</description>
       <pubDate>Wed, 26 Aug 2026 00:00:00 GMT</pubDate>
     </item>
     <item>
       <title>ACME protocol certificate automation explained</title>
-      <link>https://chasa.io/blog/acme-protocol-certificate-automation/</link>
-      <guid isPermaLink="true">https://chasa.io/blog/acme-protocol-certificate-automation/</guid>
+      <link>https://docstoc.io/blog/acme-protocol-certificate-automation/</link>
+      <guid isPermaLink="true">https://docstoc.io/blog/acme-protocol-certificate-automation/</guid>
       <description>How ACME proves domain control, which clients and panels use it, common pitfalls, and how to migrate to automated DV without certbot babysitting.</description>
       <pubDate>Thu, 20 Aug 2026 00:00:00 GMT</pubDate>
     </item>
     <item>
       <title>47-day SSL certificates: the CA/B Forum lifetime schedule explained</title>
-      <link>https://chasa.io/blog/ssl-tls-certificate-lifetime-shortening/</link>
-      <guid isPermaLink="true">https://chasa.io/blog/ssl-tls-certificate-lifetime-shortening/</guid>
+      <link>https://docstoc.io/blog/ssl-tls-certificate-lifetime-shortening/</link>
+      <guid isPermaLink="true">https://docstoc.io/blog/ssl-tls-certificate-lifetime-shortening/</guid>
       <description>CA/B Forum Ballot SC-081v3 timeline: 200 days (2026), 100 days (2027), 47-day SSL/TLS max by March 2029 — why it happened, DCV reuse risks, and how automation keeps HTTPS online.</description>
       <pubDate>Wed, 26 Aug 2026 00:00:00 GMT</pubDate>
     </item>
     <item>
       <title>Types of TLS certificates (and how they relate to SSL)</title>
-      <link>https://chasa.io/blog/types-of-tls-certificates/</link>
-      <guid isPermaLink="true">https://chasa.io/blog/types-of-tls-certificates/</guid>
+      <link>https://docstoc.io/blog/types-of-tls-certificates/</link>
+      <guid isPermaLink="true">https://docstoc.io/blog/types-of-tls-certificates/</guid>
       <description>TLS vs SSL naming, server vs client certificates, short-lived TLS, and how to pick the right certificate for modern HTTPS.</description>
       <pubDate>Sat, 22 Aug 2026 00:00:00 GMT</pubDate>
     </item>
     <item>
       <title>Types of SSL certificates explained</title>
-      <link>https://chasa.io/blog/types-of-ssl-certificates/</link>
-      <guid isPermaLink="true">https://chasa.io/blog/types-of-ssl-certificates/</guid>
+      <link>https://docstoc.io/blog/types-of-ssl-certificates/</link>
+      <guid isPermaLink="true">https://docstoc.io/blog/types-of-ssl-certificates/</guid>
       <description>DV, OV, EV, wildcards, SAN, and specialty certs — what small businesses actually need for HTTPS versus what vendors upsell.</description>
       <pubDate>Sun, 23 Aug 2026 00:00:00 GMT</pubDate>
     </item>
     <item>
       <title>Certificate authority types — pros and cons</title>
-      <link>https://chasa.io/blog/certificate-authority-types-pros-cons/</link>
-      <guid isPermaLink="true">https://chasa.io/blog/certificate-authority-types-pros-cons/</guid>
+      <link>https://docstoc.io/blog/certificate-authority-types-pros-cons/</link>
+      <guid isPermaLink="true">https://docstoc.io/blog/certificate-authority-types-pros-cons/</guid>
       <description>Public vs private CAs, nonprofit vs commercial, cloud/edge SSL, and resellers — honest trade-offs for freelancers and small businesses.</description>
       <pubDate>Mon, 24 Aug 2026 00:00:00 GMT</pubDate>
     </item>
     <item>
       <title>SSL certificate authorities worldwide — who issues the padlock?</title>
-      <link>https://chasa.io/blog/ssl-certificate-authorities-market-share/</link>
-      <guid isPermaLink="true">https://chasa.io/blog/ssl-certificate-authorities-market-share/</guid>
+      <link>https://docstoc.io/blog/ssl-certificate-authorities-market-share/</link>
+      <guid isPermaLink="true">https://docstoc.io/blog/ssl-certificate-authorities-market-share/</guid>
       <description>How CA market share is measured, which authorities dominate globally and regionally, and what that means when you choose SSL/TLS for a small business site.</description>
       <pubDate>Tue, 25 Aug 2026 00:00:00 GMT</pubDate>
     </item>
     <item>
       <title>Building an AR policy that works with docstoc</title>
-      <link>https://chasa.io/blog/ar-policy-that-works-with-docstoc/</link>
-      <guid isPermaLink="true">https://chasa.io/blog/ar-policy-that-works-with-docstoc/</guid>
+      <link>https://docstoc.io/blog/ar-policy-that-works-with-docstoc/</link>
+      <guid isPermaLink="true">https://docstoc.io/blog/ar-policy-that-works-with-docstoc/</guid>
       <description>What a practical accounts receivable policy should cover — terms, credit limits, chase stages, disputes, write-offs — and how each maps to docstoc’s tools.</description>
       <pubDate>Fri, 31 Jul 2026 00:00:00 GMT</pubDate>
     </item>
     <item>
       <title>docstoc vs Chaser, Paidnice, Duefy &amp; More</title>
-      <link>https://chasa.io/blog/invoice-chase-software-comparison/</link>
-      <guid isPermaLink="true">https://chasa.io/blog/invoice-chase-software-comparison/</guid>
+      <link>https://docstoc.io/blog/invoice-chase-software-comparison/</link>
+      <guid isPermaLink="true">https://docstoc.io/blog/invoice-chase-software-comparison/</guid>
       <description>Side-by-side comparison of invoice chase tools for freelancers and SMBs: price, auto-send vs draft-only, AI drafts, sequences, and tracking.</description>
       <pubDate>Mon, 27 Jul 2026 00:00:00 GMT</pubDate>
     </item>
     <item>
       <title>How to Follow Up on Overdue Invoices</title>
-      <link>https://chasa.io/blog/how-to-follow-up-on-overdue-invoices/</link>
-      <guid isPermaLink="true">https://chasa.io/blog/how-to-follow-up-on-overdue-invoices/</guid>
+      <link>https://docstoc.io/blog/how-to-follow-up-on-overdue-invoices/</link>
+      <guid isPermaLink="true">https://docstoc.io/blog/how-to-follow-up-on-overdue-invoices/</guid>
       <description>Timing, tone, and email structure for overdue invoice follow-ups — written for freelancers and small teams chasing payment without burning the relationship.</description>
       <pubDate>Mon, 20 Jul 2026 00:00:00 GMT</pubDate>
     </item>
     <item>
       <title>Invoice payment reminder email templates</title>
-      <link>https://chasa.io/blog/invoice-payment-reminder-email-templates/</link>
-      <guid isPermaLink="true">https://chasa.io/blog/invoice-payment-reminder-email-templates/</guid>
+      <link>https://docstoc.io/blog/invoice-payment-reminder-email-templates/</link>
+      <guid isPermaLink="true">https://docstoc.io/blog/invoice-payment-reminder-email-templates/</guid>
       <description>Seven copy-paste payment reminder email templates for every stage of invoice follow-up, from a friendly nudge before the due date to a firm final notice.</description>
       <pubDate>Wed, 15 Jul 2026 00:00:00 GMT</pubDate>
     </item>
     <item>
       <title>Freelancer late payment policy</title>
-      <link>https://chasa.io/blog/freelancer-late-payment-policy/</link>
-      <guid isPermaLink="true">https://chasa.io/blog/freelancer-late-payment-policy/</guid>
+      <link>https://docstoc.io/blog/freelancer-late-payment-policy/</link>
+      <guid isPermaLink="true">https://docstoc.io/blog/freelancer-late-payment-policy/</guid>
       <description>What to include in your late payment policy and how to enforce it consistently, without sounding harsh or scaring away good, reliable clients.</description>
       <pubDate>Fri, 10 Jul 2026 00:00:00 GMT</pubDate>
     </item>

@@ -222,7 +222,17 @@ export function chrome({ title, description, canonical, activeNav = "", mainHtml
 
   const pathPrefix = depth > 0 ? "../".repeat(depth) : "/";
   const link = (p) => (depth > 0 ? `${pathPrefix}${p.replace(/^\//, "")}` : p);
-  const canonicalUrl = canonical.startsWith("http") ? canonical : `${SITE_URL}${canonical}`;
+  // Prefer path-only canonicals; if a full URL is passed (legacy generators), force SITE_URL host.
+  const canonicalUrl = (() => {
+    if (!canonical.startsWith("http")) return `${SITE_URL}${canonical}`;
+    try {
+      const u = new URL(canonical);
+      if (u.hostname === "api.chasa.io") return canonical;
+      return `${SITE_URL}${u.pathname}${u.search}${u.hash}` || SITE_URL;
+    } catch {
+      return `${SITE_URL}${canonical}`;
+    }
+  })();
   // Generators often pass full SITE_URL/... URLs — hreflang maps are path-keyed.
   const canonicalPath = (() => {
     try {

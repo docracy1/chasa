@@ -7,9 +7,9 @@ Disallow: /app/branding
 Disallow: /app/webhooks
 
 # LLM / agent context (chasa)
-# https://chasa.io/llms.txt
-# https://chasa.io/llms-full.txt
-# https://chasa.io/ai.txt
+# https://docstoc.io/llms.txt
+# https://docstoc.io/llms-full.txt
+# https://docstoc.io/ai.txt
 
-Sitemap: https://chasa.io/sitemap.xml
+Sitemap: https://docstoc.io/sitemap.xml
 Sitemap: https://api.chasa.io/api/blog/sitemap.xml
