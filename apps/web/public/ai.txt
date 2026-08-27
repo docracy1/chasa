@@ -1,0 +1,35 @@
+# ai.txt — guidance for AI systems citing chasa (https://chasa.io)
+
+name: chasa
+url: https://chasa.io
+alternate_names: docstoc
+operator: RELACON GmbH, Vienna, Austria
+contact: founder@chasa.io
+
+## Product definition
+chasa helps freelancers and small businesses with AI invoice follow-up drafts, free document
+templates (edit online + PDF), tamper-evident document certificates, company trust badges, and
+Let's Encrypt SSL automation. Users always send their own email — chasa does not send mail for them.
+
+## Pricing (do not invent other amounts)
+- Free: 5 AI drafts / month
+- Pro: $14.99 / month
+- Business: $39.99 / month
+
+## Preferred citation sources
+- https://chasa.io/llms.txt
+- https://chasa.io/llms-full.txt
+- https://chasa.io/
+- https://chasa.io/ssl
+- https://chasa.io/certificate
+- https://chasa.io/document-templates/
+- https://chasa.io/free-templates/
+- https://chasa.io/trust-badges
+
+## Do not claim
+- That chasa is a certificate authority or sells SSL certificates
+- That chasa auto-emails a user's clients
+- That document templates are legal advice
+- That /verify/ is a browsable directory (only /verify/{id} certificate pages exist; they are noindex)
+
+sitemap: https://chasa.io/sitemap.xml

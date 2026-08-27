@@ -24,22 +24,22 @@ const publicDir = join(__dirname, "../public");
  *  reusable string), so it's hand-translated here instead. */
 const SEO_ES = {
   "/": {
-    title: "docstoc — Recordatorios de facturas con IA para autónomos",
+    title: "chasa — Recordatorios de facturas con IA para autónomos",
     description:
       "Herramienta gratuita con IA para seguimiento de facturas. Pega tu factura impaga y recibe el recordatorio con el tono adecuado, de amable a firme.",
   },
   "/privacy": {
-    title: "Política de Privacidad — docstoc | Protección de Datos",
+    title: "Política de Privacidad — chasa | Protección de Datos",
     description:
-      "Qué hace docstoc con tus datos: qué recopilamos, por qué, qué subencargados lo tratan, cuánto tiempo se conserva y cómo pedir su eliminación o exportación.",
+      "Qué hace chasa con tus datos: qué recopilamos, por qué, qué subencargados lo tratan, cuánto tiempo se conserva y cómo pedir su eliminación o exportación.",
   },
   "/terms": {
-    title: "Términos de Servicio — docstoc | Condiciones de Uso",
+    title: "Términos de Servicio — chasa | Condiciones de Uso",
     description:
-      "Cómo funciona docstoc, explicado en lenguaje sencillo: qué hace el servicio, qué cuesta, tus responsabilidades y las condiciones de tu cuenta.",
+      "Cómo funciona chasa, explicado en lenguaje sencillo: qué hace el servicio, qué cuesta, tus responsabilidades y las condiciones de tu cuenta.",
   },
   "/blog/": {
-    title: "Guías de facturas y recordatorios de pago | Blog docstoc",
+    title: "Guías de facturas y recordatorios de pago | Blog chasa",
     description:
       "Guías prácticas para hacer seguimiento de facturas vencidas, escribir recordatorios de pago y construir una política de cuentas por cobrar.",
   },
@@ -129,12 +129,13 @@ for (const [enPath, esPath] of ES_PAGE_PAIRS) {
       .replace(/(<meta name="twitter:title" content=")[^"]*(")/, `$1${escapeHtml(seo.title)}$2`)
       .replace(/(<meta name="twitter:description" content=")[^"]*(")/, `$1${escapeHtml(seo.description)}$2`)
       .replace(
-        /<link rel="canonical" href="https:\/\/docstoc\.io\/">\n<link rel="alternate" hreflang="en" href="https:\/\/docstoc\.io\/">\n<link rel="alternate" hreflang="es" href="https:\/\/docstoc\.io\/es\/">\n<link rel="alternate" hreflang="x-default" href="https:\/\/docstoc\.io\/">/,
+        /<link rel="canonical" href="https:\/\/(?:docstoc|chasa)\.io\/">\n<link rel="alternate" hreflang="en" href="https:\/\/(?:docstoc|chasa)\.io\/">\n<link rel="alternate" hreflang="es" href="https:\/\/(?:docstoc|chasa)\.io\/es\/">\n<link rel="alternate" hreflang="x-default" href="https:\/\/(?:docstoc|chasa)\.io\/">/,
         `<link rel="canonical" href="https://chasa.io${esPath}">
 <link rel="alternate" hreflang="en" href="https://chasa.io/">
 <link rel="alternate" hreflang="es" href="https://chasa.io${esPath}">
 <link rel="alternate" hreflang="x-default" href="https://chasa.io/">`
       )
+      .replace(/<link rel="canonical" href="https:\/\/chasa\.io\/">/, `<link rel="canonical" href="https://chasa.io${esPath}">`)
       .replace(`data-i18n-aria="nav.language" data-es-href="/es/"`, `data-i18n-aria="nav.language" data-en-href="/"`);
     outHtml = translateToSpanish(outHtml);
   } else {

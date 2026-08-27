@@ -35948,7 +35948,7 @@ const indexJsonLd = JSON.stringify(
         url: "https://chasa.io/free-templates/",
         description:
           `${TEMPLATES.length} free, copy-paste payment reminder email templates for freelancers — from pre-due nudges to final notices.`,
-        isPartOf: { "@type": "WebSite", name: "docstoc", url: "https://chasa.io" },
+        isPartOf: { "@type": "WebSite", name: "chasa", url: "https://chasa.io" },
         mainEntity: {
           "@type": "ItemList",
           itemListElement: TEMPLATES.map((t, i) => ({
@@ -36227,7 +36227,7 @@ const downloadJsonLd = JSON.stringify(
     name: `Download ${tplCount} polite invoice templates — docstoc`,
     description: `Free PDF pack of ${tplCount} politely worded payment reminder emails. Enter your details to download.`,
     url: "https://chasa.io/free-templates/download",
-    isPartOf: { "@type": "WebSite", name: "docstoc", url: "https://chasa.io" },
+    isPartOf: { "@type": "WebSite", name: "chasa", url: "https://chasa.io" },
   },
   null,
   2
@@ -36354,7 +36354,7 @@ const submitJsonLd = JSON.stringify(
     description:
       "Share a payment reminder or invoice follow-up email that's worked for you. Reviewed by docstoc, then published free for everyone.",
     url: "https://chasa.io/free-templates/submit",
-    isPartOf: { "@type": "WebSite", name: "docstoc", url: "https://chasa.io" },
+    isPartOf: { "@type": "WebSite", name: "chasa", url: "https://chasa.io" },
   },
   null,
   2
@@ -36776,10 +36776,21 @@ function buildDocumentUseCases(t) {
 }
 
 function buildDocumentFaq(t) {
+  const headings = [...(t.bodyMarkdown || "").matchAll(/^##\s+(.+)$/gm)]
+    .map((m) => m[1].trim())
+    .filter(Boolean);
+  const topSections =
+    headings.length > 0
+      ? headings.slice(0, 4).join(", ")
+      : "the standard sections this kind of document usually needs";
   return [
     {
       q: `Is this ${t.name.toLowerCase()} template really free?`,
-      a: "Yes — every document template on this page is free to view, copy, and edit with no account or signup required.",
+      a: `Yes — this ${t.name} template on chasa is free to view, edit online, and download as a PDF with no account or signup required.`,
+    },
+    {
+      q: `What does this ${t.name.toLowerCase()} cover?`,
+      a: `This ${t.category.toLowerCase()} template includes ${topSections}. Fill in the [bracketed] placeholders, edit any clause online, then download a PDF — the chasa.io footer stays on every export.`,
     },
     {
       q: "Is this legal advice?",
@@ -36787,20 +36798,18 @@ function buildDocumentFaq(t) {
     },
     {
       q: "Can I edit the wording?",
-      a: "Yes — copy the template and adjust any section, clause, or placeholder to fit your actual situation. It's a starting structure, not a rigid script.",
-    },
-    {
-      q: "What do the [bracketed] placeholders mean?",
-      a: "Each [placeholder] marks a spot to fill in your own details — names, dates, amounts, or terms specific to your situation. Replace every bracketed field before using the document.",
+      a: "Yes — edit directly on the page, adjust any section or placeholder, then download an updated PDF anytime. It's a starting structure, not a rigid script.",
     },
     {
       q: "Where can I find more free templates like this?",
-      a: "This template is part of a growing library of free business, legal, real estate, finance, and HR document templates — browse the full collection for related documents.",
+      a: `Browse more free ${t.category.toLowerCase()} and related document templates in the chasa library at /document-templates/.`,
     },
   ];
 }
 
 for (const t of DOCUMENT_TEMPLATES) {
+  // Duplicate slug — keep content only on affidavit-of-death-of-joint-tenant-template (301 in _redirects).
+  if (t.slug === "affidavit-death-of-joint-tenant-template") continue;
   const faq = buildDocumentFaq(t);
   const jsonLd = JSON.stringify(
     {
@@ -36811,7 +36820,7 @@ for (const t of DOCUMENT_TEMPLATES) {
           headline: t.seoTitle,
           description: t.description,
           url: `https://chasa.io/document-templates/${t.slug}`,
-          author: { "@type": "Organization", name: "docstoc" },
+          author: { "@type": "Organization", name: "chasa" },
           publisher: { "@type": "Organization", name: "RELACON GmbH" },
           mainEntityOfPage: `https://chasa.io/document-templates/${t.slug}`,
         },
@@ -36829,10 +36838,17 @@ for (const t of DOCUMENT_TEMPLATES) {
     2
   );
 
-  const others = DOCUMENT_TEMPLATES.filter((x) => x.slug !== t.slug)
+  const others = DOCUMENT_TEMPLATES.filter((x) => x.slug !== t.slug && x.category === t.category)
     .slice(0, 5)
     .map((x) => `<li><a href="/document-templates/${x.slug}">${escapeHtml(x.name)}</a></li>`)
     .join("\n");
+  const othersFallback =
+    others ||
+    DOCUMENT_TEMPLATES.filter((x) => x.slug !== t.slug)
+      .slice(0, 5)
+      .map((x) => `<li><a href="/document-templates/${x.slug}">${escapeHtml(x.name)}</a></li>`)
+      .join("\n");
+  const othersHtml = others || othersFallback;
 
   const whatsIncluded = buildDocumentWhatsIncluded(t)
     .map((item) => `<li>${escapeHtml(item)}</li>`)
@@ -36907,7 +36923,7 @@ for (const t of DOCUMENT_TEMPLATES) {
   ${faqHtml}
 
   <h2>More free document templates</h2>
-  <ul class="tpl-more">${others}
+  <ul class="tpl-more">${othersHtml}
   </ul>
 
   ${conversionSectionHtml()}
@@ -36974,7 +36990,7 @@ const docIndexJsonLd = JSON.stringify(
         name: "Free Business & Legal Document Templates",
         url: "https://chasa.io/document-templates/",
         description: `${DOCUMENT_TEMPLATES.length} free business, legal, real estate, finance, and HR document templates.`,
-        isPartOf: { "@type": "WebSite", name: "docstoc", url: "https://chasa.io" },
+        isPartOf: { "@type": "WebSite", name: "chasa", url: "https://chasa.io" },
         mainEntity: {
           "@type": "ItemList",
           itemListElement: DOCUMENT_TEMPLATES.map((t, i) => ({
@@ -37268,7 +37284,7 @@ for (const t of TEMPLATES) {
           headline: t.seoTitle,
           description: t.description,
           url: `https://chasa.io/free-templates/${t.slug}`,
-          author: { "@type": "Organization", name: "docstoc" },
+          author: { "@type": "Organization", name: "chasa" },
           publisher: { "@type": "Organization", name: "RELACON GmbH" },
           mainEntityOfPage: `https://chasa.io/free-templates/${t.slug}`,
         },

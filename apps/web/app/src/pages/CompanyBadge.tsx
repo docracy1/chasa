@@ -59,7 +59,7 @@ export default function CompanyBadgePage({ account }: { account: Account | null 
               <div className="company-badge-cert-brand">
                 <img src="/brand/docstoc-icon.png" width={36} height={36} alt="" />
                 <div>
-                  <strong>docstoc</strong>
+                  <strong>chasa</strong>
                   <span>{t("companyBadge.certTag")}</span>
                 </div>
               </div>

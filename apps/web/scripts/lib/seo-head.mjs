@@ -3,7 +3,7 @@ import { BING_SITE_VERIFICATION, GOOGLE_SITE_VERIFICATION, SOCIAL } from "../dat
 /** Meta tags + link rel for search verification, feeds, and social identity. */
 export function renderSeoHead({ link = (p) => p } = {}) {
   const lines = [
-    `<link rel="alternate" type="application/rss+xml" title="docstoc Blog" href="${link("/blog/feed.xml")}">`,
+    `<link rel="alternate" type="application/rss+xml" title="chasa Blog" href="${link("/blog/feed.xml")}">`,
     `<link rel="me" href="${SOCIAL.linkedin}">`,
     `<link rel="me" href="${SOCIAL.x}">`,
   ];

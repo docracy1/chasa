@@ -733,7 +733,7 @@ export default function Admin() {
         <header className="dash-topnav">
           <a href="/" className="dash-brand" aria-label={t("admin.docstocHome")}>
             <img src="/brand/docstoc-icon.png" alt="" width="22" height="22" />
-            <span>docstoc</span>
+            <span>chasa</span>
           </a>
           <LanguageSwitcher className="lang-switcher-on-dark" />
         </header>
@@ -774,7 +774,7 @@ export default function Admin() {
       <header className="dash-topnav">
         <a href="/" className="dash-brand" aria-label={t("admin.docstocHome")}>
           <img src="/brand/docstoc-icon.png" alt="" width="22" height="22" />
-          <span>docstoc</span>
+          <span>chasa</span>
         </a>
         <nav className="dash-topnav-links">
           <a href="/#pricing">{t("admin.pricing")}</a>

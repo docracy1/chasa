@@ -247,12 +247,6 @@
     <priority>0.60</priority>
   </url>
   <url>
-    <loc>https://chasa.io/chasinginvoices</loc>
-    <lastmod>2026-08-27</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.60</priority>
-  </url>
-  <url>
     <loc>https://chasa.io/cloudflare-ssl-alternative</loc>
     <lastmod>2026-08-27</lastmod>
     <changefreq>monthly</changefreq>
@@ -272,24 +266,6 @@
   </url>
   <url>
     <loc>https://chasa.io/compliance/gdpr</loc>
-    <lastmod>2026-08-25</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.60</priority>
-  </url>
-  <url>
-    <loc>https://chasa.io/compliance/iso27001</loc>
-    <lastmod>2026-08-25</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.60</priority>
-  </url>
-  <url>
-    <loc>https://chasa.io/compliance/soc1</loc>
-    <lastmod>2026-08-25</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.60</priority>
-  </url>
-  <url>
-    <loc>https://chasa.io/compliance/soc2</loc>
     <lastmod>2026-08-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.60</priority>
@@ -722,12 +698,6 @@
   </url>
   <url>
     <loc>https://chasa.io/document-templates/advertising-insertion-order-template</loc>
-    <lastmod>2026-08-27</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.70</priority>
-  </url>
-  <url>
-    <loc>https://chasa.io/document-templates/affidavit-death-of-joint-tenant-template</loc>
     <lastmod>2026-08-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.70</priority>
@@ -6925,12 +6895,6 @@
     <priority>0.60</priority>
   </url>
   <url>
-    <loc>https://chasa.io/freetemplates</loc>
-    <lastmod>2026-08-27</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.60</priority>
-  </url>
-  <url>
     <loc>https://chasa.io/freshbooks-alternative</loc>
     <lastmod>2026-08-27</lastmod>
     <changefreq>monthly</changefreq>
@@ -7399,30 +7363,6 @@
     <priority>0.60</priority>
   </url>
   <url>
-    <loc>https://chasa.io/marketplace</loc>
-    <lastmod>2026-08-27</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.60</priority>
-  </url>
-  <url>
-    <loc>https://chasa.io/monitoring</loc>
-    <lastmod>2026-08-27</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.60</priority>
-  </url>
-  <url>
-    <loc>https://chasa.io/monitoringssl</loc>
-    <lastmod>2026-08-27</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.60</priority>
-  </url>
-  <url>
-    <loc>https://chasa.io/monitoringtls</loc>
-    <lastmod>2026-08-27</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.60</priority>
-  </url>
-  <url>
     <loc>https://chasa.io/opentimestamps-alternative</loc>
     <lastmod>2026-08-27</lastmod>
     <changefreq>monthly</changefreq>
@@ -7430,12 +7370,6 @@
   </url>
   <url>
     <loc>https://chasa.io/originstamp-alternative</loc>
-    <lastmod>2026-08-27</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.60</priority>
-  </url>
-  <url>
-    <loc>https://chasa.io/outgoinginvoices</loc>
     <lastmod>2026-08-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.60</priority>
@@ -7799,12 +7733,6 @@
     <lastmod>2026-08-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://chasa.io/tsl</loc>
-    <lastmod>2026-08-27</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.60</priority>
   </url>
   <url>
     <loc>https://chasa.io/tugboat-alternative</loc>

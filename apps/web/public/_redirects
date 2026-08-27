@@ -109,5 +109,22 @@
 /solutions/iso27001-evidence-automation  /compliance/iso27001  301
 /use-cases/sox-evidence-automation  /compliance/sox  301
 
+# SEO alias consolidation — keyword stubs → canonical product URLs
+/freetemplates  /free-templates/  301
+/freetemplates/  /free-templates/  301
+/outgoinginvoices  /invoices  301
+/outgoinginvoices/  /invoices  301
+/chasinginvoices  /chase-invoices  301
+/chasinginvoices/  /chase-invoices  301
+/marketplace  /document-templates/  301
+/marketplace/  /document-templates/  301
+/monitoring  /ssl/features/monitoring  301
+/monitoring/  /ssl/features/monitoring  301
+/monitoringssl  /ssl/features/monitoring  301
+/monitoringssl/  /ssl/features/monitoring  301
+/monitoringtls  /ssl/features/monitoring  301
+/monitoringtls/  /ssl/features/monitoring  301
+/document-templates/affidavit-death-of-joint-tenant-template  /document-templates/affidavit-of-death-of-joint-tenant-template  301
+
 # Final catch-all — keep last so SPA and specific redirects win first.
 /*  /404.html  404

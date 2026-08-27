@@ -202,7 +202,7 @@ export default function AppShell({
   const [sslExpanded, setSslExpanded] = useState(false);
   const [certificatesExpanded, setCertificatesExpanded] = useState(false);
   const logoSrc = account?.logoDataUrl || "/brand/docstoc-icon.png";
-  const wordmark = account?.workspaceName || "docstoc";
+  const wordmark = account?.workspaceName || "chasa";
   const workspaceAdmin = isWorkspaceAdmin(account);
 
   const view = new URLSearchParams(location.search).get("view");
@@ -366,7 +366,7 @@ export default function AppShell({
   ];
 
   const pageTitle =
-    pageTitles.find((entry) => entry.match(location.pathname, location.search))?.title ?? "docstoc";
+    pageTitles.find((entry) => entry.match(location.pathname, location.search))?.title ?? "chasa";
 
   function toolItemActive(to: string, hash?: string): boolean {
     if (to === "/webhooks") return location.pathname.startsWith("/webhooks");

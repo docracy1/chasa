@@ -121,7 +121,8 @@ export const SITEMAP_ROUTES = [
 export const ORG_JSON_LD = {
   "@context": "https://schema.org",
   "@type": "Organization",
-  name: "docstoc",
+  name: "chasa",
+  alternateName: ["docstoc", "Chasa"],
   url: SITE_URL,
   logo: `${SITE_URL}/brand/docstoc-logo.svg`,
   sameAs: [SOCIAL.linkedin, SOCIAL.x, SOCIAL.facebook],
@@ -135,3 +136,20 @@ export const ORG_JSON_LD = {
     },
   },
 };
+
+/** Paths that 301 elsewhere — keep out of the sitemap. */
+export const SITEMAP_EXCLUDE_PATHS = new Set([
+  "/freetemplates",
+  "/outgoinginvoices",
+  "/chasinginvoices",
+  "/marketplace",
+  "/monitoring",
+  "/monitoringssl",
+  "/monitoringtls",
+  "/tsl",
+  "/tsl/",
+  "/document-templates/affidavit-death-of-joint-tenant-template",
+  "/compliance/soc1",
+  "/compliance/soc2",
+  "/compliance/iso27001",
+]);

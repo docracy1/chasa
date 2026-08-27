@@ -10,6 +10,7 @@ import {
   INDEXNOW_KEY,
   SITE_URL,
   SITEMAP_ROUTES,
+  SITEMAP_EXCLUDE_PATHS,
 } from "./data/seo-config.mjs";
 import { renderSeoHead } from "./lib/seo-head.mjs";
 
@@ -38,10 +39,17 @@ function mtime(filePath) {
   return statSync(filePath).mtime.toISOString().slice(0, 10);
 }
 
+function shouldExcludeFromSitemap(urlPath) {
+  if (SITEMAP_EXCLUDE_PATHS.has(urlPath)) return true;
+  if (urlPath.startsWith("/compliance/soc") || urlPath === "/compliance/iso27001") return true;
+  return false;
+}
+
 function buildSitemapUrls() {
   const byPath = new Map();
 
   for (const route of SITEMAP_ROUTES) {
+    if (shouldExcludeFromSitemap(route.path)) continue;
     byPath.set(route.path, {
       loc: `${SITE_URL}${route.path}`,
       lastmod: today,
@@ -55,6 +63,7 @@ function buildSitemapUrls() {
     if (urlPath.startsWith("/app/") && urlPath !== "/app/" && urlPath !== "/app/login") continue;
     if (urlPath === "/blog/post") continue;
     if (urlPath.startsWith("/blog/_shot-fixtures")) continue;
+    if (shouldExcludeFromSitemap(urlPath)) continue;
     if (byPath.has(urlPath)) {
       byPath.get(urlPath).lastmod = mtime(file);
       continue;
@@ -111,6 +120,11 @@ Disallow: /app/connector
 Disallow: /app/branding
 Disallow: /app/webhooks
 
+# LLM / agent context (chasa)
+# https://chasa.io/llms.txt
+# https://chasa.io/llms-full.txt
+# https://chasa.io/ai.txt
+
 Sitemap: ${SITE_URL}/sitemap.xml
 Sitemap: https://api.chasa.io/api/blog/sitemap.xml
 `;
@@ -155,7 +169,7 @@ function writeBlogFeed() {
   const rss = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0">
   <channel>
-    <title>docstoc Blog</title>
+    <title>chasa Blog</title>
     <link>${SITE_URL}/blog/</link>
     <description>Invoice follow-up, payment reminders, and freelancer cash flow.</description>
     <language>en</language>

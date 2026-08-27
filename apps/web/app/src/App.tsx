@@ -69,12 +69,12 @@ function AppRoutes() {
           {account ? (
             <Link to="/" className="app-topbar-brand" aria-label={t("nav.home")}>
               <img src="/brand/docstoc-icon.png" alt="" width="24" height="24" />
-              <span>docstoc</span>
+              <span>chasa</span>
             </Link>
           ) : (
-            <a href="/" className="app-topbar-brand" aria-label="docstoc home">
+            <a href="/" className="app-topbar-brand" aria-label="chasa home">
               <img src="/brand/docstoc-icon.png" alt="" width="24" height="24" />
-              <span>docstoc</span>
+              <span>chasa</span>
             </a>
           )}
           <LanguageSwitcher className="lang-switcher-on-dark" />

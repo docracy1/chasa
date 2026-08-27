@@ -5,7 +5,7 @@ import { renderSeoHead } from "./seo-head.mjs";
 import { EN_TO_ES, ES_TO_EN } from "../data/es-alternates.mjs";
 
 /** Bump when site.css / site-nav.js / site-lang.js change so Pages edge caches refresh. */
-export const ASSET_V = "20260827a";
+export const ASSET_V = "20260827b";
 
 /** Small inline icon set for the header mega-menus (mirrors the app's NavIcon component). */
 const ICON_PATHS = {
@@ -223,14 +223,33 @@ export function chrome({ title, description, canonical, activeNav = "", mainHtml
   const pathPrefix = depth > 0 ? "../".repeat(depth) : "/";
   const link = (p) => (depth > 0 ? `${pathPrefix}${p.replace(/^\//, "")}` : p);
   const canonicalUrl = canonical.startsWith("http") ? canonical : `https://chasa.io${canonical}`;
+  // Generators often pass full https://chasa.io/... URLs — hreflang maps are path-keyed.
+  const canonicalPath = (() => {
+    try {
+      if (canonical.startsWith("http")) return new URL(canonical).pathname.replace(/\/$/, "") || "/";
+    } catch {
+      /* ignore */
+    }
+    const p = canonical.startsWith("/") ? canonical : `/${canonical}`;
+    return p === "/" ? "/" : p.replace(/\/$/, "") || "/";
+  })();
+  const lookupPath = EN_TO_ES[canonicalPath]
+    ? canonicalPath
+    : ES_TO_EN[canonicalPath]
+      ? canonicalPath
+      : EN_TO_ES[`${canonicalPath}/`]
+        ? `${canonicalPath}/`
+        : ES_TO_EN[`${canonicalPath}/`]
+          ? `${canonicalPath}/`
+          : canonicalPath;
   const defaultJsonLd = JSON.stringify(ORG_JSON_LD, null, 2);
   const seoHead = renderSeoHead({ link });
 
   // Only pages with a REAL generated counterpart (see es-alternates.mjs) get hreflang tags —
   // claiming an alternate that doesn't exist would send crawlers into a 404.
-  const enPath = EN_TO_ES[canonical] ? canonical : ES_TO_EN[canonical];
-  const esPath = EN_TO_ES[canonical] || canonical;
-  const hasAlternate = Boolean(EN_TO_ES[canonical] || ES_TO_EN[canonical]);
+  const enPath = EN_TO_ES[lookupPath] ? lookupPath : ES_TO_EN[lookupPath];
+  const esPath = EN_TO_ES[lookupPath] || lookupPath;
+  const hasAlternate = Boolean(EN_TO_ES[lookupPath] || ES_TO_EN[lookupPath]);
   const hreflangHead = hasAlternate
     ? `<link rel="alternate" hreflang="en" href="https://chasa.io${enPath}">
 <link rel="alternate" hreflang="es" href="https://chasa.io${esPath}">
@@ -252,11 +271,14 @@ export function chrome({ title, description, canonical, activeNav = "", mainHtml
 <link rel="canonical" href="${canonicalUrl}">
 ${hreflangHead}
 <meta property="og:type" content="website">
+<meta property="og:site_name" content="chasa">
+<meta property="og:locale" content="${lang === "es" ? "es_ES" : "en_US"}">
 <meta property="og:title" content="${escapeHtml(title)}">
 <meta property="og:description" content="${escapeHtml(description)}">
 <meta property="og:url" content="${canonicalUrl}">
 <meta property="og:image" content="https://chasa.io/brand/og/docstoc-og-1200x630.png">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@chasaHQ">
 <meta name="twitter:title" content="${escapeHtml(title)}">
 <meta name="twitter:description" content="${escapeHtml(description)}">
 <meta name="twitter:image" content="https://chasa.io/brand/og/docstoc-og-1200x630.png">
@@ -274,7 +296,7 @@ ${jsonLd ? `<script type="application/ld+json">\n${jsonLd}\n</script>` : `<scrip
 <header class="site-header">
   <div class="wrap site-header-inner">
     <div class="logo-group">
-      <a href="${link("/")}" class="logo" aria-label="docstoc home"><img class="logo-mark" src="${link("/brand/docstoc-icon.png")}" alt="" width="28" height="28" /><span class="logo-word">docstoc</span></a>
+      <a href="${link("/")}" class="logo" aria-label="chasa home"><img class="logo-mark" src="${link("/brand/docstoc-icon.png")}" alt="" width="28" height="28" /><span class="logo-word">chasa</span></a>
     </div>
     <nav class="header-nav-right">
       <div class="header-nav-links">
@@ -348,7 +370,7 @@ ${mainHtml}
 <footer class="site-footer">
   <div class="wrap site-footer-inner">
     <div class="site-footer-brand">
-      <a href="${link("/")}" class="logo" aria-label="docstoc home"><img class="logo-mark" src="${link("/brand/docstoc-icon.png")}" alt="" width="24" height="24" /><span class="logo-word">docstoc</span></a>
+      <a href="${link("/")}" class="logo" aria-label="chasa home"><img class="logo-mark" src="${link("/brand/docstoc-icon.png")}" alt="" width="24" height="24" /><span class="logo-word">chasa</span></a>
       <p data-i18n="footer.tagline">The Trust Automation Layer for Modern Business — agreements, invoicing, domain security, and AI collections in one platform.</p>
     </div>
     <div class="site-footer-col">
