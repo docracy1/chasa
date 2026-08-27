@@ -13,13 +13,22 @@ type DocumentTemplate = {
   featured?: boolean;
 };
 
-type FilterId = "all" | "legal" | "other";
+type FilterId = "all" | "business" | "legal" | "real-estate" | "finance" | "hr";
+
+/** Matches DOCUMENT_CATEGORIES in generate-free-templates.mjs */
+const CATEGORY_FILTERS: Array<{ id: Exclude<FilterId, "all">; category: string; labelKey: string }> = [
+  { id: "business", category: "Business", labelKey: "documentTemplates.filterBusiness" },
+  { id: "legal", category: "Legal", labelKey: "documentTemplates.filterLegal" },
+  { id: "real-estate", category: "Real Estate", labelKey: "documentTemplates.filterRealEstate" },
+  { id: "finance", category: "Finance", labelKey: "documentTemplates.filterFinance" },
+  { id: "hr", category: "HR", labelKey: "documentTemplates.filterHr" },
+];
 
 function matchesFilter(category: string, filter: FilterId): boolean {
-  const isLegal = category.trim().toLowerCase() === "legal";
-  if (filter === "legal") return isLegal;
-  if (filter === "other") return !isLegal;
-  return true;
+  if (filter === "all") return true;
+  const target = CATEGORY_FILTERS.find((f) => f.id === filter)?.category;
+  if (!target) return true;
+  return category.trim().toLowerCase() === target.toLowerCase();
 }
 
 function matchesQuery(tpl: DocumentTemplate, query: string): boolean {
@@ -137,8 +146,7 @@ export default function DocumentTemplates() {
 
   const filters: Array<{ id: FilterId; label: string }> = [
     { id: "all", label: t("documentTemplates.filterAll") },
-    { id: "legal", label: t("documentTemplates.filterLegal") },
-    { id: "other", label: t("documentTemplates.filterOther") },
+    ...CATEGORY_FILTERS.map((f) => ({ id: f.id as FilterId, label: t(f.labelKey) })),
   ];
 
   return (
