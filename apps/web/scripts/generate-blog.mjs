@@ -437,16 +437,16 @@ function buildJsonLd(post) {
     "@type": "Article",
     headline: post.title,
     description: post.description || "",
-    url: `https://chasa.io/blog/${post.slug}/`,
+    url: `https://docstoc.io/blog/${post.slug}/`,
     datePublished: post.publishedAt || undefined,
     dateModified: post.publishedAt || undefined,
     author: { "@type": "Organization", name: "docstoc" },
     publisher: {
       "@type": "Organization",
       name: "RELACON GmbH",
-      logo: { "@type": "ImageObject", url: "https://chasa.io/brand/docstoc-icon.png" },
+      logo: { "@type": "ImageObject", url: "https://docstoc.io/brand/docstoc-icon.png" },
     },
-    mainEntityOfPage: `https://chasa.io/blog/${post.slug}/`,
+    mainEntityOfPage: `https://docstoc.io/blog/${post.slug}/`,
   };
 
   const faqBySlug = {
@@ -485,19 +485,19 @@ const blogIndexJsonLd = JSON.stringify(
     "@context": "https://schema.org",
     "@type": "Blog",
     name: "docstoc Blog",
-    url: "https://chasa.io/blog/",
+    url: "https://docstoc.io/blog/",
     description:
       "Practical guides on free business & legal templates, document certificates, free SSL for your domain, and invoice follow-ups for freelancers and small teams.",
     publisher: {
       "@type": "Organization",
       name: "RELACON GmbH",
-      logo: { "@type": "ImageObject", url: "https://chasa.io/brand/docstoc-icon.png" },
+      logo: { "@type": "ImageObject", url: "https://docstoc.io/brand/docstoc-icon.png" },
     },
     blogPost: posts.map((p) => ({
       "@type": "BlogPosting",
       headline: p.title,
       description: p.description || "",
-      url: `https://chasa.io/blog/${p.slug}/`,
+      url: `https://docstoc.io/blog/${p.slug}/`,
       datePublished: p.publishedAt || undefined,
     })),
   },

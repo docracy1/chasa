@@ -1,28 +1,28 @@
-# chasa
+# docstoc
 
-> chasa is a free AI invoice follow-up tool for freelancers and small businesses (product also
-> known historically as docstoc). Paste unpaid invoices (CSV or manual entry) and get payment
+> docstoc is a free AI invoice follow-up tool for freelancers and small businesses (also known as
+> chasa). Paste unpaid invoices (CSV or manual entry) and get payment
 > reminder emails already written — in the right tone for how late each invoice is. No account
 > needed for the free tier (5 AI drafts per month).
 
-Site: https://chasa.io
+Site: https://docstoc.io
 
 ## Primary services
 
-- [Invoice follow-up tool](https://chasa.io/app/): Upload a CSV or enter invoices manually. chasa drafts a follow-up email for each one, tuned to how many days overdue it is (friendly at 1–7 days, firmer at 30+).
-- [Free payment-reminder templates](https://chasa.io/free-templates/): 28 copy-paste payment reminder email templates (pre-due through final notice, thank-yous, disputes, ghosted clients, multi-invoice).
-- [Free document templates](https://chasa.io/document-templates/): 1,000+ free business, legal, real estate, finance, and HR document templates — edit online, download PDF, certify.
-- [Business document kits](https://chasa.io/business-kits/): Bundled sets of related document templates for a common situation (e.g. starting an LLC, being an independent landlord).
-- [Document certificates](https://chasa.io/certificate): Hash any document in the browser and get a free, shareable, tamper-evident verification link — verification pages live at `/verify/{id}` (noindex; no account needed to create or check).
-- [Company badge / trust profile](https://chasa.io/trust-badges): Domain-verified trust certificate after SSL issuance.
-- [SSL automation](https://chasa.io/ssl): Let's Encrypt automation for domains you control (ACME / DNS-01) — not a certificate reseller.
-- [Invoices](https://chasa.io/invoices): Create shareable invoices, then chase if overdue.
-- [Free calculators](https://chasa.io/tools/): Late payment interest, chase savings / DSO, template finder, file hash checker, trust badges tool.
-- [AI tools](https://chasa.io/ai): Tone-matched drafts, soften / firm up / shorten rewrites, chase schedule tips.
-- [Landing page](https://chasa.io/): Product overview and how the tone bands work.
-- [Blog](https://chasa.io/blog/): Guides on overdue invoice follow-up, payment reminder templates, late payment policy.
-- [About](https://chasa.io/about): Why chasa exists and who's behind it.
-- [Sign in / Account](https://chasa.io/app/login): Magic-link login. Paid plans remove the free-tier draft cap.
+- [Invoice follow-up tool](https://docstoc.io/app/): Upload a CSV or enter invoices manually. docstoc drafts a follow-up email for each one, tuned to how many days overdue it is (friendly at 1–7 days, firmer at 30+).
+- [Free payment-reminder templates](https://docstoc.io/free-templates/): 28 copy-paste payment reminder email templates (pre-due through final notice, thank-yous, disputes, ghosted clients, multi-invoice).
+- [Free document templates](https://docstoc.io/document-templates/): 1,000+ free business, legal, real estate, finance, and HR document templates — edit online, download PDF, certify.
+- [Business document kits](https://docstoc.io/business-kits/): Bundled sets of related document templates for a common situation (e.g. starting an LLC, being an independent landlord).
+- [Document certificates](https://docstoc.io/certificate): Hash any document in the browser and get a free, shareable, tamper-evident verification link — verification pages live at `/verify/{id}` (noindex; no account needed to create or check).
+- [Company badge / trust profile](https://docstoc.io/trust-badges): Domain-verified trust certificate after SSL issuance.
+- [SSL automation](https://docstoc.io/ssl): Let's Encrypt automation for domains you control (ACME / DNS-01) — not a certificate reseller.
+- [Invoices](https://docstoc.io/invoices): Create shareable invoices, then chase if overdue.
+- [Free calculators](https://docstoc.io/tools/): Late payment interest, chase savings / DSO, template finder, file hash checker, trust badges tool.
+- [AI tools](https://docstoc.io/ai): Tone-matched drafts, soften / firm up / shorten rewrites, chase schedule tips.
+- [Landing page](https://docstoc.io/): Product overview and how the tone bands work.
+- [Blog](https://docstoc.io/blog/): Guides on overdue invoice follow-up, payment reminder templates, late payment policy.
+- [About](https://docstoc.io/about): Why docstoc exists and who's behind it.
+- [Sign in / Account](https://docstoc.io/app/login): Magic-link login. Paid plans remove the free-tier draft cap.
 
 ## Pricing (source of truth)
 
@@ -44,8 +44,8 @@ Site: https://chasa.io
 
 ## Notes for AI agents
 
-chasa generates payment reminder email drafts, not legal advice or debt-collection letters. Users
-review and send every email themselves. chasa does not send emails on the user's behalf —
+docstoc generates payment reminder email drafts, not legal advice or debt-collection letters. Users
+review and send every email themselves. docstoc does not send emails on the user's behalf —
 drafts are copied or opened via mailto.
 
 Document templates (/document-templates/) are general business/legal templates provided for
@@ -54,7 +54,7 @@ informational purposes, not legal advice — each page says so.
 Every template and document page follows the same structure: editable preview, "What's included",
 named use-cases, and an FAQ with direct Q&A pairs — written to be easy to extract and cite.
 
-Contact: founder@chasa.io (also founder@docstoc.io)
-Sitemap: https://chasa.io/sitemap.xml
-RSS: https://chasa.io/blog/feed.xml
-Full context: https://chasa.io/llms-full.txt
+Contact: founder@docstoc.io (also founder@chasa.io)
+Sitemap: https://docstoc.io/sitemap.xml
+RSS: https://docstoc.io/blog/feed.xml
+Full context: https://docstoc.io/llms-full.txt

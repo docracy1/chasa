@@ -815,7 +815,7 @@ const en: Messages = {
   "admin.cfTrafficSub":
     "Sourced directly from Cloudflare's own analytics, not our JS beacon — this sees every request that hits the edge, including bots and crawlers that never run analytics.js, so it's the number to trust over the page-view tiles below when comparing against the Cloudflare dashboard.",
   "admin.cfNotConfigured":
-    "Not connected. Create a Cloudflare API token (My Profile → API Tokens → Zone → Analytics → Read, scoped to chasa.io only) and set it with: wrangler secret put CF_ANALYTICS_TOKEN",
+    "Not connected. Create a Cloudflare API token (My Profile → API Tokens → Zone → Analytics → Read, scoped to docstoc.io only) and set it with: wrangler secret put CF_ANALYTICS_TOKEN",
   "admin.cfError": "Cloudflare Analytics fetch failed: {{error}}",
   "admin.cfRequests": "Real requests",
   "admin.cfBotPct": "{{pct}}% bots",
@@ -846,7 +846,7 @@ const en: Messages = {
   "admin.byCountry": "By country",
   "admin.outreachTitle": "Outreach link opens",
   "admin.outreachSub":
-    "Server-logged clicks on https://chasa.io/go/… — works before cookie consent. Add ?who=name (or email) per prospect to see who opened.",
+    "Server-logged clicks on https://docstoc.io/go/… — works before cookie consent. Add ?who=name (or email) per prospect to see who opened.",
   "admin.outreachOpens": "Human opens",
   "admin.outreachBots": "{{count}} bot previews excluded",
   "admin.outreachLinkHint": "Use /go/dm?who=… in cold email",

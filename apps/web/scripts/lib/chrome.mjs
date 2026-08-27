@@ -1,11 +1,11 @@
 /** Shared HTML chrome for generated marketing pages. */
 
-import { ORG_JSON_LD, SOCIAL } from "../data/seo-config.mjs";
+import { ORG_JSON_LD, SITE_BRAND, SITE_URL, SOCIAL } from "../data/seo-config.mjs";
 import { renderSeoHead } from "./seo-head.mjs";
 import { EN_TO_ES, ES_TO_EN } from "../data/es-alternates.mjs";
 
 /** Bump when site.css / site-nav.js / site-lang.js change so Pages edge caches refresh. */
-export const ASSET_V = "20260827b";
+export const ASSET_V = "20260827c";
 
 /** Small inline icon set for the header mega-menus (mirrors the app's NavIcon component). */
 const ICON_PATHS = {
@@ -222,8 +222,8 @@ export function chrome({ title, description, canonical, activeNav = "", mainHtml
 
   const pathPrefix = depth > 0 ? "../".repeat(depth) : "/";
   const link = (p) => (depth > 0 ? `${pathPrefix}${p.replace(/^\//, "")}` : p);
-  const canonicalUrl = canonical.startsWith("http") ? canonical : `https://chasa.io${canonical}`;
-  // Generators often pass full https://chasa.io/... URLs — hreflang maps are path-keyed.
+  const canonicalUrl = canonical.startsWith("http") ? canonical : `${SITE_URL}${canonical}`;
+  // Generators often pass full SITE_URL/... URLs — hreflang maps are path-keyed.
   const canonicalPath = (() => {
     try {
       if (canonical.startsWith("http")) return new URL(canonical).pathname.replace(/\/$/, "") || "/";
@@ -251,9 +251,9 @@ export function chrome({ title, description, canonical, activeNav = "", mainHtml
   const esPath = EN_TO_ES[lookupPath] || lookupPath;
   const hasAlternate = Boolean(EN_TO_ES[lookupPath] || ES_TO_EN[lookupPath]);
   const hreflangHead = hasAlternate
-    ? `<link rel="alternate" hreflang="en" href="https://chasa.io${enPath}">
-<link rel="alternate" hreflang="es" href="https://chasa.io${esPath}">
-<link rel="alternate" hreflang="x-default" href="https://chasa.io${enPath}">`
+    ? `<link rel="alternate" hreflang="en" href="${SITE_URL}${enPath}">
+<link rel="alternate" hreflang="es" href="${SITE_URL}${esPath}">
+<link rel="alternate" hreflang="x-default" href="${SITE_URL}${enPath}">`
     : "";
   const localeSwitchAttrs = hasAlternate
     ? lang === "es"
@@ -271,17 +271,17 @@ export function chrome({ title, description, canonical, activeNav = "", mainHtml
 <link rel="canonical" href="${canonicalUrl}">
 ${hreflangHead}
 <meta property="og:type" content="website">
-<meta property="og:site_name" content="chasa">
+<meta property="og:site_name" content="${SITE_BRAND}">
 <meta property="og:locale" content="${lang === "es" ? "es_ES" : "en_US"}">
 <meta property="og:title" content="${escapeHtml(title)}">
 <meta property="og:description" content="${escapeHtml(description)}">
 <meta property="og:url" content="${canonicalUrl}">
-<meta property="og:image" content="https://chasa.io/brand/og/docstoc-og-1200x630.png">
+<meta property="og:image" content="${SITE_URL}/brand/og/docstoc-og-1200x630.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@chasaHQ">
 <meta name="twitter:title" content="${escapeHtml(title)}">
 <meta name="twitter:description" content="${escapeHtml(description)}">
-<meta name="twitter:image" content="https://chasa.io/brand/og/docstoc-og-1200x630.png">
+<meta name="twitter:image" content="${SITE_URL}/brand/og/docstoc-og-1200x630.png">
 ${seoHead}
 ${extraHead}
 ${jsonLd ? `<script type="application/ld+json">\n${jsonLd}\n</script>` : `<script type="application/ld+json">\n${defaultJsonLd}\n</script>`}
@@ -296,7 +296,7 @@ ${jsonLd ? `<script type="application/ld+json">\n${jsonLd}\n</script>` : `<scrip
 <header class="site-header">
   <div class="wrap site-header-inner">
     <div class="logo-group">
-      <a href="${link("/")}" class="logo" aria-label="chasa home"><img class="logo-mark" src="${link("/brand/docstoc-icon.png")}" alt="" width="28" height="28" /><span class="logo-word">chasa</span></a>
+      <a href="${link("/")}" class="logo" aria-label="${SITE_BRAND} home"><img class="logo-mark" src="${link("/brand/docstoc-icon.png")}" alt="" width="28" height="28" /><span class="logo-word">${SITE_BRAND}</span></a>
     </div>
     <nav class="header-nav-right">
       <div class="header-nav-links">
@@ -370,7 +370,7 @@ ${mainHtml}
 <footer class="site-footer">
   <div class="wrap site-footer-inner">
     <div class="site-footer-brand">
-      <a href="${link("/")}" class="logo" aria-label="chasa home"><img class="logo-mark" src="${link("/brand/docstoc-icon.png")}" alt="" width="24" height="24" /><span class="logo-word">chasa</span></a>
+      <a href="${link("/")}" class="logo" aria-label="${SITE_BRAND} home"><img class="logo-mark" src="${link("/brand/docstoc-icon.png")}" alt="" width="24" height="24" /><span class="logo-word">${SITE_BRAND}</span></a>
       <p data-i18n="footer.tagline">The Trust Automation Layer for Modern Business — agreements, invoicing, domain security, and AI collections in one platform.</p>
     </div>
     <div class="site-footer-col">

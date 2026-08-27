@@ -827,7 +827,7 @@ const es: Messages = {
   "admin.cfTrafficSub":
     "Obtenido directamente de las analíticas propias de Cloudflare, no de nuestro script — esto ve cada solicitud que llega al borde, incluidos los bots y rastreadores que nunca ejecutan analytics.js, así que es la cifra de referencia frente a las tarjetas de páginas vistas de abajo al comparar con el panel de Cloudflare.",
   "admin.cfNotConfigured":
-    "No conectado. Crea un token de API de Cloudflare (Mi perfil → Tokens de API → Zone → Analytics → Read, limitado a chasa.io) y configúralo con: wrangler secret put CF_ANALYTICS_TOKEN",
+    "No conectado. Crea un token de API de Cloudflare (Mi perfil → Tokens de API → Zone → Analytics → Read, limitado a docstoc.io) y configúralo con: wrangler secret put CF_ANALYTICS_TOKEN",
   "admin.cfError": "Error al obtener Cloudflare Analytics: {{error}}",
   "admin.cfRequests": "Solicitudes reales",
   "admin.cfBotPct": "{{pct}}% bots",
@@ -858,7 +858,7 @@ const es: Messages = {
   "admin.byCountry": "Por país",
   "admin.outreachTitle": "Aperturas de enlaces de outreach",
   "admin.outreachSub":
-    "Clics registrados en el servidor en https://chasa.io/go/… — funciona antes del consentimiento de cookies. Añade ?who=nombre (o email) por prospecto para ver quién abrió.",
+    "Clics registrados en el servidor en https://docstoc.io/go/… — funciona antes del consentimiento de cookies. Añade ?who=nombre (o email) por prospecto para ver quién abrió.",
   "admin.outreachOpens": "Aperturas humanas",
   "admin.outreachBots": "{{count}} previews de bots excluidos",
   "admin.outreachLinkHint": "Usa /go/dm?who=… en el cold email",

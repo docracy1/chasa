@@ -479,7 +479,7 @@ function webAppJsonLd({ name, description, url }) {
       applicationCategory: "UtilitiesApplication",
       operatingSystem: "Any",
       offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
-      provider: { "@type": "Organization", name: "docstoc", url: "https://chasa.io/" },
+      provider: { "@type": "Organization", name: "docstoc", url: "https://docstoc.io/" },
     },
     null,
     2
@@ -867,7 +867,7 @@ ${hero({
       <div class="tool-panel">
         <div class="tool-field">
           <label for="trust-id">Account ID or trust profile URL</label>
-          <input id="trust-id" data-trust-id type="text" placeholder="e.g. abc123… or https://chasa.io/trust/…" autocomplete="off" />
+          <input id="trust-id" data-trust-id type="text" placeholder="e.g. abc123… or https://docstoc.io/trust/…" autocomplete="off" />
           <p class="tool-hint">Find the ID on SSL Certificates after a domain is verified, or in any /trust/… link.</p>
         </div>
         <div class="tool-actions">
@@ -1103,8 +1103,8 @@ const pages = [
     mainHtml: toolsIndexMain,
     jsonLd: multiJsonLd(
       breadcrumbJsonLd([
-        { name: "Home", item: "https://chasa.io/" },
-        { name: "Tools", item: "https://chasa.io/tools/" },
+        { name: "Home", item: "https://docstoc.io/" },
+        { name: "Tools", item: "https://docstoc.io/tools/" },
       ])
     ),
   },
@@ -1117,9 +1117,9 @@ const pages = [
     mainHtml: templateFinderMain,
     jsonLd: multiJsonLd(
       breadcrumbJsonLd([
-        { name: "Home", item: "https://chasa.io/" },
-        { name: "Tools", item: "https://chasa.io/tools/" },
-        { name: "Template finder", item: "https://chasa.io/tools/template-finder" },
+        { name: "Home", item: "https://docstoc.io/" },
+        { name: "Tools", item: "https://docstoc.io/tools/" },
+        { name: "Template finder", item: "https://docstoc.io/tools/template-finder" },
       ]),
       faqJsonLd(finderFaqs)
     ),
@@ -1133,14 +1133,14 @@ const pages = [
     mainHtml: hashCheckerMain,
     jsonLd: multiJsonLd(
       breadcrumbJsonLd([
-        { name: "Home", item: "https://chasa.io/" },
-        { name: "Tools", item: "https://chasa.io/tools/" },
-        { name: "File hash checker", item: "https://chasa.io/tools/file-hash-checker" },
+        { name: "Home", item: "https://docstoc.io/" },
+        { name: "Tools", item: "https://docstoc.io/tools/" },
+        { name: "File hash checker", item: "https://docstoc.io/tools/file-hash-checker" },
       ]),
       webAppJsonLd({
         name: "File hash checker",
         description: "Compute a file's SHA-256 hash in the browser, no upload required.",
-        url: "https://chasa.io/tools/file-hash-checker",
+        url: "https://docstoc.io/tools/file-hash-checker",
       }),
       faqJsonLd(hashFaqs)
     ),
@@ -1154,14 +1154,14 @@ const pages = [
     mainHtml: sslCalcMain,
     jsonLd: multiJsonLd(
       breadcrumbJsonLd([
-        { name: "Home", item: "https://chasa.io/" },
-        { name: "Tools", item: "https://chasa.io/tools/" },
-        { name: "SSL certificate expiry calculator", item: "https://chasa.io/tools/ssl-certificate-calculator" },
+        { name: "Home", item: "https://docstoc.io/" },
+        { name: "Tools", item: "https://docstoc.io/tools/" },
+        { name: "SSL certificate expiry calculator", item: "https://docstoc.io/tools/ssl-certificate-calculator" },
       ]),
       webAppJsonLd({
         name: "SSL certificate expiry calculator",
         description: "Calculate SSL/TLS certificate expiry date and days remaining.",
-        url: "https://chasa.io/tools/ssl-certificate-calculator",
+        url: "https://docstoc.io/tools/ssl-certificate-calculator",
       }),
       faqJsonLd(sslFaqs)
     ),
@@ -1175,14 +1175,14 @@ const pages = [
     mainHtml: trustBadgesMain,
     jsonLd: multiJsonLd(
       breadcrumbJsonLd([
-        { name: "Home", item: "https://chasa.io/" },
-        { name: "Tools", item: "https://chasa.io/tools/" },
-        { name: "Verified Corporate Identity & Trust Badges", item: "https://chasa.io/tools/trust-badges" },
+        { name: "Home", item: "https://docstoc.io/" },
+        { name: "Tools", item: "https://docstoc.io/tools/" },
+        { name: "Verified Corporate Identity & Trust Badges", item: "https://docstoc.io/tools/trust-badges" },
       ]),
       webAppJsonLd({
         name: "Verified Corporate Identity & Trust Badges",
         description: "Look up public trust profiles and preview embeddable domain-verified badges.",
-        url: "https://chasa.io/tools/trust-badges",
+        url: "https://docstoc.io/tools/trust-badges",
       }),
       faqJsonLd(trustBadgeFaqs)
     ),
@@ -1196,14 +1196,14 @@ const pages = [
     mainHtml: invoiceGeneratorMain,
     jsonLd: multiJsonLd(
       breadcrumbJsonLd([
-        { name: "Home", item: "https://chasa.io/" },
-        { name: "Tools", item: "https://chasa.io/tools/" },
-        { name: "Invoice generator", item: "https://chasa.io/tools/invoice-generator" },
+        { name: "Home", item: "https://docstoc.io/" },
+        { name: "Tools", item: "https://docstoc.io/tools/" },
+        { name: "Invoice generator", item: "https://docstoc.io/tools/invoice-generator" },
       ]),
       webAppJsonLd({
         name: "Invoice generator",
         description: "Preview invoice totals with line items and tax, then create a shareable invoice in docstoc.",
-        url: "https://chasa.io/tools/invoice-generator",
+        url: "https://docstoc.io/tools/invoice-generator",
       }),
       faqJsonLd(invoiceFaqs)
     ),
@@ -1217,14 +1217,14 @@ const pages = [
     mainHtml: chaseCalcMain,
     jsonLd: multiJsonLd(
       breadcrumbJsonLd([
-        { name: "Home", item: "https://chasa.io/" },
-        { name: "Tools", item: "https://chasa.io/tools/" },
-        { name: "Invoice chase calculator", item: "https://chasa.io/tools/invoice-chase-calculator" },
+        { name: "Home", item: "https://docstoc.io/" },
+        { name: "Tools", item: "https://docstoc.io/tools/" },
+        { name: "Invoice chase calculator", item: "https://docstoc.io/tools/invoice-chase-calculator" },
       ]),
       webAppJsonLd({
         name: "Invoice chase calculator",
         description: "Estimate late payment interest and cash unlocked from consistent invoice chasing.",
-        url: "https://chasa.io/tools/invoice-chase-calculator",
+        url: "https://docstoc.io/tools/invoice-chase-calculator",
       }),
       faqJsonLd(chaseFaqs)
     ),

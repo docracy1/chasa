@@ -127,7 +127,7 @@ export const onRequest: PagesFunction<{ WORKER_URL: string }> = async (context) 
       renderPage({
         title: "Invoice not found — docstoc",
         canonical,
-        body: `<h1>Invoice not found</h1><p>This invoice link doesn't match anything on file. Check that you have the full link.</p><p><a href="https://chasa.io/">docstoc</a></p>`,
+        body: `<h1>Invoice not found</h1><p>This invoice link doesn't match anything on file. Check that you have the full link.</p><p><a href="https://docstoc.io/">docstoc</a></p>`,
       }),
       { status: 404, headers: { "Content-Type": "text/html; charset=UTF-8" } }
     );
@@ -190,7 +190,7 @@ export const onRequest: PagesFunction<{ WORKER_URL: string }> = async (context) 
 </div>
 <article class="sheet">
 <div class="brand">
-  ${from.logoDataUrl ? `<img src="${escapeHtml(from.logoDataUrl)}" alt="">` : `<img src="https://chasa.io/brand/docstoc-icon.png" alt="">`}
+  ${from.logoDataUrl ? `<img src="${escapeHtml(from.logoDataUrl)}" alt="">` : `<img src="https://docstoc.io/brand/docstoc-icon.png" alt="">`}
   <strong>${escapeHtml(from.name)}</strong>
 </div>
 <div class="head-row">
@@ -220,7 +220,7 @@ ${from.paymentLink ? `<a class="pay-link" href="${escapeHtml(from.paymentLink)}"
 ${certBlock}
 
 <footer>
-  Generated via <a href="https://chasa.io/">docstoc</a>.
+  Generated via <a href="https://docstoc.io/">docstoc</a>.
 </footer>
 </article>
 <script>

@@ -99,7 +99,7 @@ export const onRequest: PagesFunction<{ WORKER_URL: string }> = async (context) 
       renderPage({
         title: "Certificate not found — docstoc",
         canonical,
-        body: `<h1>Certificate not found</h1><p>This verification link doesn't match a certificate on file. Check that you have the full link.</p><p><a href="https://chasa.io/">docstoc</a></p>`,
+        body: `<h1>Certificate not found</h1><p>This verification link doesn't match a certificate on file. Check that you have the full link.</p><p><a href="https://docstoc.io/">docstoc</a></p>`,
       }),
       { status: 404, headers: { "Content-Type": "text/html; charset=UTF-8" } }
     );
@@ -135,7 +135,7 @@ export const onRequest: PagesFunction<{ WORKER_URL: string }> = async (context) 
 
   const body = `
 <div class="brand">
-  ${cert.logoDataUrl ? `<img src="${escapeHtml(cert.logoDataUrl)}" alt="">` : `<img src="https://chasa.io/brand/docstoc-icon.png" alt="">`}
+  ${cert.logoDataUrl ? `<img src="${escapeHtml(cert.logoDataUrl)}" alt="">` : `<img src="https://docstoc.io/brand/docstoc-icon.png" alt="">`}
   <strong>${escapeHtml(cert.issuerName)}</strong>
 </div>
 <h1>Certificate of Authenticity</h1>
@@ -159,7 +159,7 @@ export const onRequest: PagesFunction<{ WORKER_URL: string }> = async (context) 
 <div id="result"></div>
 
 <footer>
-  Issued via <a href="https://chasa.io/">docstoc</a> — SHA-256 document verification. Not legal advice.
+  Issued via <a href="https://docstoc.io/">docstoc</a> — SHA-256 document verification. Not legal advice.
 </footer>
 
 <script>

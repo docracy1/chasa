@@ -106,22 +106,22 @@ function buildJsonLd(path, name, faqs) {
     {
       "@type": "BreadcrumbList",
       itemListElement: [
-        { "@type": "ListItem", position: 1, name: "Home", item: "https://chasa.io/" },
-        { "@type": "ListItem", position: 2, name, item: `https://chasa.io${path}` },
+        { "@type": "ListItem", position: 1, name: "Home", item: "https://docstoc.io/" },
+        { "@type": "ListItem", position: 2, name, item: `https://docstoc.io${path}` },
       ],
     },
     {
       "@type": "WebPage",
-      name: `chasa ${name}`,
-      url: `https://chasa.io${path}`,
-      isPartOf: { "@type": "WebSite", name: "chasa", url: "https://chasa.io/" },
+      name: `docstoc ${name}`,
+      url: `https://docstoc.io${path}`,
+      isPartOf: { "@type": "WebSite", name: "docstoc", url: "https://docstoc.io/" },
     },
     {
       "@type": "SoftwareApplication",
-      name: `chasa — ${name}`,
+      name: `docstoc — ${name}`,
       applicationCategory: "BusinessApplication",
       operatingSystem: "Web",
-      url: `https://chasa.io${path}`,
+      url: `https://docstoc.io${path}`,
       offers: [
         {
           "@type": "Offer",
@@ -142,7 +142,7 @@ function buildJsonLd(path, name, faqs) {
           description: "Business — smart reply, SSL automation, trust badge",
         },
       ],
-      publisher: { "@type": "Organization", name: "chasa", url: "https://chasa.io/" },
+      publisher: { "@type": "Organization", name: "docstoc", url: "https://docstoc.io/" },
     },
   ];
   if (faqs?.length) {
@@ -203,7 +203,7 @@ const PRODUCTS = [
     depth: 0,
     canonical: "/invoices",
     activeNav: "",
-    title: "Invoice Generator — Create Shareable Invoices | chasa",
+    title: "Invoice Generator — Create Shareable Invoices | docstoc",
     description:
       "Create professional shareable invoices with line items and tax, then chase overdue ones with AI drafts. Describe what the invoice generator can do — try it free in Tools.",
     name: "Invoice generator",
@@ -228,7 +228,7 @@ const PRODUCTS = [
         },
         {
           title: "What it is not",
-          body: "chasa does not auto-send emails on your behalf. You share the invoice link and send follow-ups from your own inbox after reviewing each draft.",
+          body: "docstoc does not auto-send emails on your behalf. You share the invoice link and send follow-ups from your own inbox after reviewing each draft.",
         },
       ],
       tryTitle: "Try it in Tools",
@@ -239,7 +239,7 @@ const PRODUCTS = [
       faqs: [
         {
           q: "Is the invoice generator free to try?",
-          a: "Yes. The Tools preview runs in your browser. Creating a shareable link uses your chasa account.",
+          a: "Yes. The Tools preview runs in your browser. Creating a shareable link uses your docstoc account.",
         },
         {
           q: "Can I chase an invoice I created here?",
@@ -253,7 +253,7 @@ const PRODUCTS = [
     depth: 0,
     canonical: "/certificate",
     activeNav: "",
-    title: "Document Certificates — Tamper-Evident Hash Verification | chasa",
+    title: "Document Certificates — Tamper-Evident Hash Verification | docstoc",
     description:
       "Prove a file hasn’t changed since you certified it. Free tamper-evident document certificates with SHA-256 hash verification — try the hash checker in Tools.",
     name: "Document certificates",
@@ -303,14 +303,14 @@ const PRODUCTS = [
     depth: 0,
     canonical: "/trust-badges",
     activeNav: "",
-    title: "Company Badge — Domain-Verified Trust Badge | chasa",
+    title: "Company Badge — Domain-Verified Trust Badge | docstoc",
     description:
       "Domain-verified corporate trust badges for your site and proposals — backed by a real Let's Encrypt certificate and an optional Bitcoin timestamp. Look up profiles free; manage yours in the app.",
     name: "Company badge",
     page: {
       crumb: `<a href="/">Home</a> / Company badge`,
       h1: "Company badge",
-      lede: "Prove you control your domain — then show it. When chasa issues your SSL certificate, you get a public trust profile and an embeddable badge clients can check themselves.",
+      lede: "Prove you control your domain — then show it. When docstoc issues your SSL certificate, you get a public trust profile and an embeddable badge clients can check themselves.",
       sections: [
         {
           title: "What it can do",
@@ -347,7 +347,7 @@ const PRODUCTS = [
           a: "They're created automatically with SSL automation on the Business plan. Looking up someone else's public profile is free for everyone.",
         },
         {
-          q: "Can clients verify without trusting chasa?",
+          q: "Can clients verify without trusting docstoc?",
           a: "Once the Bitcoin timestamp confirms, they can download the .ots proof from the public trust profile and check it with OpenTimestamps tools independently.",
         },
       ],
@@ -358,14 +358,14 @@ const PRODUCTS = [
     depth: 1,
     canonical: "/features/ai-tone",
     activeNav: "ai",
-    title: "AI Invoice Chasing — Tone-Matched Follow-Up Drafts | chasa",
+    title: "AI Invoice Chasing — Tone-Matched Follow-Up Drafts | docstoc",
     description:
       "AI follow-up drafts that match how late an invoice is — friendly, professional, or direct. Soften, firm up, or shorten on paid plans. Try the chase calculator in Tools.",
     name: "AI invoice chasing",
     page: {
       crumb: `<a href="/">Home</a> / <a href="/features/">Features</a> / AI invoice chasing`,
       h1: "AI invoice chasing",
-      lede: "The hard part of chasing invoices is tone. chasa drafts follow-ups matched to days overdue — you review and send from your own inbox.",
+      lede: "The hard part of chasing invoices is tone. docstoc drafts follow-ups matched to days overdue — you review and send from your own inbox.",
       sections: [
         {
           title: "What it can do",
@@ -384,7 +384,7 @@ const PRODUCTS = [
         },
         {
           title: "What it is not",
-          body: "chasa does not auto-email your clients. Drafts stay in your account until you copy or send them yourself.",
+          body: "docstoc does not auto-email your clients. Drafts stay in your account until you copy or send them yourself.",
         },
       ],
       tryTitle: "Try it in Tools",
@@ -409,7 +409,7 @@ const PRODUCTS = [
     depth: 1,
     canonical: "/features/templates",
     activeNav: "templates",
-    title: "Free Invoice Email Templates — Copy-Paste Reminders | chasa",
+    title: "Free Invoice Email Templates — Copy-Paste Reminders | docstoc",
     description:
       "Free payment reminder email templates for every stage of an overdue invoice. Copy, fill in, send — or switch to AI drafts when you want tone matching.",
     name: "Email templates",
@@ -522,7 +522,7 @@ for (const p of PRODUCTS) {
 
 const featuresHubMain = `<section class="tpl-hero">
   <div class="wrap tpl-hero-inner">
-    <h1>chasa features</h1>
+    <h1>docstoc features</h1>
     <p class="tpl-hero-lede">The Trust Automation Layer — templates, invoices, certificates, SSL, and AI collections. Each product below explains what it can do; Tools let you try it.</p>
   </div>
 </section>
@@ -558,9 +558,9 @@ writePage({
   depth: 1,
   canonical: "/features/",
   activeNav: "features",
-  title: "Features — Templates, Invoices, Certificates, SSL & AI | chasa",
+  title: "Features — Templates, Invoices, Certificates, SSL & AI | docstoc",
   description:
-    "Explore chasa products: document templates, invoice generator, certificates, SSL automation, and AI invoice chasing. Descriptions here; try them in Tools.",
+    "Explore docstoc products: document templates, invoice generator, certificates, SSL automation, and AI invoice chasing. Descriptions here; try them in Tools.",
   name: "Features",
   mainHtml: featuresHubMain,
   faqs: [],

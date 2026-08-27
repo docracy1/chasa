@@ -1,13 +1,13 @@
-# chasa — Full Platform Context
+# docstoc — Full Platform Context
 
-chasa (also known as docstoc in product marketing history) is the automation layer for small
+docstoc (also known as docstoc in product marketing history) is the automation layer for small
 business: AI-drafted invoice follow-up emails, a free library of business & legal document
 templates, tamper-evident document certification, company trust badges, and Let's Encrypt SSL
-automation for a customer's own domain. chasa is not a debt collection agency, not legal advice,
+automation for a customer's own domain. docstoc is not a debt collection agency, not legal advice,
 and does not send email on the user's behalf.
 
 Operated by RELACON GmbH, Elisabethstraße 15/5b, 1010 Vienna, Austria.
-Site: https://chasa.io · Contact: founder@chasa.io
+Site: https://docstoc.io · Contact: founder@docstoc.io
 
 ---
 
@@ -16,11 +16,11 @@ Site: https://chasa.io · Contact: founder@chasa.io
 - No signup required for the first 5 AI-generated chase drafts per month.
 - Paste invoices manually or upload CSVs.
 - Tone-matched drafts based on days overdue.
-- 28+ free payment reminder templates at `https://chasa.io/free-templates/`.
+- 28+ free payment reminder templates at `https://docstoc.io/free-templates/`.
 - 1,000+ free business, legal, real estate, finance, and HR document templates at
-  `https://chasa.io/document-templates/`, plus bundled kits at `https://chasa.io/business-kits/`.
+  `https://docstoc.io/document-templates/`, plus bundled kits at `https://docstoc.io/business-kits/`.
 - Free document certification — hash any document in the browser; shareable verify pages at
-  `https://chasa.io/verify/{id}` (noindex). Product overview: `https://chasa.io/certificate`.
+  `https://docstoc.io/verify/{id}` (noindex). Product overview: `https://docstoc.io/certificate`.
 - Users copy the result into Gmail, Outlook, Apple Mail, or another client themselves.
 
 ## Paid plans (live pricing)
@@ -61,29 +61,29 @@ Everything in Pro, plus:
 
 ## Document templates & kits
 
-- Free, no-signup library at `https://chasa.io/document-templates/` — contracts, agreements,
-  notices, and forms (not emails). Edit online; download PDF with a fixed chasa.io footer.
+- Free, no-signup library at `https://docstoc.io/document-templates/` — contracts, agreements,
+  notices, and forms (not emails). Edit online; download PDF with a fixed docstoc.io footer.
 - Templates can be submitted by anyone and reviewed before publishing.
-- Related templates are bundled into kits at `https://chasa.io/business-kits/`.
+- Related templates are bundled into kits at `https://docstoc.io/business-kits/`.
 - Informational starting points, not a substitute for licensed professional advice.
 
 ## Document certificates
 
 - Hashing happens entirely in the browser (SHA-256) — the original file is never uploaded, only
   the resulting hash (plus an optional filename if the user opts in).
-- Shareable public verification page at `https://chasa.io/verify/{id}` showing hash, timestamp,
+- Shareable public verification page at `https://docstoc.io/verify/{id}` showing hash, timestamp,
   and status; optional Bitcoin OpenTimestamps anchoring.
 - Free to create and free to check; Business adds custom branding.
 
 ## Company badge / trust profile
 
-- After issuing SSL for a domain you control, chasa can publish a domain-verified trust profile
-  and embeddable badge: `https://chasa.io/trust-badges` → app `/app/company-badge`.
+- After issuing SSL for a domain you control, docstoc can publish a domain-verified trust profile
+  and embeddable badge: `https://docstoc.io/trust-badges` → app `/app/company-badge`.
 
 ## SSL automation
 
-- Let's Encrypt DV certificates via ACME DNS-01 — customer adds one TXT record; chasa issues and
-  renews. Not a CA / not a cert reseller. Product page: `https://chasa.io/ssl`.
+- Let's Encrypt DV certificates via ACME DNS-01 — customer adds one TXT record; docstoc issues and
+  renews. Not a CA / not a cert reseller. Product page: `https://docstoc.io/ssl`.
 
 ---
 
@@ -107,10 +107,10 @@ Authentication: public tools need no auth; `draft_chase_email` needs a signed-in
 
 ## Important boundaries
 
-- chasa does **not** auto-send email to clients.
+- docstoc does **not** auto-send email to clients.
 - Templates are **not** legal advice.
 - SSL certs are **Let's Encrypt**, not sold as chasa-branded CAs.
 - Verify URLs are **noindex** user content; use `/certificate` for the product page.
 
-Full short summary: https://chasa.io/llms.txt
-Sitemap: https://chasa.io/sitemap.xml
+Full short summary: https://docstoc.io/llms.txt
+Sitemap: https://docstoc.io/sitemap.xml

@@ -331,7 +331,7 @@
     const s = (raw || "").trim();
     if (!s) return "";
     try {
-      const u = new URL(s, "https://chasa.io");
+      const u = new URL(s, "https://docstoc.io");
       const m = u.pathname.match(/\/trust\/([^/?#]+)/i);
       if (m) return decodeURIComponent(m[1]);
     } catch {

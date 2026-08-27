@@ -35945,16 +35945,16 @@ const indexJsonLd = JSON.stringify(
       {
         "@type": "CollectionPage",
         name: "Free Invoice Payment Reminder Email Templates",
-        url: "https://chasa.io/free-templates/",
+        url: "https://docstoc.io/free-templates/",
         description:
           `${TEMPLATES.length} free, copy-paste payment reminder email templates for freelancers — from pre-due nudges to final notices.`,
-        isPartOf: { "@type": "WebSite", name: "chasa", url: "https://chasa.io" },
+        isPartOf: { "@type": "WebSite", name: "docstoc", url: "https://docstoc.io" },
         mainEntity: {
           "@type": "ItemList",
           itemListElement: TEMPLATES.map((t, i) => ({
             "@type": "ListItem",
             position: i + 1,
-            url: `https://chasa.io/free-templates/${t.slug}`,
+            url: `https://docstoc.io/free-templates/${t.slug}`,
             name: t.name,
           })),
         },
@@ -36011,7 +36011,7 @@ const tplCountWord =
 const indexHtml = chrome({
   title: `Free Invoice Payment Reminder Email Templates (${tplCount}) | docstoc`,
   description: `${tplCount} free payment reminder and overdue invoice email templates for freelancers. Copy, personalize, and send — or generate a tone-matched draft in docstoc.`,
-  canonical: "https://chasa.io/free-templates/",
+  canonical: "https://docstoc.io/free-templates/",
   activeNav: "templates",
   jsonLd: indexJsonLd,
   mainHtml: `<section class="tpl-hero">
@@ -36226,8 +36226,8 @@ const downloadJsonLd = JSON.stringify(
     "@type": "WebPage",
     name: `Download ${tplCount} polite invoice templates — docstoc`,
     description: `Free PDF pack of ${tplCount} politely worded payment reminder emails. Enter your details to download.`,
-    url: "https://chasa.io/free-templates/download",
-    isPartOf: { "@type": "WebSite", name: "chasa", url: "https://chasa.io" },
+    url: "https://docstoc.io/free-templates/download",
+    isPartOf: { "@type": "WebSite", name: "docstoc", url: "https://docstoc.io" },
   },
   null,
   2
@@ -36240,11 +36240,11 @@ const downloadHtml = `<!DOCTYPE html>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Download ${tplCount} polite invoice templates — docstoc</title>
 <meta name="description" content="Free PDF pack of ${tplCount} politely worded payment reminder emails for freelancers and small teams. Download with the docstoc logo.">
-<link rel="canonical" href="https://chasa.io/free-templates/download">
+<link rel="canonical" href="https://docstoc.io/free-templates/download">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Download ${tplCount} polite invoice templates — docstoc">
 <meta property="og:description" content="Free PDF pack of ${tplCount} politely worded payment reminder emails. Enter your details to download.">
-<meta property="og:url" content="https://chasa.io/free-templates/download">
+<meta property="og:url" content="https://docstoc.io/free-templates/download">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Download ${tplCount} polite invoice templates — docstoc">
 <meta name="twitter:description" content="Free PDF pack of ${tplCount} politely worded payment reminder emails. Enter your details to download.">
@@ -36353,8 +36353,8 @@ const submitJsonLd = JSON.stringify(
     name: "Submit your own invoice follow-up template — docstoc",
     description:
       "Share a payment reminder or invoice follow-up email that's worked for you. Reviewed by docstoc, then published free for everyone.",
-    url: "https://chasa.io/free-templates/submit",
-    isPartOf: { "@type": "WebSite", name: "chasa", url: "https://chasa.io" },
+    url: "https://docstoc.io/free-templates/submit",
+    isPartOf: { "@type": "WebSite", name: "docstoc", url: "https://docstoc.io" },
   },
   null,
   2
@@ -36367,11 +36367,11 @@ const submitHtml = `<!DOCTYPE html>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Submit Your Invoice Follow-Up Template — docstoc</title>
 <meta name="description" content="Share a payment reminder or invoice follow-up email that's worked for you. Reviewed by docstoc, then published free on our template library.">
-<link rel="canonical" href="https://chasa.io/free-templates/submit">
+<link rel="canonical" href="https://docstoc.io/free-templates/submit">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Submit Your Invoice Follow-Up Template — docstoc">
 <meta property="og:description" content="Share a payment reminder or invoice follow-up email that's worked for you. Reviewed by docstoc, then published free on our template library.">
-<meta property="og:url" content="https://chasa.io/free-templates/submit">
+<meta property="og:url" content="https://docstoc.io/free-templates/submit">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Submit Your Invoice Follow-Up Template — docstoc">
 <meta name="twitter:description" content="Share a payment reminder or invoice follow-up email that's worked for you. Reviewed by docstoc, then published free on our template library.">
@@ -36500,12 +36500,12 @@ const newTemplatesJsonLd = JSON.stringify(
     "@type": "ItemList",
     name: "10 new free invoice follow-up templates — docstoc",
     description: `${newBatch.length} new templates for freelancers, agencies, and corporate finance teams, plus a legal-tone final notice and a template for when a client goes silent.`,
-    url: "https://chasa.io/free-templates/new",
+    url: "https://docstoc.io/free-templates/new",
     numberOfItems: newBatch.length,
     itemListElement: newBatch.map((t, i) => ({
       "@type": "ListItem",
       position: i + 1,
-      url: `https://chasa.io/free-templates/${t.slug}`,
+      url: `https://docstoc.io/free-templates/${t.slug}`,
       name: t.name,
     })),
   },
@@ -36530,16 +36530,16 @@ const newTemplatesHtml = `<!DOCTYPE html>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>10 New Free Invoice Follow-Up Templates | docstoc</title>
 <meta name="description" content="10 new free invoice follow-up templates for freelancers, agencies, and corporate finance teams — plus a legal-tone final notice and a template for when a client goes silent. Now ${tplCount} templates and counting.">
-<link rel="canonical" href="https://chasa.io/free-templates/new">
+<link rel="canonical" href="https://docstoc.io/free-templates/new">
 <meta property="og:type" content="website">
 <meta property="og:title" content="10 New Free Invoice Follow-Up Templates">
 <meta property="og:description" content="Freelancer, agency, and corporate invoice follow-up templates — plus a legal-tone final notice and a template for when a client goes silent. Free, copy-paste ready.">
-<meta property="og:url" content="https://chasa.io/free-templates/new">
-<meta property="og:image" content="https://chasa.io/brand/og/docstoc-og-1200x630.png">
+<meta property="og:url" content="https://docstoc.io/free-templates/new">
+<meta property="og:image" content="https://docstoc.io/brand/og/docstoc-og-1200x630.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="10 New Free Invoice Follow-Up Templates">
 <meta name="twitter:description" content="Freelancer, agency, and corporate invoice follow-up templates — plus a legal-tone final notice and a template for when a client goes silent. Free, copy-paste ready.">
-<meta name="twitter:image" content="https://chasa.io/brand/og/docstoc-og-1200x630.png">
+<meta name="twitter:image" content="https://docstoc.io/brand/og/docstoc-og-1200x630.png">
 <script type="application/ld+json">
 ${newTemplatesJsonLd}
 </script>
@@ -36819,10 +36819,10 @@ for (const t of DOCUMENT_TEMPLATES) {
           "@type": "Article",
           headline: t.seoTitle,
           description: t.description,
-          url: `https://chasa.io/document-templates/${t.slug}`,
-          author: { "@type": "Organization", name: "chasa" },
+          url: `https://docstoc.io/document-templates/${t.slug}`,
+          author: { "@type": "Organization", name: "docstoc" },
           publisher: { "@type": "Organization", name: "RELACON GmbH" },
-          mainEntityOfPage: `https://chasa.io/document-templates/${t.slug}`,
+          mainEntityOfPage: `https://docstoc.io/document-templates/${t.slug}`,
         },
         {
           "@type": "FAQPage",
@@ -36877,7 +36877,7 @@ for (const t of DOCUMENT_TEMPLATES) {
   const page = chrome({
     title: `${t.seoTitle} | docstoc`,
     description: t.description,
-    canonical: `https://chasa.io/document-templates/${t.slug}`,
+    canonical: `https://docstoc.io/document-templates/${t.slug}`,
     activeNav: "templates",
     jsonLd,
     mainHtml: `<main class="wrap template-detail">
@@ -36988,15 +36988,15 @@ const docIndexJsonLd = JSON.stringify(
       {
         "@type": "CollectionPage",
         name: "Free Business & Legal Document Templates",
-        url: "https://chasa.io/document-templates/",
+        url: "https://docstoc.io/document-templates/",
         description: `${DOCUMENT_TEMPLATES.length} free business, legal, real estate, finance, and HR document templates.`,
-        isPartOf: { "@type": "WebSite", name: "chasa", url: "https://chasa.io" },
+        isPartOf: { "@type": "WebSite", name: "docstoc", url: "https://docstoc.io" },
         mainEntity: {
           "@type": "ItemList",
           itemListElement: DOCUMENT_TEMPLATES.map((t, i) => ({
             "@type": "ListItem",
             position: i + 1,
-            url: `https://chasa.io/document-templates/${t.slug}`,
+            url: `https://docstoc.io/document-templates/${t.slug}`,
             name: t.name,
           })),
         },
@@ -37018,7 +37018,7 @@ const docIndexJsonLd = JSON.stringify(
 const docIndexHtml = chrome({
   title: `Free Business & Legal Document Templates (${DOCUMENT_TEMPLATES.length}) | docstoc`,
   description: `${DOCUMENT_TEMPLATES.length} free business, legal, real estate, finance, and HR document templates. Copy, personalize, and certify — no signup required.`,
-  canonical: "https://chasa.io/document-templates/",
+  canonical: "https://docstoc.io/document-templates/",
   activeNav: "templates",
   jsonLd: docIndexJsonLd,
   mainHtml: `<section class="tpl-hero">
@@ -37283,10 +37283,10 @@ for (const t of TEMPLATES) {
           "@type": "Article",
           headline: t.seoTitle,
           description: t.description,
-          url: `https://chasa.io/free-templates/${t.slug}`,
-          author: { "@type": "Organization", name: "chasa" },
+          url: `https://docstoc.io/free-templates/${t.slug}`,
+          author: { "@type": "Organization", name: "docstoc" },
           publisher: { "@type": "Organization", name: "RELACON GmbH" },
-          mainEntityOfPage: `https://chasa.io/free-templates/${t.slug}`,
+          mainEntityOfPage: `https://docstoc.io/free-templates/${t.slug}`,
         },
         {
           "@type": "FAQPage",
@@ -37330,7 +37330,7 @@ for (const t of TEMPLATES) {
   const page = chrome({
     title: `${t.seoTitle} | docstoc`,
     description: t.description,
-    canonical: `https://chasa.io/free-templates/${t.slug}`,
+    canonical: `https://docstoc.io/free-templates/${t.slug}`,
     activeNav: "templates",
     jsonLd,
     mainHtml: `<main class="wrap template-detail">

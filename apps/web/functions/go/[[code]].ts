@@ -4,7 +4,7 @@
  * Logs an open server-side (before cookie consent), then 302s to the site with UTMs.
  * Optional personalization: /go/dm?who=alice  or  /go/dm?to=alice@studio.com
  *
- * Use in cold email: https://chasa.io/go/dm?who=first-name
+ * Use in cold email: https://docstoc.io/go/dm?who=first-name
  */
 
 type GoEntry = {

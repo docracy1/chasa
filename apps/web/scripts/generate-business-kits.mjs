@@ -68,9 +68,9 @@ const indexJsonLd = JSON.stringify(
       {
         "@type": "CollectionPage",
         name: "Free Business Document Kits",
-        url: "https://chasa.io/business-kits/",
+        url: "https://docstoc.io/business-kits/",
         description: `${KITS.length} bundled document template kits for common business situations.`,
-        isPartOf: { "@type": "WebSite", name: "docstoc", url: "https://chasa.io" },
+        isPartOf: { "@type": "WebSite", name: "docstoc", url: "https://docstoc.io" },
       },
     ],
   },
@@ -81,7 +81,7 @@ const indexJsonLd = JSON.stringify(
 const indexHtml = chrome({
   title: "Free Business Document Kits | docstoc",
   description: "Bundled document template kits — the full set of paperwork for a common business situation, in one place.",
-  canonical: "https://chasa.io/business-kits/",
+  canonical: "https://docstoc.io/business-kits/",
   activeNav: "templates",
   jsonLd: indexJsonLd,
   mainHtml: `<main class="wrap templates-index">
@@ -146,11 +146,11 @@ for (const kit of KITS) {
           "@type": "ItemList",
           name: kit.name,
           description: kit.description,
-          url: `https://chasa.io/business-kits/${kit.slug}`,
+          url: `https://docstoc.io/business-kits/${kit.slug}`,
           itemListElement: templates.map((t, i) => ({
             "@type": "ListItem",
             position: i + 1,
-            url: `https://chasa.io/document-templates/${t.slug}`,
+            url: `https://docstoc.io/document-templates/${t.slug}`,
             name: t.name,
           })),
         },
@@ -163,7 +163,7 @@ for (const kit of KITS) {
   const page = chrome({
     title: `${kit.seoTitle} | docstoc`,
     description: kit.description,
-    canonical: `https://chasa.io/business-kits/${kit.slug}`,
+    canonical: `https://docstoc.io/business-kits/${kit.slug}`,
     activeNav: "templates",
     jsonLd,
     mainHtml: `<main class="wrap template-detail">

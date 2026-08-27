@@ -1,6 +1,9 @@
 /** Central SEO config — used by generators and chrome. */
 
-export const SITE_URL = "https://chasa.io";
+export const SITE_URL = "https://docstoc.io";
+
+/** Display brand for chrome, titles, and JSON-LD (host cutover may lag social handles). */
+export const SITE_BRAND = "docstoc";
 
 export const SOCIAL = {
   linkedin: "https://www.linkedin.com/company/chasa-io",
@@ -121,8 +124,8 @@ export const SITEMAP_ROUTES = [
 export const ORG_JSON_LD = {
   "@context": "https://schema.org",
   "@type": "Organization",
-  name: "chasa",
-  alternateName: ["docstoc", "Chasa"],
+  name: "docstoc",
+  alternateName: ["chasa", "Chasa", "Docstoc"],
   url: SITE_URL,
   logo: `${SITE_URL}/brand/docstoc-logo.svg`,
   sameAs: [SOCIAL.linkedin, SOCIAL.x, SOCIAL.facebook],

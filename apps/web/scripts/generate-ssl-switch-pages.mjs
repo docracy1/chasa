@@ -20,13 +20,13 @@ function buildJsonLd(c) {
         {
           "@type": "BreadcrumbList",
           itemListElement: [
-            { "@type": "ListItem", position: 1, name: "Home", item: "https://chasa.io/" },
-            { "@type": "ListItem", position: 2, name: "SSL", item: "https://chasa.io/ssl" },
+            { "@type": "ListItem", position: 1, name: "Home", item: "https://docstoc.io/" },
+            { "@type": "ListItem", position: 2, name: "SSL", item: "https://docstoc.io/ssl" },
             {
               "@type": "ListItem",
               position: 3,
               name: `Switch from ${c.name}`,
-              item: `https://chasa.io/switch-from-${c.slug}`,
+              item: `https://docstoc.io/switch-from-${c.slug}`,
             },
           ],
         },

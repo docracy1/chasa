@@ -1,12 +1,12 @@
 #!/usr/bin/env node
 /**
- * IndexNow submission script for chasa.io
+ * IndexNow submission script for docstoc.io
  * Submits updated URLs to search engines via the IndexNow API (Bing, Yandex, Seznam, Naver).
  * Spec: https://www.indexnow.org/documentation
  *
  * Usage:
  *   node apps/web/scripts/ping-indexnow.mjs
- *   node apps/web/scripts/ping-indexnow.mjs https://chasa.io/use-cases/ https://chasa.io/features/
+ *   node apps/web/scripts/ping-indexnow.mjs https://docstoc.io/use-cases/ https://docstoc.io/features/
  */
 import { readFileSync, existsSync } from "node:fs";
 import { dirname, join } from "node:path";

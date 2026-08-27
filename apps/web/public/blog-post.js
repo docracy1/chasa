@@ -115,7 +115,7 @@
       var p = data.post;
       document.title = p.title + " — docstoc";
       var canonical = document.getElementById("post-canonical");
-      if (canonical) canonical.href = "https://chasa.io/blog/" + slug + "/";
+      if (canonical) canonical.href = "https://docstoc.io/blog/" + slug + "/";
       if (p.description) {
         var desc = document.querySelector('meta[name="description"]');
         if (desc) desc.setAttribute("content", p.description);

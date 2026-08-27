@@ -60,12 +60,12 @@ function buildJsonLd() {
         {
           "@type": "BreadcrumbList",
           itemListElement: [
-            { "@type": "ListItem", position: 1, name: "Home", item: "https://chasa.io/" },
+            { "@type": "ListItem", position: 1, name: "Home", item: "https://docstoc.io/" },
             {
               "@type": "ListItem",
               position: 2,
               name: "Switch to docstoc",
-              item: "https://chasa.io/switch-to-docstoc",
+              item: "https://docstoc.io/switch-to-docstoc",
             },
           ],
         },

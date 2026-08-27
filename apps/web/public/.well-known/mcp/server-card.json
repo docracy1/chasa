@@ -2,7 +2,7 @@
   "serverInfo": {
     "name": "docstoc",
     "version": "1.0.0",
-    "websiteUrl": "https://chasa.io"
+    "websiteUrl": "https://docstoc.io"
   },
   "transport": {
     "type": "streamable-http",
@@ -40,5 +40,5 @@
       "description": "Draft a payment follow-up email for an overdue invoice. Returns subject and body only."
     }
   ],
-  "documentationUrl": "https://chasa.io/ai"
+  "documentationUrl": "https://docstoc.io/ai"
 }

@@ -121,9 +121,9 @@ Disallow: /app/branding
 Disallow: /app/webhooks
 
 # LLM / agent context (chasa)
-# https://chasa.io/llms.txt
-# https://chasa.io/llms-full.txt
-# https://chasa.io/ai.txt
+# https://docstoc.io/llms.txt
+# https://docstoc.io/llms-full.txt
+# https://docstoc.io/ai.txt
 
 Sitemap: ${SITE_URL}/sitemap.xml
 Sitemap: https://api.chasa.io/api/blog/sitemap.xml
@@ -169,7 +169,7 @@ function writeBlogFeed() {
   const rss = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0">
   <channel>
-    <title>chasa Blog</title>
+    <title>docstoc Blog</title>
     <link>${SITE_URL}/blog/</link>
     <description>Invoice follow-up, payment reminders, and freelancer cash flow.</description>
     <language>en</language>

@@ -92,16 +92,16 @@ function buildJsonLd(path, name, faqs) {
     {
       "@type": "BreadcrumbList",
       itemListElement: [
-        { "@type": "ListItem", position: 1, name: "Home", item: "https://chasa.io/" },
-        { "@type": "ListItem", position: 2, name: "SSL", item: "https://chasa.io/ssl" },
-        { "@type": "ListItem", position: 3, name, item: `https://chasa.io${path}` },
+        { "@type": "ListItem", position: 1, name: "Home", item: "https://docstoc.io/" },
+        { "@type": "ListItem", position: 2, name: "SSL", item: "https://docstoc.io/ssl" },
+        { "@type": "ListItem", position: 3, name, item: `https://docstoc.io${path}` },
       ],
     },
     {
       "@type": "WebPage",
       name: `docstoc ${name}`,
-      url: `https://chasa.io${path}`,
-      isPartOf: { "@type": "WebSite", name: "docstoc", url: "https://chasa.io/" },
+      url: `https://docstoc.io${path}`,
+      isPartOf: { "@type": "WebSite", name: "docstoc", url: "https://docstoc.io/" },
     },
   ];
   if (faqs?.length) {
@@ -627,7 +627,7 @@ const PAGES = [
       },
     ])}
     <pre class="ssl-feat-code">Authorization: Bearer YOUR_API_KEY
-Base URL: https://chasa.io/api</pre>
+Base URL: https://docstoc.io/api</pre>
     ${blocks([
       {
         title: "SSL endpoints",

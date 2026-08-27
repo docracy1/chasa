@@ -148,7 +148,7 @@ export const onRequest: PagesFunction<{ WORKER_URL: string }> = async (context) 
       renderPage({
         title: "Trust certificate not found — docstoc",
         canonical,
-        body: `<h1>Trust certificate not found</h1><p>This account doesn't have a verified domain yet, or the link is incomplete.</p><p><a href="https://chasa.io/">docstoc</a></p>`,
+        body: `<h1>Trust certificate not found</h1><p>This account doesn't have a verified domain yet, or the link is incomplete.</p><p><a href="https://docstoc.io/">docstoc</a></p>`,
       }),
       { status: 404, headers: { "Content-Type": "text/html; charset=UTF-8" } }
     );
@@ -233,7 +233,7 @@ export const onRequest: PagesFunction<{ WORKER_URL: string }> = async (context) 
   <p class="disclaimer">This confirms docstoc verified DNS control of the domain above via a real Let's Encrypt SSL certificate, and (once Bitcoin-confirmed) that this account has held verified status since the date shown. It is not a business registration, legal entity, or identity check — docstoc doesn't perform those.</p>
 
   <footer>
-    Issued via <a href="https://chasa.io/">docstoc</a>. Independent verification: OpenTimestamps proof when Bitcoin-confirmed.
+    Issued via <a href="https://docstoc.io/">docstoc</a>. Independent verification: OpenTimestamps proof when Bitcoin-confirmed.
   </footer>
 </article>
 <script>

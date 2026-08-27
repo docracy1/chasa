@@ -733,7 +733,7 @@ export default function Admin() {
         <header className="dash-topnav">
           <a href="/" className="dash-brand" aria-label={t("admin.docstocHome")}>
             <img src="/brand/docstoc-icon.png" alt="" width="22" height="22" />
-            <span>chasa</span>
+            <span>docstoc</span>
           </a>
           <LanguageSwitcher className="lang-switcher-on-dark" />
         </header>
@@ -774,7 +774,7 @@ export default function Admin() {
       <header className="dash-topnav">
         <a href="/" className="dash-brand" aria-label={t("admin.docstocHome")}>
           <img src="/brand/docstoc-icon.png" alt="" width="22" height="22" />
-          <span>chasa</span>
+          <span>docstoc</span>
         </a>
         <nav className="dash-topnav-links">
           <a href="/#pricing">{t("admin.pricing")}</a>
@@ -1206,7 +1206,7 @@ export default function Admin() {
                         {t("admin.outreachLinks")}:{" "}
                         {outreach.links.map((l) => (
                           <span key={l.path}>
-                            <code>https://chasa.io{l.path}</code>{" "}
+                            <code>https://docstoc.io{l.path}</code>{" "}
                           </span>
                         ))}
                       </p>

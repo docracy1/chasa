@@ -28,20 +28,20 @@ function altJsonLd(c) {
         {
           "@type": "BreadcrumbList",
           itemListElement: [
-            { "@type": "ListItem", position: 1, name: "Home", item: "https://chasa.io/" },
-            { "@type": "ListItem", position: 2, name: "Compare", item: "https://chasa.io/compare/" },
+            { "@type": "ListItem", position: 1, name: "Home", item: "https://docstoc.io/" },
+            { "@type": "ListItem", position: 2, name: "Compare", item: "https://docstoc.io/compare/" },
             {
               "@type": "ListItem",
               position: 3,
               name: `${c.name} alternative`,
-              item: `https://chasa.io${altUrl(c)}`,
+              item: `https://docstoc.io${altUrl(c)}`,
             },
           ],
         },
         {
           "@type": "WebPage",
           name: `${c.name} alternative`,
-          url: `https://chasa.io${altUrl(c)}`,
+          url: `https://docstoc.io${altUrl(c)}`,
           description: c.sub,
         },
       ],
@@ -64,13 +64,13 @@ function importJsonLd(c) {
         {
           "@type": "BreadcrumbList",
           itemListElement: [
-            { "@type": "ListItem", position: 1, name: "Home", item: "https://chasa.io/" },
-            { "@type": "ListItem", position: 2, name: "Compare", item: "https://chasa.io/compare/" },
+            { "@type": "ListItem", position: 1, name: "Home", item: "https://docstoc.io/" },
+            { "@type": "ListItem", position: 2, name: "Compare", item: "https://docstoc.io/compare/" },
             {
               "@type": "ListItem",
               position: 3,
               name: `Import from ${c.name}`,
-              item: `https://chasa.io${importUrl(c)}`,
+              item: `https://docstoc.io${importUrl(c)}`,
             },
           ],
         },
@@ -100,7 +100,7 @@ const hubHtml = writeLanding({
       "@context": "https://schema.org",
       "@type": "CollectionPage",
       name: "Compare docstoc",
-      url: "https://chasa.io/compare/",
+      url: "https://docstoc.io/compare/",
     },
     null,
     2
