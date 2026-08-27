@@ -1087,6 +1087,7 @@ const es: Messages = {
   "invoices.viewCertificate": "Ver certificado",
   "invoices.markSent": "Marcar enviada",
   "invoices.markPaid": "Marcar pagada",
+  "invoices.openInChases": "Abrir en Chases",
   "invoices.delete": "Eliminar",
   "invoices.deleteConfirm": "¿Eliminar esta factura? No se puede deshacer.",
   "invoices.signInSub": "Inicia sesión para crear y gestionar facturas.",

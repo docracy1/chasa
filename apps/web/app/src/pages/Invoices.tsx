@@ -1,13 +1,15 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import {
   createInvoice,
   deleteInvoice,
   getBranding,
+  listClients,
   listInvoices,
   setInvoiceStatus,
   type Account,
   type Branding,
+  type ClientRecord,
   type InvoiceLineItem,
   type InvoiceRecord,
 } from "../lib/api";
@@ -57,6 +59,10 @@ export default function InvoicesPage({ account }: { account: Account | null }) {
 
   const [clientName, setClientName] = useState("");
   const [clientEmail, setClientEmail] = useState("");
+  const [clients, setClients] = useState<ClientRecord[]>([]);
+  const [clientSuggestOpen, setClientSuggestOpen] = useState(false);
+  const [clientHighlight, setClientHighlight] = useState(0);
+  const clientSuggestRef = useRef<HTMLDivElement>(null);
   const [issueDate, setIssueDate] = useState(todayIso());
   const [dueDate, setDueDate] = useState(addDaysIso(todayIso(), 14));
   const [duePreset, setDuePreset] = useState<DuePreset>("net15");
@@ -66,12 +72,21 @@ export default function InvoicesPage({ account }: { account: Account | null }) {
   const [lineItems, setLineItems] = useState<InvoiceLineItem[]>([{ ...EMPTY_ITEM }]);
 
   const appOrigin = typeof window !== "undefined" ? window.location.origin : "";
+  const isPaid = account?.plan !== "free" && account?.plan != null;
 
   const totals = useMemo(() => {
     const subtotal = lineItems.reduce((sum, item) => sum + item.quantity * item.unitPrice, 0);
     const taxAmount = subtotal * (taxRate / 100);
     return { subtotal, taxAmount, total: subtotal + taxAmount };
   }, [lineItems, taxRate]);
+
+  const clientSuggestions = useMemo(() => {
+    const q = clientName.trim().toLowerCase();
+    if (!q) return [];
+    return clients
+      .filter((c) => c.name.toLowerCase().includes(q) || (c.email?.toLowerCase().includes(q) ?? false))
+      .slice(0, 8);
+  }, [clients, clientName]);
 
   async function refresh() {
     setLoading(true);
@@ -104,6 +119,32 @@ export default function InvoicesPage({ account }: { account: Account | null }) {
         })
       );
   }, [account?.email]);
+
+  useEffect(() => {
+    if (!account || !isPaid) {
+      setClients([]);
+      return;
+    }
+    listClients()
+      .then((res) => setClients(res.clients))
+      .catch(() => setClients([]));
+  }, [account?.email, isPaid]);
+
+  useEffect(() => {
+    function onDocMouseDown(e: MouseEvent) {
+      if (!clientSuggestRef.current?.contains(e.target as Node)) {
+        setClientSuggestOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", onDocMouseDown);
+    return () => document.removeEventListener("mousedown", onDocMouseDown);
+  }, []);
+
+  function pickClient(client: ClientRecord) {
+    setClientName(client.name);
+    setClientEmail(client.email ?? "");
+    setClientSuggestOpen(false);
+  }
 
   function updateItem(index: number, patch: Partial<InvoiceLineItem>) {
     setLineItems((items) => items.map((item, i) => (i === index ? { ...item, ...patch } : item)));
@@ -277,13 +318,62 @@ export default function InvoicesPage({ account }: { account: Account | null }) {
                 {t("invoices.to")}
               </div>
               <div className="invoice-party-body">
-                <input
-                  className="invoice-client-name"
-                  value={clientName}
-                  onChange={(e) => setClientName(e.target.value)}
-                  placeholder={t("invoices.clientNamePlaceholder")}
-                  required
-                />
+                <div className="invoice-client-suggest" ref={clientSuggestRef}>
+                  <input
+                    className="invoice-client-name"
+                    value={clientName}
+                    onChange={(e) => {
+                      setClientName(e.target.value);
+                      setClientSuggestOpen(true);
+                      setClientHighlight(0);
+                    }}
+                    onFocus={() => setClientSuggestOpen(true)}
+                    onKeyDown={(e) => {
+                      if (!clientSuggestOpen || clientSuggestions.length === 0) return;
+                      if (e.key === "ArrowDown") {
+                        e.preventDefault();
+                        setClientHighlight((i) => Math.min(i + 1, clientSuggestions.length - 1));
+                      } else if (e.key === "ArrowUp") {
+                        e.preventDefault();
+                        setClientHighlight((i) => Math.max(i - 1, 0));
+                      } else if (e.key === "Enter" && clientSuggestions[clientHighlight]) {
+                        e.preventDefault();
+                        pickClient(clientSuggestions[clientHighlight]!);
+                      } else if (e.key === "Escape") {
+                        setClientSuggestOpen(false);
+                      }
+                    }}
+                    placeholder={t("invoices.clientNamePlaceholder")}
+                    required
+                    autoComplete="off"
+                    aria-autocomplete="list"
+                    aria-expanded={clientSuggestOpen && clientSuggestions.length > 0}
+                  />
+                  {clientSuggestOpen && clientSuggestions.length > 0 ? (
+                    <ul className="invoice-client-suggest-list" role="listbox">
+                      {clientSuggestions.map((c, i) => (
+                        <li key={c.id} role="option" aria-selected={i === clientHighlight}>
+                          <button
+                            type="button"
+                            className={
+                              i === clientHighlight
+                                ? "invoice-client-suggest-item is-active"
+                                : "invoice-client-suggest-item"
+                            }
+                            onMouseDown={(e) => e.preventDefault()}
+                            onMouseEnter={() => setClientHighlight(i)}
+                            onClick={() => pickClient(c)}
+                          >
+                            <span className="invoice-client-suggest-name">{c.name}</span>
+                            {c.email ? (
+                              <span className="invoice-client-suggest-email">{c.email}</span>
+                            ) : null}
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : null}
+                </div>
                 <input
                   type="email"
                   value={clientEmail}
@@ -536,6 +626,11 @@ export default function InvoicesPage({ account }: { account: Account | null }) {
                     <button type="button" className="btn-secondary" onClick={() => handleStatus(inv.id, "paid")}>
                       {t("invoices.markPaid")}
                     </button>
+                  )}
+                  {inv.agingInvoiceId && (inv.status === "sent" || inv.status === "paid") && (
+                    <Link className="btn-secondary" to={`/?focus=${encodeURIComponent(inv.agingInvoiceId)}`}>
+                      {t("invoices.openInChases")}
+                    </Link>
                   )}
                   {!inv.certificatePublicId && (
                     <button type="button" className="btn-secondary" onClick={() => handleDelete(inv.id)}>

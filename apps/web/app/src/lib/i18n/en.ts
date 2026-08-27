@@ -1074,6 +1074,7 @@ const en: Messages = {
   "invoices.viewCertificate": "View certificate",
   "invoices.markSent": "Mark sent",
   "invoices.markPaid": "Mark paid",
+  "invoices.openInChases": "Open in Chases",
   "invoices.delete": "Delete",
   "invoices.deleteConfirm": "Delete this invoice? This can't be undone.",
   "invoices.signInSub": "Sign in to create and manage invoices.",

@@ -3589,6 +3589,52 @@ textarea {
   flex-direction: column;
   gap: 8px;
 }
+.invoice-client-suggest {
+  position: relative;
+}
+.invoice-client-suggest-list {
+  position: absolute;
+  z-index: 20;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  margin: 0;
+  padding: 4px;
+  list-style: none;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  box-shadow: 0 8px 24px color-mix(in srgb, var(--ink) 12%, transparent);
+  max-height: 220px;
+  overflow: auto;
+}
+.invoice-client-suggest-item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  width: 100%;
+  padding: 8px 10px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+  font: inherit;
+  color: var(--ink);
+}
+.invoice-client-suggest-item:hover,
+.invoice-client-suggest-item.is-active {
+  background: color-mix(in srgb, var(--accent) 10%, var(--paper));
+}
+.invoice-client-suggest-name {
+  font-size: 14px;
+  font-weight: 600;
+}
+.invoice-client-suggest-email {
+  font-size: 12px;
+  color: var(--ink-soft);
+}
 .invoice-party-body strong {
   font-size: 15px;
   color: var(--ink);
