@@ -19,8 +19,9 @@ const RESTORE = [
   ["@chasa/", "@chasa/"],
   ["chasa_session", "chasa_session"],
   ["chasa_admin", "chasa_admin"],
-  ["company/chasa-io", "company/chasa-io"],
-  ["x.com/chasaHQ", "x.com/chasaHQ"],
+  ["company/docstochq", "company/docstochq"],
+  ["x.com/DocstocHQ", "x.com/DocstocHQ"],
+  ["61593805566159", "61593805566159"],
 ];
 
 function walk(dir, out = []) {

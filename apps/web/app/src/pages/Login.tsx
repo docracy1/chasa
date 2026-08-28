@@ -60,7 +60,6 @@ export default function Login() {
         "Sign in to docstoc or start free — get a magic link emailed to you, no password required."
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- read URL once on mount
   }, []);
 
   const isAdminEmail =
@@ -121,7 +120,6 @@ export default function Login() {
     if (turnstileRequired && !turnstileToken) return;
     autoStartedRef.current = true;
     void sendMagicLink(email, turnstileToken);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     autoStart,
     configLoaded,

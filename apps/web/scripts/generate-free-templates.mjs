@@ -36790,7 +36790,7 @@ function buildDocumentFaq(t) {
     },
     {
       q: `What does this ${t.name.toLowerCase()} cover?`,
-      a: `This ${t.category.toLowerCase()} template includes ${topSections}. Fill in the [bracketed] placeholders, edit any clause online, then download a PDF — the chasa.io footer stays on every export.`,
+      a: `This ${t.category.toLowerCase()} template includes ${topSections}. Fill in the [bracketed] placeholders, edit any clause online, then download a PDF — the docstoc.io footer stays on every export.`,
     },
     {
       q: "Is this legal advice?",

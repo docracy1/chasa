@@ -10,9 +10,15 @@ export const APP_ORIGIN_HEADER = "x-docstoc-app-origin";
  * Trusted regardless of `PUBLIC_APP_URL`, so the domain cutover works in both directions: pages.dev
  * keeps working after the var flips to chasa.io, and chasa.io works before it flips.
  */
-const PRODUCTION_ORIGINS = ["https://chasa.io", "https://www.chasa.io"];
+const PRODUCTION_ORIGINS = [
+  "https://chasa.io",
+  "https://www.chasa.io",
+  "https://docstoc.io",
+  "https://www.docstoc.io",
+];
 /** Project domain plus branch/commit preview subdomains, e.g. `abc123.chasa-71s.pages.dev`. */
-const PAGES_ORIGIN = /^https:\/\/([a-z0-9-]+\.)?docstoc(-[a-z0-9-]+)?\.pages\.dev$/;
+const PAGES_ORIGIN =
+  /^https:\/\/([a-z0-9-]+\.)?(chasa(-[a-z0-9-]+)?|docstoc(-[a-z0-9-]+)?)\.pages\.dev$/;
 const LOCALHOST_ORIGIN = /^http:\/\/(localhost|127\.0\.0\.1)(:\d{1,5})?$/;
 
 /** Normalises to a bare origin (lowercased host, no path or trailing slash); "" when unparseable. */

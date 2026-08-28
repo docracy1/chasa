@@ -6,10 +6,13 @@ export const SITE_URL = "https://docstoc.io";
 export const SITE_BRAND = "docstoc";
 
 export const SOCIAL = {
-  linkedin: "https://www.linkedin.com/company/chasa-io",
-  x: "https://x.com/chasaHQ",
-  facebook: "https://www.facebook.com/profile.php?id=61593311134413",
+  linkedin: "https://www.linkedin.com/company/docstochq",
+  x: "https://x.com/DocstocHQ",
+  facebook: "https://www.facebook.com/profile.php?id=61593805566159",
 };
+
+/** Twitter/X handle for meta tags (without @). */
+export const TWITTER_SITE = "@DocstocHQ";
 
 /** Stable IndexNow key (file must exist at /{key}.txt containing this value).
  *  Root cause found 2026-08-16: Bing Webmaster Tools tracks its own IndexNow key registration,

@@ -6,6 +6,7 @@ export function renderSeoHead({ link = (p) => p } = {}) {
     `<link rel="alternate" type="application/rss+xml" title="docstoc Blog" href="${link("/blog/feed.xml")}">`,
     `<link rel="me" href="${SOCIAL.linkedin}">`,
     `<link rel="me" href="${SOCIAL.x}">`,
+    `<link rel="me" href="${SOCIAL.facebook}">`,
   ];
   if (GOOGLE_SITE_VERIFICATION) {
     lines.push(`<meta name="google-site-verification" content="${GOOGLE_SITE_VERIFICATION}">`);

@@ -1,6 +1,6 @@
 /** Shared HTML chrome for generated marketing pages. */
 
-import { ORG_JSON_LD, SITE_BRAND, SITE_URL, SOCIAL } from "../data/seo-config.mjs";
+import { ORG_JSON_LD, SITE_BRAND, SITE_URL, SOCIAL, TWITTER_SITE } from "../data/seo-config.mjs";
 import { renderSeoHead } from "./seo-head.mjs";
 import { EN_TO_ES, ES_TO_EN } from "../data/es-alternates.mjs";
 
@@ -287,7 +287,7 @@ ${hreflangHead}
 <meta property="og:url" content="${canonicalUrl}">
 <meta property="og:image" content="${SITE_URL}/brand/og/docstoc-og-1200x630.png">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:site" content="@chasaHQ">
+<meta name="twitter:site" content="${TWITTER_SITE}">
 <meta name="twitter:title" content="${escapeHtml(title)}">
 <meta name="twitter:description" content="${escapeHtml(description)}">
 <meta name="twitter:image" content="${SITE_URL}/brand/og/docstoc-og-1200x630.png">
