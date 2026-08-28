@@ -303,6 +303,9 @@ ssl.get("/domains/:id/download", async (c) => {
     const jwk = JSON.parse(jwkJson) as JsonWebKey;
     const key = await crypto.subtle.importKey("jwk", jwk, { name: "ECDSA", namedCurve: "P-256" }, true, ["sign"]);
     const pkcs8 = await crypto.subtle.exportKey("pkcs8", key);
+    if (!(pkcs8 instanceof ArrayBuffer)) {
+      return c.json({ error: "Unexpected private key format" }, 500);
+    }
     const privateKeyPem = arrayBufferToPem(pkcs8, "PRIVATE KEY");
     return c.json({
       domain: row.domain,
