@@ -8,13 +8,13 @@
 // inside the Pages Function.
 export const onRequest: PagesFunction<{ WORKER_URL: string }> = async (context) => {
   const url = new URL(context.request.url);
-  const workerBase = context.env.WORKER_URL || "https://api.chasa.io";
+  const workerBase = context.env.WORKER_URL || "https://api.docstoc.io";
   const target = `${workerBase}${url.pathname}${url.search}`;
 
   // Tell the worker which host the browser is on so emailed links and redirects come back here,
   // rather than to whatever PUBLIC_APP_URL happens to be. set() overwrites any client-sent value.
   const headers = new Headers(context.request.headers);
-  headers.set("X-Chasa-App-Origin", url.origin);
+  headers.set("X-Docstoc-App-Origin", url.origin);
 
   const upstream = await fetch(
     new Request(target, {

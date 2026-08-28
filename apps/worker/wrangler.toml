@@ -11,7 +11,11 @@ preview_urls = true
 # Single hourly cron (account trigger limit). SPA smoke every hour; session purge + chase digests at 08:00 UTC.
 crons = ["0 * * * *"]
 
-# Custom API host (Cloudflare zone must be Active for this to resolve publicly).
+# Custom API hosts (Cloudflare zone must be Active for each to resolve publicly).
+[[routes]]
+pattern = "api.docstoc.io"
+custom_domain = true
+
 [[routes]]
 pattern = "api.chasa.io"
 custom_domain = true
@@ -31,10 +35,10 @@ binding = "AI"
 # This is the deployed (production) value. Local `wrangler dev` overrides it via
 # apps/worker/.dev.vars, which takes precedence over [vars] when running locally.
 [vars]
-PUBLIC_APP_URL = "https://chasa.io"
-PUBLIC_WORKER_URL = "https://api.chasa.io"
+PUBLIC_APP_URL = "https://docstoc.io"
+PUBLIC_WORKER_URL = "https://api.docstoc.io"
 WORKERS_AI_MODEL = "@cf/meta/llama-3.1-8b-instruct-fp8"
-FEEDBACK_EMAIL = "founder@chasa.io"
+FEEDBACK_EMAIL = "founder@docstoc.io"
 ADMIN_EMAIL = "rl@relacon.at"
 STRIPE_PRICE_SOLO = "price_1TxMxKQu2Ibd9xnHtDozkRT5"
 STRIPE_PRICE_PRO = "price_1TxMyFQu2Ibd9xnHPDe4L9q4"
@@ -60,11 +64,11 @@ GOOGLE_INTEGRATIONS_CLIENT_ID = "111635541806-ie2hbeub99831tl1q610mt6kmjl7r00v.a
 # Set with: wrangler secret put STRIPE_WEBHOOK_SECRET
 # Cloud storage OAuth (optional — Connect buttons return 503 until set):
 #   Redirect URIs (register in each provider console):
-#     https://api.chasa.io/api/account/connectors/dropbox/callback
-#     https://api.chasa.io/api/account/connectors/onedrive/callback
-#     https://api.chasa.io/api/account/connectors/box/callback
-#     https://api.chasa.io/api/account/connectors/google/callback
-#   Login redirect: https://api.chasa.io/api/auth/google/callback
+#     https://api.docstoc.io/api/account/connectors/dropbox/callback
+#     https://api.docstoc.io/api/account/connectors/onedrive/callback
+#     https://api.docstoc.io/api/account/connectors/box/callback
+#     https://api.docstoc.io/api/account/connectors/google/callback
+#   Login redirect: https://api.docstoc.io/api/auth/google/callback
 # Set with: wrangler secret put GOOGLE_LOGIN_CLIENT_SECRET
 # Set with: wrangler secret put GOOGLE_INTEGRATIONS_CLIENT_SECRET
 # Set with: wrangler secret put DROPBOX_CLIENT_ID
@@ -74,8 +78,8 @@ GOOGLE_INTEGRATIONS_CLIENT_ID = "111635541806-ie2hbeub99831tl1q610mt6kmjl7r00v.a
 # Set with: wrangler secret put BOX_CLIENT_ID
 # Set with: wrangler secret put BOX_CLIENT_SECRET
 # Native accounting OAuth (optional):
-#   https://api.chasa.io/api/account/connectors/quickbooks/callback
-#   https://api.chasa.io/api/account/connectors/xero/callback
+#   https://api.docstoc.io/api/account/connectors/quickbooks/callback
+#   https://api.docstoc.io/api/account/connectors/xero/callback
 # Set with: wrangler secret put QBO_CLIENT_ID
 # Set with: wrangler secret put QBO_CLIENT_SECRET
 # Set with: wrangler secret put XERO_CLIENT_ID
@@ -89,7 +93,7 @@ GOOGLE_INTEGRATIONS_CLIENT_ID = "111635541806-ie2hbeub99831tl1q610mt6kmjl7r00v.a
 # data straight from Cloudflare instead of only self-tracked JS-beacon data, which structurally
 # misses most non-JS-executing bots and crawlers). Create at dash.cloudflare.com -> My Profile ->
 # API Tokens -> Create Token -> custom token with ONLY "Zone > Analytics > Read", Zone Resources
-# scoped to chasa.io. Do not reuse a broader personal/OAuth token here.
+# scoped to docstoc.io. Do not reuse a broader personal/OAuth token here.
 # Set with: wrangler secret put CF_ANALYTICS_TOKEN
 # Price IDs are non-secret — set above as STRIPE_PRICE_SOLO / PRO / ENTERPRISE.
 
@@ -112,7 +116,7 @@ binding = "AI"
 PUBLIC_APP_URL = "http://localhost:5173"
 PUBLIC_WORKER_URL = "https://chasa-worker-staging.workers.dev"
 WORKERS_AI_MODEL = "@cf/meta/llama-3.1-8b-instruct-fp8"
-FEEDBACK_EMAIL = "founder@chasa.io"
+FEEDBACK_EMAIL = "founder@docstoc.io"
 STRIPE_PRICE_SOLO = "price_1TxMxKQu2Ibd9xnHtDozkRT5"
 STRIPE_PRICE_PRO = "price_1TxMyFQu2Ibd9xnHPDe4L9q4"
 STRIPE_PRICE_ENTERPRISE = "price_1TxMzNQu2Ibd9xnHUnRjRDQv"

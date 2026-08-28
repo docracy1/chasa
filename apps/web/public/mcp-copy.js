@@ -1,7 +1,7 @@
 document.querySelectorAll("[data-copy-mcp]").forEach(function (btn) {
   btn.addEventListener("click", function () {
     var el = document.getElementById("mcp-url");
-    var text = el ? el.textContent.trim() : "https://api.chasa.io/mcp";
+    var text = el ? el.textContent.trim() : "https://api.docstoc.io/mcp";
     navigator.clipboard.writeText(text).then(function () {
       btn.textContent = "Copied";
       setTimeout(function () {

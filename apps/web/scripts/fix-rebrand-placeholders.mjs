@@ -10,7 +10,7 @@ const SKIP = new Set(["node_modules", "dist", ".git", "fonts"]);
 const EXT = new Set([".html", ".js", ".mjs", ".ts", ".tsx", ".css", ".json", ".md", ".txt", ".xml", ".toml"]);
 
 const RESTORE = [
-  ["api.chasa.io", "api.chasa.io"],
+  ["api.docstoc.io", "api.docstoc.io"],
   ["chasa.io", "chasa.io"],
   ["chasa-71s", "chasa-71s"],
   ["CHASA_DB", "CHASA_DB"],

@@ -65,9 +65,9 @@ function mockEnv(overrides: Partial<Env> = {}): { env: Env; queries: Query[] } {
   return {
     env: {
       CHASA_DB: db,
-      PUBLIC_APP_URL: "https://chasa.io",
-      PUBLIC_WORKER_URL: "https://api.chasa.io",
-      FEEDBACK_EMAIL: "founder@chasa.io",
+      PUBLIC_APP_URL: "https://docstoc.io",
+      PUBLIC_WORKER_URL: "https://api.docstoc.io",
+      FEEDBACK_EMAIL: "founder@docstoc.io",
       TOKEN_SECRET: "x",
       ...overrides,
     } as unknown as Env,
@@ -120,13 +120,13 @@ describe("runSpaSmokeAndAlert", () => {
     expect(email.sendSpaSmokeAlert).not.toHaveBeenCalled();
   });
 
-  it("emails founder@chasa.io once the same failure is confirmed on a second run, then dedupes", async () => {
+  it("emails founder@docstoc.io once the same failure is confirmed on a second run, then dedupes", async () => {
     mockBroken();
     const { env } = mockEnv();
     await runSpaSmokeAndAlert(env, fakeApp() as never);
     await runSpaSmokeAndAlert(env, fakeApp() as never);
     await runSpaSmokeAndAlert(env, fakeApp() as never);
     expect(email.sendSpaSmokeAlert).toHaveBeenCalledTimes(1);
-    expect(vi.mocked(email.sendSpaSmokeAlert).mock.calls[0][1]).toBe("founder@chasa.io");
+    expect(vi.mocked(email.sendSpaSmokeAlert).mock.calls[0][1]).toBe("founder@docstoc.io");
   });
 });

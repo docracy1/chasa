@@ -53,7 +53,7 @@ trust.get("/badge/:accountIdJs", async (c) => {
       "Content-Type": "application/javascript; charset=utf-8",
     });
   }
-  const appOrigin = (c.env.PUBLIC_APP_URL || "https://chasa.io").replace(/\/$/, "");
+  const appOrigin = (c.env.PUBLIC_APP_URL || "https://docstoc.io").replace(/\/$/, "");
   const profileUrl = `${appOrigin}/trust/${accountId}`;
   const label =
     profile.otsStatus === "confirmed"

@@ -226,7 +226,7 @@ export function chrome({ title, description, canonical, activeNav = "", mainHtml
     if (!canonical.startsWith("http")) return `${SITE_URL}${canonical}`;
     try {
       const u = new URL(canonical);
-      if (u.hostname === "api.chasa.io") return canonical;
+      if (u.hostname === "api.docstoc.io") return canonical;
       return `${SITE_URL}${u.pathname}${u.search}${u.hash}` || SITE_URL;
     } catch {
       return `${SITE_URL}${canonical}`;

@@ -149,7 +149,7 @@ async function sendDigestEmail(
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      from: "docstoc <login@chasa.io>",
+      from: "docstoc <login@docstoc.io>",
       to: [email],
       subject: copy.subject(reminders.length),
       html,

@@ -12,4 +12,4 @@ Disallow: /app/webhooks
 # https://docstoc.io/ai.txt
 
 Sitemap: https://docstoc.io/sitemap.xml
-Sitemap: https://api.chasa.io/api/blog/sitemap.xml
+Sitemap: https://api.docstoc.io/api/blog/sitemap.xml

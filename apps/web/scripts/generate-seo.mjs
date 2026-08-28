@@ -126,7 +126,7 @@ Disallow: /app/webhooks
 # https://docstoc.io/ai.txt
 
 Sitemap: ${SITE_URL}/sitemap.xml
-Sitemap: https://api.chasa.io/api/blog/sitemap.xml
+Sitemap: https://api.docstoc.io/api/blog/sitemap.xml
 `;
   writeFileSync(join(publicDir, "robots.txt"), txt, "utf8");
   console.log("Wrote robots.txt");

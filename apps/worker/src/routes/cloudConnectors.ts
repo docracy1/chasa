@@ -29,11 +29,11 @@ import {
  * Cloud storage (Dropbox / OneDrive / Box) + native accounting (QuickBooks / Xero).
  *
  * Redirect URIs:
- *   https://api.chasa.io/api/account/connectors/dropbox/callback
- *   https://api.chasa.io/api/account/connectors/onedrive/callback
- *   https://api.chasa.io/api/account/connectors/box/callback
- *   https://api.chasa.io/api/account/connectors/quickbooks/callback
- *   https://api.chasa.io/api/account/connectors/xero/callback
+ *   https://api.docstoc.io/api/account/connectors/dropbox/callback
+ *   https://api.docstoc.io/api/account/connectors/onedrive/callback
+ *   https://api.docstoc.io/api/account/connectors/box/callback
+ *   https://api.docstoc.io/api/account/connectors/quickbooks/callback
+ *   https://api.docstoc.io/api/account/connectors/xero/callback
  *
  * Secrets: DROPBOX_*, ONEDRIVE_*, BOX_*, QBO_CLIENT_ID/SECRET, XERO_CLIENT_ID/SECRET
  */

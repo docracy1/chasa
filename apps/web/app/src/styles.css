@@ -2356,6 +2356,51 @@ textarea {
   min-width: 0;
 }
 
+.admin-analytics-page .dash-body {
+  min-height: auto;
+}
+.admin-analytics-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px 24px 48px;
+}
+.admin-analytics-header {
+  margin-bottom: 20px;
+}
+.admin-analytics-header h1 {
+  font-size: 26px;
+  margin: 8px 0 0;
+}
+.admin-analytics-back {
+  font-size: 13px;
+  color: var(--ink-soft);
+  text-decoration: none;
+}
+.admin-analytics-back:hover {
+  color: var(--ink);
+}
+@media (max-width: 860px) {
+  .admin-analytics-shell .dash-sidebar.admin-analytics-nav {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    gap: 4px;
+    padding-bottom: 10px;
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .admin-analytics-shell .dash-side-nav {
+    flex-direction: row;
+    flex-wrap: nowrap;
+  }
+  .admin-analytics-shell .dash-side-nav button {
+    flex: 0 0 auto;
+    white-space: nowrap;
+  }
+}
+
 @media (max-width: 860px) {
   .dash-body { grid-template-columns: 1fr; }
   .dash-sidebar {

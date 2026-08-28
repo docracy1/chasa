@@ -7,19 +7,16 @@ import {
   adminBroadcast,
   adminFunnels,
   adminGrantBusiness,
-  adminLogin,
-  adminLogout,
   adminMarketplaceApprove,
   adminMarketplacePending,
   adminMarketplaceReject,
   adminMe,
   adminOutreach,
+  adminSetNoTrack,
   adminSignups,
   adminTraffic,
   adminTrafficCloudflare,
   adminTrafficSources,
-  isExcludeSelf,
-  setExcludeSelf,
   type BlogPost,
   type BroadcastResult,
   type CfTrafficStats,
@@ -31,10 +28,8 @@ import {
   type TrafficSourcesStats,
   type TrafficStats,
 } from "../lib/adminApi";
-import TurnstileWidget, { resetTurnstile } from "../components/TurnstileWidget";
-import LanguageSwitcher from "../components/LanguageSwitcher";
 import { useT } from "../lib/i18n";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 type NavId =
   | "dashboard"
@@ -48,7 +43,6 @@ type NavId =
   | "blog"
   | "signups"
   | "analytics"
-  | "broadcast"
   | "marketplace";
 
 function FunnelTable({
@@ -303,108 +297,6 @@ function TrafficSourcesTable({
   );
 }
 
-function initials(email: string): string {
-  const local = email.split("@")[0] || "A";
-  return local.slice(0, 2).toUpperCase();
-}
-
-function DashAccountMenu({
-  email,
-  onAdmin,
-  onLogout,
-  t,
-}: {
-  email: string;
-  onAdmin: () => void;
-  onLogout: () => void;
-  t: (key: string) => string;
-}) {
-  const [open, setOpen] = useState(false);
-  const rootRef = useRef<HTMLDivElement>(null);
-  const leaveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  function clearLeaveTimer() {
-    if (leaveTimer.current != null) {
-      clearTimeout(leaveTimer.current);
-      leaveTimer.current = null;
-    }
-  }
-
-  function openMenu() {
-    clearLeaveTimer();
-    setOpen(true);
-  }
-
-  function scheduleClose(delayMs = 160) {
-    clearLeaveTimer();
-    leaveTimer.current = setTimeout(() => setOpen(false), delayMs);
-  }
-
-  useEffect(() => {
-    function onPointerDown(e: PointerEvent) {
-      if (!rootRef.current?.contains(e.target as Node)) setOpen(false);
-    }
-    function onKeyDown(e: KeyboardEvent) {
-      if (e.key === "Escape") setOpen(false);
-    }
-    document.addEventListener("pointerdown", onPointerDown);
-    document.addEventListener("keydown", onKeyDown);
-    return () => {
-      document.removeEventListener("pointerdown", onPointerDown);
-      document.removeEventListener("keydown", onKeyDown);
-      clearLeaveTimer();
-    };
-  }, []);
-
-  return (
-    <div
-      ref={rootRef}
-      className={`dash-account-menu${open ? " is-open" : ""}`}
-      onMouseEnter={openMenu}
-      onMouseLeave={() => scheduleClose()}
-      onFocusCapture={openMenu}
-      onBlurCapture={(e) => {
-        if (!e.currentTarget.contains(e.relatedTarget as Node)) scheduleClose(0);
-      }}
-    >
-      <div className="dash-account-popover" role="menu" hidden={!open}>
-        <a href="/app/account" role="menuitem">
-          {t("account.subscription")}
-        </a>
-        <button type="button" role="menuitem" className="is-active-soft" onClick={onAdmin}>
-          {t("admin.title")}
-        </button>
-        <a href="mailto:founder@docstoc.io" role="menuitem">
-          {t("nav.support")}
-        </a>
-        <button type="button" role="menuitem" className="dash-logout" onClick={onLogout}>
-          {t("nav.logoutArrow")}
-        </button>
-      </div>
-      <button
-        type="button"
-        className="dash-user-chip"
-        aria-haspopup="menu"
-        aria-expanded={open}
-        onClick={() => {
-          clearLeaveTimer();
-          const fineHover = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
-          if (fineHover) {
-            setOpen(true);
-            return;
-          }
-          setOpen((v) => !v);
-        }}
-      >
-        <span className="dash-avatar" aria-hidden="true">
-          {initials(email)}
-        </span>
-        <span>{email}</span>
-      </button>
-    </div>
-  );
-}
-
 function fmtDate(iso: string): string {
   try {
     return new Date(iso).toLocaleDateString("en-US");
@@ -428,9 +320,6 @@ function lastNDays(n: number): string[] {
 
 export default function Admin() {
   const t = useT();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
   const [authedEmail, setAuthedEmail] = useState<string | null>(null);
   const [stats, setStats] = useState<FunnelStats | null>(null);
   const [traffic, setTraffic] = useState<TrafficStats | null>(null);
@@ -455,7 +344,6 @@ export default function Admin() {
   // On by default: crawler hits belong in the page_views bot tiles, not in a funnel where the
   // click half can only ever come from a real browser.
   const [humansOnly, setHumansOnly] = useState(true);
-  const [excludeSelf, setExcludeSelfState] = useState(isExcludeSelf());
   const [showAllFree, setShowAllFree] = useState(false);
   const [entEmail, setEntEmail] = useState("");
   const [blogForm, setBlogForm] = useState({
@@ -487,6 +375,10 @@ export default function Admin() {
     setSignups(s);
     setPosts(b.posts);
   }
+
+  useEffect(() => {
+    adminSetNoTrack().catch(() => {});
+  }, []);
 
   useEffect(() => {
     adminMe()
@@ -537,46 +429,10 @@ export default function Admin() {
     }
   }
 
-  async function handleLogin(e: React.FormEvent) {
-    e.preventDefault();
-    setBusy(true);
-    setError(null);
-    try {
-      const res = await adminLogin(email, password, turnstileToken);
-      setAuthedEmail(res.email);
-      await loadAll(days);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : t("admin.loginFailed"));
-      setTurnstileToken(null);
-      resetTurnstile();
-    } finally {
-      setBusy(false);
-    }
-  }
-
-  async function handleLogout() {
-    await adminLogout();
-    // Account-session admins stay authorized via chasa_session — leave Admin for the app
-    // instead of bouncing back into the password form.
-    try {
-      const me = await adminMe();
-      if (me.email) {
-        window.location.href = "/app/";
-        return;
-      }
-    } catch {
-      /* password-only admin session cleared */
-    }
-    setAuthedEmail(null);
-    setStats(null);
-    setTraffic(null);
-    setCfTraffic(null);
-    setTrafficSources(null);
-    setOutreach(null);
-    setSignups(null);
-    setPosts([]);
-    setTrafficDay(null);
-  }
+  useEffect(() => {
+    if (loading || authedEmail) return;
+    window.location.href = "/app/login";
+  }, [loading, authedEmail]);
 
   async function changeDays(d: number) {
     setDays(d);
@@ -719,152 +575,71 @@ export default function Admin() {
     }
   }
 
-  if (loading) {
+  if (loading || !authedEmail) {
     return (
-      <div className="dash-shell">
+      <div className="dash-shell admin-analytics-page">
         <div className="dash-loading">{t("common.loading")}</div>
       </div>
     );
   }
 
-  if (!authedEmail) {
-    return (
-      <div className="dash-shell">
-        <header className="dash-topnav">
-          <a href="/" className="dash-brand" aria-label={t("admin.docstocHome")}>
-            <img src="/brand/docstoc-icon.png" alt="" width="22" height="22" />
-            <span>docstoc</span>
-          </a>
-          <LanguageSwitcher className="lang-switcher-on-dark" />
-        </header>
-        <div className="dash-login-wrap">
-          <div className="dash-login-card">
-            <h1>{t("admin.title")}</h1>
-            <p>{t("admin.signInSub")}</p>
-            <form onSubmit={handleLogin}>
-              <label>
-                {t("team.email")}
-                <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-              </label>
-              <label>
-                {t("login.passwordPlaceholder")}
-                <input
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                />
-              </label>
-              <TurnstileWidget onToken={setTurnstileToken} />
-              <button type="submit" className="btn-primary" disabled={busy}>
-                {busy ? t("login.signingIn") : t("login.signIn")}
-              </button>
-            </form>
-            {error && <div className="error-msg">{error}</div>}
-          </div>
-        </div>
-      </div>
-    );
-  }
-
   const freeShown = showAllFree ? signups?.free ?? [] : (signups?.free ?? []).slice(0, 5);
+  const analyticsNav = (
+    [
+      ["analytics", "admin.nav.analytics"],
+      ["growth", "admin.nav.growth"],
+      ["blog", "admin.nav.blog"],
+      ["marketplace", "admin.nav.marketplace"],
+      ["signups", "admin.nav.signups"],
+      ["activation", "admin.nav.activation"],
+      ["completion", "admin.nav.completion"],
+      ["template", "admin.nav.template"],
+      ["traffic", "admin.nav.traffic"],
+      ["email", "admin.nav.email"],
+      ["errors", "admin.nav.errors"],
+    ] as const
+  );
+  const showAnalyticsFilters =
+    nav === "analytics" ||
+    nav === "growth" ||
+    nav === "activation" ||
+    nav === "completion" ||
+    nav === "template" ||
+    nav === "traffic" ||
+    nav === "email" ||
+    nav === "errors";
 
   return (
-    <div className="dash-shell">
-      <header className="dash-topnav">
-        <a href="/" className="dash-brand" aria-label={t("admin.docstocHome")}>
-          <img src="/brand/docstoc-icon.png" alt="" width="22" height="22" />
-          <span>docstoc</span>
-        </a>
-        <nav className="dash-topnav-links">
-          <a href="/#pricing">{t("admin.pricing")}</a>
-          <a href="/free-templates/">{t("admin.freeTemplates")}</a>
-          <a href="/blog/">{t("admin.blog")}</a>
-          <a href="/app/">{t("admin.app")}</a>
-          <button type="button" className="dash-topnav-strong" onClick={() => setNav("analytics")}>
-            {t("admin.title")}
-          </button>
-          <button type="button" onClick={handleLogout}>
-            {t("nav.logout")}
-          </button>
-          <LanguageSwitcher className="lang-switcher-on-dark" />
-        </nav>
-      </header>
-
-      <div className="dash-body">
-        <aside className="dash-sidebar">
-          <a href="/app/new" className="dash-new-btn">
-            {t("admin.newChase")}
+    <div className="dash-shell admin-analytics-page">
+      <div className="admin-analytics-container">
+        <div className="admin-analytics-header">
+          <a href="/app/" className="admin-analytics-back">
+            {t("admin.backToApp")}
           </a>
-          <nav className="dash-side-nav">
-            {(
-              [
-                ["analytics", "admin.nav.analytics"],
-                ["growth", "admin.nav.growth"],
-                ["blog", "admin.nav.blog"],
-                ["broadcast", "admin.nav.broadcast"],
-                ["marketplace", "admin.nav.marketplace"],
-                ["signups", "admin.nav.signups"],
-                ["activation", "admin.nav.activation"],
-                ["completion", "admin.nav.completion"],
-                ["template", "admin.nav.template"],
-                ["traffic", "admin.nav.traffic"],
-                ["email", "admin.nav.email"],
-                ["errors", "admin.nav.errors"],
-              ] as const
-            ).map(([id, labelKey]) => (
-              <button
-                key={id}
-                type="button"
-                className={nav === id ? "is-active" : ""}
-                onClick={() => setNav(id)}
-              >
-                {t(labelKey)}
-              </button>
-            ))}
-          </nav>
-          <div className="dash-side-footer">
-            <DashAccountMenu
-              email={authedEmail}
-              onAdmin={() => setNav("analytics")}
-              onLogout={handleLogout}
-              t={t}
-            />
-          </div>
-        </aside>
+          <h1>{t("admin.nav.analytics")}</h1>
+          <p className="dash-sub">{t("admin.analyticsSub")}</p>
+        </div>
 
-        <main className="dash-main">
-          <h1>
-            {nav === "blog"
-              ? t("admin.nav.blog")
-              : nav === "broadcast"
-                ? t("admin.nav.broadcast")
-                : nav === "marketplace"
-                  ? t("admin.nav.marketplace")
-                : nav === "signups"
-                ? t("admin.nav.signups")
-                : nav === "analytics"
-                  ? t("admin.nav.analytics")
-                  : nav === "growth"
-                    ? t("admin.nav.growth")
-                    : t("admin.welcomeBack")}
-          </h1>
-          <p className="dash-sub">
-            {t("admin.analyticsSub")}
-            {nav === "analytics" || nav === "activation" || nav === "growth" || nav === "completion"
-              ? t("admin.signedInAs", { email: authedEmail })
-              : null}
-          </p>
+        <div className="dash-body admin-analytics-shell">
+          <aside className="dash-sidebar admin-analytics-nav" aria-label={t("admin.sectionsAria")}>
+            <nav className="dash-side-nav">
+              {analyticsNav.map(([id, labelKey]) => (
+                <button
+                  key={id}
+                  type="button"
+                  className={nav === id ? "is-active" : ""}
+                  onClick={() => setNav(id)}
+                >
+                  {t(labelKey)}
+                </button>
+              ))}
+            </nav>
+          </aside>
+
+          <main className="dash-main">
           {error && <div className="error-msg">{error}</div>}
 
-          {(nav === "analytics" ||
-            nav === "growth" ||
-            nav === "activation" ||
-            nav === "completion" ||
-            nav === "template" ||
-            nav === "traffic" ||
-            nav === "email" ||
-            nav === "errors") && (
+          {showAnalyticsFilters && (
             <>
               <div className="dash-range">
                 {[7, 30, 90].map((d) => (
@@ -889,18 +664,6 @@ export default function Admin() {
               <p className="dash-note dash-note-filter">
                 {humansOnly ? t("admin.humansOnlyNote") : t("admin.allTrafficNote")}
               </p>
-              <label className="dash-exclude">
-                <input
-                  type="checkbox"
-                  checked={excludeSelf}
-                  onChange={(e) => {
-                    const on = e.target.checked;
-                    setExcludeSelf(on);
-                    setExcludeSelfState(on);
-                  }}
-                />
-                {t("admin.excludeSelf")}
-              </label>
               {nav === "analytics" && traffic && (
                 <label className="admin-day-filter admin-day-filter-top">
                   <span className="sr-only">{t("admin.filterByDay")}</span>
@@ -1387,50 +1150,6 @@ export default function Admin() {
             </section>
           )}
 
-          {nav === "broadcast" && (
-            <section className="dash-card">
-              <h2 className="dash-card-title">{t("admin.broadcastTitle")}</h2>
-              <p className="dash-muted">{t("admin.broadcastMuted")}</p>
-              <form
-                className="dash-blog-form"
-                onSubmit={previewBroadcast}
-              >
-                <input
-                  placeholder={t("admin.broadcastSubject")}
-                  value={broadcastForm.subject}
-                  onChange={(e) => setBroadcastForm({ ...broadcastForm, subject: e.target.value })}
-                  required
-                />
-                <textarea
-                  rows={10}
-                  placeholder={t("admin.broadcastBody")}
-                  value={broadcastForm.bodyHtml}
-                  onChange={(e) => setBroadcastForm({ ...broadcastForm, bodyHtml: e.target.value })}
-                  required
-                />
-                <button type="submit" className="btn-secondary" disabled={broadcastBusy}>
-                  {broadcastBusy ? t("common.loading") : t("admin.broadcastPreview")}
-                </button>
-              </form>
-              {broadcastResult && (
-                <div className="dash-note" style={{ marginTop: 16 }}>
-                  {broadcastResult.sent != null ? (
-                    <p>{t("admin.broadcastSent", { sent: broadcastResult.sent, failed: broadcastResult.failed ?? 0 })}</p>
-                  ) : (
-                    <>
-                      <p>{t("admin.broadcastRecipients", { count: broadcastResult.recipientCount })}</p>
-                      {broadcastResult.recipientCount > 0 && (
-                        <button type="button" className="btn-primary" onClick={sendBroadcast} disabled={broadcastBusy}>
-                          {broadcastBusy ? t("common.loading") : t("admin.broadcastSend")}
-                        </button>
-                      )}
-                    </>
-                  )}
-                </div>
-              )}
-            </section>
-          )}
-
           {nav === "marketplace" && (
             <section className="dash-card">
               <h2 className="dash-card-title">{t("admin.marketplaceTitle")}</h2>
@@ -1613,6 +1332,54 @@ export default function Admin() {
                   </ul>
                 )}
               </section>
+              <section className="dash-card">
+                <h2 className="dash-card-title">{t("admin.broadcastTitle")}</h2>
+                <p className="dash-muted">{t("admin.broadcastMuted")}</p>
+                <form className="dash-blog-form" onSubmit={previewBroadcast}>
+                  <input
+                    placeholder={t("admin.broadcastSubject")}
+                    value={broadcastForm.subject}
+                    onChange={(e) => setBroadcastForm({ ...broadcastForm, subject: e.target.value })}
+                    required
+                  />
+                  <textarea
+                    rows={10}
+                    placeholder={t("admin.broadcastBody")}
+                    value={broadcastForm.bodyHtml}
+                    onChange={(e) => setBroadcastForm({ ...broadcastForm, bodyHtml: e.target.value })}
+                    required
+                  />
+                  <button type="submit" className="btn-secondary" disabled={broadcastBusy}>
+                    {broadcastBusy ? t("common.loading") : t("admin.broadcastPreview")}
+                  </button>
+                </form>
+                {broadcastResult && (
+                  <div className="dash-note" style={{ marginTop: 16 }}>
+                    {broadcastResult.sent != null ? (
+                      <p>
+                        {t("admin.broadcastSent", {
+                          sent: broadcastResult.sent,
+                          failed: broadcastResult.failed ?? 0,
+                        })}
+                      </p>
+                    ) : (
+                      <>
+                        <p>{t("admin.broadcastRecipients", { count: broadcastResult.recipientCount })}</p>
+                        {broadcastResult.recipientCount > 0 && (
+                          <button
+                            type="button"
+                            className="btn-primary"
+                            onClick={sendBroadcast}
+                            disabled={broadcastBusy}
+                          >
+                            {broadcastBusy ? t("common.loading") : t("admin.broadcastSend")}
+                          </button>
+                        )}
+                      </>
+                    )}
+                  </div>
+                )}
+              </section>
             </>
           )}
 
@@ -1664,6 +1431,7 @@ export default function Admin() {
             <FunnelTable title={t("admin.errorEvents")} steps={stats.errors} t={t} />
           )}
         </main>
+        </div>
       </div>
     </div>
   );

@@ -74,7 +74,7 @@ export function signOff(locale: Locale = "en"): string {
 }
 
 function appUrl(env: Env): string {
-  return (env.PUBLIC_APP_URL || "https://chasa.io").replace(/\/$/, "");
+  return (env.PUBLIC_APP_URL || "https://docstoc.io").replace(/\/$/, "");
 }
 
 const MAGIC_LINK_COPY: Record<Locale, { subject: string; headline: string; body: string; cta: string; note: string }> = {
@@ -131,7 +131,7 @@ export async function sendMagicLinkEmail(
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      from: `docstoc <login@chasa.io>`,
+      from: `docstoc <login@docstoc.io>`,
       to: [email],
       subject: copy.subject,
       html: emailShell(appUrl(env), body, locale),
@@ -206,7 +206,7 @@ export async function sendTeamInviteEmail(
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      from: `docstoc <login@chasa.io>`,
+      from: `docstoc <login@docstoc.io>`,
       to: [to],
       subject: copy.subject(inviterEmail),
       html: emailShell(appUrl(env), body, locale),
@@ -258,7 +258,7 @@ export async function sendPaymentFailedEmail(env: Env, email: string, locale: Lo
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      from: `docstoc <login@chasa.io>`,
+      from: `docstoc <login@docstoc.io>`,
       to: [email],
       subject: copy.subject,
       html: emailShell(appUrl(env), body, locale),
@@ -296,7 +296,7 @@ export async function sendCertExpiryReminderEmail(env: Env, email: string, domai
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      from: `docstoc <login@chasa.io>`,
+      from: `docstoc <login@docstoc.io>`,
       to: [email],
       subject: `Renew your certificate for ${domain}`,
       html: emailShell(appUrl(env), body, "en"),
@@ -426,7 +426,7 @@ export async function sendTemplatesPackWelcomeEmail(
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      from: `docstoc <login@chasa.io>`,
+      from: `docstoc <login@docstoc.io>`,
       to: [email],
       subject: copy.subject,
       html: emailShell(base, body, locale),
@@ -485,7 +485,7 @@ export async function sendMarketingEmail(
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      from: `docstoc <login@chasa.io>`,
+      from: `docstoc <login@docstoc.io>`,
       to: [to],
       subject: opts.subject,
       html: emailShell(appUrl(env), body, locale),
@@ -498,7 +498,7 @@ export async function sendMarketingEmail(
   return { ok: true };
 }
 
-/** SPA hydrate failure (Sign in / Start free) — recipient is usually FEEDBACK_EMAIL / founder@chasa.io. */
+/** SPA hydrate failure (Sign in / Start free) — recipient is usually FEEDBACK_EMAIL / founder@docstoc.io. */
 export async function sendSpaSmokeAlert(
   env: Env,
   to: string,
@@ -532,7 +532,7 @@ export async function sendSpaSmokeAlert(
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      from: `docstoc <login@chasa.io>`,
+      from: `docstoc <login@docstoc.io>`,
       to: [to],
       subject: "docstoc: Sign in / Start free broken (SPA JS)",
       html: emailShell(appUrl(env), body),
@@ -543,13 +543,13 @@ export async function sendSpaSmokeAlert(
   }
 }
 
-/** Marketing assistant “Contact sales” form — forward to sales@chasa.io. */
+/** Marketing assistant “Contact sales” form — forward to sales@docstoc.io. */
 export async function sendContactInquiryEmail(
   env: Env,
   fromEmail: string,
   message: string
 ): Promise<void> {
-  const to = "sales@chasa.io";
+  const to = "sales@docstoc.io";
   const body = `
     ${emailHeadline("New sales inquiry")}
     <p style="margin:0 0 12px 0;font-size:15px;color:${INK};line-height:1.55;">
@@ -571,7 +571,7 @@ export async function sendContactInquiryEmail(
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      from: `docstoc <hello@chasa.io>`,
+      from: `docstoc <hello@docstoc.io>`,
       to: [to],
       reply_to: fromEmail,
       subject: `docstoc sales inquiry from ${fromEmail}`,

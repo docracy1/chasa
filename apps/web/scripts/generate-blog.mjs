@@ -13,7 +13,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const publicDir = join(__dirname, "../public");
 const fallbackPath = join(__dirname, "data/blog-posts.json");
 const bodiesDir = join(__dirname, "data/blog-bodies");
-const API_BASE = "https://api.chasa.io";
+const API_BASE = "https://api.docstoc.io";
 
 function extractMain(html) {
   const match = html.match(/<main[^>]*>([\s\S]*?)<\/main>/i);

@@ -266,4 +266,12 @@ export function adminBroadcast(input: { subject: string; bodyHtml: string; dryRu
   });
 }
 
+/** Refreshes the founder notrack cookie — admin visits stay out of analytics (Docracy parity). */
+export function adminSetNoTrack() {
+  return adminFetch<{ ok: true; enabled: boolean }>("/analytics/notrack", {
+    method: "POST",
+    body: JSON.stringify({ enabled: true }),
+  });
+}
+
 export { track, isExcludeSelf, setExcludeSelf };

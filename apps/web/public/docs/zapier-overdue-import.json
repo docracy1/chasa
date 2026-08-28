@@ -10,7 +10,7 @@
     {
       "app": "Webhooks by Zapier",
       "action": "POST",
-      "url": "https://api.chasa.io/api/v1/chase/draft",
+      "url": "https://api.docstoc.io/api/v1/chase/draft",
       "headers": {
         "Authorization": "Bearer YOUR_DOCSTOC_API_KEY",
         "Content-Type": "application/json"

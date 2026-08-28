@@ -11,11 +11,11 @@ function mockRequest(env: Env, headers: Record<string, string>) {
   return { env, req: { header: (name: string) => lookup.get(name.toLowerCase()) } };
 }
 
-const prod = mockEnv("https://chasa.io");
+const prod = mockEnv("https://docstoc.io");
 
 describe("configuredAppOrigin", () => {
   it("normalises away a trailing slash", () => {
-    expect(configuredAppOrigin(mockEnv("https://chasa.io/"))).toBe("https://chasa.io");
+    expect(configuredAppOrigin(mockEnv("https://docstoc.io/"))).toBe("https://docstoc.io");
   });
 
   it("returns empty string when unset or unparseable", () => {
@@ -26,7 +26,7 @@ describe("configuredAppOrigin", () => {
 
 describe("isAllowedAppOrigin", () => {
   it("allows the configured origin and Pages hosts", () => {
-    expect(isAllowedAppOrigin("https://chasa.io", prod)).toBe(true);
+    expect(isAllowedAppOrigin("https://docstoc.io", prod)).toBe(true);
     expect(isAllowedAppOrigin("https://chasa-71s.pages.dev", prod)).toBe(true);
     expect(isAllowedAppOrigin("https://abc123.chasa-71s.pages.dev", prod)).toBe(true);
     expect(isAllowedAppOrigin("http://localhost:5173", prod)).toBe(true);
@@ -43,6 +43,8 @@ describe("isAllowedAppOrigin", () => {
 
   it("trusts the brand domain in both cutover directions", () => {
     const preview = mockEnv("https://chasa-71s.pages.dev");
+    expect(isAllowedAppOrigin("https://docstoc.io", preview)).toBe(true);
+    expect(isAllowedAppOrigin("https://www.docstoc.io", preview)).toBe(true);
     expect(isAllowedAppOrigin("https://chasa.io", preview)).toBe(true);
     expect(isAllowedAppOrigin("https://www.chasa.io", preview)).toBe(true);
     expect(isAllowedAppOrigin("https://chasa-71s.pages.dev", prod)).toBe(true);
@@ -57,12 +59,12 @@ describe("requestAppOrigin", () => {
 
   it("falls back to a trusted Origin header, then to PUBLIC_APP_URL", () => {
     expect(requestAppOrigin(mockRequest(prod, { Origin: "http://localhost:5173" }))).toBe("http://localhost:5173");
-    expect(requestAppOrigin(mockRequest(prod, {}))).toBe("https://chasa.io");
+    expect(requestAppOrigin(mockRequest(prod, {}))).toBe("https://docstoc.io");
   });
 
   it("ignores a spoofed forwarded origin", () => {
     const c = mockRequest(prod, { [APP_ORIGIN_HEADER]: "https://evil.com" });
-    expect(requestAppOrigin(c)).toBe("https://chasa.io");
+    expect(requestAppOrigin(c)).toBe("https://docstoc.io");
   });
 
   it("strips any path from a forwarded origin", () => {

@@ -6,7 +6,7 @@
   },
   "transport": {
     "type": "streamable-http",
-    "url": "https://api.chasa.io/mcp"
+    "url": "https://api.docstoc.io/mcp"
   },
   "capabilities": {
     "tools": true,

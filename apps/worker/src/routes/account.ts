@@ -1,7 +1,9 @@
 import { Hono } from "hono";
+import { setCookie } from "hono/cookie";
 import type { Env } from "../types";
 import { requireAccount, requirePaidAccount, requireWorkspaceAdmin, type AuthEnv } from "../lib/auth";
 import { isAdminEmail } from "../lib/adminAuth";
+import { NOTRACK_COOKIE_NAME, noTrackCookieOptions } from "../lib/analytics";
 import cloudConnectors from "./cloudConnectors";
 import googleIntegrations from "./googleIntegrations";
 import { importLocalPdfBytes } from "../lib/pdfInvoiceHints";
@@ -59,6 +61,10 @@ account.get("/me", requireAccount, async (c) => {
       digest_enabled: number | null;
       marketing_opt_in: number | null;
     }>();
+
+  if (isAdminEmail(c.env, acc.email)) {
+    setCookie(c, NOTRACK_COOKIE_NAME, "1", noTrackCookieOptions(c.env));
+  }
 
   return c.json({
     email: acc.email,

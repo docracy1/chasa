@@ -40,7 +40,9 @@ export function sessionCookieOptions(env: Env) {
   if (https) {
     try {
       const host = new URL(env.PUBLIC_APP_URL).hostname;
-      if (host === "chasa.io" || host.endsWith(".chasa.io")) {
+      if (host === "docstoc.io" || host.endsWith(".docstoc.io")) {
+        domain = ".docstoc.io";
+      } else if (host === "chasa.io" || host.endsWith(".chasa.io")) {
         domain = ".chasa.io";
       }
     } catch {
@@ -128,9 +130,9 @@ export async function requestMagicLink(
     .bind(tokenHash, normalized, now.toISOString(), expiresAt.toISOString())
     .run();
 
-  // Go through the app origin (Pages /api proxy), not api.chasa.io directly — otherwise the
+  // Go through the app origin (Pages /api proxy), not api.docstoc.io directly — otherwise the
   // session cookie is set on the API host and never sent with same-origin /api calls from the app.
-  // Cookie options omit Domain= so the browser scopes the cookie to the app host (pages.dev or chasa.io).
+  // Cookie options omit Domain= so the browser scopes the cookie to the app host (pages.dev or docstoc.io).
   const verifyUrl = `${appOrigin}/api/auth/verify?token=${encodeURIComponent(token)}`;
   await sendMagicLinkEmail(env, normalized, verifyUrl, locale);
 

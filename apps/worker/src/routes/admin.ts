@@ -1,5 +1,5 @@
 import { Hono } from "hono";
-import { getCookie } from "hono/cookie";
+import { getCookie, setCookie } from "hono/cookie";
 import {
   ADMIN_COOKIE_NAME,
   clearAdminCookie,
@@ -11,7 +11,7 @@ import {
   type AdminEnv,
 } from "../lib/adminAuth";
 import { SESSION_COOKIE_NAME } from "../lib/auth";
-import { getFunnelStats, getOutreachStats, getTrafficSources, getTrafficStats } from "../lib/analytics";
+import { getFunnelStats, getOutreachStats, getTrafficSources, getTrafficStats, NOTRACK_COOKIE_NAME, noTrackCookieOptions } from "../lib/analytics";
 import { getCachedClaritySnapshot, refreshClaritySnapshot } from "../lib/clarityApi";
 import { getCloudflareTrafficStats } from "../lib/cloudflareAnalytics";
 import { listPending, reviewSubmission } from "../lib/marketplaceTemplates";
@@ -302,7 +302,7 @@ admin.post("/broadcast", requireAdmin, async (c) => {
     return c.json({ recipientCount: recipients.length });
   }
 
-  const workerBase = (c.env.PUBLIC_WORKER_URL || "https://api.chasa.io").replace(/\/$/, "");
+  const workerBase = (c.env.PUBLIC_WORKER_URL || "https://api.docstoc.io").replace(/\/$/, "");
   let sent = 0;
   let failed = 0;
 
@@ -326,6 +326,12 @@ admin.post("/broadcast", requireAdmin, async (c) => {
   }
 
   return c.json({ recipientCount: recipients.length, sent, failed });
+});
+
+/** Always-on for admins: founder QA traffic must never re-enter the charts (Docracy parity). */
+admin.post("/analytics/notrack", requireAdmin, async (c) => {
+  setCookie(c, NOTRACK_COOKIE_NAME, "1", noTrackCookieOptions(c.env));
+  return c.json({ ok: true, enabled: true });
 });
 
 export default admin;

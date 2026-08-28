@@ -1,5 +1,5 @@
 import { Hono } from "hono";
-import { getCookie } from "hono/cookie";
+import { getCookie, setCookie } from "hono/cookie";
 import { getAdminEmail } from "../lib/adminAuth";
 import type { AuthEnv } from "../lib/auth";
 import {
@@ -13,7 +13,7 @@ import {
   handleGoogleLoginCallback,
   SESSION_COOKIE_NAME,
 } from "../lib/auth";
-import { trackEvent } from "../lib/analytics";
+import { trackEvent, NOTRACK_COOKIE_NAME, noTrackCookieOptions } from "../lib/analytics";
 import { clientIp, turnstileSiteKey, verifyTurnstile } from "../lib/turnstile";
 import { adminLoginSchema, magicLinkRequestSchema, parseJsonBody } from "../lib/schemas";
 import { requestAppOrigin } from "../lib/appUrl";
@@ -70,6 +70,7 @@ auth.post("/admin-login", async (c) => {
   if (existing) await destroySession(c.env, existing);
 
   setSessionCookie(c, c.env, result.sessionToken);
+  setCookie(c, NOTRACK_COOKIE_NAME, "1", noTrackCookieOptions(c.env));
   if (result.isNew) {
     c.executionCtx.waitUntil(
       trackEvent(c.env, {

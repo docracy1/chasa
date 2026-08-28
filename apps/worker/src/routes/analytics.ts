@@ -1,8 +1,15 @@
-import { Hono } from "hono";
+import { Hono, type Context } from "hono";
 import { getCookie } from "hono/cookie";
 import type { AuthEnv } from "../lib/auth";
 import { SESSION_COOKIE_NAME, resolveAccount } from "../lib/auth";
-import { isAllowedEvent, recordPageView, trackEvent } from "../lib/analytics";
+import {
+  isAllowedEvent,
+  isExcludedAgent,
+  NOTRACK_COOKIE_NAME,
+  recordPageView,
+  trackEvent,
+} from "../lib/analytics";
+import { isAdminEmail } from "../lib/adminAuth";
 import { checkRateLimit, clientIpFromHeaders } from "../lib/rateLimit";
 import { clientIp } from "../lib/turnstile";
 import {
@@ -12,6 +19,15 @@ import {
 } from "../lib/schemas";
 
 const analytics = new Hono<AuthEnv>();
+
+async function shouldSkipAnalytics(c: Context<AuthEnv>): Promise<boolean> {
+  if (getCookie(c, NOTRACK_COOKIE_NAME) === "1") return true;
+  if (isExcludedAgent(c.req.header("User-Agent"))) return true;
+  const sessionToken = getCookie(c, SESSION_COOKIE_NAME);
+  if (!sessionToken) return false;
+  const account = await resolveAccount(c.env, sessionToken);
+  return !!account && isAdminEmail(c.env, account.email);
+}
 
 analytics.post("/track", async (c) => {
   const ip = clientIp(c) || clientIpFromHeaders({ get: (n) => c.req.header(n) ?? null });
@@ -25,6 +41,8 @@ analytics.post("/track", async (c) => {
   if (!isAllowedEvent(name)) {
     return c.json({ error: "Unknown event" }, 400);
   }
+
+  if (await shouldSkipAnalytics(c)) return c.json({ ok: true });
 
   let accountId: string | null = null;
   const sessionToken = getCookie(c, SESSION_COOKIE_NAME);
@@ -53,6 +71,8 @@ analytics.post("/pageview", async (c) => {
 
   const parsed = await parseJsonBody(c.req, analyticsPageviewSchema);
   if (!parsed.ok) return c.json({ error: parsed.error }, 400);
+
+  if (await shouldSkipAnalytics(c)) return c.json({ ok: true });
 
   const path = parsed.data.path?.trim() || "/";
   const country = c.req.header("CF-IPCountry") || null;

@@ -135,12 +135,12 @@ export const onRequest: PagesFunction<{ WORKER_URL: string }> = async (context) 
   const idParam = context.params.id;
   const id = Array.isArray(idParam) ? idParam[0] : idParam || "";
   const url = new URL(context.request.url);
-  const workerBase = context.env.WORKER_URL || "https://api.chasa.io";
+  const workerBase = context.env.WORKER_URL || "https://api.docstoc.io";
   const canonical = `${url.origin}/trust/${encodeURIComponent(id)}`;
   const logoUrl = `${url.origin}/brand/docstoc-icon.png`;
 
   const upstream = await fetch(`${workerBase}/api/trust/public/${encodeURIComponent(id)}`, {
-    headers: { "X-Chasa-App-Origin": url.origin },
+    headers: { "X-Docstoc-App-Origin": url.origin },
   }).catch(() => null);
 
   if (!upstream || upstream.status === 404) {

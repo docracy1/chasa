@@ -291,8 +291,8 @@ export function importAccountingInvoices(provider: AccountingProvider) {
 }
 
 export const ACCOUNTING_REDIRECT_URIS: Record<AccountingProvider, string> = {
-  quickbooks: "https://api.chasa.io/api/account/connectors/quickbooks/callback",
-  xero: "https://api.chasa.io/api/account/connectors/xero/callback",
+  quickbooks: "https://api.docstoc.io/api/account/connectors/quickbooks/callback",
+  xero: "https://api.docstoc.io/api/account/connectors/xero/callback",
 };
 
 export const ACCOUNTING_SECRET_NAMES: Record<AccountingProvider, [string, string]> = {
@@ -475,10 +475,10 @@ export function cloudConnectorConnectUrl(provider: CloudProvider) {
 
 /** Exact redirect URIs to register in each provider console. */
 export const CLOUD_REDIRECT_URIS: Record<CloudProvider, string> = {
-  dropbox: "https://api.chasa.io/api/account/connectors/dropbox/callback",
-  onedrive: "https://api.chasa.io/api/account/connectors/onedrive/callback",
-  box: "https://api.chasa.io/api/account/connectors/box/callback",
-  google: "https://api.chasa.io/api/account/connectors/google/callback",
+  dropbox: "https://api.docstoc.io/api/account/connectors/dropbox/callback",
+  onedrive: "https://api.docstoc.io/api/account/connectors/onedrive/callback",
+  box: "https://api.docstoc.io/api/account/connectors/box/callback",
+  google: "https://api.docstoc.io/api/account/connectors/google/callback",
 };
 
 export const CLOUD_SECRET_NAMES: Record<CloudProvider, [string, string]> = {

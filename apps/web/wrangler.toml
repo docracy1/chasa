@@ -3,4 +3,4 @@ pages_build_output_dir = "dist"
 compatibility_date = "2024-12-01"
 
 [vars]
-WORKER_URL = "https://api.chasa.io"
+WORKER_URL = "https://api.docstoc.io"

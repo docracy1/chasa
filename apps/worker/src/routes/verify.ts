@@ -191,7 +191,7 @@ verify.get("/badge/:publicIdJs", async (c) => {
     });
   }
   const branding = await resolveBranding(c.env, cert.accountId);
-  const appOrigin = (c.env.PUBLIC_APP_URL || "https://chasa.io").replace(/\/$/, "");
+  const appOrigin = (c.env.PUBLIC_APP_URL || "https://docstoc.io").replace(/\/$/, "");
   const verifyUrl = `${appOrigin}/verify/${cert.publicId}`;
   // Only claim "Timestamped" once the Bitcoin anchor is actually confirmed — a pending
   // OpenTimestamps submission doesn't back that claim yet.

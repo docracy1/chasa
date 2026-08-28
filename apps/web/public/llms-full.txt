@@ -89,7 +89,7 @@ Everything in Pro, plus:
 
 ## MCP (Model Context Protocol)
 
-Endpoint: `https://api.chasa.io/mcp`
+Endpoint: `https://api.docstoc.io/mcp`
 
 Transport: JSON-RPC over HTTP.
 

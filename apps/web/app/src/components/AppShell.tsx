@@ -753,7 +753,7 @@ export default function AppShell({
               </Link>
             ))}
             {account?.isAdmin ? (
-              <Link to="/admin" onClick={() => setMoreSheetOpen(false)}>
+              <Link to="/admin/analytics" onClick={() => setMoreSheetOpen(false)}>
                 <NavIcon name="account" />
                 <span>{t("nav.admin")}</span>
               </Link>

@@ -801,7 +801,7 @@ const es: Messages = {
   "admin.nav.growth": "Crecimiento",
   "admin.nav.blog": "Entradas del blog",
   "admin.nav.broadcast": "Difusión",
-  "admin.nav.marketplace": "Revisión de plantillas",
+  "admin.nav.marketplace": "Marketplace",
   "admin.marketplaceTitle": "Plantillas enviadas por la comunidad",
   "admin.marketplaceSub":
     "Enviadas en /free-templates/submit — nada aquí es público hasta que lo apruebes. Revisa que no haya nombres de clientes, direcciones u otros datos identificables antes de publicar.",
@@ -823,6 +823,8 @@ const es: Messages = {
   "admin.welcomeBack": "Bienvenido de nuevo",
   "admin.analyticsSub":
     "Conteos agregados de tráfico y embudos — sin seguimiento por visitante, sin IPs almacenadas.",
+  "admin.backToApp": "← Volver a la app",
+  "admin.sectionsAria": "Secciones de admin",
   "admin.signedInAs": " Sesión iniciada como {{email}}.",
   "admin.lastDays": "Últimos {{days}}d",
   "admin.humansOnly": "Solo humanos",

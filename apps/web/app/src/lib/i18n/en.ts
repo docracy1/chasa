@@ -789,7 +789,7 @@ const en: Messages = {
   "admin.nav.growth": "Growth",
   "admin.nav.blog": "Blog posts",
   "admin.nav.broadcast": "Broadcast",
-  "admin.nav.marketplace": "Templates review",
+  "admin.nav.marketplace": "Marketplace",
   "admin.marketplaceTitle": "Community template submissions",
   "admin.marketplaceSub":
     "Submitted at /free-templates/submit — nothing here is public until you approve it. Check for real client names, addresses, or other identifying details before publishing.",
@@ -811,6 +811,8 @@ const en: Messages = {
   "admin.welcomeBack": "Welcome back",
   "admin.analyticsSub":
     "Aggregate traffic and funnel counts — no per-visitor tracking, no IPs stored.",
+  "admin.backToApp": "← Back to app",
+  "admin.sectionsAria": "Admin sections",
   "admin.signedInAs": " Signed in as {{email}}.",
   "admin.lastDays": "Last {{days}}d",
   "admin.humansOnly": "Humans only",

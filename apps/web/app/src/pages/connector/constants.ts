@@ -1,6 +1,6 @@
 import { CLOUD_REDIRECT_URIS, type AccountingProvider, type CloudProvider } from "../../lib/api";
 
-export const DRAFT_URL = "https://api.chasa.io/api/v1/chase/draft";
+export const DRAFT_URL = "https://api.docstoc.io/api/v1/chase/draft";
 export const PROVIDERS: CloudProvider[] = ["dropbox", "onedrive", "box", "google"];
 export const ACCOUNTING_PROVIDERS: AccountingProvider[] = ["quickbooks", "xero"];
 export const TEST_OK_STORAGE_KEY = "docstoc.connectorTestOk";

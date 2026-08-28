@@ -4,7 +4,7 @@ import type { AuthEnv } from "./auth";
 import { sendSpaSmokeAlert } from "./email";
 
 const PROBE_UA =
-  "Mozilla/5.0 (compatible; DocstocSpaSmoke/1.0; +https://chasa.io) AppleWebKit/537.36 Chrome/131.0.0.0 Safari/537.36";
+  "Mozilla/5.0 (compatible; DocstocSpaSmoke/1.0; +https://docstoc.io) AppleWebKit/537.36 Chrome/131.0.0.0 Safari/537.36";
 
 // Widened from 6h to 24h, and now requires 2 consecutive hourly failures before ever alerting
 // (see runSpaSmokeAndAlert) — a single-run blip (e.g. a brief edge hiccup) no longer pages anyone;
@@ -32,8 +32,8 @@ interface AlertState {
 function appOrigin(env: Env): string {
   const configured = (env.PUBLIC_APP_URL || "").replace(/\/$/, "");
   // Smoke must hit the user-facing host, not a stale pages.dev PUBLIC_APP_URL.
-  if (configured.includes("chasa.io") && !configured.includes("pages.dev")) return configured;
-  return "https://chasa.io";
+  if (configured.includes("docstoc.io") && !configured.includes("pages.dev")) return configured;
+  return "https://docstoc.io";
 }
 
 export function extractMainModuleSrc(html: string): string | null {
@@ -236,7 +236,7 @@ export async function runSpaSmokeAndAlert(env: Env, app: Hono<AuthEnv>): Promise
   const shouldAlert = !prev?.failing || !samePrevFingerprint || now - (prev.lastAlertAt ?? 0) >= REMIND_AFTER_MS;
 
   if (shouldAlert) {
-    const to = env.FEEDBACK_EMAIL || "founder@chasa.io";
+    const to = env.FEEDBACK_EMAIL || "founder@docstoc.io";
     await sendSpaSmokeAlert(env, to, failures);
     await writeState(env, { failing: true, lastAlertAt: now, fingerprint: fp, streak });
     console.error(`[spa-smoke] alerted ${to}: ${failures.map((f) => f.name).join(", ")}`);

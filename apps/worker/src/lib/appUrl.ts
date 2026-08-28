@@ -2,13 +2,13 @@ import type { Env } from "../types";
 
 /**
  * Set by the Pages `/api` proxy to the origin the browser is actually on. Anyone can send this
- * header straight to api.chasa.io, so it is only honoured when it passes `isAllowedAppOrigin`.
+ * header straight to api.docstoc.io, so it is only honoured when it passes `isAllowedAppOrigin`.
  */
 export const APP_ORIGIN_HEADER = "x-docstoc-app-origin";
 
 /**
  * Trusted regardless of `PUBLIC_APP_URL`, so the domain cutover works in both directions: pages.dev
- * keeps working after the var flips to chasa.io, and chasa.io works before it flips.
+ * keeps working after the var flips to docstoc.io, and docstoc.io works before it flips.
  */
 const PRODUCTION_ORIGINS = [
   "https://chasa.io",
@@ -49,7 +49,7 @@ type OriginRequest = { req: { header: (name: string) => string | undefined }; en
  * The origin to build user-facing links from: magic links, post-login redirects, Stripe returns
  * and team invites. Preferring the caller's own origin over `PUBLIC_APP_URL` keeps preview deploys
  * self-contained and makes a custom-domain cutover safe — a user who starts on pages.dev is sent
- * back to pages.dev even after the var flips to chasa.io.
+ * back to pages.dev even after the var flips to docstoc.io.
  *
  * Requests without a trusted origin (provider OAuth callbacks, cron) fall back to `PUBLIC_APP_URL`.
  */

@@ -150,7 +150,7 @@ export default function UserChip({
           {t("nav.subscription")}
         </Link>
         {isAdmin && (
-          <Link to="/admin" role="menuitem" onClick={() => setOpen(false)}>
+          <Link to="/admin/analytics" role="menuitem" onClick={() => setOpen(false)}>
             <MenuIcon name="admin" />
             {t("nav.admin")}
           </Link>

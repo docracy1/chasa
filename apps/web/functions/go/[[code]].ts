@@ -72,7 +72,7 @@ export const onRequest: PagesFunction<{ WORKER_URL: string }> = async (context) 
     sanitize(url.searchParams.get("to")) ||
     sanitize(url.searchParams.get("ref"));
 
-  const workerBase = context.env.WORKER_URL || "https://api.chasa.io";
+  const workerBase = context.env.WORKER_URL || "https://api.docstoc.io";
   const ua = context.request.headers.get("User-Agent")?.slice(0, 300) || "";
 
   // Fire-and-forget click log — don't block the redirect on analytics.
@@ -82,7 +82,7 @@ export const onRequest: PagesFunction<{ WORKER_URL: string }> = async (context) 
       headers: {
         "Content-Type": "application/json",
         "User-Agent": ua,
-        "X-Chasa-App-Origin": url.origin,
+        "X-Docstoc-App-Origin": url.origin,
       },
       body: JSON.stringify({
         name: "outreach_link_opened",

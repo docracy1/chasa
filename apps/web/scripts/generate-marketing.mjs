@@ -44,7 +44,7 @@ function extractJsonLd(html) {
     .trim()
     .replace(/https:\/\/api\.chasa\.io/g, "<<<API>>>")
     .replace(/https:\/\/(?:chasa|docstoc)\.io/g, SITE_URL)
-    .replace(/<<<API>>>/g, "https://api.chasa.io");
+    .replace(/<<<API>>>/g, "https://api.docstoc.io");
 }
 
 function decodeHtmlEntities(s) {

@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * Rebrand user-facing "docstoc" → "docstoc". Preserves infrastructure hostnames
- * (chasa.io, api.chasa.io), D1 bindings, session cookies, and npm scope.
+ * (chasa.io, api.docstoc.io), D1 bindings, session cookies, and npm scope.
  */
 import { readFileSync, writeFileSync, readdirSync, statSync, renameSync, existsSync } from "node:fs";
 import { dirname, join, extname } from "node:path";
@@ -19,7 +19,7 @@ const TEXT_EXT = new Set([
 
 /** Tokens that must survive the blanket replace (longest / most specific first). */
 const GUARD = [
-  ["api.chasa.io", "api.chasa.io"],
+  ["api.docstoc.io", "api.docstoc.io"],
   ["chasa.io", "chasa.io"],
   ["chasa-71s", "chasa-71s"],
   ["CHASA_DB", "__BIND_CHASA_DB__"],

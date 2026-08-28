@@ -1,5 +1,26 @@
 import type { Env } from "../types";
 
+/** Not HttpOnly — plain boolean opt-out the admin UI can read via document.cookie. */
+export const NOTRACK_COOKIE_NAME = "docstoc_notrack";
+export const NOTRACK_COOKIE_MAX_AGE_SECONDS = 365 * 24 * 60 * 60;
+
+export function noTrackCookieOptions(env: Env) {
+  const isHttps = env.PUBLIC_APP_URL.startsWith("https");
+  return {
+    httpOnly: false,
+    secure: isHttps,
+    sameSite: (isHttps ? "None" : "Lax") as "None" | "Lax",
+    path: "/",
+    maxAge: NOTRACK_COOKIE_MAX_AGE_SECONDS,
+  };
+}
+
+/** Claude/Cursor agent traffic — filtered on write so QA sessions don't inflate funnels. */
+export function isExcludedAgent(userAgent: string | null | undefined): boolean {
+  if (!userAgent) return false;
+  return /claude|anthropic|cursor/i.test(userAgent);
+}
+
 /**
  * Docstoc analytics catalog (invoice chase product).
  * Structure: { name, properties?, visitorId?, accountId?, path?, created_at }

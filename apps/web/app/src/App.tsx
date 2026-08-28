@@ -1,5 +1,5 @@
 import { lazy, Suspense, useEffect } from "react";
-import { Routes, Route, Link, useLocation } from "react-router-dom";
+import { Routes, Route, Link, Navigate, useLocation } from "react-router-dom";
 import AppShell from "./components/AppShell";
 import LanguageSwitcher from "./components/LanguageSwitcher";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -38,10 +38,8 @@ function AppRoutes() {
     setUnauthorizedHandler(() => {
       // A 401 here is the normal "not signed in yet" state while already on the login page — not an
       // expired session to bounce out of. Redirecting to the page we're already on still triggers a
-      // full reload, which re-fires the same 401 forever. Admin has its own password-gated login
-      // (Admin.tsx) and manages its own auth state — AccountProvider's background /account/me check
-      // still 401s there for a logged-out visitor, and this handler used to hijack that into the
-      // regular user login before Admin's own gate ever rendered.
+      // full reload, which re-fires the same 401 forever. Admin uses the normal app session
+      // (ADMIN_EMAIL via /app/login) — unauthenticated visitors go to login first.
       if (window.location.pathname !== "/app/login" && !window.location.pathname.startsWith("/app/admin")) {
         window.location.href = "/app/login";
       }
@@ -56,7 +54,8 @@ function AppRoutes() {
     return (
       <Suspense fallback={<p className="page-sub">Loading…</p>}>
         <Routes>
-          <Route path="/admin" element={<Admin />} />
+          <Route path="/admin/analytics" element={<Admin />} />
+          <Route path="/admin" element={<Navigate to="/admin/analytics" replace />} />
         </Routes>
       </Suspense>
     );

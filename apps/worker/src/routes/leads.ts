@@ -39,7 +39,7 @@ leads.post("/contact", async (c) => {
     await sendContactInquiryEmail(c.env, parsed.data.email, parsed.data.message);
   } catch (err) {
     console.error("[leads] contact inquiry failed", err);
-    return c.json({ error: "Could not send your message. Try emailing sales@chasa.io." }, 502);
+    return c.json({ error: "Could not send your message. Try emailing sales@docstoc.io." }, 502);
   }
 
   return c.json({ ok: true });
@@ -65,7 +65,7 @@ leads.post("/templates-pack", async (c) => {
   });
   const appOrigin = requestAppOrigin(c) || configuredAppOrigin(c.env);
   const downloadUrl = `${appOrigin.replace(/\/$/, "")}${PDF_PATH}`;
-  const workerBase = (c.env.PUBLIC_WORKER_URL || "https://api.chasa.io").replace(/\/$/, "");
+  const workerBase = (c.env.PUBLIC_WORKER_URL || "https://api.docstoc.io").replace(/\/$/, "");
   const unsubUrl = `${workerBase}/api/leads/unsubscribe?token=${encodeURIComponent(lead.unsub_token)}`;
 
   // Welcome on first download, if never sent, or if they re-subscribe after unsubscribing.

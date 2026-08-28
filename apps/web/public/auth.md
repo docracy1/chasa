@@ -21,8 +21,8 @@ Authorization: Bearer <your-api-key>
 
 This works for:
 
-- The HTTP API at `POST https://api.chasa.io/api/v1/chase/draft`
-- MCP requests to `https://api.chasa.io/mcp` when calling `draft_chase_email`
+- The HTTP API at `POST https://api.docstoc.io/api/v1/chase/draft`
+- MCP requests to `https://api.docstoc.io/mcp` when calling `draft_chase_email`
 - Zapier / Make / custom scripts
 
 ## What the key can and can't do

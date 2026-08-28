@@ -20,6 +20,7 @@
 
   function excludeSelf() {
     try {
+      if (document.cookie.indexOf("docstoc_notrack=1") !== -1) return true;
       return localStorage.getItem(EXCLUDE_KEY) === "1";
     } catch (e) {
       return false;

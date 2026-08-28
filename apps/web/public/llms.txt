@@ -55,7 +55,7 @@ informational purposes, not legal advice — each page says so.
 Every template and document page follows the same structure: editable preview, "What's included",
 named use-cases, and an FAQ with direct Q&A pairs — written to be easy to extract and cite.
 
-Contact: founder@docstoc.io (also founder@chasa.io)
+Contact: founder@docstoc.io
 Sitemap: https://docstoc.io/sitemap.xml
 RSS: https://docstoc.io/blog/feed.xml
 Full context: https://docstoc.io/llms-full.txt

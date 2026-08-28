@@ -99,7 +99,7 @@ export default function Login() {
     try {
       if (treatAsAdminLogin) {
         await adminPasswordLogin(email, password, turnstileToken);
-        window.location.href = "/app/account";
+        window.location.href = "/app/admin/analytics";
         return;
       }
       await requestMagicLink(email, turnstileToken);
