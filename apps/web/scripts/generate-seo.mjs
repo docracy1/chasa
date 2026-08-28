@@ -190,7 +190,7 @@ function writeIndexNowKey() {
 function stripInjectedSeoHead(html) {
   return html
     .replace(/\n?<link rel="alternate" type="application\/rss\+xml"[^>]*>/gi, "")
-    .replace(/\n?<link rel="me" href="https:\/\/(www\.linkedin\.com\/company\/(?:docstoc-io|chasa-io)|x\.com\/(?:docstocHQ|chasaHQ))"[^>]*>/gi, "")
+    .replace(/\n?<link rel="me" href="https:\/\/(www\.linkedin\.com\/company\/(?:docstoc-io|docstochq|chasa-io)|x\.com\/(?:docstocHQ|DocstocHQ|chasaHQ)|www\.facebook\.com\/profile\.php\?id=(?:61593805566159|61593311134413))"[^>]*>/gi, "")
     .replace(/\n?<meta name="google-site-verification"[^>]*>/gi, "")
     .replace(/\n?<meta name="msvalidate\.01"[^>]*>/gi, "");
 }

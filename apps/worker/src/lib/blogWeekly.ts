@@ -27,7 +27,7 @@ interface DraftedPost {
 }
 
 const DOCSTOC_BLURB = `
-docstoc (chasa.io) is a free automation layer for small businesses and freelancers, with four
+docstoc (docstoc.io) is a free automation layer for small businesses and freelancers, with four
 parts: (1) hundreds of free business & legal document templates, no signup required; (2) a
 document generator that creates real invoices with line items, tax, and a shareable/printable
 link; (3) tamper-evident document certificates — hash any file in your browser, get a shareable
@@ -39,7 +39,7 @@ signup (18 templates + 5 AI chase drafts/month).
 `.trim();
 
 const META_SYSTEM_PROMPT = `
-You write SEO blog post metadata for docstoc (chasa.io), an AI invoice follow-up tool.
+You write SEO blog post metadata for docstoc (docstoc.io), an AI invoice follow-up tool.
 Respond with ONLY a JSON object — no markdown fences, no prose outside JSON:
 {"title":"...","description":"...","slug":"..."}
 
@@ -55,7 +55,7 @@ Rules:
  *  well under the token budget, i.e. the model just loses track of the wrapper, not a length
  *  limit). Plain text has no such failure mode — the response IS the body, nothing to parse. */
 const BODY_SYSTEM_PROMPT = `
-You write SEO blog post bodies for docstoc (chasa.io), an AI invoice follow-up tool for freelancers
+You write SEO blog post bodies for docstoc (docstoc.io), an AI invoice follow-up tool for freelancers
 and small businesses. ${DOCSTOC_BLURB}
 
 Respond with ONLY the article body as plain text — no JSON, no markdown fences, no title line.
@@ -251,7 +251,7 @@ export async function blogPostsSitemapXml(env: Env): Promise<string> {
   const urls = posts
     .map((p) => {
       const lastmod = (p.publishedAt ?? p.createdAt).slice(0, 10);
-      return `  <url>\n    <loc>https://chasa.io/blog/${p.slug}/</loc>\n    <lastmod>${lastmod}</lastmod>\n    <changefreq>monthly</changefreq>\n    <priority>0.6</priority>\n  </url>`;
+      return `  <url>\n    <loc>https://docstoc.io/blog/${p.slug}/</loc>\n    <lastmod>${lastmod}</lastmod>\n    <changefreq>monthly</changefreq>\n    <priority>0.6</priority>\n  </url>`;
     })
     .join("\n");
   return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`;

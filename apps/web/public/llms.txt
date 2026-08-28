@@ -32,8 +32,9 @@ Site: https://docstoc.io
 
 ## Social
 
-- LinkedIn: https://www.linkedin.com/company/chasa-io
-- X: https://x.com/chasaHQ
+- LinkedIn: https://www.linkedin.com/company/docstochq
+- X: https://x.com/DocstocHQ
+- Facebook: https://www.facebook.com/profile.php?id=61593805566159
 
 ## How the AI works
 

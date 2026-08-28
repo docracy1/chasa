@@ -1,8 +1,8 @@
-# Chasa
+# docstoc
 
 Paste your unpaid invoices. Get the follow-up email already written, in the right tone for how late it is.
 
-**Chasa never emails your clients for you** — it drafts follow-ups you copy into Gmail, Outlook, or Apple Mail. Tone escalates with days overdue (friendly → firm → direct).
+**docstoc never emails your clients for you** — it drafts follow-ups you copy into Gmail, Outlook, or Apple Mail. Tone escalates with days overdue (friendly → firm → direct).
 
 ## Live URLs
 
@@ -379,7 +379,7 @@ Site-side done: social links + `sameAs` schema on all pages, internal links from
 Still manual (copy from press kit):
 
 - [ ] LinkedIn company page — website field + launch post linking to `/app/` or a blog article
-- [ ] [X @chasaHQ](https://x.com/chasaHQ) — pin launch post
+- [ ] [X @DocstocHQ](https://x.com/DocstocHQ) — pin launch post
 - [ ] Product Hunt / Indie Hackers when ready
 - [ ] RELACON GmbH website cross-link to `chasa.io`
 - [ ] 3–5 freelancer communities — link to `/blog/` articles or `/free-templates/`, not just homepage
@@ -389,6 +389,6 @@ Still manual (copy from press kit):
 
 ## Entity
 
-Chasa is a product of **RELACON GmbH**, Vienna, Austria. See [/imprint](https://chasa.io/imprint) and [/privacy](https://chasa.io/privacy).
+docstoc is a product of **RELACON GmbH**, Vienna, Austria. See [/imprint](https://chasa.io/imprint) and [/privacy](https://chasa.io/privacy).
 
 Contact: [founder@chasa.io](mailto:founder@chasa.io)
