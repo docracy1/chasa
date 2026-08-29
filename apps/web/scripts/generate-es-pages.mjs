@@ -16,6 +16,7 @@ import { fileURLToPath } from "node:url";
 import { chrome, escapeHtml } from "./lib/chrome.mjs";
 import { es as esCatalog } from "./data/marketing-i18n.mjs";
 import { EN_TO_ES, ES_PAGE_PAIRS } from "./data/es-alternates.mjs";
+import { HOME_PAGE_TITLE_ES } from "./data/seo-config.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const publicDir = join(__dirname, "../public");
@@ -24,7 +25,7 @@ const publicDir = join(__dirname, "../public");
  *  reusable string), so it's hand-translated here instead. */
 const SEO_ES = {
   "/": {
-    title: "docstoc — La capa de automatización",
+    title: HOME_PAGE_TITLE_ES,
     description:
       "Herramienta gratuita con IA para seguimiento de facturas. Pega tu factura impaga y recibe el recordatorio con el tono adecuado, de amable a firme.",
   },

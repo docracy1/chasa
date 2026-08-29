@@ -124,6 +124,12 @@ export const SITEMAP_ROUTES = [
   { path: "/terms", priority: 0.4, changefreq: "yearly" },
 ];
 
+/** EN homepage document title (source of truth for build-time patches). */
+export const HOME_PAGE_TITLE = "docstoc — The automation layer";
+
+/** ES homepage title — used by generate-es-pages.mjs. */
+export const HOME_PAGE_TITLE_ES = "docstoc — La capa de automatización";
+
 /** Square PNG for Organization / GSC — SVG wordmarks and non-square assets are ignored. */
 export const ORG_LOGO_URL = `${SITE_URL}/brand/docstoc-icon-512.png`;
 

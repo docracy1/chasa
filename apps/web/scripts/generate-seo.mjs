@@ -11,6 +11,7 @@ import {
   SITE_URL,
   SITEMAP_ROUTES,
   SITEMAP_EXCLUDE_PATHS,
+  HOME_PAGE_TITLE,
 } from "./data/seo-config.mjs";
 import { renderSeoHead } from "./lib/seo-head.mjs";
 
@@ -195,6 +196,18 @@ function stripInjectedSeoHead(html) {
     .replace(/\n?<meta name="msvalidate\.01"[^>]*>/gi, "");
 }
 
+
+function patchHomepageTitle() {
+  const path = join(publicDir, "index.html");
+  let html = readFileSync(path, "utf8");
+  const esc = HOME_PAGE_TITLE.replace(/&/g, "&amp;").replace(/"/g, "&quot;");
+  html = html.replace(/<title>[^<]*<\/title>/, `<title>${HOME_PAGE_TITLE}</title>`);
+  html = html.replace(/(<meta property="og:title" content=")[^"]*(")/, `$1${esc}$2`);
+  html = html.replace(/(<meta name="twitter:title" content=")[^"]*(")/, `$1${esc}$2`);
+  writeFileSync(path, html, "utf8");
+  console.log("Patched index.html homepage title from seo-config");
+}
+
 function patchSeoHead(fileName) {
   const path = join(publicDir, fileName);
   let html = stripInjectedSeoHead(readFileSync(path, "utf8"));
@@ -216,6 +229,7 @@ writeSitemap(urls);
 writeRobots();
 writeBlogFeed();
 writeIndexNowKey();
+patchHomepageTitle();
 for (const file of ["index.html", "ai.html"]) {
   patchSeoHead(file);
 }
