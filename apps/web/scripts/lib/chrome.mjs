@@ -5,7 +5,14 @@ import { renderSeoHead } from "./seo-head.mjs";
 import { EN_TO_ES, ES_TO_EN } from "../data/es-alternates.mjs";
 
 /** Bump when site.css / site-nav.js / site-lang.js change so Pages edge caches refresh. */
-export const ASSET_V = "20260827d";
+export const ASSET_V = "20260829a";
+
+function faviconHead(link) {
+  return `<link rel="icon" href="${link("/favicon.ico")}" sizes="48x48">
+<link rel="icon" href="${link(`/favicon.png?v=${ASSET_V}`)}" type="image/png" sizes="96x96">
+<link rel="icon" href="${link(`/favicon.svg?v=${ASSET_V}`)}" type="image/svg+xml">
+<link rel="apple-touch-icon" href="${link(`/apple-touch-icon.png?v=${ASSET_V}`)}" sizes="180x180">`;
+}
 
 /** Small inline icon set for the header mega-menus (mirrors the app's NavIcon component). */
 const ICON_PATHS = {
@@ -294,9 +301,7 @@ ${hreflangHead}
 ${seoHead}
 ${extraHead}
 ${jsonLd ? `<script type="application/ld+json">\n${jsonLd}\n</script>` : `<script type="application/ld+json">\n${defaultJsonLd}\n</script>`}
-<link rel="icon" href="${link(`/favicon.png?v=${ASSET_V}`)}" type="image/png">
-<link rel="icon" href="${link(`/favicon.svg?v=${ASSET_V}`)}" type="image/svg+xml">
-<link rel="apple-touch-icon" href="${link(`/apple-touch-icon.png?v=${ASSET_V}`)}">
+${faviconHead(link)}
 <link rel="preload" href="${link("/fonts/inter-400.woff2")}" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="${link("/fonts/inter-700.woff2")}" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="${link(`/site.css?v=${ASSET_V}`)}">

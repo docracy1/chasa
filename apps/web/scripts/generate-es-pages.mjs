@@ -24,7 +24,7 @@ const publicDir = join(__dirname, "../public");
  *  reusable string), so it's hand-translated here instead. */
 const SEO_ES = {
   "/": {
-    title: "docstoc — Recordatorios de facturas con IA para autónomos",
+    title: "docstoc — La capa de automatización",
     description:
       "Herramienta gratuita con IA para seguimiento de facturas. Pega tu factura impaga y recibe el recordatorio con el tono adecuado, de amable a firme.",
   },

@@ -124,13 +124,21 @@ export const SITEMAP_ROUTES = [
   { path: "/terms", priority: 0.4, changefreq: "yearly" },
 ];
 
+/** Square PNG for Organization / GSC — SVG wordmarks and non-square assets are ignored. */
+export const ORG_LOGO_URL = `${SITE_URL}/brand/docstoc-icon-512.png`;
+
 export const ORG_JSON_LD = {
   "@context": "https://schema.org",
   "@type": "Organization",
   name: "docstoc",
   alternateName: ["chasa", "Chasa", "Docstoc"],
   url: SITE_URL,
-  logo: `${SITE_URL}/brand/docstoc-logo.svg`,
+  logo: {
+    "@type": "ImageObject",
+    url: ORG_LOGO_URL,
+    width: 512,
+    height: 512,
+  },
   sameAs: [SOCIAL.linkedin, SOCIAL.x, SOCIAL.facebook],
   parentOrganization: {
     "@type": "Organization",
