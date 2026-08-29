@@ -49,6 +49,7 @@ export const SITEMAP_ROUTES = [
   { path: "/overdue-invoice", priority: 0.85, changefreq: "monthly" },
   { path: "/overdue-invoices-guide", priority: 0.85, changefreq: "monthly" },
   { path: "/chase-invoices", priority: 0.85, changefreq: "monthly" },
+  { path: "/guides/invoice-chasing/", priority: 0.92, changefreq: "weekly" },
   { path: "/freelancer-invoice-follow-up", priority: 0.85, changefreq: "monthly" },
   { path: "/unpaid-invoice-follow-up-templates", priority: 0.8, changefreq: "monthly" },
   { path: "/polite-payment-reminder-email", priority: 0.8, changefreq: "monthly" },

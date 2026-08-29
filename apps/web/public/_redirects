@@ -100,6 +100,7 @@ https://www.docstoc.io/*  https://docstoc.io/:splat  301
 /go/x   /?utm_source=x&utm_medium=social&utm_campaign=x  302
 /go/try /app/?utm_source=try&utm_medium=shortlink&utm_campaign=try  302
 /go/templates  /free-templates/?utm_source=templates&utm_medium=shortlink&utm_campaign=templates  302
+/go/chase  /guides/invoice-chasing/?utm_source=chase&utm_medium=shortlink&utm_campaign=chase  302
 /go/trust  /trust-badges?utm_source=trust&utm_medium=shortlink&utm_campaign=trust  302
 /go/invoice  /tools/invoice-generator?utm_source=invoice&utm_medium=shortlink&utm_campaign=invoice  302
 
@@ -121,6 +122,8 @@ https://www.docstoc.io/*  https://docstoc.io/:splat  301
 /outgoinginvoices/  /invoices  301
 /chasinginvoices  /chase-invoices  301
 /chasinginvoices/  /chase-invoices  301
+/guides  /guides/invoice-chasing/  301
+/guides/  /guides/invoice-chasing/  301
 /marketplace  /document-templates/  301
 /marketplace/  /document-templates/  301
 /monitoring  /ssl/features/monitoring  301

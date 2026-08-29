@@ -37,6 +37,7 @@ export const CHASE_LANDINGS = [
 
   <h3>Related resources</h3>
   <ul>
+    <li><a href="/guides/invoice-chasing/">Invoice chasing hub</a></li>
     <li><a href="/tools/invoice-chase-calculator">Invoice chase calculator</a></li>
     <li><a href="/payment-reminder">Payment reminder emails</a></li>
     <li><a href="/overdue-invoice">Overdue invoice follow-up</a></li>
@@ -82,6 +83,7 @@ export const CHASE_LANDINGS = [
 
   <h3>Related resources</h3>
   <ul>
+    <li><a href="/guides/invoice-chasing/">Invoice chasing hub</a></li>
     <li><a href="/tools/invoice-chase-calculator">Invoice chase calculator</a></li>
     <li><a href="/invoice-follow-up">Invoice follow-up emails</a></li>
     <li><a href="/freelancer-invoice-follow-up">Freelancer invoice follow-up</a></li>
@@ -126,6 +128,7 @@ export const CHASE_LANDINGS = [
 
   <h3>Related resources</h3>
   <ul>
+    <li><a href="/guides/invoice-chasing/">Invoice chasing hub</a></li>
     <li><a href="/tools/invoice-chase-calculator">Invoice chase calculator</a></li>
     <li><a href="/invoice-follow-up">Invoice follow-up emails</a></li>
     <li><a href="/overdue-invoice">Overdue invoice reminders</a></li>

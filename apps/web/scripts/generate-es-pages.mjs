@@ -27,7 +27,7 @@ const SEO_ES = {
   "/": {
     title: HOME_PAGE_TITLE_ES,
     description:
-      "Herramienta gratuita con IA para seguimiento de facturas. Pega tu factura impaga y recibe el recordatorio con el tono adecuado, de amable a firme.",
+      "La capa de automatización de confianza — acuerdos, facturación, SSL, certificados de documentos y cobros con IA en una plataforma.",
   },
   "/privacy": {
     title: "Política de Privacidad — docstoc | Protección de Datos",
@@ -49,6 +49,21 @@ const SEO_ES = {
     description:
       "Redacta correos de seguimiento de facturas con el tono adecuado según el retraso. Borradores con IA y plantillas gratuitas para autónomos.",
   },
+  "/chase-invoices": {
+    title: "Reclamar facturas impagas — borradores con IA | docstoc",
+    description:
+      "Reclama facturas impagas con seguimientos redactados por IA que envías desde tu propia bandeja. Sin envío automático ni cobranza.",
+  },
+  "/payment-reminder": {
+    title: "Recordatorios de pago — plantillas y IA | docstoc",
+    description:
+      "Correos de recordatorio de pago antes y después del vencimiento. Plantillas gratuitas y borradores con IA según el retraso.",
+  },
+  "/guides/invoice-chasing/": {
+    title: "Centro de reclamación de facturas — guías y plantillas | docstoc",
+    description:
+      "Todo para reclamar facturas impagas: borradores con IA, plantillas gratuitas, guías de escalada, calculadoras y comparativas.",
+  },
 };
 
 /** Hand-translated main bodies for ES pages without full data-i18n coverage in EN source. */
@@ -67,6 +82,7 @@ const MAIN_ES = {
 
   <h3>Recursos relacionados</h3>
   <ul>
+    <li><a href="/es/guides/invoice-chasing/">Centro de reclamación de facturas</a></li>
     <li><a href="/tools/invoice-chase-calculator">Calculadora de seguimiento de facturas</a></li>
     <li><a href="/payment-reminder">Correos de recordatorio de pago</a></li>
     <li><a href="/overdue-invoice">Seguimiento de facturas vencidas</a></li>
@@ -74,6 +90,44 @@ const MAIN_ES = {
     <li><a href="/free-templates/">18 plantillas de correo gratis</a></li>
     <li><a href="/features/ai-tone">Tono con IA</a></li>
   </ul>`,
+  "/chase-invoices": `<p class="crumb"><a href="/es/">Inicio</a> / Reclamar facturas</p>
+  <h1>Reclamar facturas — sin el correo incómodo</h1>
+  <p class="lede">Reclamar el pago forma parte del trabajo autónomo. docstoc redacta el texto para que te centres en la relación — pega facturas, obtén borradores, envía desde tu bandeja.</p>
+  <h3>Reclamar, no cobrar</h3>
+  <p>docstoc está pensado para autónomos que quieren cobrar sin sonar como una agencia de cobranza. Redactamos el correo; tú decides cuándo y cómo enviarlo.</p>
+  <p style="margin-top:28px"><a href="/app/login?start=1" class="nav-cta">Empezar a reclamar — gratis</a></p>
+  <h3>Recursos relacionados</h3>
+  <ul>
+    <li><a href="/es/guides/invoice-chasing/">Centro de reclamación de facturas</a></li>
+    <li><a href="/es/invoice-follow-up">Seguimiento de facturas</a></li>
+    <li><a href="/payment-reminder">Recordatorios de pago</a></li>
+    <li><a href="/free-templates/">Plantillas gratuitas</a></li>
+  </ul>`,
+  "/payment-reminder": `<p class="crumb"><a href="/es/">Inicio</a> / Recordatorio de pago</p>
+  <h1>Correos de recordatorio de pago — antes y después del vencimiento</h1>
+  <p class="lede">Un buen recordatorio es breve, concreto y fácil de pagar. docstoc ofrece plantillas gratuitas para cada etapa y borradores con IA cuando prefieres que redactemos el texto.</p>
+  <p style="margin-top:28px"><a href="/app/login?start=1" class="nav-cta">Redactar un recordatorio</a></p>
+  <h3>Recursos relacionados</h3>
+  <ul>
+    <li><a href="/es/guides/invoice-chasing/">Centro de reclamación de facturas</a></li>
+    <li><a href="/es/invoice-follow-up">Seguimiento de facturas</a></li>
+    <li><a href="/chase-invoices">Cómo reclamar facturas</a></li>
+    <li><a href="/free-templates/">Plantillas gratuitas</a></li>
+  </ul>`,
+  "/guides/invoice-chasing/": `<p class="crumb"><a href="/es/">Inicio</a> / Guías / Reclamación de facturas</p>
+  <h1>Centro de reclamación de facturas</h1>
+  <p class="guide-hero-lede">Facturas impagas, recordatorios y seguimientos — plantillas, guías, herramientas y borradores con IA en un solo lugar. Tú envías cada correo.</p>
+  <p style="margin-top:20px"><a href="/app/login?start=1" class="nav-cta">Probar la plataforma gratis →</a></p>
+  <section class="guide-section">
+    <h2>Empezar aquí</h2>
+    <ul>
+      <li><a href="/app/">Abrir la plataforma</a></li>
+      <li><a href="/free-templates/">28 plantillas de recordatorio gratis</a></li>
+      <li><a href="/es/invoice-follow-up">Seguimiento de facturas con IA</a></li>
+      <li><a href="/es/chase-invoices">Cómo reclamar facturas</a></li>
+      <li><a href="/es/payment-reminder">Recordatorios de pago</a></li>
+    </ul>
+  </section>`,
 };
 
 function extractMain(html) {

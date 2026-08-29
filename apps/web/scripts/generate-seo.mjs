@@ -70,15 +70,23 @@ function buildSitemapUrls() {
       continue;
     }
     const isBlog = urlPath.startsWith("/blog/");
-    const isTemplate =
-      urlPath.startsWith("/free-templates/") ||
-      urlPath.startsWith("/document-templates/") ||
-      urlPath.startsWith("/business-kits/");
+    const isFreeTpl = urlPath.startsWith("/free-templates/");
+    const isDocTpl = urlPath.startsWith("/document-templates/");
+    const isKit = urlPath.startsWith("/business-kits/");
+    const isImportFrom = urlPath.startsWith("/import-from-");
+    const isAlternative = urlPath.endsWith("-alternative");
+    let priority = 0.6;
+    if (isBlog) priority = 0.7;
+    else if (isFreeTpl) priority = 0.75;
+    else if (isDocTpl) priority = 0.45;
+    else if (isKit) priority = 0.55;
+    else if (isImportFrom) priority = 0.4;
+    else if (isAlternative) priority = 0.5;
     byPath.set(urlPath, {
       loc: `${SITE_URL}${urlPath}`,
       lastmod: mtime(file),
       changefreq: "monthly",
-      priority: isBlog ? 0.7 : isTemplate ? 0.7 : 0.6,
+      priority,
     });
   }
 

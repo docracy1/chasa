@@ -159,6 +159,7 @@ const MORE_ITEMS = [
   { path: "/certificate", titleKey: "nav.mega.products.certificates.title", title: "Document certificates" },
   { path: "/features/", titleKey: "nav.features", title: "Features" },
   { path: "/invoice-follow-up", titleKey: "nav.invoiceFollowUp", title: "Invoice follow-up" },
+  { path: "/guides/invoice-chasing/", titleKey: "nav.invoiceChasingHub", title: "Invoice chasing hub" },
   { path: "/chase-invoices", titleKey: "nav.chaseInvoices", title: "Chase invoices" },
   { path: "/payment-reminder", titleKey: "nav.paymentReminder", title: "Payment reminders" },
   { path: "/free-templates/", titleKey: "nav.freeTemplates", title: "Free email templates" },
@@ -411,6 +412,7 @@ ${mainHtml}
       <a href="${link("/compliance/")}">Compliance</a>
       <a href="${link("/integrations/")}">Integrations</a>
       <a href="${link("/blog/")}" data-i18n="footer.blog">Blog</a>
+      <a href="${link("/guides/invoice-chasing/")}">Invoice chasing hub</a>
       <a href="${link("/invoice-follow-up")}">Invoice follow-up</a>
       <a href="${link("/chase-invoices")}">Chase invoices</a>
       <a href="${link("/payment-reminder")}">Payment reminders</a>
