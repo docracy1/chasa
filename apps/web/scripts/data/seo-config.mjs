@@ -27,7 +27,9 @@ export const INDEXNOW_KEY = "448a3e880045468692c13c5028ea49cf";
  *  through the React app's /api/auth/config fetch. */
 export const TURNSTILE_SITE_KEY = "0x4AAAAAAD-e9VZ4OPi8EPWM";
 
-/** Injected at build when set: GOOGLE_SITE_VERIFICATION=… npm run build */
+/** Injected at build when set: GOOGLE_SITE_VERIFICATION=… npm run build
+ *  Set in CI/deploy: GOOGLE_SITE_VERIFICATION=… BING_SITE_VERIFICATION=… npm run deploy:web
+ *  (see README.md “Search Console verification”). */
 export const GOOGLE_SITE_VERIFICATION = process.env.GOOGLE_SITE_VERIFICATION?.trim() || "";
 
 /** Injected at build when set: BING_SITE_VERIFICATION=… npm run build */
@@ -37,7 +39,6 @@ export const BING_SITE_VERIFICATION = process.env.BING_SITE_VERIFICATION?.trim()
 export const SITEMAP_ROUTES = [
   { path: "/", priority: 1.0, changefreq: "weekly" },
   { path: "/app/", priority: 0.9, changefreq: "weekly" },
-  { path: "/app/login", priority: 0.5, changefreq: "monthly" },
   { path: "/free-templates/", priority: 0.9, changefreq: "weekly" },
   { path: "/free-templates/download", priority: 0.85, changefreq: "monthly" },
   { path: "/free-templates/submit", priority: 0.6, changefreq: "monthly" },

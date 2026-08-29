@@ -153,6 +153,10 @@ const RESOURCE_ITEMS = [
  *  of six, to match the 3-item nav density of the LimeWire reference (Products / Tools / More). */
 const MORE_ITEMS = [
   { path: "/features/", titleKey: "nav.features", title: "Features" },
+  { path: "/invoice-follow-up", titleKey: "nav.invoiceFollowUp", title: "Invoice follow-up" },
+  { path: "/chase-invoices", titleKey: "nav.chaseInvoices", title: "Chase invoices" },
+  { path: "/payment-reminder", titleKey: "nav.paymentReminder", title: "Payment reminders" },
+  { path: "/free-templates/", titleKey: "nav.freeTemplates", title: "Free email templates" },
   { path: "/industry/freelancers", titleKey: "nav.industry", title: "Industry" },
   { path: "/#pricing", titleKey: "nav.pricing", title: "Pricing" },
   { path: "/use-cases/", titleKey: "nav.useCases", title: "Use Cases" },
@@ -396,6 +400,10 @@ ${mainHtml}
       <a href="${link("/compliance/")}">Compliance</a>
       <a href="${link("/integrations/")}">Integrations</a>
       <a href="${link("/blog/")}" data-i18n="footer.blog">Blog</a>
+      <a href="${link("/invoice-follow-up")}">Invoice follow-up</a>
+      <a href="${link("/chase-invoices")}">Chase invoices</a>
+      <a href="${link("/payment-reminder")}">Payment reminders</a>
+      <a href="${link("/free-templates/")}">Free email templates</a>
       <a href="${link("/overdue-invoices-guide")}">Overdue Invoices Guide</a>
       <a href="${link("/docs/")}" data-i18n="footer.docs">API & Docs</a>
       <a href="${link("/marketplace")}" data-i18n="footer.templates">Marketplace</a>

@@ -1,5 +1,7 @@
 # Hashed Vite assets are real files under /assets/* — do not add a catch-all rewrite that
 # can serve HTML for missing JS hashes. Unknown asset paths fall through to the final 404 rule.
+# www.docstoc.io → docstoc.io 301 is handled by functions/_middleware.ts (path-only _redirects
+# cannot express cross-host redirects on Cloudflare Pages).
 # Old chasa-branded paths → docstoc
 /switch-to-chasa  /switch-to-docstoc  301
 /switch-to-chasa/  /switch-to-docstoc  301

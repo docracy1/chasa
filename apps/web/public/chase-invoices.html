@@ -27,10 +27,43 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://docstoc.io/" },
-    { "@type": "ListItem", "position": 2, "name": "Chase invoices", "item": "https://docstoc.io/chase-invoices" }
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://docstoc.io/" },
+        { "@type": "ListItem", "position": 2, "name": "Chase invoices", "item": "https://docstoc.io/chase-invoices" }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What's the best way to chase unpaid invoices without damaging the relationship?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Match tone to days overdue — friendly early, direct later — and send from your own inbox so clients hear from you."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does docstoc chase invoices for me automatically?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No auto-send and no collections bot — docstoc writes follow-ups you send yourself."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I chase invoices without connecting accounting software?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes — paste invoice details manually or upload a CSV; QuickBooks and Xero sync are optional on Pro."
+          }
+        }
+      ]
+    }
   ]
 }
 </script>
@@ -103,6 +136,22 @@
     <div class="nav-megamenu-panel nav-megamenu-panel-simple" data-mega-panel hidden>
       <div class="nav-simplemenu-list"><a href="/features/" class="nav-simplemenu-item">
     <span class="nav-simplemenu-item-title" data-i18n="nav.features">Features</span>
+    <svg class="nav-simplemenu-item-chevron" width="8" height="14" viewBox="0 0 8 14" aria-hidden="true"><path d="M1 1l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg>
+  </a>
+<a href="/invoice-follow-up" class="nav-simplemenu-item">
+    <span class="nav-simplemenu-item-title" data-i18n="nav.invoiceFollowUp">Invoice follow-up</span>
+    <svg class="nav-simplemenu-item-chevron" width="8" height="14" viewBox="0 0 8 14" aria-hidden="true"><path d="M1 1l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg>
+  </a>
+<a href="/chase-invoices" class="nav-simplemenu-item">
+    <span class="nav-simplemenu-item-title" data-i18n="nav.chaseInvoices">Chase invoices</span>
+    <svg class="nav-simplemenu-item-chevron" width="8" height="14" viewBox="0 0 8 14" aria-hidden="true"><path d="M1 1l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg>
+  </a>
+<a href="/payment-reminder" class="nav-simplemenu-item">
+    <span class="nav-simplemenu-item-title" data-i18n="nav.paymentReminder">Payment reminders</span>
+    <svg class="nav-simplemenu-item-chevron" width="8" height="14" viewBox="0 0 8 14" aria-hidden="true"><path d="M1 1l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg>
+  </a>
+<a href="/free-templates/" class="nav-simplemenu-item">
+    <span class="nav-simplemenu-item-title" data-i18n="nav.freeTemplates">Free email templates</span>
     <svg class="nav-simplemenu-item-chevron" width="8" height="14" viewBox="0 0 8 14" aria-hidden="true"><path d="M1 1l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg>
   </a>
 <a href="/industry/freelancers" class="nav-simplemenu-item">
@@ -236,6 +285,10 @@
       <a href="/compliance/">Compliance</a>
       <a href="/integrations/">Integrations</a>
       <a href="/blog/" data-i18n="footer.blog">Blog</a>
+      <a href="/invoice-follow-up">Invoice follow-up</a>
+      <a href="/chase-invoices">Chase invoices</a>
+      <a href="/payment-reminder">Payment reminders</a>
+      <a href="/free-templates/">Free email templates</a>
       <a href="/overdue-invoices-guide">Overdue Invoices Guide</a>
       <a href="/docs/" data-i18n="footer.docs">API & Docs</a>
       <a href="/marketplace" data-i18n="footer.templates">Marketplace</a>

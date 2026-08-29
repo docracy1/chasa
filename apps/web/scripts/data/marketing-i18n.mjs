@@ -144,6 +144,7 @@ export const en = {
   "home.hero.calcSavings": "Calculate savings",
   "home.hero.trustedBy": "Trusted by teams at",
   "home.hero.ctaSecondary": "or browse free templates",
+  "home.hero.openPlatform": "Open the platform →",
   "home.hero.note": "No credit card required · your account in one click",
   "home.hero.badgeAccountant": "Checked by a chartered accountant",
   "home.hero.badgeSsl": "SSL-secured",
@@ -304,7 +305,7 @@ export const en = {
   "home.faq.title": "FAQ",
   "home.faq.q1": "What is docstoc?",
   "home.faq.a1":
-    "An AI invoice follow-up tool. Paste unpaid invoices and get payment reminder emails written in the right tone for how late each one is.",
+    "docstoc is the Trust Automation Layer for Modern Business — one platform for agreements and templates, invoicing and payment follow-ups, domain SSL, document certificates, and AI collections.",
   "home.faq.q2": "Do I need an account?",
   "home.faq.a2":
     'No — Free works without signup (5 AI drafts per month + templates). Sign in to upgrade to Pro ($14.99/mo) or Business ($39.99/mo).',
@@ -544,6 +545,7 @@ export const es = {
   "home.hero.calcSavings": "Calcula tu ahorro",
   "home.hero.trustedBy": "Con la confianza de equipos en",
   "home.hero.ctaSecondary": "o ver plantillas gratis",
+  "home.hero.openPlatform": "Abrir la plataforma →",
   "home.hero.note": "Sin tarjeta de crédito · tu cuenta en un clic",
   "home.hero.badgeAccountant": "Revisado por un contador colegiado",
   "home.hero.badgeSsl": "Protegido con SSL",
@@ -706,7 +708,7 @@ export const es = {
   "home.faq.title": "Preguntas frecuentes",
   "home.faq.q1": "¿Qué es docstoc?",
   "home.faq.a1":
-    "Una herramienta de seguimiento de facturas con IA. Pega facturas impagas y recibe correos de recordatorio de pago redactados con el tono correcto según cuánto llevan de retraso.",
+    "docstoc es la capa de automatización de confianza para empresas modernas: una plataforma para acuerdos y plantillas, facturación y seguimiento de pagos, SSL de dominio, certificados de documentos y cobros con IA.",
   "home.faq.q2": "¿Necesito una cuenta?",
   "home.faq.a2":
     'No — Gratis funciona sin registro (5 borradores con IA al mes + plantillas). Inicia sesión para pasar a Pro ($14.99/mes) o Business ($39.99/mes).',

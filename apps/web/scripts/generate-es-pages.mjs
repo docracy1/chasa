@@ -44,6 +44,36 @@ const SEO_ES = {
     description:
       "Guías prácticas para hacer seguimiento de facturas vencidas, escribir recordatorios de pago y construir una política de cuentas por cobrar.",
   },
+  "/invoice-follow-up": {
+    title: "Seguimiento de facturas — borradores con IA | docstoc",
+    description:
+      "Redacta correos de seguimiento de facturas con el tono adecuado según el retraso. Borradores con IA y plantillas gratuitas para autónomos.",
+  },
+};
+
+/** Hand-translated main bodies for ES pages without full data-i18n coverage in EN source. */
+const MAIN_ES = {
+  "/invoice-follow-up": `<p class="crumb"><a href="/es/">Inicio</a> / Seguimiento de facturas</p>
+  <h1>Correos de seguimiento de facturas con el tono adecuado al retraso</h1>
+  <p class="lede">docstoc redacta correos de seguimiento para autónomos — amables cuando la factura lleva pocos días de retraso, más firmes cuando lleva semanas. Tú envías desde tu propia bandeja.</p>
+
+  <h3>Por qué se estancan los seguimientos</h3>
+  <p>La mayoría de autónomos sabe que debe reclamar facturas impagas. Lo difícil es el tono: demasiado suave y no pasa nada; demasiado duro y arriesgas la relación. docstoc elimina esa incertidumbre adaptando el tono a los días de retraso.</p>
+
+  <h3>Cómo ayuda docstoc</h3>
+  <p>Pega nombre del cliente, importe y fecha de vencimiento — o sube un CSV de QuickBooks, Xero o tu hoja de cálculo. docstoc escribe un seguimiento que puedes copiar en Gmail, Outlook o Apple Mail. Sin envío automático ni teatro de cobranza.</p>
+
+  <p style="margin-top:28px"><a href="/app/login?start=1" class="nav-cta">Probar gratis — 5 borradores con IA</a></p>
+
+  <h3>Recursos relacionados</h3>
+  <ul>
+    <li><a href="/tools/invoice-chase-calculator">Calculadora de seguimiento de facturas</a></li>
+    <li><a href="/payment-reminder">Correos de recordatorio de pago</a></li>
+    <li><a href="/overdue-invoice">Seguimiento de facturas vencidas</a></li>
+    <li><a href="/freelancer-invoice-follow-up">Guía de seguimiento para autónomos</a></li>
+    <li><a href="/free-templates/">18 plantillas de correo gratis</a></li>
+    <li><a href="/features/ai-tone">Tono con IA</a></li>
+  </ul>`,
 };
 
 function extractMain(html) {
@@ -147,7 +177,7 @@ for (const [enPath, esPath] of ES_PAGE_PAIRS) {
       title: seo.title,
       description: seo.description,
       canonical: esPath,
-      mainHtml: extractMain(enHtml),
+      mainHtml: MAIN_ES[enPath] ?? extractMain(enHtml),
       jsonLd: extractJsonLd(enHtml),
       lang: "es",
     });

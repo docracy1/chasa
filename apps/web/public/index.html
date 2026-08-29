@@ -8,7 +8,7 @@
 <link rel="me" href="https://x.com/DocstocHQ">
 <link rel="me" href="https://www.facebook.com/profile.php?id=61593805566159">
 <title>docstoc — The automation layer</title>
-<meta name="description" content="Stop juggling fragmented tools. docstoc is the Trust Automation Layer for Modern Business — legally binding agreements, automated invoicing, domain security, and AI-driven collections in one platform.">
+<meta name="description" content="Stop juggling fragmented tools. docstoc is the Trust Automation Layer — agreements, invoicing, domain SSL, document certificates, and AI collections in one platform.">
 <meta name="keywords" content="trust automation, invoice follow-up, payment reminder, business document templates, document certification, SSL automation, trust badges, AI collections">
 <link rel="canonical" href="https://docstoc.io/">
 <link rel="alternate" hreflang="en" href="https://docstoc.io/">
@@ -18,14 +18,14 @@
 <meta property="og:site_name" content="docstoc">
 <meta property="og:locale" content="en_US">
 <meta property="og:title" content="docstoc — The automation layer">
-<meta property="og:description" content="Stop juggling fragmented tools. One unified platform for agreements, invoicing, domain security, and AI-driven collections.">
+<meta property="og:description" content="One unified platform for agreements, invoicing, domain SSL, document certificates, and AI collections.">
 <meta property="og:url" content="https://docstoc.io/">
 <meta property="og:image" content="https://docstoc.io/brand/og/docstoc-og-1200x630.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="docstoc — The automation layer">
-<meta name="twitter:description" content="Stop juggling fragmented tools. One unified platform for the full lifecycle of trust.">
+<meta name="twitter:description" content="One unified platform for agreements, invoicing, domain SSL, document certificates, and AI collections.">
 <meta name="twitter:image" content="https://docstoc.io/brand/og/docstoc-og-1200x630.png">
 <script type="application/ld+json">
 {
@@ -116,12 +116,40 @@
       "url": "https://docstoc.io",
       "applicationCategory": "BusinessApplication",
       "operatingSystem": "Web",
-      "description": "docstoc is the Trust Automation Layer for Modern Business: agreements, invoicing, domain security, verified reputation, and AI-driven collections.",
+      "description": "docstoc is the Trust Automation Layer for Modern Business: agreements, invoicing, domain SSL, document certificates, and AI-driven collections.",
       "offers": {
         "@type": "Offer",
         "price": "0",
         "priceCurrency": "USD",
         "description": "Free tier: 5 AI drafts per month"
+      }
+    },
+    {
+      "@type": "Product",
+      "name": "docstoc Pro",
+      "description": "Unlimited AI drafts, QuickBooks/Xero sync, SSL automation, and team seats.",
+      "brand": { "@type": "Brand", "name": "docstoc" },
+      "offers": {
+        "@type": "Offer",
+        "price": "14.99",
+        "priceCurrency": "USD",
+        "priceValidUntil": "2027-12-31",
+        "url": "https://docstoc.io/#pricing",
+        "availability": "https://schema.org/InStock"
+      }
+    },
+    {
+      "@type": "Product",
+      "name": "docstoc Business",
+      "description": "Everything in Pro plus priority support, more SSL slots, and higher team limits.",
+      "brand": { "@type": "Brand", "name": "docstoc" },
+      "offers": {
+        "@type": "Offer",
+        "price": "39.99",
+        "priceCurrency": "USD",
+        "priceValidUntil": "2027-12-31",
+        "url": "https://docstoc.io/#pricing",
+        "availability": "https://schema.org/InStock"
       }
     }
   ]
@@ -1662,6 +1690,9 @@
           />
           <button type="submit" class="hero-signup-btn" data-cta data-i18n="home.hero.startFree">Start free →</button>
         </form>
+        <div class="hero-cta-links">
+          <a href="/app/" class="hero-signup-btn" style="flex:none;padding:0 22px;text-decoration:none;display:inline-flex;align-items:center" data-cta data-cta-source="home_hero_platform" data-i18n="home.hero.openPlatform">Open the platform →</a>
+        </div>
       </div>
       <p class="hero-cta-hint" data-i18n="home.hero.note">No credit card required · your account in one click</p>
       <p class="hero-secondary-link">
@@ -2265,12 +2296,12 @@
         <div class="pricing-sticky-col is-pro">
           <div class="pricing-sticky-name" data-i18n="home.pricing.planPro">Pro</div>
           <div class="pricing-sticky-price">$14.99<span class="pricing-sticky-note" data-i18n="home.pricing.perMonth">per month</span></div>
-          <a class="pricing-sticky-cta featured" href="/app/account?plan=pro" data-i18n="home.pricing.getPro">Get Pro</a>
+          <a class="pricing-sticky-cta featured" href="/app/login?start=1&amp;next=/app/account%3Fplan%3Dpro" data-i18n="home.pricing.getPro">Get Pro</a>
         </div>
         <div class="pricing-sticky-col">
           <div class="pricing-sticky-name" data-i18n="home.pricing.planBusiness">Business</div>
           <div class="pricing-sticky-price">$39.99<span class="pricing-sticky-note" data-i18n="home.pricing.perMonth">per month</span></div>
-          <a class="pricing-sticky-cta" href="/app/account?plan=business" data-i18n="home.pricing.getBusiness">Get Business</a>
+          <a class="pricing-sticky-cta" href="/app/login?start=1&amp;next=/app/account%3Fplan%3Dbusiness" data-i18n="home.pricing.getBusiness">Get Business</a>
         </div>
       </div>
     </div>
@@ -2311,7 +2342,7 @@
     <div class="faq-list">
       <details class="faq-item">
         <summary data-i18n="home.faq.q1">What is docstoc?</summary>
-        <p data-i18n="home.faq.a1">An AI invoice follow-up tool. Paste unpaid invoices and get payment reminder emails written in the right tone for how late each one is.</p>
+        <p data-i18n="home.faq.a1">docstoc is the Trust Automation Layer for Modern Business — one platform for agreements and templates, invoicing and payment follow-ups, domain SSL, document certificates, and AI collections.</p>
       </details>
       <details class="faq-item">
         <summary data-i18n="home.faq.q2">Do I need an account?</summary>

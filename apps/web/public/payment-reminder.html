@@ -27,10 +27,43 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://docstoc.io/" },
-    { "@type": "ListItem", "position": 2, "name": "Payment reminder", "item": "https://docstoc.io/payment-reminder" }
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://docstoc.io/" },
+        { "@type": "ListItem", "position": 2, "name": "Payment reminder", "item": "https://docstoc.io/payment-reminder" }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "When should I send a payment reminder email?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Many freelancers send one before the due date and one to two after — gently in the first week overdue, then formal past 30 days."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does docstoc auto-send payment reminders?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. docstoc drafts reminders you review and send from your own inbox."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Are the payment reminder templates free?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes — copy-paste templates are free; AI tone matching is included on the free tier (5 drafts per month)."
+          }
+        }
+      ]
+    }
   ]
 }
 </script>
@@ -103,6 +136,22 @@
     <div class="nav-megamenu-panel nav-megamenu-panel-simple" data-mega-panel hidden>
       <div class="nav-simplemenu-list"><a href="/features/" class="nav-simplemenu-item">
     <span class="nav-simplemenu-item-title" data-i18n="nav.features">Features</span>
+    <svg class="nav-simplemenu-item-chevron" width="8" height="14" viewBox="0 0 8 14" aria-hidden="true"><path d="M1 1l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg>
+  </a>
+<a href="/invoice-follow-up" class="nav-simplemenu-item">
+    <span class="nav-simplemenu-item-title" data-i18n="nav.invoiceFollowUp">Invoice follow-up</span>
+    <svg class="nav-simplemenu-item-chevron" width="8" height="14" viewBox="0 0 8 14" aria-hidden="true"><path d="M1 1l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg>
+  </a>
+<a href="/chase-invoices" class="nav-simplemenu-item">
+    <span class="nav-simplemenu-item-title" data-i18n="nav.chaseInvoices">Chase invoices</span>
+    <svg class="nav-simplemenu-item-chevron" width="8" height="14" viewBox="0 0 8 14" aria-hidden="true"><path d="M1 1l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg>
+  </a>
+<a href="/payment-reminder" class="nav-simplemenu-item">
+    <span class="nav-simplemenu-item-title" data-i18n="nav.paymentReminder">Payment reminders</span>
+    <svg class="nav-simplemenu-item-chevron" width="8" height="14" viewBox="0 0 8 14" aria-hidden="true"><path d="M1 1l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg>
+  </a>
+<a href="/free-templates/" class="nav-simplemenu-item">
+    <span class="nav-simplemenu-item-title" data-i18n="nav.freeTemplates">Free email templates</span>
     <svg class="nav-simplemenu-item-chevron" width="8" height="14" viewBox="0 0 8 14" aria-hidden="true"><path d="M1 1l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg>
   </a>
 <a href="/industry/freelancers" class="nav-simplemenu-item">
@@ -237,6 +286,10 @@
       <a href="/compliance/">Compliance</a>
       <a href="/integrations/">Integrations</a>
       <a href="/blog/" data-i18n="footer.blog">Blog</a>
+      <a href="/invoice-follow-up">Invoice follow-up</a>
+      <a href="/chase-invoices">Chase invoices</a>
+      <a href="/payment-reminder">Payment reminders</a>
+      <a href="/free-templates/">Free email templates</a>
       <a href="/overdue-invoices-guide">Overdue Invoices Guide</a>
       <a href="/docs/" data-i18n="footer.docs">API & Docs</a>
       <a href="/marketplace" data-i18n="footer.templates">Marketplace</a>
