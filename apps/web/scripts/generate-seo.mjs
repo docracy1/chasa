@@ -61,7 +61,7 @@ function buildSitemapUrls() {
 
   for (const file of walkHtml(publicDir)) {
     const urlPath = htmlPathToUrl(file);
-    if (urlPath.startsWith("/app/") && urlPath !== "/app/" && urlPath !== "/app/login") continue;
+    if (urlPath.startsWith("/app/") && urlPath !== "/app/") continue;
     if (urlPath === "/blog/post") continue;
     if (urlPath.startsWith("/blog/_shot-fixtures")) continue;
     if (shouldExcludeFromSitemap(urlPath)) continue;

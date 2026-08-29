@@ -160,6 +160,7 @@ export const ORG_JSON_LD = {
 
 /** Paths that 301 elsewhere — keep out of the sitemap. */
 export const SITEMAP_EXCLUDE_PATHS = new Set([
+  "/app/login",
   "/freetemplates",
   "/outgoinginvoices",
   "/chasinginvoices",

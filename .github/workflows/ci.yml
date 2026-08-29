@@ -51,6 +51,9 @@ jobs:
         working-directory: apps/worker
       - name: Build web
         if: env.CLOUDFLARE_API_TOKEN != ''
+        env:
+          GOOGLE_SITE_VERIFICATION: ${{ secrets.GOOGLE_SITE_VERIFICATION }}
+          BING_SITE_VERIFICATION: ${{ secrets.BING_SITE_VERIFICATION }}
         run: npm run build
         working-directory: apps/web
       - name: Deploy web (Cloudflare Pages)

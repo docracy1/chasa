@@ -97,13 +97,13 @@ function megaMenu({ triggerKey, triggerLabel, items, panel, columns = 2, simple 
 }
 
 /** The main products, big-icon grid — LimeWire's "Products" dropdown pattern. Order:
- *  templates → invoices → SSL → certificates → company badge. Chase lives under Features, not here. */
+ *  templates → invoices → AI collections → SSL → certificates. Trust badge in Use Cases. */
 const PRODUCTS_ITEMS = [
   { path: "/document-templates/", icon: "store", titleKey: "nav.mega.products.templates.title", title: "Document templates", descKey: "nav.mega.products.templates.desc", desc: "1,000+ free business & legal templates, plus kits." },
   { path: "/invoices", icon: "briefcase", titleKey: "nav.mega.products.invoices.title", title: "Invoice generator", descKey: "nav.mega.products.invoices.desc", desc: "Create a shareable invoice — then chase it if it goes overdue." },
+  { path: "/chase-invoices", icon: "sparkles", titleKey: "nav.mega.products.chasing.title", title: "AI collections", descKey: "nav.mega.products.chasing.desc", desc: "Tone-matched invoice follow-ups and payment reminders." },
   { path: "/ssl", icon: "lock", titleKey: "nav.mega.products.ssl.title", title: "SSL / TLS automation", descKey: "nav.mega.products.ssl.desc", desc: "Let's Encrypt automation for your domain — not a cert reseller." },
   { path: "/certificate", icon: "shield", titleKey: "nav.mega.products.certificates.title", title: "Document certificates", descKey: "nav.mega.products.certificates.desc", desc: "Free tamper-evident hash verification for any file." },
-  { path: "/trust-badges", icon: "building", titleKey: "nav.mega.products.companyBadge.title", title: "Company badge", descKey: "nav.mega.products.companyBadge.desc", desc: "Domain-verified trust badge for your site and proposals." },
 ];
 
 const FEATURE_ITEMS = [
@@ -152,6 +152,11 @@ const RESOURCE_ITEMS = [
 /** Everything besides Products lives here as a flat LimeWire-style list — one trigger instead
  *  of six, to match the 3-item nav density of the LimeWire reference (Products / Tools / More). */
 const MORE_ITEMS = [
+  { path: "/app/login?start=1", titleKey: "nav.tryFree", title: "Try free" },
+  { path: "/document-templates/", titleKey: "nav.mega.products.templates.title", title: "Document templates" },
+  { path: "/chase-invoices", titleKey: "nav.mega.products.chasing.title", title: "AI collections" },
+  { path: "/ssl", titleKey: "nav.mega.products.ssl.title", title: "SSL / TLS" },
+  { path: "/certificate", titleKey: "nav.mega.products.certificates.title", title: "Document certificates" },
   { path: "/features/", titleKey: "nav.features", title: "Features" },
   { path: "/invoice-follow-up", titleKey: "nav.invoiceFollowUp", title: "Invoice follow-up" },
   { path: "/chase-invoices", titleKey: "nav.chaseInvoices", title: "Chase invoices" },
@@ -394,7 +399,13 @@ ${mainHtml}
     <div class="site-footer-col">
       <h4 data-i18n="footer.product">Product</h4>
       <a href="${link("/")}" data-i18n="footer.home">Homepage</a>
+      <a href="${link("/app/login?start=1")}" data-i18n="footer.tryFree">Try free</a>
       <a href="${link("/#pricing")}" data-i18n="footer.pricing">Pricing</a>
+      <a href="${link("/document-templates/")}">Document templates</a>
+      <a href="${link("/invoices")}">Invoice generator</a>
+      <a href="${link("/chase-invoices")}">AI collections</a>
+      <a href="${link("/ssl")}">SSL automation</a>
+      <a href="${link("/certificate")}">Document certificates</a>
       <a href="${link("/features/")}" data-i18n="footer.features">Features</a>
       <a href="${link("/use-cases/")}" data-i18n="footer.useCases">Use Cases</a>
       <a href="${link("/compliance/")}">Compliance</a>

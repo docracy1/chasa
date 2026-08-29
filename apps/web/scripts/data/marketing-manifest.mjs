@@ -37,12 +37,9 @@ export const MARKETING_PAGES = [
   // Hand-authored long-form guide — added to the manifest (rather than left as a hardcoded
   // one-off) so it stops drifting out of sync with chrome.mjs header/footer changes.
   { file: "overdue-invoices-guide.html", extraHead: OVERDUE_GUIDE_STYLE },
-  // SEO landings
-  { file: "payment-reminder.html" },
+  // SEO landings (payment-reminder, invoice-follow-up, chase-invoices → generate-chase-landings.mjs)
   { file: "overdue-invoice.html" },
-  { file: "invoice-follow-up.html" },
   { file: "freelancer-invoice-follow-up.html" },
-  { file: "chase-invoices.html" },
   // Keyword-targeted product landing pages (clean slugs, no "docstoc" prefix)
   { file: "marketplace.html", activeNav: "templates" },
   { file: "freetemplates.html", activeNav: "templates" },

@@ -14,10 +14,10 @@ export const EN_TO_ES = {
   "/": "/es/",
   "/#pricing": "/es/#pricing",
   "/#faq": "/es/#faq",
+  "/invoice-follow-up": "/es/invoice-follow-up",
   "/privacy": "/es/privacy",
   "/terms": "/es/terms",
   "/blog/": "/es/blog/",
-  "/invoice-follow-up": "/es/invoice-follow-up",
   // free-templates/index.html's body copy is hand-authored English with no data-i18n
   // coverage yet (only its chrome — header/footer — is i18n-driven). Add it here once
   // the page content itself is translatable, not before — a hreflang/sitemap entry
