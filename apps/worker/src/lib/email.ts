@@ -94,13 +94,15 @@ const MAGIC_LINK_COPY: Record<Locale, { subject: string; headline: string; body:
   },
 };
 
+export type EmailSendResult = { ok: true } | { ok: false; status?: number };
+
 // Falls back to logging when RESEND_API_KEY isn't set, so local dev never blocks on a missing secret.
 export async function sendMagicLinkEmail(
   env: Env,
   email: string,
   verifyUrl: string,
   locale: Locale = "en"
-): Promise<void> {
+): Promise<EmailSendResult> {
   if (!env.RESEND_API_KEY) {
     console.log(`[dev] magic link email queued for ${email} (token not logged)`);
     await trackEvent(env, {
@@ -108,7 +110,7 @@ export async function sendMagicLinkEmail(
       properties: { type: "onboarding", channel: "dev" },
       path: "/api/auth/request",
     }).catch(() => {});
-    return;
+    return { ok: true };
   }
 
   const copy = MAGIC_LINK_COPY[locale];
@@ -139,13 +141,14 @@ export async function sendMagicLinkEmail(
   });
 
   if (!res.ok) {
-    console.error(`Resend send failed (${res.status}): ${await res.text()}`);
+    const detail = await res.text();
+    console.error(`Resend send failed (${res.status}): ${detail}`);
     await trackEvent(env, {
       name: "email_bounced",
       properties: { type: "onboarding", status: res.status },
       path: "/api/auth/request",
     }).catch(() => {});
-    return;
+    return { ok: false, status: res.status };
   }
 
   await trackEvent(env, {
@@ -153,6 +156,7 @@ export async function sendMagicLinkEmail(
     properties: { type: "onboarding" },
     path: "/api/auth/request",
   }).catch(() => {});
+  return { ok: true };
 }
 
 const TEAM_INVITE_COPY: Record<

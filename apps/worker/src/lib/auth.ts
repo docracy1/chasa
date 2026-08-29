@@ -134,7 +134,14 @@ export async function requestMagicLink(
   // session cookie is set on the API host and never sent with same-origin /api calls from the app.
   // Cookie options omit Domain= so the browser scopes the cookie to the app host (pages.dev or docstoc.io).
   const verifyUrl = `${appOrigin}/api/auth/verify?token=${encodeURIComponent(token)}`;
-  await sendMagicLinkEmail(env, normalized, verifyUrl, locale);
+  const sent = await sendMagicLinkEmail(env, normalized, verifyUrl, locale);
+  if (!sent.ok) {
+    await env.CHASA_DB.prepare(`DELETE FROM magic_links WHERE token_hash = ?`).bind(tokenHash).run();
+    return {
+      ok: false,
+      error: "We couldn't send the sign-in email. Try again in a moment.",
+    };
+  }
 
   return { ok: true };
 }
