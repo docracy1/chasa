@@ -40,6 +40,9 @@
 /site.css
   Cache-Control: public, max-age=3600, must-revalidate
 
+/home.css
+  Cache-Control: public, max-age=3600, must-revalidate
+
 /site-nav.js
   Cache-Control: public, max-age=0, must-revalidate
 

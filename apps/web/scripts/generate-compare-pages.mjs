@@ -135,6 +135,7 @@ for (const c of COMPETITORS) {
     canonical: importUrl(c),
     mainHtml: importMainHtml(c),
     jsonLd: importJsonLd(c),
+    robots: "noindex, follow",
   });
   writeFileSync(join(publicDir, `import-from-${c.slug}.html`), impPage, "utf8");
   n += 1;

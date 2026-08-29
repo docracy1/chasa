@@ -150,7 +150,8 @@ export function compareHubMainHtml(sectors) {
 </div>`;
 }
 
-export function writeLanding({ title, description, canonical, mainHtml, jsonLd }) {
+export function writeLanding({ title, description, canonical, mainHtml, jsonLd, robots = "" }) {
+  const extraHead = robots ? `<meta name="robots" content="${escapeHtml(robots)}">` : "";
   return chrome({
     title,
     description,
@@ -159,6 +160,7 @@ export function writeLanding({ title, description, canonical, mainHtml, jsonLd }
     mainHtml,
     jsonLd,
     depth: 0,
+    extraHead,
   });
 }
 

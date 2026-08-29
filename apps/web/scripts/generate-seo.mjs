@@ -41,6 +41,7 @@ function mtime(filePath) {
 }
 
 function shouldExcludeFromSitemap(urlPath) {
+  if (urlPath.startsWith("/import-from-")) return true;
   if (SITEMAP_EXCLUDE_PATHS.has(urlPath)) return true;
   if (urlPath.startsWith("/compliance/soc") || urlPath === "/compliance/iso27001") return true;
   return false;
