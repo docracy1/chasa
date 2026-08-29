@@ -5,10 +5,10 @@ endpoint, no authorization/token endpoint, and no `/.well-known/oauth-authorizat
 
 ## How authentication actually works
 
-- **Human users**: passwordless magic-link email sign-in at `https://chasa.io/app/login`. Clicking
+- **Human users**: passwordless magic-link email sign-in at `https://docstoc.io/app/login`. Clicking
   the one-time link creates a session cookie. The first sign-in also creates the account.
 - **Agents and the HTTP API**: a static Bearer API key (format `docstoc_...`), created by a signed-in
-  paid user from `https://chasa.io/app/connector`.
+  paid user from `https://docstoc.io/app/connector`.
 - **MCP**: mixed auth.
   - `get_chase_tip`, `recommend_template`, and `list_templates` are public.
   - `draft_chase_email` requires either a browser session cookie or a Bearer API key.

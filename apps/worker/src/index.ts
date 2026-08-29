@@ -38,8 +38,15 @@ import { sendCertExpiryReminders } from "./lib/customerCertificates";
 import { sweepPendingTimestamps } from "./lib/openTimestamps";
 import { runDailyAuditAnchors, sweepPendingAuditAnchors } from "./lib/auditLog";
 import { backfillTrustProfiles, sweepPendingTrustProfiles } from "./lib/trustProfile";
+import { legacyApiRedirectUrl } from "./lib/legacyHostRedirect";
 
 const app = new Hono<AuthEnv>();
+
+app.use("*", async (c, next) => {
+  const target = legacyApiRedirectUrl(c.req.url);
+  if (target) return c.redirect(target, 301);
+  return next();
+});
 
 app.use(
   "/api/*",

@@ -8,33 +8,35 @@ Paste your unpaid invoices. Get the follow-up email already written, in the righ
 
 | | URL |
 |---|---|
-| **Marketing** | https://chasa.io/ |
-| **App (Tool)** | https://chasa.io/app/ |
-| **Login** | https://chasa.io/app/login |
-| **Connector** | https://chasa.io/app/connector |
-| **Admin** | https://chasa.io/app/admin |
-| **API** | https://api.chasa.io |
-| **MCP** | https://api.chasa.io/mcp — read-only tools public; `draft_chase_email` requires session or API key |
+| **Marketing** | https://docstoc.io/ |
+| **App (Tool)** | https://docstoc.io/app/ |
+| **Login** | https://docstoc.io/app/login |
+| **Connector** | https://docstoc.io/app/connector |
+| **Admin** | https://docstoc.io/app/admin |
+| **API** | https://api.docstoc.io |
+| **MCP** | https://api.docstoc.io/mcp — read-only tools public; `draft_chase_email` requires session or API key |
 
-Worker `PUBLIC_APP_URL` is `https://chasa.io` (magic links, OAuth callbacks, Stripe return URLs, digest links).
+Worker `PUBLIC_APP_URL` is `https://docstoc.io` (magic links, OAuth callbacks, Stripe return URLs, digest links).
+
+Legacy `chasa.io` / `api.chasa.io` **301** to docstoc (Pages `_middleware.ts` + worker redirect). See `scripts/oauth-redirect-uris.md` for provider console URIs.
 
 **Go-live checklist**
 
-1. Attach `chasa.io` on Cloudflare Pages project `chasa` and wait for **Active**.
-2. Redirect `www` → apex. Pages `_redirects` cannot match hostnames, so use **Bulk Redirects**: source `www.chasa.io` → target `https://chasa.io`, `301`, with *preserve query string*, *subpath matching* and *preserve path suffix*. Needs a proxied `www` DNS record (`CNAME` → `chasa-71s.pages.dev`, or `A` → `192.0.2.1` if apex-only).
-3. DNS helper (needs `CLOUDFLARE_API_TOKEN` with Zone DNS Edit): `./scripts/go-live-dns.sh`
-4. Confirm accounting OAuth secrets are set on the worker (`QBO_CLIENT_ID` / `QBO_CLIENT_SECRET`, `XERO_CLIENT_ID` / `XERO_CLIENT_SECRET`) and redirect URIs registered in Intuit / Xero developer consoles:
-   - `https://api.chasa.io/api/account/connectors/quickbooks/callback`
-   - `https://api.chasa.io/api/account/connectors/xero/callback`
-5. Run `./scripts/go-live-verify.sh`.
+1. Attach `docstoc.io` on Cloudflare Pages project `chasa` and wait for **Active**.
+2. `www.docstoc.io` → apex: handled by `apps/web/functions/_middleware.ts` (redeploy web).
+3. `chasa.io` / `www.chasa.io` → `docstoc.io`: same middleware.
+4. `api.chasa.io` → `api.docstoc.io`: worker middleware in `apps/worker/src/lib/legacyHostRedirect.ts`.
+5. Register OAuth redirect URIs on `api.docstoc.io` — see `scripts/oauth-redirect-uris.md`.
+6. Optional DMARC: `./scripts/dmarc-remove-rua.sh` (removes `rua=` from `_dmarc.docstoc.io`).
+7. Run `./scripts/go-live-verify.sh`.
 
 The order does not matter: browser-facing links are built from the origin the request came in on (see “App origin resolution” below), so pages.dev and chasa.io both keep working whichever is deployed first.
 
 ### App origin resolution
 
-Magic links, post-login redirects, Stripe return URLs and team invites use the origin the user is actually on, not `PUBLIC_APP_URL`. The Pages `/api` proxy forwards it as `X-Chasa-App-Origin`, and the worker honours it only if it matches `lib/appUrl.ts`'s allowlist (`PUBLIC_APP_URL`, `chasa.io`, `www.chasa.io`, `*.pages.dev` project/preview hosts, localhost). This keeps preview deploys self-contained and makes the domain cutover zero-downtime.
+Magic links, post-login redirects, Stripe return URLs and team invites use the origin the user is actually on, not `PUBLIC_APP_URL`. The Pages `/api` proxy forwards it as `X-Docstoc-App-Origin`, and the worker honours it only if it matches `lib/appUrl.ts`'s allowlist (`PUBLIC_APP_URL`, `docstoc.io`, `www.docstoc.io`, legacy `chasa.io` hosts, `*.pages.dev` project/preview hosts, localhost). This keeps preview deploys self-contained and makes the domain cutover zero-downtime.
 
-Requests that arrive without a trusted origin — provider OAuth callbacks hitting `api.chasa.io` directly, and the digest cron — still fall back to `PUBLIC_APP_URL`, so those links only work once `chasa.io` resolves.
+Requests that arrive without a trusted origin — provider OAuth callbacks hitting `api.docstoc.io` directly, and the digest cron — still fall back to `PUBLIC_APP_URL`.
 
 ---
 
