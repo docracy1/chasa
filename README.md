@@ -273,12 +273,14 @@ Protects `/api/auth/request` and admin login.
 
     | Provider | Redirect URI |
     |----------|--------------|
-    | Dropbox | `https://api.chasa.io/api/account/connectors/dropbox/callback` |
-    | OneDrive | `https://api.chasa.io/api/account/connectors/onedrive/callback` |
-    | Box | `https://api.chasa.io/api/account/connectors/box/callback` |
-    | Google | `https://api.chasa.io/api/account/connectors/google/callback` |
+    | Dropbox | `https://api.docstoc.io/api/account/connectors/dropbox/callback` |
+    | OneDrive | `https://api.docstoc.io/api/account/connectors/onedrive/callback` |
+    | Box | `https://api.docstoc.io/api/account/connectors/box/callback` |
+    | Google | `https://api.docstoc.io/api/account/connectors/google/callback` |
 
-    Google Sign-In redirect: `https://api.chasa.io/api/auth/google/callback`
+    Google Sign-In redirect: `https://api.docstoc.io/api/auth/google/callback`
+
+    Step-by-step for each provider: [`scripts/connectors-docstoc-setup.md`](../scripts/connectors-docstoc-setup.md)
 
     ```bash
     wrangler secret put DROPBOX_CLIENT_ID
@@ -295,8 +297,10 @@ Protects `/api/auth/request` and admin login.
 
     | Provider | Redirect URI |
     |----------|--------------|
-    | QBO | `https://api.chasa.io/api/account/connectors/quickbooks/callback` |
-    | Xero | `https://api.chasa.io/api/account/connectors/xero/callback` |
+    | QBO | `https://api.docstoc.io/api/account/connectors/quickbooks/callback` |
+    | Xero | `https://api.docstoc.io/api/account/connectors/xero/callback` |
+
+    See [`scripts/connectors-docstoc-setup.md`](../scripts/connectors-docstoc-setup.md) for console steps.
 
     ```bash
     wrangler secret put QBO_CLIENT_ID
