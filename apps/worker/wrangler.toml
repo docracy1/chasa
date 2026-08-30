@@ -48,7 +48,7 @@ TURNSTILE_SITE_KEY = "0x4AAAAAAD-e9VZ4OPi8EPWM"
 
 # --- Google (Sign-In + integrations connector) ---
 # Client IDs are non-secret. Secrets via wrangler secret put (see comments below).
-GOOGLE_LOGIN_CLIENT_ID = "111635541806-70v6voa6a9kafmmgbhuokh2a07rvdlir.apps.googleusercontent.com"
+GOOGLE_LOGIN_CLIENT_ID = "808580458885-osnv7ngtf1rpvbesotrmp7a61ps05d0l.apps.googleusercontent.com"
 GOOGLE_INTEGRATIONS_CLIENT_ID = "111635541806-ie2hbeub99831tl1q610mt6kmjl7r00v.apps.googleusercontent.com"
 # Local/dev without a real widget: use Cloudflare's always-pass test site key:
 #   TURNSTILE_SITE_KEY = "1x00000000000000000000AA"
