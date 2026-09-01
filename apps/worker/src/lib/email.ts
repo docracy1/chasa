@@ -592,3 +592,107 @@ export async function sendContactInquiryEmail(
     path: "/api/leads/contact",
   }).catch(() => {});
 }
+
+const ONBOARDING_NUDGE_COPY: Record<
+  Locale,
+  {
+    subject: string;
+    headline: string;
+    body: string;
+    productsHtml: (base: string) => string;
+    cta: string;
+    note: string;
+  }
+> = {
+  en: {
+    subject: "5 tools on docstoc — pick one to try",
+    headline: "You signed up a couple of days ago — here's what's inside.",
+    body:
+      "Everything below lives on one platform. Start with whichever tool fits your workflow today:",
+    productsHtml: (base) => `
+      <ul style="margin:0 0 20px 0;padding-left:20px;font-size:15px;color:${INK};line-height:1.65;">
+        <li style="margin-bottom:10px;"><strong>Document templates</strong> — 1,000+ free NDAs, contracts, and HR forms to copy and edit. <a href="${base}/document-templates" style="color:${ACCENT};">Browse templates →</a></li>
+        <li style="margin-bottom:10px;"><strong>SSL for your domain</strong> — Managed TLS certificates with automatic renewal. <a href="${base}/ssl-domains" style="color:${ACCENT};">Manage SSL →</a></li>
+        <li style="margin-bottom:10px;"><strong>Document certificates</strong> — Tamper-evident SHA-256 fingerprint + public verify link for any file. <a href="${base}/certificates" style="color:${ACCENT};">Certify a file →</a></li>
+        <li style="margin-bottom:10px;"><strong>Invoice generator</strong> — Build a clean PDF invoice right in your browser. <a href="${base}/tools/invoice-generator" style="color:${ACCENT};">Create invoice →</a></li>
+        <li style="margin-bottom:0;"><strong>AI invoice chasing</strong> — Draft polite payment reminders (always sent securely from your own inbox). <a href="${base}/app?view=overdue" style="color:${ACCENT};">Open chases →</a></li>
+      </ul>`,
+    cta: "Open your dashboard",
+    note: "Free tier included — upgrade only when you need Pro features like Google sync or unlimited AI drafts.",
+  },
+  es: {
+    subject: "5 herramientas en docstoc — elige una para probar",
+    headline: "Te registraste hace un par de días — esto es lo que incluye.",
+    body:
+      "Todo lo siguiente está en una sola plataforma. Empieza por la herramienta que encaje con tu flujo de trabajo hoy:",
+    productsHtml: (base) => `
+      <ul style="margin:0 0 20px 0;padding-left:20px;font-size:15px;color:${INK};line-height:1.65;">
+        <li style="margin-bottom:10px;"><strong>Plantillas de documentos</strong> — Más de 1.000 NDAs, contratos y formularios HR gratis para copiar. <a href="${base}/document-templates" style="color:${ACCENT};">Ver plantillas →</a></li>
+        <li style="margin-bottom:10px;"><strong>SSL para tu dominio</strong> — Certificados TLS gestionados con renovación automática. <a href="${base}/ssl-domains" style="color:${ACCENT};">Gestionar SSL →</a></li>
+        <li style="margin-bottom:10px;"><strong>Certificados de documentos</strong> — Huella SHA-256 + enlace público de verificación. <a href="${base}/certificates" style="color:${ACCENT};">Certificar archivo →</a></li>
+        <li style="margin-bottom:10px;"><strong>Generador de facturas</strong> — Crea una factura PDF limpia directamente en el navegador. <a href="${base}/tools/invoice-generator" style="color:${ACCENT};">Crear factura →</a></li>
+        <li style="margin-bottom:0;"><strong>Seguimiento de facturas con IA</strong> — Borradores de recordatorios de pago (siempre enviados de forma segura desde tu propia bandeja). <a href="${base}/app?view=overdue" style="color:${ACCENT};">Abrir seguimientos →</a></li>
+      </ul>`,
+    cta: "Abrir tu panel",
+    note: "Incluye nivel gratuito — mejora solo cuando necesites Pro (Google, borradores IA ilimitados, etc.).",
+  },
+};
+
+/** One-time nudge ~2 days after signup if the free account never activated any product. */
+export async function sendOnboardingNudgeEmail(
+  env: Env,
+  email: string,
+  locale: Locale = "en"
+): Promise<EmailSendResult> {
+  const copy = ONBOARDING_NUDGE_COPY[locale];
+  const base = appUrl(env);
+  const body = `
+    ${emailHeadline(copy.headline)}
+    <p style="margin:0 0 16px 0;font-size:15px;color:${INK};line-height:1.55;">${copy.body}</p>
+    ${copy.productsHtml(base)}
+    ${ctaButton(`${base}/app`, copy.cta)}
+    <p style="margin:0;font-size:13px;color:${MUTED_HEX};line-height:1.5;">${copy.note}</p>
+    ${signOff(locale)}
+  `;
+
+  if (!env.RESEND_API_KEY) {
+    console.log(`[dev] onboarding nudge queued for ${email}`);
+    await trackEvent(env, {
+      name: "email_sent",
+      properties: { type: "onboarding_nudge", channel: "dev" },
+      path: "/cron/onboarding-nudge",
+    }).catch(() => {});
+    return { ok: true };
+  }
+
+  const res = await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${env.RESEND_API_KEY}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      from: `docstoc <login@docstoc.io>`,
+      to: [email],
+      subject: copy.subject,
+      html: emailShell(appUrl(env), body, locale),
+    }),
+  });
+
+  if (!res.ok) {
+    console.error(`Resend onboarding nudge failed (${res.status}): ${await res.text()}`);
+    await trackEvent(env, {
+      name: "email_bounced",
+      properties: { type: "onboarding_nudge", status: res.status },
+      path: "/cron/onboarding-nudge",
+    }).catch(() => {});
+    return { ok: false, status: res.status };
+  }
+
+  await trackEvent(env, {
+    name: "email_sent",
+    properties: { type: "onboarding_nudge" },
+    path: "/cron/onboarding-nudge",
+  }).catch(() => {});
+  return { ok: true };
+}

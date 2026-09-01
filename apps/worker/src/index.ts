@@ -31,6 +31,7 @@ import invoices from "./routes/invoices";
 import { configuredAppOrigin, isAllowedAppOrigin } from "./lib/appUrl";
 import { purgeExpiredSessions } from "./lib/sessionCleanup";
 import { sendDailyChaseDigests } from "./lib/chaseDigest";
+import { sendOnboardingNudges } from "./lib/onboardingNudge";
 import { runSpaSmokeAndAlert } from "./lib/spaSmoke";
 import { refreshClaritySnapshot } from "./lib/clarityApi";
 import { isWeeklyBlogMondayUtc, runWeeklyBlogPublish } from "./lib/blogWeekly";
@@ -111,6 +112,9 @@ export default {
         (async () => {
           await purgeExpiredSessions(env);
           await sendDailyChaseDigests(env);
+          await sendOnboardingNudges(env).catch((err) =>
+            console.error("Onboarding nudge sweep failed:", err)
+          );
           await sendCertExpiryReminders(env).catch((err) => console.error("Cert expiry reminders failed:", err));
           await runDailyAuditAnchors(env).catch((err) => console.error("Daily audit anchor run failed:", err));
           await backfillTrustProfiles(env).catch((err) => console.error("Trust profile backfill failed:", err));
