@@ -279,6 +279,7 @@ const en: Messages = {
   "tool.workspaceSub":
     "Add invoices manually, upload a CSV, or import a PDF from Dropbox / OneDrive / Box / Google Drive (Pro+). docstoc writes the follow-up — draft only. With Google connected, save into Gmail drafts; never auto-sent.",
   "tool.selectTwo": "Select at least two invoices.",
+  "tool.selectOne": "Select at least one invoice.",
   "tool.noGmailReply": "No recent Gmail reply found for this client.",
   "tool.gmailRecipientPrompt": "Recipient email for Gmail draft:",
   "tool.gmailDraftSaved": "Saved to Gmail drafts — open Gmail to review and send.",
@@ -295,6 +296,11 @@ const en: Messages = {
   "tool.connectorsLoadFailed": "Could not load connectors.",
   "tool.pdfsListFailed": "Could not list PDFs.",
   "tool.pdfImportFailed": "Could not import PDF.",
+  "tool.generateTimeout": "Draft generation took too long — try again.",
+  "tool.generateBlocked": "Draft request may be blocked by an ad blocker — allow docstoc.io or try another browser.",
+  "tool.generateSlow": "AI draft usually takes 5–15 seconds.",
+  "tool.generateCancel": "Cancel",
+  "tool.paymentLinkInvalid": "Payment link must start with https:// (or leave it empty).",
   "tool.calendarAddedWithLink": "Added to Google Calendar: {{link}}",
 
   "aging.title": "Aging overview",
@@ -303,6 +309,12 @@ const en: Messages = {
   "aging.selectAll": "Select all",
   "aging.clear": "Clear ({{count}})",
   "aging.draftOne": "Draft one email",
+  "aging.draftSelected": "Draft one email for all selected",
+  "aging.generateOne": "Generate follow-up",
+  "aging.singleSelectedHint":
+    "One row selected — the draft appears on that invoice card below (scroll down). Ignore any old draft box here.",
+  "aging.multiSelectedHint":
+    "Two or more rows — one combined email appears in the box below when ready.",
   "aging.client": "Client",
   "aging.amount": "Amount",
   "aging.days": "Days overdue",
@@ -382,6 +394,8 @@ const en: Messages = {
   "invoice.openWa": "Open WhatsApp",
   "invoice.copyTracked": "Copy tracked HTML",
   "invoice.openMail": "Open in email client",
+  "invoice.mailtoBodyCopied":
+    "Email body copied to clipboard — your mail app opens with the subject; paste the body (Ctrl+V / Cmd+V).",
   "invoice.saveGmail": "Save to Gmail drafts",
   "invoice.saveGmailTitle": "Writes this draft into your Gmail Drafts — you send from Gmail",
   "invoice.connectGoogle": "Connect Google for Gmail drafts",
@@ -427,7 +441,9 @@ const en: Messages = {
   "intake.importPdf": "Import PDF",
   "intake.pdfSolo": "PDF import (Pro+)",
   "intake.openDrive": "Open from Drive",
-  "intake.sheetId": "Google Sheet ID",
+  "intake.sheetId": "Google Sheet ID or Sheets URL",
+  "intake.sheetFormat":
+    "First tab, columns A–C: client name · amount · due date (2026-08-15 or 15.08.2026). Optional header row. Paste a Sheets URL — not a PDF from Drive.",
   "intake.importSheet": "Import Sheet",
   "intake.working": "Working…",
   "intake.exportAging": "Export aging to Sheets",
@@ -849,7 +865,9 @@ const en: Messages = {
     "Excludes {{count}} self-referral hit(s) (the site linking to itself, or bots spoofing our hostname) — this is only genuine external discovery.",
   "admin.noExternalTraffic": "No external referrers or tagged campaign clicks for this range.",
   "admin.externalSites": "External sites that linked here",
-  "admin.taggedCampaigns": "Tagged campaign clicks (utm /go links)",
+  "admin.taggedCampaigns": "Tagged campaign clicks (utm/ref links)",
+  "admin.taggedCampaignsNote":
+    "Respects Humans only. seo-* tags are added to /app CTAs on SEO pages; recorded when the visitor accepts cookies on signup. /go/* outreach links also appear here.",
   "admin.noneYet": "None yet.",
   "admin.colSite": "Site",
   "admin.colVisits": "Visits",

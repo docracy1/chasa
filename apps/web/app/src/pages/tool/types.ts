@@ -57,6 +57,7 @@ export type StoredInvoice = {
   dueDate: string;
   status?: "open" | "paid";
   paidAt?: string | null;
+  draft?: { subject: string; body: string };
   lastChaseStatus?: string | null;
   lastChaseAt?: string | null;
 };

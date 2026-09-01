@@ -268,6 +268,9 @@ function TrafficSourcesTable({
           </div>
           <div className="admin-traffic-sources-panel">
             <h3>{t("admin.taggedCampaigns")}</h3>
+            <p className="dash-note" style={{ marginTop: 0, marginBottom: 8 }}>
+              {t("admin.taggedCampaignsNote")}
+            </p>
             {campaigns.length === 0 ? (
               <p className="dash-muted">{t("admin.noneYet")}</p>
             ) : (

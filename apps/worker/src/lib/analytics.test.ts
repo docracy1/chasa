@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { getFunnelStats, trackEvent } from "./analytics";
+import { campaignTagFromReferralProps, getFunnelStats, trackEvent } from "./analytics";
 import type { Env } from "../types";
 
 type Query = { sql: string; args: unknown[] };
@@ -81,5 +81,29 @@ describe("getFunnelStats", () => {
     const { env } = mockEnv();
     expect((await getFunnelStats(env, 7, true)).humansOnly).toBe(true);
     expect((await getFunnelStats(env, 7)).humansOnly).toBe(false);
+  });
+});
+
+describe("campaignTagFromReferralProps", () => {
+  it("reads seo CTA utm_source token", () => {
+    expect(
+      campaignTagFromReferralProps({ utm_source: "seo-daycare-registration-form" })
+    ).toBe("seo-daycare-registration-form");
+  });
+
+  it("reads utm source/campaign pairs", () => {
+    expect(
+      campaignTagFromReferralProps({ utm_source: "outreach", utm_campaign: "dm" })
+    ).toBe("outreach/dm");
+  });
+
+  it("reads seo-* ref param", () => {
+    expect(campaignTagFromReferralProps({ ref: "seo-digicert-alternative" })).toBe(
+      "seo-digicert-alternative"
+    );
+  });
+
+  it("ignores generic ref like producthunt", () => {
+    expect(campaignTagFromReferralProps({ ref: "producthunt" })).toBe("");
   });
 });

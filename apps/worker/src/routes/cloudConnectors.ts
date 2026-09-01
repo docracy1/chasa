@@ -64,8 +64,17 @@ async function handleCallback(c: Context<AuthEnv>, provider: CloudProvider) {
   }
   try {
     await upsertConnectorFromCode(c.env, parsed.accountId, provider, code);
-  } catch {
-    return c.redirect(appConnectorUrl(c.env, { cloud: provider, error: "token_exchange" }), 302);
+  } catch (e) {
+    const detail = e instanceof Error ? e.message : "token_exchange";
+    console.error(`${provider} token exchange failed`, detail);
+    return c.redirect(
+      appConnectorUrl(c.env, {
+        cloud: provider,
+        error: "token_exchange",
+        error_description: detail.slice(0, 160),
+      }),
+      302
+    );
   }
   return c.redirect(appConnectorUrl(c.env, { connected: provider }), 302);
 }

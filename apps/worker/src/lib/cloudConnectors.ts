@@ -17,12 +17,35 @@ const GOOGLE_CONNECTOR_SCOPE = [
   "https://www.googleapis.com/auth/drive.readonly",
   "https://www.googleapis.com/auth/userinfo.email",
   "https://www.googleapis.com/auth/contacts.readonly",
-  "https://www.googleapis.com/auth/spreadsheets.readonly",
   "https://www.googleapis.com/auth/spreadsheets",
   "https://www.googleapis.com/auth/calendar.events",
   "https://www.googleapis.com/auth/gmail.readonly",
   "https://www.googleapis.com/auth/gmail.modify",
 ].join(" ");
+
+function dropboxClientCreds(env: Env): { clientId: string; clientSecret: string } {
+  return {
+    clientId: env.DROPBOX_CLIENT_ID!.trim(),
+    clientSecret: env.DROPBOX_CLIENT_SECRET!.trim(),
+  };
+}
+
+function dropboxBasicAuth(clientId: string, clientSecret: string): string {
+  return `Basic ${btoa(`${clientId}:${clientSecret}`)}`;
+}
+
+async function dropboxOAuthErrorMessage(res: Response): Promise<string> {
+  const text = await res.text();
+  try {
+    const data = JSON.parse(text) as { error?: string; error_description?: string };
+    if (data.error && data.error_description) return `${data.error}: ${data.error_description}`;
+    if (data.error) return data.error;
+    if (data.error_description) return data.error_description;
+  } catch {
+    /* not JSON */
+  }
+  return text.slice(0, 200) || `HTTP ${res.status}`;
+}
 
 export type CloudProvider = "dropbox" | "onedrive" | "box" | "google";
 
@@ -271,8 +294,9 @@ export function buildAuthorizeUrl(env: Env, provider: CloudProvider, state: stri
 
   switch (provider) {
     case "dropbox": {
+      const { clientId } = dropboxClientCreds(env);
       const u = new URL("https://www.dropbox.com/oauth2/authorize");
-      u.searchParams.set("client_id", env.DROPBOX_CLIENT_ID!);
+      u.searchParams.set("client_id", clientId);
       u.searchParams.set("response_type", "code");
       u.searchParams.set("redirect_uri", redirect);
       u.searchParams.set("token_access_type", "offline");
@@ -324,19 +348,23 @@ async function exchangeCode(
   const redirect = redirectUri(env, provider);
 
   if (provider === "dropbox") {
+    const { clientId, clientSecret } = dropboxClientCreds(env);
     const body = new URLSearchParams({
       code,
       grant_type: "authorization_code",
-      client_id: env.DROPBOX_CLIENT_ID!,
-      client_secret: env.DROPBOX_CLIENT_SECRET!,
       redirect_uri: redirect,
     });
     const res = await fetch("https://api.dropboxapi.com/oauth2/token", {
       method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      headers: {
+        Authorization: dropboxBasicAuth(clientId, clientSecret),
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
       body,
     });
-    if (!res.ok) throw new Error(`Dropbox token exchange failed (${res.status})`);
+    if (!res.ok) {
+      throw new Error(await dropboxOAuthErrorMessage(res));
+    }
     const data = (await res.json()) as {
       access_token: string;
       refresh_token?: string;
@@ -528,18 +556,22 @@ async function refreshAccessToken(
   refreshToken: string
 ): Promise<TokenBundle> {
   if (provider === "dropbox") {
+    const { clientId, clientSecret } = dropboxClientCreds(env);
     const body = new URLSearchParams({
       grant_type: "refresh_token",
       refresh_token: refreshToken,
-      client_id: env.DROPBOX_CLIENT_ID!,
-      client_secret: env.DROPBOX_CLIENT_SECRET!,
     });
     const res = await fetch("https://api.dropboxapi.com/oauth2/token", {
       method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      headers: {
+        Authorization: dropboxBasicAuth(clientId, clientSecret),
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
       body,
     });
-    if (!res.ok) throw new Error("Dropbox token refresh failed");
+    if (!res.ok) {
+      throw new Error(await dropboxOAuthErrorMessage(res));
+    }
     const data = (await res.json()) as {
       access_token: string;
       refresh_token?: string;

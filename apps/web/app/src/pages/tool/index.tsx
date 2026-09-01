@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import Papa from "papaparse";
 import { useT } from "../../lib/i18n";
@@ -43,9 +43,11 @@ import {
   type CloudFile,
   type CloudProvider,
   type RewriteAction,
+  ApiError,
 } from "../../lib/api";
-import { getUsedCount, incrementUsedCount, isAtLimit } from "../../lib/usage";
+import { getUsedCount, incrementUsedCount, isAtLimit, FREE_LIMIT } from "../../lib/usage";
 import { track } from "../../lib/analytics";
+import { openMailtoClient } from "../../lib/mailto";
 import { daysOverdue } from "../../lib/dates";
 import { formatUsWeekday } from "../../lib/locale";
 import { CLOUD_LABELS, PAYMENT_LINK_STORAGE_KEY } from "./constants";
@@ -91,7 +93,8 @@ function fillTemplate(
 
 export default function Tool({ account }: { account: Account | null }) {
   const t = useT();
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [paymentLinkError, setPaymentLinkError] = useState<string | null>(null);
   const [invoices, setInvoices] = useState<Invoice[]>(() => loadStoredInvoices());
   const [clientName, setClientName] = useState("");
   const [amount, setAmount] = useState("");
@@ -126,6 +129,8 @@ export default function Tool({ account }: { account: Account | null }) {
   const [sheetBusy, setSheetBusy] = useState(false);
   const [sheetMsg, setSheetMsg] = useState<string | null>(null);
   const [googleConnected, setGoogleConnected] = useState(false);
+  const generateAbortRef = useRef<Map<string, AbortController>>(new Map());
+  const cancelledGenerateRef = useRef<Set<string>>(new Set());
   const isPaid = account?.plan !== "free" && account?.plan != null;
   const isPro = account?.plan === "business";
 
@@ -192,6 +197,9 @@ export default function Tool({ account }: { account: Account | null }) {
                 dueDate: row.dueDate,
                 status,
                 paidAt: row.paidAt ?? existing.paidAt ?? null,
+                draft: existing.draft,
+                generating: existing.generating,
+                error: existing.error,
                 lastChaseStatus: row.lastChaseStatus ?? existing.lastChaseStatus ?? null,
                 lastChaseAt: row.lastChaseAt ?? existing.lastChaseAt ?? null,
               });
@@ -224,6 +232,14 @@ export default function Tool({ account }: { account: Account | null }) {
   useEffect(() => {
     persistInvoices(invoices);
   }, [invoices]);
+
+  // Never restore a stuck "Writing…" state from a prior tab/session.
+  useEffect(() => {
+    setInvoices((prev) => {
+      if (!prev.some((inv) => inv.generating)) return prev;
+      return prev.map((inv) => (inv.generating ? { ...inv, generating: false } : inv));
+    });
+  }, []);
 
   useEffect(() => {
     try {
@@ -512,32 +528,67 @@ export default function Tool({ account }: { account: Account | null }) {
   }
 
   async function handleGenerate(invoiceId: string) {
-    if (!isPaid && isAtLimit()) return;
+    if (!isPaid && isAtLimit()) {
+      setInvoices((prev) =>
+        prev.map((inv) =>
+          inv.id === invoiceId
+            ? { ...inv, generating: false, error: t("usage.wallTitle", { limit: FREE_LIMIT }) }
+            : inv
+        )
+      );
+      return;
+    }
 
-    let invoice: (typeof invoices)[number] | undefined;
+    setMultiDraft(null);
+    setMultiError(null);
+
+    const link = paymentLink.trim();
+    if (link && !/^https?:\/\//i.test(link)) {
+      const message = t("tool.paymentLinkInvalid");
+      setPaymentLinkError(message);
+      setInvoices((prev) =>
+        prev.map((inv) =>
+          inv.id === invoiceId ? { ...inv, generating: false, error: message } : inv
+        )
+      );
+      document.getElementById("payment-link")?.scrollIntoView({ behavior: "smooth", block: "center" });
+      document.getElementById("payment-link")?.focus();
+      return;
+    }
+    setPaymentLinkError(null);
+
+    let row: (typeof invoices)[number] | undefined;
     setInvoices((prev) => {
-      invoice = prev.find((inv) => inv.id === invoiceId);
+      row = prev.find((inv) => inv.id === invoiceId);
+      if (!row) return prev;
       return prev.map((inv) =>
         inv.id === invoiceId ? { ...inv, generating: true, error: undefined } : inv
       );
     });
-    if (!invoice) return;
+    if (!row) return;
+
+    const controller = new AbortController();
+    generateAbortRef.current.get(invoiceId)?.abort();
+    generateAbortRef.current.set(invoiceId, controller);
 
     try {
-      const draft = await generateEmail({
-        client_name: invoice.clientName,
-        invoice_amount: invoice.amount,
-        days_overdue: daysOverdue(invoice.dueDate),
-        payment_link: paymentLink.trim() || undefined,
-        invoices: [
-          {
-            client_name: invoice.clientName,
-            invoice_amount: invoice.amount,
-            days_overdue: daysOverdue(invoice.dueDate),
-            due_date: invoice.dueDate,
-          },
-        ],
-      });
+      const draft = await generateEmail(
+        {
+          client_name: row.clientName,
+          invoice_amount: row.amount,
+          days_overdue: daysOverdue(row.dueDate),
+          payment_link: link || undefined,
+          invoices: [
+            {
+              client_name: row.clientName,
+              invoice_amount: row.amount,
+              days_overdue: daysOverdue(row.dueDate),
+              due_date: row.dueDate,
+            },
+          ],
+        },
+        { signal: controller.signal }
+      );
       if (!isPaid) {
         if (typeof draft.remaining === "number") setUsedCount(5 - draft.remaining);
         else setUsedCount(incrementUsedCount());
@@ -558,20 +609,51 @@ export default function Tool({ account }: { account: Account | null }) {
       );
       if (isPaid) void markAgingChase(invoiceId, "drafted").catch(() => {});
       track("chase_drafted", { source: "single" });
+      if (parseChaseView(searchParams.get("view")) === "overdue") {
+        setSearchParams({ view: "waiting", focus: invoiceId });
+      }
     } catch (err) {
       track("send_failed", { source: "generate" });
+      if (err instanceof Error && err.name === "AbortError" && cancelledGenerateRef.current.delete(invoiceId)) {
+        return;
+      }
+      const message =
+        err instanceof ApiError
+          ? err.message
+          : err instanceof Error && err.name === "AbortError"
+            ? t("tool.generateTimeout")
+            : err instanceof Error && /failed to fetch|networkerror|blocked/i.test(err.message)
+              ? t("tool.generateBlocked")
+              : err instanceof Error
+                ? err.message
+                : t("common.error");
       setInvoices((prev) =>
         prev.map((inv) =>
           inv.id === invoiceId
             ? {
                 ...inv,
                 generating: false,
-                error: err instanceof Error ? err.message : t("common.error"),
+                error: message,
               }
             : inv
         )
       );
+    } finally {
+      if (generateAbortRef.current.get(invoiceId) === controller) {
+        generateAbortRef.current.delete(invoiceId);
+      }
     }
+  }
+
+  function cancelGenerate(invoiceId: string) {
+    cancelledGenerateRef.current.add(invoiceId);
+    generateAbortRef.current.get(invoiceId)?.abort();
+    generateAbortRef.current.delete(invoiceId);
+    setInvoices((prev) =>
+      prev.map((inv) =>
+        inv.id === invoiceId ? { ...inv, generating: false, error: undefined } : inv
+      )
+    );
   }
 
   function toggleSelect(id: string) {
@@ -595,14 +677,38 @@ export default function Tool({ account }: { account: Account | null }) {
 
   async function handleMultiDraft() {
     const selected = invoices.filter((inv) => selectedIds.has(inv.id));
-    if (selected.length < 2) {
-      setMultiError(t("tool.selectTwo"));
+    if (selected.length < 1) {
+      setMultiError(t("tool.selectOne"));
       return;
     }
-    if (!isPaid && isAtLimit()) return;
+
+    // One invoice → same path as the card's "Generate follow-up" (draft on card below, not multi box).
+    if (selected.length === 1) {
+      setMultiDraft(null);
+      setMultiError(null);
+      await handleGenerate(selected[0].id);
+      scrollToInvoice(selected[0].id);
+      return;
+    }
+
+    if (!isPaid && isAtLimit()) {
+      setMultiError(t("usage.wallTitle", { limit: FREE_LIMIT }));
+      return;
+    }
+
+    for (const id of selectedIds) {
+      generateAbortRef.current.get(id)?.abort();
+      generateAbortRef.current.delete(id);
+    }
 
     setMultiBusy(true);
     setMultiError(null);
+    setMultiDraft(null);
+    setInvoices((prev) =>
+      prev.map((inv) =>
+        selectedIds.has(inv.id) ? { ...inv, generating: true, error: undefined } : inv
+      )
+    );
     try {
       const names = [...new Set(selected.map((s) => s.clientName))];
       const clientLabel =
@@ -625,7 +731,13 @@ export default function Tool({ account }: { account: Account | null }) {
       setInvoices((prev) =>
         prev.map((inv) =>
           selectedIds.has(inv.id)
-            ? { ...inv, lastChaseStatus: "multi-drafted", lastChaseAt: now }
+            ? {
+                ...inv,
+                draft,
+                lastChaseStatus: "multi-drafted",
+                lastChaseAt: now,
+                generating: false,
+              }
             : inv
         )
       );
@@ -638,6 +750,11 @@ export default function Tool({ account }: { account: Account | null }) {
     } catch (err) {
       track("send_failed", { source: "multi" });
       setMultiError(err instanceof Error ? err.message : t("common.error"));
+      setInvoices((prev) =>
+        prev.map((inv) =>
+          selectedIds.has(inv.id) ? { ...inv, generating: false } : inv
+        )
+      );
     } finally {
       setMultiBusy(false);
     }
@@ -1356,34 +1473,45 @@ export default function Tool({ account }: { account: Account | null }) {
     }
   }
 
-  function mailtoLink(invoice: Invoice): string {
-    if (!invoice.draft) return "#";
-    const subject = encodeURIComponent(invoice.draft.subject);
-    const body = encodeURIComponent(invoice.draft.body);
-    return `mailto:?subject=${subject}&body=${body}`;
-  }
-
   function handleMailtoClick(invoice?: Invoice) {
+    if (!invoice?.draft) return;
     track("chase_sent", { method: "mailto" });
-    if (invoice) {
-      const now = new Date().toISOString();
-      setInvoices((prev) =>
-        prev.map((inv) =>
-          inv.id === invoice.id
-            ? { ...inv, lastChaseStatus: "mailto", lastChaseAt: now }
-            : inv
-        )
-      );
-      if (isPaid) void markAgingChase(invoice.id, "mailto").catch(() => {});
-      void logChaseEvent(invoice, "mailto", invoice.draft?.subject, invoice.draft?.body);
-    }
-    if (isPaid && invoice) {
+    const { copiedBody } = openMailtoClient({
+      subject: invoice.draft.subject,
+      body: invoice.draft.body,
+    });
+    const now = new Date().toISOString();
+    setInvoices((prev) =>
+      prev.map((inv) =>
+        inv.id === invoice.id
+          ? {
+              ...inv,
+              lastChaseStatus: "mailto",
+              lastChaseAt: now,
+              error: copiedBody ? t("invoice.mailtoBodyCopied") : undefined,
+            }
+          : inv
+      )
+    );
+    if (isPaid) void markAgingChase(invoice.id, "mailto").catch(() => {});
+    void logChaseEvent(invoice, "mailto", invoice.draft.subject, invoice.draft.body);
+    if (isPaid) {
       void notifyWebhook("chase.sent", {
         method: "mailto",
         client_name: invoice.clientName,
         invoice_amount: invoice.amount,
       });
     }
+  }
+
+  function handleMultiMailtoClick() {
+    if (!multiDraft) return;
+    track("chase_sent", { method: "mailto", source: "multi" });
+    const { copiedBody } = openMailtoClient({
+      subject: multiDraft.subject,
+      body: multiDraft.body,
+    });
+    if (copiedBody) setMultiError(t("invoice.mailtoBodyCopied"));
   }
 
   function downloadCsv() {
@@ -1423,6 +1551,15 @@ export default function Tool({ account }: { account: Account | null }) {
 
   const atLimit = !isPaid && isAtLimit();
   const selectedCount = selectedIds.size;
+  const selectionKey = useMemo(
+    () => [...selectedIds].sort().join(","),
+    [selectedIds]
+  );
+
+  useEffect(() => {
+    setMultiDraft(null);
+    setMultiError(null);
+  }, [selectionKey]);
 
   function sequenceSendDate(daysFromNow: number): string {
     const d = new Date();
@@ -1521,6 +1658,8 @@ export default function Tool({ account }: { account: Account | null }) {
               onScrollToInvoice={scrollToInvoice}
               onGenerate={handleGenerate}
               onMultiDraftChange={setMultiDraft}
+              onOpenMultiMail={handleMultiMailtoClick}
+              onDraftError={setMultiError}
             />
           )}
 
@@ -1543,12 +1682,16 @@ export default function Tool({ account }: { account: Account | null }) {
             amount={amount}
             dueDate={dueDate}
             paymentLink={paymentLink}
+            paymentLinkError={paymentLinkError}
             isPaid={isPaid}
             invoices={invoices}
             onClientNameChange={setClientName}
             onAmountChange={setAmount}
             onDueDateChange={setDueDate}
-            onPaymentLinkChange={setPaymentLink}
+            onPaymentLinkChange={(value) => {
+              setPaymentLink(value);
+              setPaymentLinkError(null);
+            }}
             onAddManual={handleAddManual}
             onCsvUpload={handleCsvUpload}
             onOpenPdfPicker={openPdfPicker}
@@ -1595,6 +1738,7 @@ export default function Tool({ account }: { account: Account | null }) {
               selectedIds={selectedIds}
               onToggleSelect={toggleSelect}
               onGenerate={handleGenerate}
+              onCancelGenerate={cancelGenerate}
               onUpdateDraft={updateDraft}
               onRewrite={handleRewrite}
               onThankYou={handleThankYou}
@@ -1622,7 +1766,6 @@ export default function Tool({ account }: { account: Account | null }) {
               onTrackedCopy={handleTrackedCopy}
               onSaveGmailDraft={isPaid && googleConnected ? handleSaveGmailDraft : undefined}
               googleConnected={googleConnected}
-              mailtoLink={mailtoLink}
               onMailtoClick={handleMailtoClick}
               sequenceSendDate={sequenceSendDate}
             />

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { detectReferralOnce } from "../lib/referralTracking";
 import { consentPending, hasAnalyticsConsent, setAnalyticsConsent } from "../lib/consent";
 import { loadClarity } from "../lib/clarity";
 import { useT } from "../lib/i18n";
@@ -8,7 +9,10 @@ export default function AppConsentBanner() {
   const [hidden, setHidden] = useState(() => !consentPending() || hasAnalyticsConsent());
 
   useEffect(() => {
-    if (hasAnalyticsConsent()) loadClarity();
+    if (hasAnalyticsConsent()) {
+      loadClarity();
+      detectReferralOnce();
+    }
   }, []);
 
   if (hidden) return null;
@@ -65,6 +69,7 @@ export default function AppConsentBanner() {
             onClick={() => {
               setAnalyticsConsent("accepted");
               loadClarity();
+              detectReferralOnce();
               setHidden(true);
             }}
           >

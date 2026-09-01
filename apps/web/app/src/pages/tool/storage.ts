@@ -16,6 +16,7 @@ export function loadStoredInvoices(): Invoice[] {
         dueDate: r.dueDate,
         status: r.status === "paid" ? "paid" : "open",
         paidAt: r.paidAt ?? null,
+        draft: r.draft,
         lastChaseStatus: r.lastChaseStatus ?? null,
         lastChaseAt: r.lastChaseAt ?? null,
         generating: false,
@@ -34,6 +35,7 @@ export function persistInvoices(invoices: Invoice[]) {
     dueDate: inv.dueDate,
     status: inv.status,
     paidAt: inv.paidAt ?? null,
+    draft: inv.draft,
     lastChaseStatus: inv.lastChaseStatus ?? null,
     lastChaseAt: inv.lastChaseAt ?? null,
   }));

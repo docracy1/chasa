@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>docstoc — Google OAuth verification demo</title>
+  <style>
+    :root { --accent:#EC683C; --header:#C24A28; --paper:#F7F3F0; --line:#e8ddd6; --soft:#6b5348; --g:#1a73e8; --ok:#137333; }
+    *{box-sizing:border-box} body{margin:0;font-family:Inter,system-ui,sans-serif;background:#2A1410;overflow:hidden}
+    .shell{position:relative;width:1280px;height:720px}
+    .scene{position:absolute;inset:0;opacity:0;transition:opacity .45s;display:flex;flex-direction:column;background:var(--paper)}
+    .scene.active{opacity:1}
+    .hdr{display:flex;justify-content:space-between;align-items:center;padding:12px 24px;background:var(--header);color:#fff;font-weight:800;font-size:14px}
+    .badge{font-size:10px;background:#fff;color:var(--accent);padding:4px 10px;border-radius:999px;white-space:nowrap}
+    .main{flex:1;padding:18px 22px;display:grid;gap:14px;min-height:0;overflow:hidden}
+    .split{grid-template-columns:1fr 1fr}
+    .card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 16px;box-shadow:0 6px 20px rgba(42,20,16,.06);min-height:0;overflow:hidden}
+    h1,h2{margin:0 0 6px;font-size:18px} h3{margin:0 0 4px;font-size:14px;color:#444}
+    p{margin:0;color:var(--soft);font-size:12px;line-height:1.45}
+    .title-scene{align-items:center;justify-content:center;text-align:center;background:linear-gradient(135deg,#F48A5C,var(--accent),var(--header));color:#fff}
+    .title-scene h1{font-size:34px;color:#fff;max-width:18em;line-height:1.15}
+    .cap{position:absolute;bottom:0;left:0;right:0;padding:10px;background:rgba(194,74,40,.96);color:#fff;text-align:center;font-weight:650;font-size:12px}
+    .gpage{background:#f1f3f4;align-items:center;justify-content:center;padding:24px}
+    .gbox{width:100%;max-width:560px;border:1px solid #dadce0;border-radius:8px;padding:22px 26px;font-family:Roboto,Arial,sans-serif;background:#fff}
+    .glogo{width:40px;height:40px;border-radius:50%;background:#4285f4;color:#fff;display:grid;place-items:center;font-weight:700;margin:0 auto 12px;font-size:18px}
+    .warn{background:#fef7e0;border:1px solid #f9ab00;border-radius:8px;padding:10px;font-size:11px;color:#3c4043;margin:10px 0;line-height:1.4}
+    .gbtn{display:block;width:100%;padding:9px;border-radius:4px;border:1px solid #dadce0;background:#fff;font-weight:600;margin-top:8px;text-align:center;font-size:13px}
+    .gbtn.p{background:var(--g);color:#fff;border-color:var(--g)}
+    .scope-list{margin:10px 0 0;padding:0;list-style:none;font-size:10.5px;line-height:1.35;color:#3c4043;max-height:220px;overflow:hidden}
+    .scope-list li{padding:5px 0;border-bottom:1px solid #eee;display:flex;gap:8px}
+    .scope-list li b{color:#202124;min-width:118px;font-size:10px}
+    .show-all{color:var(--g);font-size:11px;font-weight:600;margin-top:6px}
+    .btn{display:inline-block;margin-top:10px;padding:9px 14px;background:var(--accent);color:#fff;border-radius:8px;font-weight:800;font-size:12px;text-align:center}
+    .btn.sec{background:#fff;color:var(--accent);border:2px solid var(--accent)}
+    .row{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+    .pill{font-size:9px;font-weight:800;background:#e8f0fe;color:var(--g);padding:3px 7px;border-radius:999px}
+    .pill.ok{background:#e6f4ea;color:var(--ok)}
+    .draft{font-size:11px;line-height:1.5;white-space:pre-wrap;background:#f8f8f8;padding:10px;border-radius:8px;margin-top:8px;border:1px solid #eee}
+    .gmail-ui{font-family:Roboto,Arial,sans-serif;font-size:11px}
+    .gmail-ui .side{background:#f6f8fc;border-right:1px solid #e0e0e0;padding:8px;min-height:240px}
+    .gmail-ui .side div{padding:6px 8px;border-radius:16px;margin-bottom:4px}
+    .gmail-ui .side .on{background:#d3e3fd;font-weight:700;color:#174ea6}
+    .gmail-ui .msg{padding:10px;border-bottom:1px solid #eee;background:#e8f0fe}
+    .sheet-ui{font-family:Roboto,Arial,sans-serif;font-size:10px}
+    .sheet-ui table{width:100%;border-collapse:collapse;margin-top:6px}
+    .sheet-ui th,.sheet-ui td{border:1px solid #dadce0;padding:4px 6px;text-align:left}
+    .sheet-ui th{background:#f3f3f3;font-weight:600}
+    .cal-ui{font-family:Roboto,Arial,sans-serif;font-size:10px}
+    .cal-ui .ev{background:#1a73e8;color:#fff;border-radius:4px;padding:6px 8px;margin-top:8px}
+    .field{margin-top:8px;padding:8px;border:1px solid var(--line);border-radius:8px;font-size:11px;background:#fafafa}
+    .hl{border-color:var(--accent)!important;background:#fff8f5!important}
+    .check{color:var(--ok);font-weight:800}
+  </style>
+</head>
+<body>
+<div class="shell">
+  <section class="scene title-scene active" id="s0">
+    <h1>docstoc Google OAuth verification</h1>
+    <p style="color:rgba(255,255,255,.9);font-size:16px;margin-top:12px;max-width:36em">Project docstoc-507108 · Integrations client · All scopes demonstrated in app + Google account</p>
+  </section>
+
+  <section class="scene" id="s1">
+    <header class="hdr"><span>docstoc.io/app/login</span><span class="badge">OAuth client 1 · Sign-in</span></header>
+    <div class="main split">
+      <div class="card"><h2>Sign in with Google</h2><p>Scopes: openid, email, profile only. No Drive or Gmail at login.</p>
+        <div class="btn" style="display:block;margin-top:16px">Continue with Google</div></div>
+      <div class="card"><h2>Separate from Connect</h2><p>Callback: api.docstoc.io/api/auth/google/callback</p>
+        <p style="margin-top:8px">Sensitive scopes are requested only on Connectors after explicit user action.</p></div>
+    </div>
+    <div class="cap">Step 1 · Sign-in client (basic profile only)</div>
+  </section>
+
+  <section class="scene gpage" id="s2">
+    <div class="gbox">
+      <div class="glogo">G</div>
+      <div style="text-align:center;font-size:16px;font-weight:500;margin-bottom:6px">Google hasn't verified this app</div>
+      <div class="warn">docstoc is in OAuth verification. Test account continues — expected during review.</div>
+      <div class="gbtn p">Continue to docstoc.io</div>
+    </div>
+    <div class="cap">Unverified app screen (required during review)</div>
+  </section>
+
+  <section class="scene" id="s3">
+    <header class="hdr"><span>docstoc.io/app/connector</span><span class="badge">OAuth client 2 · Integrations</span></header>
+    <div class="main split">
+      <div class="card"><h2>Connect Google</h2><p>User-initiated. Callback: api.docstoc.io/api/account/connectors/google/callback</p>
+        <div class="btn" style="display:block;margin-top:14px">Connect Google →</div></div>
+      <div class="card"><h2>Least privilege</h2><p>Drive read-only · Gmail read + drafts only · Sheets import/export · Calendar event · Contacts import</p>
+        <p style="margin-top:8px"><span class="check">✓</span> User can disconnect anytime on this page.</p></div>
+    </div>
+    <div class="cap">Step 2 · User clicks Connect Google on Connectors</div>
+  </section>
+
+  <section class="scene gpage" id="s4">
+    <div class="gbox">
+      <div class="glogo">G</div>
+      <div style="font-size:15px;font-weight:500;margin-bottom:4px">docstoc wants access to your Google Account</div>
+      <p style="font-size:11px;color:#5f6368;margin:0 0 8px">reinhold.lackner@gmail.com</p>
+      <div class="show-all">▾ Show all services (expanded)</div>
+      <ul class="scope-list">
+        <li><b>Email address</b><span>See your primary Google Account email address (userinfo.email)</span></li>
+        <li><b>Google Drive</b><span>See and download all your Google Drive files (drive.readonly)</span></li>
+        <li><b>Gmail</b><span>View your email messages and settings (gmail.readonly)</span></li>
+        <li><b>Gmail</b><span>Read, compose, and send emails — we create drafts only; no send (gmail.modify)</span></li>
+        <li><b>Google Sheets</b><span>See, edit, create, and delete spreadsheets (spreadsheets)</span></li>
+        <li><b>Google Calendar</b><span>View and edit events on all your calendars (calendar.events)</span></li>
+        <li><b>Google Contacts</b><span>See and download your contacts (contacts.readonly)</span></li>
+      </ul>
+      <div class="row"><div class="gbtn">Cancel</div><div class="gbtn p" style="flex:1">Allow</div></div>
+    </div>
+    <div class="cap">Step 3 · Consent screen — all requested scopes visible</div>
+  </section>
+
+  <section class="scene" id="s5">
+    <header class="hdr"><span>docstoc · New chase</span><span class="badge">drive.readonly</span></header>
+    <div class="main split">
+      <div class="card"><h2>Import invoice PDF from Drive</h2><p>User picks one PDF in Google Picker.</p>
+        <div class="field hl">📄 invoice-acme-q3.pdf · 248 KB · selected</div>
+        <p style="margin-top:8px">Parsed: Client Acme GmbH · $3,200 · due 2026-08-01</p>
+        <div class="btn sec">Confirm import</div></div>
+      <div class="card"><h2>Google Drive (unchanged)</h2><p>Read-only — file stays in Drive; docstoc never modifies Drive.</p>
+        <div class="field">📄 invoice-acme-q3.pdf · Modified Aug 12</div>
+        <p style="margin-top:8px"><span class="check">✓</span> No upload, edit, move, or delete</p></div>
+    </div>
+    <div class="cap">drive.readonly · files.get?alt=media for user-selected PDF only</div>
+  </section>
+
+  <section class="scene" id="s6">
+    <header class="hdr"><span>docstoc · New chase</span><span class="badge">gmail.readonly</span></header>
+    <div class="main split">
+      <div class="card"><h2>Find client reply</h2><p>User clicks to load latest inbox snippet for context.</p>
+        <div class="field hl"><strong>Snippet:</strong> "Thanks — can we pay by the 15th? Please resend the PDF."</div>
+        <p style="margin-top:8px">Used to improve AI chase draft. Metadata + snippet only.</p></div>
+      <div class="card gmail-ui"><h2>Gmail · Inbox</h2>
+        <div style="display:grid;grid-template-columns:100px 1fr;min-height:240px;border:1px solid #e0e0e0;border-radius:8px;overflow:hidden">
+          <div class="side"><div>Inbox</div><div class="on">From: Alex</div><div>Drafts</div></div>
+          <div><div class="msg"><b>Re: Invoice INV-8821</b><br>Alex · Aug 28 — Thanks — can we pay by the 15th?</div></div>
+        </div></div>
+    </div>
+    <div class="cap">gmail.readonly · messages.list + messages.get (metadata, snippet)</div>
+  </section>
+
+  <section class="scene" id="s7">
+    <header class="hdr"><span>docstoc · New chase</span><span class="badge">gmail.modify</span></header>
+    <div class="main split">
+      <div class="card"><h2>Save to Gmail drafts</h2><p>User reviews text, then saves — docstoc never sends.</p>
+        <div class="draft">To: alex@acme.example
+Subject: Payment reminder INV-8821
+
+Hi Alex — friendly reminder that invoice INV-8821 ($3,200) is overdue.</div>
+        <div class="btn" style="display:block;margin-top:10px">Save to Gmail Drafts</div>
+        <p style="margin-top:8px"><span class="check">✓</span> POST users/me/drafts — no messages.send</p></div>
+      <div class="card gmail-ui"><h2>Gmail · Drafts (source account)</h2>
+        <span class="pill ok">Draft created</span>
+        <div class="msg" style="margin-top:8px;border-radius:8px"><b>Draft · Payment reminder INV-8821</b><br>To: alex@acme.example<br>User opens Gmail and sends manually.</div></div>
+    </div>
+    <div class="cap">gmail.modify · draft visible in user's Gmail Drafts folder</div>
+  </section>
+
+  <section class="scene" id="s8">
+    <header class="hdr"><span>docstoc · Aging</span><span class="badge">spreadsheets</span></header>
+    <div class="main split">
+      <div class="card"><h2>Export aging to Google Sheet</h2><p>User clicks Export — docstoc creates a new Sheet.</p>
+        <div class="btn">Export to Google Sheet</div>
+        <p style="margin-top:10px">Import also supported: user pastes spreadsheet ID + range.</p></div>
+      <div class="card sheet-ui"><h2>Google Sheets · docstoc aging export</h2>
+        <span class="pill ok">New spreadsheet created</span>
+        <table><tr><th>Client</th><th>Amount</th><th>Due date</th><th>Status</th></tr>
+          <tr><td>Acme GmbH</td><td>3200</td><td>2026-08-01</td><td>open</td></tr>
+          <tr><td>Beta LLC</td><td>890</td><td>2026-08-15</td><td>open</td></tr></table></div>
+    </div>
+    <div class="cap">spreadsheets · spreadsheets.create + values.update (export); values.get (import)</div>
+  </section>
+
+  <section class="scene" id="s9">
+    <header class="hdr"><span>docstoc · Chase plan</span><span class="badge">calendar.events</span></header>
+    <div class="main split">
+      <div class="card"><h2>Add follow-up to Google Calendar</h2><p>User sets date → Add to Calendar.</p>
+        <div class="field">Follow-up: Sep 5, 2026</div>
+        <div class="btn">Add to Google Calendar</div></div>
+      <div class="card cal-ui"><h2>Google Calendar · Primary</h2>
+        <span class="pill ok">Event created</span>
+        <div class="cal-ui ev">docstoc reminder: Acme GmbH · INV-8821 · Sep 5 (all day)</div></div>
+    </div>
+    <div class="cap">calendar.events · POST calendars/primary/events</div>
+  </section>
+
+  <section class="scene" id="s10">
+    <header class="hdr"><span>docstoc · Clients</span><span class="badge">contacts.readonly</span></header>
+    <div class="main split">
+      <div class="card"><h2>Import from Google</h2><p>One explicit click — names + emails to client list.</p>
+        <div class="btn">Import from Google</div>
+        <p style="margin-top:10px">Imported: 12 clients · Skipped duplicates: 3</p>
+        <div class="field hl">Alex Miller · alex@acme.example</div></div>
+      <div class="card"><h2>Google Contacts (read only)</h2><p>No writes to Google Contacts. No background sync.</p>
+        <div class="field">Alex Miller · alex@acme.example</div>
+        <div class="field">Beta Corp · billing@beta.example</div>
+        <p style="margin-top:8px"><span class="check">✓</span> People API connections — names, emailAddresses</p></div>
+    </div>
+    <div class="cap">contacts.readonly · one-time import on user request</div>
+  </section>
+
+  <section class="scene title-scene" id="s11">
+    <h1 style="font-size:28px">Summary</h1>
+    <p style="color:rgba(255,255,255,.92);font-size:15px;margin-top:14px;max-width:40em;line-height:1.6">
+      Optional Google access · User disconnects on /app/connector · Privacy docstoc.io/privacy · Drafts only, no Gmail send
+    </p>
+  </section>
+</div>
+<script>
+window.__DEMO_NARRATION__ = [
+  { "atMs": 600, "text": "This video demonstrates every Google scope docstoc requests on our integrations OAuth client, project docstoc five zero seven one zero eight." },
+  { "atMs": 5500, "text": "Sign in with Google uses a separate client with openid, email, and profile only. Drive and Gmail are not accessed at login." },
+  { "atMs": 11000, "text": "During verification, Google shows an unverified app warning. Test accounts continue — this is expected." },
+  { "atMs": 15500, "text": "On Connectors, the user explicitly clicks Connect Google. That starts the integrations OAuth flow." },
+  { "atMs": 20500, "text": "The consent screen lists every scope, expanded. Drive read only, Gmail read and modify for drafts, Sheets, Calendar events, and Contacts read only." },
+  { "atMs": 32000, "text": "Drive read only: the user picks an invoice PDF. We download and parse it. The file in Google Drive is never modified." },
+  { "atMs": 40000, "text": "Gmail read only: Find client reply loads the latest inbox snippet and subject for AI context. We do not store full message bodies." },
+  { "atMs": 48000, "text": "Gmail modify: Save to Gmail drafts creates a draft in the user's Gmail account. We never call messages dot send." },
+  { "atMs": 56000, "text": "Here is the draft in Gmail Drafts on the source account. The user reviews and sends manually." },
+  { "atMs": 63000, "text": "Sheets: export aging creates a new spreadsheet in the user's Google account with invoice rows." },
+  { "atMs": 71000, "text": "Calendar events: a follow-up reminder appears on the user's primary Google Calendar." },
+  { "atMs": 78000, "text": "Contacts read only: Import from Google copies names and emails into docstoc clients. We never write to Google Contacts." },
+  { "atMs": 85000, "text": "Users can disconnect anytime on Connectors. See docstoc dot i o slash privacy. Thank you." }
+];
+const sleep=(ms)=>new Promise(r=>setTimeout(r,ms));
+const show=(id)=>{document.querySelectorAll('.scene').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active')};
+(async()=>{
+  await sleep(4500); show('s1'); await sleep(5000); show('s2'); await sleep(4000); show('s3');
+  await sleep(4500); show('s4'); await sleep(9000); show('s5'); await sleep(7000); show('s6');
+  await sleep(7000); show('s7'); await sleep(7500); show('s8'); await sleep(7000); show('s9');
+  await sleep(6500); show('s10'); await sleep(6500); show('s11'); await sleep(8000);
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>docstoc — Document templates</title>
+  <style>
+    :root { --accent:#EC683C; --header:#C24A28; --paper:#F7F3F0; --ink:#2A1410; --line:#e8ddd6; --soft:#6b5348; }
+    *{box-sizing:border-box} body{margin:0;font-family:Inter,system-ui,sans-serif;background:#2A1410;overflow:hidden}
+    .shell{position:relative;width:1280px;height:720px}
+    .scene{position:absolute;inset:0;opacity:0;transition:opacity .5s;display:flex;flex-direction:column;background:var(--paper)}
+    .scene.active{opacity:1}
+    .hdr{display:flex;justify-content:space-between;align-items:center;padding:14px 28px;background:var(--header);color:#fff;font-weight:800}
+    .badge{font-size:11px;background:#fff;color:var(--accent);padding:5px 12px;border-radius:999px;text-transform:uppercase}
+    .main{flex:1;padding:28px;display:grid;grid-template-columns:1fr 1fr;gap:20px}
+    .card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px;box-shadow:0 10px 28px rgba(42,20,16,.08)}
+    h1{margin:0 0 8px;font-size:28px} p{margin:0;color:var(--soft);line-height:1.5;font-size:15px}
+    .tpl{padding:14px;border:1px solid var(--line);border-radius:10px;margin-bottom:10px;opacity:.35;transform:translateY(6px);transition:.35s}
+    .tpl.on{opacity:1;transform:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(236,104,60,.15)}
+    .tpl strong{display:block;font-size:14px}.tpl span{font-size:12px;color:var(--soft)}
+    .title-scene{align-items:center;justify-content:center;text-align:center;background:linear-gradient(135deg,#F48A5C,var(--accent),var(--header));color:#fff}
+    .title-scene h1{font-size:40px;color:#fff;max-width:14em}
+    .cap{position:absolute;bottom:0;left:0;right:0;padding:12px;background:rgba(194,74,40,.95);color:#fff;text-align:center;font-weight:650;font-size:14px}
+  </style>
+</head>
+<body>
+<div class="shell">
+  <section class="scene title-scene active" id="s0">
+    <h1>Document templates</h1>
+    <p style="color:rgba(255,255,255,.88);font-size:18px;margin-top:12px">1,000+ free business &amp; legal documents</p>
+  </section>
+  <section class="scene" id="s1">
+    <header class="hdr"><span>docstoc.</span><span class="badge">Templates</span></header>
+    <div class="main">
+      <div class="card">
+        <h1>Browse the library</h1>
+        <p>NDAs, contracts, HR forms, real estate, finance — organized by category.</p>
+      </div>
+      <div class="card" id="list">
+        <div class="tpl" id="t1"><strong>Mutual NDA</strong><span>Legal · 2 pages</span></div>
+        <div class="tpl" id="t2"><strong>Freelance contract</strong><span>Business · 3 pages</span></div>
+        <div class="tpl" id="t3"><strong>LLC operating agreement</strong><span>Legal · 8 pages</span></div>
+      </div>
+    </div>
+    <div class="cap">Pick a template — no signup required</div>
+  </section>
+  <section class="scene" id="s2">
+    <header class="hdr"><span>docstoc.</span><span class="badge">Copy &amp; use</span></header>
+    <div class="main">
+      <div class="card">
+        <h1>Mutual NDA</h1>
+        <p style="margin-bottom:14px">Clear [placeholder] fields — copy into Word or Google Docs.</p>
+        <div style="font-size:13px;line-height:1.6;border:1px dashed var(--line);padding:14px;border-radius:10px">
+          This Agreement is entered into as of [Date] between [Party A] and [Party B]…
+        </div>
+      </div>
+      <div class="card" style="display:flex;flex-direction:column;justify-content:center;gap:12px">
+        <div style="padding:12px 16px;background:var(--accent);color:#fff;border-radius:10px;font-weight:800;text-align:center">Copy template →</div>
+        <p>Free forever. Informational starting point — not legal advice.</p>
+      </div>
+    </div>
+    <div class="cap">docstoc.io/document-templates</div>
+  </section>
+</div>
+<script>
+window.__DEMO_NARRATION__ = [
+  { "atMs": 800, "text": "Need a contract or HR form in a hurry? docstoc has over a thousand free templates ready to copy." },
+  { "atMs": 5000, "text": "Browse NDAs, freelance agreements, operating agreements, and more — all organized by category. No account required." },
+  { "atMs": 14000, "text": "Open a template, replace the placeholders, and paste it into Word or Google Docs. Everything is free at docstoc.io slash document-templates." }
+];
+const sleep=(ms)=>new Promise(r=>setTimeout(r,ms));
+const show=(id)=>{document.querySelectorAll('.scene').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active')};
+(async()=>{
+  await sleep(4500); show('s1');
+  for (const id of ['t1','t2','t3']) { document.getElementById(id).classList.add('on'); await sleep(700); }
+  await sleep(4500); show('s2'); await sleep(12000);
+})();
+</script>
+</body>
+</html>

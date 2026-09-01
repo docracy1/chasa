@@ -438,6 +438,31 @@ function attributionTag(utmSource: string, utmCampaign: string): string {
   return campaign ? `${source}/${campaign}` : source;
 }
 
+/** Campaign tag for Admin “Tagged campaign clicks” — utm pairs, seo-* CTAs, outreach-* /go links. */
+export function campaignTagFromReferralProps(props: Record<string, unknown>): string {
+  const utmTag = attributionTag(String(props.utm_source ?? ""), String(props.utm_campaign ?? ""));
+  if (utmTag) return utmTag;
+
+  const utmSource = String(props.utm_source ?? "")
+    .trim()
+    .toLowerCase();
+  if (/^(seo|outreach)-[a-z0-9-]+$/.test(utmSource)) return utmSource;
+
+  for (const key of ["ref", "who"]) {
+    const v = String(props[key] ?? "")
+      .trim()
+      .toLowerCase();
+    if (/^(seo|outreach)-[a-z0-9-]+$/.test(v)) return v;
+  }
+
+  const sourceHint = String(props.source ?? "")
+    .trim()
+    .toLowerCase();
+  if (/^(seo|outreach)-[a-z0-9-]+$/.test(sourceHint)) return sourceHint;
+
+  return "";
+}
+
 /** Docracy-style external discovery rows for the Admin overview. */
 export async function getTrafficSources(env: Env, days = 30, humansOnly = false) {
   const since = new Date(Date.now() - days * 24 * 60 * 60 * 1000).toISOString();
@@ -486,7 +511,7 @@ export async function getTrafficSources(env: Env, days = 30, humansOnly = false)
           });
       }
 
-      const tag = attributionTag(String(props.utm_source ?? ""), String(props.utm_campaign ?? ""));
+      const tag = campaignTagFromReferralProps(props);
       if (tag) {
         const key = `camp:${day}:${tag}`;
         const prev = buckets.get(key);

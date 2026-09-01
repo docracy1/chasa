@@ -91,6 +91,91 @@
   // stays behind the consent gate and only runs once consent actually exists.
   pageview();
 
+  function isAppLink(href) {
+    if (!href) return false;
+    try {
+      var u = new URL(href, location.href);
+      return u.pathname.indexOf("/app") === 0;
+    } catch (e) {
+      return href.indexOf("/app") === 0;
+    }
+  }
+
+  /** Docracy-style seo-* campaign slug from the current marketing URL. */
+  function seoCampaignFromPath(path) {
+    var p = (path || location.pathname).replace(/\/+$/, "") || "/";
+    if (p === "/") return null;
+    var segs = p.split("/").filter(Boolean);
+    var last = segs[segs.length - 1] || "";
+    if (p.indexOf("/document-templates/") === 0 && segs.length >= 2 && last !== "document-templates") {
+      return "seo-" + last.replace(/-template$/, "");
+    }
+    if (p.indexOf("/blog/") === 0 && segs.length >= 2) return "seo-blog-" + last;
+    if (p.indexOf("/free-templates/") === 0 && segs.length >= 2) return "seo-" + last.replace(/\.html$/, "");
+    if (p.indexOf("/guides/") === 0 && segs.length >= 2) return "seo-" + last;
+    if (p.indexOf("/tools/") === 0 && segs.length >= 2) return "seo-tool-" + last.replace(/\.html$/, "");
+    if (p.indexOf("/compare/") === 0 && segs.length >= 2) return "seo-compare-" + last;
+    if (p.indexOf("/industry/") === 0 && segs.length >= 2) return "seo-industry-" + last;
+    if (p.indexOf("/import-from-") === 0) return "seo-" + last;
+    if (/-alternative$/.test(last)) return "seo-" + last;
+    if (p.indexOf("/use-cases/") === 0 && segs.length >= 2) return "seo-" + last;
+    if (p.indexOf("/features/") === 0 && segs.length >= 2) return "seo-" + last;
+    return null;
+  }
+
+  function withSeoCampaign(href, campaign) {
+    if (!campaign || !href) return href;
+    try {
+      var u = new URL(href, location.href);
+      if (u.pathname.indexOf("/app") !== 0) return href;
+      if (!u.searchParams.get("utm_source")) u.searchParams.set("utm_source", campaign);
+      return u.pathname + u.search + u.hash;
+    } catch (e) {
+      return href;
+    }
+  }
+
+  function campaignForCta(el, pageTag) {
+    var tagged = el.closest ? el.closest("[data-cta-source]") : null;
+    if (tagged) {
+      var raw = tagged.getAttribute("data-cta-source") || "";
+      if (raw) return "seo-" + raw.replace(/_/g, "-");
+    }
+    return pageTag;
+  }
+
+  /** Tag /app CTAs on SEO pages so signup carries utm_source=seo-{slug} (Docracy parity). */
+  function wireSeoCampaignCtAs() {
+    var pageTag = seoCampaignFromPath(location.pathname);
+    if (!pageTag) return;
+
+    function decorate(el) {
+      var href = el.getAttribute("href");
+      if (!isAppLink(href)) return;
+      var next = withSeoCampaign(href, campaignForCta(el, pageTag));
+      if (next !== href) el.setAttribute("href", next);
+    }
+
+    document.querySelectorAll("a[href]").forEach(decorate);
+
+    document.addEventListener(
+      "click",
+      function (e) {
+        var el = e.target && e.target.closest ? e.target.closest("a[href]") : null;
+        if (!el) return;
+        if (!isAppLink(el.getAttribute("href"))) return;
+        decorate(el);
+      },
+      true
+    );
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", wireSeoCampaignCtAs);
+  } else {
+    wireSeoCampaignCtAs();
+  }
+
   /** Everything that needs consent — called immediately if consent already exists at load time,
    *  and re-callable (via window.docstocInitAnalytics) from the cookie banner's Accept handler for
    *  a visitor who consents mid-session, since this script itself now always loads regardless of
@@ -140,6 +225,7 @@
         utm_source: utm || undefined,
         utm_medium: params.get("utm_medium") || undefined,
         utm_campaign: params.get("utm_campaign") || undefined,
+        ref: refParam || undefined,
         who: params.get("who") || undefined,
       });
     }

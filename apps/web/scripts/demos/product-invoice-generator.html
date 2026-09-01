@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>docstoc — Invoice generator</title>
+  <style>
+    :root { --accent:#EC683C; --header:#C24A28; --paper:#F7F3F0; --ink:#2A1410; --line:#e8ddd6; --soft:#6b5348; }
+    *{box-sizing:border-box} body{margin:0;font-family:Inter,system-ui,sans-serif;background:#2A1410;overflow:hidden}
+    .shell{position:relative;width:1280px;height:720px}
+    .scene{position:absolute;inset:0;opacity:0;transition:opacity .5s;display:flex;flex-direction:column;background:var(--paper)}
+    .scene.active{opacity:1}
+    .hdr{display:flex;justify-content:space-between;align-items:center;padding:14px 28px;background:var(--header);color:#fff;font-weight:800}
+    .badge{font-size:11px;background:#fff;color:var(--accent);padding:5px 12px;border-radius:999px;text-transform:uppercase}
+    .main{flex:1;padding:28px;display:grid;grid-template-columns:1fr 1fr;gap:20px}
+    .card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px;box-shadow:0 10px 28px rgba(42,20,16,.08)}
+    h1{margin:0 0 8px;font-size:26px} label{display:block;font-size:12px;font-weight:700;margin:10px 0 4px;color:var(--soft)}
+    input{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:8px;font:inherit}
+    .row{display:grid;grid-template-columns:2fr 1fr 1fr;gap:8px;margin-top:8px;font-size:13px}
+    .preview{border:2px solid var(--line);border-radius:12px;padding:20px;min-height:280px}
+    .preview.on{border-color:var(--accent)}
+    .title-scene{align-items:center;justify-content:center;text-align:center;background:linear-gradient(135deg,#F48A5C,var(--accent),var(--header));color:#fff}
+    .title-scene h1{font-size:40px;color:#fff}
+    .cap{position:absolute;bottom:0;left:0;right:0;padding:12px;background:rgba(194,74,40,.95);color:#fff;text-align:center;font-weight:650;font-size:14px}
+    .cta{display:inline-block;margin-top:14px;padding:12px 18px;background:var(--accent);color:#fff;border-radius:10px;font-weight:800;opacity:.4;transition:.3s}
+    .cta.on{opacity:1}
+  </style>
+</head>
+<body>
+<div class="shell">
+  <section class="scene title-scene active" id="s0">
+    <h1>Invoice generator</h1>
+    <p style="color:rgba(255,255,255,.88);font-size:18px;margin-top:12px">Create, share, then chase if it goes overdue</p>
+  </section>
+  <section class="scene" id="s1">
+    <header class="hdr"><span>docstoc.</span><span class="badge">New invoice</span></header>
+    <div class="main">
+      <div class="card">
+        <h1>Build your invoice</h1>
+        <label>Client</label><input id="client" value="" readonly />
+        <label>Due date</label><input id="due" value="" readonly />
+        <div class="row"><div><strong>Design sprint</strong></div><div>1</div><div id="amt">$0</div></div>
+      </div>
+      <div class="card preview" id="prev">
+        <div style="font-weight:800;font-size:18px;margin-bottom:12px">INVOICE</div>
+        <div id="pvClient" style="color:var(--soft);font-size:14px">—</div>
+        <div style="margin-top:20px;font-size:24px;font-weight:800" id="pvAmt">$0.00</div>
+      </div>
+    </div>
+    <div class="cap">Add client, line items, due date</div>
+  </section>
+  <section class="scene" id="s2">
+    <header class="hdr"><span>docstoc.</span><span class="badge">Share</span></header>
+    <div class="main">
+      <div class="card">
+        <h1>Ready to send</h1>
+        <p>Share a link or PDF with your client. If it goes overdue, docstoc helps you follow up.</p>
+        <span class="cta" id="share">Share invoice link →</span>
+      </div>
+      <div class="card" style="background:#fff0ea;border-color:var(--accent)">
+        <h1>Then chase</h1>
+        <p>AI drafts tone-matched reminders — you review and send from your own inbox.</p>
+      </div>
+    </div>
+    <div class="cap">docstoc.io — invoice generator</div>
+  </section>
+</div>
+<script>
+window.__DEMO_NARRATION__ = [
+  { "atMs": 800, "text": "Create a clean, shareable invoice in a couple of minutes with docstoc's invoice generator." },
+  { "atMs": 5000, "text": "Add your client, line items, and due date — the preview updates as you type." },
+  { "atMs": 14000, "text": "Send a link or PDF to your client. If it goes overdue, docstoc can draft a follow-up — but you always send the email yourself." }
+];
+const sleep=(ms)=>new Promise(r=>setTimeout(r,ms));
+const show=(id)=>{document.querySelectorAll('.scene').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active')};
+(async()=>{
+  await sleep(4500); show('s1');
+  const type=async(el,t)=>{for(const c of t){el.value+=c;await sleep(40)}};
+  await type(document.getElementById('client'),'Brightpath Co');
+  await sleep(300);
+  await type(document.getElementById('due'),'2026-09-15');
+  let n=0; const tick=setInterval(()=>{n+=120;n=Math.min(2400,n);document.getElementById('amt').textContent='$'+n;document.getElementById('pvAmt').textContent='$'+n+'.00';document.getElementById('pvClient').textContent='Brightpath Co';document.getElementById('prev').classList.add('on');if(n>=2400)clearInterval(tick);},80);
+  await sleep(5000); show('s2'); await sleep(800); document.getElementById('share').classList.add('on'); await sleep(11000);
+})();
+</script>
+</body>
+</html>

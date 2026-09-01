@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>docstoc — Google OAuth scope demo</title>
+  <style>
+    :root { --accent:#EC683C; --header:#C24A28; --paper:#F7F3F0; --line:#e8ddd6; --soft:#6b5348; --g:#1a73e8; }
+    *{box-sizing:border-box} body{margin:0;font-family:Inter,system-ui,sans-serif;background:#2A1410;overflow:hidden}
+    .shell{position:relative;width:1280px;height:720px}
+    .scene{position:absolute;inset:0;opacity:0;transition:opacity .5s;display:flex;flex-direction:column;background:var(--paper)}
+    .scene.active{opacity:1}
+    .hdr{display:flex;justify-content:space-between;padding:14px 28px;background:var(--header);color:#fff;font-weight:800}
+    .badge{font-size:11px;background:#fff;color:var(--accent);padding:5px 12px;border-radius:999px}
+    .main{flex:1;padding:24px 28px;display:grid;grid-template-columns:1fr 1fr;gap:18px;min-height:0}
+    .card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px;box-shadow:0 8px 24px rgba(42,20,16,.07)}
+    h1,h2{margin:0 0 8px;font-size:22px} p{margin:0;color:var(--soft);font-size:14px;line-height:1.5}
+    .title-scene{align-items:center;justify-content:center;text-align:center;background:linear-gradient(135deg,#F48A5C,var(--accent),var(--header));color:#fff}
+    .title-scene h1{font-size:36px;color:#fff;max-width:16em}
+    .cap{position:absolute;bottom:0;left:0;right:0;padding:12px;background:rgba(194,74,40,.95);color:#fff;text-align:center;font-weight:650;font-size:13px}
+    .gpage{background:#fff;align-items:center;justify-content:center;padding:40px}
+    .gbox{max-width:420px;border:1px solid #dadce0;border-radius:8px;padding:28px 32px;font-family:Roboto,Arial,sans-serif}
+    .glogo{width:48px;height:48px;border-radius:50%;background:#fbbc04;color:#fff;display:grid;place-items:center;font-weight:700;margin:0 auto 16px}
+    .warn{background:#fef7e0;border:1px solid #f9ab00;border-radius:8px;padding:12px;font-size:13px;color:#3c4043;margin:14px 0}
+    .gbtn{display:block;width:100%;padding:10px;border-radius:4px;border:1px solid #dadce0;background:#fff;font-weight:600;margin-top:10px;text-align:center;font-size:14px}
+    .gbtn.p{background:var(--g);color:#fff;border-color:var(--g)}
+    .file{padding:10px;border:1px solid var(--line);border-radius:8px;margin-bottom:8px;font-size:13px;opacity:.4;transition:.3s}
+    .file.on{opacity:1;border-color:var(--accent)}
+    .draft{font-size:13px;line-height:1.55;white-space:pre-wrap;background:#f8f8f8;padding:12px;border-radius:8px;margin-top:10px}
+    .pill{display:inline-block;font-size:10px;font-weight:800;background:#e8f0fe;color:var(--g);padding:4px 8px;border-radius:999px;margin-bottom:8px}
+  </style>
+</head>
+<body>
+<div class="shell">
+  <section class="scene title-scene active" id="s0">
+    <h1>docstoc Google OAuth demo</h1>
+    <p style="color:rgba(255,255,255,.88);font-size:17px;margin-top:10px">Sign-in client + Integrations client · docstoc.io</p>
+  </section>
+
+  <section class="scene" id="s1">
+    <header class="hdr"><span>docstoc.io/app/login</span><span class="badge">Sign in</span></header>
+    <div class="main">
+      <div class="card"><h2>Sign in with Google</h2><p>OAuth client 1 — openid, email, profile only.</p>
+        <div style="margin-top:16px;padding:12px;border:1px solid var(--line);border-radius:10px;font-weight:700;text-align:center">Continue with Google</div></div>
+      <div class="card"><h2>Not connected yet</h2><p>No Drive or Gmail access at login.</p></div>
+    </div>
+    <div class="cap">Step 1 · Sign-in OAuth client (api.docstoc.io/auth/google/callback)</div>
+  </section>
+
+  <section class="scene gpage" id="s2">
+    <div class="gbox">
+      <div class="glogo">G</div>
+      <div style="text-align:center;font-size:18px;font-weight:500;margin-bottom:8px">Sign in with Google</div>
+      <div class="warn">Google hasn't verified this app. docstoc.io is in verification — test account shown.</div>
+      <div class="gbtn p">Continue as reviewer@example.com</div>
+    </div>
+    <div class="cap">Unverified app screen (expected during review)</div>
+  </section>
+
+  <section class="scene" id="s3">
+    <header class="hdr"><span>docstoc.io/app/connector</span><span class="badge">Connect</span></header>
+    <div class="main">
+      <div class="card"><h2>Connect Google</h2><p>OAuth client 2 — Drive, Gmail, Sheets, Calendar, Contacts.</p>
+        <div style="margin-top:14px;padding:12px;background:var(--accent);color:#fff;border-radius:10px;font-weight:800;text-align:center">Connect Google →</div></div>
+      <div class="card"><p><strong>Scopes requested only here</strong>, after explicit user action. User can disconnect anytime.</p></div>
+    </div>
+    <div class="cap">Step 2 · Integrations client (api.docstoc.io/account/connectors/google/callback)</div>
+  </section>
+
+  <section class="scene" id="s4">
+    <header class="hdr"><span>docstoc.</span><span class="badge">Drive readonly</span></header>
+    <div class="main">
+      <div class="card"><h2>Import invoice PDF</h2><p>drive.readonly — user picks a file; we never modify Drive.</p>
+        <div class="file on" id="f1">📄 invoice-acme-q3.pdf · 248 KB</div>
+        <div class="file" id="f2">📄 contract-v2.pdf</div></div>
+      <div class="card"><h2>Parsed</h2><p>Client: Acme GmbH<br>Amount: $3,200<br>Due: 2026-08-01</p></div>
+    </div>
+    <div class="cap">drive.readonly · download user-selected PDF only</div>
+  </section>
+
+  <section class="scene" id="s5">
+    <header class="hdr"><span>docstoc.</span><span class="badge">Gmail drafts</span></header>
+    <div class="main">
+      <div class="card"><h2>AI chase draft</h2><p>gmail.modify — creates draft only. No messages.send.</p>
+        <div class="draft">Subject: Payment reminder INV-8821
+
+Hi Alex — friendly reminder that invoice INV-8821 ($3,200) is overdue. Happy to resend the PDF.</div>
+        <div style="margin-top:12px;padding:10px;background:var(--accent);color:#fff;border-radius:8px;font-weight:800;text-align:center">Save to Gmail Drafts</div></div>
+      <div class="card"><span class="pill">Gmail · Drafts</span><h2>Draft saved</h2><p>User opens Gmail, reviews, and sends themselves. docstoc never emails clients.</p></div>
+    </div>
+    <div class="cap">gmail.readonly for reply context · gmail.modify for drafts only</div>
+  </section>
+
+  <section class="scene" id="s6">
+    <header class="hdr"><span>docstoc.</span><span class="badge">Optional</span></header>
+    <div class="main">
+      <div class="card"><h2>Sheets</h2><p>Import aging rows or export report to user's Sheet.</p></div>
+      <div class="card"><h2>Calendar &amp; Contacts</h2><p>Follow-up reminder event · optional contact import.</p></div>
+    </div>
+    <div class="cap">Privacy: docstoc.io/privacy · Disconnect on /app/connector</div>
+  </section>
+</div>
+<script>
+window.__DEMO_NARRATION__ = [
+  { "atMs": 800, "text": "This walkthrough shows how docstoc uses Google OAuth — with two separate clients in our Google Cloud project." },
+  { "atMs": 4500, "text": "Sign in with Google only asks for your email and basic profile. Drive and Gmail are not accessed at login." },
+  { "atMs": 10500, "text": "While our app is in Google verification, testers see this unverified screen. That's normal during review." },
+  { "atMs": 16000, "text": "On the Connectors page, the user chooses to connect Google. That's when we request Drive, Gmail, Sheets, Calendar, and Contacts." },
+  { "atMs": 27000, "text": "With Drive read-only access, the user picks an invoice PDF. We download and parse it — we never change files in Drive." },
+  { "atMs": 38000, "text": "We use Gmail to save payment reminders as drafts only. docstoc never sends email on your behalf — you review and send from Gmail." },
+  { "atMs": 50000, "text": "Sheets, Calendar, and Contacts are optional — for imports, follow-up reminders, and client lists. See docstoc.io slash privacy for details." }
+];
+const sleep=(ms)=>new Promise(r=>setTimeout(r,ms));
+const show=(id)=>{document.querySelectorAll('.scene').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active')};
+(async()=>{
+  await sleep(4000); show('s1'); await sleep(5000); show('s2'); await sleep(4500); show('s3');
+  await sleep(5000); show('s4'); await sleep(5500); show('s5'); await sleep(6000); show('s6'); await sleep(12000);
+})();
+</script>
+</body>
+</html>

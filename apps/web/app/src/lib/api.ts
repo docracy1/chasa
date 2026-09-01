@@ -81,37 +81,192 @@ export function updateBranding(input: {
   });
 }
 
-async function jsonFetch<T>(path: string, init?: RequestInit): Promise<T> {
-  const res = await fetch(`/api${path}`, {
-    credentials: "include",
-    headers: { "Content-Type": "application/json" },
-    ...init,
-  });
-  const data = await res.json().catch(() => ({}));
+async function fetchWithTimeout(
+  url: string,
+  init: RequestInit,
+  timeoutMs: number
+): Promise<Response> {
+  const controller = new AbortController();
+  const timer = window.setTimeout(() => controller.abort(), timeoutMs);
+  const outer = init.signal;
+  const onOuterAbort = () => controller.abort();
+  outer?.addEventListener("abort", onOuterAbort);
+  try {
+    return await fetch(url, {
+      ...init,
+      credentials: "include",
+      cache: "no-store",
+      signal: controller.signal,
+    });
+  } finally {
+    window.clearTimeout(timer);
+    outer?.removeEventListener("abort", onOuterAbort);
+  }
+}
+
+async function parseJsonResponse<T>(res: Response): Promise<T> {
+  const ct = res.headers.get("content-type") ?? "";
+  const data =
+    ct.includes("application/json") || ct.includes("text/json")
+      ? await res.json().catch(() => ({}))
+      : {};
   if (!res.ok) {
+    const fallback =
+      Object.keys(data as object).length === 0 && ct.includes("text/html")
+        ? `Request failed (${res.status}) — refresh the page and try again.`
+        : (data as { error?: string }).error || `Request failed (${res.status})`;
     if (res.status === 401 && unauthorizedHandler) unauthorizedHandler();
-    throw new ApiError((data as { error?: string }).error || `Request failed (${res.status})`, res.status);
+    throw new ApiError(fallback, res.status);
   }
   return data as T;
 }
 
-export function generateEmail(input: {
-  client_name: string;
-  invoice_amount: number;
-  days_overdue: number;
-  payment_link?: string;
-  visitorId?: string;
-  invoices?: Array<{
-    client_name?: string;
+type JsonFetchOptions = {
+  timeoutMs?: number;
+};
+
+async function jsonFetch<T>(path: string, init?: RequestInit, options?: JsonFetchOptions): Promise<T> {
+  const timeoutMs = options?.timeoutMs ?? 30_000;
+  const headers = {
+    "Content-Type": "application/json",
+    "X-Docstoc-Client": "app",
+    ...(init?.headers as Record<string, string> | undefined),
+  };
+  const requestInit: RequestInit = { ...init, headers };
+  const res = await fetchWithTimeout(`/api${path}`, requestInit, timeoutMs);
+  return await parseJsonResponse<T>(res);
+}
+
+export function generateEmail(
+  input: {
+    client_name: string;
     invoice_amount: number;
     days_overdue: number;
-    due_date?: string;
-  }>;
-}) {
-  return jsonFetch<GeneratedEmail>("/generate-email", {
-    method: "POST",
-    body: JSON.stringify({ ...input, visitorId: input.visitorId ?? visitorId() }),
+    payment_link?: string;
+    visitorId?: string;
+    invoices?: Array<{
+      client_name?: string;
+      invoice_amount: number;
+      days_overdue: number;
+      due_date?: string;
+    }>;
+  },
+  init?: Pick<RequestInit, "signal">
+) {
+  return generateEmailAsync(input, init);
+}
+
+type DraftJobPoll =
+  | { status: "pending" }
+  | { status: "done"; subject: string; body: string; remaining?: number | null }
+  | { status: "error"; error?: string };
+
+type DraftStartResponse = {
+  jobId?: string;
+  subject?: string;
+  body?: string;
+  remaining?: number | null;
+};
+
+const WORKER_API_ORIGIN = "https://api.docstoc.io";
+const DRAFT_API_PREFIX = "/ai/draft";
+
+function isNetworkFailure(err: unknown): boolean {
+  if (!(err instanceof Error)) return false;
+  return err.name === "AbortError" || /failed to fetch|networkerror|load failed|blocked/i.test(err.message);
+}
+
+/** Draft API: hit worker directly first (avoids Pages /api proxy stalls), fall back to same-origin. */
+async function draftJsonFetch<T>(
+  path: string,
+  init?: RequestInit,
+  timeoutMs = 15_000
+): Promise<T> {
+  const headers = {
+    "Content-Type": "application/json",
+    "X-Docstoc-Client": "app",
+    ...(init?.headers as Record<string, string> | undefined),
+  };
+  const requestInit: RequestInit = { ...init, headers };
+  const urls = [`${WORKER_API_ORIGIN}/api${path}`, `/api${path}`];
+  let lastErr: unknown;
+  for (let i = 0; i < urls.length; i++) {
+    try {
+      const res = await fetchWithTimeout(urls[i], requestInit, timeoutMs);
+      return await parseJsonResponse<T>(res);
+    } catch (err) {
+      lastErr = err;
+      const hasAlternate = i < urls.length - 1;
+      if (!hasAlternate) throw err;
+      if (err instanceof ApiError) throw err;
+      if (!isNetworkFailure(err)) throw err;
+    }
+  }
+  throw lastErr;
+}
+
+function sleep(ms: number, signal?: AbortSignal): Promise<void> {
+  return new Promise((resolve, reject) => {
+    if (signal?.aborted) {
+      reject(new DOMException("Aborted", "AbortError"));
+      return;
+    }
+    const timer = window.setTimeout(resolve, ms);
+    signal?.addEventListener("abort", () => {
+      window.clearTimeout(timer);
+      reject(new DOMException("Aborted", "AbortError"));
+    });
   });
+}
+
+async function generateEmailAsync(
+  input: Parameters<typeof generateEmail>[0],
+  init?: Pick<RequestInit, "signal">
+): Promise<GeneratedEmail> {
+  const payload = { ...input, visitorId: input.visitorId ?? visitorId() };
+  const started = await draftJsonFetch<DraftStartResponse>(
+    DRAFT_API_PREFIX,
+    {
+      method: "POST",
+      body: JSON.stringify(payload),
+      ...init,
+    },
+    15_000
+  );
+
+  if (started.subject && started.body) {
+    return {
+      subject: started.subject,
+      body: started.body,
+      remaining: started.remaining,
+    };
+  }
+
+  const jobId = started.jobId?.trim();
+  if (!jobId) {
+    throw new ApiError("Draft could not start — refresh and try again.", 502);
+  }
+
+  const deadline = Date.now() + 90_000;
+  while (Date.now() < deadline) {
+    const status = await draftJsonFetch<DraftJobPoll>(
+      `${DRAFT_API_PREFIX}/${jobId}`,
+      { method: "GET", ...init },
+      12_000
+    );
+    if (status.status === "done") {
+      return {
+        subject: status.subject,
+        body: status.body,
+        remaining: status.remaining,
+      };
+    }
+    if (status.status === "error") {
+      throw new ApiError(status.error || "Could not generate a draft right now.", 502);
+    }
+    await sleep(1500, init?.signal ?? undefined);
+  }
+  throw new ApiError("Draft took too long — try again.", 504);
 }
 
 export type RewriteAction = "softer" | "firmer" | "shorter";

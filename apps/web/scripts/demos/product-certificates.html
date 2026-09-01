@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>docstoc — Document certificates</title>
+  <style>
+    :root { --accent:#EC683C; --header:#C24A28; --paper:#F7F3F0; --line:#e8ddd6; --soft:#6b5348; }
+    *{box-sizing:border-box} body{margin:0;font-family:Inter,system-ui,sans-serif;background:#2A1410;overflow:hidden}
+    .shell{position:relative;width:1280px;height:720px}
+    .scene{position:absolute;inset:0;opacity:0;transition:opacity .5s;display:flex;flex-direction:column;background:var(--paper)}
+    .scene.active{opacity:1}
+    .hdr{display:flex;justify-content:space-between;padding:14px 28px;background:var(--header);color:#fff;font-weight:800}
+    .badge{font-size:11px;background:#fff;color:var(--accent);padding:5px 12px;border-radius:999px}
+    .main{flex:1;padding:28px;display:grid;grid-template-columns:1fr 1fr;gap:20px}
+    .card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px;box-shadow:0 10px 28px rgba(42,20,16,.08)}
+    h1{margin:0 0 10px;font-size:26px} p{margin:0;color:var(--soft);line-height:1.55;font-size:14px}
+    .hash{font-family:ui-monospace,monospace;font-size:11px;background:#f5f0ec;padding:12px;border-radius:8px;word-break:break-all;margin-top:12px;opacity:0;transition:.4s}
+    .hash.on{opacity:1}
+    .title-scene{align-items:center;justify-content:center;text-align:center;background:linear-gradient(135deg,#F48A5C,var(--accent),var(--header));color:#fff}
+    .title-scene h1{font-size:40px;color:#fff}
+    .cap{position:absolute;bottom:0;left:0;right:0;padding:12px;background:rgba(194,74,40,.95);color:#fff;text-align:center;font-weight:650;font-size:14px}
+    .drop{border:2px dashed var(--line);border-radius:12px;padding:40px;text-align:center;transition:.35s}
+    .drop.on{border-color:var(--accent);background:#fff0ea}
+  </style>
+</head>
+<body>
+<div class="shell">
+  <section class="scene title-scene active" id="s0">
+    <h1>Document certificates</h1>
+    <p style="color:rgba(255,255,255,.88);font-size:18px;margin-top:12px">Tamper-evident proof any file existed</p>
+  </section>
+  <section class="scene" id="s1">
+    <header class="hdr"><span>docstoc.</span><span class="badge">Certify</span></header>
+    <div class="main">
+      <div class="card">
+        <div class="drop" id="drop">Drop contract.pdf<br><span style="font-size:13px;color:var(--soft)">Hash computed in your browser</span></div>
+      </div>
+      <div class="card">
+        <h1>Public verify page</h1>
+        <p>Anyone can confirm the file hash matches — optional Bitcoin timestamp anchor.</p>
+        <div class="hash" id="hash">sha256:8f3a…c21 · anchored · docstoc.io/c/abc123</div>
+      </div>
+    </div>
+    <div class="cap">Free tier included — no blockchain hype</div>
+  </section>
+  <section class="scene" id="s2">
+    <header class="hdr"><span>docstoc.</span><span class="badge">Verified</span></header>
+    <div class="main" style="grid-template-columns:1fr;place-items:center">
+      <div class="card" style="text-align:center;max-width:560px;padding:36px">
+        <div style="font-size:52px;margin-bottom:12px">🛡️</div>
+        <h1>Document unchanged</h1>
+        <p>Hash matches the certificate issued on upload. Share the verify link with clients or counsel.</p>
+      </div>
+    </div>
+    <div class="cap">docstoc.io/certificate</div>
+  </section>
+</div>
+<script>
+window.__DEMO_NARRATION__ = [
+  { "atMs": 800, "text": "Prove a file existed and wasn't tampered with — docstoc document certificates give you a public verify link." },
+  { "atMs": 5000, "text": "Drop in a PDF or contract. We hash it in your browser and publish a page anyone can check." },
+  { "atMs": 14000, "text": "Share the verify link with clients or counsel. It's free to start at docstoc.io slash certificate." }
+];
+const sleep=(ms)=>new Promise(r=>setTimeout(r,ms));
+const show=(id)=>{document.querySelectorAll('.scene').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active')};
+(async()=>{
+  await sleep(4500); show('s1'); await sleep(1200); document.getElementById('drop').classList.add('on');
+  await sleep(2500); document.getElementById('hash').classList.add('on'); await sleep(4500);
+  show('s2'); await sleep(11000);
+})();
+</script>
+</body>
+</html>

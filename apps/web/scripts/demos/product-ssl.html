@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>docstoc — SSL automation</title>
+  <style>
+    :root { --accent:#EC683C; --header:#C24A28; --paper:#F7F3F0; --line:#e8ddd6; --soft:#6b5348; --ok:#1a7f4b; }
+    *{box-sizing:border-box} body{margin:0;font-family:Inter,system-ui,sans-serif;background:#2A1410;overflow:hidden}
+    .shell{position:relative;width:1280px;height:720px}
+    .scene{position:absolute;inset:0;opacity:0;transition:opacity .5s;display:flex;flex-direction:column;background:var(--paper)}
+    .scene.active{opacity:1}
+    .hdr{display:flex;justify-content:space-between;padding:14px 28px;background:var(--header);color:#fff;font-weight:800}
+    .badge{font-size:11px;background:#fff;color:var(--accent);padding:5px 12px;border-radius:999px}
+    .main{flex:1;padding:32px;display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:center}
+    .card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:24px;box-shadow:0 10px 28px rgba(42,20,16,.08)}
+    h1{margin:0 0 10px;font-size:28px} p{margin:0;color:var(--soft);line-height:1.55;font-size:15px}
+    .step{padding:12px 14px;border:1px solid var(--line);border-radius:10px;margin-bottom:8px;font-size:14px;opacity:.35;transition:.35s}
+    .step.on{opacity:1;border-color:var(--ok);background:#eef8f2}
+    .title-scene{align-items:center;justify-content:center;text-align:center;background:linear-gradient(135deg,#F48A5C,var(--accent),var(--header));color:#fff}
+    .title-scene h1{font-size:40px;color:#fff}
+    .cap{position:absolute;bottom:0;left:0;right:0;padding:12px;background:rgba(194,74,40,.95);color:#fff;text-align:center;font-weight:650;font-size:14px}
+    .lock{font-size:48px;margin-bottom:12px}
+  </style>
+</head>
+<body>
+<div class="shell">
+  <section class="scene title-scene active" id="s0">
+    <div class="lock">🔒</div>
+    <h1>SSL / TLS automation</h1>
+    <p style="color:rgba(255,255,255,.88);font-size:18px;margin-top:8px">Let's Encrypt on your domain — not a cert reseller</p>
+  </section>
+  <section class="scene" id="s1">
+    <header class="hdr"><span>docstoc.</span><span class="badge">SSL</span></header>
+    <div class="main">
+      <div class="card">
+        <h1>Automated certificates</h1>
+        <p>Issue, renew, and monitor DV certificates without hand-rolling ACME scripts.</p>
+      </div>
+      <div class="card">
+        <div class="step" id="st1">1 · Add domain api.example.com</div>
+        <div class="step" id="st2">2 · Verify DNS (CNAME / TXT)</div>
+        <div class="step" id="st3">3 · Issue Let's Encrypt cert</div>
+        <div class="step" id="st4">4 · Auto-renew before expiry</div>
+      </div>
+    </div>
+    <div class="cap">Keep your host — docstoc runs the automation layer</div>
+  </section>
+  <section class="scene" id="s2">
+    <header class="hdr"><span>docstoc.</span><span class="badge">Live</span></header>
+    <div class="main" style="grid-template-columns:1fr">
+      <div class="card" style="text-align:center;padding:40px">
+        <div style="font-size:56px;margin-bottom:16px">✓</div>
+        <h1>Certificate active</h1>
+        <p>HTTPS green lock · renews automatically · alerts if something breaks</p>
+        <p style="margin-top:16px;font-weight:700;color:var(--ok)">docstoc.io/ssl</p>
+      </div>
+    </div>
+    <div class="cap">Included on paid plans — no per-cert SKU markup</div>
+  </section>
+</div>
+<script>
+window.__DEMO_NARRATION__ = [
+  { "atMs": 800, "text": "docstoc can issue and renew Let's Encrypt certificates for your domain — without you hand-writing ACME scripts." },
+  { "atMs": 5000, "text": "Add the domain, verify DNS, and we handle issuance and automatic renewal before expiry." },
+  { "atMs": 14000, "text": "We're not a certificate reseller. You keep your host — docstoc runs the automation. Learn more at docstoc.io slash ssl." }
+];
+const sleep=(ms)=>new Promise(r=>setTimeout(r,ms));
+const show=(id)=>{document.querySelectorAll('.scene').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active')};
+(async()=>{
+  await sleep(4500); show('s1');
+  for (const id of ['st1','st2','st3','st4']) { document.getElementById(id).classList.add('on'); await sleep(900); }
+  await sleep(3500); show('s2'); await sleep(11000);
+})();
+</script>
+</body>
+</html>

@@ -46,6 +46,89 @@ async function googleFetch(
   return res;
 }
 
+function normalizeSpreadsheetId(input: string): string {
+  const trimmed = input.trim();
+  const fromUrl = trimmed.match(/\/spreadsheets\/d\/([a-zA-Z0-9-_]+)/);
+  if (fromUrl) return fromUrl[1];
+  return trimmed;
+}
+
+function quoteSheetTab(title: string): string {
+  return `'${title.replace(/'/g, "''")}'`;
+}
+
+async function googleApiFetch(
+  env: Env,
+  accountId: string,
+  url: string,
+  init?: RequestInit
+): Promise<Response> {
+  const token = await getCloudAccessToken(env, accountId, "google");
+  return fetch(url, {
+    ...init,
+    headers: { Authorization: `Bearer ${token}`, ...(init?.headers ?? {}) },
+  });
+}
+
+async function throwGoogleApiError(res: Response, action: string): Promise<never> {
+  const text = await res.text();
+  let detail = text.slice(0, 300);
+  try {
+    const j = JSON.parse(text) as { error?: { message?: string } };
+    if (j.error?.message) detail = j.error.message;
+  } catch {
+    /* not JSON */
+  }
+  if (res.status === 401) {
+    throw new Error("Google token expired. Disconnect and reconnect Google on Connectors.");
+  }
+  throw new Error(`${action} failed (${res.status}): ${detail}`);
+}
+
+async function assertSpreadsheetFile(
+  env: Env,
+  accountId: string,
+  spreadsheetId: string
+): Promise<void> {
+  const res = await googleApiFetch(
+    env,
+    accountId,
+    `https://www.googleapis.com/drive/v3/files/${encodeURIComponent(spreadsheetId)}?fields=mimeType,name`
+  );
+  if (!res.ok) {
+    await throwGoogleApiError(res, "Drive lookup");
+  }
+  const file = (await res.json()) as { mimeType?: string; name?: string };
+  if (file.mimeType === "application/vnd.google-apps.spreadsheet") return;
+  if (file.mimeType === "application/pdf") {
+    throw new Error(
+      "That ID is a PDF in Drive, not a Google Sheet. Paste the Sheet ID from docs.google.com/spreadsheets/d/… or use Open from Drive for PDFs."
+    );
+  }
+  throw new Error(
+    `That Drive file is not a Google Sheet (${file.mimeType ?? "unknown type"}). Use a Sheets URL or spreadsheet ID.`
+  );
+}
+
+async function defaultSheetImportRange(
+  env: Env,
+  accountId: string,
+  spreadsheetId: string
+): Promise<string> {
+  const res = await googleApiFetch(
+    env,
+    accountId,
+    `https://sheets.googleapis.com/v4/spreadsheets/${encodeURIComponent(spreadsheetId)}?fields=sheets.properties.title`
+  );
+  if (!res.ok) {
+    await throwGoogleApiError(res, "Sheets metadata");
+  }
+  const data = (await res.json()) as { sheets?: Array<{ properties?: { title?: string } }> };
+  const title = data.sheets?.[0]?.properties?.title;
+  if (!title) throw new Error("Spreadsheet has no tabs.");
+  return `${quoteSheetTab(title)}!A1:C500`;
+}
+
 export async function createGmailDraft(
   env: Env,
   accountId: string,
@@ -68,15 +151,69 @@ export async function createGmailDraft(
 
 export type SheetImportRow = { clientName: string; amount: number; dueDate: string };
 
+function parseSheetAmount(raw: string): number | null {
+  const s = raw.trim();
+  if (!s) return null;
+  let t = s.replace(/[^\d.,-]/g, "");
+  if (!t) return null;
+  // European thousands + decimal: 1.234,56 → 1234.56
+  if (/,\d{1,2}$/.test(t) && t.includes(".")) {
+    t = t.replace(/\./g, "").replace(",", ".");
+  } else if (/,\d{1,2}$/.test(t)) {
+    t = t.replace(",", ".");
+  }
+  const n = Number(t);
+  return Number.isFinite(n) ? n : null;
+}
+
+function parseSheetDueDate(raw: string): string | null {
+  const s = raw.trim();
+  if (!s) return null;
+  if (/^\d{4}-\d{2}-\d{2}$/.test(s)) return s;
+  const dmy = s.match(/^(\d{1,2})[./-](\d{1,2})[./-](\d{4})$/);
+  if (dmy) {
+    const day = dmy[1].padStart(2, "0");
+    const month = dmy[2].padStart(2, "0");
+    const year = dmy[3];
+    return `${year}-${month}-${day}`;
+  }
+  // Google Sheets serial date (unformatted number cell)
+  if (/^\d+(\.\d+)?$/.test(s)) {
+    const serial = Number(s);
+    if (serial > 20_000 && serial < 100_000) {
+      const epoch = Date.UTC(1899, 11, 30);
+      const dt = new Date(epoch + serial * 86_400_000);
+      if (!Number.isNaN(dt.getTime())) return dt.toISOString().slice(0, 10);
+    }
+  }
+  return null;
+}
+
+function isHeaderRow(clientName: string): boolean {
+  return /client|kunde|name|amount|betrag|due|datum|date|vencimiento/i.test(clientName);
+}
+
 export async function importInvoicesFromSheet(
   env: Env,
   accountId: string,
   spreadsheetId: string,
-  range = "Sheet1!A1:C500"
+  range?: string
 ): Promise<{ rows: SheetImportRow[]; skipped: number }> {
-  const url = `https://sheets.googleapis.com/v4/spreadsheets/${encodeURIComponent(spreadsheetId.trim())}/values/${encodeURIComponent(range)}`;
-  const res = await googleFetch(env, accountId, url);
-  if (!res.ok) throw new Error(`Sheets read failed (${res.status})`);
+  const id = normalizeSpreadsheetId(spreadsheetId);
+  if (id.length < 10) throw new Error("Enter a Google Sheet ID or full Sheets URL.");
+
+  await assertSpreadsheetFile(env, accountId, id);
+
+  const rangeToUse =
+    range && range.trim() && range !== "Sheet1!A1:C500"
+      ? range.trim()
+      : await defaultSheetImportRange(env, accountId, id);
+
+  const url = `https://sheets.googleapis.com/v4/spreadsheets/${encodeURIComponent(id)}/values/${encodeURIComponent(rangeToUse)}`;
+  const res = await googleApiFetch(env, accountId, url);
+  if (!res.ok) {
+    await throwGoogleApiError(res, "Sheets read");
+  }
   const data = (await res.json()) as { values?: string[][] };
   const rows: SheetImportRow[] = [];
   let skipped = 0;
@@ -87,14 +224,19 @@ export async function importInvoicesFromSheet(
       continue;
     }
     const clientName = row[0]?.trim() ?? "";
-    const amount = Number((row[1] ?? "").replace(/[^0-9.-]/g, ""));
-    const dueDate = row[2]?.trim() ?? "";
-    if (!clientName || !Number.isFinite(amount) || !/^\d{4}-\d{2}-\d{2}$/.test(dueDate)) {
-      if (i === 0 && /client|name|amount|due/i.test(clientName)) continue;
+    const amount = parseSheetAmount(row[1] ?? "");
+    const dueDate = parseSheetDueDate(row[2] ?? "") ?? "";
+    if (!clientName || amount === null || !dueDate) {
+      if (i === 0 && isHeaderRow(clientName)) continue;
       skipped++;
       continue;
     }
     rows.push({ clientName, amount, dueDate });
+  }
+  if (rows.length === 0 && (data.values?.length ?? 0) > 0) {
+    throw new Error(
+      "No invoice rows found. Use columns A=Client, B=Amount, C=Due date (e.g. 2026-08-15 or 15.08.2026)."
+    );
   }
   return { rows, skipped };
 }

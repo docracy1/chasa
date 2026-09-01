@@ -14,6 +14,7 @@ interface InvoiceCardProps {
   selectedIds: Set<string>;
   onToggleSelect: (id: string) => void;
   onGenerate: (id: string) => void;
+  onCancelGenerate?: (id: string) => void;
   onUpdateDraft: (invoiceId: string, field: "subject" | "body", value: string) => void;
   onRewrite: (invoiceId: string, action: RewriteAction) => void;
   onThankYou: (invoiceId: string) => void;
@@ -35,13 +36,11 @@ interface InvoiceCardProps {
   onCopyDraft: (invoice: Invoice) => void;
   onTrackedCopy: (invoice: Invoice) => void;
   onSaveGmailDraft?: (invoice: Invoice) => void;
-  /** Paid but Google not connected — show connect hint instead of Save to Gmail. */
   googleConnected?: boolean;
   onSyncReminderCalendar?: (invoiceId: string, reminderId: string) => void;
   onFetchGmailReply?: (invoiceId: string) => void;
   onReplySmartFromGmail?: (invoiceId: string) => void;
-  mailtoLink: (invoice: Invoice) => string;
-  onMailtoClick: (invoice?: Invoice) => void;
+  onMailtoClick: (invoice: Invoice) => void;
   sequenceSendDate: (daysFromNow: number) => string;
 }
 
@@ -53,6 +52,7 @@ export function InvoiceCard({
   selectedIds,
   onToggleSelect,
   onGenerate,
+  onCancelGenerate,
   onUpdateDraft,
   onRewrite,
   onThankYou,
@@ -78,7 +78,6 @@ export function InvoiceCard({
   onSyncReminderCalendar,
   onFetchGmailReply,
   onReplySmartFromGmail,
-  mailtoLink,
   onMailtoClick,
   sequenceSendDate,
 }: InvoiceCardProps) {
@@ -118,10 +117,22 @@ export function InvoiceCard({
         <button
           className="btn-primary"
           disabled={busy || atLimit}
-          onClick={() => onGenerate(invoice.id)}
+          onClick={() => void onGenerate(invoice.id)}
         >
           {invoice.generating ? t("common.writing") : t("invoice.generate")}
         </button>
+      )}
+      {invoice.generating && (
+        <div style={{ marginTop: 8, display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
+          <p className="branding-help" style={{ margin: 0 }}>
+            {t("tool.generateSlow")}
+          </p>
+          {onCancelGenerate && (
+            <button type="button" className="btn-secondary" onClick={() => onCancelGenerate(invoice.id)}>
+              {t("tool.generateCancel")}
+            </button>
+          )}
+        </div>
       )}
       {invoice.error && <div className="error-msg">{invoice.error}</div>}
 
@@ -480,13 +491,13 @@ export function InvoiceCard({
                 {t("invoice.copyTracked")}
               </button>
             )}
-            <a
+            <button
+              type="button"
               className="btn-secondary"
-              href={mailtoLink(invoice)}
               onClick={() => onMailtoClick(invoice)}
             >
               {t("invoice.openMail")}
-            </a>
+            </button>
             {isPaid && onSaveGmailDraft && (
               <button
                 type="button"
@@ -532,7 +543,7 @@ export function InvoiceCard({
             <button
               className="btn-secondary"
               disabled={busy || atLimit}
-              onClick={() => onGenerate(invoice.id)}
+              onClick={() => void onGenerate(invoice.id)}
             >
               {invoice.generating ? t("common.writing") : t("invoice.regenerate")}
             </button>

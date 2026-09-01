@@ -21,6 +21,13 @@ import { checkRateLimit, clientIpFromHeaders } from "../lib/rateLimit";
 import { clampOptionalString, clampString } from "../lib/validate";
 import { clientIp } from "../lib/turnstile";
 import {
+  createEmailDraftJob,
+  getEmailDraftJob,
+  runEmailDraftJob,
+  type ChaseDraftInput,
+} from "../lib/emailDraftJobs";
+import type { z } from "zod";
+import {
   generateEmailSchema,
   parseJsonBody,
   replyEmailSchema,
@@ -69,15 +76,26 @@ async function loadLateFeeHint(env: Env, accountId: string | undefined): Promise
   return row.late_fee_hint.trim().slice(0, 200);
 }
 
+function withTimeout<T>(promise: Promise<T>, ms: number, label: string): Promise<T> {
+  return new Promise((resolve, reject) => {
+    const timer = setTimeout(() => reject(new Error(`${label} timed out after ${ms}ms`)), ms);
+    promise.then(
+      (value) => {
+        clearTimeout(timer);
+        resolve(value);
+      },
+      (err) => {
+        clearTimeout(timer);
+        reject(err);
+      }
+    );
+  });
+}
+
 // Free tier: server-enforced monthly cap. Paid accounts unlimited.
-emails.post("/generate-email", optionalAccount, async (c) => {
-  const parsed = await parseJsonBody(c.req, generateEmailSchema);
-  if (!parsed.ok) return c.json({ error: parsed.error }, 400);
-  const body = parsed.data;
-
-  const blocked = await enforceDraftAccess(c, body);
-  if (blocked) return blocked;
-
+function parseChaseDraftInput(body: z.infer<typeof generateEmailSchema>):
+  | { ok: true; input: ChaseDraftInput }
+  | { ok: false; error: string } {
   const lineItems = body.invoices
     ? body.invoices
         .map((row) => {
@@ -102,39 +120,59 @@ emails.post("/generate-email", optionalAccount, async (c) => {
     (lineItems.length > 1 ? "your team" : "");
 
   const invoiceAmount =
-    lineItems.length > 0
-      ? lineItems.reduce((s, l) => s + l.amount, 0)
-      : body.invoice_amount ?? NaN;
+    lineItems.length > 0 ? lineItems.reduce((s, l) => s + l.amount, 0) : body.invoice_amount ?? NaN;
   const daysOverdue =
-    lineItems.length > 0
-      ? Math.max(...lineItems.map((l) => l.daysOverdue))
-      : body.days_overdue ?? NaN;
+    lineItems.length > 0 ? Math.max(...lineItems.map((l) => l.daysOverdue)) : body.days_overdue ?? NaN;
   const paymentLink = clampOptionalString(body.payment_link, 500);
 
   if (!clientName || !Number.isFinite(invoiceAmount) || !Number.isFinite(daysOverdue)) {
-    return c.json(
-      {
-        error:
-          "client_name, invoice_amount, and days_overdue are required (or a non-empty invoices array).",
-      },
-      400
-    );
+    return {
+      ok: false,
+      error: "client_name, invoice_amount, and days_overdue are required (or a non-empty invoices array).",
+    };
   }
-
   if (paymentLink && !/^https?:\/\//i.test(paymentLink)) {
-    return c.json({ error: "payment_link must be an http(s) URL." }, 400);
+    return { ok: false, error: "payment_link must be an http(s) URL." };
   }
 
-  try {
-    const lateFeeHint = await loadLateFeeHint(c.env, c.get("account")?.workspaceId);
-    const draft = await generateFollowUpEmail(c.env, {
+  return {
+    ok: true,
+    input: {
       clientName,
       invoiceAmount,
       daysOverdue: Math.max(0, daysOverdue),
-      invoices: lineItems.length > 0 ? lineItems : undefined,
       paymentLink,
-      lateFeeHint,
-    });
+      lineItems,
+      visitorId: typeof body.visitorId === "string" ? body.visitorId : undefined,
+    },
+  };
+}
+
+async function postChaseDraft(c: import("hono").Context<AuthEnv>) {
+  const parsed = await parseJsonBody(c.req, generateEmailSchema);
+  if (!parsed.ok) return c.json({ error: parsed.error }, 400);
+  const body = parsed.data;
+
+  const blocked = await enforceDraftAccess(c, body);
+  if (blocked) return blocked;
+
+  const draftInput = parseChaseDraftInput(body);
+  if (!draftInput.ok) return c.json({ error: draftInput.error }, 400);
+
+  try {
+    const lateFeeHint = await loadLateFeeHint(c.env, c.get("account")?.workspaceId);
+    const draft = await withTimeout(
+      generateFollowUpEmail(c.env, {
+        clientName: draftInput.input.clientName,
+        invoiceAmount: draftInput.input.invoiceAmount,
+        daysOverdue: draftInput.input.daysOverdue,
+        invoices: draftInput.input.lineItems.length > 0 ? draftInput.input.lineItems : undefined,
+        paymentLink: draftInput.input.paymentLink,
+        lateFeeHint,
+      }),
+      45_000,
+      "generateFollowUpEmail"
+    );
     const acc = c.get("account");
     const ip = clientIp(c) || "unknown";
     const scope = usageScopeKey(acc ?? null, ip, body.visitorId);
@@ -142,10 +180,10 @@ emails.post("/generate-email", optionalAccount, async (c) => {
     if (acc?.isPaid) {
       c.executionCtx.waitUntil(
         dispatchWebhooks(c.env, acc.workspaceId, "chase.drafted", {
-          client_name: clientName,
-          invoice_amount: invoiceAmount,
-          days_overdue: daysOverdue,
-          invoice_count: lineItems.length || 1,
+          client_name: draftInput.input.clientName,
+          invoice_amount: draftInput.input.invoiceAmount,
+          days_overdue: draftInput.input.daysOverdue,
+          invoice_count: draftInput.input.lineItems.length || 1,
           subject: draft.subject,
         }).catch(() => {})
       );
@@ -155,7 +193,55 @@ emails.post("/generate-email", optionalAccount, async (c) => {
     console.error("generateFollowUpEmail failed", err);
     return c.json({ error: "Could not generate a draft right now. Please try again." }, 502);
   }
-});
+}
+
+/** App UI: return job id immediately; browser polls GET /email-draft/:jobId (short requests). */
+async function postChaseDraftJob(c: import("hono").Context<AuthEnv>) {
+  const parsed = await parseJsonBody(c.req, generateEmailSchema);
+  if (!parsed.ok) return c.json({ error: parsed.error }, 400);
+  const body = parsed.data;
+
+  const blocked = await enforceDraftAccess(c, body);
+  if (blocked) return blocked;
+
+  const draftInput = parseChaseDraftInput(body);
+  if (!draftInput.ok) return c.json({ error: draftInput.error }, 400);
+
+  try {
+    const jobId = await createEmailDraftJob(c.env);
+    const acc = c.get("account");
+    const ip = clientIp(c) || "unknown";
+    const lateFeeHint = await loadLateFeeHint(c.env, acc?.workspaceId);
+    c.executionCtx.waitUntil(
+      runEmailDraftJob(c.env, jobId, acc, { ...draftInput.input, lateFeeHint }, ip)
+    );
+    return c.json({ jobId }, 202);
+  } catch (err) {
+    console.error("postChaseDraftJob failed", err);
+    return c.json({ error: "Could not start draft generation. Please try again." }, 502);
+  }
+}
+
+async function getChaseDraftJob(c: import("hono").Context<AuthEnv>) {
+  const jobId = c.req.param("jobId")?.trim();
+  if (!jobId || jobId.length > 64) return c.json({ error: "Invalid job id" }, 400);
+  try {
+    const job = await getEmailDraftJob(c.env, jobId);
+    if (!job) return c.json({ error: "Draft job not found or expired" }, 404);
+    return c.json(job);
+  } catch (err) {
+    console.error("getChaseDraftJob failed", err);
+    return c.json({ error: "Could not read draft status" }, 502);
+  }
+}
+
+// Ad blockers often block URLs containing "generate" or "email"; keep legacy paths too.
+emails.post("/generate-email", optionalAccount, postChaseDraft);
+emails.post("/draft-chase", optionalAccount, postChaseDraft);
+emails.post("/email-draft", optionalAccount, postChaseDraftJob);
+emails.get("/email-draft/:jobId", optionalAccount, getChaseDraftJob);
+emails.post("/ai/draft", optionalAccount, postChaseDraftJob);
+emails.get("/ai/draft/:jobId", optionalAccount, getChaseDraftJob);
 
 const REWRITE_ACTIONS = new Set<RewriteAction>(["softer", "firmer", "shorter"]);
 

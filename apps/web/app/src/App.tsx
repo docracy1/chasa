@@ -7,6 +7,7 @@ import AppConsentBanner from "./components/AppConsentBanner";
 import { AccountProvider, useAccountContext } from "./lib/AccountContext";
 import { setUnauthorizedHandler } from "./lib/api";
 import { track } from "./lib/analytics";
+import { detectReferralOnce } from "./lib/referralTracking";
 import { useT } from "./lib/i18n";
 
 const Tool = lazy(() => import("./pages/Tool"));
@@ -33,6 +34,10 @@ function AppRoutes() {
   const location = useLocation();
   const isAdmin = location.pathname.startsWith("/admin");
   const isLogin = location.pathname === "/login";
+
+  useEffect(() => {
+    detectReferralOnce();
+  }, [location.search]);
 
   useEffect(() => {
     setUnauthorizedHandler(() => {

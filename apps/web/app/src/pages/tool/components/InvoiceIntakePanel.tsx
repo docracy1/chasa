@@ -8,6 +8,7 @@ interface InvoiceIntakePanelProps {
   amount: string;
   dueDate: string;
   paymentLink: string;
+  paymentLinkError?: string | null;
   isPaid: boolean;
   invoices: Invoice[];
   onClientNameChange: (value: string) => void;
@@ -35,6 +36,7 @@ export function InvoiceIntakePanel({
   amount,
   dueDate,
   paymentLink,
+  paymentLinkError = null,
   isPaid,
   invoices,
   onClientNameChange,
@@ -92,7 +94,9 @@ export function InvoiceIntakePanel({
           placeholder={t("intake.paymentPlaceholderFull")}
           value={paymentLink}
           onChange={(e) => onPaymentLinkChange(e.target.value)}
+          aria-invalid={paymentLinkError ? true : undefined}
         />
+        {paymentLinkError && <div className="error-msg">{paymentLinkError}</div>}
         {isPaid ? (
           <Link className="branding-help" to="/branding">
             {t("intake.setDefault")}
@@ -130,37 +134,42 @@ export function InvoiceIntakePanel({
         </button>
       )}
       {isPaid && (
-        <div style={{ marginTop: 12, display: "flex", gap: 8, flexWrap: "wrap", alignItems: "center" }}>
-          <input
-            type="text"
-            placeholder={t("intake.sheetId")}
-            value={sheetId}
-            onChange={(e) => onSheetIdChange?.(e.target.value)}
-            style={{ minWidth: 220 }}
-            disabled={!googleConnected || sheetBusy}
-          />
-          <button
-            type="button"
-            className="btn-secondary"
-            disabled={!googleConnected || sheetBusy || !sheetId.trim()}
-            onClick={() => void onSheetImport?.()}
-          >
-            {sheetBusy ? t("intake.working") : t("intake.importSheet")}
-          </button>
-          <button
-            type="button"
-            className="btn-secondary"
-            disabled={!googleConnected || sheetBusy || invoices.length === 0}
-            onClick={() => void onSheetExport?.()}
-          >
-            {t("intake.exportAging")}
-          </button>
-          {!googleConnected && (
-            <Link className="branding-help" to="/connector">
-              {t("intake.connectGoogle")}
-            </Link>
-          )}
-          {sheetMsg && <span className="branding-help">{sheetMsg}</span>}
+        <div style={{ marginTop: 12 }}>
+          <div style={{ display: "flex", gap: 8, flexWrap: "wrap", alignItems: "center" }}>
+            <input
+              type="text"
+              placeholder={t("intake.sheetId")}
+              value={sheetId}
+              onChange={(e) => onSheetIdChange?.(e.target.value)}
+              style={{ minWidth: 220 }}
+              disabled={!googleConnected || sheetBusy}
+            />
+            <button
+              type="button"
+              className="btn-secondary"
+              disabled={!googleConnected || sheetBusy || !sheetId.trim()}
+              onClick={() => void onSheetImport?.()}
+            >
+              {sheetBusy ? t("intake.working") : t("intake.importSheet")}
+            </button>
+            <button
+              type="button"
+              className="btn-secondary"
+              disabled={!googleConnected || sheetBusy || invoices.length === 0}
+              onClick={() => void onSheetExport?.()}
+            >
+              {t("intake.exportAging")}
+            </button>
+            {!googleConnected && (
+              <Link className="branding-help" to="/connector">
+                {t("intake.connectGoogle")}
+              </Link>
+            )}
+            {sheetMsg && <span className="branding-help">{sheetMsg}</span>}
+          </div>
+          <p className="branding-help" style={{ marginTop: 8, marginBottom: 0 }}>
+            {t("intake.sheetFormat")}
+          </p>
         </div>
       )}
       {isPaid && invoices.some((inv) => inv.draft) && (

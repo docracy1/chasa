@@ -32,7 +32,7 @@ Test after each: `docstoc.io/app/connector` → Connect → Test.
    - People API (Contacts)
 
 6. OAuth consent screen → add scopes (or approve on first connect):
-   - `drive.readonly`, `gmail.readonly`, `gmail.modify`, `spreadsheets`, `calendar.events`, `contacts.readonly`, `userinfo.email`
+   - `drive.readonly`, `gmail.readonly`, `gmail.modify`, `spreadsheets` (read + export write; do not add `spreadsheets.readonly` — it must match the OAuth request string-for-string), `calendar.events`, `contacts.readonly`, `userinfo.email`
 
 7. Download JSON → update production:
 

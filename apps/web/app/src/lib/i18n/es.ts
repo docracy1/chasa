@@ -281,6 +281,7 @@ const es: Messages = {
   "tool.workspaceSub":
     "Agrega facturas a mano, sube un CSV o importa un PDF desde Dropbox / OneDrive / Box / Google Drive (Pro+). docstoc escribe el seguimiento — solo borrador. Con Google conectado, guárdalo en borradores de Gmail; nunca se envía solo.",
   "tool.selectTwo": "Selecciona al menos dos facturas.",
+  "tool.selectOne": "Selecciona al menos una factura.",
   "tool.noGmailReply": "No hay una respuesta reciente en Gmail para este cliente.",
   "tool.gmailRecipientPrompt": "Correo del destinatario para el borrador de Gmail:",
   "tool.gmailDraftSaved": "Guardado en borradores de Gmail — ábrelo en Gmail para revisar y enviar.",
@@ -297,6 +298,11 @@ const es: Messages = {
   "tool.connectorsLoadFailed": "No se pudieron cargar los conectores.",
   "tool.pdfsListFailed": "No se pudo listar los PDF.",
   "tool.pdfImportFailed": "No se pudo importar el PDF.",
+  "tool.generateTimeout": "La generación del borrador tardó demasiado — inténtalo de nuevo.",
+  "tool.generateBlocked": "Un bloqueador de anuncios puede estar bloqueando la solicitud — permite docstoc.io o prueba otro navegador.",
+  "tool.generateSlow": "El borrador con IA suele tardar 5–15 segundos.",
+  "tool.generateCancel": "Cancelar",
+  "tool.paymentLinkInvalid": "El enlace de pago debe empezar con https:// (o déjalo vacío).",
   "tool.calendarAddedWithLink": "Agregado a Google Calendar: {{link}}",
 
   "aging.title": "Resumen de antigüedad",
@@ -307,6 +313,12 @@ const es: Messages = {
   "aging.selectAll": "Seleccionar todo",
   "aging.clear": "Limpiar ({{count}})",
   "aging.draftOne": "Redactar un correo",
+  "aging.draftSelected": "Redactar un correo para todos los seleccionados",
+  "aging.generateOne": "Generar recordatorio",
+  "aging.singleSelectedHint":
+    "Una fila seleccionada — el borrador aparece en la tarjeta de abajo (desplázate hacia abajo).",
+  "aging.multiSelectedHint":
+    "Dos o más filas — un correo combinado aparece en el cuadro de abajo.",
   "aging.client": "Cliente",
   "aging.amount": "Monto",
   "aging.days": "Días de atraso",
@@ -388,6 +400,8 @@ const es: Messages = {
   "invoice.openWa": "Abrir WhatsApp",
   "invoice.copyTracked": "Copiar HTML con seguimiento",
   "invoice.openMail": "Abrir en el cliente de correo",
+  "invoice.mailtoBodyCopied":
+    "Cuerpo copiado al portapapeles — se abre el cliente con el asunto; pega el cuerpo (Ctrl+V / Cmd+V).",
   "invoice.saveGmail": "Guardar en borradores de Gmail",
   "invoice.saveGmailTitle": "Escribe este borrador en Gmail Drafts — tú envías desde Gmail",
   "invoice.connectGoogle": "Conecta Google para borradores de Gmail",
@@ -433,7 +447,9 @@ const es: Messages = {
   "intake.importPdf": "Importar PDF",
   "intake.pdfSolo": "Importar PDF (Pro+)",
   "intake.openDrive": "Abrir desde Drive",
-  "intake.sheetId": "ID de Google Sheet",
+  "intake.sheetId": "ID o URL de Google Sheet",
+  "intake.sheetFormat":
+    "Primera pestaña, columnas A–C: cliente · monto · vencimiento (2026-08-15 o 15.08.2026). Fila de encabezados opcional. Pega una URL de Sheets — no un PDF de Drive.",
   "intake.importSheet": "Importar Sheet",
   "intake.working": "Trabajando…",
   "intake.exportAging": "Exportar antigüedad a Sheets",
@@ -861,7 +877,9 @@ const es: Messages = {
     "Excluye {{count}} autoclick(s) (el sitio enlazándose a sí mismo, o bots con nuestro hostname) — solo descubrimiento externo real.",
   "admin.noExternalTraffic": "Sin referentes externos ni campañas etiquetadas en este rango.",
   "admin.externalSites": "Sitios externos que enlazaron aquí",
-  "admin.taggedCampaigns": "Clics de campaña (utm /go)",
+  "admin.taggedCampaigns": "Clics de campaña (utm/ref)",
+  "admin.taggedCampaignsNote":
+    "Respeta solo humanos. Las etiquetas seo-* se añaden a los CTA /app en páginas SEO; se registran al aceptar cookies en el registro. Los enlaces /go/* también aparecen aquí.",
   "admin.noneYet": "Nada aún.",
   "admin.colSite": "Sitio",
   "admin.colVisits": "Visitas",

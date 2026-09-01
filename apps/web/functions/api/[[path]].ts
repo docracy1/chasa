@@ -16,12 +16,20 @@ export const onRequest: PagesFunction<{ WORKER_URL: string }> = async (context) 
   const headers = new Headers(context.request.headers);
   headers.set("X-Docstoc-App-Origin", url.origin);
 
+  // Buffer POST/PUT bodies — streaming request.body into subfetch can hang in Pages Functions.
+  const method = context.request.method.toUpperCase();
+  let body: ArrayBuffer | undefined;
+  if (method !== "GET" && method !== "HEAD") {
+    body = await context.request.arrayBuffer();
+  }
+
   const upstream = await fetch(
     new Request(target, {
-      method: context.request.method,
+      method,
       headers,
-      body: context.request.body,
+      body,
       redirect: "manual",
+      signal: AbortSignal.timeout(55_000),
     })
   );
 
@@ -35,5 +43,11 @@ export const onRequest: PagesFunction<{ WORKER_URL: string }> = async (context) 
     }
   }
 
-  return upstream;
+  // Materialize the upstream body so the browser response completes reliably.
+  const responseBody = upstream.body ? await upstream.arrayBuffer() : null;
+  return new Response(responseBody, {
+    status: upstream.status,
+    statusText: upstream.statusText,
+    headers: upstream.headers,
+  });
 };

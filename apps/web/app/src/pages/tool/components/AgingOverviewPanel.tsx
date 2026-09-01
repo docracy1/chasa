@@ -1,4 +1,5 @@
 import { track } from "../../../lib/analytics";
+import { FREE_LIMIT } from "../../../lib/usage";
 import { daysOverdue } from "../../../lib/dates";
 import { useT } from "../../../lib/i18n";
 import { toneClass, toneLabel } from "../chaseTone";
@@ -20,6 +21,8 @@ interface AgingOverviewPanelProps {
   onScrollToInvoice: (id: string) => void;
   onGenerate: (id: string) => void;
   onMultiDraftChange: (draft: { subject: string; body: string }) => void;
+  onOpenMultiMail: () => void;
+  onDraftError: (message: string) => void;
 }
 
 export function AgingOverviewPanel({
@@ -38,14 +41,25 @@ export function AgingOverviewPanel({
   onScrollToInvoice,
   onGenerate,
   onMultiDraftChange,
+  onOpenMultiMail,
+  onDraftError,
 }: AgingOverviewPanelProps) {
   const t = useT();
+  const anySelectedGenerating = invoices.some(
+    (inv) => selectedIds.has(inv.id) && inv.generating
+  );
   return (
     <section className="panel aging-panel">
       <div className="aging-head">
         <div>
           <h2 className="aging-title">{t("aging.title")}</h2>
           <p className="branding-help">{isPaid ? t("aging.helpPaid") : t("aging.helpFree")}</p>
+          {selectedCount === 1 && (
+            <p className="branding-help">{t("aging.singleSelectedHint")}</p>
+          )}
+          {selectedCount >= 2 && (
+            <p className="branding-help">{t("aging.multiSelectedHint")}</p>
+          )}
         </div>
         <div className="aging-actions">
           <button type="button" className="btn-secondary" onClick={onSelectAll}>
@@ -59,10 +73,16 @@ export function AgingOverviewPanel({
           <button
             type="button"
             className="btn-primary"
-            disabled={selectedCount < 2 || multiBusy || atLimit}
+            disabled={
+              selectedCount < 1 || multiBusy || atLimit || anySelectedGenerating
+            }
             onClick={() => void onMultiDraft()}
           >
-            {multiBusy ? t("common.writing") : t("aging.draftOne")}
+            {multiBusy || anySelectedGenerating
+              ? t("common.writing")
+              : selectedCount === 1
+                ? t("aging.generateOne")
+                : t("aging.draftSelected")}
           </button>
         </div>
       </div>
@@ -116,12 +136,27 @@ export function AgingOverviewPanel({
                     <button
                       type="button"
                       className="btn-secondary"
+                      disabled={
+                        inv.generating || multiBusy || (atLimit && !inv.draft)
+                      }
                       onClick={() => {
+                        if (inv.draft) {
+                          onScrollToInvoice(inv.id);
+                          return;
+                        }
+                        if (atLimit) {
+                          onDraftError(t("usage.wallTitle", { limit: FREE_LIMIT }));
+                          return;
+                        }
+                        void onGenerate(inv.id);
                         onScrollToInvoice(inv.id);
-                        if (!inv.draft && !atLimit) void onGenerate(inv.id);
                       }}
                     >
-                      {inv.draft ? t("aging.viewDraft") : t("aging.generate")}
+                      {inv.generating
+                        ? t("common.writing")
+                        : inv.draft
+                          ? t("aging.viewDraft")
+                          : t("aging.generate")}
                     </button>
                   </td>
                 </tr>
@@ -131,7 +166,7 @@ export function AgingOverviewPanel({
         </table>
       </div>
       {multiError && <div className="error-msg">{multiError}</div>}
-      {multiDraft && (
+      {multiDraft && selectedCount >= 2 && (
         <div className="multi-draft-box">
           <div className="ai-tools-label">{t("aging.multiTitle", { count: selectedCount })}</div>
           <input
@@ -158,13 +193,13 @@ export function AgingOverviewPanel({
             >
               {t("common.copy")}
             </button>
-            <a
+            <button
+              type="button"
               className="btn-secondary"
-              href={`mailto:?subject=${encodeURIComponent(multiDraft.subject)}&body=${encodeURIComponent(multiDraft.body)}`}
-              onClick={() => track("chase_sent", { method: "mailto", source: "multi" })}
+              onClick={onOpenMultiMail}
             >
               {t("aging.openMail")}
-            </a>
+            </button>
           </div>
         </div>
       )}
