@@ -16,13 +16,15 @@ const BAND_INSTRUCTIONS: Record<ToneBand, string> = {
   "1-7":
     "Tone band 1-7 days overdue: friendly, assumes it's an oversight. Light reminder, no pressure, casual — like a quick note from a colleague. No mention of consequences.",
   "8-30":
-    "Tone band 8-30 days overdue: professional, clear ask. State the amount and due date plainly, ask for a specific payment date. Still courteous, but no longer casual.",
+    "Tone band 8-30 days overdue: professional, clear ask. State the amount, due date, and days overdue plainly. Ask for a specific payment date within 7 days. Still courteous, but not casual — no 'touch base', 'just checking in', or vague soft openers.",
   "30+":
     "Tone band 30+ days overdue: direct, professional. State amount and due date, set a clear deadline (e.g. 7 business days). Mention late fees per contract if provided, pausing work, or referral to collections as a next step — common US freelancer escalation. Do not apologize for asking to be paid.",
 };
 
 const SYSTEM_PROMPT = `You write short, direct payment follow-up emails for US freelancers and small businesses.
-Use American business English (USD, clear dates). Match the tone to the days-overdue band provided.
+Use American business English (USD, clear dates). Match the tone to the days-overdue band provided — do not write softer than the band allows.
+Use ONLY invoice facts from the user message. Each due_date_display is authoritative — use that exact calendar date in the email. Never invent or change the year.
+Do not invent invoice numbers; say "your invoice" or "the outstanding balance" if no number is given.
 Never grovel. Do not threaten illegal action, wage garnishment, or credit reporting unless the band says to mention collections as a next step.
 No corporate filler. Keep the body under 100 words.
 
@@ -58,6 +60,65 @@ export type FollowUpEmailInput = {
   lateFeeHint?: string;
 };
 
+/** Parse YYYY-MM-DD or DD.MM.YYYY → long US date for AI prompts. */
+export function formatDueDateForPrompt(isoRaw?: string): string | null {
+  if (!isoRaw?.trim()) return null;
+  const iso = isoRaw.trim();
+  let y: number;
+  let m: number;
+  let d: number;
+  const isoMatch = iso.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if (isoMatch) {
+    y = Number(isoMatch[1]);
+    m = Number(isoMatch[2]);
+    d = Number(isoMatch[3]);
+  } else {
+    const euMatch = iso.match(/^(\d{1,2})[./](\d{1,2})[./](\d{4})$/);
+    if (!euMatch) return null;
+    d = Number(euMatch[1]);
+    m = Number(euMatch[2]);
+    y = Number(euMatch[3]);
+  }
+  const dt = new Date(Date.UTC(y, m - 1, d));
+  if (Number.isNaN(dt.getTime())) return null;
+  return dt.toLocaleDateString("en-US", {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+    timeZone: "UTC",
+  });
+}
+
+/** Infer due date ISO from days overdue (when caller did not pass due_date). */
+export function inferDueDateIso(daysOverdue: number, today = new Date()): string {
+  const ref = new Date(today);
+  ref.setHours(12, 0, 0, 0);
+  ref.setDate(ref.getDate() - Math.max(0, Math.round(daysOverdue)));
+  return ref.toISOString().slice(0, 10);
+}
+
+function normalizeInvoiceLines(input: FollowUpEmailInput): FollowUpInvoiceLine[] {
+  const raw =
+    input.invoices && input.invoices.length > 0
+      ? input.invoices
+      : [{ amount: input.invoiceAmount, daysOverdue: input.daysOverdue }];
+  return raw.map((line) => ({
+    ...line,
+    dueDate: line.dueDate?.trim() || inferDueDateIso(line.daysOverdue),
+  }));
+}
+
+function buildInvoicePromptLine(
+  line: FollowUpInvoiceLine,
+  index: number,
+  defaultClient: string
+): string {
+  const who = line.clientName?.trim() || defaultClient;
+  const iso = line.dueDate ?? inferDueDateIso(line.daysOverdue);
+  const display = formatDueDateForPrompt(iso) ?? iso;
+  return `- invoice ${index + 1}: client=${who}, amount=$${line.amount.toFixed(2)}, days_overdue=${line.daysOverdue}, due_date=${iso}, due_date_display=${display}`;
+}
+
 function appendPaymentLink(draft: GeneratedEmail, paymentLink?: string): GeneratedEmail {
   const link = paymentLink?.trim();
   if (!link) return draft;
@@ -72,10 +133,7 @@ export async function generateFollowUpEmail(
   env: Env,
   input: FollowUpEmailInput
 ): Promise<GeneratedEmail> {
-  const lines =
-    input.invoices && input.invoices.length > 0
-      ? input.invoices
-      : [{ amount: input.invoiceAmount, daysOverdue: input.daysOverdue }];
+  const lines = normalizeInvoiceLines(input);
 
   const maxDays = Math.max(...lines.map((l) => l.daysOverdue), input.daysOverdue);
   const band = getToneBand(maxDays);
@@ -83,11 +141,7 @@ export async function generateFollowUpEmail(
   const paymentLink = input.paymentLink?.trim();
 
   const invoiceBlock = lines
-    .map((l, i) => {
-      const who = l.clientName?.trim() || input.clientName;
-      const due = l.dueDate ? `, due ${l.dueDate}` : "";
-      return `- invoice ${i + 1}: client=${who}, amount=$${l.amount.toFixed(2)}, days_overdue=${l.daysOverdue}${due}`;
-    })
+    .map((l, i) => buildInvoicePromptLine(l, i, input.clientName))
     .join("\n");
 
   const multiHint = multi
@@ -103,8 +157,17 @@ export async function generateFollowUpEmail(
     ? `The user opted in to mention late fees / interest. Include one short factual line about: ${lateFee}. Do not invent amounts beyond what they provided.`
     : "Do not invent late fees or interest charges.";
 
+  const todayDisplay = new Date().toLocaleDateString("en-US", {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  });
+
   const userMessage = `${BAND_INSTRUCTIONS[band]}
 ${multiHint}
+
+today: ${todayDisplay}
+Use due_date_display exactly when stating due dates. Do not use a different year than due_date_display shows.
 
 ${wrapUserContent("client_name", sanitizeForPrompt(input.clientName.slice(0, 120)))}
 invoice_count: ${lines.length}
@@ -145,7 +208,7 @@ const REWRITE_INSTRUCTIONS: Record<RewriteAction, string> = {
 };
 
 const REWRITE_SYSTEM = `You rewrite payment follow-up emails for freelancers.
-Keep the same invoice facts. Do not invent new amounts or dates.
+Keep the same invoice facts. Do not invent new amounts, due dates, or years — preserve any due dates already in the text.
 No corporate filler. Respond in exactly this format, nothing else:
 Subject: <subject line>
 Body:

@@ -1,5 +1,22 @@
 import { describe, expect, it } from "vitest";
-import { parseEmail } from "./ai";
+import { formatDueDateForPrompt, inferDueDateIso, parseEmail } from "./ai";
+
+describe("formatDueDateForPrompt", () => {
+  it("formats ISO dates as long US dates", () => {
+    expect(formatDueDateForPrompt("2026-08-15")).toBe("August 15, 2026");
+  });
+
+  it("formats European dotted dates", () => {
+    expect(formatDueDateForPrompt("15.08.2026")).toBe("August 15, 2026");
+  });
+});
+
+describe("inferDueDateIso", () => {
+  it("subtracts days overdue from today", () => {
+    const today = new Date("2026-09-01T12:00:00");
+    expect(inferDueDateIso(17, today)).toBe("2026-08-15");
+  });
+});
 
 describe("parseEmail", () => {
   it("parses the well-formed Subject/Body format", () => {
