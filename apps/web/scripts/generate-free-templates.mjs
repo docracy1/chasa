@@ -3,7 +3,7 @@
  * Generates /free-templates/index.html + one SEO page per template.
  * Run from repo root: node apps/web/scripts/generate-free-templates.mjs
  */
-import { mkdirSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { chrome, escapeHtml, trustBadgesHtml, conversionSectionHtml, ASSET_V } from "./lib/chrome.mjs";
@@ -647,7 +647,7 @@ const DOCUMENT_CATEGORIES = ["Business", "Legal", "Real Estate", "Finance", "HR"
  *  category: string;
  *  bodyMarkdown: string;
  * }>} */
-const DOCUMENT_TEMPLATES = [
+const INLINE_DOCUMENT_TEMPLATES = [
   {
     slug: "llc-operating-agreement-single-member-template",
     name: "Single-Member LLC Operating Agreement",
@@ -35918,6 +35918,16 @@ Member: ______________________  Date: ____________
 *This document is provided for informational and educational purposes only and does not constitute legal advice. Many states specifically regulate health club/gym membership contracts — including mandatory cancellation rights, caps on contract length, and rules around automatic renewal — that a generic membership agreement may not fully satisfy, so gyms should confirm compliance with their state's specific health club contract law.*`,
   },
 ];
+
+// Weekly-generated templates (docstoc.com-style, sourced from the ranked template-family
+// pool in scratch/docstoc-research/{launch_batch_top1500,weekly_pool_count2to4}.csv) live in
+// their own JSON file so each week's batch is a clean data diff — never a hand-edit of the
+// ~35k-line array above. See scripts/select-weekly-templates.mjs for how a batch is chosen.
+const weeklyDocTemplatesPath = join(__dirname, "../data/weekly-document-templates.json");
+const WEEKLY_DOCUMENT_TEMPLATES = existsSync(weeklyDocTemplatesPath)
+  ? JSON.parse(readFileSync(weeklyDocTemplatesPath, "utf8"))
+  : [];
+const DOCUMENT_TEMPLATES = [...INLINE_DOCUMENT_TEMPLATES, ...WEEKLY_DOCUMENT_TEMPLATES];
 
 const TEMPLATES_INDEX_FAQ = [
   {
