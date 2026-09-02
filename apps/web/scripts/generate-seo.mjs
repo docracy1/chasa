@@ -16,6 +16,7 @@ import {
   HIGH_PRIORITY_DOC_TEMPLATE_SLUGS,
 } from "./data/seo-config.mjs";
 import { renderSeoHead } from "./lib/seo-head.mjs";
+import { en as marketingEn } from "./data/marketing-i18n.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const publicDir = join(__dirname, "../public");
@@ -229,6 +230,27 @@ function patchHomepageTitle() {
   console.log("Patched index.html homepage title + description from seo-config");
 }
 
+/** Keep static fallback text in sync with marketing-i18n (crawlers read before site-lang.js). */
+function patchHomepageI18nFallbacks() {
+  const path = join(publicDir, "index.html");
+  let html = readFileSync(path, "utf8");
+  let patched = 0;
+  for (const [key, value] of Object.entries(marketingEn)) {
+    if (!key.startsWith("home.")) continue;
+    const escKey = key.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    const escValue = value
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;");
+    const re = new RegExp(`(data-i18n="${escKey}"[^>]*>)([^<]*)(</)`, "g");
+    const next = html.replace(re, `$1${escValue}$3`);
+    if (next !== html) patched++;
+    html = next;
+  }
+  writeFileSync(path, html, "utf8");
+  console.log(`Patched index.html i18n fallbacks (${patched} keys)`);
+}
+
 function patchSeoHead(fileName) {
   const path = join(publicDir, fileName);
   let html = stripInjectedSeoHead(readFileSync(path, "utf8"));
@@ -251,6 +273,7 @@ writeRobots();
 writeBlogFeed();
 writeIndexNowKey();
 patchHomepageTitle();
+patchHomepageI18nFallbacks();
 for (const file of ["index.html"]) {
   patchSeoHead(file);
 }

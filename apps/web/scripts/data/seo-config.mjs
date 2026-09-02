@@ -187,6 +187,11 @@ export const HIGH_PRIORITY_DOC_TEMPLATE_SLUGS = new Set([
   "seo-services-contract-template",
   "living-will-template",
   "personal-loan-agreement-template",
+  "business-plan-template",
+  "cv-template",
+  "professional-resume-template",
+  "grant-proposal-template",
+  "strategic-plan-template",
 ]);
 
 /** Per-slug SERP title/description overrides (GSC quick wins + high-impression zero-click pages). */
@@ -220,6 +225,31 @@ export const DOC_TEMPLATE_SEO_OVERRIDES = {
     seoTitle: "Free SEO Services Contract Template — Copy & PDF",
     description:
       "Free SEO services agreement template for agencies and freelancers. Scope, deliverables, payment terms — edit online, no signup.",
+  },
+  "business-plan-template": {
+    seoTitle: "Free Business Plan Template — Copy, Edit & Download PDF",
+    description:
+      "Free business plan template with executive summary, market analysis, and financial sections. Edit online, download PDF — no signup.",
+  },
+  "cv-template": {
+    seoTitle: "Free CV Template — Professional Curriculum Vitae",
+    description:
+      "Free CV template for job applications and academic roles. Edit online, fill placeholders, download PDF — no account required.",
+  },
+  "professional-resume-template": {
+    seoTitle: "Free Professional Resume Template — Copy & PDF",
+    description:
+      "Free professional resume template with clear sections for experience and skills. Edit online, download PDF — no signup.",
+  },
+  "grant-proposal-template": {
+    seoTitle: "Free Grant Proposal Template — Copy & Download PDF",
+    description:
+      "Free grant proposal template for nonprofits and researchers. Project summary, budget, outcomes — edit online, no signup.",
+  },
+  "strategic-plan-template": {
+    seoTitle: "Free Strategic Plan Template — Business Strategy Outline",
+    description:
+      "Free strategic plan template with goals, initiatives, and KPIs. Edit online, copy sections, download PDF — no account required.",
   },
 };
 

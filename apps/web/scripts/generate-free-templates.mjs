@@ -36764,7 +36764,7 @@ function buildDocumentFaq(t) {
   return [
     {
       q: `Is this ${t.name.toLowerCase()} template really free?`,
-      a: `Yes — this ${t.name} template on chasa is free to view, edit online, and download as a PDF with no account or signup required.`,
+      a: `Yes — this ${t.name} template on docstoc is free to view, edit online, and download as a PDF with no account or signup required.`,
     },
     {
       q: `What does this ${t.name.toLowerCase()} cover?`,
@@ -36780,7 +36780,7 @@ function buildDocumentFaq(t) {
     },
     {
       q: "Where can I find more free templates like this?",
-      a: `Browse more free ${t.category.toLowerCase()} and related document templates in the chasa library at /document-templates/.`,
+      a: `Browse more free ${t.category.toLowerCase()} and related document templates in the docstoc library at /document-templates/.`,
     },
   ];
 }
@@ -36788,6 +36788,9 @@ function buildDocumentFaq(t) {
 for (const t of DOCUMENT_TEMPLATES) {
   // Duplicate slug — keep content only on affidavit-of-death-of-joint-tenant-template (301 in _redirects).
   if (t.slug === "affidavit-death-of-joint-tenant-template") continue;
+  const seoOverride = DOC_TEMPLATE_SEO_OVERRIDES[t.slug];
+  const pageSeoTitle = seoOverride?.seoTitle ?? t.seoTitle;
+  const pageDescription = seoOverride?.description ?? t.description;
   const faq = buildDocumentFaq(t);
   const jsonLd = JSON.stringify(
     {
@@ -36795,8 +36798,8 @@ for (const t of DOCUMENT_TEMPLATES) {
       "@graph": [
         {
           "@type": "Article",
-          headline: t.seoTitle,
-          description: t.description,
+          headline: pageSeoTitle,
+          description: pageDescription,
           url: `https://docstoc.io/document-templates/${t.slug}`,
           author: { "@type": "Organization", name: "docstoc" },
           publisher: { "@type": "Organization", name: "RELACON GmbH" },
@@ -36853,16 +36856,17 @@ for (const t of DOCUMENT_TEMPLATES) {
   const bodyHtml = markdownToHtml(t.bodyMarkdown);
 
   const page = chrome({
-    title: `${t.seoTitle} | docstoc`,
-    description: t.description,
+    title: `${pageSeoTitle} | docstoc`,
+    description: pageDescription,
     canonical: `https://docstoc.io/document-templates/${t.slug}`,
     activeNav: "templates",
     jsonLd,
+    extraHead: SEO_PRODUCTS_STRIP_STYLE,
     mainHtml: `<main class="wrap template-detail">
   <p class="crumb"><a href="/">Home</a> / <a href="/document-templates/">Document templates</a> / ${escapeHtml(t.name)}</p>
   <div class="tpl-meta"><span>${escapeHtml(t.category)}</span></div>
   <h1>${escapeHtml(t.name)}</h1>
-  <p class="lede">${escapeHtml(t.description)}</p>
+  <p class="lede">${escapeHtml(pageDescription)}</p>
   <div class="tpl-hero-cta">
     <a class="nav-cta" href="/app/certificates">Certify a document you draft →</a>
   </div>
@@ -36903,6 +36907,8 @@ for (const t of DOCUMENT_TEMPLATES) {
   <h2>More free document templates</h2>
   <ul class="tpl-more">${othersHtml}
   </ul>
+
+  ${productsStripHtml()}
 
   ${conversionSectionHtml()}
 
