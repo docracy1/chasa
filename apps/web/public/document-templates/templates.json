@@ -3584,14 +3584,6 @@
     "bodyMarkdown": "# Standing Order Mandate\n\n**Account Holder:** [Name] · **Account Number:** [Number]\n**Bank:** [Bank Name]\n\n## Payment Instructions\nPlease pay: [Payee Name]\nPayee's account details: [Account/IBAN, sort code/routing number]\nAmount: [Amount]\nFrequency: [Monthly/Weekly/Other]\nFirst payment date: [Date]\nFinal payment date (or \"until cancelled\"): [Date]\nReference: [Payment reference for the payee to identify it]\n\n## Authorization\nI authorize [Bank Name] to make the above payments from my account until I instruct otherwise in writing.\n\nAccount holder signature: ______________________  Date: ____________\n\n*A standing order pays a FIXED amount on a set schedule — if the amount owed might vary (like a utility bill), a direct debit is usually the better instrument, since it lets the payee request the actual amount due each time.*"
   },
   {
-    "slug": "affidavit-death-of-joint-tenant-template",
-    "name": "Affidavit of Death of Joint Tenant",
-    "seoTitle": "Free Affidavit of Death of Joint Tenant Template",
-    "description": "Free affidavit template confirming a co-owner's death, used to transfer jointly-held property to the surviving owner.",
-    "category": "Real Estate",
-    "bodyMarkdown": "# Affidavit of Death of Joint Tenant\n\nState of [State]\nCounty of [County]\n\nI, [Affiant Name], being first duly sworn, state as follows:\n\n## 1. Joint Tenancy\n[Decedent Name] and [Surviving Owner Name] held title as joint tenants with right of survivorship to the property described as: [Legal Description/Address], per the deed recorded [Recording information].\n\n## 2. Death of Joint Tenant\n[Decedent Name] died on [Date of Death], as shown on the attached certified copy of the death certificate.\n\n## 3. Effect\nUpon [Decedent Name]'s death, sole ownership of the property vested in [Surviving Owner Name], the surviving joint tenant, by operation of law.\n\n## 4. Purpose\nThis affidavit is recorded to provide public notice of the change in title.\n\n---\nAffiant signature: ______________________  Date: ____________\n\n**Notarization:**\nSubscribed and sworn to before me on [Date].\nNotary Public: ______________________\n\n*This document is provided for informational and educational purposes only and does not constitute legal advice. This affidavit should be recorded with the county recorder's office (along with a certified death certificate) to formally update the public record — requirements vary by state, so confirm the exact process with your county recorder or a real estate/probate attorney.*"
-  },
-  {
     "slug": "strategic-alliance-agreement-template",
     "name": "Strategic Alliance Agreement",
     "seoTitle": "Free Strategic Alliance Agreement Template",

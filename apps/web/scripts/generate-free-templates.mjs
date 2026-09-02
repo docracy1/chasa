@@ -16479,40 +16479,6 @@ Account holder signature: ______________________  Date: ____________
 *A standing order pays a FIXED amount on a set schedule — if the amount owed might vary (like a utility bill), a direct debit is usually the better instrument, since it lets the payee request the actual amount due each time.*`,
   },
   {
-    slug: "affidavit-death-of-joint-tenant-template",
-    name: "Affidavit of Death of Joint Tenant",
-    seoTitle: "Free Affidavit of Death of Joint Tenant Template",
-    description: "Free affidavit template confirming a co-owner's death, used to transfer jointly-held property to the surviving owner.",
-    category: "Real Estate",
-    bodyMarkdown: `# Affidavit of Death of Joint Tenant
-
-State of [State]
-County of [County]
-
-I, [Affiant Name], being first duly sworn, state as follows:
-
-## 1. Joint Tenancy
-[Decedent Name] and [Surviving Owner Name] held title as joint tenants with right of survivorship to the property described as: [Legal Description/Address], per the deed recorded [Recording information].
-
-## 2. Death of Joint Tenant
-[Decedent Name] died on [Date of Death], as shown on the attached certified copy of the death certificate.
-
-## 3. Effect
-Upon [Decedent Name]'s death, sole ownership of the property vested in [Surviving Owner Name], the surviving joint tenant, by operation of law.
-
-## 4. Purpose
-This affidavit is recorded to provide public notice of the change in title.
-
----
-Affiant signature: ______________________  Date: ____________
-
-**Notarization:**
-Subscribed and sworn to before me on [Date].
-Notary Public: ______________________
-
-*This document is provided for informational and educational purposes only and does not constitute legal advice. This affidavit should be recorded with the county recorder's office (along with a certified death certificate) to formally update the public record — requirements vary by state, so confirm the exact process with your county recorder or a real estate/probate attorney.*`,
-  },
-  {
     slug: "strategic-alliance-agreement-template",
     name: "Strategic Alliance Agreement",
     seoTitle: "Free Strategic Alliance Agreement Template",
