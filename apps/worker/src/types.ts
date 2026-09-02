@@ -29,8 +29,11 @@ export interface Env {
   XERO_CLIENT_SECRET?: string;
   /** Microsoft Clarity Data Export API token (project-scoped) — see lib/clarityApi.ts */
   CLARITY_API_TOKEN?: string;
-  /** Cloudflare API token, "Zone > Analytics > Read" scoped to the chasa.io zone only —
-   *  see lib/cloudflareAnalytics.ts */
+  /** Comma-separated Cloudflare zone IDs for Analytics GraphQL (optional — defaults to
+   *  docstoc.io + chasa.io lookup). See lib/cloudflareAnalytics.ts */
+  CF_ANALYTICS_ZONE_IDS?: string;
+  /** Cloudflare API token, "Zone > Analytics > Read" scoped to docstoc.io (and chasa.io
+   *  during cutover) — see lib/cloudflareAnalytics.ts */
   CF_ANALYTICS_TOKEN?: string;
   /** ACME v2 directory URL — defaults to Let's Encrypt staging in lib/acme.ts if unset. Set to
    *  the production directory only once the flow has been validated end-to-end. */

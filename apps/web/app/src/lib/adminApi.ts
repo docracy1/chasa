@@ -26,6 +26,7 @@ export type TrafficStats = {
   day: string | null;
   pageViews: number;
   humanPageViews: number;
+  crawlerPageViews: number;
   botPct: number;
   chasesSent: number;
   chasesCompleted: number;
@@ -44,6 +45,7 @@ export type CfTrafficStats =
       configured: true;
       ok: true;
       days: number;
+      zones: string[];
       byDay: { day: string; requests: number; pageViews: number; uniques: number }[];
       totals: { requests: number; pageViews: number; uniques: number };
       day: string;

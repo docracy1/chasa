@@ -89,11 +89,9 @@ GOOGLE_INTEGRATIONS_CLIENT_ID = "808580458885-avk646acnsu40en7f0v828ppabk4kvjt.a
 # clarity.microsoft.com -> Settings -> Data Export -> API tokens. Token is project-scoped, no
 # separate project id needed.
 # Set with: wrangler secret put CLARITY_API_TOKEN
-# Cloudflare Analytics (optional — admin dashboard's Traffic tab reads real edge-level request/bot
-# data straight from Cloudflare instead of only self-tracked JS-beacon data, which structurally
-# misses most non-JS-executing bots and crawlers). Create at dash.cloudflare.com -> My Profile ->
-# API Tokens -> Create Token -> custom token with ONLY "Zone > Analytics > Read", Zone Resources
-# scoped to docstoc.io. Do not reuse a broader personal/OAuth token here.
+# Cloudflare Analytics (optional — admin dashboard Traffic tab). Token needs Zone → Analytics → Read
+# on docstoc.io and chasa.io (both queried and merged automatically). Optional override:
+#   wrangler secret put CF_ANALYTICS_ZONE_IDS   (comma-separated zone IDs)
 # Set with: wrangler secret put CF_ANALYTICS_TOKEN
 # Price IDs are non-secret — set above as STRIPE_PRICE_SOLO / PRO / ENTERPRISE.
 

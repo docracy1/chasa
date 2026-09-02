@@ -39,17 +39,19 @@ export const BING_SITE_VERIFICATION = process.env.BING_SITE_VERIFICATION?.trim()
 export const SITEMAP_ROUTES = [
   { path: "/", priority: 1.0, changefreq: "weekly" },
   { path: "/app/", priority: 0.9, changefreq: "weekly" },
+  { path: "/document-templates/", priority: 0.95, changefreq: "weekly" },
+  { path: "/invoices", priority: 0.92, changefreq: "monthly" },
+  { path: "/certificate", priority: 0.92, changefreq: "monthly" },
+  { path: "/chase-invoices", priority: 0.92, changefreq: "monthly" },
   { path: "/free-templates/", priority: 0.9, changefreq: "weekly" },
   { path: "/free-templates/download", priority: 0.85, changefreq: "monthly" },
   { path: "/free-templates/submit", priority: 0.6, changefreq: "monthly" },
   { path: "/free-templates/new", priority: 0.8, changefreq: "monthly" },
-  { path: "/ai", priority: 0.85, changefreq: "weekly" },
-  { path: "/invoice-follow-up", priority: 0.85, changefreq: "monthly" },
-  { path: "/payment-reminder", priority: 0.85, changefreq: "monthly" },
-  { path: "/overdue-invoice", priority: 0.85, changefreq: "monthly" },
-  { path: "/overdue-invoices-guide", priority: 0.85, changefreq: "monthly" },
-  { path: "/chase-invoices", priority: 0.85, changefreq: "monthly" },
-  { path: "/guides/invoice-chasing/", priority: 0.92, changefreq: "weekly" },
+  { path: "/invoice-follow-up", priority: 0.88, changefreq: "monthly" },
+  { path: "/payment-reminder", priority: 0.88, changefreq: "monthly" },
+  { path: "/overdue-invoice", priority: 0.88, changefreq: "monthly" },
+  { path: "/overdue-invoices-guide", priority: 0.88, changefreq: "monthly" },
+  { path: "/guides/invoice-chasing/", priority: 0.94, changefreq: "weekly" },
   { path: "/freelancer-invoice-follow-up", priority: 0.85, changefreq: "monthly" },
   { path: "/unpaid-invoice-follow-up-templates", priority: 0.8, changefreq: "monthly" },
   { path: "/polite-payment-reminder-email", priority: 0.8, changefreq: "monthly" },
@@ -68,14 +70,12 @@ export const SITEMAP_ROUTES = [
   { path: "/tools/invoice-generator", priority: 0.9, changefreq: "monthly" },
   { path: "/tools/invoice-chase-calculator", priority: 0.9, changefreq: "monthly" },
   { path: "/trust-badges", priority: 0.85, changefreq: "monthly" },
-  { path: "/invoices", priority: 0.85, changefreq: "monthly" },
   { path: "/features/", priority: 0.8, changefreq: "monthly" },
-  { path: "/features/ai-tone", priority: 0.75, changefreq: "monthly" },
+  { path: "/features/ai-tone", priority: 0.55, changefreq: "monthly" },
   { path: "/features/templates", priority: 0.75, changefreq: "monthly" },
   { path: "/docs/", priority: 0.75, changefreq: "monthly" },
   { path: "/blog/", priority: 0.8, changefreq: "weekly" },
-  { path: "/ssl", priority: 0.9, changefreq: "monthly" },
-  { path: "/tls", priority: 0.9, changefreq: "monthly" },
+  { path: "/ssl", priority: 0.92, changefreq: "monthly" },
   { path: "/ssl/features", priority: 0.85, changefreq: "monthly" },
   { path: "/ssl/features/certificates", priority: 0.85, changefreq: "monthly" },
   { path: "/ssl/features/validation", priority: 0.8, changefreq: "monthly" },
@@ -127,10 +127,16 @@ export const SITEMAP_ROUTES = [
 ];
 
 /** EN homepage document title (source of truth for build-time patches). */
-export const HOME_PAGE_TITLE = "docstoc — The automation layer";
+export const HOME_PAGE_TITLE =
+  "docstoc — Document Templates, Invoices, SSL, Certificates & AI Collections";
+
+/** EN homepage meta description (patched into index.html at build). */
+export const HOME_PAGE_DESCRIPTION =
+  "Five free products in one platform: 1,000+ business document templates, invoice generator, AI invoice collections, Let's Encrypt SSL automation, and tamper-evident document certificates.";
 
 /** ES homepage title — used by generate-es-pages.mjs. */
-export const HOME_PAGE_TITLE_ES = "docstoc — La capa de automatización";
+export const HOME_PAGE_TITLE_ES =
+  "docstoc — Plantillas, facturas, SSL, certificados y cobros con IA";
 
 /** Square PNG for Organization / GSC — SVG wordmarks and non-square assets are ignored. */
 export const ORG_LOGO_URL = `${SITE_URL}/brand/docstoc-icon-512.png`;
@@ -159,9 +165,67 @@ export const ORG_JSON_LD = {
   },
 };
 
-/** Paths that 301 elsewhere — keep out of the sitemap. */
+/** Document-template slugs that rank on page 1–2 in Search Console — higher sitemap priority. */
+export const HIGH_PRIORITY_DOC_TEMPLATE_SLUGS = new Set([
+  "statement-of-qualifications-template",
+  "sustainability-report-template",
+  "bank-guarantee-template",
+  "csr-report-template",
+  "advance-payment-guarantee-template",
+  "letter-of-undertaking-template",
+  "certificate-of-destruction-template",
+  "staff-augmentation-contract-template",
+  "confirmation-letter-template",
+  "notice-of-annual-general-meeting-template",
+  "expression-of-interest-letter-template",
+  "reservation-agreement-template",
+  "commitment-letter-template",
+  "homestay-agreement-template",
+  "firewall-policy-template",
+  "material-transfer-agreement-template",
+  "software-requirements-specification-template",
+  "seo-services-contract-template",
+  "living-will-template",
+  "personal-loan-agreement-template",
+]);
+
+/** Per-slug SERP title/description overrides (GSC quick wins + high-impression zero-click pages). */
+export const DOC_TEMPLATE_SEO_OVERRIDES = {
+  "statement-of-qualifications-template": {
+    seoTitle: "Free Statement of Qualifications (SOQ) Template — Copy & PDF",
+    description:
+      "Free statement of qualifications (SOQ) template for government bids and RFP shortlists. Edit online, copy, or download PDF — no signup.",
+  },
+  "sustainability-report-template": {
+    seoTitle: "Free Sustainability Report Template — ESG Disclosure Outline",
+    description:
+      "Free sustainability report template with ESG sections you can copy and customize. Edit online or export PDF — no account required.",
+  },
+  "bank-guarantee-template": {
+    seoTitle: "Free Bank Guarantee Template — Copy & Download PDF",
+    description:
+      "Free bank guarantee letter template for bids, contracts, and performance bonds. Copy, edit online, or download PDF.",
+  },
+  "csr-report-template": {
+    seoTitle: "Free CSR Report Template — Corporate Social Responsibility",
+    description:
+      "Free corporate social responsibility (CSR) report template. Copy sections, edit online, download PDF — no signup.",
+  },
+  "software-requirements-specification-template": {
+    seoTitle: "Free Software Requirements Specification (SRS) Template",
+    description:
+      "Free SRS template for software projects — functional requirements, scope, and acceptance criteria. Copy, edit, download PDF.",
+  },
+  "seo-services-contract-template": {
+    seoTitle: "Free SEO Services Contract Template — Copy & PDF",
+    description:
+      "Free SEO services agreement template for agencies and freelancers. Scope, deliverables, payment terms — edit online, no signup.",
+  },
+};
+
 export const SITEMAP_EXCLUDE_PATHS = new Set([
   "/app/login",
+  "/ai",
   "/freetemplates",
   "/outgoinginvoices",
   "/chasinginvoices",
@@ -169,6 +233,8 @@ export const SITEMAP_EXCLUDE_PATHS = new Set([
   "/monitoring",
   "/monitoringssl",
   "/monitoringtls",
+  "/tls",
+  "/tls/",
   "/tsl",
   "/tsl/",
   "/document-templates/affidavit-death-of-joint-tenant-template",

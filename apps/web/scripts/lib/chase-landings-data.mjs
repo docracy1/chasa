@@ -3,9 +3,9 @@
 export const CHASE_LANDINGS = [
   {
     slug: "invoice-follow-up",
-    title: "Invoice Follow-Up Emails — AI Drafts for Freelancers | docstoc",
+    title: "Invoice Follow-Up Email Template — Free Copy-Paste & AI Drafts | docstoc",
     description:
-      "Write invoice follow-up emails in the right tone for how late each payment is. Free AI drafts and copy-paste templates for freelancers.",
+      "Free invoice follow-up email templates for every stage of late payment. Copy-paste reminders or get AI drafts matched to days overdue — send from your own inbox.",
     breadcrumb: "Invoice follow-up",
     faq: [
       {
@@ -49,9 +49,9 @@ export const CHASE_LANDINGS = [
   },
   {
     slug: "chase-invoices",
-    title: "Chase Invoices Without the Awkward Emails | docstoc",
+    title: "Chase Invoices — Free Payment Reminder Templates & AI Drafts | docstoc",
     description:
-      "Chase unpaid invoices with AI-written follow-ups you send from your own inbox. No auto-send, no collections bot — just the right words for how late each invoice is.",
+      "Chase unpaid invoices with free copy-paste email templates and AI follow-up drafts. Tone matched to days overdue — you send from your own inbox, no auto-send.",
     breadcrumb: "Chase invoices",
     faq: [
       {
@@ -94,9 +94,9 @@ export const CHASE_LANDINGS = [
   },
   {
     slug: "payment-reminder",
-    title: "Payment Reminder Emails — Free Templates & AI | docstoc",
+    title: "Payment Reminder Email Template — Free Copy-Paste (28 Templates) | docstoc",
     description:
-      "Send payment reminder emails before and after the due date. Free copy-paste templates plus AI drafts that match how late each invoice is.",
+      "Free payment reminder email templates — before due date, gentle overdue, formal 30-day notice, and final warning. Copy-paste or AI drafts, no account required.",
     breadcrumb: "Payment reminder",
     faq: [
       {

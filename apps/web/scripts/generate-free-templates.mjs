@@ -7,6 +7,8 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { chrome, escapeHtml, trustBadgesHtml, conversionSectionHtml, ASSET_V } from "./lib/chrome.mjs";
+import { DOC_TEMPLATE_SEO_OVERRIDES } from "./data/seo-config.mjs";
+import { productsStripHtml, SEO_PRODUCTS_STRIP_STYLE } from "./lib/seo-products.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const outDir = join(__dirname, "../public/free-templates");

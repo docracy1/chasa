@@ -826,7 +826,16 @@ const en: Messages = {
   "admin.nav.errors": "Errors",
   "admin.welcomeBack": "Welcome back",
   "admin.analyticsSub":
-    "Aggregate traffic and funnel counts — no per-visitor tracking, no IPs stored.",
+    "First-party traffic and funnel counts — not Google Search Console. Search impressions/clicks are a separate metric (see callout below).",
+  "admin.searchCalloutTitle": "Google Search vs this dashboard",
+  "admin.searchCalloutBody":
+    "Search Console tracks how often Google shows your pages in search results (impressions) and how often people click through (clicks). This admin tab tracks visitors who actually load docstoc.io — mostly via our JS beacon and Cloudflare edge logs. A site can have thousands of search impressions with only dozens of clicks, and most Googlebot crawls never run analytics.js. Compare Cloudflare bot traffic (Googlebot below) with GSC; do not expect beacon page views to match GSC impressions.",
+  "admin.beaconPageViews": "Beacon page views",
+  "admin.beaconPageViewsSub": "analytics.js — humans + classified crawlers only",
+  "admin.crawlerPageViews": "Crawler beacons",
+  "admin.crawlerPageViewsSub": "Googlebot, Bingbot, etc. (UA-detected)",
+  "admin.chasesSent": "Product chases sent",
+  "admin.chasesSentSub": "Excludes free-template copy events",
   "admin.backToApp": "← Back to app",
   "admin.sectionsAria": "Admin sections",
   "admin.signedInAs": " Signed in as {{email}}.",
@@ -840,13 +849,13 @@ const en: Messages = {
   "admin.pageViews": "Page views",
   "admin.botExcluded": "{{pct}}% of all traffic was known bots (excluded)",
   "admin.botPct": "{{pct}}% known bots",
-  "admin.chasesSent": "Chases sent",
   "admin.chasesCompleted": "Chases completed",
   "admin.chasesCompletedSub": "chase events marked paid",
   "admin.sentToCompleted": "Sent → completed",
   "admin.cfTrafficTitle": "Traffic (Cloudflare edge — every request)",
   "admin.cfTrafficSub":
-    "Sourced directly from Cloudflare's own analytics, not our JS beacon — this sees every request that hits the edge, including bots and crawlers that never run analytics.js, so it's the number to trust over the page-view tiles below when comparing against the Cloudflare dashboard.",
+    "Cloudflare edge logs for {{zones}} — every HTTP request including crawlers that never run analytics.js. This is the right baseline when comparing to Search Console crawl activity or the Cloudflare dashboard.",
+  "admin.cfZones": "Zones: {{zones}}",
   "admin.cfNotConfigured":
     "Not connected. Create a Cloudflare API token (My Profile → API Tokens → Zone → Analytics → Read, scoped to docstoc.io only) and set it with: wrangler secret put CF_ANALYTICS_TOKEN",
   "admin.cfError": "Cloudflare Analytics fetch failed: {{error}}",

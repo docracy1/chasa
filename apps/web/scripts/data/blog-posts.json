@@ -30,9 +30,10 @@
   {
     "title": "Types of SSL certificates explained",
     "slug": "types-of-ssl-certificates",
-    "description": "DV, OV, EV, wildcards, SAN, and specialty certs \u2014 what small businesses actually need for HTTPS versus what vendors upsell.",
+    "description": "DV, OV, EV, wildcards, SAN, and specialty certs — what small businesses actually need for HTTPS versus what vendors upsell.",
     "publishedAt": "2026-08-23",
-    "category": "Guide"
+    "category": "Guide",
+    "seoTitle": "Types of SSL Certificates Explained — DV, OV, EV & Wildcard (2026)"
   },
   {
     "title": "Certificate authority types \u2014 pros and cons",
@@ -63,18 +64,20 @@
     "category": "Compare"
   },
   {
-    "title": "How to Follow Up on Overdue Invoices",
+    "title": "How to Follow Up on Overdue Invoices (Free Templates)",
     "slug": "how-to-follow-up-on-overdue-invoices",
-    "description": "Timing, tone, and email structure for overdue invoice follow-ups \u2014 written for freelancers and small teams chasing payment without burning the relationship.",
+    "description": "Timing, tone, and copy-paste email structure for overdue invoice follow-ups — with free templates for freelancers and small teams chasing payment without burning the relationship.",
     "publishedAt": "2026-07-20",
-    "category": "Guide"
+    "category": "Guide",
+    "seoTitle": "How to Follow Up on Overdue Invoices — Free Email Templates (2026)"
   },
   {
     "title": "Invoice payment reminder email templates",
     "slug": "invoice-payment-reminder-email-templates",
-    "description": "Seven copy-paste payment reminder email templates for every stage of invoice follow-up, from a friendly nudge before the due date to a firm final notice.",
+    "description": "Seven free copy-paste payment reminder email templates for every stage — before due date, gentle overdue nudge, 7-day reminder, 30-day formal notice, and final warning.",
     "publishedAt": "2026-07-15",
-    "category": "Templates"
+    "category": "Templates",
+    "seoTitle": "Free Invoice Payment Reminder Email Templates — 7 Copy-Paste Examples"
   },
   {
     "title": "Freelancer late payment policy",

@@ -21,9 +21,9 @@ export const HUB_STYLE = `<style>
 </style>`;
 
 export const HUB_META = {
-  title: "Invoice Chasing Hub — Templates, Guides & AI Drafts | docstoc",
+  title: "Invoice Chasing Hub — Free Templates, Guides & AI Drafts | docstoc",
   description:
-    "Everything for chasing unpaid invoices: AI follow-up drafts, free email templates, escalation guides, calculators, and comparisons — one hub for freelancers and SMBs.",
+    "Free overdue invoice email templates, payment reminder copy-paste examples, AI follow-up drafts, calculators, and guides — one hub for freelancers and SMBs.",
   breadcrumb: "Invoice chasing hub",
 };
 

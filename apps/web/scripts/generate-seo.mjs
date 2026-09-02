@@ -12,6 +12,8 @@ import {
   SITEMAP_ROUTES,
   SITEMAP_EXCLUDE_PATHS,
   HOME_PAGE_TITLE,
+  HOME_PAGE_DESCRIPTION,
+  HIGH_PRIORITY_DOC_TEMPLATE_SLUGS,
 } from "./data/seo-config.mjs";
 import { renderSeoHead } from "./lib/seo-head.mjs";
 
@@ -76,11 +78,14 @@ function buildSitemapUrls() {
     const isKit = urlPath.startsWith("/business-kits/");
     const isImportFrom = urlPath.startsWith("/import-from-");
     const isAlternative = urlPath.endsWith("-alternative");
+    const docSlug = isDocTpl && urlPath !== "/document-templates/"
+      ? urlPath.slice("/document-templates/".length).replace(/\/$/, "")
+      : "";
     let priority = 0.6;
-    if (isBlog) priority = 0.7;
-    else if (isFreeTpl) priority = 0.75;
-    else if (isDocTpl) priority = 0.45;
-    else if (isKit) priority = 0.55;
+    if (isBlog) priority = 0.72;
+    else if (isFreeTpl) priority = 0.82;
+    else if (isDocTpl) priority = HIGH_PRIORITY_DOC_TEMPLATE_SLUGS.has(docSlug) ? 0.72 : 0.58;
+    else if (isKit) priority = 0.58;
     else if (isImportFrom) priority = 0.4;
     else if (isAlternative) priority = 0.5;
     byPath.set(urlPath, {
@@ -209,12 +214,19 @@ function stripInjectedSeoHead(html) {
 function patchHomepageTitle() {
   const path = join(publicDir, "index.html");
   let html = readFileSync(path, "utf8");
-  const esc = HOME_PAGE_TITLE.replace(/&/g, "&amp;").replace(/"/g, "&quot;");
+  const escTitle = HOME_PAGE_TITLE.replace(/&/g, "&amp;").replace(/"/g, "&quot;");
+  const escDesc = HOME_PAGE_DESCRIPTION.replace(/&/g, "&amp;").replace(/"/g, "&quot;");
   html = html.replace(/<title>[^<]*<\/title>/, `<title>${HOME_PAGE_TITLE}</title>`);
-  html = html.replace(/(<meta property="og:title" content=")[^"]*(")/, `$1${esc}$2`);
-  html = html.replace(/(<meta name="twitter:title" content=")[^"]*(")/, `$1${esc}$2`);
+  html = html.replace(
+    /<meta name="description" content="[^"]*"/,
+    `<meta name="description" content="${escDesc}"`
+  );
+  html = html.replace(/(<meta property="og:title" content=")[^"]*(")/, `$1${escTitle}$2`);
+  html = html.replace(/(<meta property="og:description" content=")[^"]*(")/, `$1${escDesc}$2`);
+  html = html.replace(/(<meta name="twitter:title" content=")[^"]*(")/, `$1${escTitle}$2`);
+  html = html.replace(/(<meta name="twitter:description" content=")[^"]*(")/, `$1${escDesc}$2`);
   writeFileSync(path, html, "utf8");
-  console.log("Patched index.html homepage title from seo-config");
+  console.log("Patched index.html homepage title + description from seo-config");
 }
 
 function patchSeoHead(fileName) {
@@ -239,6 +251,6 @@ writeRobots();
 writeBlogFeed();
 writeIndexNowKey();
 patchHomepageTitle();
-for (const file of ["index.html", "ai.html"]) {
+for (const file of ["index.html"]) {
   patchSeoHead(file);
 }

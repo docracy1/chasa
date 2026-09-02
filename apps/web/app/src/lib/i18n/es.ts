@@ -838,7 +838,16 @@ const es: Messages = {
   "admin.nav.errors": "Errores",
   "admin.welcomeBack": "Bienvenido de nuevo",
   "admin.analyticsSub":
-    "Conteos agregados de tráfico y embudos — sin seguimiento por visitante, sin IPs almacenadas.",
+    "Tráfico propio y embudos — no es Google Search Console. Las impresiones/clics de búsqueda son otra métrica (ver abajo).",
+  "admin.searchCalloutTitle": "Google Search vs este panel",
+  "admin.searchCalloutBody":
+    "Search Console mide cuántas veces Google muestra tus páginas (impresiones) y cuántos clics recibes. Este panel mide visitas que cargan docstoc.io — sobre todo con nuestro beacon JS y los logs de Cloudflare. Miles de impresiones pueden coincidir con pocos clics, y la mayoría de rastreos de Googlebot no ejecutan analytics.js. Compara el tráfico bot de Cloudflare (Googlebot abajo) con GSC; no esperes que las page views del beacon igualen las impresiones de GSC.",
+  "admin.beaconPageViews": "Page views (beacon)",
+  "admin.beaconPageViewsSub": "analytics.js — humanos + crawlers clasificados",
+  "admin.crawlerPageViews": "Beacons de crawlers",
+  "admin.crawlerPageViewsSub": "Googlebot, Bingbot, etc. (detectados por UA)",
+  "admin.chasesSent": "Cobros enviados (producto)",
+  "admin.chasesSentSub": "Excluye copias de plantillas gratis",
   "admin.backToApp": "← Volver a la app",
   "admin.sectionsAria": "Secciones de admin",
   "admin.signedInAs": " Sesión iniciada como {{email}}.",
@@ -852,13 +861,13 @@ const es: Messages = {
   "admin.pageViews": "Vistas de página",
   "admin.botExcluded": "{{pct}}% de todo el tráfico eran bots conocidos (excluidos)",
   "admin.botPct": "{{pct}}% bots conocidos",
-  "admin.chasesSent": "Seguimientos enviados",
   "admin.chasesCompleted": "Seguimientos completados",
   "admin.chasesCompletedSub": "eventos marcados como pagados",
   "admin.sentToCompleted": "Enviado → completado",
   "admin.cfTrafficTitle": "Tráfico (borde de Cloudflare — cada solicitud)",
   "admin.cfTrafficSub":
-    "Obtenido directamente de las analíticas propias de Cloudflare, no de nuestro script — esto ve cada solicitud que llega al borde, incluidos los bots y rastreadores que nunca ejecutan analytics.js, así que es la cifra de referencia frente a las tarjetas de páginas vistas de abajo al comparar con el panel de Cloudflare.",
+    "Logs de borde de Cloudflare para {{zones}} — cada solicitud HTTP, incluidos crawlers que no ejecutan analytics.js. Usa esto para comparar con la actividad de rastreo en Search Console.",
+  "admin.cfZones": "Zonas: {{zones}}",
   "admin.cfNotConfigured":
     "No conectado. Crea un token de API de Cloudflare (Mi perfil → Tokens de API → Zone → Analytics → Read, limitado a docstoc.io) y configúralo con: wrangler secret put CF_ANALYTICS_TOKEN",
   "admin.cfError": "Error al obtener Cloudflare Analytics: {{error}}",

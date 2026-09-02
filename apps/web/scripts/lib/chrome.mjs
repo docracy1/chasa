@@ -5,7 +5,7 @@ import { renderSeoHead } from "./seo-head.mjs";
 import { EN_TO_ES, ES_TO_EN } from "../data/es-alternates.mjs";
 
 /** Bump when site.css / site-nav.js / site-lang.js change so Pages edge caches refresh. */
-export const ASSET_V = "20260829a";
+export const ASSET_V = "20260902a";
 
 function faviconHead(link) {
   return `<link rel="icon" href="${link("/favicon.ico")}" sizes="48x48">
@@ -124,7 +124,7 @@ const COMPARE_ITEMS = [
 ];
 
 const USE_CASE_ITEMS = [
-  { path: "/document-templates/", icon: "store", titleKey: "nav.mega.useCase.marketplace.title", title: "Document marketplace", descKey: "nav.mega.useCase.marketplace.desc", desc: "1,000+ business & legal templates — edit online, PDF, certify." },
+  { path: "/document-templates/", icon: "store", titleKey: "nav.mega.useCase.marketplace.title", title: "Document templates", descKey: "nav.mega.useCase.marketplace.desc", desc: "1,000+ business & legal templates — edit online, PDF, certify." },
   { path: "/invoices", icon: "briefcase", titleKey: "nav.mega.useCase.invoices.title", title: "Shareable invoices", descKey: "nav.mega.useCase.invoices.desc", desc: "Create an invoice, share the link, chase it if it goes overdue." },
   { path: "/features/ai-tone", icon: "sparkles", titleKey: "nav.mega.useCase.chase.title", title: "AI invoice chasing", descKey: "nav.mega.useCase.chase.desc", desc: "Tone-matched follow-up drafts matched to days overdue." },
   { path: "/certificate", icon: "shield", titleKey: "nav.mega.useCase.docCert.title", title: "Document certificates", descKey: "nav.mega.useCase.docCert.desc", desc: "Tamper-evident hash verification — free to create and check." },
@@ -166,7 +166,7 @@ const MORE_ITEMS = [
   { path: "/industry/freelancers", titleKey: "nav.industry", title: "Industry" },
   { path: "/#pricing", titleKey: "nav.pricing", title: "Pricing" },
   { path: "/use-cases/", titleKey: "nav.useCases", title: "Use Cases" },
-  { path: "/marketplace", titleKey: "nav.templates", title: "Marketplace" },
+  { path: "/document-templates/", titleKey: "nav.templates", title: "Document templates" },
   { path: "/ai", titleKey: "nav.ai", title: "AI" },
   { path: "/compare/", titleKey: "footer.compareCol", title: "Compare" },
   { path: "/about", titleKey: "nav.mega.resource.about.title", title: "About" },
@@ -374,8 +374,8 @@ ${faviconHead(link)}
       <a href="${link("/blog/")}" class="mobile-panel-nav-link" data-i18n="nav.blog">Blog</a>
       <a href="${link("/docs/")}" class="mobile-panel-nav-link" data-i18n="nav.api">API</a>
       <a href="${link("/about")}" class="mobile-panel-nav-link" data-i18n="nav.about">About</a>
-      <a href="${link("/marketplace")}" class="mobile-panel-nav-link" data-i18n="nav.templates">Marketplace</a>
-      <a href="${link("/ai")}" class="mobile-panel-nav-link" data-i18n="nav.ai">AI</a>
+      <a href="${link("/document-templates/")}" class="mobile-panel-nav-link" data-i18n="nav.templates">Document templates</a>
+      <a href="${link("/chase-invoices")}" class="mobile-panel-nav-link" data-i18n="nav.ai">AI collections</a>
       <a href="${link("/tools/")}" class="mobile-panel-nav-link" data-i18n="nav.tools">Tools</a>
       <a href="${link("/app/login")}" class="mobile-panel-nav-link" data-i18n="nav.signIn">Sign in</a>
       <a href="${link("/app/")}login?start=1" class="mobile-panel-nav-link" data-i18n="nav.tryFree">Try free</a>
@@ -418,16 +418,15 @@ ${mainHtml}
       <a href="${link("/payment-reminder")}">Payment reminders</a>
       <a href="${link("/free-templates/")}">Free email templates</a>
       <a href="${link("/overdue-invoices-guide")}">Overdue Invoices Guide</a>
-      <a href="${link("/docs/")}" data-i18n="footer.docs">API & Docs</a>
-      <a href="${link("/marketplace")}" data-i18n="footer.templates">Marketplace</a>
+      <a href="${link("/tools/template-finder")}">Template finder</a>
       <a href="${link("/tools/")}" data-i18n="footer.calculators">Calculators</a>
-      <a href="${link("/ai")}" data-i18n="footer.ai">AI</a>
+      <a href="${link("/docs/")}" data-i18n="footer.docs">API & Docs</a>
     </div>
     <div class="site-footer-col">
       <h4 data-i18n="footer.useCasesHeader">Use Cases</h4>
-      <a href="${link("/document-templates/")}">Document marketplace</a>
+      <a href="${link("/document-templates/")}">Document templates</a>
       <a href="${link("/invoices")}">Shareable invoices</a>
-      <a href="${link("/features/ai-tone")}">AI invoice chasing</a>
+      <a href="${link("/chase-invoices")}">AI collections</a>
       <a href="${link("/certificate")}">Document certificates</a>
       <a href="${link("/ssl")}">SSL automation</a>
       <a href="${link("/trust-badges")}">Company badge</a>

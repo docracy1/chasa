@@ -150,7 +150,7 @@ function DayChart({
   );
 }
 
-const SELF_HOST_RE = /docstoc/i;
+const SELF_HOST_RE = /docstoc|chasa/i;
 
 const HOST_LABELS: Record<string, string> = {
   "t.co": "Twitter/X",
@@ -690,25 +690,39 @@ export default function Admin() {
 
           {nav === "analytics" && traffic && (
             <>
+              <section className="dash-card admin-search-callout">
+                <h2 className="dash-card-title">{t("admin.searchCalloutTitle")}</h2>
+                <p className="dash-note">{t("admin.searchCalloutBody")}</p>
+              </section>
+
               <div className="dash-stat-row dash-stat-row-4">
                 <div className="dash-stat">
-                  <span className="dash-stat-label">{t("admin.pageViews")}</span>
+                  <span className="dash-stat-label">{t("admin.beaconPageViews")}</span>
                   <strong>{humansOnly ? traffic.humanPageViews : traffic.pageViews}</strong>
                   <em>
                     {humansOnly
                       ? t("admin.botExcluded", { pct: traffic.botPct })
-                      : t("admin.botPct", { pct: traffic.botPct })}
+                      : t("admin.beaconPageViewsSub")}
                   </em>
+                </div>
+                <div className="dash-stat">
+                  <span className="dash-stat-label">{t("admin.crawlerPageViews")}</span>
+                  <strong>{traffic.crawlerPageViews}</strong>
+                  <em>{t("admin.crawlerPageViewsSub")}</em>
                 </div>
                 <div className="dash-stat">
                   <span className="dash-stat-label">{t("admin.chasesSent")}</span>
                   <strong>{traffic.chasesSent}</strong>
+                  <em>{t("admin.chasesSentSub")}</em>
                 </div>
                 <div className="dash-stat">
                   <span className="dash-stat-label">{t("admin.chasesCompleted")}</span>
                   <strong>{traffic.chasesCompleted}</strong>
                   <em>{t("admin.chasesCompletedSub")}</em>
                 </div>
+              </div>
+
+              <div className="dash-stat-row dash-stat-row-2">
                 <div className="dash-stat">
                   <span className="dash-stat-label">{t("admin.sentToCompleted")}</span>
                   <strong>{traffic.conversion}</strong>
@@ -717,7 +731,11 @@ export default function Admin() {
 
               <section className="dash-card">
                 <h2 className="dash-card-title">{t("admin.cfTrafficTitle")}</h2>
-                <p className="dash-note">{t("admin.cfTrafficSub")}</p>
+                <p className="dash-note">
+                  {cfTraffic && cfTraffic.configured && cfTraffic.ok
+                    ? t("admin.cfTrafficSub", { zones: cfTraffic.zones.join(", ") })
+                    : t("admin.cfTrafficSub", { zones: "docstoc.io, chasa.io" })}
+                </p>
                 {!cfTraffic || !cfTraffic.configured ? (
                   <p className="dash-muted">{t("admin.cfNotConfigured")}</p>
                 ) : !cfTraffic.ok ? (

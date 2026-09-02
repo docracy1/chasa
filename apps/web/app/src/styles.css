@@ -2359,6 +2359,13 @@ textarea {
 .admin-analytics-page .dash-body {
   min-height: auto;
 }
+.admin-search-callout {
+  border-color: #dbeafe;
+  background: #eff6ff;
+}
+.admin-search-callout .dash-card-title {
+  color: #1e40af;
+}
 .admin-analytics-container {
   max-width: 1200px;
   margin: 0 auto;

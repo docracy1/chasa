@@ -315,7 +315,6 @@
               track("template_used", { slug: slug });
               track("template_started", { slug: slug });
               track("template_completed", { slug: slug, method: "copy" });
-              track("chase_sent", { method: "copy", source: "template", slug: slug });
             },
             function () {
               track("send_failed", { source: "template_copy", slug: slug });

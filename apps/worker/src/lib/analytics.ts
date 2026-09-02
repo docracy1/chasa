@@ -371,7 +371,8 @@ export async function getTrafficStats(env: Env, days = 30, day?: string | null) 
       .all<{ country: string; c: number }>(),
     env.CHASA_DB.prepare(
       `SELECT
-         (SELECT COUNT(*) FROM analytics_events WHERE name = 'chase_sent' AND ${kpiWhere}) as chases_sent,
+         (SELECT COUNT(*) FROM analytics_events WHERE name = 'chase_sent' AND ${kpiWhere}
+            AND (properties IS NULL OR properties NOT LIKE '%"source":"template"%')) as chases_sent,
          (SELECT COUNT(*) FROM analytics_events WHERE name = 'chase_completed' AND ${kpiWhere}) as chases_completed
        `
     )
@@ -389,6 +390,7 @@ export async function getTrafficStats(env: Env, days = 30, day?: string | null) 
     day: dayFilter,
     pageViews: total,
     humanPageViews: Math.max(0, total - bots),
+    crawlerPageViews: bots,
     botPct: total > 0 ? Math.round((bots / total) * 100) : 0,
     chasesSent: sent,
     chasesCompleted: completed,
@@ -410,7 +412,7 @@ export async function getTrafficStats(env: Env, days = 30, day?: string | null) 
       country: r.country,
       count: Number(r.c),
     })),
-    note: "Aggregate traffic from docstoc (CF country header, UA bot detect). No IPs or visitor IDs stored on page views.",
+    note: "Beacon page views (analytics.js) — humans + classified crawlers. Google Search impressions/clicks live in Search Console, not here.",
   };
 }
 
