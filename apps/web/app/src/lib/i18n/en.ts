@@ -252,6 +252,7 @@ const en: Messages = {
   "account.notSignedInSub": "Sign in to manage your subscription and see your account.",
   "account.title": "Your account",
   "account.checkoutOk": "Checkout complete — your plan will update shortly.",
+  "account.checkoutSyncing": "Checkout complete — confirming your plan now.",
   "account.checkoutCancel": "Checkout cancelled. You can try again anytime.",
   "account.subscription": "Subscription",
   "account.upgradePro": "Upgrade to Pro — $14.99/mo",

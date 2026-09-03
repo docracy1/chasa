@@ -254,6 +254,7 @@ const es: Messages = {
   "account.notSignedInSub": "Inicia sesión para gestionar tu suscripción y ver tu cuenta.",
   "account.title": "Tu cuenta",
   "account.checkoutOk": "Pago completado — tu plan se actualizará en breve.",
+  "account.checkoutSyncing": "Pago completado — estamos confirmando tu plan ahora.",
   "account.checkoutCancel": "Pago cancelado. Puedes intentarlo de nuevo cuando quieras.",
   "account.subscription": "Suscripción",
   "account.upgradePro": "Pasar a Pro — $14.99/mes",

@@ -734,6 +734,13 @@ export function startCheckout(plan: "pro" | "business") {
   });
 }
 
+export function confirmCheckoutSession(sessionId: string) {
+  const q = new URLSearchParams({ session_id: sessionId });
+  return jsonFetch<{ ok: true; status: "active" | "pending" | "pending_payment"; plan: "pro" | "business" }>(
+    `/billing/confirm-session?${q.toString()}`
+  );
+}
+
 export function openBillingPortal() {
   return jsonFetch<{ url: string }>("/billing/portal", { method: "POST" });
 }
