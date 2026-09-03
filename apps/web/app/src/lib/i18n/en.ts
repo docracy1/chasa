@@ -876,7 +876,7 @@ const en: Messages = {
   "admin.externalSites": "External sites that linked here",
   "admin.taggedCampaigns": "Tagged campaign clicks (utm/ref links)",
   "admin.taggedCampaignsNote":
-    "Respects Humans only. seo-* tags are added to /app CTAs on SEO pages; recorded when the visitor accepts cookies on signup. /go/* outreach links also appear here.",
+    "Respects Humans only. Not the same as Google visits on the left. seo-* rows appear when someone opens /app (or a /go link) with utm_source/ref=seo-* — usually after clicking Try free on an SEO page. Organic Google landings alone do not create seo-* rows (same as Docracy).",
   "admin.noneYet": "None yet.",
   "admin.colSite": "Site",
   "admin.colVisits": "Visits",

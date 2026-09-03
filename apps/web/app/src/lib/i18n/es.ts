@@ -888,7 +888,7 @@ const es: Messages = {
   "admin.externalSites": "Sitios externos que enlazaron aquí",
   "admin.taggedCampaigns": "Clics de campaña (utm/ref)",
   "admin.taggedCampaignsNote":
-    "Respeta solo humanos. Las etiquetas seo-* se añaden a los CTA /app en páginas SEO; se registran al aceptar cookies en el registro. Los enlaces /go/* también aparecen aquí.",
+    "Respeta solo humanos. No es lo mismo que las visitas de Google a la izquierda. Las filas seo-* aparecen cuando alguien abre /app (o un enlace /go) con utm_source/ref=seo-* — suele ser al pulsar Probar gratis en una página SEO. Un landing orgánico de Google solo no crea filas seo-* (igual que en Docracy).",
   "admin.noneYet": "Nada aún.",
   "admin.colSite": "Sitio",
   "admin.colVisits": "Visitas",

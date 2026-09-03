@@ -83,12 +83,11 @@
   window.docstocTrack = track;
   window.docstocExcludeSelf = excludeSelf;
 
-  // Marketing HTML is counted edge-side (Pages middleware → /api/analytics/pageview with
-  // Referer) so Google/SEO landings show without cookie consent — same as Docracy. The
-  // anonymous beacon here is only for the SPA (/app), which middleware does not track.
-  if (location.pathname.indexOf("/app") === 0) {
-    pageview();
-  }
+  // Marketing + /app landings are counted edge-side (Pages middleware → pageview with Referer /
+  // utm query). The SPA shell does not load this file on every route change; first paint of /app
+  // is credited by middleware so seo-* CTA tags survive without cookie consent.
+  // Consent-gated events (Clarity, page_viewed, scroll, …) still run via initConsented below
+  // when this script is present on marketing HTML.
 
   function isAppLink(href) {
     if (!href) return false;

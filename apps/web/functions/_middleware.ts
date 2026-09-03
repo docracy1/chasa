@@ -38,6 +38,10 @@ const TRACKED_EXACT = new Set([
 function isTrackedRoute(pathname: string): boolean {
   if (/\.[a-z0-9]+$/i.test(pathname)) return false;
   const path = pathname.replace(/\/+$/, "") || "/";
+  // /app CTAs carry utm_source=seo-* (wired by analytics.js on marketing pages). The SPA shell
+  // does not load analytics.js, so edge must credit those landings — same role as Docracy's
+  // /prepare?ref=seo-* pageviews.
+  if (path === "/app" || pathname.startsWith("/app/")) return true;
   if (TRACKED_EXACT.has(path) || TRACKED_EXACT.has(pathname)) return true;
   const prefixes = [
     "/blog/",
@@ -55,9 +59,8 @@ function isTrackedRoute(pathname: string): boolean {
     "/docstoc-vs-",
     "/switch-from-",
     "/import-from-",
-    "/alternative-",
   ];
-  return prefixes.some((p) => pathname.startsWith(p) || path.startsWith(p.replace(/\/$/, "")));
+  return prefixes.some((p) => pathname.startsWith(p));
 }
 
 export const onRequest: PagesFunction<{ WORKER_URL: string }> = async (context) => {

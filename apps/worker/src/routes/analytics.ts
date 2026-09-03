@@ -74,6 +74,22 @@ function attributionPropsFromQuery(query: string | undefined): Record<string, st
   return out;
 }
 
+/** Clients may send `path` as pathname only, or pathname+search; edge sends path + query separately. */
+function splitPathAndQuery(
+  rawPath: string | undefined,
+  rawQuery: string | undefined
+): { path: string; query: string } {
+  const raw = (rawPath ?? "").trim() || "/";
+  const qIdx = raw.indexOf("?");
+  if (qIdx >= 0) {
+    return {
+      path: raw.slice(0, qIdx) || "/",
+      query: rawQuery?.trim() || raw.slice(qIdx),
+    };
+  }
+  return { path: raw, query: rawQuery?.trim() || "" };
+}
+
 /** Aggregate page view — no visitor id stored. Country from CF-IPCountry only.
  *  Edge hits (Pages middleware) also credit referral_source_detected from Referer /
  *  utm query so Google + SEO landings show in Admin without cookie consent (Docracy parity). */
@@ -87,11 +103,14 @@ analytics.post("/pageview", async (c) => {
 
   if (await shouldSkipAnalytics(c)) return c.json({ ok: true });
 
-  const path = (parsed.data.path ?? parsed.data.route)?.trim() || "/";
+  const { path, query } = splitPathAndQuery(
+    parsed.data.path ?? parsed.data.route,
+    parsed.data.query
+  );
   const country = c.req.header("CF-IPCountry") || null;
   const userAgent = c.req.header("User-Agent")?.slice(0, 300) || null;
   const referrer = (c.req.header("x-referrer") || c.req.header("Referer") || "").slice(0, 500);
-  const queryProps = attributionPropsFromQuery(parsed.data.query);
+  const queryProps = attributionPropsFromQuery(query);
 
   await recordPageView(c.env, { path, country, userAgent });
 
