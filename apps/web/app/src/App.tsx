@@ -46,7 +46,11 @@ function AppRoutes() {
       // expired session to bounce out of. Redirecting to the page we're already on still triggers a
       // full reload, which re-fires the same 401 forever. Admin uses the normal app session
       // (ADMIN_EMAIL via /app/login) — unauthenticated visitors go to login first.
-      if (window.location.pathname !== "/app/login" && !window.location.pathname.startsWith("/app/admin")) {
+      if (
+        window.location.pathname !== "/app/login" &&
+        window.location.pathname !== "/app/roadmap" &&
+        !window.location.pathname.startsWith("/app/admin")
+      ) {
         window.location.href = "/app/login";
       }
     });
