@@ -829,9 +829,9 @@ const en: Messages = {
     "First-party traffic and funnel counts — not Google Search Console. Search impressions/clicks are a separate metric (see callout below).",
   "admin.searchCalloutTitle": "Google Search vs this dashboard",
   "admin.searchCalloutBody":
-    "Search Console tracks how often Google shows your pages in search results (impressions) and how often people click through (clicks). This admin tab tracks visitors who actually load docstoc.io — mostly via our JS beacon and Cloudflare edge logs. A site can have thousands of search impressions with only dozens of clicks, and most Googlebot crawls never run analytics.js. Compare Cloudflare bot traffic (Googlebot below) with GSC; do not expect beacon page views to match GSC impressions.",
-  "admin.beaconPageViews": "Beacon page views",
-  "admin.beaconPageViewsSub": "analytics.js — humans + classified crawlers only",
+    "Search Console tracks how often Google shows your pages in search results (impressions) and how often people click through (clicks). This admin tab tracks visitors who actually load docstoc.io — via Cloudflare Pages edge hits (including Google Referer, no cookie required) plus our JS beacon for /app. Compare Cloudflare bot traffic (Googlebot below) with GSC; edge referral rows should track organic Google landings the same way Docracy does.",
+  "admin.beaconPageViews": "Page views",
+  "admin.beaconPageViewsSub": "Edge + /app beacon — humans + classified crawlers",
   "admin.crawlerPageViews": "Crawler beacons",
   "admin.crawlerPageViewsSub": "Googlebot, Bingbot, etc. (UA-detected)",
   "admin.chasesSent": "Product chases sent",

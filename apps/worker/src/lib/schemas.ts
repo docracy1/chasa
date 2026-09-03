@@ -35,6 +35,12 @@ export const analyticsTrackSchema = z.object({
 
 export const analyticsPageviewSchema = z.object({
   path: z.string().max(300).optional(),
+  /** Alias used by some callers (Docracy parity). */
+  route: z.string().max(300).optional(),
+  /** Landing query string — utm_source / ref for campaign attribution. */
+  query: z.string().max(500).optional(),
+  /** Pages middleware edge hit (vs browser beacon). */
+  edge: z.boolean().optional(),
 });
 
 export const agingSyncItemSchema = z.object({

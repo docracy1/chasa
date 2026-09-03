@@ -841,9 +841,9 @@ const es: Messages = {
     "Tráfico propio y embudos — no es Google Search Console. Las impresiones/clics de búsqueda son otra métrica (ver abajo).",
   "admin.searchCalloutTitle": "Google Search vs este panel",
   "admin.searchCalloutBody":
-    "Search Console mide cuántas veces Google muestra tus páginas (impresiones) y cuántos clics recibes. Este panel mide visitas que cargan docstoc.io — sobre todo con nuestro beacon JS y los logs de Cloudflare. Miles de impresiones pueden coincidir con pocos clics, y la mayoría de rastreos de Googlebot no ejecutan analytics.js. Compara el tráfico bot de Cloudflare (Googlebot abajo) con GSC; no esperes que las page views del beacon igualen las impresiones de GSC.",
-  "admin.beaconPageViews": "Page views (beacon)",
-  "admin.beaconPageViewsSub": "analytics.js — humanos + crawlers clasificados",
+    "Search Console mide cuántas veces Google muestra tus páginas (impresiones) y cuántos clics recibes. Este panel mide visitas que cargan docstoc.io — hits en el edge de Cloudflare Pages (incluido el Referer de Google, sin cookies) más el beacon JS en /app. Compara el tráfico bot de Cloudflare (Googlebot abajo) con GSC; las filas de referral en el edge deberían seguir los landings orgánicos de Google como en Docracy.",
+  "admin.beaconPageViews": "Page views",
+  "admin.beaconPageViewsSub": "Edge + beacon /app — humanos + crawlers clasificados",
   "admin.crawlerPageViews": "Beacons de crawlers",
   "admin.crawlerPageViewsSub": "Googlebot, Bingbot, etc. (detectados por UA)",
   "admin.chasesSent": "Cobros enviados (producto)",

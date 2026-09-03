@@ -63,7 +63,20 @@ analytics.post("/track", async (c) => {
   return c.json({ ok: true });
 });
 
-/** Aggregate page view — no visitor id stored. Country from CF-IPCountry only. */
+function attributionPropsFromQuery(query: string | undefined): Record<string, string> {
+  if (!query) return {};
+  const params = new URLSearchParams(query.startsWith("?") ? query.slice(1) : query);
+  const out: Record<string, string> = {};
+  for (const key of ["utm_source", "utm_medium", "utm_campaign", "ref", "who"] as const) {
+    const v = params.get(key)?.trim();
+    if (v) out[key] = v.slice(0, 80);
+  }
+  return out;
+}
+
+/** Aggregate page view — no visitor id stored. Country from CF-IPCountry only.
+ *  Edge hits (Pages middleware) also credit referral_source_detected from Referer /
+ *  utm query so Google + SEO landings show in Admin without cookie consent (Docracy parity). */
 analytics.post("/pageview", async (c) => {
   const ip = clientIp(c) || clientIpFromHeaders({ get: (n) => c.req.header(n) ?? null });
   const rl = await checkRateLimit(c.env, `analytics_pv:${ip}`, 200, 3600);
@@ -74,11 +87,64 @@ analytics.post("/pageview", async (c) => {
 
   if (await shouldSkipAnalytics(c)) return c.json({ ok: true });
 
-  const path = parsed.data.path?.trim() || "/";
+  const path = (parsed.data.path ?? parsed.data.route)?.trim() || "/";
   const country = c.req.header("CF-IPCountry") || null;
   const userAgent = c.req.header("User-Agent")?.slice(0, 300) || null;
+  const referrer = (c.req.header("x-referrer") || c.req.header("Referer") || "").slice(0, 500);
+  const queryProps = attributionPropsFromQuery(parsed.data.query);
 
   await recordPageView(c.env, { path, country, userAgent });
+
+  // Server-side discovery attribution (Google organic, LinkedIn, utm landings, …).
+  let referrerHost = "";
+  if (referrer) {
+    try {
+      referrerHost = new URL(referrer).hostname.toLowerCase();
+    } catch {
+      referrerHost = "";
+    }
+  }
+  const requestHost = (() => {
+    try {
+      return new URL(c.req.url).hostname.toLowerCase();
+    } catch {
+      return "";
+    }
+  })();
+  const externalReferrer =
+    !!referrerHost &&
+    referrerHost !== requestHost &&
+    !referrerHost.endsWith(".docstoc.io") &&
+    referrerHost !== "docstoc.io" &&
+    referrerHost !== "chasa.io" &&
+    !referrerHost.endsWith(".chasa.io") &&
+    referrerHost !== "pages.dev";
+
+  const utmOrRef = queryProps.utm_source || queryProps.ref || queryProps.who || "";
+  let source = "direct";
+  if (utmOrRef) source = utmOrRef.toLowerCase().slice(0, 64);
+  else if (externalReferrer) {
+    const lower = referrerHost;
+    if (lower.includes("google.")) source = "google";
+    else if (lower.includes("linkedin.com")) source = "linkedin";
+    else if (lower.includes("bing.com")) source = "bing";
+    else source = referrerHost;
+  }
+
+  if (externalReferrer || utmOrRef) {
+    await trackEvent(c.env, {
+      name: "referral_source_detected",
+      path,
+      userAgent,
+      properties: {
+        source,
+        ...(referrer ? { referrer: referrer.slice(0, 200) } : {}),
+        ...queryProps,
+        ...(parsed.data.edge ? { edge: true } : {}),
+      },
+    });
+  }
+
   return c.json({ ok: true });
 });
 

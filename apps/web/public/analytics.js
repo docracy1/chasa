@@ -1,7 +1,6 @@
 (function () {
   var CONSENT_KEY = "docstoc_cookie_consent";
   var VISITOR_KEY = "docstoc_vid";
-  var REFERRAL_KEY = "docstoc_ref_tracked";
   var EXCLUDE_KEY = "docstoc_exclude_self";
   var initedConsented = false;
 
@@ -84,12 +83,12 @@
   window.docstocTrack = track;
   window.docstocExcludeSelf = excludeSelf;
 
-  // Aggregate page-view counting (just the path and the day — no cookie, no visitor ID, no IP
-  // stored) doesn't need cookie consent under ePrivacy's anonymous-statistics carve-out, so this
-  // fires unconditionally, on every load of this script. Everything in initConsented() below
-  // carries a per-browser visitor ID (track()) or is a full session recording (Clarity), so it
-  // stays behind the consent gate and only runs once consent actually exists.
-  pageview();
+  // Marketing HTML is counted edge-side (Pages middleware → /api/analytics/pageview with
+  // Referer) so Google/SEO landings show without cookie consent — same as Docracy. The
+  // anonymous beacon here is only for the SPA (/app), which middleware does not track.
+  if (location.pathname.indexOf("/app") === 0) {
+    pageview();
+  }
 
   function isAppLink(href) {
     if (!href) return false;
@@ -200,37 +199,9 @@
 
     track("page_viewed", { path: path });
 
-    function detectReferral() {
-      try {
-        if (sessionStorage.getItem(REFERRAL_KEY)) return;
-        sessionStorage.setItem(REFERRAL_KEY, "1");
-      } catch (e) {}
-
-      var params = new URLSearchParams(location.search);
-      var utm = params.get("utm_source");
-      var refParam = params.get("ref") || params.get("who");
-      var ref = document.referrer || "";
-      var source = "direct";
-      var lower = ref.toLowerCase();
-      if (utm) source = utm.toLowerCase();
-      else if (refParam) source = String(refParam).toLowerCase().slice(0, 64);
-      else if (lower.indexOf("linkedin.com") !== -1) source = "linkedin";
-      else if (lower.indexOf("google.") !== -1) source = "google";
-      else if (ref && lower.indexOf(location.host) === -1) source = "referral";
-      else if (ref) source = "internal";
-
-      track("referral_source_detected", {
-        source: source,
-        referrer: ref ? ref.slice(0, 200) : undefined,
-        utm_source: utm || undefined,
-        utm_medium: params.get("utm_medium") || undefined,
-        utm_campaign: params.get("utm_campaign") || undefined,
-        ref: refParam || undefined,
-        who: params.get("who") || undefined,
-      });
-    }
-
-    detectReferral();
+    // referral_source_detected is written edge-side from the Pages middleware (x-referrer +
+    // utm query) so organic Google / SEO clicks appear without accepting cookies. Do not
+    // re-fire it here or consented visitors would double-count in Admin → Traffic sources.
 
     if (path === "/") {
       track("landingpage_loaded");
