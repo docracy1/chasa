@@ -12,6 +12,7 @@ import {
 } from "../lib/adminAuth";
 import { SESSION_COOKIE_NAME } from "../lib/auth";
 import { getFunnelStats, getOutreachStats, getTrafficSources, getTrafficStats, NOTRACK_COOKIE_NAME, noTrackCookieOptions } from "../lib/analytics";
+import { createRoadmapFeature, deleteRoadmapFeature, listRoadmapFeatures } from "../lib/roadmap";
 import { getCachedClaritySnapshot, refreshClaritySnapshot } from "../lib/clarityApi";
 import { getCloudflareTrafficStats } from "../lib/cloudflareAnalytics";
 import { listPending, reviewSubmission } from "../lib/marketplaceTemplates";
@@ -332,6 +333,29 @@ admin.post("/broadcast", requireAdmin, async (c) => {
 admin.post("/analytics/notrack", requireAdmin, async (c) => {
   setCookie(c, NOTRACK_COOKIE_NAME, "1", noTrackCookieOptions(c.env));
   return c.json({ ok: true, enabled: true });
+});
+
+// Roadmap admin CRUD (Docracy parity) — public voting lives at /api/roadmap, unauthenticated.
+admin.get("/roadmap", requireAdmin, async (c) => {
+  const features = await listRoadmapFeatures(c.env);
+  return c.json({ features });
+});
+
+admin.post("/roadmap", requireAdmin, async (c) => {
+  let body: { title?: string; description?: string };
+  try {
+    body = await c.req.json();
+  } catch {
+    return c.json({ error: "Invalid request body" }, 400);
+  }
+  const result = await createRoadmapFeature(c.env, body.title ?? "", body.description ?? "");
+  if (!result.ok) return c.json({ error: result.error }, 400);
+  return c.json({ ok: true, id: result.id });
+});
+
+admin.delete("/roadmap/:id", requireAdmin, async (c) => {
+  await deleteRoadmapFeature(c.env, c.req.param("id"));
+  return c.json({ ok: true });
 });
 
 export default admin;

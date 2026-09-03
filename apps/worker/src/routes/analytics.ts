@@ -37,7 +37,7 @@ analytics.post("/track", async (c) => {
   const parsed = await parseJsonBody(c.req, analyticsTrackSchema);
   if (!parsed.ok) return c.json({ error: parsed.error }, 400);
 
-  const { name, properties, visitorId, path } = parsed.data;
+  const { name, properties, visitorId, path, attribution } = parsed.data;
   if (!isAllowedEvent(name)) {
     return c.json({ error: "Unknown event" }, 400);
   }
@@ -58,6 +58,7 @@ analytics.post("/track", async (c) => {
     accountId,
     path: path ?? null,
     userAgent: c.req.header("User-Agent")?.slice(0, 300) || null,
+    attribution: attribution ?? null,
   });
 
   return c.json({ ok: true });

@@ -2,6 +2,29 @@ import { hasAnalyticsConsent } from "./consent";
 
 const VISITOR_KEY = "docstoc_vid";
 const EXCLUDE_KEY = "docstoc_exclude_self";
+/** Persistent first-touch marketing channel (Docracy parity). localStorage, not sessionStorage —
+ *  survives across sessions so a signup/checkout weeks later still credits the original campaign. */
+const ATTRIBUTION_KEY = "docstoc_attribution";
+
+/** Reads the persisted first-touch value, if any. */
+export function getAttribution(): string | null {
+  try {
+    return localStorage.getItem(ATTRIBUTION_KEY);
+  } catch {
+    return null;
+  }
+}
+
+/** Sets first-touch attribution once — a later campaign never overwrites the original credit. */
+export function captureAttributionOnce(value: string): void {
+  if (!value) return;
+  try {
+    if (localStorage.getItem(ATTRIBUTION_KEY)) return;
+    localStorage.setItem(ATTRIBUTION_KEY, value.toLowerCase().slice(0, 72));
+  } catch {
+    /* ignore */
+  }
+}
 
 function visitorId(): string {
   try {
@@ -88,6 +111,7 @@ export function track(name: AnalyticsEvent, properties?: Record<string, unknown>
     properties,
     visitorId: visitorId(),
     path: typeof location !== "undefined" ? location.pathname : undefined,
+    attribution: getAttribution() || undefined,
   });
 
   if (typeof navigator !== "undefined" && typeof navigator.sendBeacon === "function") {

@@ -31,6 +31,10 @@ export const analyticsTrackSchema = z.object({
     .optional(),
   visitorId: z.string().max(80).optional(),
   path: z.string().max(300).optional(),
+  /** Persistent first-touch marketing channel (survives across sessions via localStorage),
+   *  e.g. "linkedin" or "seo-invoice-template/aug-batch" — distinct from `properties.referrer`,
+   *  which is only the current navigation's Referer. */
+  attribution: z.string().max(80).optional(),
 });
 
 export const analyticsPageviewSchema = z.object({

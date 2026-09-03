@@ -269,6 +269,31 @@ export function adminBroadcast(input: { subject: string; bodyHtml: string; dryRu
 }
 
 /** Refreshes the founder notrack cookie — admin visits stay out of analytics (Docracy parity). */
+export type RoadmapFeature = {
+  id: string;
+  title: string;
+  description: string;
+  createdAt: string;
+  yesVotes: number;
+  noVotes: number;
+  myVote: "yes" | "no" | null;
+};
+
+export function adminRoadmapList() {
+  return adminFetch<{ features: RoadmapFeature[] }>("/roadmap");
+}
+
+export function adminRoadmapCreate(input: { title: string; description: string }) {
+  return adminFetch<{ ok: true; id: string }>("/roadmap", {
+    method: "POST",
+    body: JSON.stringify(input),
+  });
+}
+
+export function adminRoadmapDelete(id: string) {
+  return adminFetch<{ ok: true }>(`/roadmap/${id}`, { method: "DELETE" });
+}
+
 export function adminSetNoTrack() {
   return adminFetch<{ ok: true; enabled: boolean }>("/analytics/notrack", {
     method: "POST",
