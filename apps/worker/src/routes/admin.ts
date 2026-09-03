@@ -11,7 +11,9 @@ import {
   type AdminEnv,
 } from "../lib/adminAuth";
 import { SESSION_COOKIE_NAME } from "../lib/auth";
-import { getFunnelStats, getOutreachStats, getTrafficSources, getTrafficStats, NOTRACK_COOKIE_NAME, noTrackCookieOptions } from "../lib/analytics";
+import { getFunnelStats, getOutreachStats, getTrafficSources, getTrafficStats, getD1DailyCounts, NOTRACK_COOKIE_NAME, noTrackCookieOptions } from "../lib/analytics";
+import { queryAeDailyCounts, buildParityRows } from "../lib/analyticsQuery";
+import { createRoadmapFeature, deleteRoadmapFeature, listRoadmapFeatures } from "../lib/roadmap";
 import { getCachedClaritySnapshot, refreshClaritySnapshot } from "../lib/clarityApi";
 import { getCloudflareTrafficStats } from "../lib/cloudflareAnalytics";
 import { listPending, reviewSubmission } from "../lib/marketplaceTemplates";
@@ -332,6 +334,46 @@ admin.post("/broadcast", requireAdmin, async (c) => {
 admin.post("/analytics/notrack", requireAdmin, async (c) => {
   setCookie(c, NOTRACK_COOKIE_NAME, "1", noTrackCookieOptions(c.env));
   return c.json({ ok: true, enabled: true });
+});
+
+// Roadmap admin CRUD (Docracy parity) — public voting lives at /api/roadmap, unauthenticated.
+// Analytics Engine dual-write parity check (see lib/analyticsQuery.ts) — compares D1's existing
+// counts against what's landed in Analytics Engine so far, day by day. Purely diagnostic: nothing
+// on the dashboard reads from Analytics Engine yet.
+admin.get("/analytics/ae-parity", requireAdmin, async (c) => {
+  const daysRaw = Number(c.req.query("days") || "7");
+  const days = Number.isFinite(daysRaw) ? Math.min(Math.max(daysRaw, 1), 30) : 7;
+
+  const d1Counts = await getD1DailyCounts(c.env, days);
+  const aeResult = await queryAeDailyCounts(c.env, days);
+
+  if (!aeResult.ok) {
+    return c.json({ configured: false, failure: aeResult.failure, d1Counts }, 200);
+  }
+
+  return c.json({ configured: true, rows: buildParityRows(d1Counts, aeResult.data) });
+});
+
+admin.get("/roadmap", requireAdmin, async (c) => {
+  const features = await listRoadmapFeatures(c.env);
+  return c.json({ features });
+});
+
+admin.post("/roadmap", requireAdmin, async (c) => {
+  let body: { title?: string; description?: string };
+  try {
+    body = await c.req.json();
+  } catch {
+    return c.json({ error: "Invalid request body" }, 400);
+  }
+  const result = await createRoadmapFeature(c.env, body.title ?? "", body.description ?? "");
+  if (!result.ok) return c.json({ error: result.error }, 400);
+  return c.json({ ok: true, id: result.id });
+});
+
+admin.delete("/roadmap/:id", requireAdmin, async (c) => {
+  await deleteRoadmapFeature(c.env, c.req.param("id"));
+  return c.json({ ok: true });
 });
 
 export default admin;

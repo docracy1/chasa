@@ -27,6 +27,7 @@ const Invoices = lazy(() => import("./pages/Invoices"));
 const AuditLog = lazy(() => import("./pages/AuditLog"));
 const SslCertificates = lazy(() => import("./pages/SslCertificates"));
 const CompanyBadge = lazy(() => import("./pages/CompanyBadge"));
+const Roadmap = lazy(() => import("./pages/Roadmap"));
 
 function AppRoutes() {
   const t = useT();
@@ -217,6 +218,8 @@ function AppRoutes() {
                 </ProtectedRoute>
               }
             />
+            {/* Public — no account needed, votes deduped by an anonymous cookie (Docracy parity). */}
+            <Route path="/roadmap" element={<Roadmap />} />
           </Routes>
         </Suspense>
       </AppShell>

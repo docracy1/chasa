@@ -1,4 +1,5 @@
 import {
+  adminAeParity,
   adminBlogCreate,
   adminBlogDelete,
   adminBlogList,
@@ -12,6 +13,9 @@ import {
   adminMarketplaceReject,
   adminMe,
   adminOutreach,
+  adminRoadmapCreate,
+  adminRoadmapDelete,
+  adminRoadmapList,
   adminSetNoTrack,
   adminSignups,
   adminTraffic,
@@ -21,8 +25,10 @@ import {
   type BroadcastResult,
   type CfTrafficStats,
   type FunnelStats,
+  type AeParityResponse,
   type MarketplaceSubmission,
   type OutreachStats,
+  type RoadmapFeature,
   type SignupLists,
   type TrafficSourceRow,
   type TrafficSourcesStats,
@@ -43,7 +49,8 @@ type NavId =
   | "blog"
   | "signups"
   | "analytics"
-  | "marketplace";
+  | "marketplace"
+  | "roadmap";
 
 function FunnelTable({
   title,
@@ -306,6 +313,168 @@ function fmtDate(iso: string): string {
   } catch {
     return iso.slice(0, 10);
   }
+}
+
+/** Diagnostic-only: compares D1's existing counts against what's landed in Analytics Engine so
+ *  far via the dual-write in trackEventAE. Nothing on the dashboard reads from Analytics Engine
+ *  yet — this exists purely to build confidence before that cutover happens. */
+function AeParityCard() {
+  const [data, setData] = useState<AeParityResponse | null>(null);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    adminAeParity(7)
+      .then(setData)
+      .catch((err) => setError(err instanceof Error ? err.message : "Failed to load"));
+  }, []);
+
+  return (
+    <section className="dash-card">
+      <h2 className="dash-card-title">Analytics Engine parity check</h2>
+      <p className="dash-note">
+        Compares D1's existing counts against what's arrived in Analytics Engine so far via the
+        dual-write. Diagnostic only — nothing on this dashboard reads from Analytics Engine yet.
+        Small differences are expected (Analytics Engine can lag a few minutes); large or growing
+        gaps mean something's wrong with the dual-write before relying on it.
+      </p>
+      {error && <p className="dash-muted">{error}</p>}
+      {!data && !error && <p className="dash-muted">Loading…</p>}
+      {data && !data.configured && (
+        <p className="dash-muted">
+          Not configured yet — set <code>CF_ACCOUNT_ID</code> and{" "}
+          <code>CF_ANALYTICS_ENGINE_TOKEN</code> via <code>wrangler secret put</code> to enable this
+          check. D1 is still recording {data.d1Counts.length} day/event rows in the meantime.
+        </p>
+      )}
+      {data && data.configured && data.rows.length === 0 && (
+        <p className="dash-muted">No data on either side yet for this window.</p>
+      )}
+      {data && data.configured && data.rows.length > 0 && (
+        <table className="admin-table">
+          <thead>
+            <tr>
+              <th>Day</th>
+              <th>Event</th>
+              <th>D1</th>
+              <th>AE (human)</th>
+              <th>AE (bot)</th>
+            </tr>
+          </thead>
+          <tbody>
+            {data.rows.slice(0, 100).map((row) => (
+              <tr key={`${row.day}:${row.event}`}>
+                <td>{row.day}</td>
+                <td>{row.event}</td>
+                <td>{row.d1Count}</td>
+                <td>{row.aeHumanCount}</td>
+                <td>{row.aeBotCount}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
+    </section>
+  );
+}
+
+const EMPTY_ROADMAP_FORM = { title: "", description: "" };
+
+/** Admin CRUD for the public /roadmap voting page (Docracy parity) — self-contained since it
+ *  has no dependency on the days/humansOnly filters the rest of the admin analytics page uses. */
+function RoadmapCard({ t }: { t: (key: string, vars?: Record<string, string | number>) => string }) {
+  const [features, setFeatures] = useState<RoadmapFeature[] | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [form, setForm] = useState(EMPTY_ROADMAP_FORM);
+  const [saving, setSaving] = useState(false);
+
+  useEffect(() => {
+    adminRoadmapList()
+      .then((res) => setFeatures(res.features))
+      .catch((err) => setError(err instanceof Error ? err.message : "Failed to load the roadmap"));
+  }, []);
+
+  async function remove(id: string) {
+    try {
+      await adminRoadmapDelete(id);
+      setFeatures((prev) => (prev ? prev.filter((f) => f.id !== id) : prev));
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to delete");
+    }
+  }
+
+  async function add() {
+    if (!form.title.trim() || !form.description.trim()) return;
+    setSaving(true);
+    try {
+      await adminRoadmapCreate({ title: form.title, description: form.description });
+      setForm(EMPTY_ROADMAP_FORM);
+      const res = await adminRoadmapList();
+      setFeatures(res.features);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to add");
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  return (
+    <section className="dash-card">
+      <h2 className="dash-card-title">{t("admin.roadmapTitle")}</h2>
+      <p className="dash-note">{t("admin.roadmapSub")}</p>
+      {error && <p className="dash-muted">{error}</p>}
+      {features === null && !error && <p className="dash-muted">{t("admin.loading")}</p>}
+      {features && features.length === 0 && <p className="dash-muted">{t("admin.roadmapEmpty")}</p>}
+      {features && features.length > 0 && (
+        <table className="admin-table">
+          <thead>
+            <tr>
+              <th>{t("admin.roadmapColTitle")}</th>
+              <th>{t("admin.roadmapColYes")}</th>
+              <th>{t("admin.roadmapColNo")}</th>
+              <th />
+            </tr>
+          </thead>
+          <tbody>
+            {features.map((f) => (
+              <tr key={f.id}>
+                <td>
+                  <strong>{f.title}</strong>
+                  <div className="dash-note" style={{ marginTop: 2 }}>
+                    {f.description}
+                  </div>
+                </td>
+                <td>{f.yesVotes}</td>
+                <td>{f.noVotes}</td>
+                <td>
+                  <button type="button" className="btn-secondary" onClick={() => void remove(f.id)}>
+                    {t("admin.roadmapDelete")}
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
+
+      <div style={{ marginTop: 16, display: "grid", gap: 8, maxWidth: 480 }}>
+        <input
+          type="text"
+          placeholder={t("admin.roadmapTitlePlaceholder")}
+          value={form.title}
+          onChange={(e) => setForm((prev) => ({ ...prev, title: e.target.value }))}
+        />
+        <textarea
+          placeholder={t("admin.roadmapDescPlaceholder")}
+          value={form.description}
+          onChange={(e) => setForm((prev) => ({ ...prev, description: e.target.value }))}
+          rows={3}
+        />
+        <button type="button" className="btn-primary" disabled={saving} onClick={() => void add()}>
+          {saving ? t("admin.roadmapSaving") : t("admin.roadmapAdd")}
+        </button>
+      </div>
+    </section>
+  );
 }
 
 /** Every calendar day in the window, today first — not just the days that happen to already
@@ -600,6 +769,7 @@ export default function Admin() {
       ["traffic", "admin.nav.traffic"],
       ["email", "admin.nav.email"],
       ["errors", "admin.nav.errors"],
+      ["roadmap", "admin.nav.roadmap"],
     ] as const
   );
   const showAnalyticsFilters =
@@ -1095,6 +1265,8 @@ export default function Admin() {
             </>
           )}
 
+          {nav === "analytics" && <AeParityCard />}
+
           {nav === "blog" && (
             <section className="dash-card">
               <h2 className="dash-card-title">{t("admin.blogPosts")}</h2>
@@ -1289,6 +1461,8 @@ export default function Admin() {
               )}
             </section>
           )}
+
+          {nav === "roadmap" && <RoadmapCard t={t} />}
 
           {nav === "signups" && signups && (
             <>

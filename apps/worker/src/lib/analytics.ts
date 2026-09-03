@@ -128,6 +128,58 @@ export function isAllowedEvent(name: string): boolean {
   return ALLOWED.has(name);
 }
 
+/** Dual-write to Cloudflare Analytics Engine alongside the D1 insert below (Docracy's dashboard
+ *  runs entirely on Analytics Engine — this starts populating the same kind of dataset so we can
+ *  verify parity with the existing D1-based numbers before any dashboard reads switch over).
+ *  Never allowed to fail or delay the request it's attached to: writeDataPoint is synchronous and
+ *  fire-and-forget, and this whole function silently no-ops if the binding isn't configured (local
+ *  dev without `wrangler dev --remote`, or before the first deploy with the binding present).
+ *
+ *  Blob layout (documented here since there's no schema to inspect later — Analytics Engine has
+ *  no migrations):
+ *    blob1  event            blob5  visitorId
+ *    blob2  path              blob6  accountId
+ *    blob3  traffic_type      blob7  attribution
+ *    blob4  botName           blob8  properties (JSON, truncated to fit)
+ *    doubles: [1]             (per-event counter — SUM(double1) counts events, same convention
+ *                              Docracy uses)
+ *    indexes: [event]         (Analytics Engine's single sampling/filter key)
+ */
+function trackEventAE(
+  env: Env,
+  input: {
+    name: string;
+    properties?: Record<string, unknown>;
+    visitorId?: string | null;
+    accountId?: string | null;
+    path?: string | null;
+    isBot: boolean;
+    botName: string | null;
+    attribution: string | null;
+  }
+): void {
+  if (!env.ANALYTICS) return;
+  try {
+    const propsJson = input.properties ? JSON.stringify(input.properties).slice(0, 500) : "";
+    env.ANALYTICS.writeDataPoint({
+      blobs: [
+        input.name,
+        input.path ?? "",
+        input.isBot ? "bot" : "human",
+        input.botName ?? "",
+        input.visitorId ?? "",
+        input.accountId ?? "",
+        input.attribution ?? "",
+        propsJson,
+      ],
+      doubles: [1],
+      indexes: [input.name],
+    });
+  } catch {
+    // Analytics Engine write failures should never break the request they're attached to.
+  }
+}
+
 /** `userAgent` is classified on write (same detectBot patterns as page_views) so the admin funnels
  *  can measure both halves of a load → click ratio against the same audience. Callers with no
  *  request behind them (Resend sends, cron) pass nothing and are recorded as human. */
@@ -140,15 +192,31 @@ export async function trackEvent(
     accountId?: string | null;
     path?: string | null;
     userAgent?: string | null;
+    /** Persistent first-touch marketing channel (Docracy parity) — recorded on every event, not
+     *  just referral_source_detected, so a conversion event weeks later can still be grouped by
+     *  the campaign that originally brought the visitor in. */
+    attribution?: string | null;
   }
 ): Promise<void> {
   if (!isAllowedEvent(input.name)) return;
 
-  const { isBot } = detectBot(input.userAgent ?? null);
+  const { isBot, botName } = detectBot(input.userAgent ?? null);
+  const attribution = sanitizeAttribution(input.attribution) || null;
+
+  trackEventAE(env, {
+    name: input.name,
+    properties: input.properties,
+    visitorId: input.visitorId,
+    accountId: input.accountId,
+    path: input.path,
+    isBot,
+    botName,
+    attribution,
+  });
 
   await env.CHASA_DB.prepare(
-    `INSERT INTO analytics_events (id, name, properties, visitor_id, account_id, path, is_bot, created_at)
-     VALUES (?, ?, ?, ?, ?, ?, ?, ?)`
+    `INSERT INTO analytics_events (id, name, properties, visitor_id, account_id, path, is_bot, attribution, created_at)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`
   )
     .bind(
       crypto.randomUUID(),
@@ -158,12 +226,34 @@ export async function trackEvent(
       input.accountId ?? null,
       input.path ?? null,
       isBot ? 1 : 0,
+      attribution,
       new Date().toISOString()
     )
     .run();
 }
 
 export type FunnelStep = { name: string; count: number };
+
+/** Per-day, per-event counts from D1 — the comparison side for verifying Analytics Engine parity
+ *  (see analyticsQuery.ts buildParityRows). Deliberately unfiltered by humansOnly/is_bot: the
+ *  parity check itself needs the raw totals on both sides, with the human/bot split handled
+ *  separately on the Analytics Engine side where it's already broken out by traffic_type. */
+export async function getD1DailyCounts(
+  env: Env,
+  days = 7
+): Promise<{ day: string; event: string; count: number }[]> {
+  const since = new Date(Date.now() - days * 24 * 60 * 60 * 1000).toISOString();
+  const { results } = await env.CHASA_DB.prepare(
+    `SELECT substr(created_at, 1, 10) as day, name as event, COUNT(*) as c
+     FROM analytics_events
+     WHERE created_at >= ?
+     GROUP BY day, event
+     ORDER BY day DESC, c DESC`
+  )
+    .bind(since)
+    .all<{ day: string; event: string; c: number }>();
+  return (results ?? []).map((r) => ({ day: r.day, event: r.event, count: Number(r.c) }));
+}
 
 /** Rows predating migration 0013 have is_bot NULL, so COALESCE keeps them in the human count
  *  rather than making every historical event disappear the moment the filter is switched on. */
@@ -251,30 +341,81 @@ export async function getFunnelStats(env: Env, days = 30, humansOnly = false) {
 }
 
 const BOT_PATTERNS: { name: string; re: RegExp }[] = [
+  // AI crawlers / assistants
+  { name: "GPTBot", re: /gptbot/i },
+  { name: "ChatGPT-User", re: /chatgpt-user/i },
+  { name: "OAI-SearchBot", re: /oai-searchbot/i },
+  { name: "ClaudeBot", re: /claudebot/i },
+  { name: "Claude-User", re: /claude-user/i },
+  { name: "anthropic-ai", re: /anthropic/i },
+  { name: "Cursor", re: /cursor/i },
+  { name: "PerplexityBot", re: /perplexitybot/i },
+  { name: "Perplexity-User", re: /perplexity-user/i },
+  { name: "CCBot", re: /ccbot/i },
+  { name: "Google-Extended", re: /google-extended/i },
+  // Search engines
   { name: "Googlebot", re: /googlebot/i },
-  { name: "Applebot", re: /applebot/i },
   { name: "Bingbot", re: /bingbot/i },
-  { name: "GPTBot", re: /gptbot|oai-searchbot|chatgpt-user/i },
-  { name: "ClaudeBot", re: /claudebot|anthropic|claude-user/i },
-  { name: "PerplexityBot", re: /perplexity/i },
+  { name: "Applebot", re: /applebot/i },
+  { name: "Amazonbot", re: /amazonbot/i },
+  { name: "YandexBot", re: /yandex(bot|images|accessibility|render)/i },
+  { name: "DuckDuckBot", re: /duckduckbot/i },
+  { name: "Baiduspider", re: /baiduspider/i },
+  { name: "SeznamBot", re: /seznambot/i },
+  { name: "PetalBot", re: /petalbot/i },
+  // Social / chat link previews (hit every shared URL)
   { name: "facebookexternalhit", re: /facebookexternalhit|facebot|meta-externalagent/i },
   { name: "Twitterbot", re: /twitterbot/i },
   { name: "LinkedInBot", re: /linkedinbot/i },
   { name: "Slackbot", re: /slackbot|slack-imgproxy/i },
   { name: "Discordbot", re: /discordbot/i },
   { name: "WhatsApp", re: /whatsapp/i },
+  { name: "TelegramBot", re: /telegrambot/i },
+  { name: "Pinterest", re: /pinterestbot|pinterest\// },
+  { name: "Redditbot", re: /redditbot/i },
+  { name: "Embedly", re: /embedly/i },
+  { name: "Quora", re: /quora-bot|quora link preview/i },
+  // SEO / site auditors
   { name: "AhrefsBot", re: /ahrefsbot/i },
   { name: "SemrushBot", re: /semrushbot/i },
+  { name: "DotBot", re: /dotbot/i },
+  { name: "MJ12bot", re: /mj12bot/i },
+  { name: "BLEXBot", re: /blexbot/i },
+  { name: "DataForSeoBot", re: /dataforseobot/i },
+  { name: "Screaming Frog", re: /screaming frog/i },
+  { name: "Bytespider", re: /bytespider/i },
+  // Uptime / health / archives / headless
+  { name: "UptimeRobot", re: /uptimerobot/i },
+  { name: "Pingdom", re: /pingdom/i },
+  { name: "StatusCake", re: /statuscake/i },
+  { name: "Better Stack", re: /betteruptimebot|better stack/i },
+  { name: "archive.org", re: /archive\.org_bot|ia_archiver/i },
   { name: "HeadlessChrome", re: /headlesschrome/i },
+  // Raw HTTP clients (scripts, monitors, our own probes if they forget a browser UA)
   { name: "curl", re: /\bcurl\//i },
+  { name: "wget", re: /\bwget\// },
   { name: "python-requests", re: /python-requests|python-urllib|aiohttp/i },
   { name: "Go-http-client", re: /go-http-client/i },
+  { name: "axios", re: /\baxios\// },
+  { name: "node-fetch", re: /node-fetch|undici/i },
   // Security/uptime/domain scanners — self-descriptive UAs found auditing real Cloudflare edge
   // traffic (Palo Alto's scanner literally says "find out more about our scans" in the UA string).
   { name: "Scanner/probe", re: /paloaltonetworks|-probe\b|checker\b|domainscores|\bscan(ner)?\b/i },
-  // Catch-all last — LinkedInBot/Twitterbot already matched above; this covers misc SEO scrapers.
+  // Catch-all last — every specific bot above already matched; this covers misc SEO scrapers.
   { name: "Other bot", re: /bot|crawler|spider|slurp/i },
 ];
+
+/** Clamps a client-supplied first-touch attribution label — /track accepts this straight from
+ *  the browser's persisted value, so it needs the same sanitization as any other user input. */
+export function sanitizeAttribution(value: string | null | undefined): string {
+  if (!value) return "";
+  const sanitized = value
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9._/-]/g, "-")
+    .slice(0, 72);
+  return sanitized;
+}
 
 export function detectBot(ua: string | null): { isBot: boolean; botName: string | null } {
   if (!ua) return { isBot: false, botName: null };
@@ -292,6 +433,14 @@ export async function recordPageView(
   const { isBot, botName } = detectBot(input.userAgent ?? null);
   const now = new Date();
   const day = now.toISOString().slice(0, 10);
+
+  trackEventAE(env, {
+    name: "page_view",
+    path,
+    isBot,
+    botName,
+    attribution: null,
+  });
 
   await env.CHASA_DB.prepare(
     `INSERT INTO page_views (id, path, day, is_bot, bot_name, country, created_at)

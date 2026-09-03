@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import {
+  confirmCheckoutSession,
   logout,
   openBillingPortal,
   startCheckout,
@@ -27,6 +28,7 @@ export default function Account({
   const t = useT();
   const [busy, setBusy] = useState<"pro" | "business" | "portal" | "digest" | "marketing" | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [checkoutSyncing, setCheckoutSyncing] = useState(false);
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const autoCheckoutStarted = useRef(false);
@@ -56,6 +58,41 @@ export default function Account({
     setSearchParams({}, { replace: true });
     void handleUpgrade(plan);
   }, [account, searchParams, setSearchParams]);
+
+  useEffect(() => {
+    if (!account) return;
+    if (searchParams.get("checkout") !== "success") return;
+    const sessionId = searchParams.get("session_id");
+    if (!sessionId) return;
+
+    let cancelled = false;
+    const run = async () => {
+      setCheckoutSyncing(true);
+      setError(null);
+      for (let attempt = 0; attempt < 5; attempt += 1) {
+        try {
+          const result = await confirmCheckoutSession(sessionId);
+          await refresh();
+          if (cancelled) return;
+          if (result.status === "active") {
+            setCheckoutSyncing(false);
+            return;
+          }
+        } catch (err) {
+          if (!cancelled) {
+            setError(err instanceof Error ? err.message : t("common.error"));
+          }
+          break;
+        }
+        await new Promise((resolve) => window.setTimeout(resolve, 1500));
+      }
+      if (!cancelled) setCheckoutSyncing(false);
+    };
+    void run();
+    return () => {
+      cancelled = true;
+    };
+  }, [account, refresh, searchParams, t]);
 
   if (!account) {
     return (
@@ -130,7 +167,11 @@ export default function Account({
         {acc.email} · <span className={`plan-badge ${acc.plan}`}>{acc.plan}</span>
       </p>
 
-      {checkoutStatus === "success" && <div className="success-msg">{t("account.checkoutOk")}</div>}
+      {checkoutStatus === "success" && (
+        <div className="success-msg">
+          {checkoutSyncing ? t("account.checkoutSyncing") : t("account.checkoutOk")}
+        </div>
+      )}
       {checkoutStatus === "cancelled" && (
         <div className="page-sub" style={{ marginBottom: 16 }}>
           {t("account.checkoutCancel")}

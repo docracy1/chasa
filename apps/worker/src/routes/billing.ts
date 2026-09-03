@@ -1,8 +1,11 @@
 import { Hono } from "hono";
 import { requireAccount, requirePaidAccount, type AuthEnv } from "../lib/auth";
+import type { Env } from "../types";
 import {
   findAccountIdByStripeCustomerId,
   getStripeCustomerId,
+  parseCheckoutPlan,
+  planFromPriceId,
   priceIdForPlan,
   setAccountBillingStatus,
   setAccountPlan,
@@ -33,6 +36,31 @@ type StripePrice = {
   type?: "one_time" | "recurring";
   active?: boolean;
   error?: { message?: string };
+};
+
+type StripeCheckoutSession = {
+  id?: string;
+  status?: string;
+  payment_status?: string;
+  customer?: string | null;
+  subscription?: string | null;
+  client_reference_id?: string | null;
+  metadata?: { plan?: unknown } | null;
+  line_items?: { data?: Array<{ price?: string | { id?: string } }> } | null;
+};
+
+type StripeSubscriptionList = {
+  data?: Array<{
+    id?: string;
+    status?: string;
+    items?: {
+      data?: Array<{
+        price?: {
+          id?: string;
+        } | null;
+      }>;
+    } | null;
+  }>;
 };
 
 function stripeClientMessage(status: number, body: StripeErrorBody, fallback: string): string {
@@ -71,6 +99,55 @@ async function fetchStripePrice(
     return { ok: false, status: res.status, body: parsed, raw };
   }
   return { ok: true, price: parsed };
+}
+
+async function fetchStripeCheckoutSession(
+  secretKey: string,
+  sessionId: string
+): Promise<
+  | { ok: true; session: StripeCheckoutSession }
+  | { ok: false; status: number; body: StripeErrorBody; raw: string }
+> {
+  const params = new URLSearchParams({
+    "expand[]": "line_items.data.price",
+  });
+  const res = await fetch(`https://api.stripe.com/v1/checkout/sessions/${sessionId}?${params.toString()}`, {
+    headers: { Authorization: `Bearer ${secretKey}` },
+  });
+  const raw = await res.text();
+  let parsed: StripeCheckoutSession & StripeErrorBody = {};
+  try {
+    parsed = JSON.parse(raw) as StripeCheckoutSession & StripeErrorBody;
+  } catch {
+    /* ignore */
+  }
+  if (!res.ok) return { ok: false, status: res.status, body: parsed, raw };
+  return { ok: true, session: parsed };
+}
+
+async function getBlockingStripeSubscriptionPlan(
+  secretKey: string,
+  customerId: string,
+  env: Env
+): Promise<"pro" | "business" | null> {
+  const params = new URLSearchParams({
+    customer: customerId,
+    status: "all",
+    "expand[]": "data.items.data.price",
+    limit: "10",
+  });
+  const res = await fetch(`https://api.stripe.com/v1/subscriptions?${params.toString()}`, {
+    headers: { Authorization: `Bearer ${secretKey}` },
+  });
+  if (!res.ok) return null;
+  const data = (await res.json()) as StripeSubscriptionList;
+  for (const sub of data.data ?? []) {
+    if (!["active", "trialing", "past_due", "unpaid", "incomplete"].includes(sub.status ?? "")) continue;
+    const priceId = sub.items?.data?.[0]?.price?.id ?? null;
+    const plan = planFromPriceId(env, priceId);
+    if (plan && plan !== "free") return plan;
+  }
+  return null;
 }
 
 billing.post("/checkout", requireAccount, async (c) => {
@@ -114,12 +191,28 @@ billing.post("/checkout", requireAccount, async (c) => {
   const mode = priceLookup.price.type === "recurring" ? "subscription" : "payment";
 
   const account = c.get("account")!;
+  if (account.plan !== "free") {
+    return c.json({ error: "Your paid plan is already active. Use Manage billing instead." }, 409);
+  }
+
+  const existingCustomerId = await getStripeCustomerId(c.env, account.id);
+  const blockingPlan = existingCustomerId
+    ? await getBlockingStripeSubscriptionPlan(c.env.STRIPE_SECRET_KEY, existingCustomerId, c.env)
+    : null;
+  if (blockingPlan) {
+    await setAccountPlan(c.env, account.id, blockingPlan);
+    await setAccountBillingStatus(c.env, account.id, "active");
+    return c.json(
+      { error: "A Stripe subscription is already active for this account. Refresh the page or use Manage billing." },
+      409
+    );
+  }
 
   const params = new URLSearchParams({
     mode,
     "line_items[0][price]": priceId,
     "line_items[0][quantity]": "1",
-    success_url: `${requestAppOrigin(c)}/app/account?checkout=success`,
+    success_url: `${requestAppOrigin(c)}/app/account?checkout=success&session_id={CHECKOUT_SESSION_ID}`,
     cancel_url: `${requestAppOrigin(c)}/app/account?checkout=cancelled`,
     client_reference_id: account.id,
     "metadata[plan]": plan,
@@ -130,7 +223,6 @@ billing.post("/checkout", requireAccount, async (c) => {
   }
 
   // Prefer existing Stripe customer so upgrades don't fail when email already has a customer.
-  const existingCustomerId = await getStripeCustomerId(c.env, account.id);
   if (existingCustomerId) {
     params.set("customer", existingCustomerId);
   } else {
@@ -179,6 +271,63 @@ billing.post("/checkout", requireAccount, async (c) => {
     userAgent: c.req.header("user-agent"),
   });
   return c.json({ url: session.url });
+});
+
+billing.get("/confirm-session", requireAccount, async (c) => {
+  if (!c.env.STRIPE_SECRET_KEY) {
+    return c.json({ error: "Billing isn't set up on this deployment yet." }, 501);
+  }
+  const sessionId = (c.req.query("session_id") || "").trim();
+  if (!sessionId) return c.json({ error: "Missing session_id." }, 400);
+
+  const lookup = await fetchStripeCheckoutSession(c.env.STRIPE_SECRET_KEY, sessionId);
+  if (!lookup.ok) {
+    console.error(`Stripe checkout session lookup failed (${lookup.status}) session=${sessionId}: ${lookup.raw}`);
+    return c.json(
+      { error: stripeClientMessage(lookup.status, lookup.body, "Could not verify checkout yet. Please refresh.") },
+      502
+    );
+  }
+
+  const session = lookup.session;
+  const account = c.get("account")!;
+  if (session.client_reference_id !== account.id) {
+    return c.json({ error: "That checkout session belongs to a different account." }, 403);
+  }
+
+  const firstPrice = session.line_items?.data?.[0]?.price;
+  const lineItemPriceId =
+    typeof firstPrice === "string" ? firstPrice : typeof firstPrice?.id === "string" ? firstPrice.id : null;
+  const plan =
+    parseCheckoutPlan(session.metadata?.plan) ??
+    planFromPriceId(c.env, lineItemPriceId) ??
+    "pro";
+
+  const complete = session.status === "complete";
+  const paid = session.payment_status === "paid" || session.payment_status === "no_payment_required";
+  if (complete && paid) {
+    await setAccountPlan(c.env, account.id, plan);
+    await setAccountBillingStatus(c.env, account.id, "active");
+    if (typeof session.customer === "string" && session.customer) {
+      await setStripeCustomerId(c.env, account.id, session.customer);
+    }
+    if (typeof session.subscription === "string" && session.subscription) {
+      await setStripeSubscriptionId(c.env, account.id, session.subscription);
+    }
+    await trackEvent(c.env, {
+      name: "checkout_completed",
+      accountId: account.id,
+      properties: { plan, source: "confirm_session" },
+      userAgent: c.req.header("user-agent"),
+    }).catch(() => {});
+    return c.json({ ok: true, status: "active", plan });
+  }
+
+  return c.json({
+    ok: true,
+    status: complete ? "pending_payment" : "pending",
+    plan,
+  });
 });
 
 // Not behind requireAccount/cookies — Stripe calls this server-to-server with no cookies or

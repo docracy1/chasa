@@ -1,5 +1,5 @@
 import { hasAnalyticsConsent } from "./consent";
-import { track } from "./analytics";
+import { track, captureAttributionOnce } from "./analytics";
 
 const REFERRAL_KEY = "docstoc_ref_tracked";
 
@@ -25,6 +25,12 @@ export function detectReferralOnce(): void {
   else if (lower.includes("google.")) source = "google";
   else if (ref && !lower.includes(location.host)) source = "referral";
   else if (ref) source = "internal";
+
+  // First-touch wins — captureAttributionOnce no-ops if a value is already stored, so a later
+  // session's direct/internal visit never overwrites the campaign that originally brought them in.
+  const utmCampaign = params.get("utm_campaign");
+  if (utm) captureAttributionOnce(utmCampaign ? `${utm.toLowerCase()}/${utmCampaign.toLowerCase()}` : utm.toLowerCase());
+  else if (refParam) captureAttributionOnce(String(refParam).toLowerCase());
 
   track("referral_source_detected", {
     source,
