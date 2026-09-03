@@ -1,4 +1,5 @@
 import {
+  adminAeParity,
   adminBlogCreate,
   adminBlogDelete,
   adminBlogList,
@@ -24,6 +25,7 @@ import {
   type BroadcastResult,
   type CfTrafficStats,
   type FunnelStats,
+  type AeParityResponse,
   type MarketplaceSubmission,
   type OutreachStats,
   type RoadmapFeature,
@@ -311,6 +313,68 @@ function fmtDate(iso: string): string {
   } catch {
     return iso.slice(0, 10);
   }
+}
+
+/** Diagnostic-only: compares D1's existing counts against what's landed in Analytics Engine so
+ *  far via the dual-write in trackEventAE. Nothing on the dashboard reads from Analytics Engine
+ *  yet — this exists purely to build confidence before that cutover happens. */
+function AeParityCard() {
+  const [data, setData] = useState<AeParityResponse | null>(null);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    adminAeParity(7)
+      .then(setData)
+      .catch((err) => setError(err instanceof Error ? err.message : "Failed to load"));
+  }, []);
+
+  return (
+    <section className="dash-card">
+      <h2 className="dash-card-title">Analytics Engine parity check</h2>
+      <p className="dash-note">
+        Compares D1's existing counts against what's arrived in Analytics Engine so far via the
+        dual-write. Diagnostic only — nothing on this dashboard reads from Analytics Engine yet.
+        Small differences are expected (Analytics Engine can lag a few minutes); large or growing
+        gaps mean something's wrong with the dual-write before relying on it.
+      </p>
+      {error && <p className="dash-muted">{error}</p>}
+      {!data && !error && <p className="dash-muted">Loading…</p>}
+      {data && !data.configured && (
+        <p className="dash-muted">
+          Not configured yet — set <code>CF_ACCOUNT_ID</code> and{" "}
+          <code>CF_ANALYTICS_ENGINE_TOKEN</code> via <code>wrangler secret put</code> to enable this
+          check. D1 is still recording {data.d1Counts.length} day/event rows in the meantime.
+        </p>
+      )}
+      {data && data.configured && data.rows.length === 0 && (
+        <p className="dash-muted">No data on either side yet for this window.</p>
+      )}
+      {data && data.configured && data.rows.length > 0 && (
+        <table className="admin-table">
+          <thead>
+            <tr>
+              <th>Day</th>
+              <th>Event</th>
+              <th>D1</th>
+              <th>AE (human)</th>
+              <th>AE (bot)</th>
+            </tr>
+          </thead>
+          <tbody>
+            {data.rows.slice(0, 100).map((row) => (
+              <tr key={`${row.day}:${row.event}`}>
+                <td>{row.day}</td>
+                <td>{row.event}</td>
+                <td>{row.d1Count}</td>
+                <td>{row.aeHumanCount}</td>
+                <td>{row.aeBotCount}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
+    </section>
+  );
 }
 
 const EMPTY_ROADMAP_FORM = { title: "", description: "" };
@@ -1200,6 +1264,8 @@ export default function Admin() {
               <p className="dash-note">{traffic.note}</p>
             </>
           )}
+
+          {nav === "analytics" && <AeParityCard />}
 
           {nav === "blog" && (
             <section className="dash-card">

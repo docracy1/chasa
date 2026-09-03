@@ -294,6 +294,22 @@ export function adminRoadmapDelete(id: string) {
   return adminFetch<{ ok: true }>(`/roadmap/${id}`, { method: "DELETE" });
 }
 
+export type AeParityRow = {
+  day: string;
+  event: string;
+  d1Count: number;
+  aeHumanCount: number;
+  aeBotCount: number;
+};
+
+export type AeParityResponse =
+  | { configured: true; rows: AeParityRow[] }
+  | { configured: false; failure: { kind: string; status?: number; detail?: string }; d1Counts: { day: string; event: string; count: number }[] };
+
+export function adminAeParity(days = 7) {
+  return adminFetch<AeParityResponse>(`/analytics/ae-parity?days=${days}`);
+}
+
 export function adminSetNoTrack() {
   return adminFetch<{ ok: true; enabled: boolean }>("/analytics/notrack", {
     method: "POST",

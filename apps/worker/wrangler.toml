@@ -27,6 +27,15 @@ binding = "CHASA_DB"
 database_name = "chasa-db"
 database_id = "1f5d8f25-0406-476e-abda-ac8f62c861aa"
 
+# Cloudflare Analytics Engine — dual-written alongside CHASA_DB while we verify parity with
+# Docracy's dashboard before cutting reads over (see lib/analytics.ts trackEventAE comments).
+# No manual provisioning needed: the dataset is created automatically on first write after this
+# binding is deployed. Querying it back needs a separate Cloudflare API token with Account
+# Analytics:Read scope — set with: wrangler secret put CF_ANALYTICS_ENGINE_TOKEN
+[[analytics_engine_datasets]]
+binding = "ANALYTICS"
+dataset = "docstoc_funnel"
+
 # Free (10k neurons/day, resets daily) — no account or API key needed.
 [ai]
 binding = "AI"
@@ -93,6 +102,10 @@ GOOGLE_INTEGRATIONS_CLIENT_ID = "808580458885-avk646acnsu40en7f0v828ppabk4kvjt.a
 # on docstoc.io and chasa.io (both queried and merged automatically). Optional override:
 #   wrangler secret put CF_ANALYTICS_ZONE_IDS   (comma-separated zone IDs)
 # Set with: wrangler secret put CF_ANALYTICS_TOKEN
+# Analytics Engine dual-write parity check (admin dashboard, Analytics Engine cutover project).
+# Distinct scope from CF_ANALYTICS_TOKEN above — this one is Account-level, not Zone-level.
+# Set with: wrangler secret put CF_ACCOUNT_ID              (Cloudflare account id, Workers & Pages overview page)
+# Set with: wrangler secret put CF_ANALYTICS_ENGINE_TOKEN  (API token scoped to Account > Analytics > Read)
 # Price IDs are non-secret — set above as STRIPE_PRICE_SOLO / PRO / ENTERPRISE.
 
 # --- Staging: isolated D1 so testing never touches production data ---
@@ -106,6 +119,10 @@ name = "chasa-worker-staging"
 binding = "CHASA_DB"
 database_name = "chasa-db-staging"
 database_id = "REPLACE_WITH_STAGING_D1_DATABASE_ID"
+
+[[env.staging.analytics_engine_datasets]]
+binding = "ANALYTICS"
+dataset = "docstoc_funnel_staging"
 
 [env.staging.ai]
 binding = "AI"
