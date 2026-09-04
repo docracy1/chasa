@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { campaignTagFromReferralProps, getFunnelStats, trackEvent } from "./analytics";
+import { campaignTagFromReferralProps, getFunnelStats, getTrafficSources, trackEvent } from "./analytics";
 import type { Env } from "../types";
 
 type Query = { sql: string; args: unknown[] };
@@ -81,6 +81,68 @@ describe("getFunnelStats", () => {
     const { env } = mockEnv();
     expect((await getFunnelStats(env, 7, true)).humansOnly).toBe(true);
     expect((await getFunnelStats(env, 7)).humansOnly).toBe(false);
+  });
+});
+
+/** A `referral_source_detected` row exactly as recorded for a UTM-tagged link opened directly
+ *  (email, ad, DM) with no document.referrer at all -- the case that exposed the double-count. */
+function referralRow(properties: Record<string, unknown>, createdAt = "2026-09-04T10:00:00.000Z") {
+  return { name: "referral_source_detected", properties: JSON.stringify(properties), created_at: createdAt };
+}
+
+function mockEnvWithRows(rows: ReturnType<typeof referralRow>[]): Env {
+  const db = {
+    prepare() {
+      return {
+        bind: () => ({
+          all: async () => ({ results: rows }),
+          first: async () => null,
+          run: async () => ({ meta: { changes: 1 } }),
+        }),
+      };
+    },
+  };
+  return { CHASA_DB: db } as unknown as Env;
+}
+
+describe("getTrafficSources", () => {
+  it("does not double-count a seo-tagged direct link as both an external site and a campaign click", async () => {
+    // Real bug: opening a seo-* tagged link with no referrer (e.g. from an email or ad) set
+    // props.source to the utm_source value itself, which then got used as a fake "external site
+    // hostname" fallback on top of correctly being recorded as a campaign click.
+    const env = mockEnvWithRows([
+      referralRow({ source: "seo-job-description", utm_source: "seo-job-description" }),
+    ]);
+    const { rows } = await getTrafficSources(env, 30);
+
+    expect(rows.filter((r) => r.event === "referral_source_detected")).toHaveLength(0);
+    expect(rows.filter((r) => r.event === "campaign_click")).toHaveLength(1);
+    expect(rows.find((r) => r.event === "campaign_click")?.attribution).toBe("seo-job-description");
+  });
+
+  it("still records a genuine external referrer as a site, even without a campaign tag", async () => {
+    const env = mockEnvWithRows([referralRow({ source: "referral", referrer: "https://www.producthunt.com/posts/x" })]);
+    const { rows } = await getTrafficSources(env, 30);
+
+    expect(rows).toHaveLength(1);
+    expect(rows[0]).toMatchObject({ event: "referral_source_detected", source: "www.producthunt.com" });
+  });
+
+  it("still records both when a tagged link is also opened via a real referrer", async () => {
+    // e.g. a seo-* link shared on LinkedIn and clicked from there -- the referrer is real (LinkedIn
+    // is genuinely a site that sent this visitor), so it must still show up as an external site
+    // *in addition to* the campaign click, unlike the no-referrer case above.
+    const env = mockEnvWithRows([
+      referralRow({
+        source: "seo-job-description",
+        utm_source: "seo-job-description",
+        referrer: "https://www.linkedin.com/feed/",
+      }),
+    ]);
+    const { rows } = await getTrafficSources(env, 30);
+
+    expect(rows.find((r) => r.event === "referral_source_detected")?.source).toBe("www.linkedin.com");
+    expect(rows.find((r) => r.event === "campaign_click")?.attribution).toBe("seo-job-description");
   });
 });
 
