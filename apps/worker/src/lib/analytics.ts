@@ -644,9 +644,21 @@ export async function getTrafficSources(env: Env, days = 30, humansOnly = false)
     if (row.name === "referral_source_detected") {
       const sourceHint = String(props.source ?? "").toLowerCase();
       const referrer = String(props.referrer ?? "");
-      const host =
-        hostnameFromReferrer(referrer) ||
-        (sourceHint && !["direct", "internal", "referral"].includes(sourceHint) ? sourceHint : "");
+      const tag = campaignTagFromReferralProps(props);
+
+      // A real referrer hostname always counts as an external site. The fallback to sourceHint
+      // (when there's no referrer at all) is only meaningful when it's genuinely describing an
+      // external site/label (e.g. "linkedin", "producthunt") -- not when it's a UTM/ref value that
+      // already produced a campaign tag above. Without this guard, any seo-*/outreach-* tagged
+      // visit with no referrer (e.g. a direct link from an ad or email) would double-count: once
+      // correctly as a "tagged campaign click" and once incorrectly as if it were an "external
+      // site that linked here", even though nothing actually linked to us.
+      const realHost = hostnameFromReferrer(referrer);
+      const fallbackHost =
+        !realHost && !tag && sourceHint && !["direct", "internal", "referral"].includes(sourceHint)
+          ? sourceHint
+          : "";
+      const host = realHost || fallbackHost;
 
       if (host) {
         const key = `ref:${day}:${host}`;
@@ -662,7 +674,6 @@ export async function getTrafficSources(env: Env, days = 30, humansOnly = false)
           });
       }
 
-      const tag = campaignTagFromReferralProps(props);
       if (tag) {
         const key = `camp:${day}:${tag}`;
         const prev = buckets.get(key);
