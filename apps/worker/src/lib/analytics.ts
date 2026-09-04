@@ -776,6 +776,7 @@ export async function getOutreachStats(env: Env, days = 30) {
     recent: recent.slice(0, 50),
     links: [
       { path: "/go/dm", use: "Cold email / DM outreach (add ?who=name)" },
+      { path: "/go/ssl", use: "Cold email → /ssl product page (add ?who=name)" },
       { path: "/go/li", use: "LinkedIn posts & comments" },
       { path: "/go/x", use: "X / Twitter" },
       { path: "/go/try", use: "Generic try CTA → /app/" },
