@@ -181,6 +181,17 @@ export async function sweepPendingAuditAnchors(env: Env): Promise<{
       continue;
     }
 
+    if (result.aggregated) {
+      if (result.proofBase64 && result.calendarUrl) {
+        await env.CHASA_DB.prepare(
+          `UPDATE audit_log_anchors SET ots_status = 'pending', ots_calendar_url = ?, ots_proof_base64 = ?, ots_submitted_at = ? WHERE id = ?`
+        )
+          .bind(result.calendarUrl, result.proofBase64, new Date().toISOString(), row.id)
+          .run();
+      }
+      continue;
+    }
+
     const submittedMs = row.ots_submitted_at ? Date.parse(row.ots_submitted_at) : 0;
     if (!submittedMs || now - submittedMs < OTS_STALE_MS) continue;
 
