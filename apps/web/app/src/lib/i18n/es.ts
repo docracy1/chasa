@@ -273,9 +273,9 @@ const es: Messages = {
   "account.featPro":
     "Pro ($14.99/mes): IA ilimitada, importar PDF/nube, marca, webhooks, equipo, resumen, Zapier/API",
   "account.featBusiness":
-    "Business ($39.99/mes): respuesta inteligente, riesgo, carta de cobro, paquete de evidencias, marca personalizada en certificados, SSL automático para tu dominio",
+    "Business ($39.99/mes): informes SOX, maker-checker, packs de auditor con timestamp, respuesta inteligente, riesgo, carta de cobro, paquete de evidencias, marca en certificados, SSL automático",
   "account.businessNudge":
-    "Pasa a Business para clasificación de respuestas con IA y cartas formales de cobro.",
+    "Pasa a Business para informes SOX, packs de auditor, clasificación de respuestas con IA y cartas formales de cobro.",
   "account.signOut": "Cerrar sesión",
 
   "tool.workspaceTitle": "Espacio de seguimiento",
@@ -1211,8 +1211,8 @@ const es: Messages = {
     "Estado de controles, pista de auditoría atribuible, aprobaciones maker-checker, packs de evidencia por periodo y retención para cobros AR.",
   "sox.signInSub": "Inicia sesión para abrir informes SOX.",
   "sox.upgradeSub":
-    "Los informes SOX están incluidos en Pro y Business: pistas atribuibles, maker-checker y exportaciones por periodo.",
-  "sox.upgradeCta": "Ver planes",
+    "Los informes SOX están del plan Business ($39.99/mes): maker-checker, pistas atribuibles y packs de auditor con OpenTimestamps.",
+  "sox.upgradeCta": "Pasar a Business",
   "sox.loadFailed": "No se pudieron cargar los informes SOX.",
   "sox.saveFailed": "No se pudieron guardar los ajustes SOX.",
   "sox.decideFailed": "No se pudo actualizar esa aprobación.",

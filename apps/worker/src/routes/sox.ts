@@ -1,5 +1,5 @@
 import { Hono } from "hono";
-import { requireAccount, requirePaidAccount, requireWorkspaceAdmin, type AuthEnv } from "../lib/auth";
+import { requireAccount, requireProAccount, type AuthEnv } from "../lib/auth";
 import {
   createAuditorPack,
   createSendApproval,
@@ -18,6 +18,7 @@ import {
 import { z } from "zod";
 import { parseJsonBody } from "../lib/schemas";
 
+/** SOX reporting is Business-only (requireProAccount = plan === business). */
 const sox = new Hono<AuthEnv>();
 
 function toActor(acc: { id: string; email: string; role: "admin" | "member" }): SoxActor {
@@ -28,13 +29,13 @@ function clientIp(c: { req: { header: (n: string) => string | undefined } }): st
   return c.req.header("cf-connecting-ip") ?? c.req.header("x-forwarded-for")?.split(",")[0]?.trim() ?? null;
 }
 
-sox.get("/overview", requirePaidAccount, async (c) => {
+sox.get("/overview", requireProAccount, async (c) => {
   const acc = c.get("account")!;
   const overview = await getSoxOverview(c.env, acc.workspaceId);
   return c.json({ overview });
 });
 
-sox.get("/audit-events", requirePaidAccount, async (c) => {
+sox.get("/audit-events", requireProAccount, async (c) => {
   const acc = c.get("account")!;
   const limit = c.req.query("limit") ? Number(c.req.query("limit")) : 100;
   const action = c.req.query("action") ?? undefined;
@@ -45,7 +46,7 @@ sox.get("/audit-events", requirePaidAccount, async (c) => {
   return c.json({ events });
 });
 
-sox.get("/settings", requirePaidAccount, async (c) => {
+sox.get("/settings", requireProAccount, async (c) => {
   const acc = c.get("account")!;
   const settings = await getSoxSettings(c.env, acc.workspaceId);
   return c.json({ settings });
@@ -56,15 +57,16 @@ const settingsSchema = z.object({
   retentionDays: z.number().int().min(90).max(3650).optional(),
 });
 
-sox.put("/settings", requireWorkspaceAdmin, async (c) => {
+sox.put("/settings", requireProAccount, async (c) => {
   const acc = c.get("account")!;
+  if (acc.role !== "admin") return c.json({ error: "Admin role required" }, 403);
   const parsed = await parseJsonBody(c.req, settingsSchema);
   if (!parsed.ok) return c.json({ error: parsed.error }, 400);
   const settings = await updateSoxSettings(c.env, acc.workspaceId, toActor(acc), parsed.data, clientIp(c));
   return c.json({ settings });
 });
 
-sox.get("/approvals", requirePaidAccount, async (c) => {
+sox.get("/approvals", requireProAccount, async (c) => {
   const acc = c.get("account")!;
   const status = c.req.query("status") ?? undefined;
   const approvals = await listSendApprovals(c.env, acc.workspaceId, { status, limit: 100 });
@@ -78,7 +80,7 @@ const approvalCreateSchema = z.object({
   body: z.string().max(20000).optional().nullable(),
 });
 
-sox.post("/approvals", requirePaidAccount, async (c) => {
+sox.post("/approvals", requireProAccount, async (c) => {
   const acc = c.get("account")!;
   const parsed = await parseJsonBody(c.req, approvalCreateSchema);
   if (!parsed.ok) return c.json({ error: parsed.error }, 400);
@@ -106,7 +108,7 @@ const approvalDecideSchema = z.object({
   note: z.string().max(500).optional().nullable(),
 });
 
-sox.post("/approvals/:id/decide", requirePaidAccount, async (c) => {
+sox.post("/approvals/:id/decide", requireProAccount, async (c) => {
   const acc = c.get("account")!;
   const parsed = await parseJsonBody(c.req, approvalDecideSchema);
   if (!parsed.ok) return c.json({ error: parsed.error }, 400);
@@ -131,7 +133,7 @@ const periodSchema = z.object({
   to: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
 });
 
-sox.get("/period-evidence", requirePaidAccount, async (c) => {
+sox.get("/period-evidence", requireProAccount, async (c) => {
   const acc = c.get("account")!;
   const from = c.req.query("from");
   const to = c.req.query("to");
@@ -147,13 +149,13 @@ const createPackSchema = z.object({
   to: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
 });
 
-sox.get("/auditor-packs", requirePaidAccount, async (c) => {
+sox.get("/auditor-packs", requireProAccount, async (c) => {
   const acc = c.get("account")!;
   const packs = await listAuditorPacks(c.env, acc.workspaceId);
   return c.json({ packs });
 });
 
-sox.post("/auditor-packs", requirePaidAccount, async (c) => {
+sox.post("/auditor-packs", requireProAccount, async (c) => {
   const acc = c.get("account")!;
   const parsed = await parseJsonBody(c.req, createPackSchema);
   if (!parsed.ok) return c.json({ error: parsed.error }, 400);
@@ -173,7 +175,7 @@ sox.post("/auditor-packs", requirePaidAccount, async (c) => {
   }
 });
 
-sox.get("/auditor-packs/:id.html", requirePaidAccount, async (c) => {
+sox.get("/auditor-packs/:id.html", requireProAccount, async (c) => {
   const acc = c.get("account")!;
   const id = c.req.param("id");
   if (!id) return c.json({ error: "Pack not found" }, 404);
@@ -187,7 +189,7 @@ sox.get("/auditor-packs/:id.html", requirePaidAccount, async (c) => {
   });
 });
 
-sox.get("/auditor-packs/:id.sha256", requirePaidAccount, async (c) => {
+sox.get("/auditor-packs/:id.sha256", requireProAccount, async (c) => {
   const acc = c.get("account")!;
   const id = c.req.param("id");
   if (!id) return c.json({ error: "Pack not found" }, 404);
@@ -201,7 +203,7 @@ sox.get("/auditor-packs/:id.sha256", requirePaidAccount, async (c) => {
   });
 });
 
-sox.get("/auditor-packs/:id.ots", requirePaidAccount, async (c) => {
+sox.get("/auditor-packs/:id.ots", requireProAccount, async (c) => {
   const acc = c.get("account")!;
   const id = c.req.param("id");
   if (!id) return c.json({ error: "Pack not found" }, 404);
@@ -217,14 +219,15 @@ sox.get("/auditor-packs/:id.ots", requirePaidAccount, async (c) => {
 
 sox.get("/status", requireAccount, async (c) => {
   const acc = c.get("account")!;
-  if (!acc.isPaid) {
+  if (acc.plan !== "business") {
     return c.json({
-      paid: false,
-      message: "SOX reporting requires Pro or Business",
+      paid: acc.isPaid,
+      business: false,
+      message: "SOX reporting requires the Business plan",
     });
   }
   const overview = await getSoxOverview(c.env, acc.workspaceId);
-  return c.json({ paid: true, overview });
+  return c.json({ paid: true, business: true, overview });
 });
 
 export default sox;

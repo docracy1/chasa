@@ -271,9 +271,9 @@ const en: Messages = {
   "account.featPro":
     "Pro ($14.99/mo): unlimited AI, PDF/cloud import, branding, webhooks, team, digest, Zapier/API",
   "account.featBusiness":
-    "Business ($39.99/mo): smart reply, risk score, demand letter, evidence pack, custom certificate branding, free SSL automation for your domain",
+    "Business ($39.99/mo): SOX reporting, maker-checker, timestamped auditor packs, smart reply, risk score, demand letter, evidence pack, custom certificate branding, free SSL automation for your domain",
   "account.businessNudge":
-    "Upgrade to Business for AI reply classification and formal overdue / collection-notice letters.",
+    "Upgrade to Business for SOX reporting, timestamped auditor packs, AI reply classification, and formal overdue letters.",
   "account.signOut": "Sign out",
 
   "tool.workspaceTitle": "Chase workspace",
@@ -1193,8 +1193,8 @@ const en: Messages = {
     "Control readiness, attributable audit trail, maker-checker approvals, period evidence packs, and retention settings for AR chase evidence.",
   "sox.signInSub": "Sign in to open SOX reporting.",
   "sox.upgradeSub":
-    "SOX reporting is included on Pro and Business — unlock attributable trails, maker-checker, and period evidence exports.",
-  "sox.upgradeCta": "View plans",
+    "SOX reporting is on Business ($39.99/mo) — maker-checker, attributable trails, and timestamped auditor packs (HTML + SHA-256 + OpenTimestamps).",
+  "sox.upgradeCta": "Upgrade to Business",
   "sox.loadFailed": "Could not load SOX reporting.",
   "sox.saveFailed": "Could not save SOX settings.",
   "sox.decideFailed": "Could not update that approval.",

@@ -21,7 +21,7 @@ import {
   type SoxOverview,
   type SoxSendApproval,
 } from "../lib/api";
-import { isPaidPlan, isWorkspaceAdmin } from "../lib/plan";
+import { isBusinessPlan, isWorkspaceAdmin } from "../lib/plan";
 import { useT } from "../lib/i18n";
 
 type TabId = "overview" | "trail" | "sod" | "evidence" | "retention";
@@ -61,7 +61,7 @@ export default function SoxReportingPage({ account }: { account: Account | null 
   const [reqClientName, setReqClientName] = useState("");
   const [reqSubject, setReqSubject] = useState("");
 
-  const paid = isPaidPlan(account);
+  const paid = isBusinessPlan(account);
   const admin = isWorkspaceAdmin(account);
 
   const tabs = useMemo(
@@ -194,7 +194,7 @@ export default function SoxReportingPage({ account }: { account: Account | null 
         <section className="branding-card">
           <h1 className="webhooks-title">{t("sox.title")}</h1>
           <p className="branding-help">{t("sox.upgradeSub")}</p>
-          <Link className="btn-primary" to="/account">
+          <Link className="btn-primary" to="/account?plan=business">
             {t("sox.upgradeCta")}
           </Link>
         </section>
