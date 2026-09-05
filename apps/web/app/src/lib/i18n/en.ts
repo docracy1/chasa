@@ -1216,9 +1216,47 @@ const en: Messages = {
   "sox.statAnchors": "Bitcoin-confirmed / anchors",
   "sox.statCerts": "Document certificates",
   "sox.controlsTitle": "Control coverage",
+  "sox.controlsLegend":
+    "Statuses reflect this workspace right now — not whether the product feature exists.",
   "sox.status.ready": "Ready",
   "sox.status.partial": "Partial",
   "sox.status.missing": "Missing",
+  "sox.statusExplain.ready": "Ready — enough evidence or settings are in place for this control.",
+  "sox.statusExplain.partial":
+    "Partial — the capability exists, but you still need activity, a teammate, or more history for a strong auditor story.",
+  "sox.statusExplain.missing":
+    "Missing — not enabled yet, or no evidence has been produced (turn it on or generate activity).",
+  "sox.auditorFileCalloutTitle": "Where is the final file for the auditor?",
+  "sox.auditorFileCalloutBody":
+    "Open the Evidence & exports tab → pick a date range → Create timestamped pack. Download three files and send all of them: the HTML pack, the .sha256 digest, and the .ots OpenTimestamps proof.",
+  "sox.auditorFileCta": "Go to Evidence & exports",
+  "sox.learnMore": "Learn more →",
+  "sox.control.tamper_evidence.explain":
+    "Document certificates prove a file’s SHA-256 hash and can carry an OpenTimestamps Bitcoin proof anyone can verify.",
+  "sox.control.tamper_evidence.how": "Create or open certificates under Document certificates.",
+  "sox.control.chase_trail.explain":
+    "Every reminder draft/send/copy/mailto and paid mark is logged on the chase timeline.",
+  "sox.control.chase_trail.how": "Add an overdue invoice and send a chase from the dashboard.",
+  "sox.control.hash_anchors.explain":
+    "Each UTC day with chase or email open/click activity is hashed, chained to the previous day, and stamped to Bitcoin.",
+  "sox.control.hash_anchors.how":
+    "Appears automatically the day after you have chase activity. Check Audit trail or Audit log.",
+  "sox.control.actor_log.explain":
+    "New chase events and SOX actions store who did them (email / role) for attributable evidence.",
+  "sox.control.actor_log.how":
+    "Sending chases, changing SoD/retention, or approving sends creates attributed entries.",
+  "sox.control.sod.explain":
+    "Maker-checker requires a second teammate to approve before a chase can be marked sent.",
+  "sox.control.sod.how": "Enable it under Retention & SoD, invite a teammate, then request approvals.",
+  "sox.control.period_export.explain":
+    "You can freeze a full period pack (or preview HTML) for auditors from Evidence & exports.",
+  "sox.control.period_export.how": "Use Create timestamped pack — that is the final auditor deliverable.",
+  "sox.control.retention.explain":
+    "Retention days document how long you intend to keep AR evidence for policy / auditor questions.",
+  "sox.control.retention.how": "Adjust under Retention & SoD (workspace admins).",
+  "sox.packSendTitle": "What to send the auditor",
+  "sox.packSendBody":
+    "After you create a pack, download all three files from the list below and attach them together. The HTML is the readable evidence; .sha256 proves the bytes; .ots proves the hash was anchored to Bitcoin (confirmation can take hours).",
   "sox.actorTrailTitle": "Attributable SOX actions",
   "sox.actorTrailSub":
     "Who changed settings, requested or decided send approvals, and related SOX actions.",

@@ -228,6 +228,25 @@ export default function SoxReportingPage({ account }: { account: Account | null 
 
         {!loading && tab === "overview" && overview ? (
           <div className="sox-panel">
+            <div className="sox-auditor-callout">
+              <h2 className="sox-section-title" style={{ marginTop: 0 }}>
+                {t("sox.auditorFileCalloutTitle")}
+              </h2>
+              <p className="branding-help">{t("sox.auditorFileCalloutBody")}</p>
+              <button type="button" className="btn-primary" onClick={() => setTab("evidence")}>
+                {t("sox.auditorFileCta")}
+              </button>
+              <p className="page-sub" style={{ marginTop: 10 }}>
+                <a href="/use-cases/auditor-evidence-pack" target="_blank" rel="noopener noreferrer">
+                  {t("sox.learnMore")}
+                </a>
+                {" · "}
+                <a href="/use-cases/sox-reporting" target="_blank" rel="noopener noreferrer">
+                  SOX reporting
+                </a>
+              </p>
+            </div>
+
             <div className="sox-stats">
               <div className="sox-stat">
                 <div className="sox-stat-value">{overview.pendingApprovals}</div>
@@ -250,16 +269,74 @@ export default function SoxReportingPage({ account }: { account: Account | null 
             </div>
 
             <h2 className="sox-section-title">{t("sox.controlsTitle")}</h2>
+            <p className="branding-help">{t("sox.controlsLegend")}</p>
+            <ul className="sox-status-legend">
+              <li>
+                <span className="sox-pill sox-pill-ready">{t("sox.status.ready")}</span>
+                <span>{t("sox.statusExplain.ready")}</span>
+              </li>
+              <li>
+                <span className="sox-pill sox-pill-partial">{t("sox.status.partial")}</span>
+                <span>{t("sox.statusExplain.partial")}</span>
+              </li>
+              <li>
+                <span className="sox-pill sox-pill-missing">{t("sox.status.missing")}</span>
+                <span>{t("sox.statusExplain.missing")}</span>
+              </li>
+            </ul>
             <ul className="sox-controls">
-              {overview.controls.map((c) => (
-                <li key={c.id}>
-                  <div className="sox-control-head">
-                    <strong>{c.title}</strong>
-                    <span className={statusClass(c.status)}>{t(`sox.status.${c.status}`)}</span>
-                  </div>
-                  <p className="page-sub">{c.detail}</p>
-                </li>
-              ))}
+              {overview.controls.map((c) => {
+                const explainKey = `sox.control.${c.id}.explain`;
+                const howKey = `sox.control.${c.id}.how`;
+                const explain = t(explainKey);
+                const how = t(howKey);
+                const hasExplain = explain !== explainKey;
+                const hasHow = how !== howKey;
+                const tabForControl =
+                  c.id === "sod"
+                    ? "sod"
+                    : c.id === "period_export"
+                      ? "evidence"
+                      : c.id === "retention"
+                        ? "retention"
+                        : c.id === "actor_log" || c.id === "hash_anchors" || c.id === "chase_trail"
+                          ? "trail"
+                          : null;
+                const learnHref =
+                  c.id === "period_export" || c.id === "hash_anchors"
+                    ? "/use-cases/auditor-evidence-pack"
+                    : c.id === "sod" || c.id === "actor_log" || c.id === "chase_trail"
+                      ? "/use-cases/sox-reporting"
+                      : c.id === "tamper_evidence"
+                        ? "/certificate"
+                        : "/use-cases/sox-reporting";
+                return (
+                  <li key={c.id}>
+                    <div className="sox-control-head">
+                      <strong>{c.title}</strong>
+                      <span className={statusClass(c.status)}>{t(`sox.status.${c.status}`)}</span>
+                    </div>
+                    <p className="page-sub">{c.detail}</p>
+                    {hasExplain ? <p className="sox-control-explain">{explain}</p> : null}
+                    {hasHow ? (
+                      <p className="page-sub">
+                        <strong>{how}</strong>
+                      </p>
+                    ) : null}
+                    <p className="page-sub sox-control-links">
+                      {tabForControl ? (
+                        <button type="button" className="sox-text-link" onClick={() => setTab(tabForControl)}>
+                          {tabs.find((x) => x.id === tabForControl)?.label ?? tabForControl} →
+                        </button>
+                      ) : null}
+                      {tabForControl ? " · " : null}
+                      <a href={learnHref} target="_blank" rel="noopener noreferrer">
+                        {t("sox.learnMore")}
+                      </a>
+                    </p>
+                  </li>
+                );
+              })}
             </ul>
           </div>
         ) : null}
@@ -423,6 +500,18 @@ export default function SoxReportingPage({ account }: { account: Account | null 
 
         {!loading && tab === "evidence" ? (
           <div className="sox-panel">
+            <div className="sox-auditor-callout">
+              <h2 className="sox-section-title" style={{ marginTop: 0 }}>
+                {t("sox.packSendTitle")}
+              </h2>
+              <p className="branding-help">{t("sox.packSendBody")}</p>
+              <p className="page-sub">
+                <a href="/use-cases/auditor-evidence-pack" target="_blank" rel="noopener noreferrer">
+                  {t("sox.learnMore")}
+                </a>
+              </p>
+            </div>
+
             <h2 className="sox-section-title">{t("sox.packTitle")}</h2>
             <p className="branding-help">{t("sox.packSub")}</p>
             <div className="sox-period-form">

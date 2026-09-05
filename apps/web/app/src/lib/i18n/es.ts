@@ -1234,9 +1234,47 @@ const es: Messages = {
   "sox.statAnchors": "Confirmados Bitcoin / anclajes",
   "sox.statCerts": "Certificados de documentos",
   "sox.controlsTitle": "Cobertura de controles",
+  "sox.controlsLegend":
+    "Los estados reflejan este espacio de trabajo ahora — no si la función del producto existe.",
   "sox.status.ready": "Listo",
   "sox.status.partial": "Parcial",
   "sox.status.missing": "Falta",
+  "sox.statusExplain.ready": "Listo — hay evidencia o ajustes suficientes para este control.",
+  "sox.statusExplain.partial":
+    "Parcial — la capacidad existe, pero aún falta actividad, un compañero o más historial para una historia sólida ante el auditor.",
+  "sox.statusExplain.missing":
+    "Falta — no está activado o aún no hay evidencia (actívalo o genera actividad).",
+  "sox.auditorFileCalloutTitle": "¿Dónde está el archivo final para el auditor?",
+  "sox.auditorFileCalloutBody":
+    "Abre la pestaña Evidencia y exportaciones → elige un rango de fechas → Crear pack con timestamp. Descarga tres archivos y envíalos todos: el HTML, el digest .sha256 y la prueba OpenTimestamps .ots.",
+  "sox.auditorFileCta": "Ir a Evidencia y exportaciones",
+  "sox.learnMore": "Más información →",
+  "sox.control.tamper_evidence.explain":
+    "Los certificados de documentos prueban el hash SHA-256 de un archivo y pueden llevar una prueba OpenTimestamps en Bitcoin.",
+  "sox.control.tamper_evidence.how": "Crea o abre certificados en Certificados de documentos.",
+  "sox.control.chase_trail.explain":
+    "Cada borrador/envío/copia/mailto y marcado como pagado queda en el timeline de cobro.",
+  "sox.control.chase_trail.how": "Añade una factura vencida y envía un cobro desde el panel.",
+  "sox.control.hash_anchors.explain":
+    "Cada día UTC con actividad de cobro o aperturas/clics se hashea, se encadena al día anterior y se ancla a Bitcoin.",
+  "sox.control.hash_anchors.how":
+    "Aparece automáticamente el día después de actividad de cobro. Revisa Pista de auditoría o Registro de auditoría.",
+  "sox.control.actor_log.explain":
+    "Los nuevos eventos de cobro y acciones SOX guardan quién las hizo (email / rol).",
+  "sox.control.actor_log.how":
+    "Enviar cobros, cambiar SoD/retención o aprobar envíos crea entradas atribuibles.",
+  "sox.control.sod.explain":
+    "Maker-checker exige que otro compañero apruebe antes de marcar un cobro como enviado.",
+  "sox.control.sod.how": "Actívalo en Retención y SoD, invita a un compañero y solicita aprobaciones.",
+  "sox.control.period_export.explain":
+    "Puedes congelar un pack completo del periodo (o previsualizar HTML) en Evidencia y exportaciones.",
+  "sox.control.period_export.how": "Usa Crear pack con timestamp — ese es el entregable final al auditor.",
+  "sox.control.retention.explain":
+    "Los días de retención documentan cuánto tiempo pretendes conservar evidencia AR.",
+  "sox.control.retention.how": "Ajústalo en Retención y SoD (admins del espacio).",
+  "sox.packSendTitle": "Qué enviar al auditor",
+  "sox.packSendBody":
+    "Tras crear un pack, descarga los tres archivos de la lista y adjúntalos juntos. El HTML es la evidencia legible; .sha256 prueba los bytes; .ots prueba que el hash se ancló a Bitcoin (la confirmación puede tardar horas).",
   "sox.actorTrailTitle": "Acciones SOX atribuibles",
   "sox.actorTrailSub":
     "Quién cambió ajustes, solicitó o decidió aprobaciones de envío y acciones SOX relacionadas.",
