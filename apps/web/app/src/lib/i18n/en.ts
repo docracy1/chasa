@@ -890,7 +890,7 @@ const en: Messages = {
   "admin.externalSites": "External sites that linked here",
   "admin.taggedCampaigns": "Tagged campaign clicks (utm/ref links)",
   "admin.taggedCampaignsNote":
-    "Respects Humans only. Not the same as Google visits on the left. seo-* rows appear when someone opens /app (or a /go link) with utm_source/ref=seo-* — usually after clicking Try free on an SEO page. Organic Google landings alone do not create seo-* rows (same as Docracy).",
+    "Respects Humans only. Only docstoc tags count here: seo-* (Try free CTAs) and outreach /go shortlinks. Third parties that stamp utm_source=chatgpt.com / openai show under External sites, not as campaigns. Organic Google landings alone do not create seo-* rows.",
   "admin.noneYet": "None yet.",
   "admin.colSite": "Site",
   "admin.colVisits": "Visits",

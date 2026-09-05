@@ -589,17 +589,40 @@ function attributionTag(utmSource: string, utmCampaign: string): string {
   return campaign ? `${source}/${campaign}` : source;
 }
 
-/** Campaign tag for Admin “Tagged campaign clicks” — utm pairs, seo-* CTAs, outreach-* /go links. */
-export function campaignTagFromReferralProps(props: Record<string, unknown>): string {
-  const utmTag = attributionTag(String(props.utm_source ?? ""), String(props.utm_campaign ?? ""));
-  if (utmTag) return utmTag;
+/** Intentional docstoc campaign sources (CTA tags + /go shortlinks). Third parties like ChatGPT
+ *  often append utm_source=<their hostname> — those must stay external discovery, not campaigns. */
+const DOCSTOC_CAMPAIGN_SOURCES = new Set([
+  "outreach",
+  "try",
+  "templates",
+  "tools",
+  "trust",
+  "invoice",
+  "linkedin",
+  "x",
+]);
 
+function isDocstocCampaignSource(value: string): boolean {
+  const v = value.trim().toLowerCase();
+  if (!v) return false;
+  if (/^(seo|outreach)-[a-z0-9-]+$/.test(v)) return true;
+  return DOCSTOC_CAMPAIGN_SOURCES.has(v);
+}
+
+/** Campaign tag for Admin “Tagged campaign clicks” — seo-* CTAs and outreach /go UTMs only. */
+export function campaignTagFromReferralProps(props: Record<string, unknown>): string {
   const utmSource = String(props.utm_source ?? "")
     .trim()
     .toLowerCase();
-  if (/^(seo|outreach)-[a-z0-9-]+$/.test(utmSource)) return utmSource;
+  const utmCampaign = String(props.utm_campaign ?? "")
+    .trim()
+    .toLowerCase();
 
-  for (const key of ["ref", "who"]) {
+  if (isDocstocCampaignSource(utmSource)) {
+    return attributionTag(utmSource, utmCampaign);
+  }
+
+  for (const key of ["ref", "who"] as const) {
     const v = String(props[key] ?? "")
       .trim()
       .toLowerCase();

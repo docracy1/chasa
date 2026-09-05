@@ -902,7 +902,7 @@ const es: Messages = {
   "admin.externalSites": "Sitios externos que enlazaron aquí",
   "admin.taggedCampaigns": "Clics de campaña (utm/ref)",
   "admin.taggedCampaignsNote":
-    "Respeta solo humanos. No es lo mismo que las visitas de Google a la izquierda. Las filas seo-* aparecen cuando alguien abre /app (o un enlace /go) con utm_source/ref=seo-* — suele ser al pulsar Probar gratis en una página SEO. Un landing orgánico de Google solo no crea filas seo-* (igual que en Docracy).",
+    "Respeta solo humanos. Aquí solo cuentan etiquetas de docstoc: seo-* (CTAs Probar gratis) y shortlinks /go de outreach. Terceros que marcan utm_source=chatgpt.com / openai aparecen en Sitios externos, no como campañas. Un landing orgánico de Google solo no crea filas seo-*.",
   "admin.noneYet": "Nada aún.",
   "admin.colSite": "Sitio",
   "admin.colVisits": "Visitas",
