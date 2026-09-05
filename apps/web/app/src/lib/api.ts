@@ -1040,6 +1040,149 @@ export function listAuditAnchors() {
   return jsonFetch<{ anchors: AuditAnchorRecord[] }>("/audit-log/anchors");
 }
 
+export type SoxControlStatus = {
+  id: string;
+  title: string;
+  status: "ready" | "partial" | "missing";
+  detail: string;
+};
+
+export type SoxSettings = {
+  sodRequired: boolean;
+  retentionDays: number;
+  updatedAt: string | null;
+  updatedByEmail: string | null;
+};
+
+export type SoxOverview = {
+  settings: SoxSettings;
+  controls: SoxControlStatus[];
+  pendingApprovals: number;
+  recentAuditCount: number;
+  anchorCount: number;
+  confirmedAnchors: number;
+  certificateCount: number;
+  chaseEventCount30d: number;
+};
+
+export type SoxAuditEvent = {
+  id: string;
+  actorAccountId: string | null;
+  actorEmail: string;
+  actorRole: string | null;
+  action: string;
+  resourceType: string | null;
+  resourceId: string | null;
+  summary: string;
+  metadata: Record<string, unknown> | null;
+  ip: string | null;
+  createdAt: string;
+};
+
+export type SoxSendApproval = {
+  id: string;
+  agingInvoiceId: string;
+  clientName: string;
+  subject: string | null;
+  bodyPreview: string | null;
+  status: "pending" | "approved" | "rejected" | "cancelled";
+  requestedByEmail: string;
+  decidedByEmail: string | null;
+  decisionNote: string | null;
+  createdAt: string;
+  decidedAt: string | null;
+};
+
+export function getSoxOverview() {
+  return jsonFetch<{ overview: SoxOverview }>("/sox/overview");
+}
+
+export function getSoxStatus() {
+  return jsonFetch<{ paid: boolean; message?: string; overview?: SoxOverview }>("/sox/status");
+}
+
+export function listSoxAuditEvents(limit = 100) {
+  return jsonFetch<{ events: SoxAuditEvent[] }>(`/sox/audit-events?limit=${limit}`);
+}
+
+export function getSoxSettings() {
+  return jsonFetch<{ settings: SoxSettings }>("/sox/settings");
+}
+
+export function updateSoxSettings(input: { sodRequired?: boolean; retentionDays?: number }) {
+  return jsonFetch<{ settings: SoxSettings }>("/sox/settings", {
+    method: "PUT",
+    body: JSON.stringify(input),
+  });
+}
+
+export function listSoxApprovals(status?: string) {
+  const qs = status ? `?status=${encodeURIComponent(status)}` : "";
+  return jsonFetch<{ approvals: SoxSendApproval[] }>(`/sox/approvals${qs}`);
+}
+
+export function createSoxApproval(input: {
+  agingInvoiceId: string;
+  clientName: string;
+  subject?: string | null;
+  body?: string | null;
+}) {
+  return jsonFetch<{ approval: SoxSendApproval }>("/sox/approvals", {
+    method: "POST",
+    body: JSON.stringify(input),
+  });
+}
+
+export function decideSoxApproval(
+  id: string,
+  input: { decision: "approved" | "rejected"; note?: string | null }
+) {
+  return jsonFetch<{ approval: SoxSendApproval }>(`/sox/approvals/${id}/decide`, {
+    method: "POST",
+    body: JSON.stringify(input),
+  });
+}
+
+export function soxPeriodEvidenceUrl(from: string, to: string): string {
+  return `/api/sox/period-evidence?from=${encodeURIComponent(from)}&to=${encodeURIComponent(to)}`;
+}
+
+export type SoxAuditorPack = {
+  id: string;
+  fromDate: string;
+  toDate: string;
+  contentSha256: string;
+  invoiceCount: number;
+  eventCount: number;
+  createdByEmail: string | null;
+  otsStatus: "none" | "pending" | "confirmed" | "failed";
+  otsConfirmedAt: string | null;
+  createdAt: string;
+};
+
+export function listSoxAuditorPacks() {
+  return jsonFetch<{ packs: SoxAuditorPack[] }>("/sox/auditor-packs");
+}
+
+export function createSoxAuditorPack(input: { from: string; to: string }) {
+  return jsonFetch<{ pack: SoxAuditorPack }>("/sox/auditor-packs", {
+    method: "POST",
+    body: JSON.stringify(input),
+  });
+}
+
+export function soxAuditorPackHtmlUrl(id: string): string {
+  return `/api/sox/auditor-packs/${encodeURIComponent(id)}.html`;
+}
+
+export function soxAuditorPackSha256Url(id: string): string {
+  return `/api/sox/auditor-packs/${encodeURIComponent(id)}.sha256`;
+}
+
+export function soxAuditorPackOtsUrl(id: string): string {
+  return `/api/sox/auditor-packs/${encodeURIComponent(id)}.ots`;
+}
+
 export type TrustProfileRecord = {
   accountId: string;
   firstVerifiedAt: string;

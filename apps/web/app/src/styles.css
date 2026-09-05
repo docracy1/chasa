@@ -4074,3 +4074,128 @@ textarea {
   background: color-mix(in srgb, var(--accent) 14%, #fff);
   color: var(--accent);
 }
+
+/* SOX reporting */
+.sox-page .sox-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 16px 0 20px;
+}
+.sox-tab {
+  border: 1px solid color-mix(in srgb, var(--border, #d0d7e2) 100%, transparent);
+  background: transparent;
+  color: inherit;
+  border-radius: 8px;
+  padding: 7px 12px;
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+.sox-tab.is-active {
+  background: color-mix(in srgb, var(--accent, #ec683c) 12%, #fff);
+  border-color: color-mix(in srgb, var(--accent, #ec683c) 40%, #fff);
+  color: var(--accent, #ec683c);
+  font-weight: 600;
+}
+.sox-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.sox-stat {
+  border: 1px solid color-mix(in srgb, var(--border, #d0d7e2) 100%, transparent);
+  border-radius: 10px;
+  padding: 12px 14px;
+}
+.sox-stat-value {
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+.sox-stat-label {
+  font-size: 12px;
+  opacity: 0.7;
+  margin-top: 4px;
+}
+.sox-section-title {
+  font-size: 15px;
+  margin: 22px 0 8px;
+}
+.sox-controls {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 10px;
+}
+.sox-controls li {
+  border: 1px solid color-mix(in srgb, var(--border, #d0d7e2) 100%, transparent);
+  border-radius: 10px;
+  padding: 12px 14px;
+}
+.sox-control-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.sox-pill {
+  display: inline-flex;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: 999px;
+}
+.sox-pill-ready {
+  background: #eaf6ec;
+  color: #14532d;
+}
+.sox-pill-partial {
+  background: #fff7ed;
+  color: #9a3412;
+}
+.sox-pill-missing {
+  background: #fef2f2;
+  color: #7f1d1d;
+}
+.sox-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.sox-period-form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 12px;
+  margin: 12px 0 16px;
+}
+.sox-period-form label,
+.sox-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 13px;
+}
+.sox-period-form input,
+.sox-field input {
+  font: inherit;
+  padding: 7px 10px;
+  border-radius: 8px;
+  border: 1px solid color-mix(in srgb, var(--border, #d0d7e2) 100%, transparent);
+}
+.sox-check {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 12px 0;
+  font-size: 14px;
+}
+.sox-event-list li {
+  align-items: flex-start;
+}

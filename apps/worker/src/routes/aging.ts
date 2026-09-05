@@ -218,12 +218,30 @@ aging.patch("/:id/chase", requirePaidAccount, async (c) => {
   if (!result.meta.changes) return c.json({ error: "Invoice not found" }, 404);
 
   if (row) {
+    if (status === "sent") {
+      const { getApprovedSendForInvoice, getSoxSettings } = await import("../lib/sox");
+      const settings = await getSoxSettings(c.env, acc.workspaceId);
+      if (settings.sodRequired) {
+        const approved = await getApprovedSendForInvoice(c.env, acc.workspaceId, id);
+        if (!approved) {
+          return c.json(
+            {
+              error:
+                "Maker-checker is enabled: request and receive send approval before marking this chase as sent.",
+              code: "sox_approval_required",
+            },
+            403
+          );
+        }
+      }
+    }
     await recordChaseEvent(c.env, acc.workspaceId, {
       agingInvoiceId: id,
       clientName: row.client_name,
       eventType: status === "sent" ? "sent" : "drafted",
       channel: "email",
       metadata: { lastChaseStatus: status },
+      actor: { accountId: acc.id, email: acc.email, role: acc.role },
     });
   }
 
@@ -260,6 +278,7 @@ aging.post("/:id/mark-paid", requirePaidAccount, async (c) => {
     eventType: "marked_paid",
     channel: "system",
     metadata: { note: parsed.data.note ?? null, daysLate },
+    actor: { accountId: acc.id, email: acc.email, role: acc.role },
   });
 
   c.executionCtx.waitUntil(
