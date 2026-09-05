@@ -40,7 +40,7 @@ import { isWeeklyBlogMondayUtc, runWeeklyBlogPublish } from "./lib/blogWeekly";
 import { sendCertExpiryReminders } from "./lib/customerCertificates";
 import { sweepPendingTimestamps } from "./lib/openTimestamps";
 import { runDailyAuditAnchors, sweepPendingAuditAnchors } from "./lib/auditLog";
-import { sweepPendingAuditorPacks } from "./lib/sox";
+import { sweepPendingAuditorPacks, sweepSoxRetention } from "./lib/sox";
 import { backfillTrustProfiles, sweepPendingTrustProfiles } from "./lib/trustProfile";
 import { legacyApiRedirectUrl } from "./lib/legacyHostRedirect";
 
@@ -110,6 +110,7 @@ export default {
     ctx.waitUntil(sweepPendingTimestamps(env).catch((err) => console.error("OpenTimestamps sweep failed:", err)));
     ctx.waitUntil(sweepPendingAuditAnchors(env).catch((err) => console.error("Audit anchor OTS sweep failed:", err)));
     ctx.waitUntil(sweepPendingAuditorPacks(env).catch((err) => console.error("Auditor pack OTS sweep failed:", err)));
+    ctx.waitUntil(sweepSoxRetention(env).catch((err) => console.error("SOX retention sweep failed:", err)));
 
     // Once daily at 08:00 UTC — same hourly trigger, gated by clock (no second cron; account limit).
     const hourUtc = new Date().getUTCHours();

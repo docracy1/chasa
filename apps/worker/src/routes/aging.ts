@@ -208,42 +208,41 @@ aging.patch("/:id/chase", requirePaidAccount, async (c) => {
     .bind(id, acc.workspaceId)
     .first<{ client_name: string }>();
 
-  const result = await c.env.CHASA_DB.prepare(
+  if (!row) return c.json({ error: "Invoice not found" }, 404);
+
+  if (status === "sent") {
+    const { getApprovedSendForInvoice, getSoxSettings } = await import("../lib/sox");
+    const settings = await getSoxSettings(c.env, acc.workspaceId);
+    if (settings.sodRequired) {
+      const approved = await getApprovedSendForInvoice(c.env, acc.workspaceId, id);
+      if (!approved) {
+        return c.json(
+          {
+            error:
+              "Maker-checker is enabled: request and receive send approval before marking this chase as sent.",
+            code: "sox_approval_required",
+          },
+          403
+        );
+      }
+    }
+  }
+
+  await c.env.CHASA_DB.prepare(
     `UPDATE aging_invoices SET last_chase_status = ?, last_chase_at = ?, updated_at = ?
      WHERE id = ? AND account_id = ?`
   )
     .bind(status, now, now, id, acc.workspaceId)
     .run();
 
-  if (!result.meta.changes) return c.json({ error: "Invoice not found" }, 404);
-
-  if (row) {
-    if (status === "sent") {
-      const { getApprovedSendForInvoice, getSoxSettings } = await import("../lib/sox");
-      const settings = await getSoxSettings(c.env, acc.workspaceId);
-      if (settings.sodRequired) {
-        const approved = await getApprovedSendForInvoice(c.env, acc.workspaceId, id);
-        if (!approved) {
-          return c.json(
-            {
-              error:
-                "Maker-checker is enabled: request and receive send approval before marking this chase as sent.",
-              code: "sox_approval_required",
-            },
-            403
-          );
-        }
-      }
-    }
-    await recordChaseEvent(c.env, acc.workspaceId, {
-      agingInvoiceId: id,
-      clientName: row.client_name,
-      eventType: status === "sent" ? "sent" : "drafted",
-      channel: "email",
-      metadata: { lastChaseStatus: status },
-      actor: { accountId: acc.id, email: acc.email, role: acc.role },
-    });
-  }
+  await recordChaseEvent(c.env, acc.workspaceId, {
+    agingInvoiceId: id,
+    clientName: row.client_name,
+    eventType: status === "sent" ? "sent" : "drafted",
+    channel: "email",
+    metadata: { lastChaseStatus: status },
+    actor: { accountId: acc.id, email: acc.email, role: acc.role },
+  });
 
   return c.json({ ok: true, lastChaseStatus: status, lastChaseAt: now });
 });

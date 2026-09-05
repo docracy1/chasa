@@ -40,8 +40,43 @@ export type SoxSendApproval = {
 export type SoxSettings = {
   sodRequired: boolean;
   retentionDays: number;
+  legalHold: boolean;
+  retentionEnforced: boolean;
   updatedAt: string | null;
   updatedByEmail: string | null;
+};
+
+export type SoxControl = {
+  id: string;
+  controlKey: string;
+  title: string;
+  description: string | null;
+  frequency: string;
+  ownerEmail: string | null;
+  status: "active" | "retired";
+  createdAt: string;
+  lastTest: SoxControlTest | null;
+};
+
+export type SoxControlTest = {
+  id: string;
+  controlId: string;
+  periodStart: string;
+  periodEnd: string;
+  result: "pass" | "fail" | "exception";
+  notes: string | null;
+  testedByEmail: string;
+  evidencePackId: string | null;
+  testedAt: string;
+};
+
+export type SoxRetentionStatus = {
+  cutoffIso: string;
+  chaseEventsPastRetention: number;
+  auditEventsPastRetention: number;
+  legalHold: boolean;
+  retentionEnforced: boolean;
+  retentionDays: number;
 };
 
 export type SoxControlStatus = {
@@ -60,6 +95,9 @@ export type SoxOverview = {
   confirmedAnchors: number;
   certificateCount: number;
   chaseEventCount30d: number;
+  retention: SoxRetentionStatus;
+  controlLibraryCount: number;
+  controlTests30d: number;
 };
 
 type AuditRow = {
@@ -203,21 +241,33 @@ export async function listSoxAuditEvents(
 
 export async function getSoxSettings(env: Env, accountId: string): Promise<SoxSettings> {
   const row = await env.CHASA_DB.prepare(
-    `SELECT sod_required, retention_days, updated_at, updated_by_email FROM sox_settings WHERE account_id = ?`
+    `SELECT sod_required, retention_days, legal_hold, retention_enforced, updated_at, updated_by_email
+     FROM sox_settings WHERE account_id = ?`
   )
     .bind(accountId)
     .first<{
       sod_required: number;
       retention_days: number;
+      legal_hold: number | null;
+      retention_enforced: number | null;
       updated_at: string;
       updated_by_email: string | null;
     }>();
   if (!row) {
-    return { sodRequired: false, retentionDays: 2555, updatedAt: null, updatedByEmail: null };
+    return {
+      sodRequired: false,
+      retentionDays: 2555,
+      legalHold: false,
+      retentionEnforced: false,
+      updatedAt: null,
+      updatedByEmail: null,
+    };
   }
   return {
     sodRequired: row.sod_required === 1,
     retentionDays: row.retention_days,
+    legalHold: row.legal_hold === 1,
+    retentionEnforced: row.retention_enforced === 1,
     updatedAt: row.updated_at,
     updatedByEmail: row.updated_by_email,
   };
@@ -227,37 +277,59 @@ export async function updateSoxSettings(
   env: Env,
   accountId: string,
   actor: SoxActor,
-  input: { sodRequired?: boolean; retentionDays?: number },
+  input: {
+    sodRequired?: boolean;
+    retentionDays?: number;
+    legalHold?: boolean;
+    retentionEnforced?: boolean;
+  },
   ip?: string | null
 ): Promise<SoxSettings> {
   const current = await getSoxSettings(env, accountId);
   const sodRequired = input.sodRequired ?? current.sodRequired;
   const retentionDays = Math.min(Math.max(input.retentionDays ?? current.retentionDays, 90), 3650);
+  const legalHold = input.legalHold ?? current.legalHold;
+  const retentionEnforced = input.retentionEnforced ?? current.retentionEnforced;
   const now = new Date().toISOString();
   await env.CHASA_DB.prepare(
-    `INSERT INTO sox_settings (account_id, sod_required, retention_days, updated_at, updated_by_email)
-     VALUES (?, ?, ?, ?, ?)
+    `INSERT INTO sox_settings
+       (account_id, sod_required, retention_days, legal_hold, retention_enforced, updated_at, updated_by_email)
+     VALUES (?, ?, ?, ?, ?, ?, ?)
      ON CONFLICT(account_id) DO UPDATE SET
        sod_required = excluded.sod_required,
        retention_days = excluded.retention_days,
+       legal_hold = excluded.legal_hold,
+       retention_enforced = excluded.retention_enforced,
        updated_at = excluded.updated_at,
        updated_by_email = excluded.updated_by_email`
   )
-    .bind(accountId, sodRequired ? 1 : 0, retentionDays, now, actor.email)
+    .bind(
+      accountId,
+      sodRequired ? 1 : 0,
+      retentionDays,
+      legalHold ? 1 : 0,
+      retentionEnforced ? 1 : 0,
+      now,
+      actor.email
+    )
     .run();
 
   await recordSoxAuditEvent(env, accountId, actor, {
     action: "sox.settings_updated",
-    summary: `SOX settings updated (SoD ${sodRequired ? "on" : "off"}, retention ${retentionDays}d)`,
+    summary: `SOX settings updated (SoD ${sodRequired ? "on" : "off"}, retention ${retentionDays}d, hold ${
+      legalHold ? "on" : "off"
+    }, enforce ${retentionEnforced ? "on" : "off"})`,
     resourceType: "sox_settings",
     resourceId: accountId,
-    metadata: { sodRequired, retentionDays },
+    metadata: { sodRequired, retentionDays, legalHold, retentionEnforced },
     ip,
   });
 
   return {
     sodRequired,
     retentionDays,
+    legalHold,
+    retentionEnforced,
     updatedAt: now,
     updatedByEmail: actor.email,
   };
@@ -468,12 +540,29 @@ export async function getSoxOverview(env: Env, accountId: string): Promise<SoxOv
     .bind(accountId)
     .first<{ c: number }>();
 
+  await ensureDefaultSoxControls(env, accountId);
+  const retention = await getSoxRetentionStatus(env, accountId);
+
+  const controlLibRow = await env.CHASA_DB.prepare(
+    `SELECT COUNT(*) as c FROM sox_controls WHERE account_id = ? AND status = 'active'`
+  )
+    .bind(accountId)
+    .first<{ c: number }>();
+
+  const controlTestRow = await env.CHASA_DB.prepare(
+    `SELECT COUNT(*) as c FROM sox_control_tests WHERE account_id = ? AND tested_at >= ?`
+  )
+    .bind(accountId, since30)
+    .first<{ c: number }>();
+
   const certificateCount = certRow?.c ?? 0;
   const chaseEventCount30d = chaseRow?.c ?? 0;
   const recentAuditCount = auditRow?.c ?? 0;
   const pendingApprovals = pendingRow?.c ?? 0;
   const attributedChase = actorRow?.c ?? 0;
   const teamMembers = memberRow?.c ?? 0;
+  const controlLibraryCount = controlLibRow?.c ?? 0;
+  const controlTests30d = controlTestRow?.c ?? 0;
 
   const controls: SoxControlStatus[] = [
     {
@@ -531,8 +620,26 @@ export async function getSoxOverview(env: Env, accountId: string): Promise<SoxOv
     {
       id: "retention",
       title: "Retention policy",
-      status: settings.retentionDays >= 365 ? "ready" : "partial",
-      detail: `Retention set to ${settings.retentionDays} days (~${Math.round(settings.retentionDays / 365)} year(s))`,
+      status:
+        settings.legalHold
+          ? "ready"
+          : settings.retentionDays >= 365
+            ? settings.retentionEnforced
+              ? "ready"
+              : "partial"
+            : "partial",
+      detail: settings.legalHold
+        ? `Legal hold on · retention ${settings.retentionDays}d (purge blocked)`
+        : `Retention ${settings.retentionDays}d · enforcement ${settings.retentionEnforced ? "on" : "off"}`,
+    },
+    {
+      id: "control_library",
+      title: "Control library & period tests",
+      status: controlLibraryCount > 0 ? (controlTests30d > 0 ? "ready" : "partial") : "missing",
+      detail:
+        controlLibraryCount > 0
+          ? `${controlLibraryCount} control(s) · ${controlTests30d} test(s) in 30d`
+          : "Default AR controls are seeded when you open SOX reporting",
     },
   ];
 
@@ -545,6 +652,9 @@ export async function getSoxOverview(env: Env, accountId: string): Promise<SoxOv
     confirmedAnchors,
     certificateCount,
     chaseEventCount30d,
+    retention,
+    controlLibraryCount,
+    controlTests30d,
   };
 }
 
@@ -964,6 +1074,324 @@ export async function getAuditorPackProof(
     .first<{ ots_proof_base64: string | null; content_sha256: string }>();
   if (!row?.ots_proof_base64) return null;
   return { proofBase64: row.ots_proof_base64, contentSha256: row.content_sha256 };
+}
+
+const DEFAULT_SOX_CONTROLS: Array<{
+  key: string;
+  title: string;
+  description: string;
+  frequency: string;
+}> = [
+  {
+    key: "AR-SOD-001",
+    title: "Maker-checker on chase send",
+    description: "Send / mark-sent requires a different approver when SoD is enabled.",
+    frequency: "continuous",
+  },
+  {
+    key: "AR-TRAIL-001",
+    title: "Attributable chase timeline",
+    description: "Chase events record actor email and role for ICFR evidence.",
+    frequency: "continuous",
+  },
+  {
+    key: "AR-ANCHOR-001",
+    title: "Daily Bitcoin hash anchors",
+    description: "Daily Merkle roots of chase activity are OpenTimestamped to Bitcoin.",
+    frequency: "daily",
+  },
+  {
+    key: "AR-EXPORT-001",
+    title: "Period auditor evidence pack",
+    description: "Frozen HTML + SHA-256 + .ots pack for a chosen period.",
+    frequency: "monthly",
+  },
+  {
+    key: "AR-RET-001",
+    title: "Retention / legal hold",
+    description: "Retention window with optional enforcement and legal hold.",
+    frequency: "quarterly",
+  },
+  {
+    key: "AR-CERT-001",
+    title: "Document certificates",
+    description: "Tamper-evident certificates for exported files and invoices.",
+    frequency: "as_needed",
+  },
+];
+
+type ControlRow = {
+  id: string;
+  control_key: string;
+  title: string;
+  description: string | null;
+  frequency: string;
+  owner_email: string | null;
+  status: string;
+  created_at: string;
+};
+
+type ControlTestRow = {
+  id: string;
+  control_id: string;
+  period_start: string;
+  period_end: string;
+  result: string;
+  notes: string | null;
+  tested_by_email: string;
+  evidence_pack_id: string | null;
+  tested_at: string;
+};
+
+function mapControlTest(row: ControlTestRow): SoxControlTest {
+  return {
+    id: row.id,
+    controlId: row.control_id,
+    periodStart: row.period_start,
+    periodEnd: row.period_end,
+    result: row.result as SoxControlTest["result"],
+    notes: row.notes,
+    testedByEmail: row.tested_by_email,
+    evidencePackId: row.evidence_pack_id,
+    testedAt: row.tested_at,
+  };
+}
+
+function mapControl(row: ControlRow, lastTest: SoxControlTest | null): SoxControl {
+  return {
+    id: row.id,
+    controlKey: row.control_key,
+    title: row.title,
+    description: row.description,
+    frequency: row.frequency,
+    ownerEmail: row.owner_email,
+    status: row.status === "retired" ? "retired" : "active",
+    createdAt: row.created_at,
+    lastTest,
+  };
+}
+
+export async function ensureDefaultSoxControls(env: Env, accountId: string): Promise<void> {
+  const existing = await env.CHASA_DB.prepare(
+    `SELECT COUNT(*) as c FROM sox_controls WHERE account_id = ?`
+  )
+    .bind(accountId)
+    .first<{ c: number }>();
+  if ((existing?.c ?? 0) > 0) return;
+  const now = new Date().toISOString();
+  for (const c of DEFAULT_SOX_CONTROLS) {
+    await env.CHASA_DB.prepare(
+      `INSERT OR IGNORE INTO sox_controls
+         (id, account_id, control_key, title, description, frequency, owner_email, status, created_at)
+       VALUES (?, ?, ?, ?, ?, ?, NULL, 'active', ?)`
+    )
+      .bind(crypto.randomUUID(), accountId, c.key, c.title, c.description, c.frequency, now)
+      .run();
+  }
+}
+
+export async function listSoxControls(env: Env, accountId: string): Promise<SoxControl[]> {
+  await ensureDefaultSoxControls(env, accountId);
+  const { results } = await env.CHASA_DB.prepare(
+    `SELECT id, control_key, title, description, frequency, owner_email, status, created_at
+     FROM sox_controls WHERE account_id = ? AND status = 'active'
+     ORDER BY control_key ASC`
+  )
+    .bind(accountId)
+    .all<ControlRow>();
+  const controls: SoxControl[] = [];
+  for (const row of results ?? []) {
+    const last = await env.CHASA_DB.prepare(
+      `SELECT id, control_id, period_start, period_end, result, notes, tested_by_email, evidence_pack_id, tested_at
+       FROM sox_control_tests WHERE control_id = ? ORDER BY tested_at DESC LIMIT 1`
+    )
+      .bind(row.id)
+      .first<ControlTestRow>();
+    controls.push(mapControl(row, last ? mapControlTest(last) : null));
+  }
+  return controls;
+}
+
+export async function recordSoxControlTest(
+  env: Env,
+  accountId: string,
+  actor: SoxActor,
+  input: {
+    controlId: string;
+    periodStart: string;
+    periodEnd: string;
+    result: "pass" | "fail" | "exception";
+    notes?: string | null;
+    evidencePackId?: string | null;
+  },
+  ip?: string | null
+): Promise<SoxControlTest> {
+  const control = await env.CHASA_DB.prepare(
+    `SELECT id, control_key, title FROM sox_controls WHERE id = ? AND account_id = ?`
+  )
+    .bind(input.controlId, accountId)
+    .first<{ id: string; control_key: string; title: string }>();
+  if (!control) throw new Error("Control not found");
+  if (input.periodStart > input.periodEnd) throw new Error("periodStart must be on or before periodEnd");
+
+  const id = crypto.randomUUID();
+  const now = new Date().toISOString();
+  await env.CHASA_DB.prepare(
+    `INSERT INTO sox_control_tests
+       (id, account_id, control_id, period_start, period_end, result, notes, tested_by_email, evidence_pack_id, tested_at)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+  )
+    .bind(
+      id,
+      accountId,
+      control.id,
+      input.periodStart,
+      input.periodEnd,
+      input.result,
+      input.notes?.slice(0, 2000) ?? null,
+      actor.email,
+      input.evidencePackId?.slice(0, 80) ?? null,
+      now
+    )
+    .run();
+
+  await recordSoxAuditEvent(env, accountId, actor, {
+    action: "sox.control_tested",
+    summary: `${control.control_key} tested: ${input.result}`,
+    resourceType: "sox_control_test",
+    resourceId: id,
+    metadata: {
+      controlId: control.id,
+      controlKey: control.control_key,
+      result: input.result,
+      periodStart: input.periodStart,
+      periodEnd: input.periodEnd,
+    },
+    ip,
+  });
+
+  return {
+    id,
+    controlId: control.id,
+    periodStart: input.periodStart,
+    periodEnd: input.periodEnd,
+    result: input.result,
+    notes: input.notes ?? null,
+    testedByEmail: actor.email,
+    evidencePackId: input.evidencePackId ?? null,
+    testedAt: now,
+  };
+}
+
+export async function listSoxControlTests(
+  env: Env,
+  accountId: string,
+  opts: { controlId?: string; limit?: number } = {}
+): Promise<SoxControlTest[]> {
+  const limit = Math.min(Math.max(opts.limit ?? 50, 1), 200);
+  let sql = `SELECT id, control_id, period_start, period_end, result, notes, tested_by_email, evidence_pack_id, tested_at
+             FROM sox_control_tests WHERE account_id = ?`;
+  const binds: unknown[] = [accountId];
+  if (opts.controlId) {
+    sql += ` AND control_id = ?`;
+    binds.push(opts.controlId);
+  }
+  sql += ` ORDER BY tested_at DESC LIMIT ?`;
+  binds.push(limit);
+  const { results } = await env.CHASA_DB.prepare(sql).bind(...binds).all<ControlTestRow>();
+  return (results ?? []).map(mapControlTest);
+}
+
+export async function getSoxRetentionStatus(env: Env, accountId: string): Promise<SoxRetentionStatus> {
+  const settings = await getSoxSettings(env, accountId);
+  const cutoff = new Date(Date.now() - settings.retentionDays * 86400000).toISOString();
+  const chase = await env.CHASA_DB.prepare(
+    `SELECT COUNT(*) as c FROM chase_events WHERE account_id = ? AND created_at < ?`
+  )
+    .bind(accountId, cutoff)
+    .first<{ c: number }>();
+  const audit = await env.CHASA_DB.prepare(
+    `SELECT COUNT(*) as c FROM sox_audit_events WHERE account_id = ? AND created_at < ?`
+  )
+    .bind(accountId, cutoff)
+    .first<{ c: number }>();
+  return {
+    cutoffIso: cutoff,
+    chaseEventsPastRetention: chase?.c ?? 0,
+    auditEventsPastRetention: audit?.c ?? 0,
+    legalHold: settings.legalHold,
+    retentionEnforced: settings.retentionEnforced,
+    retentionDays: settings.retentionDays,
+  };
+}
+
+export async function purgeSoxPastRetention(
+  env: Env,
+  accountId: string,
+  actor: SoxActor,
+  ip?: string | null
+): Promise<{ deletedChase: number; deletedAudit: number; cutoffIso: string }> {
+  const settings = await getSoxSettings(env, accountId);
+  if (settings.legalHold) throw new Error("Legal hold is on — purge is blocked");
+  if (!settings.retentionEnforced) throw new Error("Enable retention enforcement before purging");
+  const cutoff = new Date(Date.now() - settings.retentionDays * 86400000).toISOString();
+
+  const chaseRes = await env.CHASA_DB.prepare(
+    `DELETE FROM chase_events WHERE account_id = ? AND created_at < ?`
+  )
+    .bind(accountId, cutoff)
+    .run();
+  const auditRes = await env.CHASA_DB.prepare(
+    `DELETE FROM sox_audit_events WHERE account_id = ? AND created_at < ?`
+  )
+    .bind(accountId, cutoff)
+    .run();
+
+  const deletedChase = chaseRes.meta.changes ?? 0;
+  const deletedAudit = auditRes.meta.changes ?? 0;
+
+  await recordSoxAuditEvent(env, accountId, actor, {
+    action: "sox.retention_purged",
+    summary: `Purged ${deletedChase} chase + ${deletedAudit} audit events older than ${settings.retentionDays}d`,
+    resourceType: "sox_settings",
+    resourceId: accountId,
+    metadata: { cutoff, deletedChase, deletedAudit },
+    ip,
+  });
+
+  return { deletedChase, deletedAudit, cutoffIso: cutoff };
+}
+
+export async function sweepSoxRetention(env: Env): Promise<{ accounts: number; deletedChase: number; deletedAudit: number }> {
+  const { results } = await env.CHASA_DB.prepare(
+    `SELECT account_id, retention_days FROM sox_settings
+     WHERE retention_enforced = 1 AND legal_hold = 0`
+  ).all<{ account_id: string; retention_days: number }>();
+
+  let accounts = 0;
+  let deletedChase = 0;
+  let deletedAudit = 0;
+  for (const row of results ?? []) {
+    const cutoff = new Date(Date.now() - row.retention_days * 86400000).toISOString();
+    const chaseRes = await env.CHASA_DB.prepare(
+      `DELETE FROM chase_events WHERE account_id = ? AND created_at < ?`
+    )
+      .bind(row.account_id, cutoff)
+      .run();
+    const auditRes = await env.CHASA_DB.prepare(
+      `DELETE FROM sox_audit_events WHERE account_id = ? AND created_at < ?`
+    )
+      .bind(row.account_id, cutoff)
+      .run();
+    const dc = chaseRes.meta.changes ?? 0;
+    const da = auditRes.meta.changes ?? 0;
+    if (dc > 0 || da > 0) {
+      accounts++;
+      deletedChase += dc;
+      deletedAudit += da;
+    }
+  }
+  return { accounts, deletedChase, deletedAudit };
 }
 
 export async function sweepPendingAuditorPacks(env: Env): Promise<{

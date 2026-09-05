@@ -283,6 +283,30 @@
     <priority>0.75</priority>
   </url>
   <url>
+    <loc>https://docstoc.io/workiva-alternative</loc>
+    <lastmod>2026-09-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.65</priority>
+  </url>
+  <url>
+    <loc>https://docstoc.io/floqast-alternative</loc>
+    <lastmod>2026-09-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.65</priority>
+  </url>
+  <url>
+    <loc>https://docstoc.io/auditboard-sox-alternative</loc>
+    <lastmod>2026-09-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.65</priority>
+  </url>
+  <url>
+    <loc>https://docstoc.io/hyperproof-sox-alternative</loc>
+    <lastmod>2026-09-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.65</priority>
+  </url>
+  <url>
     <loc>https://docstoc.io/es/use-cases/sox-reporting</loc>
     <lastmod>2026-09-05</lastmod>
     <changefreq>monthly</changefreq>

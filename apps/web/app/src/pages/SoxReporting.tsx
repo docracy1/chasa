@@ -4,11 +4,14 @@ import {
   decideSoxApproval,
   createSoxApproval,
   createSoxAuditorPack,
+  createSoxControlTest,
   getSoxOverview,
   listAuditAnchors,
   listSoxApprovals,
   listSoxAuditEvents,
   listSoxAuditorPacks,
+  listSoxControls,
+  purgeSoxRetention,
   soxAuditorPackHtmlUrl,
   soxAuditorPackOtsUrl,
   soxAuditorPackSha256Url,
@@ -18,13 +21,14 @@ import {
   type AuditAnchorRecord,
   type SoxAuditorPack,
   type SoxAuditEvent,
+  type SoxControl,
   type SoxOverview,
   type SoxSendApproval,
 } from "../lib/api";
 import { isBusinessPlan, isWorkspaceAdmin } from "../lib/plan";
 import { useT } from "../lib/i18n";
 
-type TabId = "overview" | "trail" | "sod" | "evidence" | "retention";
+type TabId = "overview" | "trail" | "sod" | "evidence" | "library" | "retention";
 
 function statusClass(status: string): string {
   if (status === "ready") return "sox-pill sox-pill-ready";
@@ -50,6 +54,7 @@ export default function SoxReportingPage({ account }: { account: Account | null 
   const [anchors, setAnchors] = useState<AuditAnchorRecord[]>([]);
   const [approvals, setApprovals] = useState<SoxSendApproval[]>([]);
   const [packs, setPacks] = useState<SoxAuditorPack[]>([]);
+  const [library, setLibrary] = useState<SoxControl[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
@@ -57,9 +62,15 @@ export default function SoxReportingPage({ account }: { account: Account | null 
   const [toDate, setToDate] = useState(defaultToDate);
   const [sodRequired, setSodRequired] = useState(false);
   const [retentionDays, setRetentionDays] = useState(2555);
+  const [legalHold, setLegalHold] = useState(false);
+  const [retentionEnforced, setRetentionEnforced] = useState(false);
   const [reqInvoiceId, setReqInvoiceId] = useState("");
   const [reqClientName, setReqClientName] = useState("");
   const [reqSubject, setReqSubject] = useState("");
+  const [testControlId, setTestControlId] = useState("");
+  const [testResult, setTestResult] = useState<"pass" | "fail" | "exception">("pass");
+  const [testNotes, setTestNotes] = useState("");
+  const [purgeMsg, setPurgeMsg] = useState<string | null>(null);
 
   const paid = isBusinessPlan(account);
   const admin = isWorkspaceAdmin(account);
@@ -71,6 +82,7 @@ export default function SoxReportingPage({ account }: { account: Account | null 
         { id: "trail" as const, label: t("sox.tabTrail") },
         { id: "sod" as const, label: t("sox.tabSod") },
         { id: "evidence" as const, label: t("sox.tabEvidence") },
+        { id: "library" as const, label: t("sox.tabLibrary") },
         { id: "retention" as const, label: t("sox.tabRetention") },
       ] as const,
     [t]
@@ -84,20 +96,25 @@ export default function SoxReportingPage({ account }: { account: Account | null 
       return;
     }
     try {
-      const [ov, audit, anch, appr, packList] = await Promise.all([
+      const [ov, audit, anch, appr, packList, controls] = await Promise.all([
         getSoxOverview(),
         listSoxAuditEvents(100),
         listAuditAnchors(),
         listSoxApprovals(),
         listSoxAuditorPacks(),
+        listSoxControls(),
       ]);
       setOverview(ov.overview);
       setEvents(audit.events);
       setAnchors(anch.anchors);
       setApprovals(appr.approvals);
       setPacks(packList.packs);
+      setLibrary(controls.controls);
       setSodRequired(ov.overview.settings.sodRequired);
       setRetentionDays(ov.overview.settings.retentionDays);
+      setLegalHold(!!ov.overview.settings.legalHold);
+      setRetentionEnforced(!!ov.overview.settings.retentionEnforced);
+      if (!testControlId && controls.controls[0]) setTestControlId(controls.controls[0].id);
     } catch (err) {
       setError(err instanceof Error ? err.message : t("sox.loadFailed"));
     } finally {
@@ -117,11 +134,58 @@ export default function SoxReportingPage({ account }: { account: Account | null 
     if (!admin) return;
     setBusy(true);
     setError(null);
+    setPurgeMsg(null);
     try {
-      const res = await updateSoxSettings({ sodRequired, retentionDays });
+      const res = await updateSoxSettings({
+        sodRequired,
+        retentionDays,
+        legalHold,
+        retentionEnforced,
+      });
       setOverview((prev) => (prev ? { ...prev, settings: res.settings } : prev));
+      setLegalHold(res.settings.legalHold);
+      setRetentionEnforced(res.settings.retentionEnforced);
     } catch (err) {
       setError(err instanceof Error ? err.message : t("sox.saveFailed"));
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function recordControlTest() {
+    if (!testControlId) return;
+    setBusy(true);
+    setError(null);
+    try {
+      await createSoxControlTest({
+        controlId: testControlId,
+        periodStart: fromDate,
+        periodEnd: toDate,
+        result: testResult,
+        notes: testNotes.trim() || null,
+      });
+      setTestNotes("");
+      await load();
+      setTab("library");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : t("sox.testFailed"));
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function runPurge() {
+    if (!admin) return;
+    if (!window.confirm(t("sox.purgeConfirm"))) return;
+    setBusy(true);
+    setError(null);
+    setPurgeMsg(null);
+    try {
+      const res = await purgeSoxRetention();
+      setPurgeMsg(t("sox.purgeDone", { chase: res.deletedChase, audit: res.deletedAudit }));
+      await load();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : t("sox.purgeFailed"));
     } finally {
       setBusy(false);
     }
@@ -299,9 +363,11 @@ export default function SoxReportingPage({ account }: { account: Account | null 
                       ? "evidence"
                       : c.id === "retention"
                         ? "retention"
-                        : c.id === "actor_log" || c.id === "hash_anchors" || c.id === "chase_trail"
-                          ? "trail"
-                          : null;
+                        : c.id === "control_library"
+                          ? "library"
+                          : c.id === "actor_log" || c.id === "hash_anchors" || c.id === "chase_trail"
+                            ? "trail"
+                            : null;
                 const learnHref =
                   c.id === "period_export" || c.id === "hash_anchors"
                     ? "/use-cases/auditor-evidence-pack"
@@ -596,6 +662,79 @@ export default function SoxReportingPage({ account }: { account: Account | null 
           </div>
         ) : null}
 
+        {!loading && tab === "library" ? (
+          <div className="sox-panel">
+            <h2 className="sox-section-title">{t("sox.libraryTitle")}</h2>
+            <p className="branding-help">{t("sox.librarySub")}</p>
+            {library.length === 0 ? (
+              <p className="webhooks-empty">{t("sox.noControls")}</p>
+            ) : (
+              <ul className="webhooks-list">
+                {library.map((c) => (
+                  <li key={c.id}>
+                    <div>
+                      <strong>
+                        {c.controlKey} — {c.title}
+                      </strong>
+                      <div className="page-sub">{c.description}</div>
+                      <div className="page-sub">
+                        {c.lastTest
+                          ? `${t("sox.lastTest")}: ${c.lastTest.result} · ${c.lastTest.periodStart} → ${c.lastTest.periodEnd} · ${c.lastTest.testedByEmail}`
+                          : t("sox.noTestYet")}
+                      </div>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            )}
+
+            <h3 className="sox-section-title">{t("sox.recordTest")}</h3>
+            <div className="sox-period-form">
+              <label>
+                Control
+                <select value={testControlId} onChange={(e) => setTestControlId(e.target.value)}>
+                  {library.map((c) => (
+                    <option key={c.id} value={c.id}>
+                      {c.controlKey}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <label>
+                {t("sox.from")}
+                <input type="date" value={fromDate} onChange={(e) => setFromDate(e.target.value)} />
+              </label>
+              <label>
+                {t("sox.to")}
+                <input type="date" value={toDate} onChange={(e) => setToDate(e.target.value)} />
+              </label>
+              <label>
+                {t("sox.testResult")}
+                <select
+                  value={testResult}
+                  onChange={(e) => setTestResult(e.target.value as "pass" | "fail" | "exception")}
+                >
+                  <option value="pass">{t("sox.testPass")}</option>
+                  <option value="fail">{t("sox.testFail")}</option>
+                  <option value="exception">{t("sox.testException")}</option>
+                </select>
+              </label>
+              <label>
+                {t("sox.testNotes")}
+                <input value={testNotes} onChange={(e) => setTestNotes(e.target.value)} />
+              </label>
+              <button
+                type="button"
+                className="btn-primary"
+                disabled={busy || !testControlId}
+                onClick={() => void recordControlTest()}
+              >
+                {t("sox.recordTest")}
+              </button>
+            </div>
+          </div>
+        ) : null}
+
         {!loading && tab === "retention" ? (
           <div className="sox-panel">
             <h2 className="sox-section-title">{t("sox.retentionTitle")}</h2>
@@ -608,6 +747,24 @@ export default function SoxReportingPage({ account }: { account: Account | null 
                 onChange={(e) => setSodRequired(e.target.checked)}
               />
               <span>{t("sox.enableSod")}</span>
+            </label>
+            <label className="sox-check">
+              <input
+                type="checkbox"
+                checked={legalHold}
+                disabled={!admin || busy}
+                onChange={(e) => setLegalHold(e.target.checked)}
+              />
+              <span>{t("sox.legalHold")}</span>
+            </label>
+            <label className="sox-check">
+              <input
+                type="checkbox"
+                checked={retentionEnforced}
+                disabled={!admin || busy}
+                onChange={(e) => setRetentionEnforced(e.target.checked)}
+              />
+              <span>{t("sox.retentionEnforced")}</span>
             </label>
             <label className="sox-field">
               {t("sox.retentionDays")}
@@ -627,6 +784,24 @@ export default function SoxReportingPage({ account }: { account: Account | null 
             ) : (
               <p className="page-sub">{t("sox.adminOnly")}</p>
             )}
+
+            <h3 className="sox-section-title">{t("sox.retentionStatus")}</h3>
+            {overview?.retention ? (
+              <p className="branding-help">
+                {overview.retention.chaseEventsPastRetention + overview.retention.auditEventsPastRetention > 0
+                  ? t("sox.retentionPast", {
+                      chase: overview.retention.chaseEventsPastRetention,
+                      audit: overview.retention.auditEventsPastRetention,
+                    })
+                  : t("sox.retentionClear")}
+              </p>
+            ) : null}
+            {admin && retentionEnforced && !legalHold ? (
+              <button type="button" className="btn-secondary" disabled={busy} onClick={() => void runPurge()}>
+                {t("sox.purgeNow")}
+              </button>
+            ) : null}
+            {purgeMsg ? <p className="page-sub">{purgeMsg}</p> : null}
           </div>
         ) : null}
       </section>

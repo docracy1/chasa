@@ -12,6 +12,10 @@ import {
   listAuditorPacks,
   listSendApprovals,
   listSoxAuditEvents,
+  listSoxControls,
+  listSoxControlTests,
+  purgeSoxPastRetention,
+  recordSoxControlTest,
   updateSoxSettings,
   type SoxActor,
 } from "../lib/sox";
@@ -55,6 +59,8 @@ sox.get("/settings", requireProAccount, async (c) => {
 const settingsSchema = z.object({
   sodRequired: z.boolean().optional(),
   retentionDays: z.number().int().min(90).max(3650).optional(),
+  legalHold: z.boolean().optional(),
+  retentionEnforced: z.boolean().optional(),
 });
 
 sox.put("/settings", requireProAccount, async (c) => {
@@ -64,6 +70,57 @@ sox.put("/settings", requireProAccount, async (c) => {
   if (!parsed.ok) return c.json({ error: parsed.error }, 400);
   const settings = await updateSoxSettings(c.env, acc.workspaceId, toActor(acc), parsed.data, clientIp(c));
   return c.json({ settings });
+});
+
+sox.get("/controls", requireProAccount, async (c) => {
+  const acc = c.get("account")!;
+  const controls = await listSoxControls(c.env, acc.workspaceId);
+  return c.json({ controls });
+});
+
+sox.get("/control-tests", requireProAccount, async (c) => {
+  const acc = c.get("account")!;
+  const controlId = c.req.query("controlId") ?? undefined;
+  const tests = await listSoxControlTests(c.env, acc.workspaceId, { controlId, limit: 100 });
+  return c.json({ tests });
+});
+
+const controlTestSchema = z.object({
+  controlId: z.string().min(1).max(80),
+  periodStart: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+  periodEnd: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+  result: z.enum(["pass", "fail", "exception"]),
+  notes: z.string().max(2000).optional().nullable(),
+  evidencePackId: z.string().max(80).optional().nullable(),
+});
+
+sox.post("/control-tests", requireProAccount, async (c) => {
+  const acc = c.get("account")!;
+  const parsed = await parseJsonBody(c.req, controlTestSchema);
+  if (!parsed.ok) return c.json({ error: parsed.error }, 400);
+  try {
+    const test = await recordSoxControlTest(
+      c.env,
+      acc.workspaceId,
+      toActor(acc),
+      parsed.data,
+      clientIp(c)
+    );
+    return c.json({ test });
+  } catch (err) {
+    return c.json({ error: err instanceof Error ? err.message : "Could not record control test" }, 400);
+  }
+});
+
+sox.post("/retention/purge", requireProAccount, async (c) => {
+  const acc = c.get("account")!;
+  if (acc.role !== "admin") return c.json({ error: "Admin role required" }, 403);
+  try {
+    const result = await purgeSoxPastRetention(c.env, acc.workspaceId, toActor(acc), clientIp(c));
+    return c.json(result);
+  } catch (err) {
+    return c.json({ error: err instanceof Error ? err.message : "Could not purge" }, 400);
+  }
 });
 
 sox.get("/approvals", requireProAccount, async (c) => {
