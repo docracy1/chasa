@@ -1236,6 +1236,9 @@ const en: Messages = {
   "sox.testFail": "Fail",
   "sox.testException": "Exception",
   "sox.testNotes": "Notes (optional)",
+  "sox.linkEvidencePack": "Link timestamped auditor pack (optional)",
+  "sox.noEvidencePack": "No pack linked",
+  "sox.linkedEvidencePack": "Linked auditor pack",
   "sox.testFailed": "Could not save the control test.",
   "sox.control.control_library.explain":
     "Formal AR control keys with period tests you can attach to auditor packs.",

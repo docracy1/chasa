@@ -1256,6 +1256,9 @@ const es: Messages = {
   "sox.testFail": "Fail",
   "sox.testException": "Exception",
   "sox.testNotes": "Notas (opcional)",
+  "sox.linkEvidencePack": "Vincular pack de auditor con timestamp (opcional)",
+  "sox.noEvidencePack": "Sin pack vinculado",
+  "sox.linkedEvidencePack": "Pack de auditor vinculado",
   "sox.testFailed": "No se pudo guardar la prueba de control.",
   "sox.control.control_library.explain":
     "Claves formales de control AR con pruebas de periodo que puedes vincular a packs de auditor.",

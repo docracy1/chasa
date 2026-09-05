@@ -211,7 +211,7 @@ aging.patch("/:id/chase", requirePaidAccount, async (c) => {
   if (!row) return c.json({ error: "Invoice not found" }, 404);
 
   if (status === "sent") {
-    const { getApprovedSendForInvoice, getSoxSettings } = await import("../lib/sox");
+    const { consumeApprovedSend, getApprovedSendForInvoice, getSoxSettings } = await import("../lib/sox");
     const settings = await getSoxSettings(c.env, acc.workspaceId);
     if (settings.sodRequired) {
       const approved = await getApprovedSendForInvoice(c.env, acc.workspaceId, id);
@@ -226,6 +226,32 @@ aging.patch("/:id/chase", requirePaidAccount, async (c) => {
         );
       }
     }
+
+    await c.env.CHASA_DB.prepare(
+      `UPDATE aging_invoices SET last_chase_status = ?, last_chase_at = ?, updated_at = ?
+       WHERE id = ? AND account_id = ?`
+    )
+      .bind(status, now, now, id, acc.workspaceId)
+      .run();
+
+    await recordChaseEvent(c.env, acc.workspaceId, {
+      agingInvoiceId: id,
+      clientName: row.client_name,
+      eventType: "sent",
+      channel: "email",
+      metadata: { lastChaseStatus: status },
+      actor: { accountId: acc.id, email: acc.email, role: acc.role },
+    });
+
+    if (settings.sodRequired) {
+      await consumeApprovedSend(c.env, acc.workspaceId, id, {
+        accountId: acc.id,
+        email: acc.email,
+        role: acc.role,
+      }).catch((err) => console.error("SOX approval consume failed:", err));
+    }
+
+    return c.json({ ok: true, lastChaseStatus: status, lastChaseAt: now });
   }
 
   await c.env.CHASA_DB.prepare(
@@ -238,7 +264,7 @@ aging.patch("/:id/chase", requirePaidAccount, async (c) => {
   await recordChaseEvent(c.env, acc.workspaceId, {
     agingInvoiceId: id,
     clientName: row.client_name,
-    eventType: status === "sent" ? "sent" : "drafted",
+    eventType: "drafted",
     channel: "email",
     metadata: { lastChaseStatus: status },
     actor: { accountId: acc.id, email: acc.email, role: acc.role },

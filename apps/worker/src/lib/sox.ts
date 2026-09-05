@@ -385,6 +385,14 @@ export async function createSendApproval(
     ip,
   });
 
+  // Notify other workspace admins/members (maker-checker needs a second person).
+  void notifySoxApprovalRequest(env, accountId, {
+    approvalId: id,
+    clientName: inv.client_name,
+    requestedByEmail: actor.email,
+    subject: input.subject?.slice(0, 200) ?? null,
+  }).catch((err) => console.error("SOX approval notify failed:", err));
+
   return {
     id,
     agingInvoiceId: inv.id,
@@ -398,6 +406,73 @@ export async function createSendApproval(
     createdAt: now,
     decidedAt: null,
   };
+}
+
+async function notifySoxApprovalRequest(
+  env: Env,
+  accountId: string,
+  input: {
+    approvalId: string;
+    clientName: string;
+    requestedByEmail: string;
+    subject: string | null;
+  }
+): Promise<void> {
+  const { sendSoxApprovalRequestEmail } = await import("./email");
+  const owner = await env.CHASA_DB.prepare(`SELECT email, locale FROM accounts WHERE id = ?`)
+    .bind(accountId)
+    .first<{ email: string; locale: string | null }>();
+  const { results: members } = await env.CHASA_DB.prepare(
+    `SELECT email FROM workspace_members WHERE account_id = ? AND status = 'active'`
+  )
+    .bind(accountId)
+    .all<{ email: string }>();
+
+  const recipients = new Set<string>();
+  if (owner?.email) recipients.add(owner.email.toLowerCase());
+  for (const m of members ?? []) recipients.add(m.email.toLowerCase());
+  recipients.delete(input.requestedByEmail.toLowerCase());
+
+  const locale = owner?.locale === "es" ? "es" : "en";
+  for (const to of recipients) {
+    await sendSoxApprovalRequestEmail(env, to, {
+      clientName: input.clientName,
+      requestedByEmail: input.requestedByEmail,
+      subject: input.subject,
+      locale,
+    });
+  }
+}
+
+export async function consumeApprovedSend(
+  env: Env,
+  accountId: string,
+  invoiceId: string,
+  actor: SoxActor
+): Promise<void> {
+  const approved = await getApprovedSendForInvoice(env, accountId, invoiceId);
+  if (!approved) return;
+  const now = new Date().toISOString();
+  await env.CHASA_DB.prepare(
+    `UPDATE sox_send_approvals
+     SET status = 'cancelled',
+         decision_note = CASE
+           WHEN decision_note IS NULL OR decision_note = '' THEN 'Consumed on send'
+           ELSE decision_note || ' · Consumed on send'
+         END,
+         decided_at = COALESCE(decided_at, ?)
+     WHERE id = ? AND account_id = ? AND status = 'approved'`
+  )
+    .bind(now, approved.id, accountId)
+    .run();
+
+  await recordSoxAuditEvent(env, accountId, actor, {
+    action: "sox.approval_consumed",
+    summary: `Approved send consumed for ${approved.clientName}`,
+    resourceType: "sox_send_approval",
+    resourceId: approved.id,
+    metadata: { agingInvoiceId: invoiceId },
+  });
 }
 
 export async function listSendApprovals(
@@ -752,6 +827,28 @@ export async function generatePeriodEvidenceHtml(
     (a) => a.periodDate >= fromDate && a.periodDate <= toDate
   );
 
+  const { results: controlTestRows } = await env.CHASA_DB.prepare(
+    `SELECT t.id, t.period_start, t.period_end, t.result, t.notes, t.tested_by_email, t.evidence_pack_id, t.tested_at,
+            c.control_key, c.title
+     FROM sox_control_tests t
+     JOIN sox_controls c ON c.id = t.control_id
+     WHERE t.account_id = ? AND t.tested_at >= ? AND t.tested_at <= ?
+     ORDER BY t.tested_at ASC LIMIT 200`
+  )
+    .bind(accountId, fromIso, toIso)
+    .all<{
+      id: string;
+      period_start: string;
+      period_end: string;
+      result: string;
+      notes: string | null;
+      tested_by_email: string;
+      evidence_pack_id: string | null;
+      tested_at: string;
+      control_key: string;
+      title: string;
+    }>();
+
   const settings = await getSoxSettings(env, accountId);
   const overview = await getSoxOverview(env, accountId);
 
@@ -829,6 +926,22 @@ export async function generatePeriodEvidenceHtml(
     )
     .join("\n");
 
+  const periodTestRows = (controlTestRows ?? [])
+    .map(
+      (t) =>
+        `<tr>
+          <td>${escapeHtml(formatUsDateTime(t.tested_at))}</td>
+          <td>${escapeHtml(t.control_key)}</td>
+          <td>${escapeHtml(t.title)}</td>
+          <td>${escapeHtml(t.period_start)} → ${escapeHtml(t.period_end)}</td>
+          <td>${escapeHtml(t.result)}</td>
+          <td>${escapeHtml(t.tested_by_email)}</td>
+          <td>${t.evidence_pack_id ? `<code>${escapeHtml(t.evidence_pack_id.slice(0, 12))}…</code>` : "—"}</td>
+          <td>${escapeHtml(t.notes ?? "—")}</td>
+        </tr>`
+    )
+    .join("\n");
+
   const html = `<!DOCTYPE html>
 <html lang="en-US">
 <head>
@@ -854,7 +967,7 @@ export async function generatePeriodEvidenceHtml(
   <p><strong>Generated:</strong> ${escapeHtml(formatUsDateTime(generatedAt))}</p>
   <p><strong>Maker-checker (SoD):</strong> ${settings.sodRequired ? "Enabled" : "Disabled"}</p>
   <p><strong>Retention policy:</strong> ${settings.retentionDays} days</p>
-  <p><strong>Counts:</strong> ${(invoices ?? []).length} invoice(s) · ${inRange.length} chase event(s) · ${auditInRange.length} SOX action(s) · ${approvalsInRange.length} approval(s) · ${anchors.length} daily anchor(s)</p>
+  <p><strong>Counts:</strong> ${(invoices ?? []).length} invoice(s) · ${inRange.length} chase event(s) · ${auditInRange.length} SOX action(s) · ${approvalsInRange.length} approval(s) · ${(controlTestRows ?? []).length} control test(s) · ${anchors.length} daily anchor(s)</p>
 </div>
 
 <div class="verify">
@@ -867,6 +980,12 @@ export async function generatePeriodEvidenceHtml(
 <table>
   <thead><tr><th>Control</th><th>Status</th><th>Detail</th></tr></thead>
   <tbody>${controlRows}</tbody>
+</table>
+
+<h2>Period control tests</h2>
+<table>
+  <thead><tr><th>Tested</th><th>Key</th><th>Control</th><th>Period</th><th>Result</th><th>Tester</th><th>Evidence pack</th><th>Notes</th></tr></thead>
+  <tbody>${periodTestRows || "<tr><td colspan='8'>No control tests recorded in this period</td></tr>"}</tbody>
 </table>
 
 <h2>Invoices in period</h2>

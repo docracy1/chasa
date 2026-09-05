@@ -221,6 +221,78 @@ export async function sendTeamInviteEmail(
   }
 }
 
+const SOX_APPROVAL_COPY: Record<
+  Locale,
+  {
+    subject: (client: string) => string;
+    headline: string;
+    body: (requester: string, client: string, subject: string | null) => string;
+    cta: string;
+  }
+> = {
+  en: {
+    subject: (client) => `SOX send approval needed: ${client}`,
+    headline: "Chase send needs your approval",
+    body: (requester, client, subject) =>
+      `<strong>${escapeHtml(requester)}</strong> requested maker-checker approval to mark a chase as sent for <strong>${escapeHtml(client)}</strong>${
+        subject ? ` — “${escapeHtml(subject)}”` : ""
+      }. Open SOX reporting to approve or reject. The requester cannot approve their own send.`,
+    cta: "Review approvals",
+  },
+  es: {
+    subject: (client) => `Aprobación SOX de envío: ${client}`,
+    headline: "Un cobro necesita tu aprobación",
+    body: (requester, client, subject) =>
+      `<strong>${escapeHtml(requester)}</strong> pidió aprobación maker-checker para marcar un cobro como enviado de <strong>${escapeHtml(client)}</strong>${
+        subject ? ` — “${escapeHtml(subject)}”` : ""
+      }. Abre Informes SOX para aprobar o rechazar. Quien solicita no puede aprobarse a sí mismo.`,
+    cta: "Revisar aprobaciones",
+  },
+};
+
+/** Notify workspace teammates when someone requests maker-checker send approval. */
+export async function sendSoxApprovalRequestEmail(
+  env: Env,
+  to: string,
+  input: {
+    clientName: string;
+    requestedByEmail: string;
+    subject: string | null;
+    locale?: Locale;
+  }
+): Promise<void> {
+  const locale = input.locale ?? "en";
+  if (!env.RESEND_API_KEY) {
+    console.log(`[dev] SOX approval email queued for ${to} (${input.clientName})`);
+    return;
+  }
+  const copy = SOX_APPROVAL_COPY[locale];
+  const body = `
+    ${emailHeadline(copy.headline)}
+    <p style="margin:0;font-size:15px;color:${INK};line-height:1.55;">
+      ${copy.body(input.requestedByEmail, input.clientName, input.subject)}
+    </p>
+    ${ctaButton(`${appUrl(env)}/app/sox-reporting`, copy.cta)}
+    ${signOff(locale)}
+  `;
+  const res = await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${env.RESEND_API_KEY}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      from: `docstoc <login@docstoc.io>`,
+      to: [to],
+      subject: copy.subject(input.clientName).slice(0, 200),
+      html: emailShell(appUrl(env), body, locale),
+    }),
+  });
+  if (!res.ok) {
+    console.error(`Resend SOX approval email failed (${res.status}): ${await res.text()}`);
+  }
+}
+
 const PAYMENT_FAILED_COPY: Record<Locale, { subject: string; headline: string; body: string; cta: string }> = {
   en: {
     subject: "Action needed: your docstoc payment failed",

@@ -1,7 +1,7 @@
 import { Hono } from "hono";
 import { requirePaidAccount, type AuthEnv } from "../lib/auth";
 import { listChaseEvents, recordChaseEvent } from "../lib/chaseEvents";
-import { getApprovedSendForInvoice, getSoxSettings } from "../lib/sox";
+import { consumeApprovedSend, getApprovedSendForInvoice, getSoxSettings } from "../lib/sox";
 import { chaseEventSchema, parseJsonBody } from "../lib/schemas";
 
 const chase = new Hono<AuthEnv>();
@@ -51,6 +51,15 @@ chase.post("/events", requirePaidAccount, async (c) => {
     metadata: body.metadata,
     actor: { accountId: acc.id, email: acc.email, role: acc.role },
   });
+
+  if (settings.sodRequired && sendLike && body.agingInvoiceId) {
+    await consumeApprovedSend(c.env, acc.workspaceId, body.agingInvoiceId, {
+      accountId: acc.id,
+      email: acc.email,
+      role: acc.role,
+    }).catch((err) => console.error("SOX approval consume failed:", err));
+  }
+
   return c.json({ event });
 });
 

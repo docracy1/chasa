@@ -70,6 +70,7 @@ export default function SoxReportingPage({ account }: { account: Account | null 
   const [testControlId, setTestControlId] = useState("");
   const [testResult, setTestResult] = useState<"pass" | "fail" | "exception">("pass");
   const [testNotes, setTestNotes] = useState("");
+  const [testEvidencePackId, setTestEvidencePackId] = useState("");
   const [purgeMsg, setPurgeMsg] = useState<string | null>(null);
 
   const paid = isBusinessPlan(account);
@@ -163,8 +164,10 @@ export default function SoxReportingPage({ account }: { account: Account | null 
         periodEnd: toDate,
         result: testResult,
         notes: testNotes.trim() || null,
+        evidencePackId: testEvidencePackId.trim() || null,
       });
       setTestNotes("");
+      setTestEvidencePackId("");
       await load();
       setTab("library");
     } catch (err) {
@@ -682,6 +685,17 @@ export default function SoxReportingPage({ account }: { account: Account | null 
                           ? `${t("sox.lastTest")}: ${c.lastTest.result} · ${c.lastTest.periodStart} → ${c.lastTest.periodEnd} · ${c.lastTest.testedByEmail}`
                           : t("sox.noTestYet")}
                       </div>
+                      {c.lastTest?.evidencePackId ? (
+                        <p className="page-sub sox-control-links">
+                          <a className="sox-text-link" href={soxAuditorPackHtmlUrl(c.lastTest.evidencePackId)}>
+                            {t("sox.linkedEvidencePack")} →
+                          </a>
+                          {" · "}
+                          <a className="sox-text-link" href={soxAuditorPackSha256Url(c.lastTest.evidencePackId)}>
+                            .sha256
+                          </a>
+                        </p>
+                      ) : null}
                     </div>
                   </li>
                 ))}
@@ -722,6 +736,20 @@ export default function SoxReportingPage({ account }: { account: Account | null 
               <label>
                 {t("sox.testNotes")}
                 <input value={testNotes} onChange={(e) => setTestNotes(e.target.value)} />
+              </label>
+              <label>
+                {t("sox.linkEvidencePack")}
+                <select
+                  value={testEvidencePackId}
+                  onChange={(e) => setTestEvidencePackId(e.target.value)}
+                >
+                  <option value="">{t("sox.noEvidencePack")}</option>
+                  {packs.map((p) => (
+                    <option key={p.id} value={p.id}>
+                      {p.fromDate} → {p.toDate} ({p.contentSha256.slice(0, 8)}…)
+                    </option>
+                  ))}
+                </select>
               </label>
               <button
                 type="button"
